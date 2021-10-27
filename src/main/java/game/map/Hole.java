@@ -1,4 +1,4 @@
 package game.map;
 
-public class Hole {
+public class Hole extends Field{
 }

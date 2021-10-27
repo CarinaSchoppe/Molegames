@@ -1,9 +1,28 @@
 package game;
 
+/**
+ * @author Carina
+ */
 public enum Colors {
 
-  BLUE(),
-  RED(),
-  GREEN(),
-  YELLOW()
+  BLUE(0),
+  RED(1),
+  GREEN(2),
+  YELLOW(3),
+  BLACK(4),
+  WHITE(5);
+
+  int id;
+
+  /**
+   * @param id the Id of the color
+   * @author Carina
+   */
+  Colors(int id) {
+    this.id = id;
+  }
+
+  public int getId() {
+    return id;
+  }
 }
