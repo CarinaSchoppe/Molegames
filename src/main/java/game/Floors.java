@@ -1,21 +1,17 @@
 package game;
 
-public enum Floors {
+import game.map.Map;
 
-  //TODO: Here
-  FIRST(""),
-  SECOND(""),
-  THIRD(""),
-  FOURTH(""),
-  FIVETH("");
+public class Floors extends Map {
 
-  final String path;
+    private final int floorID;
 
-  /**
-   * @author Carina
-   * @param path to the File for this Floor
-   */
-  Floors(String path) {
-    this.path = path;
-  }
+
+    public Floors(int floorID) {
+        this.floorID = floorID;
+    }
+
+    public int getFloorID() {
+        return floorID;
+    }
 }

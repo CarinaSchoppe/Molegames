@@ -11,7 +11,6 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 
-@SuppressWarnings("InfiniteLoopStatement")
 public abstract class NetworkThread extends Thread {
   protected final Socket socket;
   private final BufferedReader keyboard;
