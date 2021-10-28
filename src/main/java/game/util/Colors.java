@@ -12,7 +12,7 @@ public enum Colors {
   BLACK(4),
   WHITE(5);
 
-  final int id;
+  private final int id;
 
   /**
    * @param id the Id of the color

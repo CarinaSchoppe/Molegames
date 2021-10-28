@@ -5,31 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1e47f088-5b3e-4b66-93cd-bb5f835a44e1" name="Changes" comment="added some client logic for the players redone the stuff from Issam">
-      <change afterPath="$PROJECT_DIR$/src/main/java/game/util/GameLogic.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/game/util/GameStates.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/game/util/MultiGameHandler.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/gameplay/gamemaster/GameMasterHandler.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/network/util/PacketHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/7.1/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.1/executionHistory/executionHistory.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/7.1/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.1/executionHistory/executionHistory.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/7.1/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.1/fileHashes/fileHashes.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/7.1/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.1/fileHashes/fileHashes.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/game/util/Game.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/gameplay/player/PlayerStates.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/network/util/Packets.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/game/ai/AI.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/game/ai/AI.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/game/player/Mole.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/game/player/Mole.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/game/player/PlayerHandler.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/game/player/PlayerHandler.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/network/client/Client.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/network/client/Client.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/tmp/compileJava/previous-compilation-data.bin" beforeDir="false" afterPath="$PROJECT_DIR$/build/tmp/compileJava/previous-compilation-data.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/game/Colors.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/game/util/Colors.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/game/Floors.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/game/map/Floors.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/game/ai/AI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gameplay/ai/AI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/game/player/Mole.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/game/util/Mole.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/game/player/PlayerHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gameplay/player/PlayerHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/network/client/ClientThread.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/network/client/ClientThread.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/network/server/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/network/server/Server.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/network/util/Packet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/network/util/Packet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/filehandling/ClientConfigurationHandler.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/filehandling/ConfigurationHandler.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/filehandling/MessagesHandler.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/filehandling/ServerConfigurationHandler.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/game/util/Colors.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/game/util/Colors.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/game/util/GameStates.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/game/util/GameStates.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -59,8 +44,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Enum" />
         <option value="Class" />
+        <option value="Enum" />
       </list>
     </option>
   </component>
@@ -171,7 +156,7 @@
       <workItem from="1635413068340" duration="1054000" />
       <workItem from="1635427772731" duration="1937000" />
       <workItem from="1635429804910" duration="489000" />
-      <workItem from="1635435220835" duration="2586000" />
+      <workItem from="1635435220835" duration="4553000" />
     </task>
     <task id="LOCAL-00001" summary="lame">
       <created>1635413285477</created>
@@ -194,7 +179,14 @@
       <option name="project" value="LOCAL" />
       <updated>1635435474169</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="added some client logic for the players redone the stuff from Issam">
+      <created>1635440113947</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1635440113947</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
