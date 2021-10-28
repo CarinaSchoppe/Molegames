@@ -1,7 +1,7 @@
-package game.ai;
+package gameplay.ai;
 
-import game.player.Mole;
-import game.player.PlayerHandler;
+import game.util.Mole;
+import gameplay.player.PlayerHandler;
 
 public class AI extends PlayerHandler implements Runnable {
     private boolean shouldRun = false;

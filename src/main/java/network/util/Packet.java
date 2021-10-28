@@ -27,6 +27,8 @@ public class Packet {
     return packetString;
   }
 
+
+  protected Packet(){}
   /**
    * @param data the packet that was send through the network
    * @return a new Packet that will be encrypted by Base64

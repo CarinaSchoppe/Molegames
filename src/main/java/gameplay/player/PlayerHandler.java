@@ -1,4 +1,6 @@
-package game.player;
+package gameplay.player;
+
+import game.util.Mole;
 
 import java.util.ArrayList;
 

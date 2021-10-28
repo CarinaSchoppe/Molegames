@@ -1,6 +1,6 @@
 package network.client;
 
-import game.player.PlayerHandler;
+import gameplay.player.PlayerHandler;
 import network.util.NetworkThread;
 
 import java.io.IOException;

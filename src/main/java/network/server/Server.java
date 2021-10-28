@@ -34,7 +34,6 @@ public class Server extends Network {
    * @see Server
    * @throws IOException
    */
-  @SuppressWarnings("InfiniteLoopStatement")
   @Override
   public void create() throws IOException {
     try {

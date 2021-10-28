@@ -1,7 +1,6 @@
-package game.player;
+package game.util;
 
-import game.Colors;
-import game.Floors;
+import game.map.Floors;
 import game.map.Field;
 
 public class Mole {
