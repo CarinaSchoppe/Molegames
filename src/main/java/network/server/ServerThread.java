@@ -10,11 +10,11 @@ public class ServerThread extends NetworkThread {
   private final int id;
 
   /**
-   * @author Carina
    * @param socket the server Socket
-   * @param id Serverthread id
+   * @param id     Serverthread id
+   * @author Carina
    */
-  public ServerThread(Socket socket, int id) {
+  public ServerThread(Socket socket, int id) throws IOException {
     super(socket);
     this.id = id;
   }
@@ -39,6 +39,4 @@ public class ServerThread extends NetworkThread {
       }
     }
   }
-
-
 }

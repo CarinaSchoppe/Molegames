@@ -1,25 +1,29 @@
 package game.map;
 
 public class Field {
-    private final int id;
-    private boolean used;
-    private final boolean hole;
+  private final int id;
+  private boolean occupied;
+  private final boolean hole;
 
-    public Field(int id, boolean used, boolean hole) {
-        this.id = id;
-        this.used = used;
-        this.hole = hole;
-    }
+  public Field(int id, boolean occupied, boolean hole) {
+    this.id = id;
+    this.occupied = occupied;
+    this.hole = hole;
+  }
 
-    public boolean isUsed() {
-        return used;
-    }
+  public void setOccupied(boolean occupied) {
+    this.occupied = occupied;
+  }
 
-    public boolean isHole() {
-        return hole;
-    }
+  public boolean isOccupied() {
+    return occupied;
+  }
 
-    public int getId() {
-        return id;
-    }
+  public boolean isHole() {
+    return hole;
+  }
+
+  public int getId() {
+    return id;
+  }
 }

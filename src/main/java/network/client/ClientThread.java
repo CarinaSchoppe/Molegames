@@ -8,7 +8,7 @@ import java.net.Socket;
 
 public class ClientThread extends NetworkThread {
 
-  public ClientThread(Socket socket) {
+  public ClientThread(Socket socket) throws IOException {
     super(socket);
   }
 

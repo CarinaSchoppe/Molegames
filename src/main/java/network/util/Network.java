@@ -10,6 +10,7 @@ public abstract class Network {
 
   /**
    * Basic logic of creating a network instance with default values for
+   *
    * @see Network port and ip with defaults 291220 and "localhost"
    */
   public Network() {
@@ -18,22 +19,24 @@ public abstract class Network {
   }
 
   /**
-   * @author Carina
    * @param port for a network instance
-   * @param ip for a network instance
+   * @param ip   for a network instance
+   * @author Carina
    */
   public Network(int port, String ip) {
     this.port = port;
     this.ip = ip;
   }
 
-  /**@author Carina
+  /**
+   * @throws IOException
+   * @author Carina
    * @use the abstract logic of creating the sockets and threads for the server communicationlogic
    * @see network.server.Server
    * @see network.client.Client
-   * @throws IOException
    */
   protected abstract void create() throws IOException;
+
   protected int getPort() {
     return port;
   }

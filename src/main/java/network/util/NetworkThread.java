@@ -15,16 +15,21 @@ public abstract class NetworkThread extends Thread {
   protected final Socket socket;
   private final BufferedReader keyboard;
   protected Packet packet;
-  private PrintWriter writer;
+  private final PrintWriter writer;
+  private final BufferedReader reader;
   private String keyBoardInput;
 
-  public NetworkThread(Socket socket) {
+  public NetworkThread(Socket socket) throws IOException {
     this.socket = socket;
+    System.out.println("Connection Established!");
+    reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+    writer = new PrintWriter(socket.getOutputStream(), true);
     keyboard = new BufferedReader(new InputStreamReader(System.in));
     readFromKeyBoard();
   }
 
-  /**@author Carina
+  /**
+   * @author Carina
    * @use creates a Keyboard listener for the Network Object in a thread so that the System input will be read and send to the server / client
    */
   private void readFromKeyBoard() {
@@ -53,20 +58,17 @@ public abstract class NetworkThread extends Thread {
   @Override
   public void run() {
     try {
-      System.out.println("Connection Established!");
-      BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-      writer = new PrintWriter(socket.getOutputStream(), true);
       while (true) {
         if (socket.isConnected()) {
           String message = reader.readLine();
           if (message != null) {
             packet = new Packet(Packet.decrypt(message));
-            if ("DISCONNECT".equals(packet.getPacketString())) {
+            if ("DISCONNECT".equals(packet.getPacketContent())) {
               disconnect();
               break;
             }
-            if (!"".equals(packet.getPacketString()))
-              System.out.println(packet.getPacketString());
+            if (!"".equals(packet.getPacketContent()))
+              System.out.println(packet.getPacketContent());
             readStringPacketInput(packet, this);
           }
         }
@@ -105,7 +107,7 @@ public abstract class NetworkThread extends Thread {
    * @use create a Packet instance of a packet you want to send and pass it in in form of a string seperating the objects with #
    */
   public synchronized void sendPacket(Packet data) {
-    writer.println(Packet.encrypt(data).getPacketString());
+    writer.println(Packet.encrypt(data).getPacketContent());
   }
 
   /**

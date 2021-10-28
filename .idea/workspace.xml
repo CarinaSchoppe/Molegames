@@ -4,17 +4,51 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1e47f088-5b3e-4b66-93cd-bb5f835a44e1" name="Changes" comment="added some client logic for the players redone the stuff from Issam">
-      <change afterPath="$PROJECT_DIR$/src/main/java/game/util/Game.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/gameplay/player/PlayerStates.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/network/util/Packets.java" afterDir="false" />
+    <list default="true" id="1e47f088-5b3e-4b66-93cd-bb5f835a44e1" name="Changes" comment="just some minor tweaks">
+      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/7.1/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.1/executionHistory/executionHistory.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/7.1/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.1/executionHistory/executionHistory.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/7.1/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.1/fileHashes/fileHashes.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/7.1/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.1/fileHashes/fileHashes.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/filehandling/ClientConfigurationHandler.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/filehandling/ConfigurationHandler.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/filehandling/MessagesHandler.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/filehandling/ServerConfigurationHandler.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/game/util/Colors.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/game/util/Colors.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/filehandling/ClientConfigurationHandler.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/filehandling/ConfigurationHandler.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/filehandling/MessagesHandler.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/filehandling/ServerConfigurationHandler.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/game/Colors.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/game/Floors.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/game/ai/AI.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/game/player/Mole.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/game/player/PlayerHandler.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/network/client/ClientThread.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/network/client/ClientThread.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/network/server/Server.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/network/server/Server.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/network/util/NetworkThread.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/network/util/NetworkThread.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/network/util/Packet.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/network/util/Packet.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/resources/main/configurations/clientconfiguration.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/resources/main/configurations/messages.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/resources/main/configurations/serverconfiguration.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/tmp/compileJava/previous-compilation-data.bin" beforeDir="false" afterPath="$PROJECT_DIR$/build/tmp/compileJava/previous-compilation-data.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/filehandling/FileHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/filehandling/FileHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/game/map/Field.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/game/map/Field.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/game/map/Hole.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/game/map/Hole.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/game/util/Colors.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/game/util/GameStates.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/game/util/GameStates.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/game/util/Mole.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/game/util/Mole.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/gameplay/ai/AI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gameplay/ai/AI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/gameplay/player/PlayerHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gameplay/player/PlayerHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/gameplay/player/PlayerStates.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gameplay/player/PlayerStates.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/network/client/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/network/client/Client.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/network/client/ClientThread.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/network/client/ClientThread.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/network/server/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/network/server/Server.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/network/server/ServerThread.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/network/server/ServerThread.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/network/util/Network.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/network/util/Network.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/network/util/NetworkThread.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/network/util/NetworkThread.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/network/util/Packet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/network/util/Packet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/network/util/Packets.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/network/util/Packets.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/configurations/clientconfiguration.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/configurations/messages.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/configurations/serverconfiguration.json" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -32,9 +66,28 @@
   <component name="ExternalProjectsManager">
     <system id="GRADLE">
       <state>
+        <task path="$PROJECT_DIR$">
+          <activation />
+        </task>
         <projects_view>
           <tree_state>
-            <expand />
+            <expand>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="swtpra10" type="f1a62948:ProjectNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="swtpra10" type="f1a62948:ProjectNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="swtpra10" type="f1a62948:ProjectNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+                <item name="build" type="c8890929:TasksNode$1" />
+              </path>
+            </expand>
             <select />
           </tree_state>
         </projects_view>
@@ -82,6 +135,9 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
+  <component name="ProblemsViewState">
+    <option name="selectedIndex" value="2" />
+  </component>
   <component name="ProjectId" id="2084pdmUdGVdfwjcyIwgqJnCRkY" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <OptionsSetting value="false" id="Update" />
@@ -105,7 +161,8 @@
     <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
-    <property name="settings.editor.selected.configurable" value="preferences.keymap" />
+    <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
   <component name="RunManager" selected="Application.Client">
     <configuration name="Client" type="Application" factoryName="Application" singleton="false" temporary="true" nameIsGenerated="true">
@@ -134,14 +191,60 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="swtpra10 [build]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="build" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <method v="2" />
+    </configuration>
+    <configuration name="swtpra10 [clean]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="clean" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <method v="2" />
+    </configuration>
     <list>
       <item itemvalue="Application.Client" />
       <item itemvalue="Application.MoleGames" />
+      <item itemvalue="Gradle.swtpra10 [build]" />
+      <item itemvalue="Gradle.swtpra10 [clean]" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.Client" />
+        <item itemvalue="Gradle.swtpra10 [clean]" />
+        <item itemvalue="Gradle.swtpra10 [build]" />
         <item itemvalue="Application.MoleGames" />
+        <item itemvalue="Application.Client" />
       </list>
     </recent_temporary>
   </component>
@@ -157,6 +260,13 @@
       <workItem from="1635427772731" duration="1937000" />
       <workItem from="1635429804910" duration="489000" />
       <workItem from="1635435220835" duration="4553000" />
+      <workItem from="1635447769507" duration="138000" />
+      <workItem from="1635448873380" duration="1463000" />
+      <workItem from="1635451223775" duration="129000" />
+      <workItem from="1635451485353" duration="16000" />
+      <workItem from="1635451860383" duration="1308000" />
+      <workItem from="1635453622026" duration="639000" />
+      <workItem from="1635456927824" duration="648000" />
     </task>
     <task id="LOCAL-00001" summary="lame">
       <created>1635413285477</created>
@@ -202,11 +312,18 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="lame" />
     <MESSAGE value="added some client logic for the players redone the stuff from Issam" />
-    <option name="LAST_COMMIT_MESSAGE" value="added some client logic for the players redone the stuff from Issam" />
+    <MESSAGE value="just some minor tweaks" />
+    <option name="LAST_COMMIT_MESSAGE" value="just some minor tweaks" />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/swtpra10$MoleGames.ic" NAME="MoleGames Coverage Results" MODIFIED="1635405057946" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>main.*</FILTER>
+    </SUITE>
   </component>
 </project>

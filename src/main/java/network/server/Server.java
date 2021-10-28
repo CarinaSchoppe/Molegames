@@ -29,10 +29,11 @@ public class Server extends Network {
     return threadIds;
   }
 
-  /**@author Carina
+  /**
+   * @throws IOException
+   * @author Carina
    * @use Due to a bug where we are getting the constructor which is not contructed at the time we create the Constructor and call the create object to create the sockets and stream
    * @see Server
-   * @throws IOException
    */
   @Override
   public void create() throws IOException {
@@ -65,11 +66,14 @@ public class Server extends Network {
    * @use sends handles the Packet and sends it to all other players and than sends a responePacket to the Users
    */
   public synchronized void handlePacketRecieve(Packet packet, ServerThread reciever) {
-
-    for (ServerThread threads : Server.getClientThreads()) {
-      //Respone packet!
-      if (threads.equals(reciever))
-        threads.sendPacket(packet.appendMessage("vom server", true));
+    switch (packet.getPacketContent()) {
+      default:
+        for (ServerThread threads : Server.getClientThreads()) {
+          //Respone packet!
+          if (threads.equals(reciever))
+            threads.sendPacket(packet.appendMessage("vom server", true));
+        }
+        break;
     }
   }
 }
