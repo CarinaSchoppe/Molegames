@@ -1,21 +1,22 @@
 package main;
 
 import network.server.Server;
-import network.util.CypherUtil;
+
+import java.io.IOException;
 
 public class MoleGames {
 
-  private static MoleGames  moleGames;
-  private  Server server;
-  private CypherUtil cypherUtil;
-  /**@author Carina
-   * @use MainClass start */
-  public static void main(String[] args) {
+  private static MoleGames moleGames;
+  private Server server;
+
+  /**
+   * @author Carina
+   * @use MainClass start
+   */
+  public static void main(String[] args) throws IOException {
     moleGames = new MoleGames();
-    moleGames.cypherUtil = new CypherUtil();
-    moleGames.server = new Server(291220, "localhost");
-
-
+    moleGames.server = new Server(5000, "127.0.0.1");
+    moleGames.server.create();
   }
 
   public static MoleGames getMoleGames() {
@@ -24,9 +25,5 @@ public class MoleGames {
 
   public Server getServer() {
     return server;
-  }
-
-  public CypherUtil getCypherUtil() {
-    return cypherUtil;
   }
 }

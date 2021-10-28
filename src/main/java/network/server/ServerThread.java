@@ -7,7 +7,7 @@ import java.net.Socket;
 
 public class ServerThread extends NetworkThread {
 
-  private int id;
+  private final int id;
 
   /**
    * @author Carina

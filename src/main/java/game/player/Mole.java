@@ -6,9 +6,9 @@ import game.map.Field;
 
 public class Mole {
 
-  private Colors color;
-  private Floors floor;
-  private Field field;
+  private final Colors color;
+  private final Floors floor;
+  private final Field field;
 
   public Mole(Colors color, Floors floor, Field field) {
     this.color = color;

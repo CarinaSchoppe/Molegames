@@ -2,13 +2,14 @@ package game;
 
 public enum Floors {
 
+  //TODO: Here
   FIRST(""),
   SECOND(""),
   THIRD(""),
   FOURTH(""),
   FIVETH("");
 
-  String path;
+  final String path;
 
   /**
    * @author Carina
