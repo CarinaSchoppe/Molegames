@@ -20,12 +20,8 @@ public class Client extends Network {
    * @see MoleGames
    */
   public static void main(String... args) {
-    for (int i = 0; i<100000; i++) {
       Client client = new Client(5000, "127.0.0.1");
       client.create();
-
-
-    }
   }
 
   public Client(int port, String ip) {
