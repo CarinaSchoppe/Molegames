@@ -1,6 +1,6 @@
 package network.util;
 
-import main.MoleGames;
+import blitzgames.MoleGames;
 import network.client.Client;
 import network.client.ClientThread;
 import network.server.ServerThread;
@@ -10,44 +10,28 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.net.SocketException;
 
 public abstract class NetworkThread extends Thread {
   protected final Socket socket;
-  private final BufferedReader keyboard;
+
   protected Packet packet;
   private final PrintWriter writer;
   private final BufferedReader reader;
-  private String keyBoardInput;
+
 
   public NetworkThread(Socket socket) throws IOException {
     this.socket = socket;
     System.out.println("Connection Established!");
     reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
     writer = new PrintWriter(socket.getOutputStream(), true);
-    keyboard = new BufferedReader(new InputStreamReader(System.in));
-    readFromKeyBoard();
   }
 
   /**
    * @author Carina
    * @use creates a Keyboard listener for the Network Object in a thread so that the System input will be read and send to the server / client
    */
-  private void readFromKeyBoard() {
-    Runnable runnable = () -> {
-      System.out.println("Started Keyboard listener");
-      try {
-        while (true) {
-          keyBoardInput = keyboard.readLine();
-          System.out.println("clientInput:" + keyBoardInput);
-          sendPacket(new Packet(keyBoardInput));
-        }
-      } catch (IOException e) {
-        e.printStackTrace();
-      }
-    };
-    Thread keyBoardThread = new Thread(runnable);
-    keyBoardThread.start();
-  }
+
 
   /**
    * @author Carina
@@ -73,8 +57,10 @@ public abstract class NetworkThread extends Thread {
           }
         }
       }
-    } catch (IOException e) {
+    } catch (SocketException e) {
       System.out.println("Lost Socket Connection!");
+    } catch (IOException e) {
+      e.printStackTrace();
     } finally {
       try {
         socket.close();
@@ -109,6 +95,7 @@ public abstract class NetworkThread extends Thread {
   public synchronized void sendPacket(Packet data) {
     writer.println(Packet.encrypt(data).getPacketContent());
   }
+
 
   /**
    * @author Carina

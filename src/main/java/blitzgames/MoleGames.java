@@ -1,4 +1,4 @@
-package main;
+package blitzgames;
 
 import network.server.Server;
 

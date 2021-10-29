@@ -3,10 +3,13 @@ package network.server;
 import network.util.Network;
 import network.util.Packet;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.ServerSocket;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 
 public class Server extends Network {
 
@@ -23,6 +26,7 @@ public class Server extends Network {
    */
   public Server(int port, String ip) {
     super(port, ip);
+    sendToAllClients(clientThreads);
   }
 
   public static HashMap<Integer, ServerThread> getThreadIds() {
@@ -53,6 +57,25 @@ public class Server extends Network {
     } finally {
       socket.close();
     }
+  }
+
+  public void sendToAllClients(ArrayList<ServerThread> clients) {
+    new Thread(() -> {
+      try {
+        while (true) {
+          BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+          if (!clients.isEmpty()) {
+            String message = reader.readLine();
+            for (Iterator<ServerThread> iterator = clients.iterator(); iterator.hasNext(); ) {
+              ServerThread client = iterator.next();
+              client.sendPacket(new Packet(message));
+            }
+          }
+        }
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
+    }).start();
   }
 
   public static ArrayList<ServerThread> getClientThreads() {
