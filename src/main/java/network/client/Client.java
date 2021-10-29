@@ -1,5 +1,6 @@
 package network.client;
 
+import blitzgames.MoleGames;
 import network.util.Network;
 import network.util.Packet;
 
@@ -16,7 +17,7 @@ public class Client extends Network {
    * @param args
    * @author Carina
    * @use creates the main Thread for the Client logic
-   * @see main.MoleGames
+   * @see MoleGames
    */
   public static void main(String... args) {
     new Client(5000, "127.0.0.1").create();
@@ -24,6 +25,7 @@ public class Client extends Network {
 
   public Client(int port, String ip) {
     super(port, ip);
+
   }
 
   /**
@@ -33,6 +35,8 @@ public class Client extends Network {
   public static void handlePacket(Packet packet) {
     //TODO: Client logik
   }
+
+
 
   /**
    * @throws IOException
