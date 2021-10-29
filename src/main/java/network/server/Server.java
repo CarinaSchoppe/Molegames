@@ -49,6 +49,7 @@ public class Server extends Network {
         ServerThread serverThread = new ServerThread(socket, threadId);
         serverThread.start();
         getClientThreads().add(serverThread);
+
         threadIds.put(serverThread.getThreadId(), serverThread);
         threadId++;
       }
@@ -91,11 +92,7 @@ public class Server extends Network {
   public synchronized void handlePacketRecieve(Packet packet, ServerThread reciever) {
     switch (packet.getPacketContent()) {
       default:
-        for (ServerThread threads : Server.getClientThreads()) {
-          //Respone packet!
-          if (threads.equals(reciever))
-            threads.sendPacket(packet.appendMessage("vom server", true));
-        }
+        //sendToAllClients(clientThreads);
         break;
     }
   }

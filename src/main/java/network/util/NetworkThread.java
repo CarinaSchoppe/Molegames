@@ -19,19 +19,16 @@ public abstract class NetworkThread extends Thread {
   private final PrintWriter writer;
   private final BufferedReader reader;
 
-
   public NetworkThread(Socket socket) throws IOException {
     this.socket = socket;
     System.out.println("Connection Established!");
     reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
     writer = new PrintWriter(socket.getOutputStream(), true);
   }
-
   /**
    * @author Carina
    * @use creates a Keyboard listener for the Network Object in a thread so that the System input will be read and send to the server / client
    */
-
 
   /**
    * @author Carina
@@ -55,9 +52,12 @@ public abstract class NetworkThread extends Thread {
               System.out.println(packet.getPacketContent());
             readStringPacketInput(packet, this);
           }
+        } else {
+          disconnect();
         }
       }
     } catch (SocketException e) {
+      disconnect();
       System.out.println("Lost Socket Connection!");
     } catch (IOException e) {
       e.printStackTrace();
@@ -95,7 +95,6 @@ public abstract class NetworkThread extends Thread {
   public synchronized void sendPacket(Packet data) {
     writer.println(Packet.encrypt(data).getPacketContent());
   }
-
 
   /**
    * @author Carina

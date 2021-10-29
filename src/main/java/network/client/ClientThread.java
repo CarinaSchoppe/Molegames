@@ -23,7 +23,7 @@ public class ClientThread extends NetworkThread {
     new Thread(() -> {
       System.out.println("Started Keyboard listener");
       try {
-        while (true) {
+        while (socket.isConnected()) {
           keyBoardInput = keyboard.readLine();
           System.out.println("clientInput:" + keyBoardInput);
           sendPacket(new Packet(keyBoardInput));
@@ -34,6 +34,8 @@ public class ClientThread extends NetworkThread {
     }).start();
   }
 
+
+
   /**
    * @author Carina
    * @use disconnects the ClientThread from the System and will run the shutdown-logic of the playerSystem
@@ -42,6 +44,7 @@ public class ClientThread extends NetworkThread {
   public void disconnect() {
     {
       try {
+        System.out.println("Server disconnected!");
         socket.close();
         PlayerHandler.shutdown();
       } catch (IOException e) {
