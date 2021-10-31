@@ -1,6 +1,7 @@
 package network.server;
 
 import network.util.NetworkThread;
+import network.util.Packet;
 
 import java.io.IOException;
 import java.net.Socket;
@@ -19,6 +20,7 @@ public class ServerThread extends NetworkThread {
     this.id = id;
   }
 
+
   public int getThreadId() {
     return id;
   }
@@ -28,7 +30,7 @@ public class ServerThread extends NetworkThread {
    * @use disconnects the serverThread and removes it from the lists and maps
    */
   @Override
-  public void disconnect() {
+  public synchronized void disconnect() {
     {
       try {
         Server.getClientThreads().remove(this);
