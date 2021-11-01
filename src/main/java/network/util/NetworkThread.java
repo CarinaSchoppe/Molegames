@@ -3,6 +3,7 @@ package network.util;
 import blitzgames.MoleGames;
 import network.client.Client;
 import network.client.ClientThread;
+import network.server.Server;
 import network.server.ServerThread;
 
 import java.io.BufferedReader;
@@ -38,10 +39,11 @@ public abstract class NetworkThread extends Thread {
    */
   @Override
   public void run() {
-    if(MoleGames.isKeyListener()){
-      if(this instanceof ServerThread)
+    if (MoleGames.isKeyListener()) {
+      if (this instanceof ServerThread && !Server.isKeyboard()) {
         keyBoardListener(false);
-      else if(this instanceof ClientThread)
+        Server.setKeyboard(true);
+      } else if (this instanceof ClientThread)
         keyBoardListener(true);
     }
     try {
@@ -49,7 +51,7 @@ public abstract class NetworkThread extends Thread {
         if (socket.isConnected()) {
           String message = reader.readLine();
           if (message != null) {
-            packet = new Packet(Packet.decrypt(message));
+            packet = new Packet(message);
             if ("DISCONNECT".equals(packet.getPacketContent())) {
               disconnect();
               break;
@@ -76,7 +78,7 @@ public abstract class NetworkThread extends Thread {
     }
   }
 
-  private void keyBoardListener(boolean client) {
+  private synchronized void keyBoardListener(boolean client) {
     new Thread(() -> {
       try {
         System.out.println("KeyListener started!");

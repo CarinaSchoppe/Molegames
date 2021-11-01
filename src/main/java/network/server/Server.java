@@ -14,6 +14,15 @@ public class Server extends Network {
   private static final ArrayList<ServerThread> clientThreads = new ArrayList<>();
   private static final HashMap<Integer, ServerThread> threadIds = new HashMap<>();
   private static int threadId = 1;
+  private static boolean keyboard = false;
+
+  public static void setKeyboard(boolean keyboard) {
+    Server.keyboard = keyboard;
+  }
+
+  public static boolean isKeyboard() {
+    return keyboard;
+  }
 
   /**
    * @param port obvious the Serverport in case of empty localhost
@@ -60,19 +69,20 @@ public class Server extends Network {
         }
       }
     }).start();
-
-
   }
 
+  /**
+   * @param clients Arraylist of the clients that are connected
+   * @param packet  the packet that should be send
+   * @use the method will send a packet to all connected clients of the game
+   */
   public synchronized void sendToAllClients(ArrayList<ServerThread> clients, Packet packet) {
     new Thread(() -> {
       try {
-        while (true) {
-          if (!clients.isEmpty()) {
-            for (Iterator<ServerThread> iterator = clients.iterator(); iterator.hasNext(); ) {
-              ServerThread client = iterator.next();
-              client.sendPacket(packet);
-            }
+        if (!clients.isEmpty()) {
+          for (Iterator<ServerThread> iterator = clients.iterator(); iterator.hasNext(); ) {
+            ServerThread client = iterator.next();
+            client.sendPacket(packet);
           }
         }
       } catch (Exception e) {

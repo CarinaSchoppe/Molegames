@@ -10,7 +10,6 @@ import java.io.InputStreamReader;
 import java.net.Socket;
 
 public class ClientThread extends NetworkThread {
-  private String keyBoardInput;
 
   public ClientThread(Socket socket) throws IOException {
     super(socket);

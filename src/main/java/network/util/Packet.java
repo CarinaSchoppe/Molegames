@@ -44,10 +44,6 @@ public class Packet {
     return messages;
   }
 
-  public static String decrypt(String data) {
-    return new String(Base64.getDecoder().decode(data.getBytes()));
-  }
-
   public synchronized Packet modifyMessage(String message) {
     this.packetContent = message;
     return this;
