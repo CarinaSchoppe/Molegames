@@ -1,5 +1,6 @@
 package network.server;
 
+import game.util.Game;
 import network.util.Network;
 import network.util.Packet;
 
@@ -13,7 +14,7 @@ public class Server extends Network {
 
   private static final ArrayList<ServerThread> clientThreads = new ArrayList<>();
   private static final HashMap<Integer, ServerThread> threadIds = new HashMap<>();
-  private static int threadId = 1;
+  private static int threadId = 0;
   private static boolean keyboard = false;
 
   public static void setKeyboard(boolean keyboard) {
@@ -35,77 +36,67 @@ public class Server extends Network {
     super(port, ip);
   }
 
+  @Override
+  public void create() {
+    try {
+      ServerSocket serverSocket = new ServerSocket(port);
+      System.out.println("Server listening on port " + getPort());
+      while (true) {
+        socket = serverSocket.accept();
+        ServerThread serverThread = new ServerThread(socket, threadId);
+        serverThread.start();
+        serverThread.sendPacket(new Packet("ID#" + threadId));
+        getClientThreads().add(serverThread);
+        threadIds.put(serverThread.getConnectionId(), serverThread);
+        threadId++;
+      }
+    } catch (IOException e) {
+      e.printStackTrace();
+    } finally {
+      try {
+        socket.close();
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
+    }
+  }
+
   public static HashMap<Integer, ServerThread> getThreadIds() {
     return threadIds;
   }
-
   /**
    * @throws IOException
    * @author Carina
    * @use Due to a bug where we are getting the constructor which is not contructed at the time we create the Constructor and call the create object to create the sockets and stream
    * @see Server
    */
-  @Override
-  public synchronized void create() {
-    new Thread(() -> {
-      try {
-        ServerSocket serverSocket = new ServerSocket(port);
-        System.out.println("Server listening on port " + getPort());
-        while (true) {
-          socket = serverSocket.accept();
-          ServerThread serverThread = new ServerThread(socket, threadId);
-          serverThread.start();
-          getClientThreads().add(serverThread);
-          threadIds.put(serverThread.getThreadId(), serverThread);
-          threadId++;
-        }
-      } catch (IOException e) {
-        e.printStackTrace();
-      } finally {
-        try {
-          socket.close();
-        } catch (IOException e) {
-          e.printStackTrace();
-        }
-      }
-    }).start();
-  }
 
   /**
    * @param clients Arraylist of the clients that are connected
    * @param packet  the packet that should be send
    * @use the method will send a packet to all connected clients of the game
    */
-  public synchronized void sendToAllClients(ArrayList<ServerThread> clients, Packet packet) {
-    new Thread(() -> {
-      try {
-        if (!clients.isEmpty()) {
-          for (Iterator<ServerThread> iterator = clients.iterator(); iterator.hasNext(); ) {
-            ServerThread client = iterator.next();
-            client.sendPacket(packet);
-          }
+  //WICHTIG: BEDENKE mach dies immer in einem anderen Thread oder der Mainthread muss sicher frei sein!
+  public static synchronized void sendToGameClients(Game game, Packet packet) {
+    try {
+      if (!game.getClients().isEmpty()) {
+        for (Iterator<ServerThread> iterator = game.getClients().iterator(); iterator.hasNext(); ) {
+          ServerThread client = iterator.next();
+          client.sendPacket(packet);
         }
-      } catch (Exception e) {
-        e.printStackTrace();
       }
-    }).start();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
   }
 
   public static ArrayList<ServerThread> getClientThreads() {
     return clientThreads;
   }
-
   /**
    * @param packet   the packet that the server recieved
    * @param reciever which Serverthread has send this packet
    * @author Carina
    * @use sends handles the Packet and sends it to all other players and than sends a responePacket to the Users
    */
-  public synchronized void handlePacketRecieve(Packet packet, ServerThread reciever) {
-    switch (packet.getPacketContent()) {
-      default:
-        //sendToAllClients(clientThreads);
-        break;
-    }
-  }
 }

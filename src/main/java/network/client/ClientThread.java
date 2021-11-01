@@ -2,22 +2,15 @@ package network.client;
 
 import gameplay.player.PlayerHandler;
 import network.util.NetworkThread;
-import network.util.Packet;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.Socket;
 
 public class ClientThread extends NetworkThread {
 
-  public ClientThread(Socket socket) throws IOException {
-    super(socket);
+  public ClientThread(Socket socket, int id) throws IOException {
+    super(socket, id);
   }
-
-
-
-
 
   /**
    * @author Carina
@@ -34,5 +27,9 @@ public class ClientThread extends NetworkThread {
         e.printStackTrace();
       }
     }
+  }
+
+  public void setID(int id) {
+    this.id = id;
   }
 }

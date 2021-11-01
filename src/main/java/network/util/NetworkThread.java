@@ -1,6 +1,5 @@
 package network.util;
 
-import blitzgames.MoleGames;
 import network.client.Client;
 import network.client.ClientThread;
 import network.server.Server;
@@ -12,17 +11,21 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.SocketException;
+import java.util.Iterator;
 
 public abstract class NetworkThread extends Thread {
   protected final Socket socket;
 
   protected Packet packet;
   private final PrintWriter writer;
+  protected int id;
   private final BufferedReader reader;
 
-  public NetworkThread(Socket socket) throws IOException {
+  public NetworkThread(Socket socket, int id) throws IOException {
     this.socket = socket;
-    System.out.println("Connection Established!");
+    this.id = id;
+    if (this instanceof ServerThread)
+      System.out.println("Connection established with id: " + id + "!");
     reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
     writer = new PrintWriter(socket.getOutputStream(), true);
   }
@@ -37,27 +40,30 @@ public abstract class NetworkThread extends Thread {
    * @use will be automaticlly started by a Server- or Client (Thread) it will wait for an incomming packetmessage than decrypts it and turns it into a Packet
    * @see readStringPacketInput method to use that packet for a client- or server handling
    */
+  @SuppressWarnings("CommentedOutCode")
   @Override
   public void run() {
-    if (MoleGames.isKeyListener()) {
-      if (this instanceof ServerThread && !Server.isKeyboard()) {
-        keyBoardListener(false);
-        Server.setKeyboard(true);
-      } else if (this instanceof ClientThread)
-        keyBoardListener(true);
+    if (this instanceof ServerThread && !Server.isKeyboard()) {
+      keyBoardListener(false);
+      Server.setKeyboard(true);
+    } else if (this instanceof ClientThread && Client.isKeyListener()) {
+      keyBoardListener(true);
     }
     try {
       while (true) {
         if (socket.isConnected()) {
-          String message = reader.readLine();
+          String message = reader.readLine(); //ließt die packetmessage die reinkommt
           if (message != null) {
             packet = new Packet(message);
             if ("DISCONNECT".equals(packet.getPacketContent())) {
+              System.out.println("Content: " + packet.getPacketContent());
               disconnect();
               break;
             }
-            if (!"".equals(packet.getPacketContent()))
-              System.out.println(packet.getPacketContent());
+            if (this instanceof ServerThread)
+              System.out.println("Client with id: " + this.id + " sended: " + packet.getPacketContent());
+          /*  else if (this instanceof ClientThread)
+              System.out.println("Server sended: " + packet.getPacketContent());*/ //Falls wir das so machen wollen!
             readStringPacketInput(packet, this);
           }
         } else {
@@ -78,17 +84,22 @@ public abstract class NetworkThread extends Thread {
     }
   }
 
-  private synchronized void keyBoardListener(boolean client) {
+  private void keyBoardListener(boolean client) {
     new Thread(() -> {
       try {
-        System.out.println("KeyListener started!");
+        System.out.println("Keylistener started!");
+        BufferedReader keyboardReader = new BufferedReader(new InputStreamReader(System.in));
         while (true) {
-          BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
           try {
-            String message = reader.readLine();
-            if (client)
+            String message = keyboardReader.readLine();
+            if (client) {
               sendPacket(new Packet(message));
-            else MoleGames.getMoleGames().getServer().sendToAllClients(MoleGames.getMoleGames().getServer().getClientThreads(), new Packet(message));
+            } else {
+              for (Iterator<ServerThread> iterator = Server.getClientThreads().iterator(); iterator.hasNext(); ) {
+                ServerThread clientSocket = iterator.next();
+                clientSocket.sendPacket(new Packet(message));
+              }
+            }
           } catch (IOException e) {
             e.printStackTrace();
           }
@@ -109,9 +120,9 @@ public abstract class NetworkThread extends Thread {
     //TODO: How to handle the packet from the client! Player has moved -> now in a hole and than handle it
     if (reciever != null && packet != null) {
       if (reciever instanceof ServerThread) {
-        MoleGames.getMoleGames().getServer().handlePacketRecieve(packet, (ServerThread) reciever);
+        PacketHandler.handlePacket(packet, reciever);
       } else if (reciever instanceof ClientThread) {
-        Client.handlePacket(packet);
+        Client.getClient().getClientPacketHandler().handlePacket(Client.getClient(), packet);
       }
     }
   }
@@ -130,4 +141,8 @@ public abstract class NetworkThread extends Thread {
    * @use the basic logic of how a NetworkThread will disconnect
    */
   public abstract void disconnect();
+
+  public int getConnectionId() {
+    return id;
+  }
 }

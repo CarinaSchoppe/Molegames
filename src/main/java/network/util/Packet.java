@@ -1,7 +1,6 @@
 package network.util;
 
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.List;
 
 /**
@@ -26,6 +25,10 @@ public class Packet {
     messages.addAll(List.of(this.packetContent.split("#")));
   }
 
+  public void modifyType(String type) {
+    packetType = type;
+  }
+
   public Packet(String packetContent) {
     this.packetType = "DEFAULT";
     this.packetContent = packetContent != null ? packetContent : "DISCONNECT";
@@ -39,17 +42,16 @@ public class Packet {
   protected Packet() {
   }
 
-
   public ArrayList<String> getMessages() {
     return messages;
   }
 
-  public synchronized Packet modifyMessage(String message) {
+  public Packet modifyMessage(String message) {
     this.packetContent = message;
     return this;
   }
 
-  public synchronized Packet appendMessage(String message, boolean prefix) {
+  public Packet appendMessage(String message, boolean prefix) {
     if (prefix) packetContent = message + packetContent;
     else packetContent = packetContent + message;
     return this;
