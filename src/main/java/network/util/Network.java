@@ -3,7 +3,7 @@ package network.util;
 import java.io.IOException;
 import java.net.Socket;
 
-public abstract class Network {
+public abstract class Network   {
   protected final int port;
   protected Socket socket;
   protected final String ip;

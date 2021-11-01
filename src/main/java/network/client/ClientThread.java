@@ -11,28 +11,12 @@ import java.net.Socket;
 
 public class ClientThread extends NetworkThread {
   private String keyBoardInput;
-  private final BufferedReader keyboard;
 
   public ClientThread(Socket socket) throws IOException {
     super(socket);
-    keyboard = new BufferedReader(new InputStreamReader(System.in));
-    readFromKeyBoard();
   }
 
-  private void readFromKeyBoard() {
-    new Thread(() -> {
-      System.out.println("Started Keyboard listener");
-      try {
-        while (socket.isConnected()) {
-          keyBoardInput = keyboard.readLine();
-          System.out.println("clientInput:" + keyBoardInput);
-          sendPacket(new Packet(keyBoardInput));
-        }
-      } catch (IOException e) {
-        e.printStackTrace();
-      }
-    }).start();
-  }
+
 
 
 

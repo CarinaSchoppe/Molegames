@@ -3,9 +3,7 @@ package network.server;
 import network.util.Network;
 import network.util.Packet;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.ServerSocket;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,7 +24,6 @@ public class Server extends Network {
    */
   public Server(int port, String ip) {
     super(port, ip);
-    sendToAllClients(clientThreads);
   }
 
   public static HashMap<Integer, ServerThread> getThreadIds() {
@@ -40,40 +37,45 @@ public class Server extends Network {
    * @see Server
    */
   @Override
-  public void create() throws IOException {
-    try {
-      ServerSocket serverSocket = new ServerSocket(port);
-      System.out.println("Server listening on port " + getPort());
-      while (true) {
-        socket = serverSocket.accept();
-        ServerThread serverThread = new ServerThread(socket, threadId);
-        serverThread.start();
-        getClientThreads().add(serverThread);
-
-        threadIds.put(serverThread.getThreadId(), serverThread);
-        threadId++;
+  public synchronized void create() {
+    new Thread(() -> {
+      try {
+        ServerSocket serverSocket = new ServerSocket(port);
+        System.out.println("Server listening on port " + getPort());
+        while (true) {
+          socket = serverSocket.accept();
+          ServerThread serverThread = new ServerThread(socket, threadId);
+          serverThread.start();
+          getClientThreads().add(serverThread);
+          threadIds.put(serverThread.getThreadId(), serverThread);
+          threadId++;
+        }
+      } catch (IOException e) {
+        e.printStackTrace();
+      } finally {
+        try {
+          socket.close();
+        } catch (IOException e) {
+          e.printStackTrace();
+        }
       }
-    } catch (IOException e) {
-      e.printStackTrace();
-    } finally {
-      socket.close();
-    }
+    }).start();
+
+
   }
 
-  public void sendToAllClients(ArrayList<ServerThread> clients) {
+  public synchronized void sendToAllClients(ArrayList<ServerThread> clients, Packet packet) {
     new Thread(() -> {
       try {
         while (true) {
-          BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
           if (!clients.isEmpty()) {
-            String message = reader.readLine();
             for (Iterator<ServerThread> iterator = clients.iterator(); iterator.hasNext(); ) {
               ServerThread client = iterator.next();
-              client.sendPacket(new Packet(message));
+              client.sendPacket(packet);
             }
           }
         }
-      } catch (IOException e) {
+      } catch (Exception e) {
         e.printStackTrace();
       }
     }).start();

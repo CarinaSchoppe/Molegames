@@ -38,6 +38,12 @@ public abstract class NetworkThread extends Thread {
    */
   @Override
   public void run() {
+    if(MoleGames.isKeyListener()){
+      if(this instanceof ServerThread)
+        keyBoardListener(false);
+      else if(this instanceof ClientThread)
+        keyBoardListener(true);
+    }
     try {
       while (true) {
         if (socket.isConnected()) {
@@ -70,6 +76,27 @@ public abstract class NetworkThread extends Thread {
     }
   }
 
+  private void keyBoardListener(boolean client) {
+    new Thread(() -> {
+      try {
+        System.out.println("KeyListener started!");
+        while (true) {
+          BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+          try {
+            String message = reader.readLine();
+            if (client)
+              sendPacket(new Packet(message));
+            else MoleGames.getMoleGames().getServer().sendToAllClients(MoleGames.getMoleGames().getServer().getClientThreads(), new Packet(message));
+          } catch (IOException e) {
+            e.printStackTrace();
+          }
+        }
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
+    }).start();
+  }
+
   /**
    * @param packet   that got read in by the runnable listener
    * @param receiver the one that it is recieving the thread of the server
@@ -93,7 +120,7 @@ public abstract class NetworkThread extends Thread {
    * @use create a Packet instance of a packet you want to send and pass it in in form of a string seperating the objects with #
    */
   public synchronized void sendPacket(Packet data) {
-    writer.println(Packet.encrypt(data).getPacketContent());
+    writer.println(data.getPacketContent());
   }
 
   /**

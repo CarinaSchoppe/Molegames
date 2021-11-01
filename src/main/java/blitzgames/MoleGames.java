@@ -8,6 +8,11 @@ public class MoleGames {
 
   private static MoleGames moleGames;
   private Server server;
+  private static boolean keyListener = true;
+
+  public static boolean isKeyListener() {
+    return keyListener;
+  }
 
   /**
    * @author Carina
@@ -17,6 +22,7 @@ public class MoleGames {
     moleGames = new MoleGames();
     moleGames.server = new Server(5000, "127.0.0.1");
     moleGames.server.create();
+    System.out.println("hallo!");
   }
 
   public static MoleGames getMoleGames() {
