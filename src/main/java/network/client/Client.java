@@ -3,6 +3,7 @@ package network.client;
 import blitzgames.MoleGames;
 import network.util.Network;
 import network.util.Packet;
+import network.util.Packets;
 
 import java.io.IOException;
 import java.net.ConnectException;
@@ -65,10 +66,10 @@ public class Client extends Network {
    * @author Carina
    * Logic to test some things!
    */
-  public void test() throws InterruptedException {
-    clientThread.sendPacket(new Packet("CREATE-GAME#0"));
+  public void test() throws InterruptedException, IOException {
+    clientThread.sendPacket(new Packet(Packets.CREATEGAME.getPacketType(), 0));
     Thread.sleep(1000);
-    clientThread.sendPacket(new Packet("JOIN-GAME#0"));
+    clientThread.sendPacket(new Packet(Packets.JOINGAME.getPacketType(), 0));
   }
 
   public ClientPacketHandler getClientPacketHandler() {

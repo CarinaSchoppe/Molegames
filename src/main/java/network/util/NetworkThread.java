@@ -4,6 +4,7 @@ import network.client.Client;
 import network.client.ClientThread;
 import network.server.Server;
 import network.server.ServerThread;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -11,14 +12,15 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.SocketException;
+import java.nio.charset.StandardCharsets;
 import java.util.Iterator;
 
 public abstract class NetworkThread extends Thread {
   protected final Socket socket;
 
   protected Packet packet;
-  private final PrintWriter writer;
   protected int id;
+  private final PrintWriter writer;
   private final BufferedReader reader;
 
   public NetworkThread(Socket socket, int id) throws IOException {
@@ -26,7 +28,7 @@ public abstract class NetworkThread extends Thread {
     this.id = id;
     if (this instanceof ServerThread)
       System.out.println("Connection established with id: " + id + "!");
-    reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+    reader = new BufferedReader(new InputStreamReader(socket.getInputStream(), StandardCharsets.UTF_8));
     writer = new PrintWriter(socket.getOutputStream(), true);
   }
   /**
@@ -53,15 +55,16 @@ public abstract class NetworkThread extends Thread {
       while (true) {
         if (socket.isConnected()) {
           String message = reader.readLine(); //ließt die packetmessage die reinkommt
+          JSONObject object = new JSONObject(message);
           if (message != null) {
-            packet = new Packet(message);
-            if ("DISCONNECT".equals(packet.getPacketContent())) {
+            packet = new Packet(object.getString("packetType"), object.get("packetContent"));
+            if ("DISCONNECT".equals(packet.getPacketType())) {
               System.out.println("Content: " + packet.getPacketContent());
               disconnect();
               break;
             }
             if (this instanceof ServerThread)
-              System.out.println("Client with id: " + this.id + " sended: " + packet.getPacketContent());
+              System.out.println("Client with id: " + this.id + " sended: type: " + packet.getPacketType() + " contents: " + packet.getPacketContent());
           /*  else if (this instanceof ClientThread)
               System.out.println("Server sended: " + packet.getPacketContent());*/ //Falls wir das so machen wollen!
             readStringPacketInput(packet, this);
@@ -93,11 +96,11 @@ public abstract class NetworkThread extends Thread {
           try {
             String message = keyboardReader.readLine();
             if (client) {
-              sendPacket(new Packet(message));
+              sendPacket(new Packet(Packets.MESSAGE.getPacketType(), message));
             } else {
               for (Iterator<ServerThread> iterator = Server.getClientThreads().iterator(); iterator.hasNext(); ) {
                 ServerThread clientSocket = iterator.next();
-                clientSocket.sendPacket(new Packet(message));
+                clientSocket.sendPacket(new Packet(Packets.MESSAGE.getPacketType(), message));
               }
             }
           } catch (IOException e) {
@@ -116,7 +119,7 @@ public abstract class NetworkThread extends Thread {
    * @author Carina
    * @use it will automaticlly pass it forwards to the Server or Client to handle the Packet depending on who recieved it (Server- or Client thread)
    */
-  public synchronized void readStringPacketInput(Packet packet, NetworkThread reciever) {
+  public synchronized void readStringPacketInput(Packet packet, NetworkThread reciever) throws IOException {
     //TODO: How to handle the packet from the client! Player has moved -> now in a hole and than handle it
     if (reciever != null && packet != null) {
       if (reciever instanceof ServerThread) {
@@ -132,8 +135,8 @@ public abstract class NetworkThread extends Thread {
    * @author Carina
    * @use create a Packet instance of a packet you want to send and pass it in in form of a string seperating the objects with #
    */
-  public synchronized void sendPacket(Packet data) {
-    writer.println(data.getPacketContent());
+  public void sendPacket(Packet data) throws IOException {
+    writer.println(data.getJsonObject().toString());
   }
 
   /**

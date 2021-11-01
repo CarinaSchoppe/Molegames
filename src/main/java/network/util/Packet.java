@@ -1,5 +1,7 @@
 package network.util;
 
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,7 +11,8 @@ import java.util.List;
  */
 public class Packet {
 
-  private String packetContent;
+  private Object packetContent;
+  private final JSONObject jsonObject = new JSONObject();
   private String packetType;
   private final ArrayList<String> messages = new ArrayList<>();
 
@@ -19,27 +22,25 @@ public class Packet {
    * @author Carina
    * @use seperate the single objects in the string with a #
    */
-  public Packet(String packetType, String packetContent) {
+  public Packet(String packetType, Object packetContent) {
     this.packetType = packetType;
-    this.packetContent = packetContent != null ? packetContent : "DISCONNECT";
-    messages.addAll(List.of(this.packetContent.split("#")));
+    this.packetContent = packetContent;
+    messages.addAll(List.of(packetContent.toString()));
+    jsonObject.put("packetType", packetType);
+    jsonObject.put("packetContent", packetContent);
+  }
+
+  public JSONObject getJsonObject() {
+    return jsonObject;
   }
 
   public void modifyType(String type) {
     packetType = type;
+    jsonObject.put("packetType", packetType);
   }
 
-  public Packet(String packetContent) {
-    this.packetType = "DEFAULT";
-    this.packetContent = packetContent != null ? packetContent : "DISCONNECT";
-    messages.addAll(List.of(this.packetContent.split("#")));
-  }
-
-  public String getPacketContent() {
+  public Object getPacketContent() {
     return packetContent;
-  }
-
-  protected Packet() {
   }
 
   public ArrayList<String> getMessages() {
@@ -48,12 +49,22 @@ public class Packet {
 
   public Packet modifyMessage(String message) {
     this.packetContent = message;
+    jsonObject.put("packetContent", packetContent);
     return this;
   }
 
+  public String getPacketType() {
+    return packetType;
+  }
+
   public Packet appendMessage(String message, boolean prefix) {
-    if (prefix) packetContent = message + packetContent;
-    else packetContent = packetContent + message;
+    if (prefix) {
+      packetContent = message + packetContent;
+      jsonObject.put("packetContent", message + packetContent);
+    } else {
+      packetContent = packetContent + message;
+      jsonObject.put("packetContent", packetContent + message);
+    }
     return this;
   }
 }

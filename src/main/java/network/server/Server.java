@@ -3,6 +3,7 @@ package network.server;
 import game.util.Game;
 import network.util.Network;
 import network.util.Packet;
+import network.util.Packets;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -45,7 +46,7 @@ public class Server extends Network {
         socket = serverSocket.accept();
         ServerThread serverThread = new ServerThread(socket, threadId);
         serverThread.start();
-        serverThread.sendPacket(new Packet("ID#" + threadId));
+        serverThread.sendPacket(new Packet(Packets.GIVEID.getPacketType(), threadId));
         getClientThreads().add(serverThread);
         threadIds.put(serverThread.getConnectionId(), serverThread);
         threadId++;

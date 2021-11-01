@@ -2,7 +2,9 @@ package game.util;
 
 import network.server.ServerThread;
 import network.util.Packet;
+import network.util.Packets;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class Game extends Thread {
@@ -25,9 +27,9 @@ public class Game extends Thread {
     }
   }
 
-  public synchronized void joinGame(ServerThread client) {
+  public synchronized void joinGame(ServerThread client) throws IOException {
     clients.add(client);
-    client.sendPacket(new Packet("JOINED-GAME#" + gameID));
+    client.sendPacket(new Packet(Packets.JOINEDGAME.getPacketType(), gameID));
     MultiGameHandler.getClientGames().put(client, this);
   }
 
