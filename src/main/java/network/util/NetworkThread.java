@@ -123,7 +123,7 @@ public abstract class NetworkThread extends Thread {
     //TODO: How to handle the packet from the client! Player has moved -> now in a hole and than handle it
     if (reciever != null && packet != null) {
       if (reciever instanceof ServerThread) {
-        PacketHandler.handlePacket(packet, reciever);
+        PacketHandler.handlePacket(packet, (ServerThread) reciever);
       } else if (reciever instanceof ClientThread) {
         Client.getClient().getClientPacketHandler().handlePacket(Client.getClient(), packet);
       }

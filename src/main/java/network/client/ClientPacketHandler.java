@@ -7,7 +7,7 @@ public class ClientPacketHandler {
 
   public void handlePacket(Client client, Packet packet) {
     if (packet.getPacketType().equalsIgnoreCase(Packets.GIVEID.getPacketType())) {
-      //ID#3
+      //ID : 3
       int id = Integer.parseInt(packet.getPacketContent().toString());
       client.setId(id);
       System.out.println("Client ID: " + id);

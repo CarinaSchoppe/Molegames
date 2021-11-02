@@ -7,7 +7,13 @@ public enum Packets {
   GIVEID(2, "ID"),
   JOINEDGAME(3, "JOINED-GAME"),
   MESSAGE(4, "MESSAGE"),
-  DISCONNECT(5, "DISCONNECT");
+  DISCONNECT(5, "DISCONNECT"),
+  ERROR(6, "ERROR"),
+  FULL(7, "FULL"),
+  INGAME(8, "INGAME"),
+  NOTEXISTS(9, "NOT-EXISTS");
+
+
 
   private final int id;
   private final String packetType;

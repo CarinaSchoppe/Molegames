@@ -68,7 +68,7 @@ public class Client extends Network {
    */
   public void test() throws InterruptedException, IOException {
     clientThread.sendPacket(new Packet(Packets.CREATEGAME.getPacketType(), 0));
-    Thread.sleep(1000);
+    Thread.sleep(500);
     clientThread.sendPacket(new Packet(Packets.JOINGAME.getPacketType(), 0));
   }
 

@@ -27,7 +27,7 @@ public class Game extends Thread {
     }
   }
 
-  public synchronized void joinGame(ServerThread client) throws IOException {
+  public synchronized void joinGame(ServerThread client, boolean spectator) throws IOException {
     clients.add(client);
     client.sendPacket(new Packet(Packets.JOINEDGAME.getPacketType(), gameID));
     MultiGameHandler.getClientGames().put(client, this);
@@ -39,6 +39,14 @@ public class Game extends Thread {
 
   public Punishments getPunishment() {
     return punishment;
+  }
+
+  public GameStates getCurrentGameState() {
+    return currentGameState;
+  }
+
+  public int getGameID() {
+    return gameID;
   }
 
   public int getGameId() {
