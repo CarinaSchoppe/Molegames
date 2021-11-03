@@ -5,16 +5,19 @@ import gameplay.player.PlayerHandler;
 
 public class AI extends PlayerHandler implements Runnable {
   private boolean shouldRun;
-  private final Thread AIThread;
+  private final Thread AIthread = new Thread(this);
   private boolean isMove = false;
+  private final int port;
+  private final String ip;
 
-  public AI(Thread AIThread, boolean shouldRun) {
-    this.AIThread = AIThread;
+  public AI(boolean shouldRun, String ip, int port) {
     this.shouldRun = shouldRun;
+    this.ip= ip;
+    this.port = port;
   }
 
   public void start() {
-    AIThread.start();
+    AIthread.start();
     isMove = true;
   }
 
@@ -55,6 +58,6 @@ public class AI extends PlayerHandler implements Runnable {
   }
 
   public Thread getAIThread() {
-    return AIThread;
+    return AIthread;
   }
 }

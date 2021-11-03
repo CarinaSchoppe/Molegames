@@ -32,7 +32,7 @@ public class Client extends Network {
    * @use creates the main Thread for the Client logic
    * @see MoleGames
    */
-  public static void main(String... args) {
+  public static void ClientMain(String... args) {
     client = new Client(5000, "127.0.0.1");
     client.create();
   }
@@ -68,8 +68,8 @@ public class Client extends Network {
    */
   public void test() throws InterruptedException, IOException {
     clientThread.sendPacket(new Packet(Packets.CREATEGAME.getPacketType(), 0));
-    Thread.sleep(500);
-    clientThread.sendPacket(new Packet(Packets.JOINGAME.getPacketType(), 0));
+    Thread.sleep(100);
+    clientThread.sendPacket(new Packet(Packets.JOINGAME.getPacketType(), "0#spectator"));
   }
 
   public ClientPacketHandler getClientPacketHandler() {

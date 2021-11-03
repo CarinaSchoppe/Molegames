@@ -55,8 +55,9 @@ public abstract class NetworkThread extends Thread {
       while (true) {
         if (socket.isConnected()) {
           String message = reader.readLine(); //ließt die packetmessage die reinkommt
-          JSONObject object = new JSONObject(message);
+
           if (message != null) {
+            JSONObject object = new JSONObject(message);
             packet = new Packet(object.getString("packetType"), object.get("packetContent"));
             if ("DISCONNECT".equals(packet.getPacketType())) {
               System.out.println("Content: " + packet.getPacketContent());
@@ -119,7 +120,7 @@ public abstract class NetworkThread extends Thread {
    * @author Carina
    * @use it will automaticlly pass it forwards to the Server or Client to handle the Packet depending on who recieved it (Server- or Client thread)
    */
-  public synchronized void readStringPacketInput(Packet packet, NetworkThread reciever) throws IOException {
+  public void readStringPacketInput(Packet packet, NetworkThread reciever) throws IOException {
     //TODO: How to handle the packet from the client! Player has moved -> now in a hole and than handle it
     if (reciever != null && packet != null) {
       if (reciever instanceof ServerThread) {
