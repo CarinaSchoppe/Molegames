@@ -1,53 +1,40 @@
 package network.util;
 
-import main.MoleGames;
 import network.client.Client;
 import network.client.ClientThread;
+import network.server.Server;
 import network.server.ServerThread;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.net.SocketException;
+import java.nio.charset.StandardCharsets;
+import java.util.Iterator;
 
 public abstract class NetworkThread extends Thread {
   protected final Socket socket;
-  private final BufferedReader keyboard;
+
   protected Packet packet;
+  protected int id;
   private final PrintWriter writer;
   private final BufferedReader reader;
-  private String keyBoardInput;
 
-  public NetworkThread(Socket socket) throws IOException {
+  public NetworkThread(Socket socket, int id) throws IOException {
     this.socket = socket;
-    System.out.println("Connection Established!");
-    reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+    this.id = id;
+    if (this instanceof ServerThread)
+      System.out.println("Connection established with id: " + id + "!");
+    reader = new BufferedReader(new InputStreamReader(socket.getInputStream(), StandardCharsets.UTF_8));
     writer = new PrintWriter(socket.getOutputStream(), true);
-    keyboard = new BufferedReader(new InputStreamReader(System.in));
-    readFromKeyBoard();
   }
-
   /**
    * @author Carina
    * @use creates a Keyboard listener for the Network Object in a thread so that the System input will be read and send to the server / client
    */
-  private void readFromKeyBoard() {
-    Runnable runnable = () -> {
-      System.out.println("Started Keyboard listener");
-      try {
-        while (true) {
-          keyBoardInput = keyboard.readLine();
-          System.out.println("clientInput:" + keyBoardInput);
-          sendPacket(new Packet(keyBoardInput));
-        }
-      } catch (IOException e) {
-        e.printStackTrace();
-      }
-    };
-    Thread keyBoardThread = new Thread(runnable);
-    keyBoardThread.start();
-  }
 
   /**
    * @author Carina
@@ -55,26 +42,43 @@ public abstract class NetworkThread extends Thread {
    * @use will be automaticlly started by a Server- or Client (Thread) it will wait for an incomming packetmessage than decrypts it and turns it into a Packet
    * @see readStringPacketInput method to use that packet for a client- or server handling
    */
+  @SuppressWarnings("CommentedOutCode")
   @Override
   public void run() {
+    if (this instanceof ServerThread && !Server.isKeyboard()) {
+      keyBoardListener(false);
+      Server.setKeyboard(true);
+    } else if (this instanceof ClientThread && Client.isKeyListener()) {
+      keyBoardListener(true);
+    }
     try {
       while (true) {
         if (socket.isConnected()) {
-          String message = reader.readLine();
+          String message = reader.readLine(); //ließt die packetmessage die reinkommt
+
           if (message != null) {
-            packet = new Packet(Packet.decrypt(message));
-            if ("DISCONNECT".equals(packet.getPacketContent())) {
+            JSONObject object = new JSONObject(message);
+            packet = new Packet(object.getString("packetType"), object.get("packetContent"));
+            if ("DISCONNECT".equals(packet.getPacketType())) {
+              System.out.println("Content: " + packet.getPacketContent());
               disconnect();
               break;
             }
-            if (!"".equals(packet.getPacketContent()))
-              System.out.println(packet.getPacketContent());
+            if (this instanceof ServerThread)
+              System.out.println("Client with id: " + this.id + " sended: type: " + packet.getPacketType() + " contents: " + packet.getPacketContent());
+          /*  else if (this instanceof ClientThread)
+              System.out.println("Server sended: " + packet.getPacketContent());*/ //Falls wir das so machen wollen!
             readStringPacketInput(packet, this);
           }
+        } else {
+          disconnect();
         }
       }
-    } catch (IOException e) {
+    } catch (SocketException e) {
+      disconnect();
       System.out.println("Lost Socket Connection!");
+    } catch (IOException e) {
+      e.printStackTrace();
     } finally {
       try {
         socket.close();
@@ -84,19 +88,45 @@ public abstract class NetworkThread extends Thread {
     }
   }
 
+  private void keyBoardListener(boolean client) {
+    new Thread(() -> {
+      try {
+        System.out.println("Keylistener started!");
+        BufferedReader keyboardReader = new BufferedReader(new InputStreamReader(System.in));
+        while (true) {
+          try {
+            String message = keyboardReader.readLine();
+            if (client) {
+              sendPacket(new Packet(Packets.MESSAGE.getPacketType(), message));
+            } else {
+              for (Iterator<ServerThread> iterator = Server.getClientThreads().iterator(); iterator.hasNext(); ) {
+                ServerThread clientSocket = iterator.next();
+                clientSocket.sendPacket(new Packet(Packets.MESSAGE.getPacketType(), message));
+              }
+            }
+          } catch (IOException e) {
+            e.printStackTrace();
+          }
+        }
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
+    }).start();
+  }
+
   /**
    * @param packet   that got read in by the runnable listener
    * @param receiver the one that it is recieving the thread of the server
    * @author Carina
    * @use it will automaticlly pass it forwards to the Server or Client to handle the Packet depending on who recieved it (Server- or Client thread)
    */
-  public synchronized void readStringPacketInput(Packet packet, NetworkThread reciever) {
+  public void readStringPacketInput(Packet packet, NetworkThread reciever) throws IOException {
     //TODO: How to handle the packet from the client! Player has moved -> now in a hole and than handle it
     if (reciever != null && packet != null) {
       if (reciever instanceof ServerThread) {
-        MoleGames.getMoleGames().getServer().handlePacketRecieve(packet, (ServerThread) reciever);
+        PacketHandler.handlePacket(packet, (ServerThread) reciever);
       } else if (reciever instanceof ClientThread) {
-        Client.handlePacket(packet);
+        Client.getClient().getClientPacketHandler().handlePacket(Client.getClient(), packet);
       }
     }
   }
@@ -106,8 +136,8 @@ public abstract class NetworkThread extends Thread {
    * @author Carina
    * @use create a Packet instance of a packet you want to send and pass it in in form of a string seperating the objects with #
    */
-  public synchronized void sendPacket(Packet data) {
-    writer.println(Packet.encrypt(data).getPacketContent());
+  public void sendPacket(Packet data) throws IOException {
+    writer.println(data.getJsonObject().toString());
   }
 
   /**
@@ -115,4 +145,8 @@ public abstract class NetworkThread extends Thread {
    * @use the basic logic of how a NetworkThread will disconnect
    */
   public abstract void disconnect();
+
+  public int getConnectionId() {
+    return id;
+  }
 }

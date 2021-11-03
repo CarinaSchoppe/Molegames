@@ -8,8 +8,8 @@ import java.net.Socket;
 
 public class ClientThread extends NetworkThread {
 
-  public ClientThread(Socket socket) throws IOException {
-    super(socket);
+  public ClientThread(Socket socket, int id) throws IOException {
+    super(socket, id);
   }
 
   /**
@@ -20,11 +20,16 @@ public class ClientThread extends NetworkThread {
   public void disconnect() {
     {
       try {
+        System.out.println("Server disconnected!");
         socket.close();
         PlayerHandler.shutdown();
       } catch (IOException e) {
         e.printStackTrace();
       }
     }
+  }
+
+  public void setID(int id) {
+    this.id = id;
   }
 }

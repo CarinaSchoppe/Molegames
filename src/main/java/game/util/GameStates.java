@@ -31,6 +31,7 @@ public enum GameStates {
   public GameStates getByID(int id) {
     switch (id) {
       case 0:
+      case 5:
         return GameStates.LOBBY;
       case 1:
         return GameStates.PREGAME;
@@ -40,8 +41,6 @@ public enum GameStates {
         return GameStates.WINNINGSTATE;
       case 4:
         return GameStates.RESETSTATE;
-      case 5:
-        return GameStates.LOBBY;
     }
     return null;
   }

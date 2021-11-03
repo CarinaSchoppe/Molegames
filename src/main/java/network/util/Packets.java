@@ -1,15 +1,33 @@
 package network.util;
 
 public enum Packets {
-  ;
+
+  CREATEGAME(0, "CREATE-GAME"),
+  JOINGAME(1, "JOIN-GAME"),
+  GIVEID(2, "ID"),
+  JOINEDGAME(3, "JOINED-GAME"),
+  MESSAGE(4, "MESSAGE"),
+  DISCONNECT(5, "DISCONNECT"),
+  ERROR(6, "ERROR"),
+  FULL(7, "FULL"),
+  INGAME(8, "INGAME"),
+  NOTEXISTS(9, "NOT-EXISTS");
+
+
 
   private final int id;
-  private final String name;
-  private final String content;
+  private final String packetType;
 
-  Packets(int id, String name, String content) {
+  Packets(int id, String packetType) {
     this.id = id;
-    this.name = name;
-    this.content = content;
+    this.packetType = packetType;
+  }
+
+  public int getId() {
+    return id;
+  }
+
+  public String getPacketType() {
+    return packetType;
   }
 }

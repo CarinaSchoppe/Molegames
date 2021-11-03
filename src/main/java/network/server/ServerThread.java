@@ -7,20 +7,13 @@ import java.net.Socket;
 
 public class ServerThread extends NetworkThread {
 
-  private final int id;
-
   /**
    * @param socket the server Socket
    * @param id     Serverthread id
    * @author Carina
    */
   public ServerThread(Socket socket, int id) throws IOException {
-    super(socket);
-    this.id = id;
-  }
-
-  public int getThreadId() {
-    return id;
+    super(socket, id);
   }
 
   /**
@@ -28,11 +21,11 @@ public class ServerThread extends NetworkThread {
    * @use disconnects the serverThread and removes it from the lists and maps
    */
   @Override
-  public void disconnect() {
+  public synchronized void disconnect() {
     {
       try {
         Server.getClientThreads().remove(this);
-        Server.getThreadIds().remove(this.getThreadId());
+        Server.getThreadIds().remove(getConnectionId());
         socket.close();
       } catch (IOException e) {
         e.printStackTrace();

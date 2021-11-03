@@ -1,6 +1,5 @@
 package network.util;
 
-import java.io.IOException;
 import java.net.Socket;
 
 public abstract class Network {
@@ -29,13 +28,12 @@ public abstract class Network {
   }
 
   /**
-   * @throws IOException
    * @author Carina
    * @use the abstract logic of creating the sockets and threads for the server communicationlogic
    * @see network.server.Server
    * @see network.client.Client
    */
-  protected abstract void create() throws IOException;
+  protected abstract void create();
 
   protected int getPort() {
     return port;
