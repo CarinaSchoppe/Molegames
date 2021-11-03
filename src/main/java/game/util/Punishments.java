@@ -16,7 +16,7 @@ public enum Punishments {
     return id;
   }
 
-  public static synchronized Punishments getPunishmentByID(int id) {
+  public static  Punishments getPunishmentByID(int id) {
     switch (id) {
       case 0:
         return NOTHING;
