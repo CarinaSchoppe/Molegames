@@ -1,6 +1,6 @@
 package network.client;
 
-import blitzgames.MoleGames;
+import thundergames.MoleGames;
 import network.util.Network;
 import network.util.Packet;
 import network.util.Packets;

@@ -1,4 +1,4 @@
-package blitzgames;
+package thundergames;
 
 import game.util.MultiGameHandler;
 import gameplay.ai.AI;
