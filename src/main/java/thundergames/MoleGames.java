@@ -34,6 +34,8 @@ public class MoleGames {
       Client.ClientMain();
     } else {
       switch (args[0]) {
+        case "-c":
+        case "c":
         case "-p":
         case "p":
           Client.ClientMain();
