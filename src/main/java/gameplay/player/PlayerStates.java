@@ -16,6 +16,11 @@ public enum PlayerStates {
     return id;
   }
 
+  /**
+   * @author Carina
+   * @param id the id that will get the matching PlayerState as a return
+   * @return PlayerStates
+   */
   public PlayerStates getByID(int id) {
     switch (id) {
       case 0:

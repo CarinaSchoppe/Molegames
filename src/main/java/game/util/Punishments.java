@@ -16,6 +16,11 @@ public enum Punishments {
     return id;
   }
 
+  /**
+   * @author Carina
+   * @param id that will get the Punishment by id and returns it
+   * @return Punishments
+   */
   public static  Punishments getPunishmentByID(int id) {
     switch (id) {
       case 0:

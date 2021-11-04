@@ -10,6 +10,10 @@ public class PlayerHandler {
   private final ArrayList<Mole> playerMolesInHoles = new ArrayList<>();
   private final ArrayList<Mole> playerMolesOnField = new ArrayList<>();
 
+  /**
+   * @author Carina
+   * @use gets the shutdown logic of a client
+   */
   public static void shutdown() {
   }
 

@@ -23,6 +23,13 @@ public abstract class NetworkThread extends Thread {
   private final PrintWriter writer;
   private final BufferedReader reader;
 
+
+  /**
+   * Creates a new NetworkThread.
+   *
+   * @param socket The socket to use.
+   * @param id the id of the serverSocketConnection
+   */
   public NetworkThread(Socket socket, int id) throws IOException {
     this.socket = socket;
     this.id = id;
@@ -31,10 +38,6 @@ public abstract class NetworkThread extends Thread {
     reader = new BufferedReader(new InputStreamReader(socket.getInputStream(), StandardCharsets.UTF_8));
     writer = new PrintWriter(socket.getOutputStream(), true);
   }
-  /**
-   * @author Carina
-   * @use creates a Keyboard listener for the Network Object in a thread so that the System input will be read and send to the server / client
-   */
 
   /**
    * @author Carina
@@ -42,7 +45,6 @@ public abstract class NetworkThread extends Thread {
    * @use will be automaticlly started by a Server- or Client (Thread) it will wait for an incomming packetmessage than decrypts it and turns it into a Packet
    * @see readStringPacketInput method to use that packet for a client- or server handling
    */
-  @SuppressWarnings("CommentedOutCode")
   @Override
   public void run() {
     if (this instanceof ServerThread && !Server.isKeyboard()) {
@@ -66,9 +68,7 @@ public abstract class NetworkThread extends Thread {
             }
             if (this instanceof ServerThread)
               System.out.println("Client with id: " + this.id + " sended: type: " + packet.getPacketType() + " contents: " + packet.getPacketContent());
-          /*  else if (this instanceof ClientThread)
-              System.out.println("Server sended: " + packet.getPacketContent());*/ //Falls wir das so machen wollen!
-            readStringPacketInput(packet, this);
+         readStringPacketInput(packet, this);
           }
         } else {
           disconnect();
@@ -88,6 +88,11 @@ public abstract class NetworkThread extends Thread {
     }
   }
 
+  /**
+   *
+   * @param client checks if the keyBoardlistener is started by a client or a server
+   * @author Carina
+   */
   private void keyBoardListener(boolean client) {
     new Thread(() -> {
       try {

@@ -1,5 +1,10 @@
 package game.util;
 
+/**
+ * @author Carina
+ * @use the GameStats that a game can have
+ * @see Game as the class using the GameStates
+ */
 public enum GameStates {
 
   LOBBY(0),

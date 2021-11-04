@@ -1,5 +1,7 @@
 /.idea/
-/gradle/
 /.gradle/
+/gradle/
+/gradlew/
+/gradlew.bat/
 /build/
-/.run/
+/.ignore/
