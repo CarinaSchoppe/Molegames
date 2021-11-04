@@ -34,6 +34,11 @@ public class Packet {
     return jsonObject;
   }
 
+  /**
+   * @return the String that is the content of the packet
+   * @author Carina
+   * @use get the String from the packet and modify it
+   */
   public void modifyType(String type) {
     packetType = type;
     jsonObject.put("packetType", packetType);
@@ -57,6 +62,14 @@ public class Packet {
     return packetType;
   }
 
+  /**
+   * @param message the message that will be appended
+   * @param prefix  if the message will be at the front or back
+   * @return the String that is the content of the packet
+   * @author Carina
+   * @use get the String from the packet and append it by
+   * @see Packets the packets that can be send-
+   */
   public Packet appendMessage(String message, boolean prefix) {
     if (prefix) {
       packetContent = message + packetContent;

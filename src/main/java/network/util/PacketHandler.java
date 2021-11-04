@@ -11,6 +11,15 @@ import java.io.IOException;
 
 public class PacketHandler {
 
+  /**
+   * @author Carina
+   * @param packet
+   * @param clientConnection
+   * @use handles the packets that are comming in and handles it with the client connected
+   * @throws IOException
+   * @see Packets the packets that can be send-
+   */
+
   public static void handlePacket(Packet packet, ServerThread clientConnection) throws IOException {
     if (packet.getPacketType().equalsIgnoreCase(Packets.CREATEGAME.getPacketType())) {
       //    "CREATE-GAME#ID"

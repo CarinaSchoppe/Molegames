@@ -37,6 +37,12 @@ public class Server extends Network {
     super(port, ip);
   }
 
+  /**
+   * @author Carina
+   * @use creates the Server starts it and runs the handler for the incomming client-connections
+   * @see ServerThread as an instance that will be created here
+   * @NetworkThread as the Network for the instance of the ServerThread
+   */
   @Override
   public void create() {
     try {
@@ -94,10 +100,5 @@ public class Server extends Network {
   public static ArrayList<ServerThread> getClientThreads() {
     return clientThreads;
   }
-  /**
-   * @param packet   the packet that the server recieved
-   * @param reciever which Serverthread has send this packet
-   * @author Carina
-   * @use sends handles the Packet and sends it to all other players and than sends a responePacket to the Users
-   */
+
 }

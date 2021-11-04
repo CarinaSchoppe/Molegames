@@ -5,6 +5,13 @@ import gameplay.ai.AI;
 import network.client.Client;
 import network.server.Server;
 
+/**
+ * @author Carina
+ * @use Main Class of the entire game
+ * @see Server as an instance that will be integrated
+ * @see Client as an instance that will be integrated
+ * @see AI as an instance that will be integrated
+ */
 public class MoleGames {
 
   private static MoleGames moleGames;
