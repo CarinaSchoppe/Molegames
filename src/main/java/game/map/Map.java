@@ -38,7 +38,6 @@ public class Map {
         fields.add(field);
       }
     }
-
     //1 under mid: left to bottom right
     for (int y = radius; y < radius * 2 - 1; y++) {
       for (int x = y - radius + 1; x < radius * 2 - 1; x++) {
@@ -57,10 +56,9 @@ public class Map {
         System.out.println();
         row = field.getId()[1];
       }
-      System.out.print("Field X: " + field.getId()[0] + ", Y " + field.getId()[1] +" ");
+      System.out.print("Field X: " + field.getId()[0] + ", Y " + field.getId()[1] + " ");
     }
   }
-
 
   public ArrayList<Field> getFields() {
     return fields;

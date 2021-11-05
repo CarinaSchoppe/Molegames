@@ -14,8 +14,6 @@ public class Mole {
     this.field = field;
   }
 
-
-
   public Floors getFloor() {
     return floor;
   }
