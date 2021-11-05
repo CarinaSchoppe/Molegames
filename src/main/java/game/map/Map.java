@@ -49,6 +49,10 @@ public class Map {
     printMap();
   }
 
+  /**
+   * @author Carina
+   * @use prints the map
+   */
   public synchronized void printMap() {
     int row = 0;
     for (Field field : fields) {
