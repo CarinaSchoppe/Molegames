@@ -4,6 +4,7 @@ import game.util.Game;
 import network.util.Network;
 import network.util.Packet;
 import network.util.Packets;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -52,7 +53,10 @@ public class Server extends Network {
         socket = serverSocket.accept();
         ServerThread serverThread = new ServerThread(socket, threadId);
         serverThread.start();
-        serverThread.sendPacket(new Packet(Packets.GIVEID.getPacketType(), threadId));
+        JSONObject object = new JSONObject();
+        object.put("type", Packets.GIVEID.getPacketType());
+        object.put("id", threadId);
+        serverThread.sendPacket(new Packet(object));
         getClientThreads().add(serverThread);
         threadIds.put(serverThread.getConnectionId(), serverThread);
         threadId++;

@@ -1,9 +1,10 @@
 package network.client;
 
-import thundergames.MoleGames;
 import network.util.Network;
 import network.util.Packet;
 import network.util.Packets;
+import org.json.JSONObject;
+import thundergames.MoleGames;
 
 import java.io.IOException;
 import java.net.ConnectException;
@@ -32,7 +33,7 @@ public class Client extends Network {
    * @use creates the main Thread for the Client logic
    * @see MoleGames
    */
-  public static void ClientMain(String... args) {
+  public static void ClientMain() {
     client = new Client(5000, "127.0.0.1");
     client.create();
   }
@@ -67,9 +68,19 @@ public class Client extends Network {
    * Logic to test some things!
    */
   public void test() throws InterruptedException, IOException {
-    clientThread.sendPacket(new Packet(Packets.CREATEGAME.getPacketType(), 0));
+    JSONObject object = new JSONObject();
+    object.put("type", Packets.CREATEGAME.getPacketType());
+    object.put("punishment", 0);
+    object.put("floors", 5);
+    object.put("radius", 6);
+    Packet packet = new Packet(object);
+    clientThread.sendPacket(packet);
     Thread.sleep(100);
-    clientThread.sendPacket(new Packet(Packets.JOINGAME.getPacketType(), "0#spectator"));
+    JSONObject jsonObject = new JSONObject();
+    jsonObject.put("type", Packets.JOINGAME.getPacketType());
+    jsonObject.put("connectType", "player");
+    jsonObject.put("gameID", 0);
+    clientThread.sendPacket(new Packet(jsonObject));
   }
 
   public ClientPacketHandler getClientPacketHandler() {

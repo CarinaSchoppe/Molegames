@@ -23,12 +23,11 @@ public abstract class NetworkThread extends Thread {
   private final PrintWriter writer;
   private final BufferedReader reader;
 
-
   /**
    * Creates a new NetworkThread.
    *
    * @param socket The socket to use.
-   * @param id the id of the serverSocketConnection
+   * @param id     the id of the serverSocketConnection
    */
   public NetworkThread(Socket socket, int id) throws IOException {
     this.socket = socket;
@@ -57,18 +56,21 @@ public abstract class NetworkThread extends Thread {
       while (true) {
         if (socket.isConnected()) {
           String message = reader.readLine(); //ließt die packetmessage die reinkommt
-
           if (message != null) {
             JSONObject object = new JSONObject(message);
-            packet = new Packet(object.getString("packetType"), object.get("packetContent"));
-            if ("DISCONNECT".equals(packet.getPacketType())) {
-              System.out.println("Content: " + packet.getPacketContent());
-              disconnect();
-              break;
+            if (!object.isNull("type")) {
+              packet = new Packet(object);
+              if ("DISCONNECT".equals(packet.getPacketType())) {
+                System.out.println("Content: " + packet.getJsonObject().toString());
+                disconnect();
+                break;
+              }
             }
-            if (this instanceof ServerThread)
-              System.out.println("Client with id: " + this.id + " sended: type: " + packet.getPacketType() + " contents: " + packet.getPacketContent());
-         readStringPacketInput(packet, this);
+            if (this.packet != null) {
+              if (this instanceof ServerThread)
+                System.out.println("Client with id: " + this.id + " sended: type: " + packet.getPacketType() + " contents: " + packet.getJsonObject().toString());
+              readStringPacketInput(packet, this);
+            }
           }
         } else {
           disconnect();
@@ -89,7 +91,6 @@ public abstract class NetworkThread extends Thread {
   }
 
   /**
-   *
    * @param client checks if the keyBoardlistener is started by a client or a server
    * @author Carina
    */
@@ -101,12 +102,17 @@ public abstract class NetworkThread extends Thread {
         while (true) {
           try {
             String message = keyboardReader.readLine();
+            JSONObject object = new JSONObject();
             if (client) {
-              sendPacket(new Packet(Packets.MESSAGE.getPacketType(), message));
+              object.put("type", Packets.MESSAGE.getPacketType());
+              object.put("message", message);
+              sendPacket(new Packet(object));
             } else {
               for (Iterator<ServerThread> iterator = Server.getClientThreads().iterator(); iterator.hasNext(); ) {
                 ServerThread clientSocket = iterator.next();
-                clientSocket.sendPacket(new Packet(Packets.MESSAGE.getPacketType(), message));
+                object.put("type", Packets.MESSAGE.getPacketType());
+                object.put("message", message);
+                clientSocket.sendPacket(new Packet(object));
               }
             }
           } catch (IOException e) {

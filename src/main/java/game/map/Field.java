@@ -1,18 +1,18 @@
 package game.map;
 
 public class Field {
-  private final int id;
+  private int[] id = new int[2];
   private boolean occupied;
-  private final boolean hole;
+  private boolean hole;
 
-  public Field(int id, boolean occupied, boolean hole) {
+
+  public Field(int[] id) {
     this.id = id;
-    this.occupied = occupied;
-    this.hole = hole;
+
   }
 
-  public void setOccupied(boolean occupied) {
-    this.occupied = occupied;
+  public int[] getId() {
+    return id;
   }
 
   public boolean isOccupied() {
@@ -23,7 +23,16 @@ public class Field {
     return hole;
   }
 
-  public int getId() {
-    return id;
+  public void setOccupied(boolean occupied) {
+    this.occupied = occupied;
+  }
+
+  public void setHole(boolean hole) {
+    this.hole = hole;
+  }
+
+  @Override
+  public String toString() {
+    return "field x: "+ id[0] + " y: " + id[1];
   }
 }

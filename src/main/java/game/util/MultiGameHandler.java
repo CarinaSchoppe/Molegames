@@ -23,8 +23,8 @@ public class MultiGameHandler {
    * @use creates the new Game
    * @return the game id
    */
-  public void createNewGame(Punishments punishment) {
-    Game game = new Game(punishment, gameIDs);
+  public void createNewGame(Punishments punishment, int radius, int maxFloors) {
+    Game game = new Game(punishment, gameIDs, radius, maxFloors);
     games.put(gameIDs, game);
     gameIDs++;
     game.start();
