@@ -1,7 +1,10 @@
 package game.map;
 
-public class Hole extends Field {
-  public Hole(int id, boolean used) {
-    super(id, used, true);
+public class Hole   {
+  int[] id = new int[2];
+  boolean used;
+  public Hole(int[] id, boolean used) {
+    this.id = id;
+    this.used = used;
   }
 }

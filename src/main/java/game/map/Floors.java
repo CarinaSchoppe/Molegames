@@ -2,7 +2,7 @@ package game.map;
 
 import game.map.Map;
 
-public class Floors extends Map {
+public class Floors  {
 
     private final int floorID;
 

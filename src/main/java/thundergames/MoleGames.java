@@ -17,12 +17,8 @@ public class MoleGames {
   private static MoleGames moleGames;
   private Server server;
   private MultiGameHandler gameHandler;
-  private static final boolean keyListener = true;
   private AI AI;
 
-  public static boolean isKeyListener() {
-    return keyListener;
-  }
 
   /**
    * @author Carina
@@ -34,6 +30,8 @@ public class MoleGames {
       Client.ClientMain();
     } else {
       switch (args[0]) {
+        case "-c":
+        case "c":
         case "-p":
         case "p":
           Client.ClientMain();
@@ -46,7 +44,7 @@ public class MoleGames {
           break;
         case "-a":
         case "a":
-          new AI(true, args[1], Integer.parseInt(args[2]));
+          moleGames.AI = new AI(true, args[1], Integer.parseInt(args[2]));
       }
     }
   }
