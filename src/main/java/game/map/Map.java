@@ -71,4 +71,27 @@ public class Map {
     return radius;
   }
 
+  public int getFloor() {
+    return floor;
+  }
+
+  public int getMaxFloors() {
+    return maxFloors;
+  }
+
+  public HashMap<int[], Field> getFieldCounter() {
+    return fieldCounter;
+  }
+
+  public ArrayList<Hole> getHoles() {
+    return holes;
+  }
+
+  public ArrayList<Field> getOccupied() {
+    return occupied;
+  }
+
+  public ArrayList<Field> getDoubleMoves() {
+    return doubleMoves;
+  }
 }
