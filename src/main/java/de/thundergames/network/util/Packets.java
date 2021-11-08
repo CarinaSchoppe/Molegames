@@ -29,6 +29,21 @@ public enum Packets {
     return id;
   }
 
+  public Packets getPacketByType(String packetType) throws PacketNotExistsException {
+    for (Packets packet : Packets.values()) {
+      if (packet.getPacketType().equals(packetType)) {
+        return packet;
+      }
+    }
+    try {
+      throw new PacketNotExistsException("No Packet with type " + packetType + " found!");
+    } catch (PacketNotExistsException e) {
+
+      e.printStackTrace();
+    }
+    return null;
+  }
+
   public String getPacketType() {
     return packetType;
   }
