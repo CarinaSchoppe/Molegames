@@ -1,0 +1,17 @@
+
+T
+java:S5993"9Change the visibility of this constructor to "protected".(’¬ï˜ýÿÿÿÿ
+S	java:S106"9Replace this use of System.out or System.err by a logger.(«É¢šùÿÿÿÿ
+h
+java:S3776/"RRefactor this method to reduce its Cognitive Complexity from 22 to the 15 allowed.(“–ýþ
+N	java:S106?"9Replace this use of System.out or System.err by a logger.(íäÏñ
+M	java:S106D"9Replace this use of System.out or System.err by a logger.(°÷Ë
+Q	java:S125E"<This block of commented-out lines of code should be removed.(„ËŠ£
+S	java:S106O"9Replace this use of System.out or System.err by a logger.(Á¢‹¬úÿÿÿÿ
+S	java:S106^"9Replace this use of System.out or System.err by a logger.(þñ¼õúÿÿÿÿ
+H
+java:S1135|"2Complete the task associated to this TODO comment.(¡Š¡Ä
+ƒ
+java:S1130‹"lRemove the declaration of thrown exception 'java.io.IOException', as it cannot be thrown from method's body.(´¯Ãú
+P
+java:S1141a"5Extract this nested try block into a separate method.(¡»¢üùÿÿÿÿ

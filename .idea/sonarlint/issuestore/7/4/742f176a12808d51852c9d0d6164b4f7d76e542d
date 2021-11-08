@@ -1,0 +1,14 @@
+
+S	java:S106,"9Replace this use of System.out or System.err by a logger.(ßıóİùÿÿÿÿ
+L
+java:S26964"6Make the enclosing method "static" or remove this set.(ÑÍ³ˆ
+E
+java:S2093*"*Change this "try" to a try-with-resources.(¡»¢üùÿÿÿÿ
+ˆ
+java:S1319A"mThe return type of this method should be an interface such as "Map" rather than the implementation "HashMap".(Ÿğ…úÿÿÿÿ
+…
+java:S1319^"pThe return type of this method should be an interface such as "List" rather than the implementation "ArrayList".(ìÌs
+e
+java:S2095+"JUse try-with-resources or close this "ServerSocket" in a "finally" clause.(íîÁ¿ùÿÿÿÿ
+=
+java:S2189-""Add an end condition to this loop.(˜ïˆÿÿÿÿÿ

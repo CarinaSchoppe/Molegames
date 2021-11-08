@@ -1,0 +1,31 @@
+Index: src/main/java/game/player/PlayerHandler.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package game.player;\r\n\r\npublic class PlayerHandler {\r\n\r\n  public static void shutdown(){\r\n\r\n  }\r\n}\r\n
+===================================================================
+diff --git a/src/main/java/game/player/PlayerHandler.java b/src/main/java/game/player/PlayerHandler.java
+--- a/src/main/java/game/player/PlayerHandler.java	
++++ b/src/main/java/game/player/PlayerHandler.java	
+@@ -2,7 +2,22 @@
+ 
+ public class PlayerHandler {
+ 
++
++  private static final int MAX_MOLES = 10;
++  private int moles = MAX_MOLES;
+   public static void shutdown(){
+ 
+   }
++
++  public int getMoles() {
++    return moles;
++  }
++
++  public static int getMaxMoles(){
++    return MAX_MOLES;
++  }
++  public void setMoles(int moles) {
++    this.moles = moles;
++  }
++
+ }

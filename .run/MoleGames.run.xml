@@ -2,12 +2,12 @@
   <configuration default="false" name="Server" type="Application" factoryName="Application">
     <option name="ALTERNATIVE_JRE_PATH" value="C:\Program Files\Java\jdk-16.0.2" />
     <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
-    <option name="MAIN_CLASS_NAME" value="thundergames.MoleGames" />
+    <option name="MAIN_CLASS_NAME" value="de.thundergames.MoleGames" />
     <module name="SwtPra10.main" />
     <option name="PROGRAM_PARAMETERS" value="-s" />
     <extension name="coverage">
       <pattern>
-        <option name="PATTERN" value="thundergames.*" />
+        <option name="PATTERN" value="main.*" />
         <option name="ENABLED" value="true" />
       </pattern>
     </extension>
