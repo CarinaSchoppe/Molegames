@@ -3,7 +3,7 @@
     <option name="ALTERNATIVE_JRE_PATH" value="C:\Program Files\Java\jdk-16.0.2" />
     <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
     <option name="MAIN_CLASS_NAME" value="thundergames.MoleGames" />
-    <module name="swtpra10.main" />
+    <module name="SwtPra10.main" />
     <option name="PROGRAM_PARAMETERS" value="-s" />
     <extension name="coverage">
       <pattern>

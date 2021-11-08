@@ -32,7 +32,7 @@ public class Game extends Thread {
     }
   }
 
-  public synchronized void joinGame(ServerThread client, boolean spectator) throws IOException {
+  public void joinGame(ServerThread client, boolean spectator) throws IOException {
     clients.add(client);
     JSONObject object = new JSONObject();
     object.put("type", Packets.JOINEDGAME.getPacketType());

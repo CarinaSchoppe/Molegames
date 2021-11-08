@@ -5,24 +5,23 @@ import java.util.HashMap;
 
 public class Map {
 
-  private int radius;
+  private final int radius;
   private int floor;
-  private int maxFloors = -1;
+  private final int maxFloors;
+
 
   public Map(int radius, int maxFloors) {
     this.radius = radius;
     this.maxFloors = maxFloors;
   }
 
-  public Map(int radius) {
-    this.radius = radius;
-  }
+  private final ArrayList<Field> fields = new ArrayList();
+  private final HashMap<int[], Field> fieldCounter = new HashMap<>();
+  private final ArrayList<Hole> holes = new ArrayList<>();
+  private final ArrayList<Field> occupied = new ArrayList<>();
+  private final ArrayList<Field> doubleMoves = new ArrayList<>();
 
-  private ArrayList<Field> fields = new ArrayList();
-  private HashMap<int[], Field> fieldCounter = new HashMap<>();
 
-  private int id_x = 0;
-  private int id_y = 0;
 
   /**
    * @author Carina
@@ -72,7 +71,4 @@ public class Map {
     return radius;
   }
 
-  public void setRadius(int radius) {
-    this.radius = radius;
-  }
 }
