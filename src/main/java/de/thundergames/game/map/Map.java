@@ -10,7 +10,8 @@ public class Map {
   private final int maxFloors;
 
   public Map(final int radius, final int maxFloors) {
-    this.radius = radius;
+    this.radius = radius+1;
+    floor = maxFloors;
     this.maxFloors = maxFloors;
   }
 

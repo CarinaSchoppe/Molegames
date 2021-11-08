@@ -68,7 +68,7 @@ public class Client extends Network {
     object.put("type", Packets.CREATEGAME.getPacketType());
     object.put("punishment", 0);
     object.put("floors", 5);
-    object.put("radius", 6);
+    object.put("radius", 4);
     var packet = new Packet(object);
     clientThread.sendPacket(packet);
     Thread.sleep(100);

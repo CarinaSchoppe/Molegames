@@ -21,7 +21,7 @@ public class ClientPacketHandler {
       System.out.println("Client ID: " + id);
       client.getClientThread().setID(id);
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.JOINEDGAME.getPacketType())) {
-      System.out.println("Client joined de.thundergames.game with id: " + packet.getJsonObject().getInt("gameID"));
+      System.out.println("Client joined game with id: " + packet.getJsonObject().getInt("gameID"));
       client.setGameID(packet.getJsonObject().getInt("gameID"));
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.MESSAGE.getPacketType())) {
       System.out.println("Server sended: " + packet.getJsonObject().getString("message"));

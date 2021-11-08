@@ -6,10 +6,5 @@
 /build/
 /.run/
 /.ignore/
+/.git/
 /.
-/.gradle/
-/.idea/
-/.run/
-/assets/
-/build/
-/gradle/
