@@ -14,7 +14,6 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.SocketException;
 import java.nio.charset.StandardCharsets;
-import java.util.Iterator;
 
 public abstract class NetworkThread extends Thread {
   protected final Socket socket;
@@ -56,9 +55,9 @@ public abstract class NetworkThread extends Thread {
     try {
       while (true) {
         if (socket.isConnected()) {
-          String message = reader.readLine(); //ließt die packetmessage die reinkommt
+          var message = reader.readLine(); //ließt die packetmessage die reinkommt
           if (message != null) {
-            JSONObject object = new JSONObject(message);
+            var object = new JSONObject(message);
             if (!object.isNull("type")) {
               packet = new Packet(object);
               if ("DISCONNECT".equals(packet.getPacketType())) {
@@ -99,17 +98,17 @@ public abstract class NetworkThread extends Thread {
     new Thread(() -> {
       try {
         System.out.println("Keylistener started!");
-        BufferedReader keyboardReader = new BufferedReader(new InputStreamReader(System.in));
+        var keyboardReader = new BufferedReader(new InputStreamReader(System.in));
         while (true) {
           try {
-            String message = keyboardReader.readLine();
-            JSONObject object = new JSONObject();
+            var message = keyboardReader.readLine();
+            var object = new JSONObject();
             if (client) {
               object.put("type", Packets.MESSAGE.getPacketType());
               object.put("message", message);
               sendPacket(new Packet(object));
             } else {
-              for (Iterator<ServerThread> iterator = Server.getClientThreads().iterator(); iterator.hasNext(); ) {
+              for (var iterator = Server.getClientThreads().iterator(); iterator.hasNext(); ) {
                 ServerThread clientSocket = iterator.next();
                 object.put("type", Packets.MESSAGE.getPacketType());
                 object.put("message", message);
@@ -134,12 +133,11 @@ public abstract class NetworkThread extends Thread {
    */
   public void readStringPacketInput(@NotNull final Packet packet, @NotNull final NetworkThread reciever) throws IOException {
     //TODO: How to handle the packet from the client! Player has moved -> now in a hole and than handle it
-      if (reciever instanceof ServerThread) {
-        PacketHandler.handlePacket(packet, (ServerThread) reciever);
-      } else if (reciever instanceof ClientThread) {
-        Client.getClient().getClientPacketHandler().handlePacket(Client.getClient(), packet);
-      }
-
+    if (reciever instanceof ServerThread) {
+      PacketHandler.handlePacket(packet, (ServerThread) reciever);
+    } else if (reciever instanceof ClientThread) {
+      Client.getClient().getClientPacketHandler().handlePacket(Client.getClient(), packet);
+    }
   }
 
   /**

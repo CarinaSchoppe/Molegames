@@ -30,14 +30,14 @@ public class AI extends PlayerHandler implements Runnable {
     boolean moveable = false;
     while (true) {
       if (isMove) {
-        for (Mole mole : getPlayerMolesOnField()) {
+        for (var mole : getPlayerMolesOnField()) {
           if (mole.isMoveable() && !moveable) {
             moveable = true;
             makeMove();
           }
         }
         if (!moveable) {
-          for (Mole mole : getPlayerMolesInHoles()) {
+          for (var mole : getPlayerMolesInHoles()) {
             if (mole.isMoveable() && !moveable) {
               moveable = true;
               makeMove();

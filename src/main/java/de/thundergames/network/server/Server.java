@@ -87,8 +87,8 @@ public class Server extends Network {
   public static synchronized void sendToGameClients(Game game, Packet packet) {
     try {
       if (!game.getClients().isEmpty()) {
-        for (Iterator<ServerThread> iterator = game.getClients().iterator(); iterator.hasNext(); ) {
-          ServerThread client = iterator.next();
+        for (var iterator = game.getClients().iterator(); iterator.hasNext(); ) {
+          var client = iterator.next();
           client.sendPacket(packet);
         }
       }

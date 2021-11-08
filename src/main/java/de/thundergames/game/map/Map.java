@@ -27,17 +27,17 @@ public class Map {
   public synchronized void createMap() {
     //Top left to mid right
     fields.clear();
-    for (int y = 0; y < radius; y++) {
-      for (int x = 0; x < radius + y; x++) {
-        Field field = new Field(new int[]{x, y});
+    for (var y = 0; y < radius; y++) {
+      for (var x = 0; x < radius + y; x++) {
+        var field = new Field(new int[]{x, y});
         fieldCounter.put(new int[]{x, y}, field);
         fields.add(field);
       }
     }
     //1 under mid: left to bottom right
-    for (int y = radius; y < radius * 2 - 1; y++) {
-      for (int x = y - radius + 1; x < radius * 2 - 1; x++) {
-        Field field = new Field(new int[]{x, y});
+    for (var y = radius; y < radius * 2 - 1; y++) {
+      for (var x = y - radius + 1; x < radius * 2 - 1; x++) {
+        var field = new Field(new int[]{x, y});
         fieldCounter.put(new int[]{x, y}, field);
         fields.add(field);
       }
@@ -51,7 +51,7 @@ public class Map {
    */
   public synchronized void printMap() {
     int row = 0;
-    for (Field field : fields) {
+    for (var field : fields) {
       if (field.getId()[1] != row) {
         System.out.println();
         row = field.getId()[1];

@@ -19,9 +19,9 @@ public class GameLogic {
     //check if player moved to much
     if (map.getFieldCounter().containsKey(start) && map.getFieldCounter().containsKey(stop) && start != stop) {
       if (stop[0] - start[0] == 0 && Math.abs(stop[1] - start[1]) == moveCounter || start[1] - stop[1] == 0 && Math.abs(stop[0] - start[0]) == moveCounter || Math.abs(stop[0] - start[0]) == Math.abs(stop[1] - start[1]) && Math.abs(start[1] - stop[1]) == moveCounter) {
-        for (Field field : map.getOccupied()) {
+        for (var field : map.getOccupied()) {
           if (stop[0] - start[0] == 0) {
-            for (int i = 1; i < moveCounter; i++) {
+            for (var i = 1; i < moveCounter; i++) {
               if (stop[1] - start[1] > 0) {
                 if (field.getY() == start[1] + i && field.getX() == start[0]) {
                   return false;
@@ -33,7 +33,7 @@ public class GameLogic {
               }
             }
           } else if (stop[1] - start[1] == 0) {
-            for (int i = 1; i < moveCounter; i++) {
+            for (var i = 1; i < moveCounter; i++) {
               if (stop[0] - start[0] > 0) {
                 if (field.getX() == start[0] + i && field.getY() == start[1]) {
                   return false;
@@ -45,7 +45,7 @@ public class GameLogic {
               }
             }
           } else if (Math.abs(stop[0] - start[0]) == Math.abs(stop[1] - start[1])) {
-            for (int i = 1; i < moveCounter; i++) {
+            for (var i = 1; i < moveCounter; i++) {
               if (stop[1] - start[1] > 0 && stop[0] - start[0] > 0) {
                 if (field.getX() == start[0] + i && field.getY() == start[1] + i) {
                   return false;

@@ -25,7 +25,7 @@ public class MultiGameHandler {
    * @use creates the new Game
    */
   public void createNewGame(@NotNull Punishments punishment, final int radius, final int maxFloors) {
-    Game game = new Game(punishment, gameIDs, radius, maxFloors);
+    var game = new Game(punishment, gameIDs, radius, maxFloors);
     games.put(gameIDs, game);
     gameIDs++;
     game.start();

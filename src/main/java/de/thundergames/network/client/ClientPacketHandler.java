@@ -16,7 +16,7 @@ public class ClientPacketHandler {
   public void handlePacket(Client client, @NotNull Packet packet) {
     if (packet.getPacketType().equalsIgnoreCase(Packets.GIVEID.getPacketType())) {
       //ID : 3
-      int id = packet.getJsonObject().getInt("id");
+      var id = packet.getJsonObject().getInt("id");
       client.setId(id);
       System.out.println("Client ID: " + id);
       client.getClientThread().setID(id);

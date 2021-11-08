@@ -30,11 +30,11 @@ public class PacketHandler {
         maxFloors = packet.getJsonObject().getInt("maxFloors");
       MoleGames.getMoleGames().getGameHandler().createNewGame(Punishments.getPunishmentByID(packet.getJsonObject().getInt("punishment")), packet.getJsonObject().getInt("radius"), maxFloors); //<----
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.JOINGAME.getPacketType())) {
-      JSONObject object = new JSONObject();
+      var object = new JSONObject();
       //JOIN-GAME#ID
       if (MultiGameHandler.getGames().containsKey(packet.getJsonObject().getInt("gameID"))) {
-        String connectType = packet.getJsonObject().getString("connectType");
-        Game game = MultiGameHandler.getGames().get(packet.getJsonObject().getInt("gameID"));
+        var connectType = packet.getJsonObject().getString("connectType");
+        var game = MultiGameHandler.getGames().get(packet.getJsonObject().getInt("gameID"));
         if (connectType.equalsIgnoreCase("player")) {
           if (game.getCurrentGameState().equals(GameStates.LOBBY))
             game.joinGame(clientConnection, false);

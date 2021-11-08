@@ -64,15 +64,15 @@ public class Client extends Network {
    * Logic to test some things!
    */
   public void test() throws InterruptedException {
-    JSONObject object = new JSONObject();
+    var object = new JSONObject();
     object.put("type", Packets.CREATEGAME.getPacketType());
     object.put("punishment", 0);
     object.put("floors", 5);
     object.put("radius", 6);
-    Packet packet = new Packet(object);
+    var packet = new Packet(object);
     clientThread.sendPacket(packet);
     Thread.sleep(100);
-    JSONObject jsonObject = new JSONObject();
+    var jsonObject = new JSONObject();
     jsonObject.put("type", Packets.JOINGAME.getPacketType());
     jsonObject.put("connectType", "player");
     jsonObject.put("gameID", 0);

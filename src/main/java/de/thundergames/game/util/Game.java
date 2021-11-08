@@ -34,7 +34,7 @@ public class Game extends Thread {
 
   public void joinGame(@NotNull final ServerThread client, final boolean spectator) {
     clients.add(client);
-    JSONObject object = new JSONObject();
+    var object = new JSONObject();
     object.put("type", Packets.JOINEDGAME.getPacketType());
     object.put("gameID", gameID);
     client.sendPacket(new Packet(object));
