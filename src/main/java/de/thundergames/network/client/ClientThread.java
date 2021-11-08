@@ -29,7 +29,7 @@ public class ClientThread extends NetworkThread {
     }
   }
 
-  public void setID(int id) {
+  public void setID(final int id) {
     this.id = id;
   }
 }

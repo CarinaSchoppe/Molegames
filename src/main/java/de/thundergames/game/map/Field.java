@@ -10,7 +10,7 @@ public class Field {
     return doubleMove;
   }
 
-  public void setDoubleMove(boolean doubleMove) {
+  public void setDoubleMove(final boolean doubleMove) {
     this.doubleMove = doubleMove;
   }
 
@@ -30,7 +30,7 @@ public class Field {
     return hole;
   }
 
-  public void setOccupied(boolean occupied) {
+  public void setOccupied(final boolean occupied) {
     this.occupied = occupied;
   }
 

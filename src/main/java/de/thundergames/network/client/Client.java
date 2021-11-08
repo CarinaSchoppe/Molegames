@@ -87,7 +87,7 @@ public class Client extends Network {
     return client;
   }
 
-  public void setId(int id) {
+  public void setId(final int id) {
     this.id = id;
   }
 
@@ -95,7 +95,7 @@ public class Client extends Network {
     return clientThread;
   }
 
-  public void setGameID(int gameID) {
+  public void setGameID(final int gameID) {
     this.gameID = gameID;
   }
 }

@@ -32,7 +32,7 @@ public class Mole {
     return inHole;
   }
 
-  public void setInHole(boolean inHole) {
+  public void setInHole(final boolean inHole) {
     this.inHole = inHole;
   }
 }

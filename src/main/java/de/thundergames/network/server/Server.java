@@ -20,7 +20,7 @@ public class Server extends Network {
   private static int threadId = 0;
   private static boolean keyboard = false;
 
-  public static void setKeyboard(boolean keyboard) {
+  public static void setKeyboard(final boolean keyboard) {
     Server.keyboard = keyboard;
   }
 

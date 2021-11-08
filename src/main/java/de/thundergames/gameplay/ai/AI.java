@@ -54,7 +54,7 @@ public class AI extends PlayerHandler implements Runnable {
     return shouldRun;
   }
 
-  public void setShouldRun(boolean shouldRun) {
+  public void setShouldRun(final boolean shouldRun) {
     this.shouldRun = shouldRun;
   }
 
