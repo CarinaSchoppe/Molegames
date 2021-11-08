@@ -4,9 +4,8 @@ public class Field {
   private final int[] id;
   private boolean occupied;
   private boolean hole;
-<<<<<<< src/main/java/game/map/Field.java
   private boolean doubleMove = false;
-=======
+
 
   public boolean isDoubleMove() {
     return doubleMove;
@@ -31,8 +30,6 @@ public class Field {
   public boolean isHole() {
     return hole;
   }
-
-  public boolean isRepeat() { return repeat; }
 
   public void setOccupied(boolean occupied) {
     this.occupied = occupied;
