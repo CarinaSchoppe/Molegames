@@ -4,6 +4,7 @@ import network.client.Client;
 import network.client.ClientThread;
 import network.server.Server;
 import network.server.ServerThread;
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -29,7 +30,7 @@ public abstract class NetworkThread extends Thread {
    * @param socket The socket to use.
    * @param id     the id of the serverSocketConnection
    */
-  public NetworkThread(Socket socket, int id) throws IOException {
+  public NetworkThread(@NotNull final Socket socket, final int id) throws IOException {
     this.socket = socket;
     this.id = id;
     if (this instanceof ServerThread)
@@ -42,7 +43,7 @@ public abstract class NetworkThread extends Thread {
    * @author Carina
    * creates a runnable that will create a listener for the incomming packets and reaches them over to
    * @use will be automaticlly started by a Server- or Client (Thread) it will wait for an incomming packetmessage than decrypts it and turns it into a Packet
-   * @see readStringPacketInput method to use that packet for a client- or server handling
+   * @see readStringPacketInput() method to use that packet for a client- or server handling
    */
   @Override
   public void run() {
@@ -94,7 +95,7 @@ public abstract class NetworkThread extends Thread {
    * @param client checks if the keyBoardlistener is started by a client or a server
    * @author Carina
    */
-  private void keyBoardListener(boolean client) {
+  private void keyBoardListener(final boolean client) {
     new Thread(() -> {
       try {
         System.out.println("Keylistener started!");
@@ -127,19 +128,18 @@ public abstract class NetworkThread extends Thread {
 
   /**
    * @param packet   that got read in by the runnable listener
-   * @param receiver the one that it is recieving the thread of the server
+   * @param reciever the one that it is recieving the thread of the server
    * @author Carina
    * @use it will automaticlly pass it forwards to the Server or Client to handle the Packet depending on who recieved it (Server- or Client thread)
    */
-  public void readStringPacketInput(Packet packet, NetworkThread reciever) throws IOException {
+  public void readStringPacketInput(@NotNull final Packet packet, @NotNull final NetworkThread reciever) throws IOException {
     //TODO: How to handle the packet from the client! Player has moved -> now in a hole and than handle it
-    if (reciever != null && packet != null) {
       if (reciever instanceof ServerThread) {
         PacketHandler.handlePacket(packet, (ServerThread) reciever);
       } else if (reciever instanceof ClientThread) {
         Client.getClient().getClientPacketHandler().handlePacket(Client.getClient(), packet);
       }
-    }
+
   }
 
   /**

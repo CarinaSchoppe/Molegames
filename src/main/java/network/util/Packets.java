@@ -1,7 +1,7 @@
 package network.util;
 
 /**
- * @autor Carina
+ * @author Carina
  * @see Packets the packet element that can be send
  */
 public enum Packets {

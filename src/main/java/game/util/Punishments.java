@@ -1,5 +1,7 @@
 package game.util;
 
+import org.jetbrains.annotations.NotNull;
+
 public enum Punishments {
 
   NOTHING(0),
@@ -17,11 +19,11 @@ public enum Punishments {
   }
 
   /**
-   * @author Carina
    * @param id that will get the Punishment by id and returns it
    * @return Punishments
+   * @author Carina
    */
-  public static  Punishments getPunishmentByID(int id) {
+  public static Punishments getPunishmentByID(final int id) {
     switch (id) {
       case 0:
         return NOTHING;

@@ -28,7 +28,6 @@ public class Client extends Network {
   }
 
   /**
-   * @param args
    * @author Carina
    * @use creates the main Thread for the Client logic
    * @see MoleGames
@@ -44,7 +43,7 @@ public class Client extends Network {
   }
 
   /**
-   * @throws IOException
+   *
    * @author Carina
    * @use Due to a bug where we are getting the constructor which is not contructed at the time we create the Constructor and call the create object to create the sockets and stream
    * @see Client
@@ -56,8 +55,6 @@ public class Client extends Network {
       clientThread = new ClientThread(socket, 0);
       clientThread.start();
       test();
-    } catch (ConnectException exe) {
-      System.out.println("Cant connect to server? Is it running?");
     } catch (IOException | InterruptedException e) {
       e.printStackTrace();
     }
@@ -67,7 +64,7 @@ public class Client extends Network {
    * @author Carina
    * Logic to test some things!
    */
-  public void test() throws InterruptedException, IOException {
+  public void test() throws InterruptedException {
     JSONObject object = new JSONObject();
     object.put("type", Packets.CREATEGAME.getPacketType());
     object.put("punishment", 0);

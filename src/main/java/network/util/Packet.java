@@ -1,5 +1,6 @@
 package network.util;
 
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
 
 /**
@@ -20,17 +21,17 @@ public class Packet {
    * @author Carina
    * @use seperate the single objects in the string with a #
    */
-  public Packet(JSONObject json) {
+  public Packet(@NotNull final JSONObject json) {
     this.packetType = json.getString("type");
     this.jsonObject = json;
   }
 
   /**
-   * @return the String that is the content of the packet
+   *
    * @author Carina
    * @use get the String from the packet and modify it
    */
-  public void modifyType(String type) {
+  public void modifyType(@NotNull final String type) {
     packetType = type;
     jsonObject.put("type", packetType);
   }

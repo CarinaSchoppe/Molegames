@@ -4,6 +4,7 @@ import game.util.Game;
 import network.util.Network;
 import network.util.Packet;
 import network.util.Packets;
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -34,15 +35,15 @@ public class Server extends Network {
    * @use creates a Server with a @param serverSocket and uses this one to create a ServerThread which will handle the Inputreading and got info about the Outputsending
    * adds every ServerThread to a List and adds an Id to it and puts that into a Map
    */
-  public Server(int port, String ip) {
+  public Server(final int port, @NotNull final String ip) {
     super(port, ip);
   }
 
   /**
    * @author Carina
    * @use creates the Server starts it and runs the handler for the incomming client-connections
+   * @see NetworkThread as the Network for the instance of the ServerThread
    * @see ServerThread as an instance that will be created here
-   * @NetworkThread as the Network for the instance of the ServerThread
    */
   @Override
   public void create() {
@@ -75,15 +76,10 @@ public class Server extends Network {
   public static HashMap<Integer, ServerThread> getThreadIds() {
     return threadIds;
   }
-  /**
-   * @throws IOException
-   * @author Carina
-   * @use Due to a bug where we are getting the constructor which is not contructed at the time we create the Constructor and call the create object to create the sockets and stream
-   * @see Server
-   */
+
 
   /**
-   * @param clients Arraylist of the clients that are connected
+   * @param game the game that all clients are connected to
    * @param packet  the packet that should be send
    * @use the method will send a packet to all connected clients of the game
    */
@@ -104,5 +100,4 @@ public class Server extends Network {
   public static ArrayList<ServerThread> getClientThreads() {
     return clientThreads;
   }
-
 }

@@ -1,5 +1,7 @@
 package network.util;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.net.Socket;
 
 public abstract class Network {
@@ -22,7 +24,7 @@ public abstract class Network {
    * @param ip   for a network instance
    * @author Carina
    */
-  public Network(int port, String ip) {
+  public Network(final int port, @NotNull final String ip) {
     this.port = port;
     this.ip = ip;
   }

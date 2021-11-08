@@ -9,7 +9,7 @@ public class Mole {
   private final Field field;
   private boolean inHole = false;
 
-  public Mole( Floors floor, Field field) {
+  public Mole(Floors floor, Field field) {
     this.floor = floor;
     this.field = field;
   }

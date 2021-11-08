@@ -1,5 +1,7 @@
 package gameplay.player;
 
+import org.jetbrains.annotations.NotNull;
+
 public enum PlayerStates {
 
   WAIT(0),
@@ -21,7 +23,7 @@ public enum PlayerStates {
    * @param id the id that will get the matching PlayerState as a return
    * @return PlayerStates
    */
-  public PlayerStates getByID(int id) {
+  public PlayerStates getByID(final int id) {
     switch (id) {
       case 0:
       case 3:

@@ -1,13 +1,14 @@
 package game.util;
 
 import network.server.ServerThread;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 
 /**
  * @author Carina
  * @use the handler that is handling the multi game mechanics that are running by
- * @see Server the server that is using this clas
+ * @see network.server.Server the server that is using this clas
  * @see ServerThread the thread that is instanciated by the server
  */
 public class MultiGameHandler {
@@ -18,12 +19,12 @@ public class MultiGameHandler {
   private int gameIDs = 0;
 
   /**
-   * @author Carina
    * @param punishment the one that will be set as a default
-   * @use creates the new Game
    * @return the game id
+   * @author Carina
+   * @use creates the new Game
    */
-  public void createNewGame(Punishments punishment, int radius, int maxFloors) {
+  public void createNewGame(@NotNull Punishments punishment, final int radius, final int maxFloors) {
     Game game = new Game(punishment, gameIDs, radius, maxFloors);
     games.put(gameIDs, game);
     gameIDs++;

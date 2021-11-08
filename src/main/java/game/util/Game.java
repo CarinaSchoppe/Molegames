@@ -4,6 +4,7 @@ import game.map.Map;
 import network.server.ServerThread;
 import network.util.Packet;
 import network.util.Packets;
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -32,7 +33,7 @@ public class Game extends Thread {
     }
   }
 
-  public void joinGame(ServerThread client, boolean spectator) throws IOException {
+  public void joinGame(@NotNull final ServerThread client, final boolean spectator) {
     clients.add(client);
     JSONObject object = new JSONObject();
     object.put("type", Packets.JOINEDGAME.getPacketType());

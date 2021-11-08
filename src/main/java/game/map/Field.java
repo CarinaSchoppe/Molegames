@@ -1,11 +1,12 @@
 package game.map;
 
+import org.jetbrains.annotations.NotNull;
+
 public class Field {
   private final int[] id;
   private boolean occupied;
   private boolean hole;
   private boolean doubleMove = false;
-
 
   public boolean isDoubleMove() {
     return doubleMove;
@@ -15,7 +16,7 @@ public class Field {
     this.doubleMove = doubleMove;
   }
 
-  public Field(int[] id) {
+  public Field(final int[] id) {
     this.id = id;
   }
 
@@ -35,7 +36,7 @@ public class Field {
     this.occupied = occupied;
   }
 
-  public void setHole(boolean hole) {
+  public void setHole(final boolean hole) {
     this.hole = hole;
   }
 
@@ -44,11 +45,11 @@ public class Field {
     return "field x: " + id[0] + " y: " + id[1];
   }
 
-  public int getY(){
+  public int getY() {
     return id[1];
   }
 
-  public int getX(){
+  public int getX() {
     return id[0];
   }
 }

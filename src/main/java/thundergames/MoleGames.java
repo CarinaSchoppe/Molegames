@@ -5,6 +5,9 @@ import game.util.MultiGameHandler;
 import gameplay.ai.AI;
 import network.client.Client;
 import network.server.Server;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.Objects;
 
 /**
  * @author Carina
@@ -25,12 +28,12 @@ public class MoleGames {
    * @author Carina
    * @use MainClass start
    */
-  public static void main(String... args) {
+  public static void main(@Nullable String... args) {
     moleGames = new MoleGames();
     if (args.length == 0) {
       Client.ClientMain();
     } else {
-      switch (args[0]) {
+      switch (Objects.requireNonNull(args[0])) {
         case "-c":
         case "c":
         case "-p":
@@ -46,6 +49,7 @@ public class MoleGames {
           break;
         case "-a":
         case "a":
+          assert args[2] != null;
           moleGames.AI = new AI(true, args[1], Integer.parseInt(args[2]));
       }
     }

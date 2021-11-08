@@ -1,5 +1,7 @@
 package game.map;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -9,19 +11,16 @@ public class Map {
   private int floor;
   private final int maxFloors;
 
-
-  public Map(int radius, int maxFloors) {
+  public Map(final int radius, final int maxFloors) {
     this.radius = radius;
     this.maxFloors = maxFloors;
   }
 
-  private final ArrayList<Field> fields = new ArrayList();
+  private final ArrayList<Field> fields = new ArrayList<>();
   private final HashMap<int[], Field> fieldCounter = new HashMap<>();
   private final ArrayList<Hole> holes = new ArrayList<>();
   private final ArrayList<Field> occupied = new ArrayList<>();
   private final ArrayList<Field> doubleMoves = new ArrayList<>();
-
-
 
   /**
    * @author Carina

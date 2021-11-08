@@ -5,6 +5,7 @@ import game.util.GameStates;
 import game.util.MultiGameHandler;
 import game.util.Punishments;
 import network.server.ServerThread;
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
 import thundergames.MoleGames;
 
@@ -21,7 +22,7 @@ public class PacketHandler {
    * @see Packets the packets that can be send-
    */
 
-  public static void handlePacket(Packet packet, ServerThread clientConnection) throws IOException {
+  public static void handlePacket(@NotNull final Packet packet, @NotNull final ServerThread clientConnection) throws IOException {
     if (packet.getPacketType().equalsIgnoreCase(Packets.CREATEGAME.getPacketType())) {
       //    "CREATE-GAME#ID"
       int maxFloors = -1;

@@ -1,6 +1,7 @@
 package network.server;
 
 import network.util.NetworkThread;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.net.Socket;
@@ -12,7 +13,7 @@ public class ServerThread extends NetworkThread {
    * @param id     Serverthread id
    * @author Carina
    */
-  public ServerThread(Socket socket, int id) throws IOException {
+  public ServerThread(@NotNull final Socket socket, final int id) throws IOException {
     super(socket, id);
   }
 

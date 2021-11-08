@@ -1,9 +1,12 @@
 package game.map;
 
-public class Hole   {
-  int[] id = new int[2];
+import org.jetbrains.annotations.NotNull;
+
+public class Hole {
+  final int[] id;
   boolean used;
-  public Hole(int[] id, boolean used) {
+
+  public Hole(final int[] id, final boolean used) {
     this.id = id;
     this.used = used;
   }
