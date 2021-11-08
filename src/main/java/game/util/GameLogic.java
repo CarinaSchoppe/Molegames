@@ -22,11 +22,11 @@ public class GameLogic {
           if (stop[0] - start[0] == 0) {
             for (int i = 1; i < moveCounter; i++) {
               if (stop[1] - start[1] > 0) {
-                if (field.getY() == start[1] + i) {
+                if (field.getY() == start[1] + i && field.getX() == start[0]) {
                   return false;
                 }
               } else if (stop[1] - start[1] < 0) {
-                if (field.getY() == start[1] - i) {
+                if (field.getY() == start[1] - i && field.getX() == start[0]) {
                   return false;
                 }
               }
@@ -34,11 +34,11 @@ public class GameLogic {
           } else if (stop[1] - start[1] == 0) {
             for (int i = 1; i < moveCounter; i++) {
               if (stop[0] - start[0] > 0) {
-                if (field.getX() == start[0] + i) {
+                if (field.getX() == start[0] + i && field.getY() == start[1]) {
                   return false;
                 }
               } else if (stop[0] - start[0] < 0) {
-                if (field.getX() == start[0] - i) {
+                if (field.getX() == start[0] - i && field.getY() == start[1]) {
                   return false;
                 }
               }
