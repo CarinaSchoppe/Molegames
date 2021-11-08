@@ -16,7 +16,7 @@ public class GameLogic {
    */
   private synchronized boolean wasLegalMove(int[] start, int[] stop, int moveCounter, Map map) {
     //check if player moved to much
-    if (map.getFieldCounter().containsKey(start) && map.getFieldCounter().containsKey(stop)) {
+    if (map.getFieldCounter().containsKey(start) && map.getFieldCounter().containsKey(stop) && start != stop) {
       if (stop[0] - start[0] == 0 && Math.abs(stop[1] - start[1]) == moveCounter || start[1] - stop[1] == 0 && Math.abs(stop[0] - start[0]) == moveCounter || Math.abs(stop[0] - start[0]) == Math.abs(stop[1] - start[1]) && Math.abs(start[1] - stop[1]) == moveCounter) {
         for (Field field : map.getOccupied()) {
           if (stop[0] - start[0] == 0) {
@@ -25,7 +25,7 @@ public class GameLogic {
                 if (field.getY() == start[1] + i) {
                   return false;
                 }
-              } else {
+              } else if (stop[1] - start[1] < 0) {
                 if (field.getY() == start[1] - i) {
                   return false;
                 }
@@ -37,7 +37,7 @@ public class GameLogic {
                 if (field.getX() == start[0] + i) {
                   return false;
                 }
-              } else {
+              } else if (stop[0] - start[0] < 0) {
                 if (field.getX() == start[0] - i) {
                   return false;
                 }
