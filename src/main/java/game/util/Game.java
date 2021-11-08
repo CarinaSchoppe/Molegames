@@ -60,4 +60,7 @@ public class Game extends Thread {
   public int getGameId() {
     return gameID;
   }
+
+  public void madeAMove(ServerThread player, Packet packet) {
+  }
 }

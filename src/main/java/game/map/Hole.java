@@ -7,4 +7,8 @@ public class Hole   {
     this.id = id;
     this.used = used;
   }
+
+  public void setUsed(boolean used) {
+    this.used = used;
+  }
 }

@@ -33,7 +33,7 @@ public class GameLogic {
             }
           } else if (stop[1] - start[1] == 0) {
             for (int i = 1; i < moveCounter; i++) {
-              if (start[0] - start[0] > 0) {
+              if (stop[0] - start[0] > 0) {
                 if (field.getX() == start[0] + i) {
                   return false;
                 }
@@ -50,11 +50,11 @@ public class GameLogic {
                   return false;
                 }
               } else if (stop[0] - start[0] < 0 && stop[1] - start[1] > 0) {
-                if (field.getX() == start[0] + i && field.getY() == start[1] - i) {
+                if (field.getX() == start[0] - i && field.getY() == start[1] + i) {
                   return false;
                 }
-              } else if (stop[0] - start[0] < 0 && stop[1] - start[1] < 0) {
-                if (field.getX() == start[0] - i && field.getY() == start[1] + i) {
+              } else if (stop[0] - start[0] > 0 && stop[1] - start[1] < 0) {
+                if (field.getX() == start[0] + i && field.getY() == start[1] - i) {
                   return false;
                 }
               } else if (stop[0] - start[0] < 0 && stop[1] - start[1] < 0) {

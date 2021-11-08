@@ -147,7 +147,7 @@ public abstract class NetworkThread extends Thread {
    * @author Carina
    * @use create a Packet instance of a packet you want to send and pass it in in form of a string seperating the objects with #
    */
-  public void sendPacket(Packet data) throws IOException {
+  public void sendPacket(Packet data) {
     writer.println(data.getJsonObject().toString());
   }
 

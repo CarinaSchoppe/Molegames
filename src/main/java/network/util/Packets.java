@@ -17,8 +17,6 @@ public enum Packets {
   INGAME(8, "INGAME"),
   NOTEXISTS(9, "NOT-EXISTS");
 
-
-
   private final int id;
   private final String packetType;
 

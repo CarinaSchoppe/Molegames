@@ -1,5 +1,6 @@
 package thundergames;
 
+import game.util.GameLogic;
 import game.util.MultiGameHandler;
 import gameplay.ai.AI;
 import network.client.Client;
@@ -18,7 +19,7 @@ public class MoleGames {
   private Server server;
   private MultiGameHandler gameHandler;
   private AI AI;
-
+  private GameLogic gameLogic;
 
   /**
    * @author Carina
@@ -40,6 +41,7 @@ public class MoleGames {
         case "s":
           moleGames.server = new Server(5000, "127.0.0.1");
           moleGames.gameHandler = new MultiGameHandler();
+          moleGames.gameLogic = new GameLogic();
           moleGames.server.create();
           break;
         case "-a":
