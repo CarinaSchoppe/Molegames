@@ -5,6 +5,7 @@ import de.thundergames.game.util.MultiGameHandler;
 import de.thundergames.gameplay.ai.AI;
 import de.thundergames.network.client.Client;
 import de.thundergames.network.server.Server;
+import de.thundergames.network.util.PacketHandler;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
@@ -23,6 +24,7 @@ public class MoleGames {
   private MultiGameHandler gameHandler;
   private AI AI;
   private GameLogic gameLogic;
+  private PacketHandler packetHandler;
 
   /**
    * @author Carina
@@ -43,6 +45,7 @@ public class MoleGames {
         case "-s":
         case "s":
           moleGames.server = new Server(5000, "127.0.0.1");
+          moleGames.packetHandler = new PacketHandler();
           moleGames.gameHandler = new MultiGameHandler();
           moleGames.gameLogic = new GameLogic();
           moleGames.server.create();
@@ -65,5 +68,10 @@ public class MoleGames {
 
   public Server getServer() {
     return server;
+  }
+
+
+  public PacketHandler getPacketHandler() {
+    return packetHandler;
   }
 }

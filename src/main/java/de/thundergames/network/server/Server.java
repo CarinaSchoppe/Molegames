@@ -1,23 +1,21 @@
 package de.thundergames.network.server;
 
+import de.thundergames.MoleGames;
 import de.thundergames.game.util.Game;
 import de.thundergames.network.util.Network;
 import de.thundergames.network.util.Packet;
-import de.thundergames.network.util.Packets;
 import org.jetbrains.annotations.NotNull;
-import org.json.JSONObject;
 
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 
 public class Server extends Network {
 
   private static final ArrayList<ServerThread> clientThreads = new ArrayList<>();
   private static final HashMap<Integer, ServerThread> threadIds = new HashMap<>();
-  private static int threadId = 0;
+  private static int threadID = 0;
   private static boolean keyboard = false;
 
   public static void setKeyboard(final boolean keyboard) {
@@ -52,15 +50,12 @@ public class Server extends Network {
       System.out.println("Server listening on port " + getPort());
       while (true) {
         socket = serverSocket.accept();
-        ServerThread serverThread = new ServerThread(socket, threadId);
+        ServerThread serverThread = new ServerThread(socket, threadID);
         serverThread.start();
-        JSONObject object = new JSONObject();
-        object.put("type", Packets.GIVEID.getPacketType());
-        object.put("id", threadId);
-        serverThread.sendPacket(new Packet(object));
+        MoleGames.getMoleGames().getPacketHandler().loginPacket(serverThread, threadID);
         getClientThreads().add(serverThread);
         threadIds.put(serverThread.getConnectionId(), serverThread);
-        threadId++;
+        threadID++;
       }
     } catch (IOException e) {
       e.printStackTrace();

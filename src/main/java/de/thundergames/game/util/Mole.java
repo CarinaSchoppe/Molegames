@@ -9,10 +9,16 @@ public class Mole {
   private final Floors floor;
   private final Field field;
   private boolean inHole = false;
+  private final int MoleID;
 
-  public Mole(@NotNull final Floors floor, @NotNull final Field field) {
+  public Mole(@NotNull final Floors floor, @NotNull final Field field, int moleID) {
     this.floor = floor;
     this.field = field;
+    MoleID = moleID;
+  }
+
+  public int getMoleID() {
+    return MoleID;
   }
 
   public Floors getFloor() {

@@ -1,10 +1,11 @@
 package de.thundergames.game.util;
 
-import de.thundergames.game.map.Field;
 import de.thundergames.game.map.Map;
 import org.jetbrains.annotations.NotNull;
 
 public class GameLogic {
+
+
 
   /**
    * @param start       the startpoint in form of x and y

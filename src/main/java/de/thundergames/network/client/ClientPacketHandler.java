@@ -14,7 +14,7 @@ public class ClientPacketHandler {
    * @see de.thundergames.network.util.PacketHandler the packetHandler by the Server as a reference
    */
   public void handlePacket(Client client, @NotNull Packet packet) {
-    if (packet.getPacketType().equalsIgnoreCase(Packets.GIVEID.getPacketType())) {
+    if (packet.getPacketType().equalsIgnoreCase(Packets.LOGIN.getPacketType())) {
       //ID : 3
       var id = packet.getJsonObject().getInt("id");
       client.setId(id);

@@ -1,5 +1,6 @@
 package de.thundergames.network.util;
 
+import de.thundergames.MoleGames;
 import de.thundergames.network.client.Client;
 import de.thundergames.network.client.ClientThread;
 import de.thundergames.network.server.Server;
@@ -134,7 +135,7 @@ public abstract class NetworkThread extends Thread {
   public void readStringPacketInput(@NotNull final Packet packet, @NotNull final NetworkThread reciever) throws IOException {
     //TODO: How to handle the packet from the client! Player has moved -> now in a hole and than handle it
     if (reciever instanceof ServerThread) {
-      PacketHandler.handlePacket(packet, (ServerThread) reciever);
+      MoleGames.getMoleGames().getPacketHandler().handlePacket(packet, (ServerThread) reciever);
     } else if (reciever instanceof ClientThread) {
       Client.getClient().getClientPacketHandler().handlePacket(Client.getClient(), packet);
     }

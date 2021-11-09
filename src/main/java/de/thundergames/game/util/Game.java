@@ -1,11 +1,10 @@
 package de.thundergames.game.util;
 
+import de.thundergames.MoleGames;
 import de.thundergames.game.map.Map;
 import de.thundergames.network.server.ServerThread;
 import de.thundergames.network.util.Packet;
-import de.thundergames.network.util.Packets;
 import org.jetbrains.annotations.NotNull;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -15,6 +14,7 @@ public class Game extends Thread {
   private final Punishments punishment;
   private final int gameID;
   private final Map map;
+  private int[] cards;
   private final GameStates currentGameState = GameStates.LOBBY;
 
   public Game(@NotNull final Punishments punishment, final int gameID, final int radius, final int maxFloors) {
@@ -34,10 +34,7 @@ public class Game extends Thread {
 
   public void joinGame(@NotNull final ServerThread client, final boolean spectator) {
     clients.add(client);
-    var object = new JSONObject();
-    object.put("type", Packets.JOINEDGAME.getPacketType());
-    object.put("gameID", gameID);
-    client.sendPacket(new Packet(object));
+    MoleGames.getMoleGames().getPacketHandler().joinedGamePacket(client, gameID);
     MultiGameHandler.getClientGames().put(client, this);
   }
 
@@ -62,5 +59,13 @@ public class Game extends Thread {
   }
 
   public void madeAMove(ServerThread player, Packet packet) {
+  }
+
+  public int[] getCards() {
+    return cards;
+  }
+
+  public void setCards(int[] cards) {
+    this.cards = cards;
   }
 }

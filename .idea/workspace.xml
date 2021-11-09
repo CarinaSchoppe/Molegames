@@ -5,15 +5,33 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="be3cb084-59c3-4961-a8ca-1927ee350281" name="Changes" comment="added @annotations&#10;added some final modifiers&#10;redo of the map radius">
-      <change beforePath="$PROJECT_DIR$/.gradle/7.1/dependencies-accessors/dependencies-accessors.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.1/dependencies-accessors/dependencies-accessors.lock" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/de/thundergames/game/util/Player.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/GameMasterHandler.fxml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/grafik.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/7.1/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.1/executionHistory/executionHistory.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/7.1/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.1/executionHistory/executionHistory.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/7.1/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.1/fileHashes/fileHashes.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/7.1/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.1/fileHashes/fileHashes.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/checksums/checksums.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/checksums/checksums.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/checksums/md5-checksums.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/checksums/md5-checksums.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/checksums/sha1-checksums.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/checksums/sha1-checksums.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/jarRepositories.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/MoleGames.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/thundergames/MoleGames.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/game/map/Floors.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/thundergames/game/map/Floors.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/game/map/Map.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/thundergames/game/map/Map.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/game/util/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/thundergames/game/util/Game.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/game/util/GameLogic.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/thundergames/game/util/GameLogic.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/game/util/Mole.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/thundergames/game/util/Mole.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/gameplay/gamemaster/GameMasterHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/thundergames/gameplay/gamemaster/GameMasterHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/network/client/ClientPacketHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/thundergames/network/client/ClientPacketHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/network/server/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/thundergames/network/server/Server.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/network/util/NetworkThread.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/thundergames/network/util/NetworkThread.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/network/util/PacketHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/thundergames/network/util/PacketHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/network/util/Packets.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/thundergames/network/util/Packets.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -24,13 +42,13 @@
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
     </projectState>
-    <projectState path="$PROJECT_DIR$">
-      <ProjectState />
-    </projectState>
   </component>
   <component name="ExternalProjectsManager">
     <system id="GRADLE">
       <state>
+        <task path="$PROJECT_DIR$">
+          <activation />
+        </task>
         <task path="$PROJECT_DIR$">
           <activation />
         </task>
@@ -50,18 +68,7 @@
                 <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
                 <item name="SwtPra10" type="f1a62948:ProjectNode" />
                 <item name="Tasks" type="e4a08cd1:TasksNode" />
-                <item name="build" type="c8890929:TasksNode$1" />
-              </path>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="SwtPra10" type="f1a62948:ProjectNode" />
-                <item name="Tasks" type="e4a08cd1:TasksNode" />
-                <item name="shadow" type="c8890929:TasksNode$1" />
-              </path>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="SwtPra10" type="f1a62948:ProjectNode" />
-                <item name="Dependencies" type="6de06a37:ExternalSystemViewDefaultContributor$MyDependenciesNode" />
+                <item name="application" type="c8890929:TasksNode$1" />
               </path>
             </expand>
             <select />
@@ -73,6 +80,7 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="FxmlFile" />
         <option value="Class" />
       </list>
     </option>
@@ -166,7 +174,7 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="add_unversioned_files" value="$PROJECT_DIR$/build/classes/java/main/game/util/Game.class" />
     <property name="codeWithMe.voiceChat.enabledByDefault" value="false" />
-    <property name="last_opened_file_path" value="$USER_HOME$/Downloads/Swtpra06" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/resources" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
@@ -176,13 +184,36 @@
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="run.code.analysis.last.selected.profile" value="aDefault" />
-    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+    <property name="settings.editor.selected.configurable" value="preferences.JavaFX" />
   </component>
-  <component name="RunManager" selected="Gradle.SwtPra10 [shadowJar]">
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Carina\ProgrammingProjects\SwtPra10\src\main\resources" />
+      <recent name="C:\Users\Carina\ProgrammingProjects\SwtPra10\src\test\resources" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Carina\ProgrammingProjects\SwtPra10\src\main\resources" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Application.GameMasterHandler">
     <configuration name="Client" type="Application" factoryName="Application" singleton="false">
       <option name="MAIN_CLASS_NAME" value="de.thundergames.MoleGames" />
       <module name="SwtPra10.main" />
       <option name="PROGRAM_PARAMETERS" value="-c" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="GameMasterHandler" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="de.thundergames.gameplay.gamemaster.GameMasterHandler" />
+      <module name="SwtPra10.main" />
+      <option name="VM_PARAMETERS" value="--module-path &quot;C:\Users\Carina\Carina\Programmieren\API\javafx-sdk-17.0.1\lib&quot; --add-modules javafx.controls,javafx.fxml" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="de.thundergames.gameplay.gamemaster.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -200,27 +231,6 @@
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
-    </configuration>
-    <configuration name="SwtPra10 [build]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
-      <ExternalSystemSettings>
-        <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" />
-        <option name="taskDescriptions">
-          <list />
-        </option>
-        <option name="taskNames">
-          <list>
-            <option value="build" />
-          </list>
-        </option>
-        <option name="vmOptions" />
-      </ExternalSystemSettings>
-      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
-      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
-      <DebugAllEnabled>false</DebugAllEnabled>
-      <method v="2" />
     </configuration>
     <configuration name="SwtPra10 [shadowJar]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
@@ -309,7 +319,7 @@
     <list>
       <item itemvalue="Application.Client" />
       <item itemvalue="Application.Server" />
-      <item itemvalue="Gradle.SwtPra10 [build]" />
+      <item itemvalue="Application.GameMasterHandler" />
       <item itemvalue="Gradle.SwtPra10 [shadowJar]" />
       <item itemvalue="Gradle.swtpra10 [build]" />
       <item itemvalue="Gradle.swtpra10 [clean] (2)" />
@@ -317,11 +327,11 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.GameMasterHandler" />
         <item itemvalue="Gradle.swtpra10 [shadowJar]" />
         <item itemvalue="Gradle.swtpra10 [clean] (2)" />
         <item itemvalue="Gradle.swtpra10 [build]" />
         <item itemvalue="Gradle.SwtPra10 [shadowJar]" />
-        <item itemvalue="Gradle.SwtPra10 [build]" />
       </list>
     </recent_temporary>
   </component>
@@ -399,7 +409,9 @@
       <workItem from="1636401377490" duration="613000" />
       <workItem from="1636406354438" duration="37000" />
       <workItem from="1636406748426" duration="905000" />
-      <workItem from="1636409044735" duration="254000" />
+      <workItem from="1636409044735" duration="303000" />
+      <workItem from="1636447214369" duration="885000" />
+      <workItem from="1636448238652" duration="6088000" />
     </task>
     <task id="LOCAL-00001" summary=".">
       <created>1635509834411</created>
@@ -583,7 +595,14 @@
       <option name="project" value="LOCAL" />
       <updated>1636391533714</updated>
     </task>
-    <option name="localTasksCounter" value="27" />
+    <task id="LOCAL-00027" summary="added @annotations&#10;added some final modifiers&#10;redo of the map radius">
+      <created>1636409317617</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1636409317618</updated>
+    </task>
+    <option name="localTasksCounter" value="28" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

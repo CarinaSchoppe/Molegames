@@ -6,18 +6,20 @@ import java.util.HashMap;
 public class Map {
 
   private final int radius;
-  private int floor;
   private final int maxFloors;
+  private Floors floor;
+  private int currentFloor;
+  private int holeAmount;
+  private int doubleDrawFields;
 
   public Map(final int radius, final int maxFloors) {
     this.radius = radius + 1;
-    floor = maxFloors;
     this.maxFloors = maxFloors;
+    currentFloor = maxFloors;
   }
 
   private final ArrayList<Field> fields = new ArrayList<>();
   private final HashMap<int[], Field> fieldCounter = new HashMap<>();
-  private final ArrayList<Hole> holes = new ArrayList<>();
   private final ArrayList<Field> occupied = new ArrayList<>();
   private final ArrayList<Field> doubleMoves = new ArrayList<>();
 
@@ -26,6 +28,7 @@ public class Map {
    * @use creates the mapfield in the comitee decided designway
    */
   public synchronized void createMap() {
+    floor = new Floors(currentFloor, holeAmount, doubleDrawFields, this);
     //Top left to mid right
     fields.clear();
     for (var y = 0; y < radius; y++) {
@@ -69,8 +72,36 @@ public class Map {
     return radius;
   }
 
-  public int getFloor() {
+  public Floors getFloor() {
     return floor;
+  }
+
+  public int getCurrentFloor() {
+    return currentFloor;
+  }
+
+  public int getHoleAmount() {
+    return holeAmount;
+  }
+
+  public int getDoubleDrawFields() {
+    return doubleDrawFields;
+  }
+
+  public void setFloor(Floors floor) {
+    this.floor = floor;
+  }
+
+  public void setCurrentFloor(int currentFloor) {
+    this.currentFloor = currentFloor;
+  }
+
+  public void setHoleAmount(int holeAmount) {
+    this.holeAmount = holeAmount;
+  }
+
+  public void setDoubleDrawFields(int doubleDrawFields) {
+    this.doubleDrawFields = doubleDrawFields;
   }
 
   public int getMaxFloors() {
@@ -81,9 +112,6 @@ public class Map {
     return fieldCounter;
   }
 
-  public ArrayList<Hole> getHoles() {
-    return holes;
-  }
 
   public ArrayList<Field> getOccupied() {
     return occupied;
