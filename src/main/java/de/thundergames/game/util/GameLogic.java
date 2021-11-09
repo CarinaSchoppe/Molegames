@@ -72,4 +72,9 @@ public class GameLogic {
     }
     return false;
   }
+
+  public void performPunishment(Player player) {
+    if (!player.getGame().getSettings().getPunishment().equals(Punishments.NOTHING)) {
+    }
+  }
 }
