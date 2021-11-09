@@ -35,12 +35,13 @@ public class Client extends Network {
    * @see MoleGames
    */
   public static void ClientMain() {
-    client = new Client(5000, "127.0.0.1");
+    client = new Client(5000, "127.0.0.1", "Carina");
     client.create();
   }
 
-  public Client(int port, String ip) {
+  public Client(int port, String ip, String name) {
     super(port, ip);
+    this.name = name;
     clientPacketHandler = new ClientPacketHandler();
   }
 
@@ -71,6 +72,10 @@ public class Client extends Network {
    */
   public void test() throws InterruptedException {
     JSONObject object;
+    object = new JSONObject();
+    object.put("name", name);
+    object.put("type", Packets.NAME.getPacketType());
+    clientThread.sendPacket(new Packet(object));
     object = new JSONObject();
     object.put("type", Packets.CREATEGAME.getPacketType());
     var packet = new Packet(object);

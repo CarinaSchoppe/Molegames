@@ -50,6 +50,7 @@ public class PacketHandler {
       startGamePacket(packet);
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.NAME.getPacketType())) {
       clientConnection.setClientName(packet.getJsonObject().getString("name"));
+      System.out.println("Client with id: " + clientConnection.id + " got the name:"+ packet.getJsonObject().getString("name"));
     } else {
       throw new PacketNotExistsException("Packet not exists");
     }
