@@ -13,7 +13,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.net.SocketException;
 import java.nio.charset.StandardCharsets;
 
 public abstract class NetworkThread extends Thread {
@@ -77,9 +76,6 @@ public abstract class NetworkThread extends Thread {
           disconnect();
         }
       }
-    } catch (SocketException e) {
-      disconnect();
-      System.out.println("Lost Socket Connection!");
     } catch (IOException | PacketNotExistsException exception) {
       exception.printStackTrace();
     } finally {
@@ -132,7 +128,7 @@ public abstract class NetworkThread extends Thread {
    * @author Carina
    * @use it will automaticlly pass it forwards to the Server or Client to handle the Packet depending on who recieved it (Server- or Client thread)
    */
-  public void readStringPacketInput(@NotNull final Packet packet, @NotNull final NetworkThread reciever) throws IOException, PacketNotExistsException {
+  public void readStringPacketInput(@NotNull final Packet packet, @NotNull final NetworkThread reciever) throws PacketNotExistsException {
     //TODO: How to handle the packet from the client! Player has moved -> now in a hole and than handle it
     if (reciever instanceof ServerThread) {
       MoleGames.getMoleGames().getPacketHandler().handlePacket(packet, (ServerThread) reciever);

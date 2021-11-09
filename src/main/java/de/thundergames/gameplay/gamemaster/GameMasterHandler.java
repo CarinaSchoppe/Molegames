@@ -40,13 +40,14 @@ public class GameMasterHandler extends Application {
     assert ViewGame != null : "fx:id=\"ViewGame\" was not injected: check your FXML file 'GameMasterHandler.fxml'.";
     assert startButton != null : "fx:id=\"startButton\" was not injected: check your FXML file 'GameMasterHandler.fxml'.";
   }
-    @Override
+
+  @Override
   public void start(Stage primaryStage) throws Exception {
-      location = new File("src/main/resources/GameMasterHandler.fxml").toURI().toURL();
-      Parent root = FXMLLoader.load(location);
-      primaryStage.setTitle("GameMasterHandler");
-      primaryStage.setScene(new Scene(root, 900, 600));
-      primaryStage.show();
+    location = new File("src/main/resources/GameMasterHandler.fxml").toURI().toURL();
+    Parent root = FXMLLoader.load(location);
+    primaryStage.setTitle("GameMasterHandler");
+    primaryStage.setScene(new Scene(root, 900, 600));
+    primaryStage.show();
   }
 
   public static void main(String[] args) {

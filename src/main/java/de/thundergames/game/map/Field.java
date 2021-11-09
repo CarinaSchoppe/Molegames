@@ -6,7 +6,7 @@ public class Field {
   private final List<Integer> id;
   private boolean occupied;
   private boolean hole;
-  private boolean doubleMove = false;
+  private final boolean doubleMove = false;
 
   public Field(final List<Integer> id) {
     this.id = id;

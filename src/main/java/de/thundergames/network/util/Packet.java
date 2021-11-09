@@ -10,7 +10,7 @@ import org.json.JSONObject;
 public class Packet {
 
   private final JSONObject jsonObject;
-  private String packetType;
+  private final String packetType;
 
   public JSONObject getJsonObject() {
     return jsonObject;

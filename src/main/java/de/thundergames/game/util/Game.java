@@ -55,8 +55,13 @@ public class Game extends Thread {
   }
 
   public void performPunishment() {
-    if (settings.getPunishment().equals(Punishments.NOTHING)) {
+    if (!settings.getPunishment().equals(Punishments.NOTHING)) {
     }
+  }
+
+  public void removePlayerFromGame(Player player) {
+    players.remove(player);
+    clientPlayersMap.remove(player.getServerClient());
   }
 
   public ArrayList<Player> getClients() {
