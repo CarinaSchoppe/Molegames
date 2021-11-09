@@ -22,6 +22,14 @@ public class Mole {
     //TODO hier logik einbauen
     return false;
   }
+
+  public void setField(Field field) {
+    this.field = field;
+  }
+
+  public Field getField() {
+    return field;
+  }
 }
 
 

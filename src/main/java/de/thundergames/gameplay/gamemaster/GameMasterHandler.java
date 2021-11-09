@@ -32,7 +32,6 @@ public class GameMasterHandler extends Application {
 
   @FXML
   void OpenSomeThing(ActionEvent event) {
-    System.out.println("test!");
   }
 
   @FXML

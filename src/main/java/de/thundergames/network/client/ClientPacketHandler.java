@@ -1,6 +1,7 @@
 package de.thundergames.network.client;
 
 import de.thundergames.network.util.Packet;
+import de.thundergames.network.util.PacketNotExistsException;
 import de.thundergames.network.util.Packets;
 import org.jetbrains.annotations.NotNull;
 
@@ -13,7 +14,7 @@ public class ClientPacketHandler {
    * @use handles the packet that came in
    * @see de.thundergames.network.util.PacketHandler the packetHandler by the Server as a reference
    */
-  public void handlePacket(Client client, @NotNull Packet packet) {
+  public void handlePacket(Client client, @NotNull Packet packet) throws PacketNotExistsException {
     if (packet.getPacketType().equalsIgnoreCase(Packets.LOGIN.getPacketType())) {
       //ID : 3
       var id = packet.getJsonObject().getInt("id");
@@ -25,6 +26,12 @@ public class ClientPacketHandler {
       client.setGameID(packet.getJsonObject().getInt("gameID"));
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.MESSAGE.getPacketType())) {
       System.out.println("Server sended: " + packet.getJsonObject().getString("message"));
+    } else if (packet.getPacketType().equals(Packets.INVALIDMOVE.getPacketType())) {
+      System.out.println("Server: Youve done an invalid move");
+    } else if (packet.getPacketType().equals(Packets.PLACEMOLE.getPacketType())) {
+    } else if (packet.getPacketType().equals(Packets.MOVEMOLE.getPacketType())) {
+    } else {
+      throw new PacketNotExistsException("Packet with type: " + packet.getPacketType() + " does not exists");
     }
   }
 }

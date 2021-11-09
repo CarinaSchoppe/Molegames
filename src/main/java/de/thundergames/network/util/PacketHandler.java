@@ -155,12 +155,13 @@ public class PacketHandler {
   }
 
   private synchronized void moveMolePacket(@NotNull final Packet packet, @NotNull final ServerThread clientConnection) {
+    var position = MoleGames.getMoleGames().getGameHandler().getClientGames().get(clientConnection).getMoleIDMap().get(packet.getJsonObject().getInt("moleID")).getField();
     MoleGames.getMoleGames().getGameHandler().getClientGames().get(clientConnection).getClientPlayersMap().get(clientConnection).moveMole(
       packet.getJsonObject().getInt("moleID"),
-      packet.getJsonObject().getInt("xStart"),
-      packet.getJsonObject().getInt("yStart"),
-      packet.getJsonObject().getInt("xEnd"),
-      packet.getJsonObject().getInt("yEnd"));
+      position.getX(),
+      position.getY(),
+      packet.getJsonObject().getInt("x"),
+      packet.getJsonObject().getInt("y"));
   }
 
   private synchronized void placeMolePacket(@NotNull final Packet packet, @NotNull final ServerThread clientConnection) {

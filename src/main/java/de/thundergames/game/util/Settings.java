@@ -73,4 +73,8 @@ public class Settings {
   public int getMaxPlayers() {
     return maxPlayers;
   }
+
+  public Punishments getPunishment() {
+    return punishment;
+  }
 }

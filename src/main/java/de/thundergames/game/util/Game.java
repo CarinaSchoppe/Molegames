@@ -40,12 +40,11 @@ public class Game extends Thread {
   }
 
   public synchronized void nextPlayer() {
-    if (players.size()-1 >= players.indexOf(currentPlayer) + 1){
-      System.out.println(players.size() + " +" + players.indexOf(currentPlayer));
-      currentPlayer = players.get(players.indexOf(currentPlayer) + 1);}
-    else currentPlayer = players.get(0);
+    if (players.size() - 1 >= players.indexOf(currentPlayer) + 1) {
+      currentPlayer = players.get(players.indexOf(currentPlayer) + 1);
+    } else currentPlayer = players.get(0);
     currentPlayer.startThinkTimer();
-    System.out.println("Current Player: " + currentPlayer.getServerClient().getConnectionId());
+    System.out.println("Current game: " + gameID + " current-player ID: " + currentPlayer.getServerClient().getConnectionId());
   }
 
   public synchronized void joinGame(@NotNull final Player client, final boolean spectator) {
@@ -53,6 +52,11 @@ public class Game extends Thread {
     players.add(client);
     MoleGames.getMoleGames().getPacketHandler().joinedGamePacket(client.getServerClient(), gameID);
     MoleGames.getMoleGames().getGameHandler().getClientGames().put(client.getServerClient(), this);
+  }
+
+  public void performPunishment() {
+    if (settings.getPunishment().equals(Punishments.NOTHING)) {
+    }
   }
 
   public ArrayList<Player> getClients() {

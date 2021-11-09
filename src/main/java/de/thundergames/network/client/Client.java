@@ -54,7 +54,7 @@ public class Client extends Network {
       clientThread.start();
       test();
     } catch (IOException | InterruptedException e) {
-      e.printStackTrace();
+      System.out.println("Is the server running?!");
     }
   }
 
@@ -78,7 +78,7 @@ public class Client extends Network {
     object.put("gameID", 0);
     object.put("punishment", 0);
     object.put("floors", 5);
-    object.put("radius", 2);
+    object.put("radius", 4);
     clientThread.sendPacket(new Packet(object));
     clientThread.sendPacket(new Packet(jsonObject));
     object = new JSONObject();
@@ -91,17 +91,23 @@ public class Client extends Network {
     object.put("x", 3);
     object.put("y", 2);
     object.put("moleID", 1);
-    clientThread.sendPacket(new Packet(object));
+//    clientThread.sendPacket(new Packet(object));
     object = new JSONObject();
     object.put("type", Packets.PLACEMOLE.getPacketType());
     object.put("x", 0);
     object.put("y", 0);
     object.put("moleID", 2);
-    clientThread.sendPacket(new Packet(object));
+    //clientThread.sendPacket(new Packet(object));
     object = new JSONObject();
     object.put("type", Packets.PLACEMOLE.getPacketType());
+    object.put("moleID", 0);
     object.put("x", 2);
     object.put("y", 1);
+    clientThread.sendPacket(new Packet(object));
+    object = new JSONObject();
+    object.put("type", Packets.MOVEMOLE.getPacketType());
+    object.put("x", 2);
+    object.put("y", 4);
     object.put("moleID", 0);
     clientThread.sendPacket(new Packet(object));
   }

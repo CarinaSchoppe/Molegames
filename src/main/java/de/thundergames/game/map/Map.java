@@ -60,7 +60,7 @@ public class Map {
         System.out.println();
         row = field.getId().get(1);
       }
-      System.out.print("Field X:" + field.getId().get(0) + ", Y:" + field.getId().get(1) + " occupied:" + field.isOccupied() + " ");
+      System.out.print("Field X:" + field.getId().get(0) + ", Y:" + field.getId().get(1) + " occupied:" + field.isOccupied() + "   ");
     }
     System.out.println();
   }

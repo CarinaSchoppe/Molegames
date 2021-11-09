@@ -3,7 +3,6 @@ package de.thundergames.game.util;
 import de.thundergames.game.map.Map;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class GameLogic {
@@ -29,12 +28,12 @@ public class GameLogic {
                   return false;
                 }
               } else if (stop.get(1) - start.get(1) < 0) {
-                if (field.getY() ==start.get(1) - i && field.getX() == start.get(0)) {
+                if (field.getY() == start.get(1) - i && field.getX() == start.get(0)) {
                   return false;
                 }
               }
             }
-          } else if (stop.get(1)- start.get(1) == 0) {
+          } else if (stop.get(1) - start.get(1) == 0) {
             for (var i = 1; i < moveCounter; i++) {
               if (stop.get(0) - start.get(0) > 0) {
                 if (field.getX() == start.get(0) + i && field.getY() == start.get(1)) {
@@ -49,7 +48,7 @@ public class GameLogic {
           } else if (Math.abs(stop.get(0) - start.get(0)) == Math.abs(stop.get(1) - start.get(1))) {
             for (var i = 1; i < moveCounter; i++) {
               if (stop.get(1) - start.get(1) > 0 && stop.get(0) - start.get(0) > 0) {
-                if (field.getX() == start.get(0) + i && field.getY() ==start.get(1) + i) {
+                if (field.getX() == start.get(0) + i && field.getY() == start.get(1) + i) {
                   return false;
                 }
               } else if (stop.get(0) - start.get(0) < 0 && stop.get(1) - start.get(1) > 0) {

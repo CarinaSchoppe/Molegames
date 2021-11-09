@@ -71,49 +71,33 @@ public class Player {
   }
 
   public void moveMole(final int moleID, final int x_start, final int y_start, final int x_end, final int y_end) {
-    if (!game.getCurrentPlayer().equals(this) || hasMoved)
+    if (!game.getCurrentPlayer().equals(this) || hasMoved || getMole(moleID) == null)
       return;
-    Mole mole = null;
-    for (int i = 0; i < moles.size(); i++) {
-      if (moles.get(i).getMoleID() == moleID) {
-        mole = moles.get(i);
-        break;
-      }
-    }
-    if (mole == null)
-      return;
-    if (MoleGames.getMoleGames().getGameLogic().wasLegalMove(Collections.unmodifiableList(Arrays.asList(x_start, y_start)), Collections.unmodifiableList(Arrays.asList(x_end, y_end)), drawCard, game.getMap())) {
+    if (MoleGames.getMoleGames().getGameLogic().wasLegalMove(Collections.unmodifiableList(Arrays.asList(x_start, y_start)), Collections.unmodifiableList(Arrays.asList(x_end, y_end)), 3, game.getMap())) { //TODO: drawCard - 3
+      getMole(moleID).setField(game.getMap().getFloor().getFieldMap().get(Collections.unmodifiableList(Arrays.asList(x_start, y_start))));
       game.getMap().getFloor().getOccupied().remove(game.getMap().getFloor().getFieldMap().get(Collections.unmodifiableList(Arrays.asList(x_start, y_start))));
       game.getMap().getFloor().getOccupied().add(game.getMap().getFloor().getFieldMap().get(Collections.unmodifiableList(Arrays.asList(x_end, y_end))));
       game.getMap().getFloor().getFieldMap().get(Collections.unmodifiableList(Arrays.asList(x_start, y_start))).setOccupied(false);
       game.getMap().getFloor().getFieldMap().get(Collections.unmodifiableList(Arrays.asList(x_end, y_end))).setOccupied(true);
       MoleGames.getMoleGames().getServer().sendToGameClients(game, MoleGames.getMoleGames().getPacketHandler().playerMovesMolePacket(moleID, x_end, y_end));
       hasMoved = true;
+      System.out.println("Player with id: " + serverClient.getConnectionId() + " has moved his mole from: x=" + x_start + " y=" + y_start + " to x=" + x_end + " y=" + y_end + ".");
       timer.cancel();
       timer.purge();
       game.nextPlayer();
-    } else
-      MoleGames.getMoleGames().getPacketHandler().invalidMovePacket(serverClient);
+    } else {
+      System.out.println("Client with id: " + serverClient.getConnectionId() + " has done in invalid move Punishment: " + game.getSettings().getPunishment());
+      serverClient.sendPacket(MoleGames.getMoleGames().getPacketHandler().invalidMovePacket(serverClient));
+    }
   }
 
   public void placeMole(final int x, final int y, final int moleID) {
-    if (!game.getCurrentPlayer().equals(this))
-      return;
-    if (hasMoved)
+    if (!game.getCurrentPlayer().equals(this) || hasMoved || getMole(moleID) == null)
       return;
     if (game.getMap().getFloor().getFieldMap().get(Collections.unmodifiableList(Arrays.asList(x, y))).isOccupied() || game.getMap().getFloor().getFieldMap().get(Collections.unmodifiableList(Arrays.asList(x, y))).isHole()) {
       serverClient.sendPacket(new Packet(new JSONObject().put("type", Packets.OCCUPIED.getPacketType())));
-      System.out.println("hierrr");
     } else {
-      Mole mole = null;
-      for (int i = 0; i < moles.size(); i++) {
-        if (moles.get(i).getMoleID() == moleID) {
-          mole = moles.get(i);
-          break;
-        }
-      }
-      if (mole == null)
-        return;
+      getMole(moleID).setField(game.getMap().getFloor().getFieldMap().get(Collections.unmodifiableList(Arrays.asList(x, y))));
       game.getMap().getFloor().getOccupied().add(game.getMap().getFloor().getFieldMap().get(Collections.unmodifiableList(Arrays.asList(x, y))));
       game.getMap().getFloor().getFieldMap().get(Collections.unmodifiableList(Arrays.asList(x, y))).setOccupied(true);
       MoleGames.getMoleGames().getServer().sendToGameClients(game, MoleGames.getMoleGames().getPacketHandler().playerPlacesMolePacket(moleID, x, y));
@@ -122,8 +106,19 @@ public class Player {
       timer.cancel();
       timer.purge();
       game.nextPlayer();
-
+      System.out.println("Player with id: " + serverClient.getConnectionId() + " has placed his mole on x=" + x + " y=" + y + ".");
     }
+  }
+
+  private Mole getMole(int moleID) {
+    Mole mole = null;
+    for (int i = 0; i < moles.size(); i++) {
+      if (moles.get(i).getMoleID() == moleID) {
+        mole = moles.get(i);
+        return mole;
+      }
+    }
+    return null;
   }
 
   public ArrayList<Mole> getMoles() {

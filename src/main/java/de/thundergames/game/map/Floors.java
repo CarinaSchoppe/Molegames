@@ -29,20 +29,12 @@ public class Floors {
     return map;
   }
 
-  public ArrayList<Hole> getHoles() {
-    return holes;
-  }
-
   public ArrayList<Field> getOccupied() {
     return occupied;
   }
 
   public HashMap<List<Integer>, Field> getFieldMap() {
     return fieldMap;
-  }
-
-  public int getDoubleDrawFields() {
-    return doubleDrawFields;
   }
 
   public ArrayList<Field> getFields() {
