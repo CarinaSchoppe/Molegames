@@ -22,28 +22,32 @@ public class Settings {
   }
 
   public synchronized void updateConfiuration(JSONObject packet) {
-    if (packet.get("randomDraw") != null)
+    if (!packet.isNull("randomDraw"))
       randomDraw = packet.getBoolean("randomDraw");
-    if (packet.get("timeToThink") != null)
+    if (!packet.isNull("timeToThink"))
       timeToThink = packet.getInt("timeToThink");
-    if (packet.get("punishment") != null)
-      punishment = Punishments.valueOf(packet.getString("punishment"));
-    if (packet.get("maxPlayers") != null)
+    if (!packet.isNull("punishment"))
+      punishment = Punishments.getByID(packet.getInt("punishment"));
+    if (!packet.isNull("maxPlayers"))
       maxPlayers = packet.getInt("maxPlayers");
-    if (packet.get("moleAmount") != null)
+    if (!packet.isNull("moleAmount"))
       moleAmount = packet.getInt("moleAmount");
-    if (packet.get("maxFloors") != null)
+    if (!packet.isNull("maxFloors"))
       maxFloors = packet.getInt("maxFloors");
-    if (packet.get("radius") != null) {
+    if (!packet.isNull("radius")) {
       radius = packet.getInt("radius");
       game.setMap(new Map(radius, game));
     }
-    if (packet.get("cards") != null) {
+    if (!packet.isNull("cards")) {
       cards.clear();
       for (int i = 0; i < packet.getJSONArray("cards").length(); i++) {
         cards.add(packet.getJSONArray("cards").getInt(i));
       }
     }
+  }
+
+  public int getMoleAmount() {
+    return moleAmount;
   }
 
   public int getMaxFloors() {

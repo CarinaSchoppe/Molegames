@@ -16,5 +16,12 @@ public enum Punishments {
     return id;
   }
 
-
+  public static synchronized Punishments getByID(int id) {
+    for (Punishments punishment : Punishments.values()) {
+      if (punishment.getId() == id) {
+        return punishment;
+      }
+    }
+    return null;
+  }
 }

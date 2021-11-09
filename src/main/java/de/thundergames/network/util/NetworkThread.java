@@ -68,7 +68,7 @@ public abstract class NetworkThread extends Thread {
               }
             }
             if (this.packet != null) {
-              if (this instanceof ServerThread)
+              if (this instanceof ServerThread && !packet.getPacketType().equals(Packets.MESSAGE.getPacketType()))
                 System.out.println("Client with id: " + this.id + " sended: type: " + packet.getPacketType() + " contents: " + packet.getJsonObject().toString());
               readStringPacketInput(packet, this);
             }

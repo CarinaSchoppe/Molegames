@@ -16,13 +16,16 @@ public class Game extends Thread {
   private final GameStates currentGameState = GameStates.LOBBY;
   private final ArrayList<Player> players = new ArrayList<>();
   private final HashMap<ServerThread, Player> clientPlayersMap = new HashMap<>();
-  private Player currentPlayer;
+  private final HashMap<Player, Mole> moleMap = new HashMap<>();
+  private final HashMap<Integer, Mole> moleIDMap = new HashMap<>();
+  private Player currentPlayer = null;
+  private int moleID = 0;
 
   public Game(final int gameID) {
     this.gameID = gameID;
   }
 
-  public void create() {
+  public synchronized void create() {
     settings = new Settings(this);
     map = new Map(settings.getRadius(), this);
   }
@@ -30,21 +33,22 @@ public class Game extends Thread {
   @Override
   public void run() {
     //TODO: Run a Game!
-    map.createMap();
     if (currentGameState == GameStates.LOBBY) {
-      System.out.println("Starting a de.thundergames.game with the gameID: " + gameID);
+      System.out.println("Starting a game with the gameID: " + gameID);
+      nextPlayer();
     }
   }
 
-  public void nextPlayer() {
-    if (players.size() - 1 >= players.indexOf(currentPlayer) + 1)
-      currentPlayer = players.get(players.indexOf(currentPlayer) + 1);
+  public synchronized void nextPlayer() {
+    if (players.size()-1 >= players.indexOf(currentPlayer) + 1){
+      System.out.println(players.size() + " +" + players.indexOf(currentPlayer));
+      currentPlayer = players.get(players.indexOf(currentPlayer) + 1);}
     else currentPlayer = players.get(0);
-
     currentPlayer.startThinkTimer();
+    System.out.println("Current Player: " + currentPlayer.getServerClient().getConnectionId());
   }
 
-  public void joinGame(@NotNull final Player client, final boolean spectator) {
+  public synchronized void joinGame(@NotNull final Player client, final boolean spectator) {
     clientPlayersMap.put(client.getServerClient(), client);
     players.add(client);
     MoleGames.getMoleGames().getPacketHandler().joinedGamePacket(client.getServerClient(), gameID);
@@ -67,8 +71,24 @@ public class Game extends Thread {
     this.map = map;
   }
 
+  public HashMap<Integer, Mole> getMoleIDMap() {
+    return moleIDMap;
+  }
+
+  public HashMap<Player, Mole> getMoleMap() {
+    return moleMap;
+  }
+
   public HashMap<ServerThread, Player> getClientPlayersMap() {
     return clientPlayersMap;
+  }
+
+  public int getMoleID() {
+    return moleID;
+  }
+
+  public synchronized void setMoleID(int moleID) {
+    this.moleID = moleID;
   }
 
   public Player getCurrentPlayer() {

@@ -45,14 +45,22 @@ public class PacketHandler {
       updateConfigurationPacket(packet);
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.MESSAGE.getPacketType())) {
       System.out.println("MESSAGE: Client with id: " + clientConnection.id + " sended: type: " + packet.getPacketType() + " contents: " + packet.getJsonObject().toString());
+    } else if (packet.getPacketType().equalsIgnoreCase(Packets.GAMESTART.getPacketType())) {
+      startGamePacket(packet);
     } else {
       throw new PacketNotExistsException("Packet not exists");
     }
   }
 
+  private synchronized void startGamePacket(@NotNull final Packet packet) {
+    if (MoleGames.getMoleGames().getGameHandler().getGames().containsKey(packet.getJsonObject().getInt("gameID")))
+      MoleGames.getMoleGames().getGameHandler().getGames().get(packet.getJsonObject().getInt("gameID")).start();
+  }
+
   private synchronized void updateConfigurationPacket(@NotNull final Packet packet) {
-    Game game = MoleGames.getMoleGames().getGameHandler().getClientGames().get(packet.getJsonObject().getInt("gameID"));
-    game.getSettings().updateConfiuration(packet.getJsonObject());
+    Game game = MoleGames.getMoleGames().getGameHandler().getGames().get(packet.getJsonObject().getInt("gameID"));
+    if (game != null)
+      game.getSettings().updateConfiuration(packet.getJsonObject());
   }
 
   private synchronized void nextPlayerPacket(@NotNull final Packet packet, @NotNull final ServerThread clientConnection) {
@@ -171,7 +179,7 @@ public class PacketHandler {
       if (connectType.equalsIgnoreCase("player")) {
         if (game.getCurrentGameState().equals(GameStates.LOBBY)) {
           if (game.getClients().size() < game.getSettings().getMaxPlayers()) {
-            game.joinGame(new Player(clientConnection, game), false);
+            game.joinGame(new Player(clientConnection, game).create(), false);
           } else {
             object.put("type", Packets.FULL.getPacketType());
             clientConnection.sendPacket(new Packet(object));
@@ -181,9 +189,9 @@ public class PacketHandler {
           clientConnection.sendPacket(new Packet(object));
         }
       } else if (connectType.equalsIgnoreCase("spectator"))
-        game.joinGame(new Player(clientConnection, game), true);
+        game.joinGame(new Player(clientConnection, game).create(), true);
       else if (connectType.equalsIgnoreCase("player"))
-        game.joinGame(new Player(clientConnection, game), false);
+        game.joinGame(new Player(clientConnection, game).create(), false);
     } else {
       object.put("type", Packets.NOTEXISTS.getPacketType());
       clientConnection.sendPacket(new Packet(object));

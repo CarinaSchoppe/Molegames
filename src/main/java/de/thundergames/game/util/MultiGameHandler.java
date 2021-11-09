@@ -28,7 +28,6 @@ public class MultiGameHandler {
     game.create();
     games.put(gameIDs, game);
     gameIDs++;
-    game.start();
   }
 
   public HashMap<Integer, Game> getGames() {

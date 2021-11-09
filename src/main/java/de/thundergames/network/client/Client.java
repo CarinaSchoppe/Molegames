@@ -1,10 +1,10 @@
 package de.thundergames.network.client;
 
+import de.thundergames.MoleGames;
 import de.thundergames.network.util.Network;
 import de.thundergames.network.util.Packet;
 import de.thundergames.network.util.Packets;
 import org.json.JSONObject;
-import de.thundergames.MoleGames;
 
 import java.io.IOException;
 import java.net.Socket;
@@ -42,7 +42,6 @@ public class Client extends Network {
   }
 
   /**
-   *
    * @author Carina
    * @use Due to a bug where we are getting the constructor which is not contructed at the time we create the Constructor and call the create object to create the sockets and stream
    * @see Client
@@ -64,11 +63,9 @@ public class Client extends Network {
    * Logic to test some things!
    */
   public void test() throws InterruptedException {
-    var object = new JSONObject();
+    JSONObject object;
+    object = new JSONObject();
     object.put("type", Packets.CREATEGAME.getPacketType());
-    object.put("punishment", 0);
-    object.put("floors", 5);
-    object.put("radius", 4);
     var packet = new Packet(object);
     clientThread.sendPacket(packet);
     Thread.sleep(100);
@@ -76,7 +73,37 @@ public class Client extends Network {
     jsonObject.put("type", Packets.JOINGAME.getPacketType());
     jsonObject.put("connectType", "player");
     jsonObject.put("gameID", 0);
+    object = new JSONObject();
+    object.put("type", Packets.CONFIGURATION.getPacketType());
+    object.put("gameID", 0);
+    object.put("punishment", 0);
+    object.put("floors", 5);
+    object.put("radius", 2);
+    clientThread.sendPacket(new Packet(object));
     clientThread.sendPacket(new Packet(jsonObject));
+    object = new JSONObject();
+    object.put("type", Packets.GAMESTART.getPacketType());
+    object.put("gameID", 0);
+    clientThread.sendPacket(new Packet(object));
+    Thread.sleep(1000);
+    object = new JSONObject();
+    object.put("type", Packets.PLACEMOLE.getPacketType());
+    object.put("x", 3);
+    object.put("y", 2);
+    object.put("moleID", 1);
+    clientThread.sendPacket(new Packet(object));
+    object = new JSONObject();
+    object.put("type", Packets.PLACEMOLE.getPacketType());
+    object.put("x", 0);
+    object.put("y", 0);
+    object.put("moleID", 2);
+    clientThread.sendPacket(new Packet(object));
+    object = new JSONObject();
+    object.put("type", Packets.PLACEMOLE.getPacketType());
+    object.put("x", 2);
+    object.put("y", 1);
+    object.put("moleID", 0);
+    clientThread.sendPacket(new Packet(object));
   }
 
   public ClientPacketHandler getClientPacketHandler() {

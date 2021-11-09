@@ -33,21 +33,20 @@ public class Map {
     floor.getFields().clear();
     for (var y = 0; y < radius; y++) {
       for (var x = 0; x < radius + y; x++) {
-
-        var field = new Field(Collections.unmodifiableList(Arrays.asList(x,y)));
-        floor.getFieldMap().put(Collections.unmodifiableList(Arrays.asList(x,y)), field);
+        var field = new Field(Collections.unmodifiableList(Arrays.asList(x, y)));
+        floor.getFieldMap().put(Collections.unmodifiableList(Arrays.asList(x, y)), field);
         floor.getFields().add(field);
       }
     }
     //1 under mid: left to bottom right
     for (var y = radius; y < radius * 2 - 1; y++) {
       for (var x = y - radius + 1; x < radius * 2 - 1; x++) {
-        var field = new Field(Collections.unmodifiableList(Arrays.asList(x,y)));
-        floor.getFieldMap().put(Collections.unmodifiableList(Arrays.asList(x,y)), field);
+        var field = new Field(Collections.unmodifiableList(Arrays.asList(x, y)));
+        floor.getFieldMap().put(Collections.unmodifiableList(Arrays.asList(x, y)), field);
         floor.getFields().add(field);
       }
     }
-     printMap();
+    printMap();
   }
 
   /**
@@ -61,8 +60,9 @@ public class Map {
         System.out.println();
         row = field.getId().get(1);
       }
-      System.out.print("Field X: " + field.getId().get(0) + ", Y " + field.getId().get(1) + " ");
+      System.out.print("Field X:" + field.getId().get(0) + ", Y:" + field.getId().get(1) + " occupied:" + field.isOccupied() + " ");
     }
+    System.out.println();
   }
 
   public Floors getFloor() {
