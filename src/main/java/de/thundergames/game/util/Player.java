@@ -16,6 +16,7 @@ public class Player {
   private Timer timer = new Timer();
   private boolean canDraw = false;
   private Game game;
+  private boolean hasMoved = true;
   private ArrayList<Integer> cards;
 
   public Player(ServerThread client, Game game) {
@@ -24,13 +25,15 @@ public class Player {
     this.cards = (ArrayList<Integer>) game.getSettings().getCards().clone();
   }
 
-  private void startThinkTimer() {
+  public void startThinkTimer() {
+    hasMoved = false;
     timer = new Timer();
     canDraw = true;
     timer.schedule(new TimerTask() {
       @Override
       public void run() {
         canDraw = false;
+        hasMoved = true;
       }
     }, game.getSettings().getTimeToThink());
   }
@@ -42,7 +45,7 @@ public class Player {
    * @see Settings.randomDraw if the card should be taken in order or randomly if cards a empty refill by the oder
    */
   public void drawACard() {
-    if (!canDraw)
+    if (!game.getCurrentPlayer().equals(this) || hasMoved || !canDraw)
       return;
     if (cards.size() == 0)
       cards = (ArrayList<Integer>) game.getSettings().getCards().clone();
@@ -57,7 +60,7 @@ public class Player {
   }
 
   public void moveMole(final int moleID, final int x_start, final int y_start, final int x_end, final int y_end) {
-    if (!game.getCurrentPlayer().equals(this))
+    if (!game.getCurrentPlayer().equals(this) || hasMoved)
       return;
     Mole mole = null;
     for (int i = 0; i < moles.size(); i++) {
@@ -68,18 +71,21 @@ public class Player {
     }
     if (mole == null)
       return;
-    if (MoleGames.getMoleGames().getGameLogic().wasLegalMove(Collections.unmodifiableList(Arrays.asList(x_start,y_start)), Collections.unmodifiableList(Arrays.asList(x_end,y_end)), drawCard, game.getMap())) {
-      game.getMap().getFloor().getOccupied().remove(game.getMap().getFloor().getFieldMap().get(Collections.unmodifiableList(Arrays.asList(x_start,y_start))));
-      game.getMap().getFloor().getOccupied().add(game.getMap().getFloor().getFieldMap().get(Collections.unmodifiableList(Arrays.asList(x_end,y_end))));
-      game.getMap().getFloor().getFieldMap().get(Collections.unmodifiableList(Arrays.asList(x_start,y_start))).setOccupied(false);
-      game.getMap().getFloor().getFieldMap().get(Collections.unmodifiableList(Arrays.asList(x_end,y_end))).setOccupied(true);
+    if (MoleGames.getMoleGames().getGameLogic().wasLegalMove(Collections.unmodifiableList(Arrays.asList(x_start, y_start)), Collections.unmodifiableList(Arrays.asList(x_end, y_end)), drawCard, game.getMap())) {
+      game.getMap().getFloor().getOccupied().remove(game.getMap().getFloor().getFieldMap().get(Collections.unmodifiableList(Arrays.asList(x_start, y_start))));
+      game.getMap().getFloor().getOccupied().add(game.getMap().getFloor().getFieldMap().get(Collections.unmodifiableList(Arrays.asList(x_end, y_end))));
+      game.getMap().getFloor().getFieldMap().get(Collections.unmodifiableList(Arrays.asList(x_start, y_start))).setOccupied(false);
+      game.getMap().getFloor().getFieldMap().get(Collections.unmodifiableList(Arrays.asList(x_end, y_end))).setOccupied(true);
       MoleGames.getMoleGames().getServer().sendToGameClients(game, MoleGames.getMoleGames().getPacketHandler().playerMovesMolePacket(moleID, x_end, y_end));
+      hasMoved = true;
     } else
       MoleGames.getMoleGames().getPacketHandler().invalidMovePacket(serverClient);
   }
 
   public void placeMole(final int moleID, final int x, final int y) {
-    if (game.getMap().getFloor().getFieldMap().get(Collections.unmodifiableList(Arrays.asList(x,y))).isOccupied() || game.getMap().getFloor().getFieldMap().get(Collections.unmodifiableList(Arrays.asList(x,y))).isHole())
+    if (!game.getCurrentPlayer().equals(this) || hasMoved)
+      return;
+    if (game.getMap().getFloor().getFieldMap().get(Collections.unmodifiableList(Arrays.asList(x, y))).isOccupied() || game.getMap().getFloor().getFieldMap().get(Collections.unmodifiableList(Arrays.asList(x, y))).isHole())
       serverClient.sendPacket(new Packet(new JSONObject().put("type", Packets.OCCUPIED.getPacketType())));
     else {
       Mole mole = null;
@@ -91,9 +97,10 @@ public class Player {
       }
       if (mole == null)
         return;
-      game.getMap().getFloor().getOccupied().add(game.getMap().getFloor().getFieldMap().get(Collections.unmodifiableList(Arrays.asList(x,y))));
-      game.getMap().getFloor().getFieldMap().get(Collections.unmodifiableList(Arrays.asList(x,y))).setOccupied(true);
+      game.getMap().getFloor().getOccupied().add(game.getMap().getFloor().getFieldMap().get(Collections.unmodifiableList(Arrays.asList(x, y))));
+      game.getMap().getFloor().getFieldMap().get(Collections.unmodifiableList(Arrays.asList(x, y))).setOccupied(true);
       MoleGames.getMoleGames().getServer().sendToGameClients(game, MoleGames.getMoleGames().getPacketHandler().playerPlacesMolePacket(moleID, x, y));
+      hasMoved = true;
     }
   }
 

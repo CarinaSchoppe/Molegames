@@ -2,8 +2,9 @@ package de.thundergames.gameplay.player;
 
 public enum PlayerStates {
 
+  JOIN(3),
   WAIT(0),
-  PICK(1),
+  MOVE(1),
   DRAW(2);
 
   private final int id;

@@ -56,6 +56,8 @@ public class PacketHandler {
   }
 
   private synchronized void nextPlayerPacket(@NotNull final Packet packet, @NotNull final ServerThread clientConnection) {
+    var game = MoleGames.getMoleGames().getGameHandler().getClientGames().get(packet.getJsonObject().getInt("gameID"));
+    game.nextPlayer();
   }
 
   public synchronized void drawnPlayerCardPacket(@NotNull final ServerThread clientConnection, final int cardID) {

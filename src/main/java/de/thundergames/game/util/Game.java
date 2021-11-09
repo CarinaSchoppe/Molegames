@@ -37,9 +37,11 @@ public class Game extends Thread {
   }
 
   public void nextPlayer() {
-    if (players.get(players.indexOf(currentPlayer) + 1) != null)
+    if (players.size() - 1 >= players.indexOf(currentPlayer) + 1)
       currentPlayer = players.get(players.indexOf(currentPlayer) + 1);
     else currentPlayer = players.get(0);
+
+    currentPlayer.startThinkTimer();
   }
 
   public void joinGame(@NotNull final Player client, final boolean spectator) {
@@ -72,8 +74,6 @@ public class Game extends Thread {
   public Player getCurrentPlayer() {
     return currentPlayer;
   }
-
-
 
   public Map getMap() {
     return map;
