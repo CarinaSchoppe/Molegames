@@ -123,6 +123,10 @@ public class Player {
     return null;
   }
 
+  public Game getGame() {
+    return game;
+  }
+
   public ArrayList<Mole> getMoles() {
     return moles;
   }

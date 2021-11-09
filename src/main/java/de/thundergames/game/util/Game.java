@@ -54,10 +54,6 @@ public class Game extends Thread {
     MoleGames.getMoleGames().getGameHandler().getClientGames().put(client.getServerClient(), this);
   }
 
-  public void performPunishment() {
-    if (!settings.getPunishment().equals(Punishments.NOTHING)) {
-    }
-  }
 
   public void removePlayerFromGame(Player player) {
     players.remove(player);
