@@ -40,7 +40,10 @@ public enum Packets {
   NEXTPLAYER(30, "NEXT-PLAYER"),
   CONFIGURATION(31, "CONFIGURATION"),
   GAMEID(32, "GAME-ID"),
-  OCCUPIED(33, "OCCUPIED");
+  OCCUPIED(33, "OCCUPIED"),
+  MOLES(34, "MOLES"),
+  NAME(35, "NAME"),
+  ;
   private final int id;
   private final String packetType;
 

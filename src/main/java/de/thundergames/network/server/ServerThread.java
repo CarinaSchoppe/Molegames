@@ -9,6 +9,12 @@ import java.net.Socket;
 
 public class ServerThread extends NetworkThread {
 
+  private String clientName;
+
+  public void setClientName(String clientName) {
+    this.clientName = clientName;
+  }
+
   /**
    * @param socket the server Socket
    * @param id     Serverthread id

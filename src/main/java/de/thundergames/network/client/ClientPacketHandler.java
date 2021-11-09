@@ -30,6 +30,10 @@ public class ClientPacketHandler {
       System.out.println("Server: Youve done an invalid move");
     } else if (packet.getPacketType().equals(Packets.PLACEMOLE.getPacketType())) {
     } else if (packet.getPacketType().equals(Packets.MOVEMOLE.getPacketType())) {
+    } else if (packet.getPacketType().equals(Packets.MOLES.getPacketType())) {
+      for (int i = 0; i < packet.getJsonObject().getJSONArray("moles").toList().size(); i++) {
+        client.getMoleIDs().add(packet.getJsonObject().getJSONArray("moles").getInt(i));
+      }
     } else {
       throw new PacketNotExistsException("Packet with type: " + packet.getPacketType() + " does not exists");
     }

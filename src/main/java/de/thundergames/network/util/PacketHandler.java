@@ -10,6 +10,7 @@ import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class PacketHandler {
 
@@ -47,6 +48,8 @@ public class PacketHandler {
       System.out.println("MESSAGE: Client with id: " + clientConnection.id + " sended: type: " + packet.getPacketType() + " contents: " + packet.getJsonObject().toString());
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.GAMESTART.getPacketType())) {
       startGamePacket(packet);
+    } else if (packet.getPacketType().equalsIgnoreCase(Packets.NAME.getPacketType())) {
+      clientConnection.setClientName(packet.getJsonObject().getString("name"));
     } else {
       throw new PacketNotExistsException("Packet not exists");
     }
@@ -127,6 +130,13 @@ public class PacketHandler {
   public synchronized void playerTurnPacket(@NotNull final ServerThread clientConnection) {
     var object = new JSONObject();
     object.put("type", Packets.PLAYERTURN.getPacketType());
+    clientConnection.sendPacket(new Packet(object));
+  }
+
+  public synchronized void sendMoleIDs(@NotNull final ServerThread clientConnection, ArrayList<Integer> moleIDs) {
+    var object = new JSONObject();
+    object.put("type", Packets.MOLES.getPacketType());
+    object.put("moles", moleIDs);
     clientConnection.sendPacket(new Packet(object));
   }
 

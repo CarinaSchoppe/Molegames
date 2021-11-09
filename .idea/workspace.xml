@@ -5,17 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="be3cb084-59c3-4961-a8ca-1927ee350281" name="Changes" comment="implemented more game logic and player movement">
+      <change afterPath="$PROJECT_DIR$/src/main/java/de/thundergames/filehandling/GameConfiguration.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/game/map/Floors.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/thundergames/game/map/Floors.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/game/map/Map.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/thundergames/game/map/Map.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/game/util/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/thundergames/game/util/Game.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/game/util/GameLogic.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/thundergames/game/util/GameLogic.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/game/util/Mole.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/thundergames/game/util/Mole.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/filehandling/FileHandler.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/game/util/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/thundergames/game/util/Player.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/game/util/Settings.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/thundergames/game/util/Settings.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/gameplay/gamemaster/GameMasterHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/thundergames/gameplay/gamemaster/GameMasterHandler.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/network/client/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/thundergames/network/client/Client.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/network/client/ClientPacketHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/thundergames/network/client/ClientPacketHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/network/server/ServerThread.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/thundergames/network/server/ServerThread.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/network/util/PacketHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/thundergames/network/util/PacketHandler.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/network/util/Packets.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/thundergames/network/util/Packets.java" afterDir="false" />
     </list>
@@ -25,6 +23,9 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$">
+      <ProjectState />
+    </projectState>
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
     </projectState>
@@ -397,7 +398,8 @@
       <workItem from="1636409044735" duration="303000" />
       <workItem from="1636447214369" duration="885000" />
       <workItem from="1636448238652" duration="23018000" />
-      <workItem from="1636473907778" duration="2446000" />
+      <workItem from="1636473907778" duration="2548000" />
+      <workItem from="1636479576065" duration="1364000" />
     </task>
     <task id="LOCAL-00001" summary=".">
       <created>1635509834411</created>
@@ -630,7 +632,21 @@
       <option name="project" value="LOCAL" />
       <updated>1636472993301</updated>
     </task>
-    <option name="localTasksCounter" value="34" />
+    <task id="LOCAL-00034" summary="implemented more game logic and player movement">
+      <created>1636476390738</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1636476390738</updated>
+    </task>
+    <task id="LOCAL-00035" summary="implemented more game logic and player movement">
+      <created>1636476457380</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1636476457380</updated>
+    </task>
+    <option name="localTasksCounter" value="36" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

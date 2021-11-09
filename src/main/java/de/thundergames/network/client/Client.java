@@ -8,6 +8,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.net.Socket;
+import java.util.ArrayList;
 
 public class Client extends Network {
   /**
@@ -18,9 +19,11 @@ public class Client extends Network {
   private ClientThread clientThread;
   private int id;
   private int gameID;
+  private String name;
   private static Client client;
   private final ClientPacketHandler clientPacketHandler;
   private static final boolean keyListener = true;
+  private final ArrayList<Integer> moleIDs = new ArrayList<>();
 
   public static boolean isKeyListener() {
     return keyListener;
@@ -47,7 +50,11 @@ public class Client extends Network {
    * @see Client
    */
   @Override
-  protected void create() {
+  public void create() {
+    connect();
+  }
+
+  public void connect() {
     try {
       socket = new Socket(ip, port);
       clientThread = new ClientThread(socket, 0);
@@ -126,6 +133,10 @@ public class Client extends Network {
 
   public ClientThread getClientThread() {
     return clientThread;
+  }
+
+  public ArrayList<Integer> getMoleIDs() {
+    return moleIDs;
   }
 
   public void setGameID(final int gameID) {

@@ -26,13 +26,18 @@ public class Player {
   }
 
   public synchronized Player create() {
+    var moleIDs = new ArrayList<Integer>();
     for (int i = 0; i < game.getSettings().getMoleAmount(); i++) {
       var mole = new Mole(game.getMoleID());
       moles.add(mole);
       game.setMoleID(game.getMoleID() + 1);
       game.getMoleMap().put(this, mole);
+      moleIDs.add(game.getMoleID());
       game.getMoleIDMap().put(mole.getMoleID(), mole);
     }
+
+
+    MoleGames.getMoleGames().getPacketHandler().sendMoleIDs(serverClient, moleIDs);
     return this;
   }
 
@@ -111,7 +116,7 @@ public class Player {
   }
 
   private Mole getMole(int moleID) {
-    Mole mole = null;
+    Mole mole;
     for (int i = 0; i < moles.size(); i++) {
       if (moles.get(i).getMoleID() == moleID) {
         mole = moles.get(i);
