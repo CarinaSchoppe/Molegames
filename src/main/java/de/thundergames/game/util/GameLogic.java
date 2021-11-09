@@ -3,6 +3,9 @@ package de.thundergames.game.util;
 import de.thundergames.game.map.Map;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class GameLogic {
 
   /**
@@ -14,51 +17,51 @@ public class GameLogic {
    * @use add the parameters and it will return if the move was valid with true or invalid with false
    * @premisse the startpoint and endpoint must be in the playingfield and the player was allowed to move.
    */
-  public synchronized boolean wasLegalMove(final int[] start, final int[] stop, final int moveCounter, @NotNull final Map map) {
+  public synchronized boolean wasLegalMove(final List<Integer> start, final List<Integer> stop, final int moveCounter, @NotNull final Map map) {
     //check if player moved to much
-    if (map.getFieldMap().containsKey(start) && map.getFieldMap().containsKey(stop) && start != stop) {
-      if (stop[0] - start[0] == 0 && Math.abs(stop[1] - start[1]) == moveCounter || start[1] - stop[1] == 0 && Math.abs(stop[0] - start[0]) == moveCounter || Math.abs(stop[0] - start[0]) == Math.abs(stop[1] - start[1]) && Math.abs(start[1] - stop[1]) == moveCounter) {
-        for (var field : map.getOccupied()) {
-          if (stop[0] - start[0] == 0) {
+    if (map.getFloor().getFieldMap().containsKey(start) && map.getFloor().getFieldMap().containsKey(stop) && start != stop) {
+      if (stop.get(0) - start.get(0) == 0 && Math.abs(stop.get(1) - start.get(1)) == moveCounter || start.get(1) - stop.get(1) == 0 && Math.abs(stop.get(0) - start.get(0)) == moveCounter || Math.abs(stop.get(0) - start.get(0)) == Math.abs(stop.get(1) - start.get(1)) && Math.abs(start.get(1) - stop.get(1)) == moveCounter) {
+        for (var field : map.getFloor().getOccupied()) {
+          if (stop.get(0) - start.get(0) == 0) {
             for (var i = 1; i < moveCounter; i++) {
-              if (stop[1] - start[1] > 0) {
-                if (field.getY() == start[1] + i && field.getX() == start[0]) {
+              if (stop.get(1) - start.get(1) > 0) {
+                if (field.getY() == start.get(1) + i && field.getX() == start.get(0)) {
                   return false;
                 }
-              } else if (stop[1] - start[1] < 0) {
-                if (field.getY() == start[1] - i && field.getX() == start[0]) {
+              } else if (stop.get(1) - start.get(1) < 0) {
+                if (field.getY() ==start.get(1) - i && field.getX() == start.get(0)) {
                   return false;
                 }
               }
             }
-          } else if (stop[1] - start[1] == 0) {
+          } else if (stop.get(1)- start.get(1) == 0) {
             for (var i = 1; i < moveCounter; i++) {
-              if (stop[0] - start[0] > 0) {
-                if (field.getX() == start[0] + i && field.getY() == start[1]) {
+              if (stop.get(0) - start.get(0) > 0) {
+                if (field.getX() == start.get(0) + i && field.getY() == start.get(1)) {
                   return false;
                 }
-              } else if (stop[0] - start[0] < 0) {
-                if (field.getX() == start[0] - i && field.getY() == start[1]) {
+              } else if (stop.get(0) - start.get(0) < 0) {
+                if (field.getX() == start.get(0) - i && field.getY() == start.get(1)) {
                   return false;
                 }
               }
             }
-          } else if (Math.abs(stop[0] - start[0]) == Math.abs(stop[1] - start[1])) {
+          } else if (Math.abs(stop.get(0) - start.get(0)) == Math.abs(stop.get(1) - start.get(1))) {
             for (var i = 1; i < moveCounter; i++) {
-              if (stop[1] - start[1] > 0 && stop[0] - start[0] > 0) {
-                if (field.getX() == start[0] + i && field.getY() == start[1] + i) {
+              if (stop.get(1) - start.get(1) > 0 && stop.get(0) - start.get(0) > 0) {
+                if (field.getX() == start.get(0) + i && field.getY() ==start.get(1) + i) {
                   return false;
                 }
-              } else if (stop[0] - start[0] < 0 && stop[1] - start[1] > 0) {
-                if (field.getX() == start[0] - i && field.getY() == start[1] + i) {
+              } else if (stop.get(0) - start.get(0) < 0 && stop.get(1) - start.get(1) > 0) {
+                if (field.getX() == start.get(0) - i && field.getY() == start.get(1) + i) {
                   return false;
                 }
-              } else if (stop[0] - start[0] > 0 && stop[1] - start[1] < 0) {
-                if (field.getX() == start[0] + i && field.getY() == start[1] - i) {
+              } else if (stop.get(0) - start.get(0) > 0 && stop.get(1) - start.get(1) < 0) {
+                if (field.getX() == start.get(0) + i && field.getY() == start.get(1) - i) {
                   return false;
                 }
-              } else if (stop[0] - start[0] < 0 && stop[1] - start[1] < 0) {
-                if (field.getX() == start[0] - i && field.getY() == start[1] - i) {
+              } else if (stop.get(0) - start.get(0) < 0 && stop.get(1) - start.get(1) < 0) {
+                if (field.getX() == start.get(0) - i && field.getY() == start.get(1) - i) {
                   return false;
                 }
               }

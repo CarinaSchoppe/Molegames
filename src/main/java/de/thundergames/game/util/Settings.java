@@ -1,7 +1,6 @@
 package de.thundergames.game.util;
 
 import de.thundergames.game.map.Map;
-import jdk.internal.org.objectweb.asm.tree.AbstractInsnNode;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -64,6 +63,10 @@ public class Settings {
   }
 
   public ArrayList<Integer> getCards() {
-  return cards;
+    return cards;
+  }
+
+  public int getMaxPlayers() {
+    return maxPlayers;
   }
 }

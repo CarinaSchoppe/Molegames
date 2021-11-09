@@ -43,6 +43,8 @@ public class PacketHandler {
       drawPlayerCardPacket(clientConnection);
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.CONFIGURATION.getPacketType())) {
       updateConfigurationPacket(packet);
+    } else if (packet.getPacketType().equalsIgnoreCase(Packets.MESSAGE.getPacketType())) {
+      System.out.println("MESSAGE: Client with id: " + clientConnection.id + " sended: type: " + packet.getPacketType() + " contents: " + packet.getJsonObject().toString());
     } else {
       throw new PacketNotExistsException("Packet not exists");
     }
@@ -165,9 +167,14 @@ public class PacketHandler {
       var connectType = packet.getJsonObject().getString("connectType");
       var game = MoleGames.getMoleGames().getGameHandler().getGames().get(packet.getJsonObject().getInt("gameID"));
       if (connectType.equalsIgnoreCase("player")) {
-        if (game.getCurrentGameState().equals(GameStates.LOBBY))
-          game.joinGame(new Player(clientConnection, game), false);
-        else {
+        if (game.getCurrentGameState().equals(GameStates.LOBBY)) {
+          if (game.getClients().size() < game.getSettings().getMaxPlayers()) {
+            game.joinGame(new Player(clientConnection, game), false);
+          } else {
+            object.put("type", Packets.FULL.getPacketType());
+            clientConnection.sendPacket(new Packet(object));
+          }
+        } else {
           object.put("type", Packets.INGAME.getPacketType());
           clientConnection.sendPacket(new Packet(object));
         }

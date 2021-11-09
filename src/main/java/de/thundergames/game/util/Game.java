@@ -73,6 +73,8 @@ public class Game extends Thread {
     return currentPlayer;
   }
 
+
+
   public Map getMap() {
     return map;
   }

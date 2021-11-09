@@ -39,7 +39,8 @@ public enum Packets {
   NEXTFLOOR(29, "NEXT-FLOOR"),
   NEXTPLAYER(30, "NEXT-PLAYER"),
   CONFIGURATION(31, "CONFIGURATION"),
-  GAMEID(32, "GAME-ID");
+  GAMEID(32, "GAME-ID"),
+  OCCUPIED(33, "OCCUPIED"),;
   private final int id;
   private final String packetType;
 
