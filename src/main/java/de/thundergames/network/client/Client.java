@@ -19,7 +19,7 @@ public class Client extends Network {
   private ClientThread clientThread;
   private int id;
   private int gameID;
-  private String name;
+  private final String name;
   private static Client client;
   private final ClientPacketHandler clientPacketHandler;
   private static final boolean keyListener = true;

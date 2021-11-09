@@ -52,7 +52,7 @@ public class MoleGames {
         case "-a":
         case "a":
           assert args[2] != null;
-          new AI(args[1], Integer.parseInt(args[2]));
+          new AI(Objects.requireNonNull(args[1]), Integer.parseInt(args[2]));
       }
     }
   }

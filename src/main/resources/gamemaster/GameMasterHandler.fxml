@@ -8,17 +8,13 @@
 
 <BorderPane cache="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.thundergames.gameplay.gamemaster.GameMasterHandler">
    <left>
-      <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-         <children>
-            <ImageView fitHeight="410.0" fitWidth="607.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../util/grafik.png" />
-               </image>
-            </ImageView>
-            <Button fx:id="startButton" layoutX="147.0" layoutY="263.0" mnemonicParsing="false" onAction="#OpenSomeThing" prefHeight="47.0" prefWidth="144.0" style="-fx-background-color: transparent;" />
-            <Button fx:id="StartGame" layoutX="312.0" layoutY="264.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="144.0" style="-fx-background-color: transparent;" />
-            <Button fx:id="ViewGame" layoutX="233.0" layoutY="331.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="141.0" style="-fx-background-color: transparent;" />
-         </children>
-      </AnchorPane>
+       <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+           <ImageView fitHeight="410.0" fitWidth="607.0" pickOnBounds="true" preserveRatio="true">
+               <Image url="@../util/grafik.png"/>
+           </ImageView>
+           <Button fx:id="startButton" layoutX="147.0" layoutY="263.0" mnemonicParsing="false" onAction="#OpenSomeThing" prefHeight="47.0" prefWidth="144.0" style="-fx-background-color: transparent;"/>
+           <Button fx:id="StartGame" layoutX="312.0" layoutY="264.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="144.0" style="-fx-background-color: transparent;"/>
+           <Button fx:id="ViewGame" layoutX="233.0" layoutY="331.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="141.0" style="-fx-background-color: transparent;"/>
+       </AnchorPane>
    </left>
 </BorderPane>

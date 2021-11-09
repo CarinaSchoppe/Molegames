@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Settings {
-  private ArrayList<Integer> cards = new ArrayList<>(List.of(1, 1, 2, 2, 3, 3, 4, 4));
+  private final ArrayList<Integer> cards = new ArrayList<>(List.of(1, 1, 2, 2, 3, 3, 4, 4));
   private int timeToThink = 20;
   private boolean randomDraw = false;
   private Punishments punishment = Punishments.NOTHING;
@@ -17,7 +17,7 @@ public class Settings {
   private int maxFloors = 4;
   private final Game game;
   private int radius = 4;
-  GameConfiguration gameConfiguration;
+  final GameConfiguration gameConfiguration;
 
   public Settings(Game game) {
     this.game = game;

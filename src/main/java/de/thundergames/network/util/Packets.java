@@ -56,7 +56,7 @@ public enum Packets {
     return id;
   }
 
-  public Packets getPacketByType(String packetType) throws PacketNotExistsException {
+  public Packets getPacketByType(String packetType) {
     for (Packets packet : Packets.values()) {
       if (packet.getPacketType().equals(packetType)) {
         return packet;

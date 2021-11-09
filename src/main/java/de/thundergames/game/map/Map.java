@@ -3,21 +3,16 @@ package de.thundergames.game.map;
 import de.thundergames.game.util.Game;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Arrays;
-import java.util.Collections;
-
 public class Map {
 
   private final int radius;
 
   private Floors floor;
-  private final Game game;
   private int currentFloor;
   private int holeAmount; //TODO: here
   private int doubleDrawFields;
 
   public Map(final int radius, @NotNull final Game game) {
-    this.game = game;
     this.radius = radius + 1;
     currentFloor = game.getSettings().getMaxFloors();
     createMap();
@@ -33,16 +28,16 @@ public class Map {
     floor.getFields().clear();
     for (var y = 0; y < radius; y++) {
       for (var x = 0; x < radius + y; x++) {
-        var field = new Field(Collections.unmodifiableList(Arrays.asList(x, y)));
-        floor.getFieldMap().put(Collections.unmodifiableList(Arrays.asList(x, y)), field);
+        var field = new Field(java.util.List.of(x, y));
+        floor.getFieldMap().put(java.util.List.of(x, y), field);
         floor.getFields().add(field);
       }
     }
     //1 under mid: left to bottom right
     for (var y = radius; y < radius * 2 - 1; y++) {
       for (var x = y - radius + 1; x < radius * 2 - 1; x++) {
-        var field = new Field(Collections.unmodifiableList(Arrays.asList(x, y)));
-        floor.getFieldMap().put(Collections.unmodifiableList(Arrays.asList(x, y)), field);
+        var field = new Field(java.util.List.of(x, y));
+        floor.getFieldMap().put(java.util.List.of(x, y), field);
         floor.getFields().add(field);
       }
     }
