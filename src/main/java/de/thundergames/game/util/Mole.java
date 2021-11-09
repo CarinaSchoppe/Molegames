@@ -21,26 +21,14 @@ public class Mole {
     return MoleID;
   }
 
-  public Floors getFloor() {
-    return floor;
-  }
-
-  public Field getField() {
-    return field;
-  }
 
   public boolean isMoveable() {
     //TODO hier logik einbauen
     return false;
   }
 
-  public boolean isInHole() {
-    return inHole;
-  }
 
-  public void setInHole(final boolean inHole) {
-    this.inHole = inHole;
-  }
+
 }
 
 

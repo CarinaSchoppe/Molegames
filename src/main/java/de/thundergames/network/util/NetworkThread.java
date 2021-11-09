@@ -109,7 +109,7 @@ public abstract class NetworkThread extends Thread {
               object.put("message", message);
               sendPacket(new Packet(object));
             } else {
-              for (var iterator = Server.getClientThreads().iterator(); iterator.hasNext(); ) {
+              for (var iterator = MoleGames.getMoleGames().getServer().getClientThreads().iterator(); iterator.hasNext(); ) {
                 ServerThread clientSocket = iterator.next();
                 object.put("type", Packets.MESSAGE.getPacketType());
                 object.put("message", message);

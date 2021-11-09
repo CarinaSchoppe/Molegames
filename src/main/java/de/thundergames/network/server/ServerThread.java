@@ -1,5 +1,6 @@
 package de.thundergames.network.server;
 
+import de.thundergames.MoleGames;
 import de.thundergames.network.util.NetworkThread;
 import org.jetbrains.annotations.NotNull;
 
@@ -25,7 +26,7 @@ public class ServerThread extends NetworkThread {
   public synchronized void disconnect() {
     {
       try {
-        Server.getClientThreads().remove(this);
+        MoleGames.getMoleGames().getServer().getClientThreads().remove(this);
         Server.getThreadIds().remove(getConnectionId());
         socket.close();
       } catch (IOException e) {

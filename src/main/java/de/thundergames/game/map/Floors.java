@@ -9,6 +9,8 @@ public class Floors {
   private final int floorNumber;
   private final int doubleDrawFields;
   private final ArrayList<Hole> holes = new ArrayList<>();
+  private final ArrayList<Field> occupied = new ArrayList<>();
+  private final ArrayList<Field> doubleMoves = new ArrayList<>();
   private final Map map;
   private final int holeAmount;
 

@@ -13,14 +13,10 @@ public class Game extends Thread {
   private final int gameID;
   private Map map;
   private Settings settings;
-  private int[] cards;
   private final GameStates currentGameState = GameStates.LOBBY;
   private final ArrayList<Player> players = new ArrayList<>();
   private final HashMap<ServerThread, Player> clientPlayersMap = new HashMap<>();
-
   private Player currentPlayer;
-  private int timeToThink;
-  private boolean randomDraw = false;
 
   public Game(final int gameID) {
     this.gameID = gameID;
@@ -44,10 +40,6 @@ public class Game extends Thread {
     if (players.get(players.indexOf(currentPlayer) + 1) != null)
       currentPlayer = players.get(players.indexOf(currentPlayer) + 1);
     else currentPlayer = players.get(0);
-  }
-
-  public int getTimeToThink() {
-    return timeToThink;
   }
 
   public void joinGame(@NotNull final Player client, final boolean spectator) {
@@ -77,7 +69,11 @@ public class Game extends Thread {
     return clientPlayersMap;
   }
 
-  public boolean isRandomDraw() {
-    return randomDraw;
+  public Player getCurrentPlayer() {
+    return currentPlayer;
+  }
+
+  public Map getMap() {
+    return map;
   }
 }

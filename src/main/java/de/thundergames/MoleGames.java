@@ -72,4 +72,8 @@ public class MoleGames {
   public PacketHandler getPacketHandler() {
     return packetHandler;
   }
+
+  public GameLogic getGameLogic() {
+    return gameLogic;
+  }
 }

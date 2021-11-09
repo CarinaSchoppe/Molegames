@@ -24,9 +24,8 @@ public class Map {
   }
 
   private final ArrayList<Field> fields = new ArrayList<>();
-  private final HashMap<int[], Field> fieldCounter = new HashMap<>();
-  private final ArrayList<Field> occupied = new ArrayList<>();
-  private final ArrayList<Field> doubleMoves = new ArrayList<>();
+  private final HashMap<int[], Field> fieldMap = new HashMap<>();
+
 
   /**
    * @author Carina
@@ -39,7 +38,7 @@ public class Map {
     for (var y = 0; y < radius; y++) {
       for (var x = 0; x < radius + y; x++) {
         var field = new Field(new int[]{x, y});
-        fieldCounter.put(new int[]{x, y}, field);
+        fieldMap.put(new int[]{x, y}, field);
         fields.add(field);
       }
     }
@@ -47,7 +46,7 @@ public class Map {
     for (var y = radius; y < radius * 2 - 1; y++) {
       for (var x = y - radius + 1; x < radius * 2 - 1; x++) {
         var field = new Field(new int[]{x, y});
-        fieldCounter.put(new int[]{x, y}, field);
+        fieldMap.put(new int[]{x, y}, field);
         fields.add(field);
       }
     }
@@ -69,59 +68,7 @@ public class Map {
     }
   }
 
-  public ArrayList<Field> getFields() {
-    return fields;
-  }
-
-  public int getRadius() {
-    return radius;
-  }
-
   public Floors getFloor() {
     return floor;
-  }
-
-  public Game getGame() {
-    return game;
-  }
-
-  public int getCurrentFloor() {
-    return currentFloor;
-  }
-
-  public int getHoleAmount() {
-    return holeAmount;
-  }
-
-  public int getDoubleDrawFields() {
-    return doubleDrawFields;
-  }
-
-  public void setFloor(Floors floor) {
-    this.floor = floor;
-  }
-
-  public void setCurrentFloor(int currentFloor) {
-    this.currentFloor = currentFloor;
-  }
-
-  public void setHoleAmount(int holeAmount) {
-    this.holeAmount = holeAmount;
-  }
-
-  public void setDoubleDrawFields(int doubleDrawFields) {
-    this.doubleDrawFields = doubleDrawFields;
-  }
-
-  public HashMap<int[], Field> getFieldCounter() {
-    return fieldCounter;
-  }
-
-  public ArrayList<Field> getOccupied() {
-    return occupied;
-  }
-
-  public ArrayList<Field> getDoubleMoves() {
-    return doubleMoves;
   }
 }

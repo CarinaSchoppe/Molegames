@@ -1,10 +1,14 @@
 package de.thundergames.game.util;
 
 import de.thundergames.game.map.Map;
+import jdk.internal.org.objectweb.asm.tree.AbstractInsnNode;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Settings {
-  private int[] cards = new int[]{1, 1, 2, 2, 3, 3, 4, 4};
+  private ArrayList<Integer> cards = new ArrayList<>(List.of(1, 1, 2, 2, 3, 3, 4, 4));
   private int timeToThink = 20;
   private boolean randomDraw = false;
   private Punishments punishment = Punishments.NOTHING;
@@ -18,27 +22,27 @@ public class Settings {
     this.game = game;
   }
 
-  public synchronized void updateConfiuration(JSONObject object) {
-    if (object.get("randomDraw") != null)
-      randomDraw = object.getBoolean("randomDraw");
-    if (object.get("timeToThink") != null)
-      timeToThink = object.getInt("timeToThink");
-    if (object.get("punishment") != null)
-      punishment = Punishments.valueOf(object.getString("punishment"));
-    if (object.get("maxPlayers") != null)
-      maxPlayers = object.getInt("maxPlayers");
-    if (object.get("moleAmount") != null)
-      moleAmount = object.getInt("moleAmount");
-    if (object.get("maxFloors") != null)
-      maxFloors = object.getInt("maxFloors");
-    if (object.get("radius") != null) {
-      radius = object.getInt("radius");
+  public synchronized void updateConfiuration(JSONObject packet) {
+    if (packet.get("randomDraw") != null)
+      randomDraw = packet.getBoolean("randomDraw");
+    if (packet.get("timeToThink") != null)
+      timeToThink = packet.getInt("timeToThink");
+    if (packet.get("punishment") != null)
+      punishment = Punishments.valueOf(packet.getString("punishment"));
+    if (packet.get("maxPlayers") != null)
+      maxPlayers = packet.getInt("maxPlayers");
+    if (packet.get("moleAmount") != null)
+      moleAmount = packet.getInt("moleAmount");
+    if (packet.get("maxFloors") != null)
+      maxFloors = packet.getInt("maxFloors");
+    if (packet.get("radius") != null) {
+      radius = packet.getInt("radius");
       game.setMap(new Map(radius, game));
     }
-    if (object.get("cards") != null) {
-      cards = new int[object.getJSONArray("cards").length()];
-      for (int i = 0; i < cards.length; i++) {
-        cards[i] = object.getJSONArray("cards").getInt(i);
+    if (packet.get("cards") != null) {
+      cards.clear();
+      for (int i = 0; i < packet.getJSONArray("cards").length(); i++) {
+        cards.add(packet.getJSONArray("cards").getInt(i));
       }
     }
   }
@@ -49,5 +53,17 @@ public class Settings {
 
   public int getRadius() {
     return radius;
+  }
+
+  public boolean isRandomDraw() {
+    return randomDraw;
+  }
+
+  public int getTimeToThink() {
+    return timeToThink;
+  }
+
+  public ArrayList<Integer> getCards() {
+  return cards;
   }
 }

@@ -14,9 +14,9 @@ public class GameLogic {
    * @use add the parameters and it will return if the move was valid with true or invalid with false
    * @premisse the startpoint and endpoint must be in the playingfield and the player was allowed to move.
    */
-  private synchronized boolean wasLegalMove(final int[] start, final int[] stop, final int moveCounter, @NotNull final Map map) {
+  public synchronized boolean wasLegalMove(final int[] start, final int[] stop, final int moveCounter, @NotNull final Map map) {
     //check if player moved to much
-    if (map.getFieldCounter().containsKey(start) && map.getFieldCounter().containsKey(stop) && start != stop) {
+    if (map.getFieldMap().containsKey(start) && map.getFieldMap().containsKey(stop) && start != stop) {
       if (stop[0] - start[0] == 0 && Math.abs(stop[1] - start[1]) == moveCounter || start[1] - stop[1] == 0 && Math.abs(stop[0] - start[0]) == moveCounter || Math.abs(stop[0] - start[0]) == Math.abs(stop[1] - start[1]) && Math.abs(start[1] - stop[1]) == moveCounter) {
         for (var field : map.getOccupied()) {
           if (stop[0] - start[0] == 0) {
