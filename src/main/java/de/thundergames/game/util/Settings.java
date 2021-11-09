@@ -1,5 +1,6 @@
 package de.thundergames.game.util;
 
+import de.thundergames.filehandling.GameConfiguration;
 import de.thundergames.game.map.Map;
 import org.json.JSONObject;
 
@@ -16,9 +17,11 @@ public class Settings {
   private int maxFloors = 4;
   private final Game game;
   private int radius = 4;
+  GameConfiguration gameConfiguration;
 
   public Settings(Game game) {
     this.game = game;
+    this.gameConfiguration = new GameConfiguration(toJsonConfiguration());
   }
 
   public synchronized void updateConfiuration(JSONObject packet) {
@@ -44,6 +47,19 @@ public class Settings {
         cards.add(packet.getJSONArray("cards").getInt(i));
       }
     }
+  }
+
+  public JSONObject toJsonConfiguration() {
+    JSONObject jsonObject = new JSONObject();
+    jsonObject.put("randomDraw", randomDraw);
+    jsonObject.put("timeToThink", timeToThink);
+    jsonObject.put("punishment", punishment.getID());
+    jsonObject.put("maxPlayers", maxPlayers);
+    jsonObject.put("moleAmount", moleAmount);
+    jsonObject.put("maxFloors", maxFloors);
+    jsonObject.put("radius", radius);
+    jsonObject.put("cards", cards);
+    return jsonObject;
   }
 
   public int getMoleAmount() {

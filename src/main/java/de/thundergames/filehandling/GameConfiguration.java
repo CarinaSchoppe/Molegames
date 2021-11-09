@@ -5,16 +5,18 @@ import org.json.JSONObject;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
 
 public class GameConfiguration {
 
+  private static int id = 0;
   File file;
-  String path;
-  JSONObject settings = new JSONObject();
+  JSONObject settings;
 
-  public GameConfiguration(File file, String path) {
-    this.file = file;
-    this.path = path;
+
+  public GameConfiguration(JSONObject json) {
+    this.file = new File("config" + id + ".json");
+    settings = json;
   }
 
   public void saveSettings(JSONObject settings) throws IOException {
@@ -22,5 +24,9 @@ public class GameConfiguration {
     var writer = new FileWriter(this.file);
     writer.flush();
     writer.close();
+  }
+
+  public JSONObject loadConfiguration(File file) throws IOException {
+    return new JSONObject(new String(Files.readAllBytes(file.toPath())));
   }
 }

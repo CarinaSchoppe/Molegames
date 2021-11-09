@@ -12,13 +12,13 @@ public enum Punishments {
     this.id = id;
   }
 
-  public int getId() {
+  public int getID() {
     return id;
   }
 
   public static synchronized Punishments getByID(int id) {
     for (Punishments punishment : Punishments.values()) {
-      if (punishment.getId() == id) {
+      if (punishment.getID() == id) {
         return punishment;
       }
     }
