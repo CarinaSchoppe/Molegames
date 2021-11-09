@@ -1,29 +1,43 @@
 package de.thundergames.game.util;
 
-import de.thundergames.network.client.Client;
+import de.thundergames.network.server.ServerThread;
 
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class Player {
 
   private final ArrayList<Mole> moles = new ArrayList<>();
   private int drawCard;
-  private final Client client;
+  private final ServerThread serverClient;
+  private Timer timer = new Timer();
+  private boolean canDraw = false;
+  private Game game;
 
-  public Player(Client client) {
-    this.client = client;
+  public Player(ServerThread client, Game game) {
+    this.serverClient = client;
+    this.game = game;
   }
 
-  public void drawAgain(){
-
+  private void startThinkTimer() {
+    timer = new Timer();
+    canDraw = true;
+    timer.schedule(new TimerTask() {
+      @Override
+      public void run() {
+        canDraw = false;
+      }
+    }, game.getTimeToThink());
   }
 
-  public void drawACard(){
-
+  public void drawACard() {
+    if (game.isRandomDraw()) {
+    } else {
+    }
   }
 
   public void moveMole(final int moleID, final int x, final int y) {
-
   }
 
   public ArrayList<Mole> getMoles() {
@@ -34,7 +48,7 @@ public class Player {
     return drawCard;
   }
 
-  public Client getClient() {
-    return client;
+  public ServerThread getServerClient() {
+    return serverClient;
   }
 }

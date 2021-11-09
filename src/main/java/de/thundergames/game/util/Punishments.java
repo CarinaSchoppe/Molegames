@@ -16,20 +16,5 @@ public enum Punishments {
     return id;
   }
 
-  /**
-   * @param id that will get the Punishment by id and returns it
-   * @return Punishments
-   * @author Carina
-   */
-  public static Punishments getPunishmentByID(final int id) {
-    switch (id) {
-      case 0:
-        return NOTHING;
-      case 1:
-        return KICK;
-      case 2:
-        return POINTS;
-    }
-    return NOTHING;
-  }
+
 }

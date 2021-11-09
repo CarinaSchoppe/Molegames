@@ -1,13 +1,10 @@
 package de.thundergames.network.util;
 
 import de.thundergames.MoleGames;
-import de.thundergames.game.map.Floors;
 import de.thundergames.game.map.Map;
+import de.thundergames.game.util.Game;
 import de.thundergames.game.util.GameStates;
-import de.thundergames.game.util.MultiGameHandler;
 import de.thundergames.game.util.Player;
-import de.thundergames.game.util.Punishments;
-import de.thundergames.network.client.Client;
 import de.thundergames.network.server.ServerThread;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
@@ -25,31 +22,49 @@ public class PacketHandler {
    * @see Packets the packets that can be send-
    */
 
-  public synchronized void handlePacket(@NotNull final Packet packet, @NotNull final ServerThread clientConnection) {
+  public synchronized void handlePacket(@NotNull final Packet packet, @NotNull final ServerThread clientConnection) throws PacketNotExistsException {
     if (packet.getPacketType().equalsIgnoreCase(Packets.CREATEGAME.getPacketType())) {
-      createGamePacket(packet, clientConnection);
+      createGamePacket();
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.JOINGAME.getPacketType())) {
       joinGamePacket(packet, clientConnection);
-    }else if (packet.getPacketType().equalsIgnoreCase(Packets.GAMEOVERVIEW.getPacketType())) {
+    } else if (packet.getPacketType().equalsIgnoreCase(Packets.GAMEOVERVIEW.getPacketType())) {
       gameOverviewPacket(packet, clientConnection);
-    }else if (packet.getPacketType().equalsIgnoreCase(Packets.PLACEMOLE.getPacketType())) {
+    } else if (packet.getPacketType().equalsIgnoreCase(Packets.PLACEMOLE.getPacketType())) {
       placeMolePacket(packet, clientConnection);
-    }else if (packet.getPacketType().equalsIgnoreCase(Packets.MOVEMOLE.getPacketType())) {
+    } else if (packet.getPacketType().equalsIgnoreCase(Packets.MOVEMOLE.getPacketType())) {
       moveMolePacket(packet, clientConnection);
-    }else if(packet.getPacketType().equalsIgnoreCase(Packets.TIMETOTHINK.getPacketType())){
+    } else if (packet.getPacketType().equalsIgnoreCase(Packets.TIMETOTHINK.getPacketType())) {
       timeToThinkPacket(packet, clientConnection);
-    }else if (packet.getPacketType().equalsIgnoreCase(Packets.LEAVEGAME.getPacketType())) {
+    } else if (packet.getPacketType().equalsIgnoreCase(Packets.LEAVEGAME.getPacketType())) {
       leaveGamePacket(packet, clientConnection);
+    } else if (packet.getPacketType().equalsIgnoreCase(Packets.NEXTPLAYER.getPacketType())) {
+      nextPlayerPacket(packet, clientConnection);
+    } else if (packet.getPacketType().equalsIgnoreCase(Packets.DRAWCARD.getPacketType())) {
+      drawPlayerCardPacket(clientConnection);
+    } else if (packet.getPacketType().equalsIgnoreCase(Packets.CONFIGURATION.getPacketType())) {
+    } else {
+      throw new PacketNotExistsException("Packet not exists");
     }
-
   }
 
+  private void updateConfigurationPacket(@NotNull final Packet packet) {
+    Game game = MoleGames.getMoleGames().getGameHandler().getClientGames().get(packet.getJsonObject().getInt("gameID"));
+    game.getSettings().updateConfiuration(packet.getJsonObject());
+  }
 
-  public void drawPlayerCardPacket(@NotNull final ServerThread clientConnection, final int number) {
+  private synchronized void nextPlayerPacket(@NotNull final Packet packet, @NotNull final ServerThread clientConnection) {
+  }
+
+  public synchronized void drawnPlayerCardPacket(@NotNull final ServerThread clientConnection, final int cardID) {
     var object = new JSONObject();
-    object.put("type", Packets.DRAWCARD.getPacketType());
-    object.put("card", number);
+    object.put("type", Packets.DRAWNCARD.getPacketType());
+    object.put("cardID", cardID);
     clientConnection.sendPacket(new Packet(object));
+  }
+
+  private void drawPlayerCardPacket(@NotNull final ServerThread clientConnection) {
+    var player = MoleGames.getMoleGames().getGameHandler().getClientGames().get(clientConnection).getClientPlayersMap().get(clientConnection);
+    player.drawACard();
   }
 
   public synchronized void playerPlacesMolePacket(@NotNull final ServerThread clientConnection, final int moleID, final int x, final int y) {
@@ -67,6 +82,12 @@ public class PacketHandler {
     object.put("moleID", moleID);
     object.put("x", x);
     object.put("y", y);
+    clientConnection.sendPacket(new Packet(object));
+  }
+
+  public synchronized void gameOverPacket(@NotNull final ServerThread clientConnection) {
+    var object = new JSONObject();
+    object.put("type", Packets.GAMEOVER.getPacketType());
     clientConnection.sendPacket(new Packet(object));
   }
 
@@ -103,26 +124,20 @@ public class PacketHandler {
   }
 
   private synchronized void leaveGamePacket(@NotNull final Packet packet, @NotNull final ServerThread clientConnection) {
-
   }
 
   private synchronized void timeToThinkPacket(@NotNull final Packet packet, @NotNull final ServerThread clientConnection) {
-
   }
-
 
   public synchronized void startGamePacket(@NotNull final ServerThread clientConnection) {
-
   }
 
-  public synchronized void joinedGamePacket( @NotNull final ServerThread clientConnection, final int gameID) {
+  public synchronized void joinedGamePacket(@NotNull final ServerThread clientConnection, final int gameID) {
     var object = new JSONObject();
     object.put("type", Packets.JOINEDGAME.getPacketType());
     object.put("gameID", gameID);
     clientConnection.sendPacket(new Packet(object));
   }
-
-
 
   public void loginPacket(@NotNull final ServerThread clientConnection, final int threadID) {
     var object = new JSONObject();
@@ -132,11 +147,9 @@ public class PacketHandler {
   }
 
   private synchronized void moveMolePacket(@NotNull final Packet packet, @NotNull final ServerThread clientConnection) {
-
   }
 
   private synchronized void placeMolePacket(@NotNull final Packet packet, @NotNull final ServerThread clientConnection) {
-
   }
 
   private synchronized void gameOverviewPacket(@NotNull final Packet packet, @NotNull final ServerThread clientConnection) {
@@ -145,31 +158,28 @@ public class PacketHandler {
   private synchronized void joinGamePacket(@NotNull final Packet packet, @NotNull final ServerThread clientConnection) {
     var object = new JSONObject();
     //JOIN-GAME#ID
-    if (MultiGameHandler.getGames().containsKey(packet.getJsonObject().getInt("gameID"))) {
+    if (MoleGames.getMoleGames().getGameHandler().getGames().containsKey(packet.getJsonObject().getInt("gameID"))) {
       var connectType = packet.getJsonObject().getString("connectType");
-      var game = MultiGameHandler.getGames().get(packet.getJsonObject().getInt("gameID"));
+      var game = MoleGames.getMoleGames().getGameHandler().getGames().get(packet.getJsonObject().getInt("gameID"));
       if (connectType.equalsIgnoreCase("player")) {
         if (game.getCurrentGameState().equals(GameStates.LOBBY))
-          game.joinGame(clientConnection, false);
+          game.joinGame(new Player(clientConnection, game), false);
         else {
           object.put("type", Packets.INGAME.getPacketType());
           clientConnection.sendPacket(new Packet(object));
         }
       } else if (connectType.equalsIgnoreCase("spectator"))
-        game.joinGame(clientConnection, true);
+        game.joinGame(new Player(clientConnection, game), true);
       else if (connectType.equalsIgnoreCase("player"))
-        game.joinGame(clientConnection, false);
+        game.joinGame(new Player(clientConnection, game), false);
     } else {
       object.put("type", Packets.NOTEXISTS.getPacketType());
       clientConnection.sendPacket(new Packet(object));
     }
   }
 
-  private synchronized void createGamePacket(@NotNull final Packet packet, @NotNull final ServerThread clientConnection) {
+  private synchronized void createGamePacket() {
     //    "CREATE-GAME#ID"
-    int maxFloors = -1;
-    if (!packet.getJsonObject().isNull("maxFloors"))
-      maxFloors = packet.getJsonObject().getInt("maxFloors");
-    MoleGames.getMoleGames().getGameHandler().createNewGame(Punishments.getPunishmentByID(packet.getJsonObject().getInt("punishment")), packet.getJsonObject().getInt("radius"), maxFloors); //<----
+    MoleGames.getMoleGames().getGameHandler().createNewGame(); //<----
   }
 }

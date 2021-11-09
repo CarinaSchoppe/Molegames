@@ -40,8 +40,4 @@ public abstract class Network {
   protected int getPort() {
     return port;
   }
-
-  protected String getIp() {
-    return ip;
-  }
 }

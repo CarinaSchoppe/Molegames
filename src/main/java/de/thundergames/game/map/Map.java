@@ -1,21 +1,26 @@
 package de.thundergames.game.map;
 
+import de.thundergames.game.util.Game;
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Map {
 
   private final int radius;
-  private final int maxFloors;
+
   private Floors floor;
+  private final Game game;
   private int currentFloor;
   private int holeAmount;
   private int doubleDrawFields;
 
-  public Map(final int radius, final int maxFloors) {
+  public Map(final int radius, @NotNull final Game game) {
+    this.game = game;
     this.radius = radius + 1;
-    this.maxFloors = maxFloors;
-    currentFloor = maxFloors;
+    currentFloor = game.getSettings().getMaxFloors();
+    createMap();
   }
 
   private final ArrayList<Field> fields = new ArrayList<>();
@@ -46,7 +51,7 @@ public class Map {
         fields.add(field);
       }
     }
-    printMap();
+    // printMap();
   }
 
   /**
@@ -74,6 +79,10 @@ public class Map {
 
   public Floors getFloor() {
     return floor;
+  }
+
+  public Game getGame() {
+    return game;
   }
 
   public int getCurrentFloor() {
@@ -104,14 +113,9 @@ public class Map {
     this.doubleDrawFields = doubleDrawFields;
   }
 
-  public int getMaxFloors() {
-    return maxFloors;
-  }
-
   public HashMap<int[], Field> getFieldCounter() {
     return fieldCounter;
   }
-
 
   public ArrayList<Field> getOccupied() {
     return occupied;

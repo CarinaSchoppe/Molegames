@@ -6,36 +6,12 @@ public class Field {
   private boolean hole;
   private boolean doubleMove = false;
 
-  public boolean isDoubleMove() {
-    return doubleMove;
-  }
-
-  public void setDoubleMove(final boolean doubleMove) {
-    this.doubleMove = doubleMove;
-  }
-
   public Field(final int[] id) {
     this.id = id;
   }
 
   public int[] getId() {
     return id;
-  }
-
-  public boolean isOccupied() {
-    return occupied;
-  }
-
-  public boolean isHole() {
-    return hole;
-  }
-
-  public void setOccupied(final boolean occupied) {
-    this.occupied = occupied;
-  }
-
-  public void setHole(final boolean hole) {
-    this.hole = hole;
   }
 
   @Override

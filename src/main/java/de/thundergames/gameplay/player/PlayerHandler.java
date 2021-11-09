@@ -17,10 +17,6 @@ public class PlayerHandler {
   public static void shutdown() {
   }
 
-  public ArrayList<Mole> getPlayerMoles() {
-    return playerMoles;
-  }
-
   public ArrayList<Mole> getPlayerMolesInHoles() {
     return playerMolesInHoles;
   }

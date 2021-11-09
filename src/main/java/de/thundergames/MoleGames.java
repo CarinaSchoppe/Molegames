@@ -22,7 +22,6 @@ public class MoleGames {
   private static MoleGames moleGames;
   private Server server;
   private MultiGameHandler gameHandler;
-  private AI AI;
   private GameLogic gameLogic;
   private PacketHandler packetHandler;
 
@@ -53,7 +52,7 @@ public class MoleGames {
         case "-a":
         case "a":
           assert args[2] != null;
-          moleGames.AI = new AI(true, args[1], Integer.parseInt(args[2]));
+          new AI(args[1], Integer.parseInt(args[2]));
       }
     }
   }
@@ -69,7 +68,6 @@ public class MoleGames {
   public Server getServer() {
     return server;
   }
-
 
   public PacketHandler getPacketHandler() {
     return packetHandler;

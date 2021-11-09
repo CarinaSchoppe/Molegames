@@ -1,18 +1,15 @@
 package de.thundergames.gameplay.ai;
 
-import de.thundergames.game.util.Mole;
 import de.thundergames.gameplay.player.PlayerHandler;
 import org.jetbrains.annotations.NotNull;
 
 public class AI extends PlayerHandler implements Runnable {
-  private boolean shouldRun;
   private final Thread AIthread = new Thread(this);
   private boolean isMove = false;
   private final int port;
   private final String ip;
 
-  public AI(final boolean shouldRun, @NotNull final String ip, final int port) {
-    this.shouldRun = shouldRun;
+  public AI(@NotNull final String ip, final int port) {
     this.ip = ip;
     this.port = port;
   }
@@ -48,17 +45,5 @@ public class AI extends PlayerHandler implements Runnable {
         isMove = false;
       }
     }
-  }
-
-  public boolean isShouldRun() {
-    return shouldRun;
-  }
-
-  public void setShouldRun(final boolean shouldRun) {
-    this.shouldRun = shouldRun;
-  }
-
-  public Thread getAIThread() {
-    return AIthread;
   }
 }

@@ -1,7 +1,6 @@
 package de.thundergames.game.util;
 
 import de.thundergames.network.server.ServerThread;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 
@@ -24,22 +23,19 @@ public class MultiGameHandler {
    * @author Carina
    * @use creates the new Game
    */
-  public void createNewGame(@NotNull Punishments punishment, final int radius, final int maxFloors) {
-    var game = new Game(punishment, gameIDs, radius, maxFloors);
+  public synchronized void createNewGame() {
+    var game = new Game(gameIDs);
+    game.create();
     games.put(gameIDs, game);
     gameIDs++;
     game.start();
   }
 
-  public int getGameIDs() {
-    return gameIDs;
-  }
-
-  public static HashMap<Integer, Game> getGames() {
+  public HashMap<Integer, Game> getGames() {
     return games;
   }
 
-  public static HashMap<ServerThread, Game> getClientGames() {
+  public HashMap<ServerThread, Game> getClientGames() {
     return clientGames;
   }
 }

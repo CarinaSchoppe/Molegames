@@ -19,16 +19,8 @@ public class Floors {
     this.holeAmount = holes;
   }
 
-  public int getFloorNumber() {
-    return floorNumber;
-  }
-
   public Map getMap() {
     return map;
-  }
-
-  public int getHoleAmount() {
-    return holeAmount;
   }
 
   public ArrayList<Hole> getHoles() {

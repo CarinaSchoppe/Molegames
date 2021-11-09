@@ -5,8 +5,6 @@ import org.jetbrains.annotations.NotNull;
 
 public class GameLogic {
 
-
-
   /**
    * @param start       the startpoint in form of x and y
    * @param stop        the endpoint where the player wants to go in form of x and y

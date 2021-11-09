@@ -12,7 +12,7 @@
          <children>
             <ImageView fitHeight="410.0" fitWidth="607.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@grafik.png" />
+                  <Image url="@../util/grafik.png" />
                </image>
             </ImageView>
             <Button fx:id="startButton" layoutX="147.0" layoutY="263.0" mnemonicParsing="false" onAction="#OpenSomeThing" prefHeight="47.0" prefWidth="144.0" style="-fx-background-color: transparent;" />

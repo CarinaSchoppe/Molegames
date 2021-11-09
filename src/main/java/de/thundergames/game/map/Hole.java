@@ -8,8 +8,4 @@ public class Hole {
     this.id = id;
     this.used = used;
   }
-
-  public void setUsed(final boolean used) {
-    this.used = used;
-  }
 }

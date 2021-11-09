@@ -72,10 +72,9 @@ public class Server extends Network {
     return threadIds;
   }
 
-
   /**
-   * @param game the de.thundergames.game that all clients are connected to
-   * @param packet  the packet that should be send
+   * @param game   the de.thundergames.game that all clients are connected to
+   * @param packet the packet that should be send
    * @use the method will send a packet to all connected clients of the de.thundergames.game
    */
   //WICHTIG: BEDENKE mach dies immer in einem anderen Thread oder der Mainthread muss sicher frei sein!
@@ -84,7 +83,7 @@ public class Server extends Network {
       if (!game.getClients().isEmpty()) {
         for (var iterator = game.getClients().iterator(); iterator.hasNext(); ) {
           var client = iterator.next();
-          client.sendPacket(packet);
+          client.getServerClient().sendPacket(packet);
         }
       }
     } catch (Exception e) {

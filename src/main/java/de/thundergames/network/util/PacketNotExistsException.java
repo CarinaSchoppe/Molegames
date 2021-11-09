@@ -7,7 +7,4 @@ public class PacketNotExistsException extends Exception {
   public PacketNotExistsException(String message) {
     super(message);
   }
-  public PacketNotExistsException(String message, Throwable cause) {
-    super(message, cause);
-  }
 }

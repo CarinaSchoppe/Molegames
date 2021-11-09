@@ -26,16 +26,6 @@ public class Packet {
     this.jsonObject = json;
   }
 
-  /**
-   *
-   * @author Carina
-   * @use get the String from the packet and modify it
-   */
-  public void modifyType(@NotNull final String type) {
-    packetType = type;
-    jsonObject.put("type", packetType);
-  }
-
   public String getPacketType() {
     return packetType;
   }
