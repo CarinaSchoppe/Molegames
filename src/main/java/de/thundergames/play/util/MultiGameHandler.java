@@ -1,7 +1,9 @@
-package de.thundergames.game.util;
+package de.thundergames.play.util;
 
 import de.thundergames.network.server.ServerThread;
+import de.thundergames.play.game.Game;
 
+import java.io.IOException;
 import java.util.HashMap;
 
 /**
@@ -18,14 +20,16 @@ public class MultiGameHandler {
   private int gameIDs = 0;
 
   /**
-   * @param punishment the one that will be set as a default
-   * @return the de.thundergames.game id
    * @author Carina
    * @use creates the new Game
    */
-  public synchronized void createNewGame() {
+  public void createNewGame() {
     var game = new Game(gameIDs);
-    game.create();
+    try {
+      game.create();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
     games.put(gameIDs, game);
     gameIDs++;
   }

@@ -17,7 +17,6 @@ import java.nio.charset.StandardCharsets;
 
 public abstract class NetworkThread extends Thread {
   protected final Socket socket;
-
   protected Packet packet;
   protected int id;
   private final PrintWriter writer;

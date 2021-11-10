@@ -40,7 +40,7 @@ public class Client extends Network {
     client.create();
   }
 
-  public Client(final int port, @NotNull final  String ip,@NotNull final  String name) {
+  public Client(final int port, @NotNull final String ip, @NotNull final String name) {
     super(port, ip);
     this.name = name;
     clientPacketHandler = new ClientPacketHandler();
@@ -56,6 +56,11 @@ public class Client extends Network {
     connect();
   }
 
+  /**
+   * @author Carina
+   * @use connects the client to the server
+   * @see ClientThread for more
+   */
   public void connect() {
     try {
       socket = new Socket(ip, port);

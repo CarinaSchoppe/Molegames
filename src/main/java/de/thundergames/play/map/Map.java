@@ -1,14 +1,14 @@
-package de.thundergames.game.map;
+package de.thundergames.play.map;
 
-import de.thundergames.game.util.Game;
+import de.thundergames.play.game.Game;
 import org.jetbrains.annotations.NotNull;
+import org.json.JSONObject;
 
 import java.util.List;
 
 public class Map {
 
   private final int radius;
-
   private Floors floor;
   private int currentFloor;
   private int holeAmount; //TODO: here
@@ -60,6 +60,27 @@ public class Map {
       System.out.print("Field X:" + field.getId().get(0) + ", Y:" + field.getId().get(1) + " occupied:" + field.isOccupied() + "   ");
     }
     System.out.println();
+  }
+
+  private int moveCounter = 0;
+
+  /**
+   * @return the JSONSTRING of the map with all needed information
+   * @author Carina
+   * @use will be saved to the gameConfig stuff.
+   */
+  public synchronized String toJSONString() {
+    JSONObject object = new JSONObject();
+    object.put("radius", radius);
+    for (var field : floor.getFields()) {
+      object.put("moveCounter" + moveCounter + ".field[" + field.getId().get(0) + "," + field.getId().get(1) + "].occupied", field.isOccupied());
+      object.put("moveCounter" + moveCounter + ".field[" + field.getId().get(0) + "," + field.getId().get(1) + "].hole", field.isHole());
+      object.put("moveCounter" + moveCounter + ".field[" + field.getId().get(0) + "," + field.getId().get(1) + "].doubleMove", field.isDoubleMove());
+      if (field.isOccupied())
+        object.put("moveCounter" + moveCounter + ".field[" + field.getId().get(0) + "," + field.getId().get(1) + "].mole", field.getMole().getPlayer().getServerClient().getClientName());
+    }
+    moveCounter++;
+    return object.toString();
   }
 
   public Floors getFloor() {

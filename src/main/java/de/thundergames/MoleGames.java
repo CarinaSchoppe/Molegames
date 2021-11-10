@@ -1,11 +1,11 @@
 package de.thundergames;
 
-import de.thundergames.game.util.GameLogic;
-import de.thundergames.game.util.MultiGameHandler;
 import de.thundergames.gameplay.ai.AI;
 import de.thundergames.network.client.Client;
 import de.thundergames.network.server.Server;
 import de.thundergames.network.util.PacketHandler;
+import de.thundergames.play.game.GameLogic;
+import de.thundergames.play.util.MultiGameHandler;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
@@ -28,6 +28,10 @@ public class MoleGames {
   /**
    * @author Carina
    * @use MainClass start
+   * @use creates a server object or AI object or client object depending on the arguments
+   * @see Server
+   * @see Client
+   * @see AI
    */
   public static void main(@Nullable final String... args) {
     moleGames = new MoleGames();
@@ -51,8 +55,8 @@ public class MoleGames {
           break;
         case "-a":
         case "a":
-          assert args[2] != null;
-          new AI(Objects.requireNonNull(args[1]), Integer.parseInt(args[2]));
+          assert args[3] != null;
+          new AI(Objects.requireNonNull(args[1]), Integer.parseInt(Objects.requireNonNull(args[2])), Integer.parseInt(Objects.requireNonNull(args[3])));
       }
     }
   }

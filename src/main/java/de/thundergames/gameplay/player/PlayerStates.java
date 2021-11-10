@@ -1,5 +1,11 @@
 package de.thundergames.gameplay.player;
 
+/**
+ * @author Carina
+ * @use the PlayerStates a player can have
+ * @use will be changed every time a player can do something
+ * @see Player
+ */
 public enum PlayerStates {
 
   JOIN(3),

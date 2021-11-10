@@ -1,9 +1,10 @@
 package de.thundergames.network.server;
 
 import de.thundergames.MoleGames;
-import de.thundergames.game.util.Game;
+import de.thundergames.gameplay.player.Player;
 import de.thundergames.network.util.Network;
 import de.thundergames.network.util.Packet;
+import de.thundergames.play.game.Game;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
@@ -78,10 +79,10 @@ public class Server extends Network {
    * @use the method will send a packet to all connected clients of the de.thundergames.game
    */
   //WICHTIG: BEDENKE mach dies immer in einem anderen Thread oder der Mainthread muss sicher frei sein!
-  public synchronized void sendToGameClients(@NotNull final Game game,@NotNull final  Packet packet) {
+  public synchronized void sendToGameClients(@NotNull final Game game, @NotNull final Packet packet) {
     try {
       if (!game.getClients().isEmpty()) {
-        for (de.thundergames.game.util.Player client : game.getClients()) {
+        for (Player client : game.getClients()) {
           client.getServerClient().sendPacket(packet);
         }
       }

@@ -1,10 +1,12 @@
-package de.thundergames.game.util;
+package de.thundergames.play.util;
 
 import de.thundergames.filehandling.GameConfiguration;
-import de.thundergames.game.map.Map;
+import de.thundergames.play.game.Game;
+import de.thundergames.play.map.Map;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,11 +22,18 @@ public class Settings {
   private int radius = 4;
   final GameConfiguration gameConfiguration;
 
-  public Settings(@NotNull final Game game) {
+  public Settings(@NotNull final Game game) throws IOException {
     this.game = game;
     this.gameConfiguration = new GameConfiguration(toJsonConfiguration());
   }
 
+  /**
+   * @param packet the jsonObject that will update the configuration send by the GameMasterClient
+   * @author Carina
+   * @use pass in the new configuration from the GameMasterClient and it will automaticly update every single setting that was included in the jsonObject
+   * @use this method is called in the GameMasterClient to the Server
+   * @use updates the map and the Game directly
+   */
   public synchronized void updateConfiuration(@NotNull final JSONObject packet) {
     if (!packet.isNull("randomDraw"))
       randomDraw = packet.getBoolean("randomDraw");
@@ -50,6 +59,11 @@ public class Settings {
     }
   }
 
+  /**
+   * @return the Settings  in a JsonObject format
+   * @author Carina
+   * @use this method is called in the GameMasterClient to the Server to convert the Settings to a jsonObject to save that on the system
+   */
   public JSONObject toJsonConfiguration() {
     JSONObject jsonObject = new JSONObject();
     jsonObject.put("randomDraw", randomDraw);

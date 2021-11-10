@@ -1,19 +1,30 @@
 package de.thundergames.gameplay.ai;
 
-import de.thundergames.gameplay.player.PlayerHandler;
+import de.thundergames.play.util.Mole;
 import org.jetbrains.annotations.NotNull;
 
-public class AI extends PlayerHandler implements Runnable {
+import java.util.ArrayList;
+
+public class AI implements Runnable {
+
+  private final ArrayList<Mole> playerMolesInHoles = new ArrayList<>();
+  private final ArrayList<Mole> playerMolesOnField = new ArrayList<>();
   private final Thread AIthread = new Thread(this);
   private boolean isMove = false;
   private final int port;
   private final String ip;
+  private final int gameID;
 
-  public AI(@NotNull final String ip, final int port) {
+  public AI(@NotNull final String ip, final int port, final int gameID) {
     this.ip = ip;
     this.port = port;
+    this.gameID = gameID;
   }
 
+  /**
+   * @author Carina
+   * @use is called after the constructor to initiate everything needed than starts the AI
+   */
   public void start() {
     AIthread.start();
     isMove = true;
@@ -22,6 +33,10 @@ public class AI extends PlayerHandler implements Runnable {
   private void makeMove() {
   }
 
+  /**
+   * @author Carina
+   * @use is called when an AI starts its job
+   */
   @Override
   public void run() {
     boolean moveable = false;
@@ -45,5 +60,13 @@ public class AI extends PlayerHandler implements Runnable {
         isMove = false;
       }
     }
+  }
+
+  public ArrayList<Mole> getPlayerMolesInHoles() {
+    return playerMolesInHoles;
+  }
+
+  public ArrayList<Mole> getPlayerMolesOnField() {
+    return playerMolesOnField;
   }
 }

@@ -15,6 +15,10 @@ public class ServerThread extends NetworkThread {
     this.clientName = clientName;
   }
 
+  public String getClientName() {
+    return clientName;
+  }
+
   /**
    * @param socket the server Socket
    * @param id     Serverthread id

@@ -1,4 +1,4 @@
-package de.thundergames.game.util;
+package de.thundergames.play.game;
 
 /**
  * @author Carina

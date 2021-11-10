@@ -1,4 +1,4 @@
-package de.thundergames.game.util;
+package de.thundergames.play.util;
 
 public enum Punishments {
 
@@ -16,6 +16,11 @@ public enum Punishments {
     return id;
   }
 
+  /**
+   * @param id the id of the punishment
+   * @return the punishment with the given id
+   * @author Carina
+   */
   public static synchronized Punishments getByID(final int id) {
     for (Punishments punishment : Punishments.values()) {
       if (punishment.getID() == id) {

@@ -1,5 +1,6 @@
-package de.thundergames.game.map;
+package de.thundergames.play.map;
 
+import de.thundergames.play.util.Mole;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -9,8 +10,9 @@ public class Field {
   private boolean occupied;
   private boolean hole;
   private final boolean doubleMove = false;
+  private Mole mole;
 
-  public Field(@NotNull final  List<Integer> id) {
+  public Field(@NotNull final List<Integer> id) {
     this.id = id;
   }
 
@@ -31,7 +33,18 @@ public class Field {
     return id.get(0);
   }
 
-  public void setOccupied(final boolean occupied) {
+  /**
+   * @param occupied if a field is occupied by a mole from a player
+   * @param mole     the mole that occupies the field
+   * @author Carina
+   * @see Mole
+   * @see de.thundergames.gameplay.player.Player
+   */
+  public void setOccupied(final boolean occupied, Mole mole) {
+    if (occupied)
+      this.mole = mole;
+    else
+      this.mole = null;
     this.occupied = occupied;
   }
 
@@ -41,5 +54,13 @@ public class Field {
 
   public boolean isHole() {
     return hole;
+  }
+
+  public Mole getMole() {
+    return mole;
+  }
+
+  public boolean isDoubleMove() {
+    return doubleMove;
   }
 }

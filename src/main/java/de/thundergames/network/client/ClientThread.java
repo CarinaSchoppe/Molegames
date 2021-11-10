@@ -1,14 +1,14 @@
 package de.thundergames.network.client;
 
-import de.thundergames.gameplay.player.PlayerHandler;
 import de.thundergames.network.util.NetworkThread;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.net.Socket;
 
 public class ClientThread extends NetworkThread {
 
-  public ClientThread(Socket socket, int id) throws IOException {
+  public ClientThread(@NotNull final Socket socket, final int id) throws IOException {
     super(socket, id);
   }
 
@@ -22,7 +22,6 @@ public class ClientThread extends NetworkThread {
       try {
         System.out.println("Server disconnected!");
         socket.close();
-        PlayerHandler.shutdown();
       } catch (IOException e) {
         e.printStackTrace();
       }
