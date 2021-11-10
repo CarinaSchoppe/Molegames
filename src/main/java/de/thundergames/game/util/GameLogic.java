@@ -16,7 +16,7 @@ public class GameLogic {
    * @use add the parameters and it will return if the move was valid with true or invalid with false
    * @premisse the startpoint and endpoint must be in the playingfield and the player was allowed to move.
    */
-  public synchronized boolean wasLegalMove(final List<Integer> start, final List<Integer> stop, final int moveCounter, @NotNull final Map map) {
+  public synchronized boolean wasLegalMove(@NotNull final List<Integer> start, @NotNull final  List<Integer> stop, final int moveCounter, @NotNull final Map map) {
     //check if player moved to much
     if (map.getFloor().getFieldMap().containsKey(start) && map.getFloor().getFieldMap().containsKey(stop) && start != stop) {
       if (stop.get(0) - start.get(0) == 0 && Math.abs(stop.get(1) - start.get(1)) == moveCounter || start.get(1) - stop.get(1) == 0 && Math.abs(stop.get(0) - start.get(0)) == moveCounter || Math.abs(stop.get(0) - start.get(0)) == Math.abs(stop.get(1) - start.get(1)) && Math.abs(start.get(1) - stop.get(1)) == moveCounter) {

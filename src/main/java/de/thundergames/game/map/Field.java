@@ -1,5 +1,7 @@
 package de.thundergames.game.map;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.List;
 
 public class Field {
@@ -8,7 +10,7 @@ public class Field {
   private boolean hole;
   private final boolean doubleMove = false;
 
-  public Field(final List<Integer> id) {
+  public Field(@NotNull final  List<Integer> id) {
     this.id = id;
   }
 

@@ -8,6 +8,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.net.URL;
@@ -42,7 +43,7 @@ public class GameMasterHandler extends Application {
   }
 
   @Override
-  public void start(Stage primaryStage) throws Exception {
+  public void start(@NotNull final Stage primaryStage) throws Exception {
     location = new File("src/main/resources/GameMasterHandler.fxml").toURI().toURL();
     Parent root = FXMLLoader.load(location);
     primaryStage.setTitle("GameMasterHandler");

@@ -55,7 +55,7 @@ public class Game extends Thread {
   }
 
 
-  public void removePlayerFromGame(Player player) {
+  public void removePlayerFromGame(@NotNull final Player player) {
     players.remove(player);
     clientPlayersMap.remove(player.getServerClient());
   }

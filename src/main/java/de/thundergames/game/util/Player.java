@@ -4,6 +4,7 @@ import de.thundergames.MoleGames;
 import de.thundergames.network.server.ServerThread;
 import de.thundergames.network.util.Packet;
 import de.thundergames.network.util.Packets;
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
 
 import java.util.*;
@@ -19,7 +20,7 @@ public class Player {
   private boolean hasMoved = true;
   private List<Integer> cards;
 
-  public Player(ServerThread client, Game game) {
+  public Player(@NotNull final  ServerThread client,@NotNull final  Game game) {
     this.serverClient = client;
     this.game = game;
     this.cards = new ArrayList<>(game.getSettings().getCards());
@@ -112,7 +113,7 @@ public class Player {
     }
   }
 
-  private Mole getMole(int moleID) {
+  private Mole getMole(final int moleID) {
     Mole mole;
     for (Mole value : moles) {
       if (value.getMoleID() == moleID) {

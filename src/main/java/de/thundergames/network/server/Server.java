@@ -78,7 +78,7 @@ public class Server extends Network {
    * @use the method will send a packet to all connected clients of the de.thundergames.game
    */
   //WICHTIG: BEDENKE mach dies immer in einem anderen Thread oder der Mainthread muss sicher frei sein!
-  public synchronized void sendToGameClients(Game game, Packet packet) {
+  public synchronized void sendToGameClients(@NotNull final Game game,@NotNull final  Packet packet) {
     try {
       if (!game.getClients().isEmpty()) {
         for (de.thundergames.game.util.Player client : game.getClients()) {

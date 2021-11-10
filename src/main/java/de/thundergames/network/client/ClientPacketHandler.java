@@ -14,7 +14,7 @@ public class ClientPacketHandler {
    * @use handles the packet that came in
    * @see de.thundergames.network.util.PacketHandler the packetHandler by the Server as a reference
    */
-  public void handlePacket(Client client, @NotNull Packet packet) throws PacketNotExistsException {
+  public void handlePacket(@NotNull final Client client, @NotNull final Packet packet) throws PacketNotExistsException {
     if (packet.getPacketType().equalsIgnoreCase(Packets.LOGIN.getPacketType())) {
       //ID : 3
       var id = packet.getJsonObject().getInt("id");

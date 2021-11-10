@@ -16,7 +16,6 @@ repositories {
 
 
 dependencies {
-    implementation 'org.xerial:sqlite-jdbc:3.36.0.2'
     implementation 'org.openjfx:javafx-plugin:0.0.10'
     implementation 'org.openjfx:javafx:17.0.0.1'
     implementation 'org.json:json:20210307'

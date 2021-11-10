@@ -4,6 +4,7 @@ import de.thundergames.MoleGames;
 import de.thundergames.network.util.Network;
 import de.thundergames.network.util.Packet;
 import de.thundergames.network.util.Packets;
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -39,7 +40,7 @@ public class Client extends Network {
     client.create();
   }
 
-  public Client(int port, String ip, String name) {
+  public Client(final int port, @NotNull final  String ip,@NotNull final  String name) {
     super(port, ip);
     this.name = name;
     clientPacketHandler = new ClientPacketHandler();

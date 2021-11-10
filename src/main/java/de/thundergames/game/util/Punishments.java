@@ -16,7 +16,7 @@ public enum Punishments {
     return id;
   }
 
-  public static synchronized Punishments getByID(int id) {
+  public static synchronized Punishments getByID(final int id) {
     for (Punishments punishment : Punishments.values()) {
       if (punishment.getID() == id) {
         return punishment;

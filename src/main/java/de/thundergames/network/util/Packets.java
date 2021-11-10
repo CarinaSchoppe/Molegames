@@ -1,5 +1,7 @@
 package de.thundergames.network.util;
 
+import org.jetbrains.annotations.NotNull;
+
 /**
  * @author Carina
  * @see Packets the packet element that can be send
@@ -56,7 +58,7 @@ public enum Packets {
     return id;
   }
 
-  public Packets getPacketByType(String packetType) {
+  public Packets getPacketByType(@NotNull final String packetType) {
     for (Packets packet : Packets.values()) {
       if (packet.getPacketType().equals(packetType)) {
         return packet;

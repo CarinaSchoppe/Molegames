@@ -2,6 +2,7 @@ package de.thundergames.game.util;
 
 import de.thundergames.filehandling.GameConfiguration;
 import de.thundergames.game.map.Map;
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -19,12 +20,12 @@ public class Settings {
   private int radius = 4;
   final GameConfiguration gameConfiguration;
 
-  public Settings(Game game) {
+  public Settings(@NotNull final Game game) {
     this.game = game;
     this.gameConfiguration = new GameConfiguration(toJsonConfiguration());
   }
 
-  public synchronized void updateConfiuration(JSONObject packet) {
+  public synchronized void updateConfiuration(@NotNull final JSONObject packet) {
     if (!packet.isNull("randomDraw"))
       randomDraw = packet.getBoolean("randomDraw");
     if (!packet.isNull("timeToThink"))

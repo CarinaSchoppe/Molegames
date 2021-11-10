@@ -18,7 +18,7 @@ public class Floors {
   private final Map map;
   private final int holeAmount;
 
-  public Floors(final int floorNumber, int holes, final int doubleDrawFields, @NotNull final Map map) {
+  public Floors(final int floorNumber,final int holes, final int doubleDrawFields, @NotNull final Map map) {
     this.floorNumber = floorNumber;
     this.doubleDrawFields = doubleDrawFields;
     this.map = map;

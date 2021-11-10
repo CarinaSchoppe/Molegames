@@ -3,6 +3,8 @@ package de.thundergames.game.map;
 import de.thundergames.game.util.Game;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
+
 public class Map {
 
   private final int radius;
@@ -28,8 +30,8 @@ public class Map {
     floor.getFields().clear();
     for (var y = 0; y < radius; y++) {
       for (var x = 0; x < radius + y; x++) {
-        var field = new Field(java.util.List.of(x, y));
-        floor.getFieldMap().put(java.util.List.of(x, y), field);
+        var field = new Field(List.of(x, y));
+        floor.getFieldMap().put(List.of(x, y), field);
         floor.getFields().add(field);
       }
     }
