@@ -1,26 +1,26 @@
 # swtpra10
 ##Gitlab main branch
-Carina S. Produktmanagerin, Komitee
+Carina Schoppe: Produktmanagerin, Komitee
 
-Lennart K. Produktmanager
+Lennart Kunkel: Produktmanager
 
-MarcW Scrum Master
+Marc W: Scrum Master
 
-Eva Juo. Testmanagerin
+Eva Juo: Testmanagerin
 
-Jana R Testmanagerin
+Jana R: Testmanagerin
 
-Issam Mani Entwickler, Qualitätsmanager
+Issam Mani: Entwickler, Qualitätsmanager
 
-Nick Lührmann Scrum Master
+Nick Lührmann: Scrum Master
 
-Nicole Malgorzata M Dokumentationsmanagerin
+Nicole Malgorzata M: Dokumentationsmanagerin
 
-Philipp F Werkzeugbeauftragter
+Philipp F: Werkzeugbeauftragter
 
-Dila C. Entwicklerin
+Dila C: Entwicklerin
 
-Alp B. Entwickler
+Alp B: Entwickler
 
-Michael A. Product Owner
+Michael A: Product Owner
 

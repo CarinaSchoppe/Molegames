@@ -35,16 +35,11 @@ public class GameMasterHandler extends Application {
   void OpenSomeThing(ActionEvent event) {
   }
 
-  @FXML
-  void initialize() {
-    assert StartGame != null : "fx:id=\"StartGame\" was not injected: check your FXML file 'GameMasterHandler.fxml'.";
-    assert ViewGame != null : "fx:id=\"ViewGame\" was not injected: check your FXML file 'GameMasterHandler.fxml'.";
-    assert startButton != null : "fx:id=\"startButton\" was not injected: check your FXML file 'GameMasterHandler.fxml'.";
-  }
+
 
   @Override
   public void start(@NotNull final Stage primaryStage) throws Exception {
-    location = new File("src/main/resources/GameMasterHandler.fxml").toURI().toURL();
+    location = new File("src/main/resources/gamemaster/GameMasterHandler.fxml").toURI().toURL();
     Parent root = FXMLLoader.load(location);
     primaryStage.setTitle("GameMasterHandler");
     primaryStage.setScene(new Scene(root, 900, 600));
@@ -53,5 +48,14 @@ public class GameMasterHandler extends Application {
 
   public static void main(String[] args) {
     launch(args);
+  }
+
+  public void do2(ActionEvent actionEvent) {
+    System.out.println("do5");
+
+  }
+
+  public void do3(ActionEvent actionEvent) {
+    System.out.println("do3");
   }
 }

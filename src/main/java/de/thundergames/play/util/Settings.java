@@ -11,6 +11,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Settings {
+
+  /*
+
+  ausrichter kann spieler zu einem spiel zuweisen
+
+   */
+
   private final ArrayList<Integer> cards = new ArrayList<>(List.of(1, 1, 2, 2, 3, 3, 4, 4));
   private int timeToThink = 20;
   private boolean randomDraw = false;

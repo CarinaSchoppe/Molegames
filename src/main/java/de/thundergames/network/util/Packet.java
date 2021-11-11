@@ -19,7 +19,7 @@ public class Packet {
   /**
    * @param json is the JSONobject that will be send to the client
    * @author Carina
-   * @use seperate the single objects in the string with a #
+   * @use create a json object and add the type parameter
    */
   public Packet(@NotNull final JSONObject json) {
     this.packetType = json.getString("type");
