@@ -7,7 +7,6 @@ import org.jetbrains.annotations.NotNull;
  * @see Packets the packet element that can be send
  */
 public enum Packets {
-
   CREATEGAME(0, "CREATE-GAME"),
   JOINGAME(1, "JOIN-GAME"),
   LOGIN(2, "LOGIN"),

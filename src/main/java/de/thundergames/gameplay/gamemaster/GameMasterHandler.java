@@ -1,5 +1,8 @@
 package de.thundergames.gameplay.gamemaster;
 
+import java.io.File;
+import java.net.URL;
+import java.util.ResourceBundle;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -10,32 +13,24 @@ import javafx.scene.control.Button;
 import javafx.stage.Stage;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.File;
-import java.net.URL;
-import java.util.ResourceBundle;
-
 public class GameMasterHandler extends Application {
 
-  @FXML
-  private ResourceBundle resources;
+  @FXML private ResourceBundle resources;
 
-  @FXML
-  private URL location;
+  @FXML private URL location;
 
-  @FXML
-  private Button StartGame;
+  @FXML private Button StartGame;
 
-  @FXML
-  private Button ViewGame;
+  @FXML private Button ViewGame;
 
-  @FXML
-  private Button startButton;
+  @FXML private Button startButton;
 
-  @FXML
-  void OpenSomeThing(ActionEvent event) {
+  public static void main(String[] args) {
+    launch(args);
   }
 
-
+  @FXML
+  void OpenSomeThing(ActionEvent event) {}
 
   @Override
   public void start(@NotNull final Stage primaryStage) throws Exception {
@@ -46,13 +41,8 @@ public class GameMasterHandler extends Application {
     primaryStage.show();
   }
 
-  public static void main(String[] args) {
-    launch(args);
-  }
-
   public void do2(ActionEvent actionEvent) {
     System.out.println("do5");
-
   }
 
   public void do3(ActionEvent actionEvent) {

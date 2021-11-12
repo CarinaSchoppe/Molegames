@@ -5,42 +5,43 @@ import de.thundergames.network.client.Client;
 import de.thundergames.network.client.ClientThread;
 import de.thundergames.network.server.Server;
 import de.thundergames.network.server.ServerThread;
-import org.jetbrains.annotations.NotNull;
-import org.json.JSONObject;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
+import org.jetbrains.annotations.NotNull;
+import org.json.JSONObject;
 
 public abstract class NetworkThread extends Thread {
   protected final Socket socket;
-  protected Packet packet;
-  protected int id;
   private final PrintWriter writer;
   private final BufferedReader reader;
+  protected Packet packet;
+  protected int id;
 
   /**
    * Creates a new NetworkThread.
    *
    * @param socket The socket to use.
-   * @param id     the id of the serverSocketConnection
+   * @param id the id of the serverSocketConnection
    */
   public NetworkThread(@NotNull final Socket socket, final int id) throws IOException {
     this.socket = socket;
     this.id = id;
     if (this instanceof ServerThread)
       System.out.println("Connection established with id: " + id + "!");
-    reader = new BufferedReader(new InputStreamReader(socket.getInputStream(), StandardCharsets.UTF_8));
+    reader =
+        new BufferedReader(new InputStreamReader(socket.getInputStream(), StandardCharsets.UTF_8));
     writer = new PrintWriter(socket.getOutputStream(), true);
   }
 
   /**
-   * @author Carina
-   * creates a runnable that will create a listener for the incomming packets and reaches them over to
-   * @use will be automaticlly started by a Server- or Client (Thread) it will wait for an incomming packetmessage than decrypts it and turns it into a Packet
+   * @author Carina creates a runnable that will create a listener for the incomming packets and
+   *     reaches them over to
+   * @use will be automaticlly started by a Server- or Client (Thread) it will wait for an incomming
+   *     packetmessage than decrypts it and turns it into a Packet
    * @see readStringPacketInput() method to use that packet for a client- or server handling
    */
   @Override
@@ -54,7 +55,7 @@ public abstract class NetworkThread extends Thread {
     try {
       while (true) {
         if (socket.isConnected()) {
-          var message = reader.readLine(); //ließt die packetmessage die reinkommt
+          var message = reader.readLine(); // ließt die packetmessage die reinkommt
           if (message != null) {
             var object = new JSONObject(message);
             if (!object.isNull("type")) {
@@ -66,8 +67,15 @@ public abstract class NetworkThread extends Thread {
               }
             }
             if (this.packet != null) {
-              if (this instanceof ServerThread && !packet.getPacketType().equals(Packets.MESSAGE.getPacketType()))
-                System.out.println("Client with id: " + this.id + " sended: type: " + packet.getPacketType() + " contents: " + packet.getJsonObject().toString());
+              if (this instanceof ServerThread
+                  && !packet.getPacketType().equals(Packets.MESSAGE.getPacketType()))
+                System.out.println(
+                    "Client with id: "
+                        + this.id
+                        + " sended: type: "
+                        + packet.getPacketType()
+                        + " contents: "
+                        + packet.getJsonObject().toString());
               readStringPacketInput(packet, this);
             }
           }
@@ -91,44 +99,52 @@ public abstract class NetworkThread extends Thread {
    * @author Carina
    */
   private void keyBoardListener(final boolean client) {
-    new Thread(() -> {
-      try {
-        System.out.println("Keylistener started!");
-        var keyboardReader = new BufferedReader(new InputStreamReader(System.in));
-        while (true) {
-          try {
-            var message = keyboardReader.readLine();
-            var object = new JSONObject();
-            if (client) {
-              object.put("type", Packets.MESSAGE.getPacketType());
-              object.put("message", message);
-              sendPacket(new Packet(object));
-            } else {
-              for (var iterator = MoleGames.getMoleGames().getServer().getClientThreads().iterator(); iterator.hasNext(); ) {
-                ServerThread clientSocket = iterator.next();
-                object.put("type", Packets.MESSAGE.getPacketType());
-                object.put("message", message);
-                clientSocket.sendPacket(new Packet(object));
+    new Thread(
+            () -> {
+              try {
+                System.out.println("Keylistener started!");
+                var keyboardReader = new BufferedReader(new InputStreamReader(System.in));
+                while (true) {
+                  try {
+                    var message = keyboardReader.readLine();
+                    var object = new JSONObject();
+                    if (client) {
+                      object.put("type", Packets.MESSAGE.getPacketType());
+                      object.put("message", message);
+                      sendPacket(new Packet(object));
+                    } else {
+                      for (var iterator =
+                              MoleGames.getMoleGames().getServer().getClientThreads().iterator();
+                          iterator.hasNext(); ) {
+                        ServerThread clientSocket = iterator.next();
+                        object.put("type", Packets.MESSAGE.getPacketType());
+                        object.put("message", message);
+                        clientSocket.sendPacket(new Packet(object));
+                      }
+                    }
+                  } catch (IOException e) {
+                    e.printStackTrace();
+                  }
+                }
+              } catch (Exception e) {
+                e.printStackTrace();
               }
-            }
-          } catch (IOException e) {
-            e.printStackTrace();
-          }
-        }
-      } catch (Exception e) {
-        e.printStackTrace();
-      }
-    }).start();
+            })
+        .start();
   }
 
   /**
-   * @param packet   that got read in by the runnable listener
+   * @param packet that got read in by the runnable listener
    * @param reciever the one that it is recieving the thread of the server
    * @author Carina
-   * @use it will automaticlly pass it forwards to the Server or Client to handle the Packet depending on who recieved it (Server- or Client thread)
+   * @use it will automaticlly pass it forwards to the Server or Client to handle the Packet
+   *     depending on who recieved it (Server- or Client thread)
    */
-  public void readStringPacketInput(@NotNull final Packet packet, @NotNull final NetworkThread reciever) throws PacketNotExistsException {
-    //TODO: How to handle the packet from the client! Player has moved -> now in a hole and than handle it
+  public void readStringPacketInput(
+      @NotNull final Packet packet, @NotNull final NetworkThread reciever)
+      throws PacketNotExistsException {
+    // TODO: How to handle the packet from the client! Player has moved -> now in a hole and than
+    // handle it
     if (reciever instanceof ServerThread) {
       MoleGames.getMoleGames().getPacketHandler().handlePacket(packet, (ServerThread) reciever);
     } else if (reciever instanceof ClientThread) {
@@ -137,9 +153,11 @@ public abstract class NetworkThread extends Thread {
   }
 
   /**
-   * @param data is the packet that will be send in packet format but converted into a string seperated with #
+   * @param data is the packet that will be send in packet format but converted into a string
+   *     seperated with #
    * @author Carina
-   * @use create a Packet instance of a packet you want to send and pass it in in form of a string seperating the objects with #
+   * @use create a Packet instance of a packet you want to send and pass it in in form of a string
+   *     seperating the objects with #
    */
   public void sendPacket(Packet data) {
     writer.println(data.getJsonObject().toString());

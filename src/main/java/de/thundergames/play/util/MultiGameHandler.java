@@ -2,7 +2,6 @@ package de.thundergames.play.util;
 
 import de.thundergames.network.server.ServerThread;
 import de.thundergames.play.game.Game;
-
 import java.io.IOException;
 import java.util.HashMap;
 

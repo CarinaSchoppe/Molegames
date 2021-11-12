@@ -6,9 +6,8 @@ import de.thundergames.network.server.Server;
 import de.thundergames.network.util.PacketHandler;
 import de.thundergames.play.game.GameLogic;
 import de.thundergames.play.util.MultiGameHandler;
-import org.jetbrains.annotations.Nullable;
-
 import java.util.Objects;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * @author Carina
@@ -56,7 +55,10 @@ public class MoleGames {
         case "-a":
         case "a":
           assert args[3] != null;
-          new AI(Objects.requireNonNull(args[1]), Integer.parseInt(Objects.requireNonNull(args[2])), Integer.parseInt(Objects.requireNonNull(args[3])));
+          new AI(
+              Objects.requireNonNull(args[1]),
+              Integer.parseInt(Objects.requireNonNull(args[2])),
+              Integer.parseInt(Objects.requireNonNull(args[3])));
       }
     }
   }

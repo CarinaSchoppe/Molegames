@@ -1,10 +1,9 @@
 package de.thundergames.play.map;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import org.jetbrains.annotations.NotNull;
 
 public class Floors {
 
@@ -19,13 +18,14 @@ public class Floors {
   private final int holeAmount;
 
   /**
-   * @param floorNumber      the floornumber that we are on
-   * @param holes            amount of holes on that floor
+   * @param floorNumber the floornumber that we are on
+   * @param holes amount of holes on that floor
    * @param doubleDrawFields amount of doubleDrawFields on that floor
-   * @param map              the map itself that this will be placed on
+   * @param map the map itself that this will be placed on
    * @author Carina
    */
-  public Floors(final int floorNumber, final int holes, final int doubleDrawFields, @NotNull final Map map) {
+  public Floors(
+      final int floorNumber, final int holes, final int doubleDrawFields, @NotNull final Map map) {
     this.floorNumber = floorNumber;
     this.doubleDrawFields = doubleDrawFields;
     this.map = map;

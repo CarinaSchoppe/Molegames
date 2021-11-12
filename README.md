@@ -1,5 +1,7 @@
 # swtpra10
-##Gitlab main branch
+
+## Gitlab main branch
+
 Carina Schoppe: Produktmanagerin, Komitee
 
 Lennart Kunkel: Produktmanager

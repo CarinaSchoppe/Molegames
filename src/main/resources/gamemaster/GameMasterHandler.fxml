@@ -1,18 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-
-<BorderPane cache="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.thundergames.gameplay.gamemaster.GameMasterHandler">
-   <left>
-       <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-           <ImageView fitHeight="410.0" fitWidth="607.0" pickOnBounds="true" preserveRatio="true">
-               <Image url="@../util/grafik.png" />
-           </ImageView>
-           <Button fx:id="startButton" layoutX="147.0" layoutY="263.0" mnemonicParsing="false" onAction="#OpenSomeThing" prefHeight="47.0" prefWidth="144.0" style="-fx-background-color: transparent;" />
-           <Button fx:id="StartGame" layoutX="312.0" layoutY="264.0" mnemonicParsing="false" onAction="#do2" prefHeight="44.0" prefWidth="144.0" style="-fx-background-color: transparent;" />
-           <Button fx:id="ViewGame" layoutX="233.0" layoutY="331.0" mnemonicParsing="false" onAction="#do3" prefHeight="44.0" prefWidth="141.0" style="-fx-background-color: transparent;" />
-       </AnchorPane>
-   </left>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<BorderPane xmlns:fx="http://javafx.com/fxml/1" cache="true" maxHeight="-Infinity" maxWidth="-Infinity"
+  minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0"
+  xmlns="http://javafx.com/javafx/11.0.2"
+  fx:controller="de.thundergames.gameplay.gamemaster.GameMasterHandler">
+  <left>
+    <AnchorPane BorderPane.alignment="CENTER" prefHeight="200.0" prefWidth="200.0">
+      <Button style="-fx-background-color: transparent;" layoutX="147.0" layoutY="263.0" mnemonicParsing="false"
+        onAction="#OpenSomeThing" prefHeight="47.0" prefWidth="144.0"
+        fx:id="startButton"/>
+      <Button style="-fx-background-color: transparent;" layoutX="312.0" layoutY="264.0" mnemonicParsing="false"
+        onAction="#do2" prefHeight="44.0" prefWidth="144.0"
+        fx:id="StartGame"/>
+      <Button style="-fx-background-color: transparent;" layoutX="233.0" layoutY="331.0" mnemonicParsing="false"
+        onAction="#do3" prefHeight="44.0" prefWidth="141.0"
+        fx:id="ViewGame"/>
+      <ImageView fitHeight="410.0" fitWidth="607.0" pickOnBounds="true" preserveRatio="true">
+        <Image url="@../util/grafik.png"/>
+      </ImageView>
+    </AnchorPane>
+  </left>
 </BorderPane>

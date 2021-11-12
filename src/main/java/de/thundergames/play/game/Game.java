@@ -8,22 +8,21 @@ import de.thundergames.play.map.Field;
 import de.thundergames.play.map.Map;
 import de.thundergames.play.util.Mole;
 import de.thundergames.play.util.Settings;
-import org.jetbrains.annotations.NotNull;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import org.jetbrains.annotations.NotNull;
 
 public class Game extends Thread {
 
   private final int gameID;
-  private Map map;
-  private Settings settings;
   private final GameStates currentGameState = GameStates.LOBBY;
   private final ArrayList<Player> players = new ArrayList<>();
   private final HashMap<ServerThread, Player> clientPlayersMap = new HashMap<>();
   private final HashMap<Player, Mole> moleMap = new HashMap<>();
   private final HashMap<Integer, Mole> moleIDMap = new HashMap<>();
+  private Map map;
+  private Settings settings;
   private Player currentPlayer = null;
   private int moleID = 0;
   private GameRecorder recorder;
@@ -50,7 +49,7 @@ public class Game extends Thread {
    */
   @Override
   public void run() {
-    //TODO: Run a Game!
+    // TODO: Run a Game!
     if (currentGameState == GameStates.LOBBY) {
       System.out.println("Starting a game with the gameID: " + gameID);
       nextPlayer();
@@ -66,11 +65,15 @@ public class Game extends Thread {
       currentPlayer = players.get(players.indexOf(currentPlayer) + 1);
     } else currentPlayer = players.get(0);
     currentPlayer.startThinkTimer();
-    System.out.println("Current game: " + gameID + " current-player ID: " + currentPlayer.getServerClient().getConnectionId());
+    System.out.println(
+        "Current game: "
+            + gameID
+            + " current-player ID: "
+            + currentPlayer.getServerClient().getConnectionId());
   }
 
   /**
-   * @param client    the player that joins the game
+   * @param client the player that joins the game
    * @param spectator if its a spectator or player that has joined
    * @author Carina
    */
@@ -84,7 +87,7 @@ public class Game extends Thread {
   /**
    * @param player the player that has to be removed from the game.
    * @author Carina
-   * @use removes all references     to the player from the game
+   * @use removes all references to the player from the game
    * @use removes all Moles from the Map
    * @see Field
    * @see Map
@@ -115,10 +118,6 @@ public class Game extends Thread {
     return currentGameState;
   }
 
-  public void setMap(Map map) {
-    this.map = map;
-  }
-
   public HashMap<Integer, Mole> getMoleIDMap() {
     return moleIDMap;
   }
@@ -145,6 +144,10 @@ public class Game extends Thread {
 
   public Map getMap() {
     return map;
+  }
+
+  public void setMap(Map map) {
+    this.map = map;
   }
 
   public GameRecorder getRecorder() {

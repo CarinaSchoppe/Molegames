@@ -1,19 +1,18 @@
 package de.thundergames.gameplay.ai;
 
 import de.thundergames.play.util.Mole;
-import org.jetbrains.annotations.NotNull;
-
 import java.util.ArrayList;
+import org.jetbrains.annotations.NotNull;
 
 public class AI implements Runnable {
 
   private final ArrayList<Mole> playerMolesInHoles = new ArrayList<>();
   private final ArrayList<Mole> playerMolesOnField = new ArrayList<>();
   private final Thread AIthread = new Thread(this);
-  private boolean isMove = false;
   private final int port;
   private final String ip;
   private final int gameID;
+  private boolean isMove = false;
 
   public AI(@NotNull final String ip, final int port, final int gameID) {
     this.ip = ip;
@@ -30,8 +29,7 @@ public class AI implements Runnable {
     isMove = true;
   }
 
-  private void makeMove() {
-  }
+  private void makeMove() {}
 
   /**
    * @author Carina

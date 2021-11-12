@@ -2,30 +2,29 @@ package de.thundergames.network.server;
 
 import de.thundergames.MoleGames;
 import de.thundergames.network.util.NetworkThread;
-import org.jetbrains.annotations.NotNull;
-
 import java.io.IOException;
 import java.net.Socket;
+import org.jetbrains.annotations.NotNull;
 
 public class ServerThread extends NetworkThread {
 
   private String clientName;
 
-  public void setClientName(String clientName) {
-    this.clientName = clientName;
+  /**
+   * @param socket the server Socket
+   * @param id Serverthread id
+   * @author Carina
+   */
+  public ServerThread(@NotNull final Socket socket, final int id) throws IOException {
+    super(socket, id);
   }
 
   public String getClientName() {
     return clientName;
   }
 
-  /**
-   * @param socket the server Socket
-   * @param id     Serverthread id
-   * @author Carina
-   */
-  public ServerThread(@NotNull final Socket socket, final int id) throws IOException {
-    super(socket, id);
+  public void setClientName(String clientName) {
+    this.clientName = clientName;
   }
 
   /**

@@ -6,7 +6,6 @@ package de.thundergames.play.game;
  * @see Game as the class using the GameStates
  */
 public enum GameStates {
-
   LOBBY(0),
   PREGAME(1),
   INGAME(2),

@@ -1,18 +1,17 @@
 package de.thundergames.filehandling;
 
-import org.jetbrains.annotations.NotNull;
-import org.json.JSONObject;
-
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
+import org.jetbrains.annotations.NotNull;
+import org.json.JSONObject;
 
 public class GameConfiguration {
 
   private static int id = 0;
-  private JSONObject settings;
   private final FileWriter writer;
+  private JSONObject settings;
 
   public GameConfiguration(@NotNull final JSONObject json) throws IOException {
     File file = new File("config" + id + ".json");
@@ -25,7 +24,8 @@ public class GameConfiguration {
    * @param settings the settings to save
    * @throws IOException
    * @author Carina
-   * @use call the method add the settings to the json object and than pass that to create a new file that will be saved
+   * @use call the method add the settings to the json object and than pass that to create a new
+   *     file that will be saved
    */
   public void saveSettings(@NotNull final JSONObject settings) throws IOException {
     this.settings = settings;

@@ -7,7 +7,6 @@ package de.thundergames.gameplay.player;
  * @see Player
  */
 public enum PlayerStates {
-
   JOIN(3),
   WAIT(0),
   MOVE(1),

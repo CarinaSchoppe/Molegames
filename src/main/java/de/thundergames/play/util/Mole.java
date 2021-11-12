@@ -7,11 +7,11 @@ import org.jetbrains.annotations.NotNull;
 
 public class Mole {
 
-  private Floors floor;
-  private Field field;
-  private boolean inHole = false;
   private final int MoleID;
   private final Player player;
+  private final boolean inHole = false;
+  private Floors floor;
+  private Field field;
 
   public Mole(final int moleID, @NotNull final Player player) {
     this.player = player;
@@ -29,21 +29,19 @@ public class Mole {
    * @see de.thundergames.gameplay.ai.AI
    */
   public boolean isMoveable() {
-    //TODO hier logik einbauen
+    // TODO hier logik einbauen
     return false;
-  }
-
-  public void setField(Field field) {
-    this.field = field;
   }
 
   public Field getField() {
     return field;
   }
 
+  public void setField(Field field) {
+    this.field = field;
+  }
+
   public Player getPlayer() {
     return player;
   }
 }
-
-

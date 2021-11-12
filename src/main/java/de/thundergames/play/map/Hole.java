@@ -1,8 +1,7 @@
 package de.thundergames.play.map;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.List;
+import org.jetbrains.annotations.NotNull;
 
 public class Hole {
   final List<Integer> id;

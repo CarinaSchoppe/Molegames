@@ -1,7 +1,6 @@
 package de.thundergames.play.util;
 
 public enum Punishments {
-
   NOTHING(0),
   KICK(1),
   POINTS(2);
@@ -10,10 +9,6 @@ public enum Punishments {
 
   Punishments(final int id) {
     this.id = id;
-  }
-
-  public int getID() {
-    return id;
   }
 
   /**
@@ -28,5 +23,9 @@ public enum Punishments {
       }
     }
     return null;
+  }
+
+  public int getID() {
+    return id;
   }
 }

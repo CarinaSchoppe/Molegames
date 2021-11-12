@@ -1,13 +1,12 @@
 package de.thundergames.network.util;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.net.Socket;
+import org.jetbrains.annotations.NotNull;
 
 public abstract class Network {
   protected final int port;
-  protected Socket socket;
   protected final String ip;
+  protected Socket socket;
 
   /**
    * Basic logic of creating a de.thundergames.network instance with default values for
@@ -21,7 +20,7 @@ public abstract class Network {
 
   /**
    * @param port for a de.thundergames.network instance
-   * @param ip   for a de.thundergames.network instance
+   * @param ip for a de.thundergames.network instance
    * @author Carina
    */
   public Network(final int port, @NotNull final String ip) {

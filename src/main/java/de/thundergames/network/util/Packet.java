@@ -12,10 +12,6 @@ public class Packet {
   private final JSONObject jsonObject;
   private final String packetType;
 
-  public JSONObject getJsonObject() {
-    return jsonObject;
-  }
-
   /**
    * @param json is the JSONobject that will be send to the client
    * @author Carina
@@ -24,6 +20,10 @@ public class Packet {
   public Packet(@NotNull final JSONObject json) {
     this.packetType = json.getString("type");
     this.jsonObject = json;
+  }
+
+  public JSONObject getJsonObject() {
+    return jsonObject;
   }
 
   public String getPacketType() {

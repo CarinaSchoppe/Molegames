@@ -4,27 +4,32 @@ import de.thundergames.MoleGames;
 import de.thundergames.network.util.Network;
 import de.thundergames.network.util.Packet;
 import de.thundergames.network.util.Packets;
-import org.jetbrains.annotations.NotNull;
-import org.json.JSONObject;
-
 import java.io.IOException;
 import java.net.Socket;
 import java.util.ArrayList;
+import org.jetbrains.annotations.NotNull;
+import org.json.JSONObject;
 
 public class Client extends Network {
+  private static final boolean keyListener = true;
+  private static Client client;
+  private final String name;
+  private final ClientPacketHandler clientPacketHandler;
+  private final ArrayList<Integer> moleIDs = new ArrayList<>();
   /**
    * @param port of the server to connect to if empty its 291220
-   * @param ip   of the server to connect to if empty its "localhost"
+   * @param ip of the server to connect to if empty its "localhost"
    */
-
   private ClientThread clientThread;
+
   private int id;
   private int gameID;
-  private final String name;
-  private static Client client;
-  private final ClientPacketHandler clientPacketHandler;
-  private static final boolean keyListener = true;
-  private final ArrayList<Integer> moleIDs = new ArrayList<>();
+
+  public Client(final int port, @NotNull final String ip, @NotNull final String name) {
+    super(port, ip);
+    this.name = name;
+    clientPacketHandler = new ClientPacketHandler();
+  }
 
   public static boolean isKeyListener() {
     return keyListener;
@@ -40,15 +45,14 @@ public class Client extends Network {
     client.create();
   }
 
-  public Client(final int port, @NotNull final String ip, @NotNull final String name) {
-    super(port, ip);
-    this.name = name;
-    clientPacketHandler = new ClientPacketHandler();
+  public static Client getClient() {
+    return client;
   }
 
   /**
    * @author Carina
-   * @use Due to a bug where we are getting the constructor which is not contructed at the time we create the Constructor and call the create object to create the sockets and stream
+   * @use Due to a bug where we are getting the constructor which is not contructed at the time we
+   *     create the Constructor and call the create object to create the sockets and stream
    * @see Client
    */
   @Override
@@ -72,10 +76,7 @@ public class Client extends Network {
     }
   }
 
-  /**
-   * @author Carina
-   * Logic to test some things!
-   */
+  /** @author Carina Logic to test some things! */
   public void test() throws InterruptedException {
     JSONObject object;
     object = new JSONObject();
@@ -100,42 +101,38 @@ public class Client extends Network {
     clientThread.sendPacket(new Packet(object));
     clientThread.sendPacket(new Packet(jsonObject));
     /*object = new JSONObject();
-    object.put("type", Packets.GAMESTART.getPacketType());
-    object.put("gameID", 0);
-    clientThread.sendPacket(new Packet(object));
-    Thread.sleep(1000);
-    object = new JSONObject();
-    object.put("type", Packets.PLACEMOLE.getPacketType());
-    object.put("x", 3);
-    object.put("y", 2);
-    object.put("moleID", 1);
-//    clientThread.sendPacket(new Packet(object));
-    object = new JSONObject();
-    object.put("type", Packets.PLACEMOLE.getPacketType());
-    object.put("x", 0);
-    object.put("y", 0);
-    object.put("moleID", 2);
-    //clientThread.sendPacket(new Packet(object));
-    object = new JSONObject();
-    object.put("type", Packets.PLACEMOLE.getPacketType());
-    object.put("moleID", 0);
-    object.put("x", 2);
-    object.put("y", 1);
-    clientThread.sendPacket(new Packet(object));
-    object = new JSONObject();
-    object.put("type", Packets.MOVEMOLE.getPacketType());
-    object.put("x", 2);
-    object.put("y", 4);
-    object.put("moleID", 0);
-    clientThread.sendPacket(new Packet(object));*/
+        object.put("type", Packets.GAMESTART.getPacketType());
+        object.put("gameID", 0);
+        clientThread.sendPacket(new Packet(object));
+        Thread.sleep(1000);
+        object = new JSONObject();
+        object.put("type", Packets.PLACEMOLE.getPacketType());
+        object.put("x", 3);
+        object.put("y", 2);
+        object.put("moleID", 1);
+    //    clientThread.sendPacket(new Packet(object));
+        object = new JSONObject();
+        object.put("type", Packets.PLACEMOLE.getPacketType());
+        object.put("x", 0);
+        object.put("y", 0);
+        object.put("moleID", 2);
+        //clientThread.sendPacket(new Packet(object));
+        object = new JSONObject();
+        object.put("type", Packets.PLACEMOLE.getPacketType());
+        object.put("moleID", 0);
+        object.put("x", 2);
+        object.put("y", 1);
+        clientThread.sendPacket(new Packet(object));
+        object = new JSONObject();
+        object.put("type", Packets.MOVEMOLE.getPacketType());
+        object.put("x", 2);
+        object.put("y", 4);
+        object.put("moleID", 0);
+        clientThread.sendPacket(new Packet(object));*/
   }
 
   public ClientPacketHandler getClientPacketHandler() {
     return clientPacketHandler;
-  }
-
-  public static Client getClient() {
-    return client;
   }
 
   public void setId(final int id) {

@@ -1,11 +1,10 @@
 package de.thundergames.filehandling;
 
 import de.thundergames.play.game.Game;
-import org.jetbrains.annotations.NotNull;
-
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import org.jetbrains.annotations.NotNull;
 
 public class GameRecorder {
 
@@ -38,4 +37,3 @@ public class GameRecorder {
     }
   }
 }
-

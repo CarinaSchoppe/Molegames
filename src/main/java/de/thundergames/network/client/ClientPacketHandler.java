@@ -14,9 +14,10 @@ public class ClientPacketHandler {
    * @use handles the packet that came in
    * @see de.thundergames.network.util.PacketHandler the packetHandler by the Server as a reference
    */
-  public void handlePacket(@NotNull final Client client, @NotNull final Packet packet) throws PacketNotExistsException {
+  public void handlePacket(@NotNull final Client client, @NotNull final Packet packet)
+      throws PacketNotExistsException {
     if (packet.getPacketType().equalsIgnoreCase(Packets.LOGIN.getPacketType())) {
-      //ID : 3
+      // ID : 3
       var id = packet.getJsonObject().getInt("id");
       client.setId(id);
       System.out.println("Client ID: " + id);
@@ -35,7 +36,8 @@ public class ClientPacketHandler {
         client.getMoleIDs().add(packet.getJsonObject().getJSONArray("moles").getInt(i));
       }
     } else {
-      throw new PacketNotExistsException("Packet with type: " + packet.getPacketType() + " does not exists");
+      throw new PacketNotExistsException(
+          "Packet with type: " + packet.getPacketType() + " does not exists");
     }
   }
 }

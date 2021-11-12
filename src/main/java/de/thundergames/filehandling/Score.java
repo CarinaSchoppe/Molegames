@@ -1,4 +1,3 @@
 package de.thundergames.filehandling;
 
-public class Score {
-}
+public class Score {}
