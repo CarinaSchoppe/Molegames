@@ -4,6 +4,7 @@ import de.thundergames.network.util.Packet;
 import de.thundergames.network.util.PacketNotExistsException;
 import de.thundergames.network.util.Packets;
 import org.jetbrains.annotations.NotNull;
+import org.json.JSONException;
 
 public class ClientPacketHandler {
 
@@ -26,7 +27,11 @@ public class ClientPacketHandler {
       System.out.println("Client joined game with id: " + packet.getJsonObject().getInt("gameID"));
       client.setGameID(packet.getJsonObject().getInt("gameID"));
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.MESSAGE.getPacketType())) {
-      System.out.println("Server sended: " + packet.getJsonObject().getString("message"));
+      try {
+        System.out.println("Server sended: " + packet.getJsonObject().getString("message"));
+      } catch (JSONException e) {
+        System.out.println("Server sended: " + "no packet content!");
+      }
     } else if (packet.getPacketType().equals(Packets.INVALIDMOVE.getPacketType())) {
       System.out.println("Server: Youve done an invalid move");
     } else if (packet.getPacketType().equals(Packets.PLACEMOLE.getPacketType())) {

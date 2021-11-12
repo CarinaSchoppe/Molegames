@@ -175,7 +175,6 @@ public class Player {
       timer.cancel();
       timer.purge();
       playerState = PlayerStates.WAIT;
-      game.getRecorder().record();
       game.nextPlayer();
     } else {
       System.out.println(
@@ -222,7 +221,6 @@ public class Player {
       timer.cancel();
       timer.purge();
       playerState = PlayerStates.WAIT;
-      game.getRecorder().record();
       game.nextPlayer();
       System.out.println(
           "Player with id: "

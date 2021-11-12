@@ -1,7 +1,6 @@
 package de.thundergames.play.game;
 
 import de.thundergames.MoleGames;
-import de.thundergames.filehandling.GameRecorder;
 import de.thundergames.gameplay.player.Player;
 import de.thundergames.network.server.ServerThread;
 import de.thundergames.play.map.Field;
@@ -25,7 +24,6 @@ public class Game extends Thread {
   private Settings settings;
   private Player currentPlayer = null;
   private int moleID = 0;
-  private GameRecorder recorder;
 
   public Game(final int gameID) {
     this.gameID = gameID;
@@ -38,9 +36,7 @@ public class Game extends Thread {
    */
   public void create() throws IOException {
     settings = new Settings(this);
-    recorder = new GameRecorder(this);
     map = new Map(settings.getRadius(), this);
-    recorder.record();
   }
 
   /**
@@ -148,10 +144,6 @@ public class Game extends Thread {
 
   public void setMap(Map map) {
     this.map = map;
-  }
-
-  public GameRecorder getRecorder() {
-    return recorder;
   }
 
   public int getGameID() {
