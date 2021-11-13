@@ -7,8 +7,15 @@ import org.jetbrains.annotations.NotNull;
 
 public class ClientThread extends NetworkThread {
 
-  public ClientThread(@NotNull final Socket socket, final int id) throws IOException {
+  private Client client;
+
+  public ClientThread(@NotNull final Socket socket, final int id, Client client) throws IOException {
     super(socket, id);
+    this.client = client;
+  }
+
+  public Client getClient() {
+    return client;
   }
 
   /**

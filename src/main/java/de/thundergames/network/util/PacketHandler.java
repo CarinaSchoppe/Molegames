@@ -1,6 +1,7 @@
 package de.thundergames.network.util;
 
 import de.thundergames.MoleGames;
+import de.thundergames.gameplay.gamemaster.ui.test;
 import de.thundergames.gameplay.player.Player;
 import de.thundergames.network.server.ServerThread;
 import de.thundergames.play.game.Game;
@@ -408,7 +409,7 @@ public class PacketHandler {
    * @use the packet that will be send by the client that a game should be created
    * @author Carina
    * @see Game
-   * @see de.thundergames.gameplay.gamemaster.GameMasterHandler
+   * @see test
    */
   private synchronized void createGamePacket() {
     //    "CREATE-GAME#ID"

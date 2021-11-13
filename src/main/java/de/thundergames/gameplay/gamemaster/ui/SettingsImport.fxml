@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+
+<!--
+  ~ /*
+  ~  *     / **
+  ~  *      *   Copyright Notice                                             *
+  ~  *      *   Copyright (c) SwtPra10 | ThunderGames 2021                         *
+  ~  *      *   Created: 05.05.2018 / 11:59                                  *
+  ~  *      *   All contents of this source text are protected by copyright. *
+  ~  *      *   The copyright law, unless expressly indicated otherwise, is  *
+  ~  *      *   at SwtPra10 | ThunderGames. All rights reserved                    *
+  ~  *      *   Any type of duplication, distribution, rental, sale, award,  *
+  ~  *      *   Public accessibility or other use                            *
+  ~  *      *   Requires the express written consent of SwtPra10 | ThunderGames.   *
+  ~  *      **
+  ~  *
+  -->
+
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <AnchorPane prefHeight="404.0" prefWidth="600.0" />
+   </children>
+</VBox>

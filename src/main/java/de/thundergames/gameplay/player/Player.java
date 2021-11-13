@@ -130,7 +130,7 @@ public class Player {
         .wasLegalMove(
             List.of(x_start, y_start),
             List.of(x_end, y_end),
-            3,
+            drawCard,
             game.getMap())) { // TODO: drawCard - 3
       Objects.requireNonNull(getMole(moleID))
           .setField(game.getMap().getFloor().getFieldMap().get(List.of(x_start, y_start)));

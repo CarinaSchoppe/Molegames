@@ -68,7 +68,7 @@ public class Client extends Network {
   public void connect() {
     try {
       socket = new Socket(ip, port);
-      clientThread = new ClientThread(socket, 0);
+      clientThread = new ClientThread(socket, 0, this);
       clientThread.start();
       test();
     } catch (IOException | InterruptedException e) {
@@ -100,35 +100,35 @@ public class Client extends Network {
     object.put("radius", 2);
     clientThread.sendPacket(new Packet(object));
     clientThread.sendPacket(new Packet(jsonObject));
-    /*object = new JSONObject();
-        object.put("type", Packets.GAMESTART.getPacketType());
-        object.put("gameID", 0);
-        clientThread.sendPacket(new Packet(object));
-        Thread.sleep(1000);
-        object = new JSONObject();
-        object.put("type", Packets.PLACEMOLE.getPacketType());
-        object.put("x", 3);
-        object.put("y", 2);
-        object.put("moleID", 1);
-    //    clientThread.sendPacket(new Packet(object));
-        object = new JSONObject();
-        object.put("type", Packets.PLACEMOLE.getPacketType());
-        object.put("x", 0);
-        object.put("y", 0);
-        object.put("moleID", 2);
-        //clientThread.sendPacket(new Packet(object));
-        object = new JSONObject();
-        object.put("type", Packets.PLACEMOLE.getPacketType());
-        object.put("moleID", 0);
-        object.put("x", 2);
-        object.put("y", 1);
-        clientThread.sendPacket(new Packet(object));
-        object = new JSONObject();
-        object.put("type", Packets.MOVEMOLE.getPacketType());
-        object.put("x", 2);
-        object.put("y", 4);
-        object.put("moleID", 0);
-        clientThread.sendPacket(new Packet(object));*/
+    object = new JSONObject();
+    object.put("type", Packets.GAMESTART.getPacketType());
+    object.put("gameID", 0);
+    clientThread.sendPacket(new Packet(object));
+    Thread.sleep(1000);
+    object = new JSONObject();
+    object.put("type", Packets.PLACEMOLE.getPacketType());
+    object.put("x", 3);
+    object.put("y", 2);
+    object.put("moleID", 1);
+    clientThread.sendPacket(new Packet(object));
+    object = new JSONObject();
+    object.put("type", Packets.PLACEMOLE.getPacketType());
+    object.put("x", 0);
+    object.put("y", 0);
+    object.put("moleID", 2);
+    clientThread.sendPacket(new Packet(object));
+    object = new JSONObject();
+    object.put("type", Packets.PLACEMOLE.getPacketType());
+    object.put("moleID", 0);
+    object.put("x", 2);
+    object.put("y", 1);
+    clientThread.sendPacket(new Packet(object));
+    object = new JSONObject();
+    object.put("type", Packets.MOVEMOLE.getPacketType());
+    object.put("x", 2);
+    object.put("y", 4);
+    object.put("moleID", 0);
+    clientThread.sendPacket(new Packet(object));
   }
 
   public ClientPacketHandler getClientPacketHandler() {

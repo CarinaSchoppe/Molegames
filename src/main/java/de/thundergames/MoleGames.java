@@ -1,6 +1,7 @@
 package de.thundergames;
 
 import de.thundergames.gameplay.ai.AI;
+import de.thundergames.gameplay.player.ui.LoginScreen;
 import de.thundergames.network.client.Client;
 import de.thundergames.network.server.Server;
 import de.thundergames.network.util.PacketHandler;
@@ -35,14 +36,14 @@ public class MoleGames {
   public static void main(@Nullable final String... args) {
     moleGames = new MoleGames();
     if (args.length == 0) {
-      Client.ClientMain();
+      new LoginScreen().create(args);
     } else {
       switch (Objects.requireNonNull(args[0])) {
         case "-c":
         case "c":
         case "-p":
         case "p":
-          Client.ClientMain();
+          new LoginScreen().create(args);
           break;
         case "-s":
         case "s":

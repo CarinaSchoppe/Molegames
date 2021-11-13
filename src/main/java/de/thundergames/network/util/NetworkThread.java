@@ -148,7 +148,7 @@ public abstract class NetworkThread extends Thread {
     if (reciever instanceof ServerThread) {
       MoleGames.getMoleGames().getPacketHandler().handlePacket(packet, (ServerThread) reciever);
     } else if (reciever instanceof ClientThread) {
-      Client.getClient().getClientPacketHandler().handlePacket(Client.getClient(), packet);
+      ((ClientThread) reciever).getClient().getClientPacketHandler().handlePacket(((ClientThread) reciever).getClient(), packet);
     }
   }
 

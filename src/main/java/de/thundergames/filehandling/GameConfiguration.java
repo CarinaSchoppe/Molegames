@@ -10,14 +10,11 @@ import org.json.JSONObject;
 public class GameConfiguration {
 
   private static int id = 0;
-  private final FileWriter writer;
+  private FileWriter writer;
   private JSONObject settings;
 
   public GameConfiguration(@NotNull final JSONObject json) throws IOException {
-    File file = new File("config" + id + ".json");
     settings = json;
-    id++;
-    writer = new FileWriter(file);
   }
 
   /**
@@ -28,6 +25,9 @@ public class GameConfiguration {
    *     file that will be saved
    */
   public void saveSettings(@NotNull final JSONObject settings) throws IOException {
+    File file = new File("config" + id + ".json");
+    id++;
+    writer = new FileWriter(file);
     this.settings = settings;
     writer.write(settings.toString());
     writer.flush();

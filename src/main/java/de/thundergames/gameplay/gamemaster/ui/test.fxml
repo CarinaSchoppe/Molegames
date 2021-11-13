@@ -5,10 +5,26 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
+<!--
+  ~ /*
+  ~  *     / **
+  ~  *      *   Copyright Notice                                             *
+  ~  *      *   Copyright (c) SwtPra10 | ThunderGames 2021                         *
+  ~  *      *   Created: 05.05.2018 / 11:59                                  *
+  ~  *      *   All contents of this source text are protected by copyright. *
+  ~  *      *   The copyright law, unless expressly indicated otherwise, is  *
+  ~  *      *   at SwtPra10 | ThunderGames. All rights reserved                    *
+  ~  *      *   Any type of duplication, distribution, rental, sale, award,  *
+  ~  *      *   Public accessibility or other use                            *
+  ~  *      *   Requires the express written consent of SwtPra10 | ThunderGames.   *
+  ~  *      **
+  ~  *
+  -->
+
 <BorderPane xmlns:fx="http://javafx.com/fxml/1" cache="true" maxHeight="-Infinity" maxWidth="-Infinity"
   minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0"
   xmlns="http://javafx.com/javafx/11.0.2"
-  fx:controller="de.thundergames.gameplay.gamemaster.GameMasterHandler">
+  fx:controller="de.thundergames.gameplay.gamemaster.ui.test">
   <left>
     <AnchorPane BorderPane.alignment="CENTER" prefHeight="200.0" prefWidth="200.0">
       <Button style="-fx-background-color: transparent;" layoutX="147.0" layoutY="263.0" mnemonicParsing="false"
@@ -21,7 +37,7 @@
         onAction="#do3" prefHeight="44.0" prefWidth="141.0"
         fx:id="ViewGame"/>
       <ImageView fitHeight="410.0" fitWidth="607.0" pickOnBounds="true" preserveRatio="true">
-        <Image url="@../util/grafik.png"/>
+        <Image url="@../../../../../../resources/util/grafik.png"/>
       </ImageView>
     </AnchorPane>
   </left>
