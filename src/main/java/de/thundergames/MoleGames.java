@@ -2,9 +2,9 @@ package de.thundergames;
 
 import de.thundergames.gameplay.ai.AI;
 import de.thundergames.gameplay.player.ui.LoginScreen;
-import de.thundergames.network.client.Client;
-import de.thundergames.network.server.Server;
-import de.thundergames.network.util.PacketHandler;
+import de.thundergames.networking.client.Client;
+import de.thundergames.networking.server.Server;
+import de.thundergames.networking.util.PacketHandler;
 import de.thundergames.play.game.GameLogic;
 import de.thundergames.play.util.MultiGameHandler;
 import java.util.Objects;
@@ -41,6 +41,8 @@ public class MoleGames {
       switch (Objects.requireNonNull(args[0])) {
         case "-c":
         case "c":
+          new de.thundergames.gameplay.gamemaster.ui.LoginScreen().create(args);
+          break;
         case "-p":
         case "p":
           new LoginScreen().create(args);

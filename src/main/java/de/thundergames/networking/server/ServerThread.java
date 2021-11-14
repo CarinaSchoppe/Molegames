@@ -1,7 +1,7 @@
-package de.thundergames.network.server;
+package de.thundergames.networking.server;
 
 import de.thundergames.MoleGames;
-import de.thundergames.network.util.NetworkThread;
+import de.thundergames.networking.util.NetworkThread;
 import java.io.IOException;
 import java.net.Socket;
 import org.jetbrains.annotations.NotNull;

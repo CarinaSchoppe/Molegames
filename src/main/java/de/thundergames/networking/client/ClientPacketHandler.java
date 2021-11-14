@@ -1,8 +1,8 @@
-package de.thundergames.network.client;
+package de.thundergames.networking.client;
 
-import de.thundergames.network.util.Packet;
-import de.thundergames.network.util.PacketNotExistsException;
-import de.thundergames.network.util.Packets;
+import de.thundergames.networking.util.Packet;
+import de.thundergames.networking.util.PacketNotExistsException;
+import de.thundergames.networking.util.Packets;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
 
@@ -13,7 +13,8 @@ public class ClientPacketHandler {
    * @param packet the packet that got send by the server
    * @author Carina
    * @use handles the packet that came in
-   * @see de.thundergames.network.util.PacketHandler the packetHandler by the Server as a reference
+   * @see de.thundergames.networking.util.PacketHandler the packetHandler by the Server as a
+   *     reference
    */
   public void handlePacket(@NotNull final Client client, @NotNull final Packet packet)
       throws PacketNotExistsException {

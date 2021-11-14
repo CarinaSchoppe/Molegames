@@ -1,9 +1,8 @@
-package de.thundergames.network.client;
+package de.thundergames.networking.client;
 
-import de.thundergames.MoleGames;
-import de.thundergames.network.util.Network;
-import de.thundergames.network.util.Packet;
-import de.thundergames.network.util.Packets;
+import de.thundergames.networking.util.Network;
+import de.thundergames.networking.util.Packet;
+import de.thundergames.networking.util.Packets;
 import java.io.IOException;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -12,15 +11,15 @@ import org.json.JSONObject;
 
 public class Client extends Network {
   private static final boolean keyListener = true;
-  private static Client client;
+  protected static Client client;
   private final String name;
-  private final ClientPacketHandler clientPacketHandler;
+  protected ClientPacketHandler clientPacketHandler;
   private final ArrayList<Integer> moleIDs = new ArrayList<>();
   /**
    * @param port of the server to connect to if empty its 291220
    * @param ip of the server to connect to if empty its "localhost"
    */
-  private ClientThread clientThread;
+  protected ClientThread clientThread;
 
   private int id;
   private int gameID;
@@ -33,16 +32,6 @@ public class Client extends Network {
 
   public static boolean isKeyListener() {
     return keyListener;
-  }
-
-  /**
-   * @author Carina
-   * @use creates the main Thread for the Client logic
-   * @see MoleGames
-   */
-  public static void ClientMain() {
-    client = new Client(5000, "127.0.0.1", "Carina");
-    client.create();
   }
 
   public static Client getClient() {
@@ -58,6 +47,7 @@ public class Client extends Network {
   @Override
   public void create() {
     connect();
+
   }
 
   /**

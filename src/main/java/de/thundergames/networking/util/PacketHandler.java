@@ -1,9 +1,8 @@
-package de.thundergames.network.util;
+package de.thundergames.networking.util;
 
 import de.thundergames.MoleGames;
-import de.thundergames.gameplay.gamemaster.ui.test;
 import de.thundergames.gameplay.player.Player;
-import de.thundergames.network.server.ServerThread;
+import de.thundergames.networking.server.ServerThread;
 import de.thundergames.play.game.Game;
 import de.thundergames.play.game.GameStates;
 import de.thundergames.play.map.Map;
@@ -26,7 +25,7 @@ public class PacketHandler {
       @NotNull final Packet packet, @NotNull final ServerThread clientConnection)
       throws PacketNotExistsException {
     if (packet.getPacketType().equalsIgnoreCase(Packets.CREATEGAME.getPacketType())) {
-      createGamePacket();
+      createGamePacket(packet);
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.JOINGAME.getPacketType())) {
       joinGamePacket(packet, clientConnection);
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.GAMEOVERVIEW.getPacketType())) {
@@ -248,7 +247,7 @@ public class PacketHandler {
    * @param clientConnection the client that has left the game
    * @author Carina
    * @see ServerThread
-   * @see de.thundergames.network.client.Client
+   * @see de.thundergames.networking.client.Client
    * @see Player
    */
   private synchronized void leaveGamePacket(
@@ -274,7 +273,7 @@ public class PacketHandler {
    * @param clientConnection that has joined the game
    * @param gameID the game that the player joins
    * @author Carina
-   * @see de.thundergames.network.client.Client
+   * @see de.thundergames.networking.client.Client
    */
   public synchronized void joinedGamePacket(
       @NotNull final ServerThread clientConnection, final int gameID) {
@@ -288,7 +287,7 @@ public class PacketHandler {
    * @param clientConnection the client that logged in into the server
    * @param threadID the threadID of the client that will be send to the client to give hima id
    * @author Carina
-   * @see de.thundergames.network.client.Client
+   * @see de.thundergames.networking.client.Client
    */
   public void loginPacket(@NotNull final ServerThread clientConnection, final int threadID) {
     var object = new JSONObject();
@@ -333,7 +332,7 @@ public class PacketHandler {
    * @param clientConnection the client that has placed a mole
    * @author Carina
    * @see de.thundergames.play.util.Mole
-   * @see de.thundergames.network.client.Client
+   * @see de.thundergames.networking.client.Client
    * @see Player
    */
   private void placeMolePacket(
@@ -365,7 +364,7 @@ public class PacketHandler {
    * @author Carina
    * @see Game
    * @see Player
-   * @see de.thundergames.network.client.Client
+   * @see de.thundergames.networking.client.Client
    */
   private synchronized void joinGamePacket(
       @NotNull final Packet packet, @NotNull final ServerThread clientConnection) {
@@ -411,8 +410,8 @@ public class PacketHandler {
    * @see Game
    * @see test
    */
-  private synchronized void createGamePacket() {
+  private synchronized void createGamePacket(Packet packet) {
     //    "CREATE-GAME#ID"
-    MoleGames.getMoleGames().getGameHandler().createNewGame();
+    MoleGames.getMoleGames().getGameHandler().createNewGame(packet.getJsonObject().getInt("gameID"));
   }
 }
