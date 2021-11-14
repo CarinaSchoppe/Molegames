@@ -1,10 +1,11 @@
-package de.thundergames.network.util;
+package de.thundergames.networking.util;
 
 import de.thundergames.MoleGames;
-import de.thundergames.network.client.Client;
-import de.thundergames.network.client.ClientThread;
-import de.thundergames.network.server.Server;
-import de.thundergames.network.server.ServerThread;
+import de.thundergames.gameplay.gamemaster.networking.GameMasterClientThread;
+import de.thundergames.networking.client.Client;
+import de.thundergames.networking.client.ClientThread;
+import de.thundergames.networking.server.Server;
+import de.thundergames.networking.server.ServerThread;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -49,13 +50,19 @@ public abstract class NetworkThread extends Thread {
     if (this instanceof ServerThread && !Server.isKeyboard()) {
       keyBoardListener(false);
       Server.setKeyboard(true);
-    } else if (this instanceof ClientThread && Client.isKeyListener()) {
+    } else if (this instanceof ClientThread
+        && Client.isKeyListener()
+        && !(this instanceof GameMasterClientThread)) {
       keyBoardListener(true);
     }
     try {
       while (true) {
         if (socket.isConnected()) {
-          var message = reader.readLine(); // ließt die packetmessage die reinkommt
+          String message = null; // ließt die packetmessage die reinkommt
+          try {
+            message = reader.readLine();
+          } catch (IOException e) {
+          }
           if (message != null) {
             var object = new JSONObject(message);
             if (!object.isNull("type")) {
@@ -83,7 +90,7 @@ public abstract class NetworkThread extends Thread {
           disconnect();
         }
       }
-    } catch (IOException | PacketNotExistsException exception) {
+    } catch (PacketNotExistsException exception) {
       exception.printStackTrace();
     } finally {
       try {
@@ -147,8 +154,16 @@ public abstract class NetworkThread extends Thread {
     // handle it
     if (reciever instanceof ServerThread) {
       MoleGames.getMoleGames().getPacketHandler().handlePacket(packet, (ServerThread) reciever);
-    } else if (reciever instanceof ClientThread) {
-      ((ClientThread) reciever).getClient().getClientPacketHandler().handlePacket(((ClientThread) reciever).getClient(), packet);
+    } else if (reciever instanceof ClientThread && !(reciever instanceof GameMasterClientThread)) {
+      ((ClientThread) reciever)
+          .getClient()
+          .getClientPacketHandler()
+          .handlePacket(((ClientThread) reciever).getClient(), packet);
+    } else if (reciever instanceof GameMasterClientThread) {
+      ((GameMasterClientThread) reciever)
+          .getGameMasterClient()
+          .getClientMasterPacketHandler()
+          .handlePacket(((GameMasterClientThread) reciever).getGameMasterClient(), packet);
     }
   }
 

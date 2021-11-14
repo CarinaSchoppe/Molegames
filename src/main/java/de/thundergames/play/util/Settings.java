@@ -5,6 +5,7 @@ import de.thundergames.play.game.Game;
 import de.thundergames.play.map.Map;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
@@ -27,6 +28,8 @@ public class Settings {
   private int moleAmount = 4;
   private int maxFloors = 4;
   private int radius = 4;
+  private final HashMap<Integer, Integer> pointsForMoleInHoleForFloor = new HashMap<>(){};
+  private final HashMap<Integer, Integer> pointsPerFloorForDoubleDraw = new HashMap<>();
 
   public Settings(@NotNull final Game game) throws IOException {
     this.game = game;
@@ -52,6 +55,23 @@ public class Settings {
       radius = packet.getInt("radius");
       game.setMap(new Map(radius, game));
     }
+    if (!packet.isNull("pointsMoleFloor")) {
+      pointsForMoleInHoleForFloor.clear();
+      var map = packet.getJSONObject("pointsMoleFloor").toMap();
+      for (var entry : map.keySet()) {
+        pointsForMoleInHoleForFloor.put(
+            Integer.parseInt(entry), Integer.parseInt(map.get(entry).toString()));
+      }
+    }
+    if (!packet.isNull("pointsPerFloorForDoubleDraw")) {
+      pointsPerFloorForDoubleDraw.clear();
+      var map = packet.getJSONObject("pointsPerFloorForDoubleDraw").toMap();
+      for (var entry : map.keySet()) {
+        pointsPerFloorForDoubleDraw.put(
+            Integer.parseInt(entry), Integer.parseInt(map.get(entry).toString()));
+      }
+    }
+
     if (!packet.isNull("cards")) {
       cards.clear();
       for (int i = 0; i < packet.getJSONArray("cards").length(); i++) {
@@ -76,6 +96,8 @@ public class Settings {
     jsonObject.put("maxFloors", maxFloors);
     jsonObject.put("radius", radius);
     jsonObject.put("cards", cards);
+    jsonObject.put("pointsMoleFloor", pointsForMoleInHoleForFloor);
+    jsonObject.put("pointsPerFloorForDoubleDraw", pointsPerFloorForDoubleDraw);
     return jsonObject;
   }
 

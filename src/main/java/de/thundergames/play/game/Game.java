@@ -2,7 +2,7 @@ package de.thundergames.play.game;
 
 import de.thundergames.MoleGames;
 import de.thundergames.gameplay.player.Player;
-import de.thundergames.network.server.ServerThread;
+import de.thundergames.networking.server.ServerThread;
 import de.thundergames.play.map.Field;
 import de.thundergames.play.map.Map;
 import de.thundergames.play.util.Mole;

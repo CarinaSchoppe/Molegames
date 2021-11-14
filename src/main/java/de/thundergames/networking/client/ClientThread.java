@@ -1,13 +1,13 @@
-package de.thundergames.network.client;
+package de.thundergames.networking.client;
 
-import de.thundergames.network.util.NetworkThread;
+import de.thundergames.networking.util.NetworkThread;
 import java.io.IOException;
 import java.net.Socket;
 import org.jetbrains.annotations.NotNull;
 
 public class ClientThread extends NetworkThread {
 
-  private Client client;
+  protected Client client;
 
   public ClientThread(@NotNull final Socket socket, final int id, Client client) throws IOException {
     super(socket, id);

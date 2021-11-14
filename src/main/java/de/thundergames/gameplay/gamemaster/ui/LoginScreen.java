@@ -14,10 +14,11 @@
  *  *
  */
 
-package de.thundergames.gameplay.player.ui;
+package de.thundergames.gameplay.gamemaster.ui;
 
-import de.thundergames.networking.client.Client;
+import de.thundergames.gameplay.gamemaster.GameMasterClient;
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.application.Application;
@@ -32,6 +33,10 @@ import javafx.stage.Stage;
 
 public class LoginScreen extends Application {
 
+  public static void main(String[] args) {
+    launch(args);
+  }
+
   @FXML private ResourceBundle resources;
 
   @FXML private URL location;
@@ -40,25 +45,45 @@ public class LoginScreen extends Application {
 
   @FXML private Button login;
 
-  @FXML private TextField name;
-
   @FXML private TextField port;
 
-  private boolean loggedIn = false;
-
   @FXML
-  void onLoginButtonClick(ActionEvent event) {
+  void onLogin(ActionEvent event) throws IOException {
     String ip = this.ip.getText();
     String port = this.port.getText();
-    String name = this.name.getText();
-    if (ip != "" && port != "" && name != "" && !loggedIn) {
-      System.out.println("IP: " + ip + " Port: " + port + " Name: " + name);
-      Stage stage = (Stage) login.getScene().getWindow();
-      Client client = new Client(Integer.parseInt(port), ip, name);
-      loggedIn = true;
-      stage.close();
-      client.create();
-    }
+
+    try {
+      if (ip != "" && port != "") {
+        System.out.println("IP: " + ip + " Port: " + port);
+        Stage stage = (Stage) login.getScene().getWindow();
+        GameMasterClient gamemaster = new GameMasterClient(Integer.parseInt(port), ip);
+        gamemaster.create();
+        /*      Stage createGame = new Stage();
+        var createLocation =
+            new File("src/main/java/de/thundergames/gameplay/gamemaster/ui/CreateGame.fxml")
+                .toURI()
+                .toURL();
+        Parent createGameRot = FXMLLoader.load(createLocation);
+        initialize();
+        createGame.setTitle("CreateGame");
+        createGame.setResizable(false);
+        createGame.setScene(new Scene(createGameRot));
+        createGame.show();*/
+        if (gamemaster.getMasterClientThread() != null) {
+          var createGame = new CreateGame();
+          createGame.create(gamemaster);
+          stage.close();
+        }
+      }
+    } catch (NumberFormatException e) {
+
+    } /*catch (IOException e) {
+        e.printStackTrace();
+      }*/
+  }
+
+  public void create(String... args) {
+    launch(args);
   }
 
   @FXML
@@ -66,27 +91,21 @@ public class LoginScreen extends Application {
     assert ip != null : "fx:id=\"ip\" was not injected: check your FXML file 'LoginScreen.fxml'.";
     assert login != null
         : "fx:id=\"login\" was not injected: check your FXML file 'LoginScreen.fxml'.";
-    assert name != null
-        : "fx:id=\"name\" was not injected: check your FXML file 'LoginScreen.fxml'.";
     assert port != null
         : "fx:id=\"port\" was not injected: check your FXML file 'LoginScreen.fxml'.";
-  }
-
-  public void create(String... args) {
-    launch(args);
   }
 
   @Override
   public void start(Stage primaryStage) throws Exception {
     location =
-        new File("src/main/java/de/thundergames/gameplay/player/ui/Loginscreen.fxml")
+        new File("src/main/java/de/thundergames/gameplay/gamemaster/ui/LoginScreen.fxml")
             .toURI()
             .toURL();
     Parent root = FXMLLoader.load(location);
-    primaryStage.setResizable(false);
-    primaryStage.setTitle("LoginScreen");
-    primaryStage.setScene(new Scene(root));
     initialize();
+    primaryStage.setTitle("LoginScreen");
+    primaryStage.setResizable(false);
+    primaryStage.setScene(new Scene(root));
     primaryStage.show();
   }
 }

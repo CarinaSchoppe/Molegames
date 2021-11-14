@@ -1,9 +1,9 @@
 package de.thundergames.gameplay.player;
 
 import de.thundergames.MoleGames;
-import de.thundergames.network.server.ServerThread;
-import de.thundergames.network.util.Packet;
-import de.thundergames.network.util.Packets;
+import de.thundergames.networking.server.ServerThread;
+import de.thundergames.networking.util.Packet;
+import de.thundergames.networking.util.Packets;
 import de.thundergames.play.game.Game;
 import de.thundergames.play.game.GameLogic;
 import de.thundergames.play.map.Field;

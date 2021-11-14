@@ -1,9 +1,9 @@
-package de.thundergames.network.server;
+package de.thundergames.networking.server;
 
 import de.thundergames.MoleGames;
 import de.thundergames.gameplay.player.Player;
-import de.thundergames.network.util.Network;
-import de.thundergames.network.util.Packet;
+import de.thundergames.networking.util.Network;
+import de.thundergames.networking.util.Packet;
 import de.thundergames.play.game.Game;
 import java.io.IOException;
 import java.net.ServerSocket;

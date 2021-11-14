@@ -1,4 +1,4 @@
-package de.thundergames.network.util;
+package de.thundergames.networking.util;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
