@@ -1,8 +1,8 @@
 /*
  * Copyright Notice for Swtpra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 15.11.21, 10:33 by Carina
- * Latest changes made by Carina on 15.11.21, 10:26
+ * File created on 15.11.21, 14:38 by Carina
+ * Latest changes made by Carina on 15.11.21, 14:38
  * All contents of "MoleGames" are protected by copyright.
  * The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
@@ -15,8 +15,8 @@ package de.thundergames;
 import de.thundergames.gameplay.ai.AI;
 import de.thundergames.gameplay.player.ui.LoginScreen;
 import de.thundergames.networking.client.Client;
+import de.thundergames.networking.server.PacketHandler;
 import de.thundergames.networking.server.Server;
-import de.thundergames.networking.util.PacketHandler;
 import de.thundergames.play.game.GameLogic;
 import de.thundergames.play.util.MultiGameHandler;
 import java.util.Objects;

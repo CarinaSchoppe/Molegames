@@ -3,8 +3,8 @@
 <!--
   ~ Copyright Notice for Swtpra10
   ~ Copyright (c) at ThunderGames | SwtPra10 2021
-  ~ File created on 15.11.21, 10:33 by Carina
-  ~ Latest changes made by Carina on 15.11.21, 10:26
+  ~ File created on 15.11.21, 14:38 by Carina
+  ~ Latest changes made by Carina on 15.11.21, 14:38
   ~ All contents of "LoginScreen.fxml" are protected by copyright.
   ~ The copyright law, unless expressly indicated otherwise, is
   ~ at ThunderGames | SwtPra10. All rights reserved
@@ -25,13 +25,13 @@
          <children>
             <ImageView fitHeight="403.0" fitWidth="600.0" pickOnBounds="true">
                <image>
-                  <Image url="@../../../../../../resources/player/Login-Player.png" />
+                  <Image url="@../../../../../../resources/player/pc/Login-Player.png"/>
                </image>
             </ImageView>
-            <TextField fx:id="name" layoutX="119.0" layoutY="167.0" prefHeight="34.0" prefWidth="185.0" promptText="Username" style="-fx-background-color: transparent; -fx-text-fill: white;" />
-            <TextField fx:id="ip" layoutX="338.0" layoutY="171.0" prefHeight="25.0" prefWidth="194.0" promptText="IP-Adress" style="-fx-background-color: transparent; -fx-text-fill: white;" />
-            <TextField fx:id="port" layoutX="124.0" layoutY="246.0" prefHeight="25.0" prefWidth="185.0" promptText="Port" style="-fx-background-color: transparent; -fx-text-fill: white;" />
-            <Button fx:id="login" layoutX="85.0" layoutY="333.0" mnemonicParsing="false" onAction="#onLoginButtonClick" prefHeight="34.0" prefWidth="140.0" style="-fx-background-color: transparent;" />
+            <TextField fx:id="name" layoutX="119.0" layoutY="167.0" prefHeight="34.0" prefWidth="185.0" promptText="Username" style="-fx-background-color: transparent; -fx-text-fill: white;"/>
+            <TextField fx:id="ip" layoutX="338.0" layoutY="171.0" prefHeight="25.0" prefWidth="194.0" promptText="IP-Adress" style="-fx-background-color: transparent; -fx-text-fill: white;"/>
+            <TextField fx:id="port" layoutX="124.0" layoutY="246.0" prefHeight="25.0" prefWidth="185.0" promptText="Port" style="-fx-background-color: transparent; -fx-text-fill: white;"/>
+            <Button fx:id="login" layoutX="85.0" layoutY="333.0" mnemonicParsing="false" onAction="#onLoginButtonClick" prefHeight="34.0" prefWidth="140.0" style="-fx-background-color: transparent;"/>
          </children>
       </AnchorPane>
    </children>

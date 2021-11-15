@@ -1,8 +1,8 @@
 /*
  * Copyright Notice for Swtpra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 15.11.21, 10:33 by Carina
- * Latest changes made by Carina on 15.11.21, 10:26
+ * File created on 15.11.21, 14:38 by Carina
+ * Latest changes made by Carina on 15.11.21, 14:38
  * All contents of "Client" are protected by copyright.
  * The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
@@ -24,15 +24,10 @@ import org.json.JSONObject;
 public class Client extends Network {
   private static final boolean keyListener = true;
   protected static Client client;
-  private final String name;
+  private String name;
   protected ClientPacketHandler clientPacketHandler;
   private final ArrayList<Integer> moleIDs = new ArrayList<>();
-  /**
-   * @param port of the server to connect to if empty its 291220
-   * @param ip of the server to connect to if empty its "localhost"
-   */
   protected ClientThread clientThread;
-
   private int id;
   private int gameID;
 
@@ -59,7 +54,14 @@ public class Client extends Network {
   @Override
   public void create() {
     connect();
+  }
 
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
   }
 
   /**
@@ -72,8 +74,8 @@ public class Client extends Network {
       socket = new Socket(ip, port);
       clientThread = new ClientThread(socket, 0, this);
       clientThread.start();
-      test();
-    } catch (IOException | InterruptedException e) {
+      // test();
+    } catch (IOException e) {
       System.out.println("Is the server running?!");
     }
   }

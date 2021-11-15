@@ -1,8 +1,8 @@
 /*
  * Copyright Notice for Swtpra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 15.11.21, 10:33 by Carina
- * Latest changes made by Carina on 15.11.21, 10:26
+ * File created on 15.11.21, 14:38 by Carina
+ * Latest changes made by Carina on 15.11.21, 14:03
  * All contents of "Packets" are protected by copyright.
  * The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
@@ -22,7 +22,6 @@ public enum Packets {
   CREATEGAME(0, "CREATE-GAME"),
   JOINGAME(1, "JOIN-GAME"),
   LOGIN(2, "LOGIN"),
-  JOINEDGAME(3, "JOINED-GAME"),
   MESSAGE(4, "MESSAGE"),
   DISCONNECT(5, "DISCONNECT"),
   ERROR(6, "ERROR"),
@@ -39,7 +38,6 @@ public enum Packets {
   LEAVEGAME(17, "LEAVE-GAME"),
   GAMEOVERVIEW(18, "GET-GAME-OVERVIEW"),
   CREATEMAP(19, "CREATE-MAP"),
-  PLAYERJOINED(20, "PLAYER-JOINED"),
   GAMESTART(21, "GAME-START"),
   MOLEPLACED(22, "MOLE-PLACED"),
   PLAYERTURN(23, "PLAYER-TURN"),
@@ -47,7 +45,6 @@ public enum Packets {
   DRAWCARD(25, "DRAW-CARD"),
   DRAWNCARD(31, "DRAWEN-CARD"),
   INVALIDMOVE(26, "INVALID-MOVE"),
-  PLAYERKICKED(27, "PLAYER-KICKED"),
   KICKPLAYER(28, "KICK-PLAYER"),
   NEXTFLOOR(29, "NEXT-FLOOR"),
   NEXTPLAYER(30, "NEXT-PLAYER"),
@@ -56,6 +53,10 @@ public enum Packets {
   OCCUPIED(33, "OCCUPIED"),
   MOLES(34, "MOLES"),
   NAME(35, "NAME"),
+  BACKTOLOBBY(36, "BACK-TO-LOBBY"),
+  GAMEPAUSED(37, "GAME-PAUSED"),
+  GAMERESUME(38, "GAME-RESUME"),
+  STOPGAME(39, "STOP-GAME"),
   ;
   private final int id;
   private final String packetType;

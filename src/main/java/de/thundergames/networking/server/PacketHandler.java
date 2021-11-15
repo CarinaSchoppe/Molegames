@@ -1,8 +1,8 @@
 /*
  * Copyright Notice for Swtpra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 15.11.21, 10:33 by Carina
- * Latest changes made by Carina on 15.11.21, 10:26
+ * File created on 15.11.21, 14:38 by Carina
+ * Latest changes made by Carina on 15.11.21, 14:15
  * All contents of "PacketHandler" are protected by copyright.
  * The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
@@ -10,11 +10,13 @@
  * Public accessibility or other use
  * requires the express written consent of ThunderGames | SwtPra10.
  */
-package de.thundergames.networking.util;
+package de.thundergames.networking.server;
 
 import de.thundergames.MoleGames;
 import de.thundergames.gameplay.player.Player;
-import de.thundergames.networking.server.ServerThread;
+import de.thundergames.networking.util.Packet;
+import de.thundergames.networking.util.PacketNotExistsException;
+import de.thundergames.networking.util.Packets;
 import de.thundergames.play.game.Game;
 import de.thundergames.play.game.GameStates;
 import de.thundergames.play.map.Map;
@@ -59,7 +61,7 @@ public class PacketHandler {
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.MESSAGE.getPacketType())) {
       System.out.println(
           "MESSAGE: Client with id: "
-              + clientConnection.id
+              + clientConnection.getConnectionId()
               + " sended: type: "
               + packet.getPacketType()
               + " contents: "
@@ -67,10 +69,29 @@ public class PacketHandler {
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.GAMESTART.getPacketType())) {
       startGamePacket(packet);
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.NAME.getPacketType())) {
-      clientConnection.setClientName(packet.getJsonObject().getString("name"));
+      if (!MoleGames.getMoleGames()
+          .getServer()
+          .getConnectionNames()
+          .containsKey(packet.getJsonObject().getString("name")))
+        clientConnection.setClientName(packet.getJsonObject().getString("name"));
+      else {
+        for (var i = 1; i < MoleGames.getMoleGames().getServer().getConnectionNames().size(); i++) {
+          if (!MoleGames.getMoleGames()
+              .getServer()
+              .getConnectionNames()
+              .containsKey(packet.getJsonObject().getString("name") + i)) {
+            clientConnection.setClientName(packet.getJsonObject().getString("name") + i);
+            var object = new JSONObject();
+            object.put("type", Packets.NAME.getPacketType());
+            object.put("name", clientConnection.getClientName());
+            clientConnection.sendPacket(new Packet(object));
+            break;
+          }
+        }
+      }
       System.out.println(
           "Client with id: "
-              + clientConnection.id
+              + clientConnection.getConnectionId()
               + " got the name:"
               + packet.getJsonObject().getString("name"));
     } else {
@@ -223,8 +244,8 @@ public class PacketHandler {
    */
   public Packet playerKickedPacket(@NotNull final ServerThread clientConnection) {
     var object = new JSONObject();
-    object.put("type", Packets.PLAYERKICKED.getPacketType());
-    object.put("id", clientConnection.id);
+    object.put("type", Packets.KICKPLAYER.getPacketType());
+    object.put("id", clientConnection.getConnectionId());
     return new Packet(object);
   }
 
@@ -290,7 +311,7 @@ public class PacketHandler {
   public synchronized void joinedGamePacket(
       @NotNull final ServerThread clientConnection, final int gameID) {
     var object = new JSONObject();
-    object.put("type", Packets.JOINEDGAME.getPacketType());
+    object.put("type", Packets.JOINGAME.getPacketType());
     object.put("gameID", gameID);
     clientConnection.sendPacket(new Packet(object));
   }
@@ -420,10 +441,11 @@ public class PacketHandler {
    * @use the packet that will be send by the client that a game should be created
    * @author Carina
    * @see Game
-   * @see test
    */
   private synchronized void createGamePacket(Packet packet) {
     //    "CREATE-GAME#ID"
-    MoleGames.getMoleGames().getGameHandler().createNewGame(packet.getJsonObject().getInt("gameID"));
+    MoleGames.getMoleGames()
+        .getGameHandler()
+        .createNewGame(packet.getJsonObject().getInt("gameID"));
   }
 }

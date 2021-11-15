@@ -1,5 +1,5 @@
-/.idea/
-/.run/
+.idea
+!/.idea.copyright
 .gradle
 !gradle.wrapper
 **/build/

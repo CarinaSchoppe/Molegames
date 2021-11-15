@@ -1,8 +1,8 @@
 /*
  * Copyright Notice for Swtpra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 15.11.21, 10:33 by Carina
- * Latest changes made by Carina on 15.11.21, 10:26
+ * File created on 15.11.21, 14:38 by Carina
+ * Latest changes made by Carina on 15.11.21, 14:10
  * All contents of "LoginScreen" are protected by copyright.
  * The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
@@ -13,6 +13,8 @@
 package de.thundergames.gameplay.player.ui;
 
 import de.thundergames.networking.client.Client;
+import de.thundergames.networking.util.Packet;
+import de.thundergames.networking.util.Packets;
 import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -25,6 +27,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import org.json.JSONObject;
 
 public class LoginScreen extends Application {
 
@@ -51,6 +54,11 @@ public class LoginScreen extends Application {
       System.out.println("IP: " + ip + " Port: " + port + " Name: " + name);
       Stage stage = (Stage) login.getScene().getWindow();
       Client client = new Client(Integer.parseInt(port), ip, name);
+      JSONObject object;
+      object = new JSONObject();
+      object.put("name", name);
+      object.put("type", Packets.NAME.getPacketType());
+      client.getClientThread().sendPacket(new Packet(object));
       loggedIn = true;
       stage.close();
       client.create();
