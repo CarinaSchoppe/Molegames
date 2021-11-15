@@ -1,28 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<!--
+  ~ Copyright Notice for Swtpra10
+  ~ Copyright (c) at ThunderGames | SwtPra 10 2021
+  ~ File created on 15.11.21, 10:24 by Carina
+  ~ Latest changes made by Carina on 15.11.21, 10:24
+  ~ All contents of "LoginScreen.fxml" are protected by copyright.
+  ~ The copyright law, unless expressly indicated otherwise, is
+  ~ at ThunderGames | SwtPra 10. All rights reserved
+  ~ Any type of duplication, distribution, rental, sale, award,
+  ~ Public accessibility or other use
+  ~ requires the express written consent of ThunderGames | SwtPra 10.
+  -->
+
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
-
-<!--
-  ~ /*
-  ~  *     / **
-  ~  *      *   Copyright Notice                                             *
-  ~  *      *   Copyright (c) SwtPra10 | ThunderGames 2021                         *
-  ~  *      *   Created: 05.05.2018 / 11:59                                  *
-  ~  *      *   All contents of this source text are protected by copyright. *
-  ~  *      *   The copyright law, unless expressly indicated otherwise, is  *
-  ~  *      *   at SwtPra10 | ThunderGames. All rights reserved                    *
-  ~  *      *   Any type of duplication, distribution, rental, sale, award,  *
-  ~  *      *   Public accessibility or other use                            *
-  ~  *      *   Requires the express written consent of SwtPra10 | ThunderGames.   *
-  ~  *      **
-  ~  *
-  -->
-
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.thundergames.gameplay.gamemaster.ui.LoginScreen">
    <center>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
