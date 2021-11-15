@@ -1,18 +1,16 @@
 /*
+ * Copyright Notice                                             *
+ * Copyright (c) ThunderGames 2021                              *
+ * Created: 05.05.2018 / 11:59                                  *
+ * All contents of this source text are protected by copyright. *
+ * The copyright law, unless expressly indicated otherwise, is  *
+ * at SwtPra10 | ThunderGames. All rights reserved              *
+ * Any type of duplication, distribution, rental, sale, award,  *
+ * Public accessibility or other use                            *
+ * Requires the express written consent of ThunderGames.        *
  *
- *  *     / **
- *  *      *   Copyright Notice                                             *
- *  *      *   Copyright (c) SwtPra10 | ThunderGames 2021                         *
- *  *      *   Created: 05.05.2018 / 11:59                                  *
- *  *      *   All contents of this source text are protected by copyright. *
- *  *      *   The copyright law, unless expressly indicated otherwise, is  *
- *  *      *   at SwtPra10 | ThunderGames. All rights reserved                    *
- *  *      *   Any type of duplication, distribution, rental, sale, award,  *
- *  *      *   Public accessibility or other use                            *
- *  *      *   Requires the express written consent of SwtPra10 | ThunderGames.   *
- *  *      **
- *  *
  */
+
 
 package de.thundergames.gameplay.gamemaster.ui;
 
@@ -104,7 +102,7 @@ public class LoginScreen extends Application {
     Parent root = FXMLLoader.load(location);
     initialize();
     primaryStage.setTitle("LoginScreen");
-    primaryStage.setResizable(false);
+    primaryStage.setResizable(true);
     primaryStage.setScene(new Scene(root));
     primaryStage.show();
   }

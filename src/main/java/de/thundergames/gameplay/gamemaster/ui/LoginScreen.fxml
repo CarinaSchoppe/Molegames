@@ -27,13 +27,13 @@
    <center>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <ImageView fitHeight="400.0" fitWidth="600.0" pickOnBounds="true" smooth="false">
+            <ImageView cache="true" fitHeight="400.0" fitWidth="600.0" smooth="false" style="-fx-background-image: url(C:\Users\Carina\ProgrammingProjects\SwtPra10\src\main\resources\gamemaster.Login-Ausrichter.png); -fx-background-size: contain; -fx-background-repeat: no-repeat; -fx-background-position: center; -fx-background-size: 100% 100%;">
                <image>
                   <Image url="@../../../../../../resources/gamemaster/Login-Ausrichter.png" />
                </image>
             </ImageView>
             <TextField fx:id="ip" layoutX="213.0" layoutY="171.0" prefHeight="25.0" prefWidth="196.0" promptText="IP-Adress" style="-fx-background-color: transparent; -fx-text-fill: white;" />
-            <TextField fx:id="port" layoutX="213.0" layoutY="243.0" prefHeight="18.0" prefWidth="199.0" promptText="Port" style="-fx-background-color: transparent; -fx-text-fill: white;" />
+            <TextField fx:id="port" centerShape="false" layoutX="213.0" layoutY="243.0" prefHeight="18.0" prefWidth="199.0" promptText="Port" style="-fx-background-color: transparent; -fx-text-fill: white;" />
             <Button fx:id="login" layoutX="85.0" layoutY="330.0" mnemonicParsing="false" onAction="#onLogin" prefHeight="29.0" prefWidth="135.0" style="-fx-background-color: transparent;" />
          </children>
       </AnchorPane>

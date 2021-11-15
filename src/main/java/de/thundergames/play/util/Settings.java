@@ -1,3 +1,16 @@
+/*
+ * Copyright Notice                                             *
+ * Copyright (c) ThunderGames 2021                              *
+ * Created: 05.05.2018 / 11:59                                  *
+ * All contents of this source text are protected by copyright. *
+ * The copyright law, unless expressly indicated otherwise, is  *
+ * at SwtPra10 | ThunderGames. All rights reserved              *
+ * Any type of duplication, distribution, rental, sale, award,  *
+ * Public accessibility or other use                            *
+ * Requires the express written consent of ThunderGames.        *
+ *
+ */
+
 package de.thundergames.play.util;
 
 import de.thundergames.filehandling.GameConfiguration;
@@ -46,7 +59,7 @@ public class Settings {
    */
   public synchronized void updateConfiuration(@NotNull final JSONObject packet) {
     if (!packet.isNull("randomDraw")) randomDraw = packet.getBoolean("randomDraw");
-    if (!packet.isNull("timeToThink")) timeToThink = packet.getInt("timeToThink");
+    if (!packet.isNull("thinkTime")) timeToThink = packet.getInt("thinkTime");
     if (!packet.isNull("punishment")) punishment = Punishments.getByID(packet.getInt("punishment"));
     if (!packet.isNull("maxPlayers")) maxPlayers = packet.getInt("maxPlayers");
     if (!packet.isNull("moleAmount")) moleAmount = packet.getInt("moleAmount");

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
@@ -8,6 +9,7 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.text.Font?>
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="350.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.thundergames.gameplay.gamemaster.ui.CreateGame">
    <center>
@@ -18,8 +20,8 @@
                   <Image url="@../../../../../../resources/gamemaster/CreateGame-Ausrichter.png" />
                </image>
             </ImageView>
-            <Button fx:id="addItem" ellipsisString="" layoutX="192.0" layoutY="367.0" mnemonicParsing="false" onAction="#addItemButtonEvent" prefHeight="14.0" prefWidth="14.0" style="-fx-background-color: transparent;" text="Button" />
-            <Button fx:id="removeAll" ellipsisString="" layoutX="229.0" layoutY="368.0" mnemonicParsing="false" onAction="#removeAllButtonEvent" prefHeight="14.0" prefWidth="14.0" style="-fx-background-color: transparent;" text="Button" />
+            <Button fx:id="addItem" ellipsisString="" layoutX="193.0" layoutY="366.0" mnemonicParsing="false" onAction="#addItemButtonEvent" prefHeight="25.0" prefWidth="21.0" style="-fx-background-color: transparent;" text="Button" />
+            <Button fx:id="removeAll" ellipsisString="" layoutX="231.0" layoutY="368.0" mnemonicParsing="false" onAction="#removeAllButtonEvent" prefHeight="18.0" prefWidth="23.0" style="-fx-background-color: transparent;" text="Button" />
             <Button fx:id="configureFloors" ellipsisString="" layoutX="72.0" layoutY="483.0" mnemonicParsing="false" onAction="#configureFloorsButtonEvent" prefHeight="5.0" prefWidth="116.0" style="-fx-background-color: transparent;" />
             <Button fx:id="configureMap" ellipsisString="" layoutX="76.0" layoutY="514.0" mnemonicParsing="false" onAction="#configureMapButtonEvent" prefHeight="3.0" prefWidth="108.0" style="-fx-background-color: transparent;" />
             <Button fx:id="loadConfig" ellipsisString="" layoutX="47.0" layoutY="593.0" mnemonicParsing="false" onAction="#loadConfigButtonEvent" prefHeight="22.0" prefWidth="83.0" style="-fx-background-color: transparent;" />
@@ -28,11 +30,15 @@
             <TextField fx:id="molesAmount" layoutX="71.0" layoutY="136.0" prefHeight="13.0" prefWidth="75.0" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-text-fill: white;" />
             <TextField fx:id="thinkTime" layoutX="74.0" layoutY="189.0" prefHeight="26.0" prefWidth="58.0" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-text-fill: white;" />
             <TextField fx:id="visualEffects" layoutX="159.0" layoutY="185.0" prefHeight="28.0" prefWidth="121.0" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-text-fill: white;" />
-            <TextField fx:id="radius" layoutX="62.0" layoutY="318.0" prefHeight="28.0" prefWidth="55.0" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-text-fill: white;" />
-            <TextField fx:id="playerAmount" layoutX="157.0" layoutY="317.0" prefHeight="3.0" prefWidth="52.0" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-text-fill: white;" />
-            <TextField fx:id="drawCardValue" layoutX="73.0" layoutY="365.0" prefHeight="24.0" prefWidth="100.0" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-text-fill: white;" />
-            <TextArea fx:id="textInputArea" editable="false" layoutX="77.0" layoutY="404.0" prefHeight="65.0" prefWidth="178.0" style="-fx-background-color: transparent; -fx-border-color: transparent;" />
-            <ChoiceBox fx:id="punishment" layoutX="158.0" layoutY="137.0" prefHeight="28.0" prefWidth="144.0" style="-fx-background-color: transparent; -fx-border-color: transparent;" />
+            <TextField fx:id="radius" layoutX="73.0" layoutY="318.0" prefHeight="28.0" prefWidth="56.0" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-text-fill: white;" />
+            <TextField fx:id="playerAmount" layoutX="162.0" layoutY="317.0" prefHeight="27.0" prefWidth="58.0" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-text-fill: white;" />
+            <TextField fx:id="drawCardValue" layoutX="76.0" layoutY="365.0" prefHeight="27.0" prefWidth="92.0" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-text-fill: white;" />
+            <TextArea fx:id="drawCardValues" editable="false" layoutX="77.0" layoutY="404.0" prefHeight="65.0" prefWidth="178.0" style="-fx-background-color: transparent; -fx-border-color: transparent;">
+               <font>
+                  <Font size="20.0" />
+               </font></TextArea>
+            <ChoiceBox fx:id="punishment" layoutX="158.0" layoutY="137.0" onContextMenuRequested="#test" prefHeight="28.0" prefWidth="144.0" style="-fx-background-color: transparent; -fx-border-color: transparent;" />
+            <CheckBox fx:id="randomDraw" layoutX="241.0" layoutY="318.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="13.0" style="-fx-background-color: transparent; -fx-background-image: transparent; -fx-border-color: transparent;" />
          </children>
       </AnchorPane>
    </center>
