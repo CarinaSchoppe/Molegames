@@ -1,8 +1,8 @@
 /*
  * Copyright Notice for Swtpra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 15.11.21, 10:33 by Carina
- * Latest changes made by Carina on 15.11.21, 10:26
+ * File created on 15.11.21, 15:51 by Carina
+ * Latest changes made by Carina on 15.11.21, 15:51
  * All contents of "Game" are protected by copyright.
  * The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
@@ -27,7 +27,7 @@ import org.jetbrains.annotations.NotNull;
 public class Game extends Thread {
 
   private final int gameID;
-  private final GameStates currentGameState = GameStates.LOBBY;
+  private GameStates currentGameState = GameStates.LOBBY;
   private final ArrayList<Player> players = new ArrayList<>();
   private final HashMap<ServerThread, Player> clientPlayersMap = new HashMap<>();
   private final HashMap<Player, Mole> moleMap = new HashMap<>();
@@ -36,6 +36,7 @@ public class Game extends Thread {
   private Settings settings;
   private Player currentPlayer = null;
   private int moleID = 0;
+  private boolean gamePaused = false;
 
   public Game(final int gameID) {
     this.gameID = gameID;
@@ -55,13 +56,24 @@ public class Game extends Thread {
    * @author Carina
    * @use starts the current game
    */
-  @Override
-  public void run() {
+  private void startGame() {
     // TODO: Run a Game!
     if (currentGameState == GameStates.LOBBY) {
+      currentGameState = GameStates.INGAME;
       System.out.println("Starting a game with the gameID: " + gameID);
       nextPlayer();
     }
+  }
+
+  public void forceGameEnd() {}
+
+  public void pauseGame() {
+    gamePaused = true;
+  }
+
+  public void resumeGame() {
+    gamePaused = false;
+    nextPlayer();
   }
 
   /**
@@ -69,8 +81,10 @@ public class Game extends Thread {
    * @use sets the next player in the game
    */
   public void nextPlayer() {
+    if (gamePaused) return;
     if (players.size() - 1 >= players.indexOf(currentPlayer) + 1) {
       currentPlayer = players.get(players.indexOf(currentPlayer) + 1);
+
     } else currentPlayer = players.get(0);
     currentPlayer.startThinkTimer();
     System.out.println(
@@ -78,6 +92,8 @@ public class Game extends Thread {
             + gameID
             + " current-player ID: "
             + currentPlayer.getServerClient().getConnectionId());
+
+    MoleGames.getMoleGames().getPacketHandler().nextPlayerPacket(currentPlayer.getServerClient());
   }
 
   /**

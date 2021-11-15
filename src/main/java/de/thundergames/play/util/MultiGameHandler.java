@@ -1,8 +1,8 @@
 /*
  * Copyright Notice for Swtpra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 15.11.21, 10:33 by Carina
- * Latest changes made by Carina on 15.11.21, 10:26
+ * File created on 15.11.21, 15:51 by Carina
+ * Latest changes made by Carina on 15.11.21, 15:10
  * All contents of "MultiGameHandler" are protected by copyright.
  * The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
@@ -27,7 +27,6 @@ public class MultiGameHandler {
 
   private static final HashMap<Integer, Game> games = new HashMap<>();
   private static final HashMap<ServerThread, Game> clientGames = new HashMap<>();
-
 
   /**
    * @author Carina

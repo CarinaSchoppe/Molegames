@@ -1,8 +1,8 @@
 /*
  * Copyright Notice for Swtpra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 15.11.21, 10:33 by Carina
- * Latest changes made by Carina on 15.11.21, 10:26
+ * File created on 15.11.21, 15:51 by Carina
+ * Latest changes made by Carina on 15.11.21, 15:10
  * All contents of "Field" are protected by copyright.
  * The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
@@ -33,7 +33,28 @@ public class Field {
 
   @Override
   public String toString() {
-    return "field x: " + id.get(0) + " y: " + id.get(1);
+    if (isOccupied())
+      return "field x: "
+          + id.get(0)
+          + " y: "
+          + id.get(1)
+          + isOccupied()
+          + " occupied by "
+          + mole.getPlayer().getServerClient().getClientName()
+          + " hole"
+          + isHole()
+          + " doubleMove"
+          + isDoubleMove();
+    else
+      return "field x: "
+          + id.get(0)
+          + " y: "
+          + id.get(1)
+          + isOccupied()
+          + " hole"
+          + isHole()
+          + " doubleMove"
+          + isDoubleMove();
   }
 
   public int getY() {
@@ -63,6 +84,10 @@ public class Field {
 
   public boolean isHole() {
     return hole;
+  }
+
+  public void setHole(boolean hole) {
+    this.hole = hole;
   }
 
   public Mole getMole() {

@@ -1,8 +1,8 @@
 /*
  * Copyright Notice for Swtpra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 15.11.21, 10:33 by Carina
- * Latest changes made by Carina on 15.11.21, 10:26
+ * File created on 15.11.21, 15:51 by Carina
+ * Latest changes made by Carina on 15.11.21, 15:43
  * All contents of "NetworkThread" are protected by copyright.
  * The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
@@ -13,7 +13,7 @@
 package de.thundergames.networking.util;
 
 import de.thundergames.MoleGames;
-import de.thundergames.gameplay.gamemaster.networking.GameMasterClientThread;
+import de.thundergames.gameplay.ausrichter.networking.GameMasterClientThread;
 import de.thundergames.networking.client.Client;
 import de.thundergames.networking.client.ClientThread;
 import de.thundergames.networking.server.Server;

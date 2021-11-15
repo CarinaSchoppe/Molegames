@@ -1,8 +1,8 @@
 /*
  * Copyright Notice for Swtpra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 15.11.21, 14:38 by Carina
- * Latest changes made by Carina on 15.11.21, 14:38
+ * File created on 15.11.21, 15:51 by Carina
+ * Latest changes made by Carina on 15.11.21, 15:10
  * All contents of "Client" are protected by copyright.
  * The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
@@ -24,10 +24,10 @@ import org.json.JSONObject;
 public class Client extends Network {
   private static final boolean keyListener = true;
   protected static Client client;
-  private String name;
-  protected ClientPacketHandler clientPacketHandler;
   private final ArrayList<Integer> moleIDs = new ArrayList<>();
+  protected ClientPacketHandler clientPacketHandler;
   protected ClientThread clientThread;
+  private String name;
   private int id;
   private int gameID;
 

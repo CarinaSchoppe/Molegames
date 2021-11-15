@@ -1,8 +1,8 @@
 /*
  * Copyright Notice for Swtpra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 15.11.21, 10:33 by Carina
- * Latest changes made by Carina on 15.11.21, 10:26
+ * File created on 15.11.21, 15:51 by Carina
+ * Latest changes made by Carina on 15.11.21, 15:43
  * All contents of "LoginScreen" are protected by copyright.
  * The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
@@ -11,10 +11,9 @@
  * requires the express written consent of ThunderGames | SwtPra10.
  */
 
+package de.thundergames.gameplay.ausrichter.ui;
 
-package de.thundergames.gameplay.gamemaster.ui;
-
-import de.thundergames.gameplay.gamemaster.GameMasterClient;
+import de.thundergames.gameplay.ausrichter.GameMasterClient;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -31,19 +30,15 @@ import javafx.stage.Stage;
 
 public class LoginScreen extends Application {
 
+  @FXML private ResourceBundle resources;
+  @FXML private URL location;
+  @FXML private TextField ip;
+  @FXML private Button login;
+  @FXML private TextField port;
+
   public static void main(String[] args) {
     launch(args);
   }
-
-  @FXML private ResourceBundle resources;
-
-  @FXML private URL location;
-
-  @FXML private TextField ip;
-
-  @FXML private Button login;
-
-  @FXML private TextField port;
 
   @FXML
   void onLogin(ActionEvent event) throws IOException {

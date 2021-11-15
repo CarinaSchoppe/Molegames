@@ -1,8 +1,8 @@
 /*
  * Copyright Notice for Swtpra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 15.11.21, 10:33 by Carina
- * Latest changes made by Carina on 15.11.21, 10:26
+ * File created on 15.11.21, 15:51 by Carina
+ * Latest changes made by Carina on 15.11.21, 15:10
  * All contents of "Settings" are protected by copyright.
  * The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
@@ -34,6 +34,8 @@ public class Settings {
   final GameConfiguration gameConfiguration;
   private final ArrayList<Integer> cards = new ArrayList<>(List.of(1, 1, 2, 2, 3, 3, 4, 4));
   private final Game game;
+  private final HashMap<Integer, Integer> pointsForMoleInHoleForFloor = new HashMap<>() {};
+  private final HashMap<Integer, Integer> pointsPerFloorForDoubleDraw = new HashMap<>();
   private int timeToThink = 20;
   private boolean randomDraw = false;
   private Punishments punishment = Punishments.NOTHING;
@@ -41,8 +43,6 @@ public class Settings {
   private int moleAmount = 4;
   private int maxFloors = 4;
   private int radius = 4;
-  private final HashMap<Integer, Integer> pointsForMoleInHoleForFloor = new HashMap<>(){};
-  private final HashMap<Integer, Integer> pointsPerFloorForDoubleDraw = new HashMap<>();
 
   public Settings(@NotNull final Game game) throws IOException {
     this.game = game;

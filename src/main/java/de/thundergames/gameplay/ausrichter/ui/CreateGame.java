@@ -1,8 +1,8 @@
 /*
  * Copyright Notice for Swtpra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 15.11.21, 10:33 by Carina
- * Latest changes made by Carina on 15.11.21, 10:26
+ * File created on 15.11.21, 15:51 by Carina
+ * Latest changes made by Carina on 15.11.21, 15:43
  * All contents of "CreateGame" are protected by copyright.
  * The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
@@ -11,10 +11,9 @@
  * requires the express written consent of ThunderGames | SwtPra10.
  */
 
+package de.thundergames.gameplay.ausrichter.ui;
 
-package de.thundergames.gameplay.gamemaster.ui;
-
-import de.thundergames.gameplay.gamemaster.GameMasterClient;
+import de.thundergames.gameplay.ausrichter.GameMasterClient;
 import de.thundergames.networking.util.Packet;
 import de.thundergames.networking.util.Packets;
 import java.io.File;
@@ -37,40 +36,24 @@ import org.json.JSONObject;
 
 public class CreateGame {
 
+  private final ArrayList<Integer> drawCardValuesList = new ArrayList<>();
   @FXML private ResourceBundle resources;
-
   @FXML private URL location;
-
   @FXML private Button addItem;
-
   @FXML private Button back;
-
   @FXML private Button configureFloors;
-
   @FXML private Button configureMap;
-
   @FXML private Button createGame;
-
   @FXML private TextField drawCardValue;
-
   @FXML private Button loadConfig;
-
   @FXML private TextField molesAmount;
-
   @FXML private TextField playerAmount;
-
   @FXML private ChoiceBox<String> punishment;
-
   @FXML private TextField radius;
-
   @FXML private Button removeAll;
-
   @FXML private TextArea drawCardValues;
-
   @FXML private TextField thinkTime;
-
   @FXML private CheckBox randomDraw;
-
   @FXML private TextField visualEffects;
 
   @FXML
@@ -90,8 +73,6 @@ public class CreateGame {
 
   @FXML
   void configureMapButtonEvent(ActionEvent event) {}
-
-  private final ArrayList<Integer> drawCardValuesList = new ArrayList<>();
 
   @FXML
   void createGameButtonEvent(ActionEvent event) {
@@ -176,8 +157,6 @@ public class CreateGame {
         : "fx:id=\"visualEffects\" was not injected: check your FXML file 'CreateGame.fxml'.";
     assert randomDraw != null
         : "fx:id=\"randomDraw\" was not injected: check your FXML file 'CreateGame.fxml'.";
-
-
   }
 
   public void create(GameMasterClient client) {

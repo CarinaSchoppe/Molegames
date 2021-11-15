@@ -1,8 +1,8 @@
 /*
  * Copyright Notice for Swtpra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 15.11.21, 10:33 by Carina
- * Latest changes made by Carina on 15.11.21, 10:26
+ * File created on 15.11.21, 15:51 by Carina
+ * Latest changes made by Carina on 15.11.21, 15:06
  * All contents of "ServerThread" are protected by copyright.
  * The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
@@ -44,7 +44,7 @@ public class ServerThread extends NetworkThread {
    * @use disconnects the serverThread and removes it from the lists and maps
    */
   @Override
-  public synchronized void disconnect() {
+  public void disconnect() {
     {
       try {
         MoleGames.getMoleGames().getServer().getClientThreads().remove(this);

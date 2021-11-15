@@ -1,8 +1,8 @@
 /*
  * Copyright Notice for Swtpra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 15.11.21, 14:38 by Carina
- * Latest changes made by Carina on 15.11.21, 14:03
+ * File created on 15.11.21, 15:51 by Carina
+ * Latest changes made by Carina on 15.11.21, 15:33
  * All contents of "Packets" are protected by copyright.
  * The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
@@ -54,7 +54,7 @@ public enum Packets {
   MOLES(34, "MOLES"),
   NAME(35, "NAME"),
   BACKTOLOBBY(36, "BACK-TO-LOBBY"),
-  GAMEPAUSED(37, "GAME-PAUSED"),
+  GAMEPAUSE(37, "GAME-PAUSED"),
   GAMERESUME(38, "GAME-RESUME"),
   STOPGAME(39, "STOP-GAME"),
   ;

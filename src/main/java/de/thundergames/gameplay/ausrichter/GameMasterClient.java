@@ -1,8 +1,8 @@
 /*
  * Copyright Notice for Swtpra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 15.11.21, 10:33 by Carina
- * Latest changes made by Carina on 15.11.21, 10:26
+ * File created on 15.11.21, 15:51 by Carina
+ * Latest changes made by Carina on 15.11.21, 15:43
  * All contents of "GameMasterClient" are protected by copyright.
  * The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
@@ -11,10 +11,10 @@
  * requires the express written consent of ThunderGames | SwtPra10.
  */
 
-package de.thundergames.gameplay.gamemaster;
+package de.thundergames.gameplay.ausrichter;
 
-import de.thundergames.gameplay.gamemaster.networking.GameMasterClientThread;
-import de.thundergames.gameplay.gamemaster.networking.GameMasterPacketHandler;
+import de.thundergames.gameplay.ausrichter.networking.GameMasterClientThread;
+import de.thundergames.gameplay.ausrichter.networking.GameMasterPacketHandler;
 import de.thundergames.networking.client.Client;
 import de.thundergames.networking.client.ClientThread;
 import java.io.IOException;
@@ -23,17 +23,21 @@ import org.jetbrains.annotations.NotNull;
 
 public class GameMasterClient extends Client {
 
-  public GameMasterClientThread getMasterClientThread() {
-    return (GameMasterClientThread) clientThread;
-  }
-
   private static GameMasterClient clientInstance;
+  private static int gamesID = 0;
+
+  public GameMasterClient(int port, @NotNull String ip) {
+    super(port, ip, "Ausrichter");
+    clientPacketHandler = new GameMasterPacketHandler();
+  }
 
   public static GameMasterClient getClientInstance() {
     return clientInstance;
   }
 
-  private static int gamesID = 0;
+  public static void setClientInstance(GameMasterClient clientInstance) {
+    GameMasterClient.clientInstance = clientInstance;
+  }
 
   public static int getGameID() {
     return gamesID;
@@ -43,13 +47,8 @@ public class GameMasterClient extends Client {
     GameMasterClient.gamesID = gameID;
   }
 
-  public static void setClientInstance(GameMasterClient clientInstance) {
-    GameMasterClient.clientInstance = clientInstance;
-  }
-
-  public GameMasterClient(int port, @NotNull String ip) {
-    super(port, ip, "Ausrichter");
-    clientPacketHandler = new GameMasterPacketHandler();
+  public GameMasterClientThread getMasterClientThread() {
+    return (GameMasterClientThread) clientThread;
   }
 
   public GameMasterPacketHandler getClientMasterPacketHandler() {
