@@ -3,8 +3,8 @@
 <!--
   ~ Copyright Notice for Swtpra10
   ~ Copyright (c) at ThunderGames | SwtPra10 2021
-  ~ File created on 15.11.21, 15:51 by Carina
-  ~ Latest changes made by Carina on 15.11.21, 15:51
+  ~ File created on 15.11.21, 16:08 by Carina
+  ~ Latest changes made by Carina on 15.11.21, 16:08
   ~ All contents of "LoginScreen.fxml" are protected by copyright.
   ~ The copyright law, unless expressly indicated otherwise, is
   ~ at ThunderGames | SwtPra10. All rights reserved
@@ -19,7 +19,7 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
-<VBox xmlns:fx="http://javafx.com/fxml/1" maxHeight="400.0" maxWidth="600.0" minHeight="400.0" minWidth="600.0" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" fx:controller="de.thundergames.gameplay.player.ui.LoginScreen">
+<VBox xmlns:fx="http://javafx.com/fxml/1" maxHeight="400.0" maxWidth="600.0" minHeight="400.0" minWidth="600.0" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.2" fx:controller="de.thundergames.gameplay.player.ui.LoginScreen">
    <children>
       <AnchorPane VBox.vgrow="ALWAYS" prefHeight="403.0" prefWidth="561.0">
          <children>

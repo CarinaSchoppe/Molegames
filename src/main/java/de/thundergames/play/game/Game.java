@@ -1,8 +1,8 @@
 /*
  * Copyright Notice for Swtpra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 15.11.21, 15:51 by Carina
- * Latest changes made by Carina on 15.11.21, 15:51
+ * File created on 15.11.21, 16:08 by Carina
+ * Latest changes made by Carina on 15.11.21, 15:58
  * All contents of "Game" are protected by copyright.
  * The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
@@ -54,7 +54,7 @@ public class Game extends Thread {
 
   /**
    * @author Carina
-   * @use starts the current game
+   * @use starts the game
    */
   private void startGame() {
     // TODO: Run a Game!
@@ -65,12 +65,27 @@ public class Game extends Thread {
     }
   }
 
+  /**
+   * @author Carina
+   * @use forces the game to end
+   */
   public void forceGameEnd() {}
 
+  public boolean isGamePaused() {
+    return gamePaused;
+  }
+
+  /**
+   * @author Carina
+   * @use pauses the game
+   */
   public void pauseGame() {
     gamePaused = true;
   }
-
+  /**
+   * @author Carina
+   * @use resumes the game
+   */
   public void resumeGame() {
     gamePaused = false;
     nextPlayer();

@@ -1,8 +1,8 @@
 /*
  * Copyright Notice for Swtpra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 15.11.21, 15:51 by Carina
- * Latest changes made by Carina on 15.11.21, 14:40
+ * File created on 15.11.21, 16:08 by Carina
+ * Latest changes made by Carina on 15.11.21, 16:02
  * All contents of "LoginScreen" are protected by copyright.
  * The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
@@ -58,10 +58,10 @@ public class LoginScreen extends Application {
       object = new JSONObject();
       object.put("name", name);
       object.put("type", Packets.NAME.getPacketType());
-      client.getClientThread().sendPacket(new Packet(object));
-      loggedIn = true;
-      stage.close();
       client.create();
+      loggedIn = true;
+      client.getClientThread().sendPacket(new Packet(object));
+      stage.close();
     }
   }
 
@@ -87,7 +87,7 @@ public class LoginScreen extends Application {
             .toURI()
             .toURL();
     Parent root = FXMLLoader.load(location);
-    primaryStage.setResizable(true);
+    primaryStage.setResizable(false);
     primaryStage.setTitle("LoginScreen");
     primaryStage.setScene(new Scene(root));
     initialize();

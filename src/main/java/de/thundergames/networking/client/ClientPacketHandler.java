@@ -1,8 +1,8 @@
 /*
  * Copyright Notice for Swtpra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 15.11.21, 14:38 by Carina
- * Latest changes made by Carina on 15.11.21, 14:15
+ * File created on 15.11.21, 16:08 by Carina
+ * Latest changes made by Carina on 15.11.21, 16:07
  * All contents of "ClientPacketHandler" are protected by copyright.
  * The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
@@ -36,7 +36,6 @@ public class ClientPacketHandler {
       client.setId(id);
       System.out.println("Client ID: " + id);
       client.getClientThread().setID(id);
-      client.setName(packet.getJsonObject().getString("name"));
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.JOINGAME.getPacketType())) {
       System.out.println("Client joined game with id: " + packet.getJsonObject().getInt("gameID"));
       client.setGameID(packet.getJsonObject().getInt("gameID"));
@@ -55,9 +54,7 @@ public class ClientPacketHandler {
         client.getMoleIDs().add(packet.getJsonObject().getJSONArray("moles").getInt(i));
       }
     } else if (packet.getPacketType().equals(Packets.NAME.getPacketType())) {
-
       client.setName(packet.getJsonObject().getString("name"));
-
     } else {
       throw new PacketNotExistsException(
           "Packet with type: " + packet.getPacketType() + " does not exists");

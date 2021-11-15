@@ -1,8 +1,8 @@
 /*
  * Copyright Notice for Swtpra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 15.11.21, 15:51 by Carina
- * Latest changes made by Carina on 15.11.21, 15:48
+ * File created on 15.11.21, 16:08 by Carina
+ * Latest changes made by Carina on 15.11.21, 16:07
  * All contents of "PacketHandler" are protected by copyright.
  * The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
@@ -83,14 +83,15 @@ public class PacketHandler {
               .getConnectionNames()
               .containsKey(packet.getJsonObject().getString("name") + i)) {
             clientConnection.setClientName(packet.getJsonObject().getString("name") + i);
-            var object = new JSONObject();
-            object.put("type", Packets.NAME.getPacketType());
-            object.put("name", clientConnection.getClientName());
-            clientConnection.sendPacket(new Packet(object));
+
             break;
           }
         }
       }
+      var object = new JSONObject();
+      object.put("type", Packets.NAME.getPacketType());
+      object.put("name", clientConnection.getClientName());
+      clientConnection.sendPacket(new Packet(object));
       System.out.println(
           "Client with id: "
               + clientConnection.getConnectionId()
@@ -109,10 +110,16 @@ public class PacketHandler {
             .getGames()
             .get(packet.getJsonObject().getString("gameId"));
     if (game != null) {
-      game.pauseGame();
+      if (!game.isGamePaused()) game.pauseGame();
     }
   }
 
+  /**
+   * @author Carina
+   * @param packet the packet that got send to the server
+   * @see Game
+   * @use resumes the paused game if it was paused
+   */
   private void resumeGamePacket(@NotNull final Packet packet) {
     var game =
         MoleGames.getMoleGames()
@@ -120,10 +127,14 @@ public class PacketHandler {
             .getGames()
             .get(packet.getJsonObject().getString("gameId"));
     if (game != null) {
-      game.resumeGame();
+      if (game.isGamePaused()) game.resumeGame();
     }
   }
 
+  /**
+   * @author Carina
+   * @param clientConnection the player that will be on the turn next
+   */
   public void nextPlayerPacket(@NotNull final ServerThread clientConnection) {
     var object = new JSONObject();
     object.put("type", Packets.NEXTPLAYER.getPacketType());
