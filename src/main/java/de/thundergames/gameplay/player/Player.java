@@ -16,15 +16,14 @@ import de.thundergames.MoleGames;
 import de.thundergames.networking.server.ServerThread;
 import de.thundergames.networking.util.Packet;
 import de.thundergames.networking.util.Packets;
-import de.thundergames.play.game.Game;
-import de.thundergames.play.game.GameLogic;
-import de.thundergames.play.map.Field;
-import de.thundergames.play.util.Mole;
-import de.thundergames.play.util.Settings;
+import de.thundergames.playmechanics.game.Game;
+import de.thundergames.playmechanics.game.GameLogic;
+import de.thundergames.playmechanics.map.Field;
+import de.thundergames.playmechanics.util.Mole;
+import de.thundergames.playmechanics.util.Settings;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 import org.jetbrains.annotations.NotNull;
@@ -54,6 +53,19 @@ public class Player {
     this.serverClient = client;
     this.game = game;
     this.cards = new ArrayList<>(game.getSettings().getCards());
+  }
+
+  /**
+   * @author Carina
+   * @use will be called when a player wants to draw a card and it takes the current first card and
+   *     puts it afterwards to the back of the list
+   * @see Settings
+   */
+  public void nextCard() {
+    drawCard = cards.get(0);
+    var card = drawCard;
+    cards.remove(0);
+    cards.add(card);
   }
 
   /**
@@ -109,13 +121,11 @@ public class Player {
   public void drawACard() {
     playerState = PlayerStates.DRAW;
     if (!game.getCurrentPlayer().equals(this) || hasMoved || !canDraw) return;
-    if (cards.size() == 0) cards = new ArrayList<>(game.getSettings().getCards());
     if (game.getSettings().isRandomDraw()) {
-      drawCard = cards.get(new Random().nextInt(cards.size()));
+      nextCard();
     } else {
       drawCard = cards.get(0);
     }
-    cards.remove(drawCard);
     MoleGames.getMoleGames().getPacketHandler().drawnPlayerCardPacket(serverClient, drawCard);
   }
 

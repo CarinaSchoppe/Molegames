@@ -10,11 +10,11 @@
  * Public accessibility or other use
  * requires the express written consent of ThunderGames | SwtPra10.
  */
-package de.thundergames.play.game;
+package de.thundergames.playmechanics.game;
 
 import de.thundergames.gameplay.player.Player;
-import de.thundergames.play.map.Map;
-import de.thundergames.play.util.Punishments;
+import de.thundergames.playmechanics.map.Map;
+import de.thundergames.playmechanics.util.Punishments;
 import java.util.List;
 import org.jetbrains.annotations.NotNull;
 

@@ -77,6 +77,7 @@ public abstract class NetworkThread extends Thread {
           } catch (IOException e) {
           }
           if (message != null) {
+            System.out.println("input message "+ message);
             var object = new JSONObject(message);
             if (!object.isNull("type")) {
               packet = new Packet(object);
@@ -130,7 +131,10 @@ public abstract class NetworkThread extends Thread {
                     var object = new JSONObject();
                     if (client) {
                       object.put("type", Packets.MESSAGE.getPacketType());
-                      object.put("message", message);
+                      var json = new JSONObject();
+                      json.put("message", message);
+                      object.put("values", json.toString());
+                      System.out.println("keyboard input that will be send: " + object);
                       sendPacket(new Packet(object));
                     } else {
                       for (var iterator =
@@ -138,7 +142,9 @@ public abstract class NetworkThread extends Thread {
                           iterator.hasNext(); ) {
                         ServerThread clientSocket = iterator.next();
                         object.put("type", Packets.MESSAGE.getPacketType());
-                        object.put("message", message);
+                        var json = new JSONObject();
+                        json.put("message", message);
+                        object.put("values", json.toString());
                         clientSocket.sendPacket(new Packet(object));
                       }
                     }
@@ -193,7 +199,7 @@ public abstract class NetworkThread extends Thread {
    *     seperating the objects with #
    */
   public void sendPacket(Packet data) {
-    writer.println(data.getValues().toString());
+    writer.println(data.getJsonPacket().toString());
   }
 
   /**

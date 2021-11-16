@@ -18,8 +18,8 @@ import de.thundergames.gameplay.player.ui.LoginScreen;
 import de.thundergames.networking.client.Client;
 import de.thundergames.networking.server.PacketHandler;
 import de.thundergames.networking.server.Server;
-import de.thundergames.play.game.GameLogic;
-import de.thundergames.play.util.MultiGameHandler;
+import de.thundergames.playmechanics.game.GameLogic;
+import de.thundergames.playmechanics.util.MultiGameHandler;
 import java.util.Objects;
 import org.jetbrains.annotations.Nullable;
 

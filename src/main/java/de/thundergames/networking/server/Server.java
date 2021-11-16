@@ -16,7 +16,7 @@ import de.thundergames.MoleGames;
 import de.thundergames.gameplay.player.Player;
 import de.thundergames.networking.util.Network;
 import de.thundergames.networking.util.Packet;
-import de.thundergames.play.game.Game;
+import de.thundergames.playmechanics.game.Game;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.util.ArrayList;

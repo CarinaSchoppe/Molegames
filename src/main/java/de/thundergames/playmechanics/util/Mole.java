@@ -10,11 +10,11 @@
  * Public accessibility or other use
  * requires the express written consent of ThunderGames | SwtPra10.
  */
-package de.thundergames.play.util;
+package de.thundergames.playmechanics.util;
 
 import de.thundergames.gameplay.player.Player;
-import de.thundergames.play.map.Field;
-import de.thundergames.play.map.Floors;
+import de.thundergames.playmechanics.map.Field;
+import de.thundergames.playmechanics.map.Floors;
 import org.jetbrains.annotations.NotNull;
 
 public class Mole {
@@ -40,7 +40,7 @@ public class Mole {
    * @see Player
    * @see de.thundergames.gameplay.ai.AI
    */
-  public boolean isMoveable() {
+  public boolean isMoveable(int cardValue) {
     // TODO hier logik einbauen
     return false;
   }

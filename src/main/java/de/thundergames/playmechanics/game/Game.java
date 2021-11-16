@@ -10,15 +10,15 @@
  * Public accessibility or other use
  * requires the express written consent of ThunderGames | SwtPra10.
  */
-package de.thundergames.play.game;
+package de.thundergames.playmechanics.game;
 
 import de.thundergames.MoleGames;
 import de.thundergames.gameplay.player.Player;
 import de.thundergames.networking.server.ServerThread;
-import de.thundergames.play.map.Field;
-import de.thundergames.play.map.Map;
-import de.thundergames.play.util.Mole;
-import de.thundergames.play.util.Settings;
+import de.thundergames.playmechanics.map.Field;
+import de.thundergames.playmechanics.map.Map;
+import de.thundergames.playmechanics.util.Mole;
+import de.thundergames.playmechanics.util.Settings;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;

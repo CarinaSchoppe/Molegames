@@ -54,6 +54,7 @@ public class ClientPacketHandler {
         client.getMoleIDs().add(packet.getValues().getJSONArray("moles").getInt(i));
       }
     } else if (packet.getPacketType().equals(Packets.NAME.getPacketType())) {
+      System.out.println("test");
       client.setName(packet.getValues().getString("name"));
     } else {
       throw new PacketNotExistsException(

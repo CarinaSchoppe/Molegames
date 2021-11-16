@@ -17,9 +17,9 @@ import de.thundergames.gameplay.player.Player;
 import de.thundergames.networking.util.Packet;
 import de.thundergames.networking.util.PacketNotExistsException;
 import de.thundergames.networking.util.Packets;
-import de.thundergames.play.game.Game;
-import de.thundergames.play.game.GameStates;
-import de.thundergames.play.map.Map;
+import de.thundergames.playmechanics.game.Game;
+import de.thundergames.playmechanics.game.GameStates;
+import de.thundergames.playmechanics.map.Map;
 import java.io.IOException;
 import java.util.ArrayList;
 import org.jetbrains.annotations.NotNull;
@@ -90,7 +90,9 @@ public class PacketHandler {
       }
       var object = new JSONObject();
       object.put("type", Packets.NAME.getPacketType());
-      object.put("name", clientConnection.getClientName());
+      var json = new JSONObject();
+      json.put("name", clientConnection.getClientName());
+      object.put("values", json.toString());
       clientConnection.sendPacket(new Packet(object));
       System.out.println(
           "Client with id: "
@@ -182,7 +184,9 @@ public class PacketHandler {
   public void drawnPlayerCardPacket(@NotNull final ServerThread clientConnection, final int card) {
     var object = new JSONObject();
     object.put("type", Packets.DRAWNCARD.getPacketType());
-    object.put("card", card);
+    var json = new JSONObject();
+    json.put("card", card);
+    object.put("values", json);
     clientConnection.sendPacket(new Packet(object));
   }
 
@@ -215,9 +219,11 @@ public class PacketHandler {
   public Packet playerPlacesMolePacket(final int moleID, final int x, final int y) {
     var object = new JSONObject();
     object.put("type", Packets.PLACEMOLE.getPacketType());
-    object.put("moleID", moleID);
-    object.put("x", x);
-    object.put("y", y);
+    var json = new JSONObject();
+    json.put("moleID", moleID);
+    json.put("x", x);
+    json.put("y", y);
+    object.put("values", json.toString());
     return new Packet(object);
   }
 
@@ -232,9 +238,12 @@ public class PacketHandler {
   public Packet playerMovesMolePacket(final int moleID, final int x, final int y) {
     var object = new JSONObject();
     object.put("type", Packets.MOVEMOLE.getPacketType());
-    object.put("moleID", moleID);
-    object.put("x", x);
-    object.put("y", y);
+    var json = new JSONObject();
+
+    json.put("moleID", moleID);
+    json.put("x", x);
+    json.put("y", y);
+    object.put("values", json.toString());
     return new Packet(object);
   }
 
@@ -268,7 +277,9 @@ public class PacketHandler {
   public Packet playerKickedPacket(@NotNull final ServerThread clientConnection) {
     var object = new JSONObject();
     object.put("type", Packets.KICKPLAYER.getPacketType());
-    object.put("id", clientConnection.getConnectionId());
+    var json = new JSONObject();
+    json.put("id", clientConnection.getConnectionId());
+    object.put("values", json.toString());
     return new Packet(object);
   }
 
@@ -280,7 +291,10 @@ public class PacketHandler {
   public Packet nextFloorPacket(@NotNull final Map map) {
     var object = new JSONObject();
     object.put("type", Packets.NEXTFLOOR.getPacketType());
-    object.put("floor", map.getFloor());
+    var json = new JSONObject();
+
+    json.put("floor", map.getFloor());
+    object.put("values", json.toString());
     return new Packet(object);
   }
 
@@ -294,7 +308,9 @@ public class PacketHandler {
       @NotNull final ServerThread clientConnection, ArrayList<Integer> moleIDs) {
     var object = new JSONObject();
     object.put("type", Packets.MOLES.getPacketType());
-    object.put("moles", moleIDs);
+    var json = new JSONObject();
+    json.put("moles", moleIDs);
+    object.put("values", json);
     clientConnection.sendPacket(new Packet(object));
   }
 
@@ -334,7 +350,9 @@ public class PacketHandler {
   public void joinedGamePacket(@NotNull final ServerThread clientConnection, final int gameID) {
     var object = new JSONObject();
     object.put("type", Packets.JOINGAME.getPacketType());
-    object.put("gameID", gameID);
+    var json = new JSONObject();
+    json.put("gameID", gameID);
+    object.put("values", json.toString());
     clientConnection.sendPacket(new Packet(object));
   }
 
@@ -347,7 +365,9 @@ public class PacketHandler {
   public void loginPacket(@NotNull final ServerThread clientConnection, final int threadID) {
     var object = new JSONObject();
     object.put("type", Packets.LOGIN.getPacketType());
-    object.put("id", threadID);
+    var json = new JSONObject();
+    json.put("id", threadID);
+    object.put("values", json.toString());
     clientConnection.sendPacket(new Packet(object));
   }
 
@@ -356,7 +376,7 @@ public class PacketHandler {
    * @param clientConnection the client that performed the move
    * @author Carina
    * @see Player
-   * @see de.thundergames.play.util.Mole
+   * @see de.thundergames.playmechanics.util.Mole
    */
   private void moveMolePacket(
       @NotNull final Packet packet, @NotNull final ServerThread clientConnection) {
@@ -386,7 +406,7 @@ public class PacketHandler {
    * @param packet the packet that was send by the client that he placed a mole
    * @param clientConnection the client that has placed a mole
    * @author Carina
-   * @see de.thundergames.play.util.Mole
+   * @see de.thundergames.playmechanics.util.Mole
    * @see de.thundergames.networking.client.Client
    * @see Player
    */

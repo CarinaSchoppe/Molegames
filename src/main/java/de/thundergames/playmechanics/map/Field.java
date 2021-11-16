@@ -10,9 +10,9 @@
  * Public accessibility or other use
  * requires the express written consent of ThunderGames | SwtPra10.
  */
-package de.thundergames.play.map;
+package de.thundergames.playmechanics.map;
 
-import de.thundergames.play.util.Mole;
+import de.thundergames.playmechanics.util.Mole;
 import java.util.List;
 import org.jetbrains.annotations.NotNull;
 

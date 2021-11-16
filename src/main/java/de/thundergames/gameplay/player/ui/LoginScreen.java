@@ -56,8 +56,10 @@ public class LoginScreen extends Application {
       Client client = new Client(Integer.parseInt(port), ip, name);
       JSONObject object;
       object = new JSONObject();
-      object.put("name", name);
       object.put("type", Packets.NAME.getPacketType());
+      var json = new JSONObject();
+      json.put("name", name);
+      object.put("values",json.toString());
       client.create();
       loggedIn = true;
       client.getClientThread().sendPacket(new Packet(object));

@@ -10,9 +10,9 @@
  * Public accessibility or other use
  * requires the express written consent of ThunderGames | SwtPra10.
  */
-package de.thundergames.play.map;
+package de.thundergames.playmechanics.map;
 
-import de.thundergames.play.game.Game;
+import de.thundergames.playmechanics.game.Game;
 import java.util.List;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
@@ -26,6 +26,12 @@ public class Map {
   private int doubleDrawFields;
   private int moveCounter = 0;
 
+  /**
+   * @author Carina
+   * @param radius the radius of a map
+   * @param game the game the map is related to
+   * @use creates a new Map object with the given radius
+   */
   public Map(final int radius, @NotNull final Game game) {
     this.radius = radius + 1;
     currentFloor = game.getSettings().getMaxFloors();
@@ -79,6 +85,16 @@ public class Map {
               + "   ");
     }
     System.out.println();
+  }
+
+  /**
+   * @author Carina
+   * @param x the x position of the Field
+   * @param y the y position of the Field
+   * @return if the field does exist
+   */
+  public boolean existField(final int x, final int y) {
+    return floor.getFieldMap().containsKey(List.of(x, y));
   }
 
   /**

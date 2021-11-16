@@ -79,25 +79,28 @@ public class CreateGame {
   void createGameButtonEvent(ActionEvent event) {
     var object = new JSONObject();
     object.put("type", Packets.CREATEGAME.getPacketType());
+    var json = new JSONObject();
+    json.put("gameID", MoleGames.getMoleGames().getGameMasterClient().getGameID());
+    object.put("values", json.toString());
     var packet = new Packet(object);
-    object.put("gameID", MoleGames.getMoleGames().getGameMasterClient().getGameID());
     if (GameMasterClient.getClientInstance() != null)
       GameMasterClient.getClientInstance().getMasterClientThread().sendPacket(packet);
     object.put("type", Packets.CONFIGURATION.getPacketType());
-    object.put("gameID", MoleGames.getMoleGames().getGameMasterClient().getGameID());
+    json.put("gameID", MoleGames.getMoleGames().getGameMasterClient().getGameID());
     if (!playerAmount.getText().isEmpty())
-      object.put("maxPlayers", Integer.parseInt(playerAmount.getText()));
+      json.put("maxPlayers", Integer.parseInt(playerAmount.getText()));
     if (!molesAmount.getText().isEmpty())
-      object.put("moleAmount", Integer.parseInt(molesAmount.getText()));
+      json.put("moleAmount", Integer.parseInt(molesAmount.getText()));
     if (!thinkTime.getText().isEmpty())
-      object.put("thinkTime", Integer.parseInt(thinkTime.getText()));
-    if (!drawCardValuesList.isEmpty()) object.put("cards", drawCardValuesList);
+      json.put("thinkTime", Integer.parseInt(thinkTime.getText()));
+    if (!drawCardValuesList.isEmpty()) json.put("cards", drawCardValuesList);
     if (!visualEffects.getText().isEmpty())
-      object.put("visualEffects", Integer.parseInt(visualEffects.getText()));
+      json.put("visualEffects", Integer.parseInt(visualEffects.getText()));
     if (!radius.getText().isEmpty()) object.put("radius", Integer.parseInt(radius.getText()));
     if (punishment.getValue() != null)
-      object.put("punishment", Boolean.parseBoolean(punishment.getValue()));
-    object.put("randomDraw", randomDraw.isSelected());
+      json.put("punishment", Boolean.parseBoolean(punishment.getValue()));
+    json.put("randomDraw", randomDraw.isSelected());
+    object.put("values", json.toString());
     GameMasterClient.getClientInstance().getMasterClientThread().sendPacket(new Packet(object));
     MoleGames.getMoleGames()
         .getGameMasterClient()

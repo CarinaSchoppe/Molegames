@@ -10,7 +10,7 @@
  * Public accessibility or other use
  * requires the express written consent of ThunderGames | SwtPra10.
  */
-package de.thundergames.play.util;
+package de.thundergames.playmechanics.util;
 
 public enum Punishments {
   NOTHING(0),
