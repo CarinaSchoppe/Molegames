@@ -13,9 +13,13 @@
 package de.thundergames.playmechanics.util;
 
 import de.thundergames.networking.server.ServerThread;
+import de.thundergames.networking.util.Packet;
+import de.thundergames.networking.util.Packets;
 import de.thundergames.playmechanics.game.Game;
 import java.io.IOException;
 import java.util.HashMap;
+import org.jetbrains.annotations.NotNull;
+import org.json.JSONObject;
 
 /**
  * @author Carina
@@ -32,14 +36,19 @@ public class MultiGameHandler {
    * @author Carina
    * @use creates the new Game
    */
-  public void createNewGame(int gameID) {
-    var game = new Game(gameID);
-    try {
-      game.create();
-    } catch (IOException e) {
-      e.printStackTrace();
+  public void createNewGame(final int gameID, @NotNull final ServerThread ausrichter) {
+    if (!games.containsKey(gameID)) {
+      var game = new Game(gameID);
+      try {
+        game.create();
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
+      games.put(gameID, game);
+    } else {
+      ausrichter.sendPacket(new Packet(new JSONObject().put("type", Packets.GAMEEXISTS.getPacketType())));
+      System.out.println("Game already exists");
     }
-    games.put(gameID, game);
   }
 
   public HashMap<Integer, Game> getGames() {

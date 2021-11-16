@@ -39,7 +39,7 @@ public class PacketHandler {
       @NotNull final Packet packet, @NotNull final ServerThread clientConnection)
       throws PacketNotExistsException {
     if (packet.getPacketType().equalsIgnoreCase(Packets.CREATEGAME.getPacketType())) {
-      createGamePacket(packet);
+      createGamePacket(packet, clientConnection);
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.JOINGAME.getPacketType())) {
       joinGamePacket(packet, clientConnection);
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.GAMEOVERVIEW.getPacketType())) {
@@ -488,12 +488,14 @@ public class PacketHandler {
   }
 
   /**
+   * @param packet     the packet that will be send to the Method
+   * @param ausrichter the ausrichter who send the packet
    * @use the packet that will be send by the client that a game should be created
    * @author Carina
    * @see Game
    */
-  private void createGamePacket(Packet packet) {
+  private void createGamePacket(@NotNull final Packet packet, @NotNull final ServerThread ausrichter) {
     //    "CREATE-GAME#ID"
-    MoleGames.getMoleGames().getGameHandler().createNewGame(packet.getValues().getInt("gameID"));
+    MoleGames.getMoleGames().getGameHandler().createNewGame(packet.getValues().getInt("gameID"), ausrichter);
   }
 }

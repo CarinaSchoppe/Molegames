@@ -58,6 +58,7 @@ public enum Packets {
   GAMERESUME(38, "GAME-RESUME"),
   STOPGAME(39, "STOP-GAME"),
   AI(40, "AI"),
+  GAMEEXISTS(42, "GAME-EXISTS"),
   TURNOVER(41, "TURN-OVER");
   private final int id;
   private final String packetType;

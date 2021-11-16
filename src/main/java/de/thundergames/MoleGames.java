@@ -23,7 +23,6 @@ import de.thundergames.playmechanics.util.MultiGameHandler;
 import java.util.Objects;
 import org.jetbrains.annotations.Nullable;
 
-//TODO: Cant create a existing game, cant join a running game!
 
 /**
  * @author Carina

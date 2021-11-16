@@ -14,6 +14,8 @@ package de.thundergames.playmechanics.game;
 
 import de.thundergames.MoleGames;
 import de.thundergames.networking.server.ServerThread;
+import de.thundergames.networking.util.Packet;
+import de.thundergames.networking.util.Packets;
 import de.thundergames.playmechanics.map.Field;
 import de.thundergames.playmechanics.map.Map;
 import de.thundergames.playmechanics.util.Mole;
@@ -23,6 +25,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import org.jetbrains.annotations.NotNull;
+import org.json.JSONObject;
 
 public class Game {
 
@@ -123,11 +126,17 @@ public class Game {
    * @author Carina
    */
   public void joinGame(@NotNull final Player client, final boolean spectator) {
-    clientPlayersMap.put(client.getServerClient(), client);
-    players.add(client);
-    MoleGames.getMoleGames().getPacketHandler().joinedGamePacket(client.getServerClient(), gameID);
-    MoleGames.getMoleGames().getGameHandler().getClientGames().put(client.getServerClient(), this);
+    if (currentGameState.equals(GameStates.LOBBY) && !spectator) {
+
+      clientPlayersMap.put(client.getServerClient(), client);
+      players.add(client);
+      MoleGames.getMoleGames().getPacketHandler().joinedGamePacket(client.getServerClient(), gameID);
+      MoleGames.getMoleGames().getGameHandler().getClientGames().put(client.getServerClient(), this);
+    } else if (!currentGameState.equals(GameStates.LOBBY) && !spectator) {
+      client.getServerClient().sendPacket(new Packet(new JSONObject().put("type", Packets.FULL.getPacketType())));
+    }
   }
+
 
   /**
    * @param player the player that has to be removed from the game.
