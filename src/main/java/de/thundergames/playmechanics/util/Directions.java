@@ -1,4 +1,4 @@
-package de.thundergames.gameplay.ai;
+package de.thundergames.playmechanics.util;
 
 public enum Directions {
   UP(0),

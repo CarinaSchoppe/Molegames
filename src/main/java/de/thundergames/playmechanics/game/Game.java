@@ -13,7 +13,7 @@
 package de.thundergames.playmechanics.game;
 
 import de.thundergames.MoleGames;
-import de.thundergames.gameplay.player.Player;
+import de.thundergames.playmechanics.util.Player;
 import de.thundergames.networking.server.ServerThread;
 import de.thundergames.playmechanics.map.Field;
 import de.thundergames.playmechanics.map.Map;
@@ -56,7 +56,7 @@ public class Game extends Thread {
    * @author Carina
    * @use starts the game
    */
-  private void startGame() {
+  public void startGame() {
     // TODO: Run a Game!
     if (currentGameState == GameStates.LOBBY) {
       currentGameState = GameStates.INGAME;

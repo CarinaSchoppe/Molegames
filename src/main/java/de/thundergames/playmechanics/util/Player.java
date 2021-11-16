@@ -10,7 +10,7 @@
  * Public accessibility or other use
  * requires the express written consent of ThunderGames | SwtPra10.
  */
-package de.thundergames.gameplay.player;
+package de.thundergames.playmechanics.util;
 
 import de.thundergames.MoleGames;
 import de.thundergames.networking.server.ServerThread;
@@ -19,8 +19,7 @@ import de.thundergames.networking.util.Packets;
 import de.thundergames.playmechanics.game.Game;
 import de.thundergames.playmechanics.game.GameLogic;
 import de.thundergames.playmechanics.map.Field;
-import de.thundergames.playmechanics.util.Mole;
-import de.thundergames.playmechanics.util.Settings;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -176,7 +175,7 @@ public class Player {
           .setOccupied(true, getMole(moleID));
       MoleGames.getMoleGames()
           .getServer()
-          .sendToGameClients(
+          .sendToAllGameClients(
               game,
               MoleGames.getMoleGames()
                   .getPacketHandler()
@@ -235,7 +234,7 @@ public class Player {
       game.getMap().getFloor().getFieldMap().get(List.of(x, y)).setOccupied(true, getMole(moleID));
       MoleGames.getMoleGames()
           .getServer()
-          .sendToGameClients(
+          .sendToAllGameClients(
               game,
               MoleGames.getMoleGames().getPacketHandler().playerPlacesMolePacket(moleID, x, y));
       game.getMap().printMap();

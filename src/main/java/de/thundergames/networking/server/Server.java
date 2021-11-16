@@ -13,7 +13,7 @@
 package de.thundergames.networking.server;
 
 import de.thundergames.MoleGames;
-import de.thundergames.gameplay.player.Player;
+import de.thundergames.playmechanics.util.Player;
 import de.thundergames.networking.util.Network;
 import de.thundergames.networking.util.Packet;
 import de.thundergames.playmechanics.game.Game;

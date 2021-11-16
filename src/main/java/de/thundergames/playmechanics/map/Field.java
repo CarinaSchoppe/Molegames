@@ -14,6 +14,8 @@ package de.thundergames.playmechanics.map;
 
 import de.thundergames.playmechanics.util.Mole;
 import java.util.List;
+
+import de.thundergames.playmechanics.util.Player;
 import org.jetbrains.annotations.NotNull;
 
 public class Field {
@@ -70,7 +72,7 @@ public class Field {
    * @param mole the mole that occupies the field
    * @author Carina
    * @see Mole
-   * @see de.thundergames.gameplay.player.Player
+   * @see Player
    */
   public void setOccupied(final boolean occupied, Mole mole) {
     if (occupied) this.mole = mole;

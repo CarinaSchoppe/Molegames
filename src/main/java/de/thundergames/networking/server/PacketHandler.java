@@ -13,7 +13,7 @@
 package de.thundergames.networking.server;
 
 import de.thundergames.MoleGames;
-import de.thundergames.gameplay.player.Player;
+import de.thundergames.playmechanics.util.Player;
 import de.thundergames.networking.util.Packet;
 import de.thundergames.networking.util.PacketNotExistsException;
 import de.thundergames.networking.util.Packets;
@@ -319,7 +319,7 @@ public class PacketHandler {
    * @param clientConnection the client that has left the game
    * @author Carina
    * @see ServerThread
-   * @see de.thundergames.networking.client.Client
+   * @see de.thundergames.gameplay.player.networking.Client
    * @see Player
    */
   private void leaveGamePacket(
@@ -345,7 +345,7 @@ public class PacketHandler {
    * @param clientConnection that has joined the game
    * @param gameID the game that the player joins
    * @author Carina
-   * @see de.thundergames.networking.client.Client
+   * @see de.thundergames.gameplay.player.networking.Client
    */
   public void joinedGamePacket(@NotNull final ServerThread clientConnection, final int gameID) {
     var object = new JSONObject();
@@ -360,7 +360,7 @@ public class PacketHandler {
    * @param clientConnection the client that logged in into the server
    * @param threadID the threadID of the client that will be send to the client to give hima id
    * @author Carina
-   * @see de.thundergames.networking.client.Client
+   * @see de.thundergames.gameplay.player.networking.Client
    */
   public void loginPacket(@NotNull final ServerThread clientConnection, final int threadID) {
     var object = new JSONObject();
@@ -407,7 +407,7 @@ public class PacketHandler {
    * @param clientConnection the client that has placed a mole
    * @author Carina
    * @see de.thundergames.playmechanics.util.Mole
-   * @see de.thundergames.networking.client.Client
+   * @see de.thundergames.gameplay.player.networking.Client
    * @see Player
    */
   private void placeMolePacket(
@@ -439,7 +439,7 @@ public class PacketHandler {
    * @author Carina
    * @see Game
    * @see Player
-   * @see de.thundergames.networking.client.Client
+   * @see de.thundergames.gameplay.player.networking.Client
    */
   private void joinGamePacket(
       @NotNull final Packet packet, @NotNull final ServerThread clientConnection) {

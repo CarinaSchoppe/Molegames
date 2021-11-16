@@ -12,7 +12,7 @@
  */
 package de.thundergames.playmechanics.game;
 
-import de.thundergames.gameplay.player.Player;
+import de.thundergames.playmechanics.util.Player;
 import de.thundergames.playmechanics.map.Map;
 import de.thundergames.playmechanics.util.Punishments;
 import java.util.List;

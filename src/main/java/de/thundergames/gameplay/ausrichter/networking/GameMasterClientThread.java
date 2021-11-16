@@ -14,8 +14,8 @@
 package de.thundergames.gameplay.ausrichter.networking;
 
 import de.thundergames.gameplay.ausrichter.GameMasterClient;
-import de.thundergames.networking.client.Client;
-import de.thundergames.networking.client.ClientThread;
+import de.thundergames.gameplay.player.networking.Client;
+import de.thundergames.gameplay.player.networking.ClientThread;
 import java.io.IOException;
 import java.net.Socket;
 import org.jetbrains.annotations.NotNull;

@@ -10,7 +10,7 @@
  * Public accessibility or other use
  * requires the express written consent of ThunderGames | SwtPra10.
  */
-package de.thundergames.gameplay.player;
+package de.thundergames.playmechanics.util;
 
 /**
  * @author Carina

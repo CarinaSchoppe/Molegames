@@ -15,7 +15,7 @@ package de.thundergames;
 import de.thundergames.gameplay.ai.AI;
 import de.thundergames.gameplay.ausrichter.GameMasterClient;
 import de.thundergames.gameplay.player.ui.LoginScreen;
-import de.thundergames.networking.client.Client;
+import de.thundergames.gameplay.player.networking.Client;
 import de.thundergames.networking.server.PacketHandler;
 import de.thundergames.networking.server.Server;
 import de.thundergames.playmechanics.game.GameLogic;

@@ -15,7 +15,7 @@ package de.thundergames.gameplay.ausrichter;
 
 import de.thundergames.gameplay.ausrichter.networking.GameMasterClientThread;
 import de.thundergames.gameplay.ausrichter.networking.GameMasterPacketHandler;
-import de.thundergames.networking.client.Client;
+import de.thundergames.gameplay.player.networking.Client;
 import org.jetbrains.annotations.NotNull;
 
 public class GameMasterClient extends Client {

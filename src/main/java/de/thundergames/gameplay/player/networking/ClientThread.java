@@ -10,7 +10,7 @@
  * Public accessibility or other use
  * requires the express written consent of ThunderGames | SwtPra10.
  */
-package de.thundergames.networking.client;
+package de.thundergames.gameplay.player.networking;
 
 import de.thundergames.networking.util.NetworkThread;
 import java.io.IOException;

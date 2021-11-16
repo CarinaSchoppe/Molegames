@@ -12,7 +12,7 @@
  */
 package de.thundergames.gameplay.player.ui;
 
-import de.thundergames.networking.client.Client;
+import de.thundergames.gameplay.player.networking.Client;
 import de.thundergames.networking.util.Packet;
 import de.thundergames.networking.util.Packets;
 import java.io.File;

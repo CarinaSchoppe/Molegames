@@ -1,7 +1,7 @@
 package de.thundergames.gameplay.ai.networking;
 
 import de.thundergames.gameplay.ai.AI;
-import de.thundergames.networking.client.ClientPacketHandler;
+import de.thundergames.gameplay.player.networking.ClientPacketHandler;
 import de.thundergames.networking.util.Packet;
 import de.thundergames.networking.util.Packets;
 import org.jetbrains.annotations.NotNull;

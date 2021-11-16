@@ -12,9 +12,7 @@
  */
 package de.thundergames.playmechanics.util;
 
-import de.thundergames.gameplay.player.Player;
 import de.thundergames.playmechanics.map.Field;
-import de.thundergames.playmechanics.map.Floors;
 import org.jetbrains.annotations.NotNull;
 
 public class Mole {

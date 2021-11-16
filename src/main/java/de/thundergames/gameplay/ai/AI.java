@@ -14,7 +14,7 @@ package de.thundergames.gameplay.ai;
 
 import de.thundergames.gameplay.ai.networking.AIClientThread;
 import de.thundergames.gameplay.ai.networking.AIPacketHandler;
-import de.thundergames.networking.client.Client;
+import de.thundergames.gameplay.player.networking.Client;
 import de.thundergames.networking.util.Packet;
 import de.thundergames.networking.util.Packets;
 import de.thundergames.playmechanics.util.Mole;

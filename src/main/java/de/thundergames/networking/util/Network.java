@@ -44,7 +44,7 @@ public abstract class Network {
    * @author Carina
    * @use the abstract logic of creating the sockets and threads for the server communicationlogic
    * @see de.thundergames.networking.server.Server
-   * @see de.thundergames.networking.client.Client
+   * @see de.thundergames.gameplay.player.networking.Client
    */
   protected abstract void create();
 
