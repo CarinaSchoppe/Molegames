@@ -13,6 +13,7 @@
 package de.thundergames.networking.util;
 
 import de.thundergames.MoleGames;
+import de.thundergames.gameplay.ai.networking.AIClientThread;
 import de.thundergames.gameplay.ausrichter.networking.GameMasterClientThread;
 import de.thundergames.networking.client.Client;
 import de.thundergames.networking.client.ClientThread;
@@ -80,7 +81,7 @@ public abstract class NetworkThread extends Thread {
             if (!object.isNull("type")) {
               packet = new Packet(object);
               if ("DISCONNECT".equals(packet.getPacketType())) {
-                System.out.println("Content: " + packet.getJsonObject().toString());
+                System.out.println("Content: " + packet.getValues().toString());
                 disconnect();
                 break;
               }
@@ -94,7 +95,7 @@ public abstract class NetworkThread extends Thread {
                         + " sended: type: "
                         + packet.getPacketType()
                         + " contents: "
-                        + packet.getJsonObject().toString());
+                        + packet.getValues().toString());
               readStringPacketInput(packet, this);
             }
           }
@@ -176,6 +177,11 @@ public abstract class NetworkThread extends Thread {
           .getGameMasterClient()
           .getClientMasterPacketHandler()
           .handlePacket(((GameMasterClientThread) reciever).getGameMasterClient(), packet);
+    } else if (reciever instanceof AIClientThread) {
+      ((AIClientThread) reciever)
+          .getAIClient()
+          .getAIPacketHandler()
+          .handlePacket(((AIClientThread) reciever).getAIClient(), packet);
     }
   }
 
@@ -187,7 +193,7 @@ public abstract class NetworkThread extends Thread {
    *     seperating the objects with #
    */
   public void sendPacket(Packet data) {
-    writer.println(data.getJsonObject().toString());
+    writer.println(data.getValues().toString());
   }
 
   /**

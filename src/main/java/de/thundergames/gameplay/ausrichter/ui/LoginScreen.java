@@ -13,6 +13,7 @@
 
 package de.thundergames.gameplay.ausrichter.ui;
 
+import de.thundergames.MoleGames;
 import de.thundergames.gameplay.ausrichter.GameMasterClient;
 import java.io.File;
 import java.io.IOException;
@@ -49,8 +50,9 @@ public class LoginScreen extends Application {
       if (ip != "" && port != "") {
         System.out.println("IP: " + ip + " Port: " + port);
         Stage stage = (Stage) login.getScene().getWindow();
-        GameMasterClient gamemaster = new GameMasterClient(Integer.parseInt(port), ip);
-        gamemaster.create();
+        MoleGames.getMoleGames()
+            .setGameMasterClient(new GameMasterClient(Integer.parseInt(port), ip));
+        MoleGames.getMoleGames().getGameMasterClient().create();
         /*      Stage createGame = new Stage();
         var createLocation =
             new File("src/main/java/de/thundergames/gameplay/gamemaster/ui/CreateGame.fxml")
@@ -62,9 +64,9 @@ public class LoginScreen extends Application {
         createGame.setResizable(false);
         createGame.setScene(new Scene(createGameRot));
         createGame.show();*/
-        if (gamemaster.getMasterClientThread() != null) {
+        if (MoleGames.getMoleGames().getGameMasterClient().getMasterClientThread() != null) {
           var createGame = new CreateGame();
-          createGame.create(gamemaster);
+          createGame.create(MoleGames.getMoleGames().getGameMasterClient());
           stage.close();
         }
       }

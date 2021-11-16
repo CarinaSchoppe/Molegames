@@ -12,36 +12,33 @@
  */
 package de.thundergames.gameplay.ai;
 
+import de.thundergames.gameplay.ai.networking.AIClientThread;
+import de.thundergames.gameplay.ai.networking.AIPacketHandler;
+import de.thundergames.networking.client.Client;
 import de.thundergames.play.util.Mole;
 import java.util.ArrayList;
 import org.jetbrains.annotations.NotNull;
 
-public class AI implements Runnable {
+public class AI extends Client implements Runnable {
 
   private final ArrayList<Mole> playerMolesInHoles = new ArrayList<>();
   private final ArrayList<Mole> playerMolesOnField = new ArrayList<>();
-  private final Thread AIthread = new Thread(this);
-  private final int port;
-  private final String ip;
   private final int gameID;
   private boolean isMove = false;
 
   public AI(@NotNull final String ip, final int port, final int gameID) {
-    this.ip = ip;
-    this.port = port;
+    super(port, ip, "AI");
     this.gameID = gameID;
+    clientPacketHandler = new AIPacketHandler();
   }
 
   /**
    * @author Carina
-   * @use is called after the constructor to initiate everything needed than starts the AI
+   * @use is called to make a move!
    */
-  public void start() {
-    AIthread.start();
-    isMove = true;
+  private void makeMove() {
+    System.out.println("AI makes a move");
   }
-
-  private void makeMove() {}
 
   /**
    * @author Carina
@@ -78,5 +75,17 @@ public class AI implements Runnable {
 
   public ArrayList<Mole> getPlayerMolesOnField() {
     return playerMolesOnField;
+  }
+
+  public AIPacketHandler getAIPacketHandler() {
+    return (AIPacketHandler) clientPacketHandler;
+  }
+
+  public AIClientThread getAIClientThread() {
+    return (AIClientThread) clientThread;
+  }
+
+  public void setMove(boolean move) {
+    isMove = move;
   }
 }

@@ -63,7 +63,7 @@ public class PacketHandler {
               + " sended: type: "
               + packet.getPacketType()
               + " contents: "
-              + packet.getJsonObject().toString());
+              + packet.getValues().toString());
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.GAMESTART.getPacketType())) {
       startGamePacket(packet);
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.GAMEPAUSE.getPacketType())) {
@@ -74,15 +74,15 @@ public class PacketHandler {
       if (!MoleGames.getMoleGames()
           .getServer()
           .getConnectionNames()
-          .containsKey(packet.getJsonObject().getString("name")))
-        clientConnection.setClientName(packet.getJsonObject().getString("name"));
+          .containsKey(packet.getValues().getString("name")))
+        clientConnection.setClientName(packet.getValues().getString("name"));
       else {
         for (var i = 1; i < MoleGames.getMoleGames().getServer().getConnectionNames().size(); i++) {
           if (!MoleGames.getMoleGames()
               .getServer()
               .getConnectionNames()
-              .containsKey(packet.getJsonObject().getString("name") + i)) {
-            clientConnection.setClientName(packet.getJsonObject().getString("name") + i);
+              .containsKey(packet.getValues().getString("name") + i)) {
+            clientConnection.setClientName(packet.getValues().getString("name") + i);
 
             break;
           }
@@ -96,7 +96,7 @@ public class PacketHandler {
           "Client with id: "
               + clientConnection.getConnectionId()
               + " got the name:"
-              + packet.getJsonObject().getString("name"));
+              + packet.getValues().getString("name"));
     } else {
       throw new PacketNotExistsException("Packet not exists");
     }
@@ -108,7 +108,7 @@ public class PacketHandler {
         MoleGames.getMoleGames()
             .getGameHandler()
             .getGames()
-            .get(packet.getJsonObject().getString("gameId"));
+            .get(packet.getValues().getString("gameId"));
     if (game != null) {
       if (!game.isGamePaused()) game.pauseGame();
     }
@@ -125,7 +125,7 @@ public class PacketHandler {
         MoleGames.getMoleGames()
             .getGameHandler()
             .getGames()
-            .get(packet.getJsonObject().getString("gameId"));
+            .get(packet.getValues().getString("gameId"));
     if (game != null) {
       if (game.isGamePaused()) game.resumeGame();
     }
@@ -150,11 +150,11 @@ public class PacketHandler {
     if (MoleGames.getMoleGames()
         .getGameHandler()
         .getGames()
-        .containsKey(packet.getJsonObject().getInt("gameID")))
+        .containsKey(packet.getValues().getInt("gameID")))
       MoleGames.getMoleGames()
           .getGameHandler()
           .getGames()
-          .get(packet.getJsonObject().getInt("gameID"))
+          .get(packet.getValues().getInt("gameID"))
           .start();
   }
 
@@ -168,8 +168,8 @@ public class PacketHandler {
         MoleGames.getMoleGames()
             .getGameHandler()
             .getGames()
-            .get(packet.getJsonObject().getInt("gameID"));
-    if (game != null) game.getSettings().updateConfiuration(packet.getJsonObject());
+            .get(packet.getValues().getInt("gameID"));
+    if (game != null) game.getSettings().updateConfiuration(packet.getValues());
   }
 
   /**
@@ -366,7 +366,7 @@ public class PacketHandler {
             .getClientGames()
             .get(clientConnection)
             .getMoleIDMap()
-            .get(packet.getJsonObject().getInt("moleID"))
+            .get(packet.getValues().getInt("moleID"))
             .getField();
     MoleGames.getMoleGames()
         .getGameHandler()
@@ -375,11 +375,11 @@ public class PacketHandler {
         .getClientPlayersMap()
         .get(clientConnection)
         .moveMole(
-            packet.getJsonObject().getInt("moleID"),
+            packet.getValues().getInt("moleID"),
             position.getX(),
             position.getY(),
-            packet.getJsonObject().getInt("x"),
-            packet.getJsonObject().getInt("y"));
+            packet.getValues().getInt("x"),
+            packet.getValues().getInt("y"));
   }
 
   /**
@@ -399,9 +399,9 @@ public class PacketHandler {
         .getClientPlayersMap()
         .get(clientConnection)
         .placeMole(
-            packet.getJsonObject().getInt("x"),
-            packet.getJsonObject().getInt("y"),
-            packet.getJsonObject().getInt("moleID"));
+            packet.getValues().getInt("x"),
+            packet.getValues().getInt("y"),
+            packet.getValues().getInt("moleID"));
   }
 
   /**
@@ -428,13 +428,13 @@ public class PacketHandler {
     if (MoleGames.getMoleGames()
         .getGameHandler()
         .getGames()
-        .containsKey(packet.getJsonObject().getInt("gameID"))) {
-      var connectType = packet.getJsonObject().getString("connectType");
+        .containsKey(packet.getValues().getInt("gameID"))) {
+      var connectType = packet.getValues().getString("connectType");
       var game =
           MoleGames.getMoleGames()
               .getGameHandler()
               .getGames()
-              .get(packet.getJsonObject().getInt("gameID"));
+              .get(packet.getValues().getInt("gameID"));
       if (connectType.equalsIgnoreCase("player")) {
         if (game.getCurrentGameState().equals(GameStates.LOBBY)) {
           if (game.getClients().size() < game.getSettings().getMaxPlayers()) {
@@ -466,8 +466,6 @@ public class PacketHandler {
    */
   private void createGamePacket(Packet packet) {
     //    "CREATE-GAME#ID"
-    MoleGames.getMoleGames()
-        .getGameHandler()
-        .createNewGame(packet.getJsonObject().getInt("gameID"));
+    MoleGames.getMoleGames().getGameHandler().createNewGame(packet.getValues().getInt("gameID"));
   }
 }

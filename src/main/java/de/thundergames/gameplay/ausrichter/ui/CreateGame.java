@@ -13,6 +13,7 @@
 
 package de.thundergames.gameplay.ausrichter.ui;
 
+import de.thundergames.MoleGames;
 import de.thundergames.gameplay.ausrichter.GameMasterClient;
 import de.thundergames.networking.util.Packet;
 import de.thundergames.networking.util.Packets;
@@ -79,11 +80,11 @@ public class CreateGame {
     var object = new JSONObject();
     object.put("type", Packets.CREATEGAME.getPacketType());
     var packet = new Packet(object);
-    object.put("gameID", GameMasterClient.getGameID());
+    object.put("gameID", MoleGames.getMoleGames().getGameMasterClient().getGameID());
     if (GameMasterClient.getClientInstance() != null)
       GameMasterClient.getClientInstance().getMasterClientThread().sendPacket(packet);
     object.put("type", Packets.CONFIGURATION.getPacketType());
-    object.put("gameID", GameMasterClient.getGameID());
+    object.put("gameID", MoleGames.getMoleGames().getGameMasterClient().getGameID());
     if (!playerAmount.getText().isEmpty())
       object.put("maxPlayers", Integer.parseInt(playerAmount.getText()));
     if (!molesAmount.getText().isEmpty())
@@ -98,7 +99,9 @@ public class CreateGame {
       object.put("punishment", Boolean.parseBoolean(punishment.getValue()));
     object.put("randomDraw", randomDraw.isSelected());
     GameMasterClient.getClientInstance().getMasterClientThread().sendPacket(new Packet(object));
-    GameMasterClient.setSystemGameID(GameMasterClient.getGameID() + 1);
+    MoleGames.getMoleGames()
+        .getGameMasterClient()
+        .setSystemGameID(MoleGames.getMoleGames().getGameMasterClient().getGameID() + 1);
 
     clearAllComponents();
   }

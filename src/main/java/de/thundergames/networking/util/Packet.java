@@ -21,7 +21,7 @@ import org.json.JSONObject;
  */
 public class Packet {
 
-  private final JSONObject jsonObject;
+  private final JSONObject value;
   private final String packetType;
 
   /**
@@ -31,11 +31,11 @@ public class Packet {
    */
   public Packet(@NotNull final JSONObject json) {
     this.packetType = json.getString("type");
-    this.jsonObject = json;
+    this.value = json.getJSONObject("value");
   }
 
-  public JSONObject getJsonObject() {
-    return jsonObject;
+  public JSONObject getValues() {
+    return value;
   }
 
   public String getPacketType() {

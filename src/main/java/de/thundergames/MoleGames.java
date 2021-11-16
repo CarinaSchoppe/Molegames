@@ -13,6 +13,7 @@
 package de.thundergames;
 
 import de.thundergames.gameplay.ai.AI;
+import de.thundergames.gameplay.ausrichter.GameMasterClient;
 import de.thundergames.gameplay.player.ui.LoginScreen;
 import de.thundergames.networking.client.Client;
 import de.thundergames.networking.server.PacketHandler;
@@ -32,10 +33,12 @@ import org.jetbrains.annotations.Nullable;
 public class MoleGames {
 
   private static MoleGames moleGames;
+  private AI ai;
   private Server server;
   private MultiGameHandler gameHandler;
   private GameLogic gameLogic;
   private PacketHandler packetHandler;
+  private GameMasterClient gameMasterClient;
 
   /**
    * @author Carina
@@ -70,10 +73,12 @@ public class MoleGames {
         case "-a":
         case "a":
           assert args[3] != null;
-          new AI(
-              Objects.requireNonNull(args[1]),
-              Integer.parseInt(Objects.requireNonNull(args[2])),
-              Integer.parseInt(Objects.requireNonNull(args[3])));
+          MoleGames.getMoleGames().ai =
+              new AI(
+                  Objects.requireNonNull(args[1]),
+                  Integer.parseInt(Objects.requireNonNull(args[2])),
+                  Integer.parseInt(Objects.requireNonNull(args[3])));
+          MoleGames.getMoleGames().ai.create();
       }
     }
   }
@@ -96,5 +101,17 @@ public class MoleGames {
 
   public GameLogic getGameLogic() {
     return gameLogic;
+  }
+
+  public GameMasterClient getGameMasterClient() {
+    return gameMasterClient;
+  }
+
+  public void setGameMasterClient(GameMasterClient gameMasterClient) {
+    this.gameMasterClient = gameMasterClient;
+  }
+
+  public AI getAi() {
+    return ai;
   }
 }

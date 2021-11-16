@@ -27,11 +27,11 @@ import org.jetbrains.annotations.NotNull;
 public class Game extends Thread {
 
   private final int gameID;
-  private GameStates currentGameState = GameStates.LOBBY;
   private final ArrayList<Player> players = new ArrayList<>();
   private final HashMap<ServerThread, Player> clientPlayersMap = new HashMap<>();
   private final HashMap<Player, Mole> moleMap = new HashMap<>();
   private final HashMap<Integer, Mole> moleIDMap = new HashMap<>();
+  private GameStates currentGameState = GameStates.LOBBY;
   private Map map;
   private Settings settings;
   private Player currentPlayer = null;

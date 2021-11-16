@@ -32,16 +32,16 @@ public class ClientPacketHandler {
       throws PacketNotExistsException {
     if (packet.getPacketType().equalsIgnoreCase(Packets.LOGIN.getPacketType())) {
       // ID : 3
-      var id = packet.getJsonObject().getInt("id");
+      var id = packet.getValues().getInt("id");
       client.setId(id);
       System.out.println("Client ID: " + id);
       client.getClientThread().setID(id);
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.JOINGAME.getPacketType())) {
-      System.out.println("Client joined game with id: " + packet.getJsonObject().getInt("gameID"));
-      client.setGameID(packet.getJsonObject().getInt("gameID"));
+      System.out.println("Client joined game with id: " + packet.getValues().getInt("gameID"));
+      client.setGameID(packet.getValues().getInt("gameID"));
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.MESSAGE.getPacketType())) {
       try {
-        System.out.println("Server sended: " + packet.getJsonObject().getString("message"));
+        System.out.println("Server sended: " + packet.getValues().getString("message"));
       } catch (JSONException e) {
         System.out.println("Server sended: " + "no packet content!");
       }
@@ -50,11 +50,11 @@ public class ClientPacketHandler {
     } else if (packet.getPacketType().equals(Packets.PLACEMOLE.getPacketType())) {
     } else if (packet.getPacketType().equals(Packets.MOVEMOLE.getPacketType())) {
     } else if (packet.getPacketType().equals(Packets.MOLES.getPacketType())) {
-      for (int i = 0; i < packet.getJsonObject().getJSONArray("moles").toList().size(); i++) {
-        client.getMoleIDs().add(packet.getJsonObject().getJSONArray("moles").getInt(i));
+      for (int i = 0; i < packet.getValues().getJSONArray("moles").toList().size(); i++) {
+        client.getMoleIDs().add(packet.getValues().getJSONArray("moles").getInt(i));
       }
     } else if (packet.getPacketType().equals(Packets.NAME.getPacketType())) {
-      client.setName(packet.getJsonObject().getString("name"));
+      client.setName(packet.getValues().getString("name"));
     } else {
       throw new PacketNotExistsException(
           "Packet with type: " + packet.getPacketType() + " does not exists");

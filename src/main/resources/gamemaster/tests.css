@@ -12,12 +12,12 @@
  */
 
 .text-area {
-    -fx-font-family: Consolas;
-    -fx-font-size: 15;
-    -fx-text-fill: #ffffff;
-    -fx-display-caret:true;
+  -fx-font-family: Consolas;
+  -fx-font-size: 15;
+  -fx-text-fill: #ffffff;
+  -fx-display-caret: true;
 }
 
 .text-area .content {
-    -fx-background-color: #000000;
+  -fx-background-color: #000000;
 }
