@@ -16,6 +16,7 @@ import java.util.List;
 import org.jetbrains.annotations.NotNull;
 
 public class Hole {
+
   final List<Integer> id;
   boolean used;
 

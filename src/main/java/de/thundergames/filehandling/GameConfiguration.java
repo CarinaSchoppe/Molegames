@@ -33,8 +33,7 @@ public class GameConfiguration {
    * @param settings the settings to save
    * @throws IOException
    * @author Carina
-   * @use call the method add the settings to the json object and than pass that to create a new
-   *     file that will be saved
+   * @use call the method add the settings to the json object and than pass that to create a new file that will be saved
    */
   public void saveSettings(@NotNull final JSONObject settings) throws IOException {
     File file = new File("config" + id + ".json");

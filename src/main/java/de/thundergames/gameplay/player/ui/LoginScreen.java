@@ -31,17 +31,23 @@ import org.json.JSONObject;
 
 public class LoginScreen extends Application {
 
-  @FXML private ResourceBundle resources;
+  @FXML
+  private ResourceBundle resources;
 
-  @FXML private URL location;
+  @FXML
+  private URL location;
 
-  @FXML private TextField ip;
+  @FXML
+  private TextField ip;
 
-  @FXML private Button login;
+  @FXML
+  private Button login;
 
-  @FXML private TextField name;
+  @FXML
+  private TextField name;
 
-  @FXML private TextField port;
+  @FXML
+  private TextField port;
 
   private boolean loggedIn = false;
 
@@ -59,7 +65,7 @@ public class LoginScreen extends Application {
       object.put("type", Packets.NAME.getPacketType());
       var json = new JSONObject();
       json.put("name", name);
-      object.put("values",json.toString());
+      object.put("values", json.toString());
       client.create();
       loggedIn = true;
       client.getClientThread().sendPacket(new Packet(object));

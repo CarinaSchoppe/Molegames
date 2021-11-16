@@ -41,7 +41,7 @@ public class AI extends Client implements Runnable {
    * @author Carina
    * @use is called to make a move!
    */
-  private void makeMove() {
+  private void makeMove(Mole mole) {
     System.out.println("AI makes a move");
   }
 
@@ -68,14 +68,15 @@ public class AI extends Client implements Runnable {
         for (var mole : getPlayerMolesOnField()) {
           if (mole.isMoveable(card) && !moveable) {
             moveable = true;
-            makeMove();
+            makeMove(mole);
+            break;
           }
         }
         if (!moveable) {
           for (var mole : getPlayerMolesInHoles()) {
             if (mole.isMoveable(card) && !moveable) {
-              moveable = true;
-              makeMove();
+              makeMove(mole);
+              break;
             }
           }
         }
@@ -84,6 +85,7 @@ public class AI extends Client implements Runnable {
       }
     }
   }
+
 
   public ArrayList<Mole> getPlayerMolesInHoles() {
     return playerMolesInHoles;

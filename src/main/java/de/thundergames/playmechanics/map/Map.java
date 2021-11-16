@@ -27,9 +27,9 @@ public class Map {
   private int moveCounter = 0;
 
   /**
-   * @author Carina
    * @param radius the radius of a map
-   * @param game the game the map is related to
+   * @param game   the game the map is related to
+   * @author Carina
    * @use creates a new Map object with the given radius
    */
   public Map(final int radius, @NotNull final Game game) {
@@ -49,6 +49,7 @@ public class Map {
     for (var y = 0; y < radius; y++) {
       for (var x = 0; x < radius + y; x++) {
         var field = new Field(List.of(x, y));
+        field.setFloor(floor);
         floor.getFieldMap().put(List.of(x, y), field);
         floor.getFields().add(field);
       }
@@ -57,6 +58,7 @@ public class Map {
     for (var y = radius; y < radius * 2 - 1; y++) {
       for (var x = y - radius + 1; x < radius * 2 - 1; x++) {
         var field = new Field(java.util.List.of(x, y));
+        field.setFloor(floor);
         floor.getFieldMap().put(java.util.List.of(x, y), field);
         floor.getFields().add(field);
       }
@@ -88,10 +90,10 @@ public class Map {
   }
 
   /**
-   * @author Carina
    * @param x the x position of the Field
    * @param y the y position of the Field
    * @return if the field does exist
+   * @author Carina
    */
   public boolean existField(final int x, final int y) {
     return floor.getFieldMap().containsKey(List.of(x, y));
@@ -133,7 +135,7 @@ public class Map {
               + field.getId().get(1)
               + "].doubleMove",
           field.isDoubleMove());
-      if (field.isOccupied())
+      if (field.isOccupied()) {
         object.put(
             "moveCounter"
                 + moveCounter
@@ -143,6 +145,7 @@ public class Map {
                 + field.getId().get(1)
                 + "].mole",
             field.getMole().getPlayer().getServerClient().getClientName());
+      }
     }
     moveCounter++;
     return object.toString();

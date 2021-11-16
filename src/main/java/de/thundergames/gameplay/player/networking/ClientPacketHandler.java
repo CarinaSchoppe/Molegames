@@ -56,6 +56,11 @@ public class ClientPacketHandler {
     } else if (packet.getPacketType().equals(Packets.NAME.getPacketType())) {
       System.out.println("test");
       client.setName(packet.getValues().getString("name"));
+    } else if (packet.getPacketType().equals(Packets.NEXTPLAYER.getPacketType())) {
+      System.out.println("Server sended: You are now on the turn!");
+    } else if (packet.getPacketType().equals(Packets.TURNOVER.getPacketType())) {
+    } else if (packet.getPacketType().equals(Packets.DRAWNCARD.getPacketType())) {
+      System.out.println("Server sended: Your card value is: " + packet.getValues().getInt("card"));
     } else {
       throw new PacketNotExistsException(
           "Packet with type: " + packet.getPacketType() + " does not exists");

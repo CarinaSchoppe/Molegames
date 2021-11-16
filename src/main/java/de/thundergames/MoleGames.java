@@ -14,14 +14,16 @@ package de.thundergames;
 
 import de.thundergames.gameplay.ai.AI;
 import de.thundergames.gameplay.ausrichter.GameMasterClient;
-import de.thundergames.gameplay.player.ui.LoginScreen;
 import de.thundergames.gameplay.player.networking.Client;
+import de.thundergames.gameplay.player.ui.LoginScreen;
 import de.thundergames.networking.server.PacketHandler;
 import de.thundergames.networking.server.Server;
 import de.thundergames.playmechanics.game.GameLogic;
 import de.thundergames.playmechanics.util.MultiGameHandler;
 import java.util.Objects;
 import org.jetbrains.annotations.Nullable;
+
+//TODO: Cant create a existing game, cant join a running game!
 
 /**
  * @author Carina

@@ -22,6 +22,7 @@ import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
 
 public class Client extends Network {
+
   private static final boolean keyListener = true;
   protected static Client client;
   private final ArrayList<Integer> moleIDs = new ArrayList<>();
@@ -45,10 +46,17 @@ public class Client extends Network {
     return client;
   }
 
+
+  public static void main(String[] args) throws InterruptedException {
+
+    Client client = new Client(5000, "127.0.0.1", "Spieler");
+    client.create();
+    client.test();
+  }
+
   /**
    * @author Carina
-   * @use Due to a bug where we are getting the constructor which is not contructed at the time we
-   *     create the Constructor and call the create object to create the sockets and stream
+   * @use Due to a bug where we are getting the constructor which is not contructed at the time we create the Constructor and call the create object to create the sockets and stream
    * @see Client
    */
   @Override
@@ -74,13 +82,14 @@ public class Client extends Network {
       socket = new Socket(ip, port);
       clientThread = new ClientThread(socket, 0, this);
       clientThread.start();
-      // test();
-    } catch (IOException e) {
+    } catch (IOException exception) {
       System.out.println("Is the server running?!");
     }
   }
 
-  /** @author Carina Logic to test some things! */
+  /**
+   * @author Carina Logic to test some things!
+   */
   public void test() throws InterruptedException {
     JSONObject object;
     object = new JSONObject();
@@ -88,11 +97,13 @@ public class Client extends Network {
     json.put("name", name);
     object.put("values", json.toString());
     object.put("type", Packets.NAME.getPacketType());
+    System.out.println("namenpacke " + object);
     clientThread.sendPacket(new Packet(object));
     object = new JSONObject();
     object.put("type", Packets.CREATEGAME.getPacketType());
-    var packet = new Packet(object);
-    clientThread.sendPacket(packet);
+    json.put("gameID", 0);
+    object.put("values", json.toString());
+    clientThread.sendPacket(new Packet(object));
     Thread.sleep(100);
     var jsonObject = new JSONObject();
     jsonObject.put("type", Packets.JOINGAME.getPacketType());
@@ -139,7 +150,10 @@ public class Client extends Network {
     json.put("moleID", 0);
     json.put("x", 2);
     json.put("y", 1);
-    object.put("values", json);
+    object.put("values", json.toString());
+    clientThread.sendPacket(new Packet(object));
+    object = new JSONObject();
+    object.put("type", Packets.DRAWCARD.getPacketType());
     clientThread.sendPacket(new Packet(object));
     object = new JSONObject();
     object.put("type", Packets.MOVEMOLE.getPacketType());
@@ -147,7 +161,7 @@ public class Client extends Network {
     json.put("x", 2);
     json.put("y", 4);
     json.put("moleID", 0);
-    object.put("values", json);
+    object.put("values", json.toString());
     clientThread.sendPacket(new Packet(object));
   }
 

@@ -19,7 +19,6 @@ import de.thundergames.networking.util.Packets;
 import de.thundergames.playmechanics.game.Game;
 import de.thundergames.playmechanics.game.GameLogic;
 import de.thundergames.playmechanics.map.Field;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -37,12 +36,12 @@ public class Player {
   private Timer timer;
   private boolean canDraw = false;
   private boolean hasMoved = true;
-  private List<Integer> cards;
+  private final List<Integer> cards;
   private PlayerStates playerState;
 
   /**
    * @param client the serverClient connection established by the Server
-   * @param game the Game a player joined
+   * @param game   the Game a player joined
    * @author Carina
    * @use will only be created on joining a Game
    * @see Game
@@ -56,8 +55,7 @@ public class Player {
 
   /**
    * @author Carina
-   * @use will be called when a player wants to draw a card and it takes the current first card and
-   *     puts it afterwards to the back of the list
+   * @use will be called when a player wants to draw a card and it takes the current first card and puts it afterwards to the back of the list
    * @see Settings
    */
   public void nextCard() {
@@ -69,8 +67,7 @@ public class Player {
 
   /**
    * @author Carina
-   * @use the player object that got created / instanciated after the constructor to get everything
-   *     ready
+   * @use the player object that got created / instanciated after the constructor to get everything ready
    * @see Player
    */
   public synchronized Player create() {
@@ -105,6 +102,7 @@ public class Player {
             canDraw = false;
             hasMoved = true;
             playerState = PlayerStates.WAIT;
+            getServerClient().sendPacket(new Packet(new JSONObject().put("type", Packets.TURNOVER.getPacketType())));
           }
         },
         game.getSettings().getTimeToThink() * 1000L);
@@ -114,12 +112,13 @@ public class Player {
    * @return the canDraw
    * @author carina
    * @use when called draws a card and returns it depending on
-   * @see Settings if the card should be taken in order or randomly if cards a empty refill by the
-   *     oder
+   * @see Settings if the card should be taken in order or randomly if cards a empty refill by the oder
    */
   public void drawACard() {
     playerState = PlayerStates.DRAW;
-    if (!game.getCurrentPlayer().equals(this) || hasMoved || !canDraw) return;
+    if (!game.getCurrentPlayer().equals(this) || hasMoved || !canDraw) {
+      return;
+    }
     if (game.getSettings().isRandomDraw()) {
       nextCard();
     } else {
@@ -129,11 +128,11 @@ public class Player {
   }
 
   /**
-   * @param moleID the mole that will be moved
+   * @param moleID  the mole that will be moved
    * @param x_start the x-coordinate of the start field
    * @param y_start the y-coordinate of the start field
-   * @param x_end the x-coordinate of the end field
-   * @param y_end the y-coordinate of the end field
+   * @param x_end   the x-coordinate of the end field
+   * @param y_end   the y-coordinate of the end field
    * @return true if the move is valid
    * @author Carina
    * @use will check if a field is valid and if the player has the right to move the mole
@@ -144,7 +143,9 @@ public class Player {
    */
   public void moveMole(
       final int moleID, final int x_start, final int y_start, final int x_end, final int y_end) {
-    if (!game.getCurrentPlayer().equals(this) || hasMoved || getMole(moleID) == null) return;
+    if (!game.getCurrentPlayer().equals(this) || hasMoved || getMole(moleID) == null) {
+      return;
+    }
     playerState = PlayerStates.MOVE;
     if (MoleGames.getMoleGames()
         .getGameLogic()
@@ -202,14 +203,15 @@ public class Player {
           "Client with id: "
               + serverClient.getConnectionId()
               + " has done in invalid move Punishment: "
-              + game.getSettings().getPunishment());
+              + game.getSettings().getPunishment() +
+              " player tried to move from X,Y: [" + x_start + "," + y_start + "] to X,Y: [" + x_end + "," + y_end + "] with a card of " + drawCard);
       serverClient.sendPacket(MoleGames.getMoleGames().getPacketHandler().invalidMovePacket());
     }
   }
 
   /**
-   * @param x the x cordinate where a mole will be placed
-   * @param y the y cordinate where a mole will be placed
+   * @param x      the x cordinate where a mole will be placed
+   * @param y      the y cordinate where a mole will be placed
    * @param moleID the moleID that will be placed on the map
    * @author Carina
    * @use will check if a field is free than set the mole on this field
@@ -218,7 +220,9 @@ public class Player {
    * @see Field
    */
   public void placeMole(final int x, final int y, final int moleID) {
-    if (!game.getCurrentPlayer().equals(this) || hasMoved || getMole(moleID) == null) return;
+    if (!game.getCurrentPlayer().equals(this) || hasMoved || getMole(moleID) == null) {
+      return;
+    }
     playerState = PlayerStates.MOVE;
     if (game.getMap().getFloor().getFieldMap().get(List.of(x, y)).isOccupied()
         || game.getMap().getFloor().getFieldMap().get(List.of(x, y)).isHole()) {

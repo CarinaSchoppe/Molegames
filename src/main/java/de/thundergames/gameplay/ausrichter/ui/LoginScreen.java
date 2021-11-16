@@ -31,11 +31,16 @@ import javafx.stage.Stage;
 
 public class LoginScreen extends Application {
 
-  @FXML private ResourceBundle resources;
-  @FXML private URL location;
-  @FXML private TextField ip;
-  @FXML private Button login;
-  @FXML private TextField port;
+  @FXML
+  private ResourceBundle resources;
+  @FXML
+  private URL location;
+  @FXML
+  private TextField ip;
+  @FXML
+  private Button login;
+  @FXML
+  private TextField port;
 
   public static void main(String[] args) {
     launch(args);

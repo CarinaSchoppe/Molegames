@@ -32,9 +32,10 @@ public class Settings {
    */
 
   final GameConfiguration gameConfiguration;
-  private final ArrayList<Integer> cards = new ArrayList<>(List.of(1, 1, 2, 2, 3, 3, 4, 4));
+  private final ArrayList<Integer> cards = new ArrayList<>(List.of(3, 1, 2, 4, 3, 4, 3, 1, 2, 5, 3, 1, 3, 2));
   private final Game game;
-  private final HashMap<Integer, Integer> pointsForMoleInHoleForFloor = new HashMap<>() {};
+  private final HashMap<Integer, Integer> pointsForMoleInHoleForFloor = new HashMap<>() {
+  };
   private final HashMap<Integer, Integer> pointsPerFloorForDoubleDraw = new HashMap<>();
   private int timeToThink = 20;
   private boolean randomDraw = false;
@@ -52,18 +53,29 @@ public class Settings {
   /**
    * @param packet the jsonObject that will update the configuration send by the GameMasterClient
    * @author Carina
-   * @use pass in the new configuration from the GameMasterClient and it will automaticly update
-   *     every single setting that was included in the jsonObject
+   * @use pass in the new configuration from the GameMasterClient and it will automaticly update every single setting that was included in the jsonObject
    * @use this method is called in the GameMasterClient to the Server
    * @use updates the map and the Game directly
    */
   public synchronized void updateConfiuration(@NotNull final JSONObject packet) {
-    if (!packet.isNull("randomDraw")) randomDraw = packet.getBoolean("randomDraw");
-    if (!packet.isNull("thinkTime")) timeToThink = packet.getInt("thinkTime");
-    if (!packet.isNull("punishment")) punishment = Punishments.getByID(packet.getInt("punishment"));
-    if (!packet.isNull("maxPlayers")) maxPlayers = packet.getInt("maxPlayers");
-    if (!packet.isNull("moleAmount")) moleAmount = packet.getInt("moleAmount");
-    if (!packet.isNull("maxFloors")) maxFloors = packet.getInt("maxFloors");
+    if (!packet.isNull("randomDraw")) {
+      randomDraw = packet.getBoolean("randomDraw");
+    }
+    if (!packet.isNull("thinkTime")) {
+      timeToThink = packet.getInt("thinkTime");
+    }
+    if (!packet.isNull("punishment")) {
+      punishment = Punishments.getByID(packet.getInt("punishment"));
+    }
+    if (!packet.isNull("maxPlayers")) {
+      maxPlayers = packet.getInt("maxPlayers");
+    }
+    if (!packet.isNull("moleAmount")) {
+      moleAmount = packet.getInt("moleAmount");
+    }
+    if (!packet.isNull("maxFloors")) {
+      maxFloors = packet.getInt("maxFloors");
+    }
     if (!packet.isNull("radius")) {
       radius = packet.getInt("radius");
       game.setMap(new Map(radius, game));
@@ -96,8 +108,7 @@ public class Settings {
   /**
    * @return the Settings in a JsonObject format
    * @author Carina
-   * @use this method is called in the GameMasterClient to the Server to convert the Settings to a
-   *     jsonObject to save that on the system
+   * @use this method is called in the GameMasterClient to the Server to convert the Settings to a jsonObject to save that on the system
    */
   public JSONObject toJsonConfiguration() {
     JSONObject jsonObject = new JSONObject();

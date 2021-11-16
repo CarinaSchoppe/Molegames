@@ -33,8 +33,7 @@ public class ClientThread extends NetworkThread {
 
   /**
    * @author Carina
-   * @use disconnects the ClientThread from the System and will run the shutdown-logic of the
-   *     playerSystem
+   * @use disconnects the ClientThread from the System and will run the shutdown-logic of the playerSystem
    */
   @Override
   public void disconnect() {

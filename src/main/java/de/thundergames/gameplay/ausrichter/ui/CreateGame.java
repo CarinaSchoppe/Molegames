@@ -38,42 +38,65 @@ import org.json.JSONObject;
 public class CreateGame {
 
   private final ArrayList<Integer> drawCardValuesList = new ArrayList<>();
-  @FXML private ResourceBundle resources;
-  @FXML private URL location;
-  @FXML private Button addItem;
-  @FXML private Button back;
-  @FXML private Button configureFloors;
-  @FXML private Button configureMap;
-  @FXML private Button createGame;
-  @FXML private TextField drawCardValue;
-  @FXML private Button loadConfig;
-  @FXML private TextField molesAmount;
-  @FXML private TextField playerAmount;
-  @FXML private ChoiceBox<String> punishment;
-  @FXML private TextField radius;
-  @FXML private Button removeAll;
-  @FXML private TextArea drawCardValues;
-  @FXML private TextField thinkTime;
-  @FXML private CheckBox randomDraw;
-  @FXML private TextField visualEffects;
+  @FXML
+  private ResourceBundle resources;
+  @FXML
+  private URL location;
+  @FXML
+  private Button addItem;
+  @FXML
+  private Button back;
+  @FXML
+  private Button configureFloors;
+  @FXML
+  private Button configureMap;
+  @FXML
+  private Button createGame;
+  @FXML
+  private TextField drawCardValue;
+  @FXML
+  private Button loadConfig;
+  @FXML
+  private TextField molesAmount;
+  @FXML
+  private TextField playerAmount;
+  @FXML
+  private ChoiceBox<String> punishment;
+  @FXML
+  private TextField radius;
+  @FXML
+  private Button removeAll;
+  @FXML
+  private TextArea drawCardValues;
+  @FXML
+  private TextField thinkTime;
+  @FXML
+  private CheckBox randomDraw;
+  @FXML
+  private TextField visualEffects;
 
   @FXML
   void addItemButtonEvent(ActionEvent event) {
     drawCardValuesList.add(Integer.valueOf(drawCardValue.getText()));
-    if (drawCardValues.getText().equals("") || drawCardValues.getText().equals(null))
+    if (drawCardValues.getText().equals("") || drawCardValues.getText().equals(null)) {
       drawCardValues.setText(drawCardValue.getText());
-    else drawCardValues.setText(drawCardValues.getText() + "\n" + drawCardValue.getText());
+    } else {
+      drawCardValues.setText(drawCardValues.getText() + "\n" + drawCardValue.getText());
+    }
     drawCardValue.clear();
   }
 
   @FXML
-  void backButtonEvent(ActionEvent event) {}
+  void backButtonEvent(ActionEvent event) {
+  }
 
   @FXML
-  void configureFloorsButtonEvent(ActionEvent event) {}
+  void configureFloorsButtonEvent(ActionEvent event) {
+  }
 
   @FXML
-  void configureMapButtonEvent(ActionEvent event) {}
+  void configureMapButtonEvent(ActionEvent event) {
+  }
 
   @FXML
   void createGameButtonEvent(ActionEvent event) {
@@ -83,22 +106,32 @@ public class CreateGame {
     json.put("gameID", MoleGames.getMoleGames().getGameMasterClient().getGameID());
     object.put("values", json.toString());
     var packet = new Packet(object);
-    if (GameMasterClient.getClientInstance() != null)
+    if (GameMasterClient.getClientInstance() != null) {
       GameMasterClient.getClientInstance().getMasterClientThread().sendPacket(packet);
+    }
     object.put("type", Packets.CONFIGURATION.getPacketType());
     json.put("gameID", MoleGames.getMoleGames().getGameMasterClient().getGameID());
-    if (!playerAmount.getText().isEmpty())
+    if (!playerAmount.getText().isEmpty()) {
       json.put("maxPlayers", Integer.parseInt(playerAmount.getText()));
-    if (!molesAmount.getText().isEmpty())
+    }
+    if (!molesAmount.getText().isEmpty()) {
       json.put("moleAmount", Integer.parseInt(molesAmount.getText()));
-    if (!thinkTime.getText().isEmpty())
+    }
+    if (!thinkTime.getText().isEmpty()) {
       json.put("thinkTime", Integer.parseInt(thinkTime.getText()));
-    if (!drawCardValuesList.isEmpty()) json.put("cards", drawCardValuesList);
-    if (!visualEffects.getText().isEmpty())
+    }
+    if (!drawCardValuesList.isEmpty()) {
+      json.put("cards", drawCardValuesList);
+    }
+    if (!visualEffects.getText().isEmpty()) {
       json.put("visualEffects", Integer.parseInt(visualEffects.getText()));
-    if (!radius.getText().isEmpty()) object.put("radius", Integer.parseInt(radius.getText()));
-    if (punishment.getValue() != null)
+    }
+    if (!radius.getText().isEmpty()) {
+      object.put("radius", Integer.parseInt(radius.getText()));
+    }
+    if (punishment.getValue() != null) {
       json.put("punishment", Boolean.parseBoolean(punishment.getValue()));
+    }
     json.put("randomDraw", randomDraw.isSelected());
     object.put("values", json.toString());
     GameMasterClient.getClientInstance().getMasterClientThread().sendPacket(new Packet(object));
@@ -121,7 +154,8 @@ public class CreateGame {
   }
 
   @FXML
-  void loadConfigButtonEvent(ActionEvent event) {}
+  void loadConfigButtonEvent(ActionEvent event) {
+  }
 
   @FXML
   void removeAllButtonEvent(ActionEvent event) {

@@ -23,7 +23,7 @@ public class Packet {
 
   private final JSONObject value;
   private final String packetType;
-  private JSONObject jsonPacket;
+  private final JSONObject jsonPacket;
 
   /**
    * @param json is the JSONobject that will be send to the client
@@ -32,9 +32,8 @@ public class Packet {
    */
   public Packet(@NotNull final JSONObject json) {
     this.packetType = json.getString("type");
-    this.value = new JSONObject(json.getString("values"));
-    jsonPacket = new JSONObject();
-    jsonPacket.put("values", value);
+    this.value = !json.isNull("values") ? new JSONObject(json.getString("values")) : new JSONObject();
+    this.jsonPacket = json;
   }
 
   public JSONObject getValues() {

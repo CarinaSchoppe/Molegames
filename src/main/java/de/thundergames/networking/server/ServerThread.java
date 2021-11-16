@@ -24,7 +24,7 @@ public class ServerThread extends NetworkThread {
 
   /**
    * @param socket the server Socket
-   * @param id Serverthread id
+   * @param id     Serverthread id
    * @author Carina
    */
   public ServerThread(@NotNull final Socket socket, final int id) throws IOException {

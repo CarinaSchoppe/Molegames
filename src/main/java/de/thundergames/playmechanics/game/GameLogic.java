@@ -12,8 +12,8 @@
  */
 package de.thundergames.playmechanics.game;
 
-import de.thundergames.playmechanics.util.Player;
 import de.thundergames.playmechanics.map.Map;
+import de.thundergames.playmechanics.util.Player;
 import de.thundergames.playmechanics.util.Punishments;
 import java.util.List;
 import org.jetbrains.annotations.NotNull;
@@ -21,16 +21,14 @@ import org.jetbrains.annotations.NotNull;
 public class GameLogic {
 
   /**
-   * @param start the startpoint in form of x and y
-   * @param stop the endpoint where the player wants to go in form of x and y
+   * @param start       the startpoint in form of x and y
+   * @param stop        the endpoint where the player wants to go in form of x and y
    * @param moveCounter the amounts of fields the player can move
-   * @param map of the de.thundergames.game and of the player
+   * @param map         of the de.thundergames.game and of the player
    * @return if the move is valid it will return true
    * @author Carina
-   * @use add the parameters and it will return if the move was valid with true or invalid with
-   *     false
-   * @premisse the startpoint and endpoint must be in the playingfield and the player was allowed to
-   *     move.
+   * @use add the parameters and it will return if the move was valid with true or invalid with false
+   * @premisse the startpoint and endpoint must be in the playingfield and the player was allowed to move.
    */
   public synchronized boolean wasLegalMove(
       @NotNull final List<Integer> start,
@@ -44,7 +42,7 @@ public class GameLogic {
       if (stop.get(0) - start.get(0) == 0 && Math.abs(stop.get(1) - start.get(1)) == moveCounter
           || start.get(1) - stop.get(1) == 0 && Math.abs(stop.get(0) - start.get(0)) == moveCounter
           || Math.abs(stop.get(0) - start.get(0)) == Math.abs(stop.get(1) - start.get(1))
-              && Math.abs(start.get(1) - stop.get(1)) == moveCounter) {
+          && Math.abs(start.get(1) - stop.get(1)) == moveCounter) {
         for (var field : map.getFloor().getOccupied()) {
           if (stop.get(0) - start.get(0) == 0) {
             for (var i = 1; i < moveCounter; i++) {
@@ -99,6 +97,7 @@ public class GameLogic {
   }
 
   public void performPunishment(Player player) {
-    if (!player.getGame().getSettings().getPunishment().equals(Punishments.NOTHING)) {}
+    if (!player.getGame().getSettings().getPunishment().equals(Punishments.NOTHING)) {
+    }
   }
 }

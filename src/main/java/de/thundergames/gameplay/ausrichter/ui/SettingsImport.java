@@ -23,5 +23,6 @@ public class SettingsImport extends Application {
   }
 
   @Override
-  public void start(Stage primaryStage) {}
+  public void start(Stage primaryStage) {
+  }
 }

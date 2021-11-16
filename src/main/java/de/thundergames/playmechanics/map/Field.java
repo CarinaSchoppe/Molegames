@@ -13,29 +13,28 @@
 package de.thundergames.playmechanics.map;
 
 import de.thundergames.playmechanics.util.Mole;
-import java.util.List;
-
 import de.thundergames.playmechanics.util.Player;
+import java.util.List;
 import org.jetbrains.annotations.NotNull;
 
 public class Field {
+
   private final List<Integer> id;
   private final boolean doubleMove = false;
   private boolean occupied;
   private boolean hole;
   private Mole mole;
+  private Floors floor;
+
 
   public Field(@NotNull final List<Integer> id) {
     this.id = id;
   }
 
-  public List<Integer> getId() {
-    return id;
-  }
 
   @Override
   public String toString() {
-    if (isOccupied())
+    if (isOccupied()) {
       return "field x: "
           + id.get(0)
           + " y: "
@@ -47,7 +46,7 @@ public class Field {
           + isHole()
           + " doubleMove"
           + isDoubleMove();
-    else
+    } else {
       return "field x: "
           + id.get(0)
           + " y: "
@@ -57,6 +56,7 @@ public class Field {
           + isHole()
           + " doubleMove"
           + isDoubleMove();
+    }
   }
 
   public int getY() {
@@ -69,14 +69,17 @@ public class Field {
 
   /**
    * @param occupied if a field is occupied by a mole from a player
-   * @param mole the mole that occupies the field
+   * @param mole     the mole that occupies the field
    * @author Carina
    * @see Mole
    * @see Player
    */
   public void setOccupied(final boolean occupied, Mole mole) {
-    if (occupied) this.mole = mole;
-    else this.mole = null;
+    if (occupied) {
+      this.mole = mole;
+    } else {
+      this.mole = null;
+    }
     this.occupied = occupied;
   }
 
@@ -88,12 +91,21 @@ public class Field {
     return hole;
   }
 
-  public void setHole(boolean hole) {
-    this.hole = hole;
-  }
 
   public Mole getMole() {
     return mole;
+  }
+
+  public List<Integer> getId() {
+    return id;
+  }
+
+  public Floors getFloor() {
+    return floor;
+  }
+
+  public void setFloor(Floors floor) {
+    this.floor = floor;
   }
 
   public boolean isDoubleMove() {

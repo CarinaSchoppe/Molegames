@@ -13,18 +13,18 @@
 package de.thundergames.playmechanics.game;
 
 import de.thundergames.MoleGames;
-import de.thundergames.playmechanics.util.Player;
 import de.thundergames.networking.server.ServerThread;
 import de.thundergames.playmechanics.map.Field;
 import de.thundergames.playmechanics.map.Map;
 import de.thundergames.playmechanics.util.Mole;
+import de.thundergames.playmechanics.util.Player;
 import de.thundergames.playmechanics.util.Settings;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import org.jetbrains.annotations.NotNull;
 
-public class Game extends Thread {
+public class Game {
 
   private final int gameID;
   private final ArrayList<Player> players = new ArrayList<>();
@@ -69,7 +69,8 @@ public class Game extends Thread {
    * @author Carina
    * @use forces the game to end
    */
-  public void forceGameEnd() {}
+  public void forceGameEnd() {
+  }
 
   public boolean isGamePaused() {
     return gamePaused;
@@ -82,6 +83,7 @@ public class Game extends Thread {
   public void pauseGame() {
     gamePaused = true;
   }
+
   /**
    * @author Carina
    * @use resumes the game
@@ -96,11 +98,15 @@ public class Game extends Thread {
    * @use sets the next player in the game
    */
   public void nextPlayer() {
-    if (gamePaused) return;
+    if (gamePaused) {
+      return;
+    }
     if (players.size() - 1 >= players.indexOf(currentPlayer) + 1) {
       currentPlayer = players.get(players.indexOf(currentPlayer) + 1);
 
-    } else currentPlayer = players.get(0);
+    } else {
+      currentPlayer = players.get(0);
+    }
     currentPlayer.startThinkTimer();
     System.out.println(
         "Current game: "
@@ -112,7 +118,7 @@ public class Game extends Thread {
   }
 
   /**
-   * @param client the player that joins the game
+   * @param client    the player that joins the game
    * @param spectator if its a spectator or player that has joined
    * @author Carina
    */

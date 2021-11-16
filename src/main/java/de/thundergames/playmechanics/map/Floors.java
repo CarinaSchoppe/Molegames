@@ -30,10 +30,10 @@ public class Floors {
   private final int holeAmount;
 
   /**
-   * @param floorNumber the floornumber that we are on
-   * @param holes amount of holes on that floor
+   * @param floorNumber      the floornumber that we are on
+   * @param holes            amount of holes on that floor
    * @param doubleDrawFields amount of doubleDrawFields on that floor
-   * @param map the map itself that this will be placed on
+   * @param map              the map itself that this will be placed on
    * @author Carina
    */
   public Floors(

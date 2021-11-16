@@ -13,13 +13,13 @@
 package de.thundergames.networking.server;
 
 import de.thundergames.MoleGames;
-import de.thundergames.playmechanics.util.Player;
 import de.thundergames.networking.util.Packet;
 import de.thundergames.networking.util.PacketNotExistsException;
 import de.thundergames.networking.util.Packets;
 import de.thundergames.playmechanics.game.Game;
 import de.thundergames.playmechanics.game.GameStates;
 import de.thundergames.playmechanics.map.Map;
+import de.thundergames.playmechanics.util.Player;
 import java.io.IOException;
 import java.util.ArrayList;
 import org.jetbrains.annotations.NotNull;
@@ -28,7 +28,7 @@ import org.json.JSONObject;
 public class PacketHandler {
 
   /**
-   * @param packet the packet that got send to the server
+   * @param packet           the packet that got send to the server
    * @param clientConnection the client that send the packet
    * @throws IOException
    * @author Carina
@@ -74,9 +74,9 @@ public class PacketHandler {
       if (!MoleGames.getMoleGames()
           .getServer()
           .getConnectionNames()
-          .containsKey(packet.getValues().getString("name")))
+          .containsKey(packet.getValues().getString("name"))) {
         clientConnection.setClientName(packet.getValues().getString("name"));
-      else {
+      } else {
         for (var i = 1; i < MoleGames.getMoleGames().getServer().getConnectionNames().size(); i++) {
           if (!MoleGames.getMoleGames()
               .getServer()
@@ -104,7 +104,9 @@ public class PacketHandler {
     }
   }
 
-  /** @param packet the packet that got send to the server */
+  /**
+   * @param packet the packet that got send to the server
+   */
   private void freezeGamePacket(@NotNull final Packet packet) {
     var game =
         MoleGames.getMoleGames()
@@ -112,15 +114,17 @@ public class PacketHandler {
             .getGames()
             .get(packet.getValues().getString("gameId"));
     if (game != null) {
-      if (!game.isGamePaused()) game.pauseGame();
+      if (!game.isGamePaused()) {
+        game.pauseGame();
+      }
     }
   }
 
   /**
-   * @author Carina
    * @param packet the packet that got send to the server
-   * @see Game
+   * @author Carina
    * @use resumes the paused game if it was paused
+   * @see Game
    */
   private void resumeGamePacket(@NotNull final Packet packet) {
     var game =
@@ -129,13 +133,15 @@ public class PacketHandler {
             .getGames()
             .get(packet.getValues().getString("gameId"));
     if (game != null) {
-      if (game.isGamePaused()) game.resumeGame();
+      if (game.isGamePaused()) {
+        game.resumeGame();
+      }
     }
   }
 
   /**
-   * @author Carina
    * @param clientConnection the player that will be on the turn next
+   * @author Carina
    */
   public void nextPlayerPacket(@NotNull final ServerThread clientConnection) {
     var object = new JSONObject();
@@ -152,12 +158,13 @@ public class PacketHandler {
     if (MoleGames.getMoleGames()
         .getGameHandler()
         .getGames()
-        .containsKey(packet.getValues().getInt("gameID")))
+        .containsKey(packet.getValues().getInt("gameID"))) {
       MoleGames.getMoleGames()
           .getGameHandler()
           .getGames()
           .get(packet.getValues().getInt("gameID"))
-          .start();
+          .startGame();
+    }
   }
 
   /**
@@ -171,12 +178,14 @@ public class PacketHandler {
             .getGameHandler()
             .getGames()
             .get(packet.getValues().getInt("gameID"));
-    if (game != null) game.getSettings().updateConfiuration(packet.getValues());
+    if (game != null) {
+      game.getSettings().updateConfiuration(packet.getValues());
+    }
   }
 
   /**
    * @param clientConnection the client will recieve that packet
-   * @param card the cardID that will be send to the client by its value
+   * @param card             the cardID that will be send to the client by its value
    * @author Carina
    * @see Game
    * @see Player
@@ -186,7 +195,7 @@ public class PacketHandler {
     object.put("type", Packets.DRAWNCARD.getPacketType());
     var json = new JSONObject();
     json.put("card", card);
-    object.put("values", json);
+    object.put("values", json.toString());
     clientConnection.sendPacket(new Packet(object));
   }
 
@@ -210,10 +219,9 @@ public class PacketHandler {
 
   /**
    * @param moleID the mole that was placed by its ID
-   * @param x the x-coordinate of the mole
-   * @param y the y-coordinate of the mole
-   * @return the mole that was placed in form of a Packet by its new location that will be send to
-   *     all clients
+   * @param x      the x-coordinate of the mole
+   * @param y      the y-coordinate of the mole
+   * @return the mole that was placed in form of a Packet by its new location that will be send to all clients
    * @author Carina
    */
   public Packet playerPlacesMolePacket(final int moleID, final int x, final int y) {
@@ -229,10 +237,9 @@ public class PacketHandler {
 
   /**
    * @param moleID the mole that was moved
-   * @param x the x-coordinate of the mole
-   * @param y the y-coordinate of the mole
-   * @return the new location of the Mole in the game on the map in form of a Packet by its new
-   *     location that will be send to all clients
+   * @param x      the x-coordinate of the mole
+   * @param y      the y-coordinate of the mole
+   * @return the new location of the Mole in the game on the map in form of a Packet by its new location that will be send to all clients
    * @author Carina
    */
   public Packet playerMovesMolePacket(final int moleID, final int x, final int y) {
@@ -258,8 +265,7 @@ public class PacketHandler {
   }
 
   /**
-   * @return the packet that will be send to a client that did an invalid move and will be punished
-   *     afterwards
+   * @return the packet that will be send to a client that did an invalid move and will be punished afterwards
    * @author Carina
    */
   public Packet invalidMovePacket() {
@@ -310,12 +316,12 @@ public class PacketHandler {
     object.put("type", Packets.MOLES.getPacketType());
     var json = new JSONObject();
     json.put("moles", moleIDs);
-    object.put("values", json);
+    object.put("values", json.toString());
     clientConnection.sendPacket(new Packet(object));
   }
 
   /**
-   * @param packet that will be send to all clients that a client left the game
+   * @param packet           that will be send to all clients that a client left the game
    * @param clientConnection the client that has left the game
    * @author Carina
    * @see ServerThread
@@ -323,15 +329,17 @@ public class PacketHandler {
    * @see Player
    */
   private void leaveGamePacket(
-      @NotNull final Packet packet, @NotNull final ServerThread clientConnection) {}
+      @NotNull final Packet packet, @NotNull final ServerThread clientConnection) {
+  }
 
   /**
-   * @param packet that will be send to the client that is now on the think time for a move
+   * @param packet           that will be send to the client that is now on the think time for a move
    * @param clientConnection the client that is now thinking for a period of time
    * @author Carina
    */
   private void timeToThinkPacket(
-      @NotNull final Packet packet, @NotNull final ServerThread clientConnection) {}
+      @NotNull final Packet packet, @NotNull final ServerThread clientConnection) {
+  }
 
   /**
    * @return the packet that will be send to all clients that the game will start now
@@ -343,7 +351,7 @@ public class PacketHandler {
 
   /**
    * @param clientConnection that has joined the game
-   * @param gameID the game that the player joins
+   * @param gameID           the game that the player joins
    * @author Carina
    * @see de.thundergames.gameplay.player.networking.Client
    */
@@ -358,7 +366,7 @@ public class PacketHandler {
 
   /**
    * @param clientConnection the client that logged in into the server
-   * @param threadID the threadID of the client that will be send to the client to give hima id
+   * @param threadID         the threadID of the client that will be send to the client to give hima id
    * @author Carina
    * @see de.thundergames.gameplay.player.networking.Client
    */
@@ -372,7 +380,7 @@ public class PacketHandler {
   }
 
   /**
-   * @param packet that will be send to all clients that a move of a mole was made
+   * @param packet           that will be send to all clients that a move of a mole was made
    * @param clientConnection the client that performed the move
    * @author Carina
    * @see Player
@@ -403,7 +411,7 @@ public class PacketHandler {
   }
 
   /**
-   * @param packet the packet that was send by the client that he placed a mole
+   * @param packet           the packet that was send by the client that he placed a mole
    * @param clientConnection the client that has placed a mole
    * @author Carina
    * @see de.thundergames.playmechanics.util.Mole
@@ -425,17 +433,17 @@ public class PacketHandler {
   }
 
   /**
-   * @param packet the packet that will display all the running games at the moment
+   * @param packet           the packet that will display all the running games at the moment
    * @param clientConnection the cleint that this packet will be send to
    * @author Carina
    */
   private void gameOverviewPacket(
-      @NotNull final Packet packet, @NotNull final ServerThread clientConnection) {}
+      @NotNull final Packet packet, @NotNull final ServerThread clientConnection) {
+  }
 
   /**
-   * @param packet the packet that will be send to the client
-   * @param clientConnection the client that has joined a game depending on the packet content if
-   *     spectator or player
+   * @param packet           the packet that will be send to the client
+   * @param clientConnection the client that has joined a game depending on the packet content if spectator or player
    * @author Carina
    * @see Game
    * @see Player

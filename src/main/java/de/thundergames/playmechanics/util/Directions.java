@@ -10,7 +10,7 @@ public enum Directions {
   DOWN_LEFT(6),
   DOWN_RIGHT(7);
 
-  private int value;
+  private final int value;
 
   Directions(int value) {
     this.value = value;
