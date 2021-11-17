@@ -1,14 +1,17 @@
 /*
- * Copyright Notice for Swtpra10
- * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 15.11.21, 16:08 by Carina
- * Latest changes made by Carina on 15.11.21, 15:51
- * All contents of "Player" are protected by copyright.
- * The copyright law, unless expressly indicated otherwise, is
- * at ThunderGames | SwtPra10. All rights reserved
- * Any type of duplication, distribution, rental, sale, award,
- * Public accessibility or other use
- * requires the express written consent of ThunderGames | SwtPra10.
+ *
+ *  *     / **
+ *  *      *   Copyright Notice                                             *
+ *  *      *   Copyright (c) SwtPra10 | ThunderGames 2021                         *
+ *  *      *   Created: 05.05.2018 / 11:59                                  *
+ *  *      *   All contents of this source text are protected by copyright. *
+ *  *      *   The copyright law, unless expressly indicated otherwise, is  *
+ *  *      *   at SwtPra10 | ThunderGames. All rights reserved                    *
+ *  *      *   Any type of duplication, distribution, rental, sale, award,  *
+ *  *      *   Public accessibility or other use                            *
+ *  *      *   Requires the express written consent of SwtPra10 | ThunderGames.   *
+ *  *      **
+ *  *
  */
 package de.thundergames.playmechanics.util;
 
@@ -195,7 +198,7 @@ public class Player {
               + x_end
               + " y="
               + y_end
-              + " with a card=" + drawCard + "."+"\n\n");
+              + " with a card=" + drawCard + "." + "\n\n");
       canDraw = false;
       hasMoved = true;
       playerState = PlayerStates.WAIT;
@@ -283,7 +286,7 @@ public class Player {
               + x
               + " y="
               + y
-              + "." +"\n\n" );
+              + "." + "\n\n");
     }
 
   }

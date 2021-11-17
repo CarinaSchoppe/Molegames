@@ -1,14 +1,17 @@
 /*
- * Copyright Notice for Swtpra10
- * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 15.11.21, 16:08 by Carina
- * Latest changes made by Carina on 15.11.21, 15:58
- * All contents of "Game" are protected by copyright.
- * The copyright law, unless expressly indicated otherwise, is
- * at ThunderGames | SwtPra10. All rights reserved
- * Any type of duplication, distribution, rental, sale, award,
- * Public accessibility or other use
- * requires the express written consent of ThunderGames | SwtPra10.
+ *
+ *  *     / **
+ *  *      *   Copyright Notice                                             *
+ *  *      *   Copyright (c) SwtPra10 | ThunderGames 2021                         *
+ *  *      *   Created: 05.05.2018 / 11:59                                  *
+ *  *      *   All contents of this source text are protected by copyright. *
+ *  *      *   The copyright law, unless expressly indicated otherwise, is  *
+ *  *      *   at SwtPra10 | ThunderGames. All rights reserved                    *
+ *  *      *   Any type of duplication, distribution, rental, sale, award,  *
+ *  *      *   Public accessibility or other use                            *
+ *  *      *   Requires the express written consent of SwtPra10 | ThunderGames.   *
+ *  *      **
+ *  *
  */
 package de.thundergames.playmechanics.game;
 
@@ -35,13 +38,13 @@ public class Game {
   private final HashMap<ServerThread, Player> clientPlayersMap = new HashMap<>();
   private final HashMap<Player, Mole> moleMap = new HashMap<>();
   private final HashMap<Integer, Mole> moleIDMap = new HashMap<>();
+  private final ArrayList<ServerThread> AIs = new ArrayList<>();
   private GameStates currentGameState = GameStates.LOBBY;
   private Map map;
   private Settings settings;
   private Player currentPlayer = null;
   private int moleID = 0;
   private boolean gamePaused = false;
-  private final ArrayList<ServerThread> AIs = new ArrayList<>();
   private boolean allMolesPlaced = false;
 
   public Game(final int gameID) {
@@ -212,11 +215,11 @@ public class Game {
     return allMolesPlaced;
   }
 
-  public int getGameID() {
-    return gameID;
-  }
-
   public void setAllMolesPlaced(boolean allMolesPlaced) {
     this.allMolesPlaced = allMolesPlaced;
+  }
+
+  public int getGameID() {
+    return gameID;
   }
 }
