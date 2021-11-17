@@ -20,10 +20,10 @@ import org.jetbrains.annotations.NotNull;
 public class Field {
 
   private final List<Integer> id;
-  private final boolean doubleMove = false;
+  private boolean doubleMove = false;
   private boolean occupied;
   private boolean hole;
-  private Mole mole;
+  private int mole;
   private Floors floor;
 
 
@@ -41,7 +41,7 @@ public class Field {
           + id.get(1)
           + isOccupied()
           + " occupied by "
-          + mole.getPlayer().getServerClient().getClientName()
+          + floor.getMap().getGame().getMoleIDMap().get(mole).getPlayer().getServerClient().getClientName()
           + " hole"
           + isHole()
           + " doubleMove"
@@ -74,14 +74,15 @@ public class Field {
    * @see Mole
    * @see Player
    */
-  public void setOccupied(final boolean occupied, Mole mole) {
+  public void setOccupied(final boolean occupied, int mole) {
     if (occupied) {
       this.mole = mole;
     } else {
-      this.mole = null;
+      this.mole = -1;
     }
     this.occupied = occupied;
   }
+
 
   public boolean isOccupied() {
     return occupied;
@@ -92,7 +93,7 @@ public class Field {
   }
 
 
-  public Mole getMole() {
+  public int getMole() {
     return mole;
   }
 
@@ -106,6 +107,15 @@ public class Field {
 
   public void setFloor(Floors floor) {
     this.floor = floor;
+  }
+
+
+  public void setDoubleMove(boolean doubleMove) {
+    this.doubleMove = doubleMove;
+  }
+
+  public void setHole(boolean hole) {
+    this.hole = hole;
   }
 
   public boolean isDoubleMove() {

@@ -16,14 +16,26 @@ public class AIPacketHandler extends ClientPacketHandler {
     if (packet.getPacketType().equalsIgnoreCase(Packets.NEXTPLAYER.getPacketType())) {
       System.out.println("ich bin am zug!");
       ai.setDraw(true);
+      try {
+        Thread.sleep(1000);
+      } catch (InterruptedException e) {
+        e.printStackTrace();
+      }
+      ai.handlePlacement();
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.DRAWNCARD.getPacketType())) {
       ai.setCardValue(true);
-      ai.setCard(packet.getValues().getInt("card"));
       System.out.println("AI Karte ist: " + packet.getValues().getInt("card"));
+      ai.setCard(packet.getValues().getInt("card"));
+      try {
+        Thread.sleep(1000);
+      } catch (InterruptedException e) {
+        e.printStackTrace();
+      }
+      ai.moveMoles();
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.JOINGAME.getPacketType())) {
       System.out.println("AI: Joined the game with id: " + ai.getGameID());
-      ai.setAIThread(new Thread(ai));
-      ai.getAIThread().start();
+      // ai.setAIThread(new Thread(ai));
+      //ai.getAIThread().start();
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.MESSAGE.getPacketType())) {
       System.out.println("Server sended: " + packet.getValues().getString("message"));
     } else if (packet.getPacketType().equals(Packets.MOLES.getPacketType())) {
@@ -42,24 +54,35 @@ public class AIPacketHandler extends ClientPacketHandler {
       System.out.println("Server sended: game with gameID: " + packet.getValues().getInt("gameID") + " is allready running!");
     } else if (packet.getPacketType().equals(Packets.LOGIN.getPacketType())) {
       ai.setClientID(packet.getValues().getInt("id"));
-      ai.getClientThread().sendPacket(new Packet(new JSONObject().put("type", Packets.JOINGAME.getPacketType()).put("values", new JSONObject().put("gameID", ai.getGameID()).put("connectType", "player").toString())));
+      ai.getClientThread().sendPacket(new Packet(new JSONObject().put("type", Packets.JOINGAME.getPacketType()).put("values", new JSONObject().put("gameID", ai.getGameID()).put("connectType", "player").put("ai", true).toString())));
     } else if (packet.getPacketType().equals(Packets.TURNOVER.getPacketType())) {
       System.out.println("AIs turn is over");
       ai.setDraw(false);
     } else if (packet.getPacketType().equals(Packets.PLACEMOLE.getPacketType())) {
       System.out.println("A mole was placed");
-      ai.setDraw(false);
+    } else if (packet.getPacketType().equals(Packets.NOTEXISTS.getPacketType())) {
+      System.out.println("AI: The game you want to connect to does not exist!");
+    } else if (packet.getPacketType().equals(Packets.INVALIDMOVE.getPacketType())) {
+      System.out.println("AI has done in invalid move!");
+    } else if (packet.getPacketType().equals(Packets.MOVEMOLE.getPacketType())) {
+      System.out.println("AI: A mole has been moved! !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+    } else if (packet.getPacketType().equals(Packets.MAP.getPacketType())) {
+      System.out.println("AI: Recieved a new Map update!");
+      ai.setMap(ai.createMapFromJson(packet.getValues()));
+      ai.getMap().printMap();
     } else {
       throw new PacketNotExistsException(packet.getPacketType());
     }
   }
 
   public void randomPositionPacket(@NotNull final ClientThread clientThread, @NotNull final JSONObject object, @NotNull final JSONObject json) {
+    System.out.println("AI: Does random move");
     var xZahl = new Random().nextInt(11);
     var yZahl = new Random().nextInt(11);
     json.put("x", xZahl);
     json.put("y", yZahl);
     object.put("values", json.toString());
+    System.out.println("AI: moved / placed a mole at: " + xZahl + " " + yZahl);
     clientThread.sendPacket(new Packet(object));
   }
 }

@@ -12,6 +12,9 @@
  */
 package de.thundergames.playmechanics.map;
 
+import de.thundergames.networking.server.ServerThread;
+import de.thundergames.networking.util.Packet;
+import de.thundergames.networking.util.Packets;
 import de.thundergames.playmechanics.game.Game;
 import java.util.List;
 import org.jetbrains.annotations.NotNull;
@@ -20,11 +23,12 @@ import org.json.JSONObject;
 public class Map {
 
   private final int radius;
-  private final int currentFloor;
+  private int currentFloor;
   private Floors floor;
   private int holeAmount; // TODO: here
   private int doubleDrawFields;
-  private int moveCounter = 0;
+  private Game game;
+
 
   /**
    * @param radius the radius of a map
@@ -34,9 +38,15 @@ public class Map {
    */
   public Map(final int radius, @NotNull final Game game) {
     this.radius = radius + 1;
+    this.game = game;
     currentFloor = game.getSettings().getMaxFloors();
     createMap();
   }
+
+  public Map(int radius) {
+    this.radius = radius;
+  }
+
 
   /**
    * @author Carina
@@ -90,6 +100,11 @@ public class Map {
     System.out.println();
   }
 
+
+  public void sendMap(ServerThread client) {
+    client.sendPacket(new Packet(new JSONObject().put("type", Packets.MAP.getPacketType()).put("values", toJSONString())));
+  }
+
   /**
    * @param x the x position of the Field
    * @param y the y position of the Field
@@ -108,29 +123,24 @@ public class Map {
   public synchronized String toJSONString() {
     JSONObject object = new JSONObject();
     object.put("radius", radius);
+    object.put("fields", floor.getFields().size());
     for (var field : floor.getFields()) {
       object.put(
-          "moveCounter"
-              + moveCounter
-              + ".field["
+          "field["
               + field.getId().get(0)
               + ","
               + field.getId().get(1)
               + "].occupied",
           field.isOccupied());
       object.put(
-          "moveCounter"
-              + moveCounter
-              + ".field["
+          "field["
               + field.getId().get(0)
               + ","
               + field.getId().get(1)
               + "].hole",
           field.isHole());
       object.put(
-          "moveCounter"
-              + moveCounter
-              + ".field["
+          "field["
               + field.getId().get(0)
               + ","
               + field.getId().get(1)
@@ -138,18 +148,31 @@ public class Map {
           field.isDoubleMove());
       if (field.isOccupied()) {
         object.put(
-            "moveCounter"
-                + moveCounter
-                + ".field["
+            "field["
                 + field.getId().get(0)
                 + ","
                 + field.getId().get(1)
                 + "].mole",
-            field.getMole().getPlayer().getServerClient().getClientName());
+            field.getFloor().getMap().getGame().getMoleIDMap().get(field.getMole()).getMoleID());
+      } else {
+        object.put(
+            "field["
+                + field.getId().get(0)
+                + ","
+                + field.getId().get(1)
+                + "].mole",
+            field.getMole());
       }
     }
-    moveCounter++;
     return object.toString();
+  }
+
+  public Game getGame() {
+    return game;
+  }
+
+  public void setFloor(Floors floor) {
+    this.floor = floor;
   }
 
   public Floors getFloor() {

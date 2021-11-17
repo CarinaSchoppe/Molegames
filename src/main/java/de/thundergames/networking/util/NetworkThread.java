@@ -89,7 +89,7 @@ public abstract class NetworkThread extends Thread {
             }
             if (this.packet != null) {
               if (this instanceof ServerThread
-                  && !packet.getPacketType().equals(Packets.MESSAGE.getPacketType())) {
+                  && !packet.getPacketType().equals(Packets.MESSAGE.getPacketType()) && !packet.getValues().isEmpty()) {
                 System.out.println(
                     "Client with id: "
                         + this.id

@@ -74,6 +74,7 @@ public class MoleGames {
         case "-a":
         case "a":
           assert args[3] != null;
+          System.out.println("GameID: " + args[3]);
           MoleGames.getMoleGames().ai =
               new AI(
                   Objects.requireNonNull(args[1]),

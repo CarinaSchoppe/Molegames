@@ -32,12 +32,12 @@ public class Settings {
    */
 
   final GameConfiguration gameConfiguration;
-  private final ArrayList<Integer> cards = new ArrayList<>(List.of(3, 1, 2, 4, 3, 4, 3, 1, 2, 5, 3, 1, 3, 2));
+  private final ArrayList<Integer> cards = new ArrayList<>(List.of(1, 3, 1, 2, 4, 3, 4, 3, 1, 2, 5, 3, 1, 3, 2));
   private final Game game;
   private final HashMap<Integer, Integer> pointsForMoleInHoleForFloor = new HashMap<>() {
   };
   private final HashMap<Integer, Integer> pointsPerFloorForDoubleDraw = new HashMap<>();
-  private int timeToThink = 20;
+  private int timeToThink = 5;
   private boolean randomDraw = false;
   private Punishments punishment = Punishments.NOTHING;
   private int maxPlayers = 4;

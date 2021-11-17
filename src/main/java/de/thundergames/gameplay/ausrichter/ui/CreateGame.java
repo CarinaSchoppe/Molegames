@@ -142,7 +142,7 @@ public class CreateGame {
     clearAllComponents();
 
     try {
-      Thread.sleep(13000);
+      Thread.sleep(10000);
     } catch (InterruptedException e) {
       e.printStackTrace();
     }

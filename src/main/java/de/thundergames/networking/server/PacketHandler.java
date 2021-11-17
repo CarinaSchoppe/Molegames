@@ -464,6 +464,9 @@ public class PacketHandler {
       if (connectType.equalsIgnoreCase("player")) {
         if (game.getCurrentGameState().equals(GameStates.LOBBY)) {
           if (game.getClients().size() < game.getSettings().getMaxPlayers()) {
+            if (packet.getValues().getBoolean("ai")) {
+              game.getAIs().add(clientConnection);
+            }
             game.joinGame(new Player(clientConnection, game).create(), false);
           } else {
             object.put("type", Packets.FULL.getPacketType());

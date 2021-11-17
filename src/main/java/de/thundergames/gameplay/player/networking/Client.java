@@ -104,7 +104,7 @@ public class Client extends Network {
     json.put("gameID", 0);
     object.put("values", json.toString());
     clientThread.sendPacket(new Packet(object));
-    Thread.sleep(100);
+
     var jsonObject = new JSONObject();
     jsonObject.put("type", Packets.JOINGAME.getPacketType());
     json = new JSONObject();

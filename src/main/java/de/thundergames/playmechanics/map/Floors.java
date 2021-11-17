@@ -19,7 +19,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class Floors {
 
-  private final int floorNumber;
+  private int floorNumber;
   private final int doubleDrawFields;
   private final ArrayList<Hole> holes = new ArrayList<>();
   private final ArrayList<Field> fields = new ArrayList<>();
@@ -28,6 +28,13 @@ public class Floors {
   private final ArrayList<Field> doubleMoves = new ArrayList<>();
   private final Map map;
   private final int holeAmount;
+
+
+  public Floors(int doubleDrawFields, Map map, int holeAmount) {
+    this.doubleDrawFields = doubleDrawFields;
+    this.map = map;
+    this.holeAmount = holeAmount;
+  }
 
   /**
    * @param floorNumber      the floornumber that we are on

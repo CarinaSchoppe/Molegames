@@ -13,7 +13,6 @@
 package de.thundergames.playmechanics.util;
 
 import de.thundergames.playmechanics.map.Field;
-import java.util.List;
 import org.jetbrains.annotations.NotNull;
 
 public class Mole {
@@ -32,66 +31,6 @@ public class Mole {
     return MoleID;
   }
 
-  /**
-   * @return sais if a mole can be moved (important for AI)
-   * @author Carina
-   * @see Player
-   * @see de.thundergames.gameplay.ai.AI
-   */
-  public boolean isMoveable(int cardValue) {
-    for (var direction : Directions.values()) {
-      if (direction == Directions.DOWN) {
-        if (field.getFloor().getFieldMap().containsKey(List.of(field.getX(), field.getY() - cardValue))) {
-          return field.getFloor().getFieldMap().get(List.of(field.getX(), field.getY() - cardValue)).isOccupied();
-        } else {
-          return false;
-        }
-      } else if (direction == Directions.UP) {
-        if (field.getFloor().getFieldMap().containsKey(List.of(field.getX(), field.getY() + cardValue))) {
-          return field.getFloor().getFieldMap().get(List.of(field.getX(), field.getY() + cardValue)).isOccupied();
-        } else {
-          return false;
-        }
-      } else if (direction == Directions.LEFT) {
-        if (field.getFloor().getFieldMap().containsKey(List.of(field.getX() - cardValue, field.getY()))) {
-          return field.getFloor().getFieldMap().get(List.of(field.getX() - cardValue, field.getY())).isOccupied();
-        } else {
-          return false;
-        }
-      } else if (direction == Directions.RIGHT) {
-        if (field.getFloor().getFieldMap().containsKey(List.of(field.getX() + cardValue, field.getY()))) {
-          return field.getFloor().getFieldMap().get(List.of(field.getX() + cardValue, field.getY())).isOccupied();
-        } else {
-          return false;
-        }
-      } else if (direction == Directions.DOWN_LEFT) {
-        if (field.getFloor().getFieldMap().containsKey(List.of(field.getX() - cardValue, field.getY() - cardValue))) {
-          return field.getFloor().getFieldMap().get(List.of(field.getX() - cardValue, field.getY() - cardValue)).isOccupied();
-        } else {
-          return false;
-        }
-      } else if (direction == Directions.DOWN_RIGHT) {
-        if (field.getFloor().getFieldMap().containsKey(List.of(field.getX() + cardValue, field.getY() - cardValue))) {
-          return field.getFloor().getFieldMap().get(List.of(field.getX() + cardValue, field.getY() - cardValue)).isOccupied();
-        } else {
-          return false;
-        }
-      } else if (direction == Directions.UP_LEFT) {
-        if (field.getFloor().getFieldMap().containsKey(List.of(field.getX() - cardValue, field.getY() + cardValue))) {
-          return field.getFloor().getFieldMap().get(List.of(field.getX() - cardValue, field.getY() + cardValue)).isOccupied();
-        } else {
-          return false;
-        }
-      } else if (direction == Directions.UP_RIGHT) {
-        if (field.getFloor().getFieldMap().containsKey(List.of(field.getX() + cardValue, field.getY() + cardValue))) {
-          return field.getFloor().getFieldMap().get(List.of(field.getX() + cardValue, field.getY() + cardValue)).isOccupied();
-        } else {
-          return false;
-        }
-      }
-    }
-    return false;
-  }
 
   public Field getField() {
     return field;

@@ -41,6 +41,8 @@ public class Game {
   private Player currentPlayer = null;
   private int moleID = 0;
   private boolean gamePaused = false;
+  private final ArrayList<ServerThread> AIs = new ArrayList<>();
+  private boolean allMolesPlaced = false;
 
   public Game(final int gameID) {
     this.gameID = gameID;
@@ -129,6 +131,9 @@ public class Game {
     if (currentGameState.equals(GameStates.LOBBY) && !spectator) {
       clientPlayersMap.put(client.getServerClient(), client);
       players.add(client);
+      for (var connection : getAIs()) {
+        getMap().sendMap(connection);
+      }
       client.getServerClient().sendPacket(PacketHandler.joinedGamePacket(gameID, spectator ? "player" : "spectator"));
       MoleGames.getMoleGames().getGameHandler().getClientGames().put(client.getServerClient(), this);
     } else if (!currentGameState.equals(GameStates.LOBBY) && !spectator) {
@@ -149,8 +154,8 @@ public class Game {
    */
   public void removePlayerFromGame(@NotNull final Player player) {
     for (var field : map.getFloor().getFields()) {
-      if (field.getMole() != null && field.getMole().getPlayer().equals(player)) {
-        field.setOccupied(false, null);
+      if (field.getFloor().getMap().getGame().getMoleIDMap().get(field.getMole()) != null && field.getFloor().getMap().getGame().getMoleIDMap().get(field.getMole()).getPlayer().equals(player)) {
+        field.setOccupied(false, -1);
         map.getFloor().getOccupied().remove(field);
         player.getMoles().clear();
         players.remove(player);
@@ -179,6 +184,10 @@ public class Game {
     return moleMap;
   }
 
+  public ArrayList<ServerThread> getAIs() {
+    return AIs;
+  }
+
   public HashMap<ServerThread, Player> getClientPlayersMap() {
     return clientPlayersMap;
   }
@@ -203,7 +212,16 @@ public class Game {
     this.map = map;
   }
 
+  public boolean isAllMolesPlaced() {
+
+    return allMolesPlaced;
+  }
+
   public int getGameID() {
     return gameID;
+  }
+
+  public void setAllMolesPlaced(boolean allMolesPlaced) {
+    this.allMolesPlaced = allMolesPlaced;
   }
 }
