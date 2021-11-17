@@ -77,7 +77,9 @@ public class CreateGame {
 
   @FXML
   void addItemButtonEvent(ActionEvent event) {
-    drawCardValuesList.add(Integer.valueOf(drawCardValue.getText()));
+    if (!drawCardValue.getText().isEmpty() || !drawCardValue.getText().equals("")) {
+      drawCardValuesList.add(Integer.valueOf(drawCardValue.getText()));
+    }
     if (drawCardValues.getText().equals("") || drawCardValues.getText().equals(null)) {
       drawCardValues.setText(drawCardValue.getText());
     } else {
@@ -142,12 +144,12 @@ public class CreateGame {
     clearAllComponents();
 
     try {
-      Thread.sleep(10000);
+      Thread.sleep(20000);
     } catch (InterruptedException e) {
       e.printStackTrace();
     }
     MoleGames.getMoleGames()
-        .getGameMasterClient().getMasterClientThread().sendPacket(new Packet(new JSONObject().put("type", Packets.GAMESTART.getPacketType()).put("values", new JSONObject().put("gameID", 0).toString())));
+        .getGameMasterClient().getMasterClientThread().sendPacket(new Packet(new JSONObject().put("type", Packets.GAMESTART.getPacketType()).put("values", new JSONObject().put("gameID", MoleGames.getMoleGames().getGameMasterClient().getGameID()-1).toString())));
   }
 
   private void clearAllComponents() {

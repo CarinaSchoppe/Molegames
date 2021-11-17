@@ -19,18 +19,18 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
-<BorderPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.2" fx:controller="de.thundergames.gameplay.ausrichter.ui.LoginScreen">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.thundergames.gameplay.ausrichter.ui.LoginScreen">
   <center>
-    <AnchorPane BorderPane.alignment="CENTER" prefHeight="200.0" prefWidth="200.0">
+    <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
       <children>
-        <Button style="-fx-background-color: transparent;" layoutX="85.0" layoutY="330.0" mnemonicParsing="false" onAction="#onLogin" prefHeight="29.0" prefWidth="135.0" fx:id="login"/>
-        <ImageView style="-fx-background-image: url(C:\Users\Carina\ProgrammingProjects\SwtPra10\src\main\resources\gamemaster.Login-Ausrichter.png); -fx-background-size: contain; -fx-background-repeat: no-repeat; -fx-background-position: center; -fx-background-size: 100% 100%;" cache="true" fitHeight="400.0" fitWidth="600.0" smooth="false">
+        <ImageView cache="true" fitHeight="400.0" fitWidth="600.0" smooth="false" style="-fx-background-image: url(C:\Users\Carina\ProgrammingProjects\SwtPra10\src\main\resources\gamemaster.Login-Ausrichter.png); -fx-background-size: contain; -fx-background-repeat: no-repeat; -fx-background-position: center; -fx-background-size: 100% 100%;">
           <image>
-            <Image url="@../../../../../../resources/gamemaster/Login-Ausrichter.png"/>
+            <Image url="@../../../../../../resources/gamemaster/Login-Ausrichter.png" />
           </image>
         </ImageView>
-        <TextField style="-fx-background-color: transparent; -fx-text-fill: white;" centerShape="false" layoutX="213.0" layoutY="243.0" prefHeight="18.0" prefWidth="199.0" promptText="Port" fx:id="port"/>
-        <TextField style="-fx-background-color: transparent; -fx-text-fill: white;" layoutX="213.0" layoutY="171.0" prefHeight="25.0" prefWidth="196.0" promptText="IP-Adress" fx:id="ip"/>
+        <Button fx:id="login" layoutX="85.0" layoutY="330.0" mnemonicParsing="false" onAction="#onLogin" prefHeight="29.0" prefWidth="135.0" style="-fx-background-color: transparent;" />
+        <TextField fx:id="port" centerShape="false" layoutX="213.0" layoutY="243.0" prefHeight="18.0" prefWidth="199.0" promptText="Port" style="-fx-background-color: transparent; -fx-text-fill: white;" />
+        <TextField fx:id="ip" layoutX="213.0" layoutY="171.0" prefHeight="25.0" prefWidth="196.0" promptText="IP-Adress" style="-fx-background-color: transparent; -fx-text-fill: white;" />
       </children>
     </AnchorPane>
   </center>

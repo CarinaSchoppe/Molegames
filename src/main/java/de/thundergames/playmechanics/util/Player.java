@@ -101,7 +101,6 @@ public class Player {
         new TimerTask() {
           @Override
           public void run() {
-            System.out.println("player time abgelaufen!");
             canDraw = false;
             hasMoved = true;
             playerState = PlayerStates.WAIT;
@@ -196,7 +195,7 @@ public class Player {
               + x_end
               + " y="
               + y_end
-              + ".");
+              + " with a card=" + drawCard + "."+"\n\n");
       canDraw = false;
       hasMoved = true;
       playerState = PlayerStates.WAIT;
@@ -206,23 +205,23 @@ public class Player {
       if (timerIsRunning) {
         timer.purge();
         timer.cancel();
-        System.out.println("player hat in zeit einen move gemacht");
         getServerClient().sendPacket(new Packet(new JSONObject().put("type", Packets.TURNOVER.getPacketType())));
         game.nextPlayer();
       }
+
     } else {
       System.out.println(
           "Client with id: "
               + serverClient.getConnectionId()
               + " has done in invalid move Punishment: "
               + game.getSettings().getPunishment() +
-              " player tried to move from X,Y: [" + x_start + "," + y_start + "] to X,Y: [" + x_end + "," + y_end + "] with a card of " + drawCard);
+              " player tried to move from X,Y: [" + x_start + "," + y_start + "] to X,Y: [" + x_end + "," + y_end + "] with a card of " + drawCard + "\n\n");
       serverClient.sendPacket(MoleGames.getMoleGames().getPacketHandler().invalidMovePacket());
       timer.purge();
       timer.cancel();
-      System.out.println("player hat in zeit einen move gemacht");
       getServerClient().sendPacket(new Packet(new JSONObject().put("type", Packets.TURNOVER.getPacketType())));
       game.nextPlayer();
+
     }
   }
 
@@ -271,7 +270,6 @@ public class Player {
         game.getMap().sendMap(connection);
       }
       if (timerIsRunning) {
-        System.out.println("player hat in zeit einen mole platziert");
         timer.purge();
         timer.cancel();
         getServerClient().sendPacket(new Packet(new JSONObject().put("type", Packets.TURNOVER.getPacketType())));
@@ -285,8 +283,9 @@ public class Player {
               + x
               + " y="
               + y
-              + ".");
+              + "." +"\n\n" );
     }
+
   }
 
   /**

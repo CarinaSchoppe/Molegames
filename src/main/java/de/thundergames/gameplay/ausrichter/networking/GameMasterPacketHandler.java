@@ -23,8 +23,9 @@ public class GameMasterPacketHandler extends ClientPacketHandler {
 
   public void handlePacket(@NotNull GameMasterClient client, @NotNull Packet packet) {
     if (packet.getPacketType().equalsIgnoreCase(Packets.MESSAGE.getPacketType())) {
-      System.out.println("[GameMasterPacketHandler] Packet received: " + packet.getValues());
-      // TODO: hier alle PacketHandler eintragen
+      if (!packet.getValues().isEmpty() && !packet.getValues().toString().equalsIgnoreCase("{}")) {
+        System.out.println("[GameMasterPacketHandler] Packet received: " + packet.getValues());
+      }
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.DISCONNECT.getPacketType())) {
       System.out.println("[GameMasterPacketHandler] Disconnect received");
       client.getMasterClientThread().disconnect();

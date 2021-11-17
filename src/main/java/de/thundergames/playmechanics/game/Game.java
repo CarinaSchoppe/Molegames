@@ -113,11 +113,6 @@ public class Game {
     } else {
       currentPlayer = players.get(0);
     }
-    System.out.println(
-        "Current game: "
-            + gameID
-            + " current-player ID: "
-            + currentPlayer.getServerClient().getConnectionId());
     MoleGames.getMoleGames().getPacketHandler().nextPlayerPacket(currentPlayer.getServerClient());
     currentPlayer.startThinkTimer();
   }

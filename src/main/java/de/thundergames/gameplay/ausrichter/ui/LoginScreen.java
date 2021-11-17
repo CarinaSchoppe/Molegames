@@ -53,7 +53,6 @@ public class LoginScreen extends Application {
 
     try {
       if (ip != "" && port != "") {
-        System.out.println("IP: " + ip + " Port: " + port);
         Stage stage = (Stage) login.getScene().getWindow();
         MoleGames.getMoleGames()
             .setGameMasterClient(new GameMasterClient(Integer.parseInt(port), ip));

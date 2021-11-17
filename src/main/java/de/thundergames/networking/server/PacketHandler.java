@@ -72,13 +72,9 @@ public class PacketHandler {
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.CONFIGURATION.getPacketType())) {
       updateConfigurationPacket(packet);
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.MESSAGE.getPacketType())) {
-      System.out.println(
-          "MESSAGE: Client with id: "
-              + clientConnection.getConnectionId()
-              + " sended: type: "
-              + packet.getPacketType()
-              + " contents: "
-              + packet.getValues().toString());
+      if (packet.getValues().isEmpty() || packet.getValues().toString().equalsIgnoreCase("{}")) {
+        return;
+      }
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.GAMESTART.getPacketType())) {
       startGamePacket(packet);
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.GAMEPAUSE.getPacketType())) {

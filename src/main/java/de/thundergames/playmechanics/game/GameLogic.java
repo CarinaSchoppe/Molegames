@@ -12,11 +12,16 @@
  */
 package de.thundergames.playmechanics.game;
 
+import de.thundergames.MoleGames;
+import de.thundergames.networking.util.Packet;
+import de.thundergames.networking.util.Packets;
+import de.thundergames.playmechanics.map.Field;
 import de.thundergames.playmechanics.map.Map;
 import de.thundergames.playmechanics.util.Player;
 import de.thundergames.playmechanics.util.Punishments;
 import java.util.List;
 import org.jetbrains.annotations.NotNull;
+import org.json.JSONObject;
 
 public class GameLogic {
 
@@ -30,7 +35,7 @@ public class GameLogic {
    * @use add the parameters and it will return if the move was valid with true or invalid with false
    * @premisse the startpoint and endpoint must be in the playingfield and the player was allowed to move.
    */
-  public synchronized boolean wasLegalMove(
+  public boolean wasLegalMove(
       @NotNull final List<Integer> start,
       @NotNull final List<Integer> stop,
       final int moveCounter,
@@ -94,6 +99,28 @@ public class GameLogic {
       }
     }
     return false;
+  }
+
+  public void checkWinning(Map map) {
+    var holes = 0;
+    Field field = null;
+    for (var fieldCounter : map.getFloor().getFields()) {
+      if (fieldCounter.isHole()) {
+        holes++;
+        field = fieldCounter;
+      }
+    }
+
+    if (holes == 1) {
+      if (field.isOccupied()) {
+        win(field.getFloor().getMap().getGame().getMoleIDMap().get(field.getMole()).getPlayer());
+      }
+    }
+
+  }
+
+  public void win(Player player) {
+    MoleGames.getMoleGames().getServer().sendToAllGameClients(player.getGame(), new Packet(new JSONObject().put("type", Packets.WINS.getPacketType()).put("values", new JSONObject().put("playerName", player.getServerClient().getClientName()).toString())));
   }
 
   public void performPunishment(Player player) {

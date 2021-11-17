@@ -37,7 +37,6 @@ public class ClientThread extends NetworkThread {
    */
   @Override
   public void disconnect() {
-
     {
       try {
         System.out.println("Server disconnected!");

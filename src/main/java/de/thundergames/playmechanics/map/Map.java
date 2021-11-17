@@ -73,7 +73,7 @@ public class Map {
         floor.getFields().add(field);
       }
     }
-    printMap();
+    //printMap();
   }
 
   /**

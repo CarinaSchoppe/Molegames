@@ -172,7 +172,6 @@ public abstract class NetworkThread extends Thread {
     // handle it
 
     if (reciever instanceof ClientThread && !(reciever instanceof GameMasterClientThread) && !(reciever instanceof AIClientThread)) {
-      System.out.println("nich richtig!");
       ((ClientThread) reciever)
           .getClient()
           .getClientPacketHandler()

@@ -14,41 +14,39 @@ public class AIPacketHandler extends ClientPacketHandler {
 
   public void handlePacket(@NotNull final AI ai, @NotNull final Packet packet) throws PacketNotExistsException {
     if (packet.getPacketType().equalsIgnoreCase(Packets.NEXTPLAYER.getPacketType())) {
-      System.out.println("ich bin am zug!");
+      System.out.println("AI: Im on turn!");
       ai.setDraw(true);
       try {
-        Thread.sleep(1000);
+        Thread.sleep(500);
       } catch (InterruptedException e) {
         e.printStackTrace();
       }
-      ai.handlePlacement();
+      ai.getLogic().handlePlacement(ai);
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.DRAWNCARD.getPacketType())) {
       ai.setCardValue(true);
-      System.out.println("AI Karte ist: " + packet.getValues().getInt("card"));
       ai.setCard(packet.getValues().getInt("card"));
       try {
-        Thread.sleep(1000);
+        Thread.sleep(500);
       } catch (InterruptedException e) {
         e.printStackTrace();
       }
-      ai.moveMoles();
+      ai.getLogic().moveMoles(ai);
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.JOINGAME.getPacketType())) {
       System.out.println("AI: Joined the game with id: " + ai.getGameID());
-      // ai.setAIThread(new Thread(ai));
-      //ai.getAIThread().start();
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.MESSAGE.getPacketType())) {
-      System.out.println("Server sended: " + packet.getValues().getString("message"));
+      if (!packet.getValues().isEmpty() && !packet.getValues().toString().equalsIgnoreCase("{}")) {
+        System.out.println("Server sended: " + packet.getValues().getString("message"));
+
+      }
     } else if (packet.getPacketType().equals(Packets.MOLES.getPacketType())) {
       for (int i = 0; i < packet.getValues().getJSONArray("moles").toList().size(); i++) {
         ai.getMoleIDs().add(packet.getValues().getJSONArray("moles").getInt(i));
         System.out.println("MoleID is: " + ai.getMoleIDs().get(i));
       }
-
-
     } else if (packet.getPacketType().equals(Packets.OCCUPIED.getPacketType())) {
       if (!ai.isPlacedMoles()) {
         System.out.println("AI: placing mole again!");
-        ai.placeMoles(packet.getValues().getInt("moleID"));
+        ai.getLogic().placeMoles(ai, packet.getValues().getInt("moleID"));
       }
     } else if (packet.getPacketType().equals(Packets.INGAME.getPacketType())) {
       System.out.println("Server sended: game with gameID: " + packet.getValues().getInt("gameID") + " is allready running!");
@@ -65,11 +63,14 @@ public class AIPacketHandler extends ClientPacketHandler {
     } else if (packet.getPacketType().equals(Packets.INVALIDMOVE.getPacketType())) {
       System.out.println("AI has done in invalid move!");
     } else if (packet.getPacketType().equals(Packets.MOVEMOLE.getPacketType())) {
-      System.out.println("AI: A mole has been moved! !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+      System.out.println("AI: A mole has been moved!");
     } else if (packet.getPacketType().equals(Packets.MAP.getPacketType())) {
       System.out.println("AI: Recieved a new Map update!");
-      ai.setMap(ai.createMapFromJson(packet.getValues()));
+      ai.setMap(ai.getAiUtil().createMapFromJson(ai, packet.getValues()));
       ai.getMap().printMap();
+    } else if (packet.getPacketType().equals(Packets.FULL.getPacketType())) {
+      System.out.println("AI: the game I should join is allready full!");
+
     } else {
       throw new PacketNotExistsException(packet.getPacketType());
     }

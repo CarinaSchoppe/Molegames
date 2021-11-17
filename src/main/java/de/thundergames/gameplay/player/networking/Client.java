@@ -97,7 +97,6 @@ public class Client extends Network {
     json.put("name", name);
     object.put("values", json.toString());
     object.put("type", Packets.NAME.getPacketType());
-    System.out.println("namenpacke " + object);
     clientThread.sendPacket(new Packet(object));
     object = new JSONObject();
     object.put("type", Packets.CREATEGAME.getPacketType());
