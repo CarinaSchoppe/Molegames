@@ -13,6 +13,7 @@
 package de.thundergames.playmechanics.game;
 
 import de.thundergames.MoleGames;
+import de.thundergames.networking.server.PacketHandler;
 import de.thundergames.networking.server.ServerThread;
 import de.thundergames.networking.util.Packet;
 import de.thundergames.networking.util.Packets;
@@ -110,14 +111,13 @@ public class Game {
     } else {
       currentPlayer = players.get(0);
     }
-    currentPlayer.startThinkTimer();
     System.out.println(
         "Current game: "
             + gameID
             + " current-player ID: "
             + currentPlayer.getServerClient().getConnectionId());
-
     MoleGames.getMoleGames().getPacketHandler().nextPlayerPacket(currentPlayer.getServerClient());
+    currentPlayer.startThinkTimer();
   }
 
   /**
@@ -127,10 +127,9 @@ public class Game {
    */
   public void joinGame(@NotNull final Player client, final boolean spectator) {
     if (currentGameState.equals(GameStates.LOBBY) && !spectator) {
-
       clientPlayersMap.put(client.getServerClient(), client);
       players.add(client);
-      MoleGames.getMoleGames().getPacketHandler().joinedGamePacket(client.getServerClient(), gameID);
+      client.getServerClient().sendPacket(PacketHandler.joinedGamePacket(gameID, spectator ? "player" : "spectator"));
       MoleGames.getMoleGames().getGameHandler().getClientGames().put(client.getServerClient(), this);
     } else if (!currentGameState.equals(GameStates.LOBBY) && !spectator) {
       client.getServerClient().sendPacket(new Packet(new JSONObject().put("type", Packets.FULL.getPacketType())));

@@ -19,7 +19,7 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
-<BorderPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" fx:controller="de.thundergames.gameplay.ausrichter.ui.LoginScreen">
+<BorderPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.2" fx:controller="de.thundergames.gameplay.ausrichter.ui.LoginScreen">
   <center>
     <AnchorPane BorderPane.alignment="CENTER" prefHeight="200.0" prefWidth="200.0">
       <children>

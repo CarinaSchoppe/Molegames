@@ -11,6 +11,7 @@ public class AIClientThread extends ClientThread {
 
   public AIClientThread(@NotNull Socket socket, int id, Client client) throws IOException {
     super(socket, id, client);
+
   }
 
   public AI getAIClient() {

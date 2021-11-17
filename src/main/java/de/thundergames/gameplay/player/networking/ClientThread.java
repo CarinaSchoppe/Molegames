@@ -37,6 +37,7 @@ public class ClientThread extends NetworkThread {
    */
   @Override
   public void disconnect() {
+
     {
       try {
         System.out.println("Server disconnected!");
@@ -50,4 +51,9 @@ public class ClientThread extends NetworkThread {
   public void setID(final int id) {
     this.id = id;
   }
+
+  public int getClientThreadID() {
+    return id;
+  }
+
 }

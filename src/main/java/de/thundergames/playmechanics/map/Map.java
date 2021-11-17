@@ -78,13 +78,14 @@ public class Map {
         row = field.getId().get(1);
       }
       System.out.print(
-          "Field X:"
+          "Field X: "
               + field.getId().get(0)
-              + ", Y:"
+              + ", Y: "
               + field.getId().get(1)
-              + " occupied:"
+              + " occupied: "
               + field.isOccupied()
-              + "   ");
+              + ", hole: " + field.isHole() + ", doubledraw: " + field.isDoubleMove() + "    "
+      );
     }
     System.out.println();
   }

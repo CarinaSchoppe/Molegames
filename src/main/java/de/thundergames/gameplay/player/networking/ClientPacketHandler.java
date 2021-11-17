@@ -61,9 +61,11 @@ public class ClientPacketHandler {
     } else if (packet.getPacketType().equals(Packets.TURNOVER.getPacketType())) {
     } else if (packet.getPacketType().equals(Packets.DRAWNCARD.getPacketType())) {
       System.out.println("Server sended: Your card value is: " + packet.getValues().getInt("card"));
+    } else if (packet.getPacketType().equals(Packets.NOTEXISTS.getPacketType())) {
+      System.out.println("The game you wanted to join does not exist!");
     } else {
       throw new PacketNotExistsException(
-          "Packet with type: " + packet.getPacketType() + " does not exists");
+          "Packet with type: " + packet.getJsonPacket().toString() + " does not exists");
     }
   }
 }

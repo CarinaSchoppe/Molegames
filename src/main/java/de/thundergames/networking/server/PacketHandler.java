@@ -28,6 +28,21 @@ import org.json.JSONObject;
 public class PacketHandler {
 
   /**
+   * @param gameID the game that the player joins
+   * @author Carina
+   * @see de.thundergames.gameplay.player.networking.Client
+   */
+  public static Packet joinedGamePacket(final int gameID, @NotNull final String joinType) {
+    var object = new JSONObject();
+    object.put("type", Packets.JOINGAME.getPacketType());
+    var json = new JSONObject();
+    json.put("gameID", gameID);
+    json.put("connectType", joinType);
+    object.put("values", json.toString());
+    return new Packet(object);
+  }
+
+  /**
    * @param packet           the packet that got send to the server
    * @param clientConnection the client that send the packet
    * @throws IOException
@@ -144,9 +159,7 @@ public class PacketHandler {
    * @author Carina
    */
   public void nextPlayerPacket(@NotNull final ServerThread clientConnection) {
-    var object = new JSONObject();
-    object.put("type", Packets.NEXTPLAYER.getPacketType());
-    clientConnection.sendPacket(new Packet(object));
+    clientConnection.sendPacket(new Packet(new JSONObject().put("type", Packets.NEXTPLAYER.getPacketType())));
   }
 
   /**
@@ -311,7 +324,7 @@ public class PacketHandler {
   }
 
   public void sendMoleIDs(
-      @NotNull final ServerThread clientConnection, ArrayList<Integer> moleIDs) {
+      @NotNull final ServerThread clientConnection, ArrayList<Integer> moleIDs) { //moles: [23, 24, 25, 26 ...]
     var object = new JSONObject();
     object.put("type", Packets.MOLES.getPacketType());
     var json = new JSONObject();
@@ -347,21 +360,6 @@ public class PacketHandler {
    */
   public Packet startGamePacket() {
     return new Packet(new JSONObject().put("type", Packets.GAMESTART.getPacketType()));
-  }
-
-  /**
-   * @param clientConnection that has joined the game
-   * @param gameID           the game that the player joins
-   * @author Carina
-   * @see de.thundergames.gameplay.player.networking.Client
-   */
-  public void joinedGamePacket(@NotNull final ServerThread clientConnection, final int gameID) {
-    var object = new JSONObject();
-    object.put("type", Packets.JOINGAME.getPacketType());
-    var json = new JSONObject();
-    json.put("gameID", gameID);
-    object.put("values", json.toString());
-    clientConnection.sendPacket(new Packet(object));
   }
 
   /**
@@ -472,7 +470,7 @@ public class PacketHandler {
             clientConnection.sendPacket(new Packet(object));
           }
         } else {
-          object.put("type", Packets.INGAME.getPacketType());
+          object.put("type", Packets.INGAME.getPacketType()).put("values", new JSONObject().put("gameID", packet.getValues().getInt("gameID")).toString());
           clientConnection.sendPacket(new Packet(object));
         }
       } else if (connectType.equalsIgnoreCase("spectator")) {

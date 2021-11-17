@@ -36,6 +36,7 @@ public abstract class NetworkThread extends Thread {
   protected Packet packet;
   protected int id;
 
+
   /**
    * Creates a new NetworkThread.
    *
@@ -169,9 +170,9 @@ public abstract class NetworkThread extends Thread {
       throws PacketNotExistsException {
     // TODO: How to handle the packet from the client! Player has moved -> now in a hole and than
     // handle it
-    if (reciever instanceof ServerThread) {
-      MoleGames.getMoleGames().getPacketHandler().handlePacket(packet, (ServerThread) reciever);
-    } else if (reciever instanceof ClientThread && !(reciever instanceof GameMasterClientThread)) {
+
+    if (reciever instanceof ClientThread && !(reciever instanceof GameMasterClientThread) && !(reciever instanceof AIClientThread)) {
+      System.out.println("nich richtig!");
       ((ClientThread) reciever)
           .getClient()
           .getClientPacketHandler()
@@ -186,6 +187,8 @@ public abstract class NetworkThread extends Thread {
           .getAIClient()
           .getAIPacketHandler()
           .handlePacket(((AIClientThread) reciever).getAIClient(), packet);
+    } else if (reciever instanceof ServerThread) {
+      MoleGames.getMoleGames().getPacketHandler().handlePacket(packet, (ServerThread) reciever);
     }
   }
 

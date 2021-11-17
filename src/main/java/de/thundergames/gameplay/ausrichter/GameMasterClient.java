@@ -16,6 +16,8 @@ package de.thundergames.gameplay.ausrichter;
 import de.thundergames.gameplay.ausrichter.networking.GameMasterClientThread;
 import de.thundergames.gameplay.ausrichter.networking.GameMasterPacketHandler;
 import de.thundergames.gameplay.player.networking.Client;
+import java.io.IOException;
+import java.net.Socket;
 import org.jetbrains.annotations.NotNull;
 
 public class GameMasterClient extends Client {
@@ -34,6 +36,17 @@ public class GameMasterClient extends Client {
 
   public static void setClientInstance(GameMasterClient clientInstance) {
     GameMasterClient.clientInstance = clientInstance;
+  }
+
+  @Override
+  public void connect() {
+    try {
+      socket = new Socket(ip, port);
+      clientThread = new GameMasterClientThread(socket, 0, this);
+      clientThread.start();
+    } catch (IOException exception) {
+      System.out.println("Is the server running?!");
+    }
   }
 
   public int getGameID() {

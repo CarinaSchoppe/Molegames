@@ -32,11 +32,12 @@ public class Player {
   private final ArrayList<Mole> moles = new ArrayList<>();
   private final ServerThread serverClient;
   private final Game game;
+  private final List<Integer> cards;
   private int drawCard = 0;
   private Timer timer;
+  private boolean timerIsRunning = false;
   private boolean canDraw = false;
   private boolean hasMoved = true;
-  private final List<Integer> cards;
   private PlayerStates playerState;
 
   /**
@@ -95,14 +96,23 @@ public class Player {
     hasMoved = false;
     timer = new Timer();
     canDraw = true;
+    timerIsRunning = true;
     timer.schedule(
         new TimerTask() {
           @Override
           public void run() {
+            System.out.println("player time abgelaufen!");
             canDraw = false;
             hasMoved = true;
             playerState = PlayerStates.WAIT;
             getServerClient().sendPacket(new Packet(new JSONObject().put("type", Packets.TURNOVER.getPacketType())));
+            timerIsRunning = false;
+            try {
+              Thread.sleep(150);
+            } catch (InterruptedException e) {
+              e.printStackTrace();
+            }
+            game.nextPlayer();
           }
         },
         game.getSettings().getTimeToThink() * 1000L);
@@ -181,7 +191,6 @@ public class Player {
               MoleGames.getMoleGames()
                   .getPacketHandler()
                   .playerMovesMolePacket(moleID, x_end, y_end));
-      hasMoved = true;
       System.out.println(
           "Player with id: "
               + serverClient.getConnectionId()
@@ -194,10 +203,23 @@ public class Player {
               + " y="
               + y_end
               + ".");
-      timer.cancel();
-      timer.purge();
+      canDraw = false;
+      hasMoved = true;
       playerState = PlayerStates.WAIT;
-      game.nextPlayer();
+      if (timerIsRunning) {
+        timer.purge();
+        timer.cancel();
+        System.out.println("player hat in zeit einen move gemacht");
+
+        getServerClient().sendPacket(new Packet(new JSONObject().put("type", Packets.TURNOVER.getPacketType())));
+        try {
+          Thread.sleep(250);
+        } catch (InterruptedException e) {
+          e.printStackTrace();
+        }
+        game.nextPlayer();
+
+      }
     } else {
       System.out.println(
           "Client with id: "
@@ -224,10 +246,14 @@ public class Player {
       return;
     }
     playerState = PlayerStates.MOVE;
-    if (game.getMap().getFloor().getFieldMap().get(List.of(x, y)).isOccupied()
+    if (!game.getMap().getFloor().getFieldMap().containsKey(List.of(x, y))) {
+      serverClient.sendPacket(
+          new Packet(new JSONObject().put("type", Packets.OCCUPIED.getPacketType()).put("values", new JSONObject().put("moleID", moleID).toString())));
+
+    } else if (game.getMap().getFloor().getFieldMap().get(List.of(x, y)).isOccupied()
         || game.getMap().getFloor().getFieldMap().get(List.of(x, y)).isHole()) {
       serverClient.sendPacket(
-          new Packet(new JSONObject().put("type", Packets.OCCUPIED.getPacketType())));
+          new Packet(new JSONObject().put("type", Packets.OCCUPIED.getPacketType()).put("values", new JSONObject().put("moleID", moleID))));
     } else {
       Objects.requireNonNull(getMole(moleID))
           .setField(game.getMap().getFloor().getFieldMap().get(List.of(x, y)));
@@ -242,11 +268,15 @@ public class Player {
               game,
               MoleGames.getMoleGames().getPacketHandler().playerPlacesMolePacket(moleID, x, y));
       game.getMap().printMap();
+      canDraw = false;
       hasMoved = true;
-      timer.cancel();
-      timer.purge();
       playerState = PlayerStates.WAIT;
-      game.nextPlayer();
+      if (timerIsRunning) {
+        timer.purge();
+        timer.cancel();
+        getServerClient().sendPacket(new Packet(new JSONObject().put("type", Packets.TURNOVER.getPacketType())));
+        game.nextPlayer();
+      }
       System.out.println(
           "Player with id: "
               + serverClient.getConnectionId()

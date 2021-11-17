@@ -127,7 +127,7 @@ public class CreateGame {
       json.put("visualEffects", Integer.parseInt(visualEffects.getText()));
     }
     if (!radius.getText().isEmpty()) {
-      object.put("radius", Integer.parseInt(radius.getText()));
+      json.put("radius", Integer.parseInt(radius.getText()));
     }
     if (punishment.getValue() != null) {
       json.put("punishment", Boolean.parseBoolean(punishment.getValue()));
@@ -140,6 +140,14 @@ public class CreateGame {
         .setSystemGameID(MoleGames.getMoleGames().getGameMasterClient().getGameID() + 1);
 
     clearAllComponents();
+
+    try {
+      Thread.sleep(13000);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
+    MoleGames.getMoleGames()
+        .getGameMasterClient().getMasterClientThread().sendPacket(new Packet(new JSONObject().put("type", Packets.GAMESTART.getPacketType()).put("values", new JSONObject().put("gameID", 0).toString())));
   }
 
   private void clearAllComponents() {
@@ -211,12 +219,12 @@ public class CreateGame {
   public void start() throws IOException {
     Stage primaryStage = new Stage();
     location =
-        new File("src/main/java/de/thundergames/gameplay/gamemaster/ui/CreateGame.fxml")
+        new File("src/main/java/de/thundergames/gameplay/ausrichter/ui/CreateGame.fxml")
             .toURI()
             .toURL();
     Parent root = FXMLLoader.load(location);
     initialize();
-    primaryStage.setTitle("LoginScreen");
+    primaryStage.setTitle("CreateGame");
     primaryStage.setResizable(true);
     primaryStage.setScene(new Scene(root));
     primaryStage.show();
