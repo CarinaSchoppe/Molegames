@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for Swtpra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 18.11.21, 10:33 by Carina Latest changes made by Carina on 18.11.21, 10:32
+ * File created on 18.11.21, 10:40 by Carina Latest changes made by Carina on 18.11.21, 10:40
  * All contents of "GameConfiguration" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
@@ -35,7 +35,6 @@ public class GameConfiguration {
     File file = new File("config" + id + ".json");
     id++;
     writer = new FileWriter(file);
-    this.settings = settings;
     writer.write(settings.toString());
     writer.flush();
     writer.close();

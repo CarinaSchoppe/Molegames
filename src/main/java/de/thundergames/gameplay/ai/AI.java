@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for Swtpra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 18.11.21, 10:33 by Carina Latest changes made by Carina on 18.11.21, 10:32
+ * File created on 18.11.21, 10:40 by Carina Latest changes made by Carina on 18.11.21, 10:40
  * All contents of "AI" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
@@ -36,7 +36,6 @@ public class AI extends Client {
   private Map map;
   private int clientID;
 
-
   /**
    * @param ip
    * @param port
@@ -67,7 +66,6 @@ public class AI extends Client {
     }
   }
 
-
   public Map getMap() {
     return map;
   }
@@ -80,11 +78,9 @@ public class AI extends Client {
     return playerMolesInHoles;
   }
 
-
   public AIPacketHandler getAIPacketHandler() {
     return (AIPacketHandler) clientPacketHandler;
   }
-
 
   public HashMap<Integer, List<Integer>> getMolePositions() {
     return molePositions;
