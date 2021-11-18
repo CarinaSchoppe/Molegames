@@ -1,10 +1,8 @@
 /*
  * Copyright Notice for Swtpra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 15.11.21, 15:51 by Carina
- * Latest changes made by Carina on 15.11.21, 15:10
- * All contents of "Settings" are protected by copyright.
- * The copyright law, unless expressly indicated otherwise, is
+ * File created on 18.11.21, 10:33 by Carina Latest changes made by Carina on 18.11.21, 10:32
+ * All contents of "Settings" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -16,7 +14,6 @@ package de.thundergames.playmechanics.util;
 import de.thundergames.filehandling.GameConfiguration;
 import de.thundergames.playmechanics.game.Game;
 import de.thundergames.playmechanics.map.Map;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -28,7 +25,7 @@ public class Settings {
   /*
 
   ausrichter kann spieler zu einem spiel zuweisen
-
+  TODO: hier mehr adden! und dann auch implementieren
    */
 
   final GameConfiguration gameConfiguration;
@@ -45,9 +42,9 @@ public class Settings {
   private int maxFloors = 4;
   private int radius = 4;
 
-  public Settings(@NotNull final Game game) throws IOException {
+  public Settings(@NotNull final Game game) {
     this.game = game;
-    this.gameConfiguration = new GameConfiguration(toJsonConfiguration());
+    this.gameConfiguration = new GameConfiguration();
   }
 
   /**

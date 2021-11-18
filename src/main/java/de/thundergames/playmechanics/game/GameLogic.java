@@ -1,10 +1,8 @@
 /*
  * Copyright Notice for Swtpra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 15.11.21, 10:33 by Carina
- * Latest changes made by Carina on 15.11.21, 10:26
- * All contents of "GameLogic" are protected by copyright.
- * The copyright law, unless expressly indicated otherwise, is
+ * File created on 18.11.21, 10:33 by Carina Latest changes made by Carina on 18.11.21, 10:32
+ * All contents of "GameLogic" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -101,6 +99,11 @@ public class GameLogic {
     return false;
   }
 
+  /**
+   * @param map
+   * @author Carina
+   * @use checks if a player has won when hes the only one in a single hole foor
+   */
   public void checkWinning(Map map) {
     var holes = 0;
     Field field = null;
@@ -119,10 +122,20 @@ public class GameLogic {
 
   }
 
+  /**
+   * @param player
+   * @author Carina
+   * @use handles the player and the game when won
+   */
   public void win(Player player) {
     MoleGames.getMoleGames().getServer().sendToAllGameClients(player.getGame(), new Packet(new JSONObject().put("type", Packets.WINS.getPacketType()).put("values", new JSONObject().put("playerName", player.getServerClient().getClientName()).toString())));
   }
 
+  /**
+   * @param player
+   * @author Carina
+   * @use handles the punishment / performs it to the player doing an invalid move
+   */
   public void performPunishment(Player player) {
     if (!player.getGame().getSettings().getPunishment().equals(Punishments.NOTHING)) {
     }

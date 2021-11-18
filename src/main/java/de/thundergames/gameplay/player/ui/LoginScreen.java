@@ -1,10 +1,8 @@
 /*
  * Copyright Notice for Swtpra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 15.11.21, 16:08 by Carina
- * Latest changes made by Carina on 15.11.21, 16:02
- * All contents of "LoginScreen" are protected by copyright.
- * The copyright law, unless expressly indicated otherwise, is
+ * File created on 18.11.21, 10:33 by Carina Latest changes made by Carina on 18.11.21, 10:32
+ * All contents of "LoginScreen" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -51,6 +49,12 @@ public class LoginScreen extends Application {
 
   private boolean loggedIn = false;
 
+
+  /**
+   * @param event
+   * @author Carina
+   * @use handles the login button when clicked
+   */
   @FXML
   void onLoginButtonClick(ActionEvent event) {
     String ip = this.ip.getText();

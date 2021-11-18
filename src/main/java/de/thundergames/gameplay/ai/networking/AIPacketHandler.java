@@ -1,3 +1,14 @@
+/*
+ * Copyright Notice for Swtpra10
+ * Copyright (c) at ThunderGames | SwtPra10 2021
+ * File created on 18.11.21, 10:33 by Carina Latest changes made by Carina on 18.11.21, 10:32
+ * All contents of "AIPacketHandler" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * at ThunderGames | SwtPra10. All rights reserved
+ * Any type of duplication, distribution, rental, sale, award,
+ * Public accessibility or other use
+ * requires the express written consent of ThunderGames | SwtPra10.
+ */
+
 package de.thundergames.gameplay.ai.networking;
 
 import de.thundergames.gameplay.ai.AI;
@@ -12,70 +23,234 @@ import org.json.JSONObject;
 
 public class AIPacketHandler extends ClientPacketHandler {
 
+  //TODO: aufteilen in einzelne methoden
+
+  /**
+   * @param ai     the instance of the AI
+   * @param packet the packet recieved
+   * @throws PacketNotExistsException
+   * @author Carina
+   * @use the logic for the AI to decide what to do depending on the packet recieved
+   */
   public void handlePacket(@NotNull final AI ai, @NotNull final Packet packet) throws PacketNotExistsException {
     if (packet.getPacketType().equalsIgnoreCase(Packets.NEXTPLAYER.getPacketType())) {
-      System.out.println("AI: Im on turn!");
-      ai.setDraw(true);
-      try {
-        Thread.sleep(500);
-      } catch (InterruptedException e) {
-        e.printStackTrace();
-      }
-      ai.getLogic().handlePlacement(ai);
+      nextPlayerPacket(ai, packet);
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.DRAWNCARD.getPacketType())) {
-      ai.setCardValue(true);
-      ai.setCard(packet.getValues().getInt("card"));
-      try {
-        Thread.sleep(500);
-      } catch (InterruptedException e) {
-        e.printStackTrace();
-      }
-      ai.getLogic().moveMoles(ai);
+      drawnCardPacket(ai, packet);
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.JOINGAME.getPacketType())) {
-      System.out.println("AI: Joined the game with id: " + ai.getGameID());
+      joinGamePacket(ai, packet);
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.MESSAGE.getPacketType())) {
-      if (!packet.getValues().isEmpty() && !packet.getValues().toString().equalsIgnoreCase("{}")) {
-        System.out.println("Server sended: " + packet.getValues().getString("message"));
-
-      }
+      messagePacket(packet);
     } else if (packet.getPacketType().equals(Packets.MOLES.getPacketType())) {
-      for (int i = 0; i < packet.getValues().getJSONArray("moles").toList().size(); i++) {
-        ai.getMoleIDs().add(packet.getValues().getJSONArray("moles").getInt(i));
-        System.out.println("MoleID is: " + ai.getMoleIDs().get(i));
-      }
+      molePacket(ai, packet);
     } else if (packet.getPacketType().equals(Packets.OCCUPIED.getPacketType())) {
-      if (!ai.isPlacedMoles()) {
-        System.out.println("AI: placing mole again!");
-        ai.getLogic().placeMoles(ai, packet.getValues().getInt("moleID"));
-      }
+      isOccupiedPacket(ai, packet);
     } else if (packet.getPacketType().equals(Packets.INGAME.getPacketType())) {
-      System.out.println("Server sended: game with gameID: " + packet.getValues().getInt("gameID") + " is allready running!");
+      inGamePacket(ai, packet);
     } else if (packet.getPacketType().equals(Packets.LOGIN.getPacketType())) {
-      ai.setClientID(packet.getValues().getInt("id"));
-      ai.getClientThread().sendPacket(new Packet(new JSONObject().put("type", Packets.JOINGAME.getPacketType()).put("values", new JSONObject().put("gameID", ai.getGameID()).put("connectType", "player").put("ai", true).toString())));
+      loginPacket(ai, packet);
     } else if (packet.getPacketType().equals(Packets.TURNOVER.getPacketType())) {
-      System.out.println("AIs turn is over");
-      ai.setDraw(false);
+      turnOverPacket(ai, packet);
     } else if (packet.getPacketType().equals(Packets.PLACEMOLE.getPacketType())) {
-      System.out.println("A mole was placed");
+      molePlacePacket(ai, packet);
     } else if (packet.getPacketType().equals(Packets.NOTEXISTS.getPacketType())) {
-      System.out.println("AI: The game you want to connect to does not exist!");
+      gameNotExistsPacket(ai, packet);
     } else if (packet.getPacketType().equals(Packets.INVALIDMOVE.getPacketType())) {
-      System.out.println("AI has done in invalid move!");
+      invalidMovePacket(ai, packet);
     } else if (packet.getPacketType().equals(Packets.MOVEMOLE.getPacketType())) {
-      System.out.println("AI: A mole has been moved!");
+      moveMolePacket(ai, packet);
     } else if (packet.getPacketType().equals(Packets.MAP.getPacketType())) {
-      System.out.println("AI: Recieved a new Map update!");
-      ai.setMap(ai.getAiUtil().createMapFromJson(ai, packet.getValues()));
-      ai.getMap().printMap();
+      mapPacket(ai, packet);
     } else if (packet.getPacketType().equals(Packets.FULL.getPacketType())) {
-      System.out.println("AI: the game I should join is allready full!");
-
+      fullPacket();
     } else {
       throw new PacketNotExistsException(packet.getPacketType());
     }
   }
 
+  /**
+   * @param ai
+   * @param packet
+   * @author Carina
+   * @use the packet send from the server that the AI is now on the turn
+   */
+  private void nextPlayerPacket(@NotNull final AI ai, @NotNull final Packet packet) {
+    System.out.println("AI: Im on turn!");
+    ai.setDraw(true);
+    try {
+      Thread.sleep(250);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
+    ai.getLogic().handlePlacement(ai);
+  }
+
+  /**
+   * @param ai
+   * @param packet
+   * @author Carina
+   * @use the card drawn by the AI and send from the server to the client as a response
+   */
+  private void drawnCardPacket(@NotNull final AI ai, @NotNull final Packet packet) {
+    ai.setCard(packet.getValues().getInt("card"));
+    try {
+      Thread.sleep(250);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
+    ai.getLogic().moveMoles(ai);
+  }
+
+  /**
+   * @param ai
+   * @param packet
+   * @author Carina
+   * @use is send when the AI joins a game with the AIs gameID
+   * @see AI
+   */
+  private void joinGamePacket(@NotNull final AI ai, @NotNull final Packet packet) {
+    System.out.println("AI: Joined the game with id: " + ai.getGameID());
+  }
+
+  /**
+   * @param packet
+   * @author Carina
+   * @use handles the message send by the Server
+   */
+  private void messagePacket(@NotNull final Packet packet) {
+    if (!packet.getValues().isEmpty() && !packet.getValues().toString().equalsIgnoreCase("{}")) {
+      System.out.println("Server sended: " + packet.getValues().getString("message"));
+    }
+  }
+
+  /**
+   * @param ai
+   * @param packet
+   * @author Carina
+   * @use is triggered when the server sends the moleIDs to the clients
+   */
+  private void molePacket(@NotNull final AI ai, @NotNull final Packet packet) {
+    for (int i = 0; i < packet.getValues().getJSONArray("moles").toList().size(); i++) {
+      ai.getMoleIDs().add(packet.getValues().getJSONArray("moles").getInt(i));
+      System.out.println("MoleID is: " + ai.getMoleIDs().get(i));
+    }
+  }
+
+  /**
+   * @param ai
+   * @param packet
+   * @author Carina
+   * @use triggers when the AI wants to do something with a mole on an occupied field
+   */
+  private void isOccupiedPacket(@NotNull final AI ai, @NotNull final Packet packet) {
+    if (!ai.isPlacedMoles()) {
+      System.out.println("AI: placing mole again!");
+      ai.getLogic().placeMoles(ai, packet.getValues().getInt("moleID"));
+    }
+  }
+
+  /**
+   * @param ai
+   * @param packet
+   * @author Carina
+   * @use fires when the AI tries to join a allready running game
+   */
+  private void inGamePacket(@NotNull final AI ai, @NotNull final Packet packet) {
+    System.out.println("Server sended: game with gameID: " + packet.getValues().getInt("gameID") + " is allready running!");
+
+  }
+
+  /**
+   * @param ai
+   * @param packet
+   * @author Carina
+   * @use the loginPacket after connecting to the server
+   */
+  private void loginPacket(@NotNull final AI ai, @NotNull final Packet packet) {
+    ai.setClientID(packet.getValues().getInt("id"));
+    ai.getClientThread().sendPacket(new Packet(new JSONObject().put("type", Packets.JOINGAME.getPacketType()).put("values", new JSONObject().put("gameID", ai.getGameID()).put("connectType", "player").put("ai", true).toString())));
+  }
+
+  /**
+   * @param ai
+   * @param packet
+   * @author Carina
+   * @use handles when the AIs turn is over
+   */
+  private void turnOverPacket(@NotNull final AI ai, @NotNull final Packet packet) {
+    System.out.println("AIs turn is over");
+    ai.setDraw(false);
+  }
+
+  /**
+   * @param ai
+   * @param packet
+   * @author Carina
+   * @use handles when a mole was placed by a player
+   */
+  private void molePlacePacket(@NotNull final AI ai, @NotNull final Packet packet) {
+    System.out.println("A mole was placed");
+  }
+
+  /**
+   * @param ai
+   * @param packet
+   * @author Carina
+   * @use trigged when the AI tries to join a non existing game with the gameID
+   */
+  private void gameNotExistsPacket(@NotNull final AI ai, @NotNull final Packet packet) {
+    System.out.println("AI: The game you want to connect to does not exist!");
+  }
+
+  /**
+   * @param ai
+   * @param packet
+   * @author Carina
+   * @use is triggered when the AI did an invalid move with a mole
+   */
+  private void invalidMovePacket(@NotNull final AI ai, @NotNull final Packet packet) {
+    System.out.println("AI has done in invalid move!");
+
+  }
+
+  /**
+   * @param ai
+   * @param packet
+   * @author Carina
+   * @use handles when a player has moved a mole
+   */
+  private void moveMolePacket(@NotNull final AI ai, @NotNull final Packet packet) {
+    System.out.println("AI: A mole has been moved!");
+
+  }
+
+  /**
+   * @param ai
+   * @param packet
+   * @author Carina
+   * @use handles when the map was updated and send to the AI
+   */
+  private void mapPacket(@NotNull final AI ai, @NotNull final Packet packet) {
+    System.out.println("AI: Recieved a new Map update!");
+    ai.setMap(ai.getAiUtil().createMapFromJson(ai, packet.getValues()));
+    ai.getMap().printMap();
+  }
+
+  /**
+   * @author Carina
+   * @use triggers when a game that the AI wants to join is full
+   */
+  private void fullPacket() {
+    System.out.println("AI: the game I should join is allready full!");
+  }
+
+  /**
+   * @param clientThread
+   * @param object
+   * @param json
+   * @author Carina
+   * @use sends a random Positon to the Server to place or move a mole to this position
+   */
   public void randomPositionPacket(@NotNull final ClientThread clientThread, @NotNull final JSONObject object, @NotNull final JSONObject json) {
     System.out.println("AI: Does random move");
     var xZahl = new Random().nextInt(11);

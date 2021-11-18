@@ -1,17 +1,12 @@
 /*
- *
- *  *     / **
- *  *      *   Copyright Notice                                             *
- *  *      *   Copyright (c) SwtPra10 | ThunderGames 2021                         *
- *  *      *   Created: 05.05.2018 / 11:59                                  *
- *  *      *   All contents of this source text are protected by copyright. *
- *  *      *   The copyright law, unless expressly indicated otherwise, is  *
- *  *      *   at SwtPra10 | ThunderGames. All rights reserved                    *
- *  *      *   Any type of duplication, distribution, rental, sale, award,  *
- *  *      *   Public accessibility or other use                            *
- *  *      *   Requires the express written consent of SwtPra10 | ThunderGames.   *
- *  *      **
- *  *
+ * Copyright Notice for Swtpra10
+ * Copyright (c) at ThunderGames | SwtPra10 2021
+ * File created on 18.11.21, 10:33 by Carina Latest changes made by Carina on 18.11.21, 10:32
+ * All contents of "AI" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * at ThunderGames | SwtPra10. All rights reserved
+ * Any type of duplication, distribution, rental, sale, award,
+ * Public accessibility or other use
+ * requires the express written consent of ThunderGames | SwtPra10.
  */
 package de.thundergames.gameplay.ai;
 
@@ -39,8 +34,16 @@ public class AI extends Client {
   private boolean placedMoles;
   private int placedMolesAmount = 0;
   private Map map;
+  private int clientID;
 
 
+  /**
+   * @param ip
+   * @param port
+   * @param gameID
+   * @author Carina
+   * @use creates the AI instance needed to run the AI
+   */
   public AI(@NotNull final String ip, final int port, final int gameID) {
     super(port, ip, "AI");
     this.gameID = gameID;
@@ -49,6 +52,10 @@ public class AI extends Client {
     aiUtil = new AIUtil();
   }
 
+  /**
+   * @author Carina
+   * @use connects the AI to the server
+   */
   @Override
   public void connect() {
     try {
@@ -78,8 +85,6 @@ public class AI extends Client {
     return (AIPacketHandler) clientPacketHandler;
   }
 
-  public void setCardValue(boolean cardValueArrived) {
-  }
 
   public HashMap<Integer, List<Integer>> getMolePositions() {
     return molePositions;
@@ -130,6 +135,7 @@ public class AI extends Client {
   }
 
   public void setClientID(int clientID) {
+    this.clientID = clientID;
   }
 
   public ArrayList<Integer> getPlayerMolesOnField() {

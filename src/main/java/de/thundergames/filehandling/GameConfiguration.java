@@ -1,10 +1,8 @@
 /*
  * Copyright Notice for Swtpra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 15.11.21, 10:33 by Carina
- * Latest changes made by Carina on 15.11.21, 10:26
- * All contents of "GameConfiguration" are protected by copyright.
- * The copyright law, unless expressly indicated otherwise, is
+ * File created on 18.11.21, 10:33 by Carina Latest changes made by Carina on 18.11.21, 10:32
+ * All contents of "GameConfiguration" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -23,10 +21,8 @@ public class GameConfiguration {
 
   private static int id = 0;
   private FileWriter writer;
-  private JSONObject settings;
 
-  public GameConfiguration(@NotNull final JSONObject json) throws IOException {
-    settings = json;
+  public GameConfiguration() {
   }
 
   /**

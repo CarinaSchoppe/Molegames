@@ -1,10 +1,8 @@
 /*
  * Copyright Notice for Swtpra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 15.11.21, 16:08 by Carina
- * Latest changes made by Carina on 15.11.21, 16:07
- * All contents of "ClientPacketHandler" are protected by copyright.
- * The copyright law, unless expressly indicated otherwise, is
+ * File created on 18.11.21, 10:33 by Carina Latest changes made by Carina on 18.11.21, 10:32
+ * All contents of "ClientPacketHandler" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -21,6 +19,8 @@ import org.json.JSONException;
 
 public class ClientPacketHandler {
 
+  //TODO: Aufteilen in einzelne Methoden
+
   /**
    * @param client the client instance that will be passed to the method for handling
    * @param packet the packet that got send by the server
@@ -31,40 +31,164 @@ public class ClientPacketHandler {
   public void handlePacket(@NotNull final Client client, @NotNull final Packet packet)
       throws PacketNotExistsException {
     if (packet.getPacketType().equalsIgnoreCase(Packets.LOGIN.getPacketType())) {
-      // ID : 3
-      var id = packet.getValues().getInt("id");
-      client.setId(id);
-      System.out.println("Client ID: " + id);
-      client.getClientThread().setID(id);
+      loginPacket(client, packet);
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.JOINGAME.getPacketType())) {
-      System.out.println("Client joined game with id: " + packet.getValues().getInt("gameID"));
-      client.setGameID(packet.getValues().getInt("gameID"));
+      joinGamePacket(client, packet);
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.MESSAGE.getPacketType())) {
-      try {
-        System.out.println("Server sended: " + packet.getValues().getString("message"));
-      } catch (JSONException e) {
-        System.out.println("Server sended: " + "no packet content!");
-      }
+      handleMessagePacket(client, packet);
     } else if (packet.getPacketType().equals(Packets.INVALIDMOVE.getPacketType())) {
-      System.out.println("Server: Youve done an invalid move");
+      handleInvalidMovePacket(client, packet);
     } else if (packet.getPacketType().equals(Packets.PLACEMOLE.getPacketType())) {
+      handlePlaceMolePacket(client, packet);
     } else if (packet.getPacketType().equals(Packets.MOVEMOLE.getPacketType())) {
+      handleMoveMolePacket(client, packet);
     } else if (packet.getPacketType().equals(Packets.MOLES.getPacketType())) {
-      for (int i = 0; i < packet.getValues().getJSONArray("moles").toList().size(); i++) {
-        client.getMoleIDs().add(packet.getValues().getJSONArray("moles").getInt(i));
-      }
+      handleMolesPacket(client, packet);
     } else if (packet.getPacketType().equals(Packets.NAME.getPacketType())) {
-      client.setName(packet.getValues().getString("name"));
+      handleNamePacket(client, packet);
     } else if (packet.getPacketType().equals(Packets.NEXTPLAYER.getPacketType())) {
-      System.out.println("Server sended: You are now on the turn!");
+      nextPlayerPacket(client, packet);
     } else if (packet.getPacketType().equals(Packets.TURNOVER.getPacketType())) {
+      turnOverPacket(client, packet);
     } else if (packet.getPacketType().equals(Packets.DRAWNCARD.getPacketType())) {
-      System.out.println("Server sended: Your card value is: " + packet.getValues().getInt("card"));
+      handleDrawnCardPacket(client, packet);
     } else if (packet.getPacketType().equals(Packets.NOTEXISTS.getPacketType())) {
-      System.out.println("The game you wanted to join does not exist!");
+      handleNotExistsPacket(client, packet);
     } else {
       throw new PacketNotExistsException(
           "Packet with type: " + packet.getJsonPacket().toString() + " does not exists");
     }
+  }
+
+  /**
+   * @param client
+   * @param packet
+   * @author Carina
+   * @use handles the login of a player into the serverr
+   */
+  private void loginPacket(@NotNull final Client client, @NotNull final Packet packet) {
+    var id = packet.getValues().getInt("id");
+    client.setId(id);
+    System.out.println("Client ID: " + id);
+    client.getClientThread().setID(id);
+  }
+
+  /**
+   * @param client
+   * @param packet
+   * @author Carina
+   * @use handles the joining of a player into the game
+   */
+  private void joinGamePacket(@NotNull final Client client, @NotNull final Packet packet) {
+    System.out.println("Client joined game with id: " + packet.getValues().getInt("gameID"));
+    client.setGameID(packet.getValues().getInt("gameID"));
+  }
+
+  /**
+   * @param client
+   * @param packet
+   * @author Carina
+   * @use handles the message that was send with the packet
+   */
+  private void handleMessagePacket(@NotNull final Client client, @NotNull final Packet packet) {
+    try {
+      System.out.println("Server sended: " + packet.getValues().getString("message"));
+    } catch (JSONException e) {
+      System.out.println("Server sended: " + "no packet content!");
+    }
+  }
+
+  /**
+   * @param client
+   * @param packet
+   * @author Carina
+   * @use handles the packet if the player did in invalid move
+   */
+  private void handleInvalidMovePacket(@NotNull final Client client, @NotNull final Packet packet) {
+    System.out.println("Server: Youve done an invalid move");
+  }
+
+  /**
+   * @param client
+   * @param packet
+   * @author Carina
+   * @use handles the placement of a mole by a player
+   */
+  private void handlePlaceMolePacket(@NotNull final Client client, @NotNull final Packet packet) {
+    {
+
+    }
+
+  }
+
+  /**
+   * @param client
+   * @param packet
+   * @author Carina
+   * @use handles the movement if a mole was moved by any player
+   */
+  private void handleMoveMolePacket(@NotNull final Client client, @NotNull final Packet packet) {
+  }
+
+  /**
+   * @param client
+   * @param packet handles the packet when the server gives the player its moleIDs
+   * @author Carina
+   */
+  private void handleMolesPacket(@NotNull final Client client, @NotNull final Packet packet) {
+    for (int i = 0; i < packet.getValues().getJSONArray("moles").toList().size(); i++) {
+      client.getMoleIDs().add(packet.getValues().getJSONArray("moles").getInt(i));
+    }
+  }
+
+  /**
+   * @param client
+   * @param packet
+   * @author Carina
+   * @use will be handled when the server sends the user its name
+   */
+  private void handleNamePacket(@NotNull final Client client, @NotNull final Packet packet) {
+    client.setName(packet.getValues().getString("name"));
+  }
+
+  /**
+   * @param client
+   * @param packet
+   * @author Carina
+   * @use handles the packet when the player is on the turn
+   */
+  private void nextPlayerPacket(@NotNull final Client client, @NotNull final Packet packet) {
+    System.out.println("Server sended: You are now on the turn!");
+  }
+
+  /**
+   * @param client
+   * @param packet
+   * @author Carina
+   * @use is send when the server sais the players Turn is over.
+   */
+  private void turnOverPacket(@NotNull final Client client, @NotNull final Packet packet) {
+
+  }
+
+  /**
+   * @param client
+   * @param packet
+   * @author Carina
+   * @use handles the packet if something does not exist
+   */
+  private void handleNotExistsPacket(@NotNull final Client client, @NotNull final Packet packet) {
+    System.out.println("The game you wanted to join does not exist!");
+
+  }
+
+  /**
+   * @param client
+   * @param packet
+   * @author Carina
+   * @use handles the packet if a drawn card was send
+   */
+  private void handleDrawnCardPacket(@NotNull final Client client, @NotNull final Packet packet) {
+    System.out.println("Server sended: Your card value is: " + packet.getValues().getInt("card"));
   }
 }

@@ -1,10 +1,8 @@
 /*
  * Copyright Notice for Swtpra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 15.11.21, 16:08 by Carina
- * Latest changes made by Carina on 15.11.21, 16:07
- * All contents of "PacketHandler" are protected by copyright.
- * The copyright law, unless expressly indicated otherwise, is
+ * File created on 18.11.21, 10:33 by Carina Latest changes made by Carina on 18.11.21, 10:14
+ * All contents of "PacketHandler" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -82,37 +80,47 @@ public class PacketHandler {
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.GAMERESUME.getPacketType())) {
       resumeGamePacket(packet);
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.NAME.getPacketType())) {
-      if (!MoleGames.getMoleGames()
-          .getServer()
-          .getConnectionNames()
-          .containsKey(packet.getValues().getString("name"))) {
-        clientConnection.setClientName(packet.getValues().getString("name"));
-      } else {
-        for (var i = 1; i < MoleGames.getMoleGames().getServer().getConnectionNames().size(); i++) {
-          if (!MoleGames.getMoleGames()
-              .getServer()
-              .getConnectionNames()
-              .containsKey(packet.getValues().getString("name") + i)) {
-            clientConnection.setClientName(packet.getValues().getString("name") + i);
-
-            break;
-          }
-        }
-      }
-      var object = new JSONObject();
-      object.put("type", Packets.NAME.getPacketType());
-      var json = new JSONObject();
-      json.put("name", clientConnection.getClientName());
-      object.put("values", json.toString());
-      clientConnection.sendPacket(new Packet(object));
-      System.out.println(
-          "Client with id: "
-              + clientConnection.getConnectionId()
-              + " got the name:"
-              + packet.getValues().getString("name"));
+      handleNamePacket(clientConnection, packet);
     } else {
       throw new PacketNotExistsException("Packet not exists");
     }
+  }
+
+  /**
+   * @param clientConnection
+   * @param packet
+   * @author Carina
+   * @use handles the name packet send by a player and checks if the name is aviable or not and if not adds a number to it e.g. test1
+   */
+  private void handleNamePacket(@NotNull final ServerThread clientConnection, @NotNull final Packet packet) {
+    if (!MoleGames.getMoleGames()
+        .getServer()
+        .getConnectionNames()
+        .containsKey(packet.getValues().getString("name"))) {
+      clientConnection.setClientName(packet.getValues().getString("name"));
+    } else {
+      for (var i = 1; i < MoleGames.getMoleGames().getServer().getConnectionNames().size(); i++) {
+        if (!MoleGames.getMoleGames()
+            .getServer()
+            .getConnectionNames()
+            .containsKey(packet.getValues().getString("name") + i)) {
+          clientConnection.setClientName(packet.getValues().getString("name") + i);
+
+          break;
+        }
+      }
+    }
+    var object = new JSONObject();
+    object.put("type", Packets.NAME.getPacketType());
+    var json = new JSONObject();
+    json.put("name", clientConnection.getClientName());
+    object.put("values", json.toString());
+    clientConnection.sendPacket(new Packet(object));
+    System.out.println(
+        "Client with id: "
+            + clientConnection.getConnectionId()
+            + " got the name:"
+            + packet.getValues().getString("name"));
   }
 
   /**

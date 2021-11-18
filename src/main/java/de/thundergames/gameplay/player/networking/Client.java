@@ -1,10 +1,8 @@
 /*
  * Copyright Notice for Swtpra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 15.11.21, 15:51 by Carina
- * Latest changes made by Carina on 15.11.21, 15:10
- * All contents of "Client" are protected by copyright.
- * The copyright law, unless expressly indicated otherwise, is
+ * File created on 18.11.21, 10:33 by Carina Latest changes made by Carina on 18.11.21, 10:32
+ * All contents of "Client" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -32,6 +30,13 @@ public class Client extends Network {
   private int id;
   private int gameID;
 
+  /**
+   * @param port
+   * @param ip
+   * @param name
+   * @author Carina
+   * @use creates a basic client instance
+   */
   public Client(final int port, @NotNull final String ip, @NotNull final String name) {
     super(port, ip);
     this.name = name;
@@ -46,13 +51,6 @@ public class Client extends Network {
     return client;
   }
 
-
-  public static void main(String[] args) throws InterruptedException {
-
-    Client client = new Client(5000, "127.0.0.1", "Spieler");
-    client.create();
-    client.test();
-  }
 
   /**
    * @author Carina
