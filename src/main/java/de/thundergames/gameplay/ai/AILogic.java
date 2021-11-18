@@ -61,7 +61,7 @@ public class AILogic {
           json.put("x", ai.getMolePositions().get(moleID).get(0) - ai.getCard()).put("y", ai.getMolePositions().get(moleID).get(1) - ai.getCard());
         }
       }
-      object.put("values", json.toString());
+      object.put("value", json.toString());
       System.out.println("AI: moving from: " + ai.getMolePositions().get(moleID).get(0) + ", " + ai.getMolePositions().get(moleID).get(1) + " to " + json.getInt("x") + ", " + json.getInt("y"));
       ai.getClientThread().sendPacket(new Packet(object));
       System.out.println("ai does smart move");

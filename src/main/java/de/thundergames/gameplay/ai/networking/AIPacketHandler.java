@@ -23,8 +23,6 @@ import org.json.JSONObject;
 
 public class AIPacketHandler extends ClientPacketHandler {
 
-  //TODO: aufteilen in einzelne methoden
-
   /**
    * @param ai     the instance of the AI
    * @param packet the packet recieved
@@ -47,8 +45,9 @@ public class AIPacketHandler extends ClientPacketHandler {
       isOccupiedPacket(ai, packet);
     } else if (packet.getPacketType().equals(Packets.INGAME.getPacketType())) {
       inGamePacket(ai, packet);
-    } else if (packet.getPacketType().equals(Packets.LOGIN.getPacketType())) {
-      loginPacket(ai, packet);
+    } else if (packet.getPacketType().equals(Packets.WELCOME.getPacketType())) {
+      welcomePacket(ai, packet);
+      ai.getClientThread().sendPacket(new Packet(new JSONObject().put("type", Packets.JOINGAME.getPacketType()).put("value", new JSONObject().put("gameID", ai.getGameID()).put("connectType", "player").put("ai", true).toString())));
     } else if (packet.getPacketType().equals(Packets.TURNOVER.getPacketType())) {
       turnOverPacket(ai, packet);
     } else if (packet.getPacketType().equals(Packets.PLACEMOLE.getPacketType())) {
@@ -160,16 +159,7 @@ public class AIPacketHandler extends ClientPacketHandler {
 
   }
 
-  /**
-   * @param ai
-   * @param packet
-   * @author Carina
-   * @use the loginPacket after connecting to the server
-   */
-  private void loginPacket(@NotNull final AI ai, @NotNull final Packet packet) {
-    ai.setClientID(packet.getValues().getInt("id"));
-    ai.getClientThread().sendPacket(new Packet(new JSONObject().put("type", Packets.JOINGAME.getPacketType()).put("values", new JSONObject().put("gameID", ai.getGameID()).put("connectType", "player").put("ai", true).toString())));
-  }
+
 
   /**
    * @param ai
@@ -257,7 +247,7 @@ public class AIPacketHandler extends ClientPacketHandler {
     var yZahl = new Random().nextInt(11);
     json.put("x", xZahl);
     json.put("y", yZahl);
-    object.put("values", json.toString());
+    object.put("value", json.toString());
     System.out.println("AI: moved / placed a mole at: " + xZahl + " " + yZahl);
     clientThread.sendPacket(new Packet(object));
   }

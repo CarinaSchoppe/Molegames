@@ -12,7 +12,7 @@
 package de.thundergames.gameplay.ai;
 
 import de.thundergames.playmechanics.map.Field;
-import de.thundergames.playmechanics.map.Floors;
+import de.thundergames.playmechanics.map.Floor;
 import de.thundergames.playmechanics.map.Map;
 import java.util.List;
 import org.jetbrains.annotations.NotNull;
@@ -31,7 +31,7 @@ public class AIUtil {
   public Map createMapFromJson(@NotNull final AI ai, @NotNull final JSONObject json) {
     var radius = json.getInt("radius");
     var map = new Map(radius);
-    var floor = new Floors(0, map, 0);
+    var floor = new Floor(0, map, 0);
     // Top left to mid right
     floor.getFields().clear();
     for (var y = 0; y < radius; y++) {
@@ -56,7 +56,7 @@ public class AIUtil {
     for (var field : map.getFloor().getFields()) {
       if (field.isOccupied()) {
         if (ai.getPlayerMolesOnField().contains(field.getMole()) || ai.getPlayerMolesInHoles().contains(field.getMole())) {
-          ai.getMolePositions().put(field.getMole(), field.getId());
+          ai.getMolePositions().put(field.getMole(), field.getField());
         }
       }
     }
@@ -92,9 +92,9 @@ public class AIUtil {
    * @param floor the floor of the map with all that fields
    * @param field the field itself
    * @author Carina
-   * @use sets the items on the field if its occupied and when by what moleID, a hole, a double draw field etc.
+   * @use sets the items on the field if its occupied and when by what moleID, a hole, a draw again fields etc.
    */
-  private void setFieldItems(@NotNull final JSONObject json, @NotNull final Floors floor, @NotNull final Field field) {
+  private void setFieldItems(@NotNull final JSONObject json, @NotNull final Floor floor, @NotNull final Field field) {
     field.setOccupied(json.getBoolean("field["
         + field.getX()
         + ","
@@ -105,11 +105,11 @@ public class AIUtil {
         + field.getY()
         + "].mole"));
 
-    field.setDoubleMove(json.getBoolean("field["
+    field.setDrawAgainField(json.getBoolean("field["
         + field.getX()
         + ","
         + field.getY()
-        + "].doubleMove"));
+        + "].drawAgainField"));
     field.setHole(json.getBoolean("field["
         + field.getX()
         + ","
@@ -128,10 +128,10 @@ public class AIUtil {
    */
   public List<Integer> getDistance(@NotNull final AI ai, @NotNull final Field field, final int moleID) {
     var mole = ai.getMap().getFloor().getFieldMap().get(ai.getMolePositions().get(moleID));
-    var x = mole.getId().get(0);
-    var y = mole.getId().get(1);
-    var distanceX = Math.abs(field.getId().get(0) - x);
-    var distanceY = Math.abs(field.getId().get(1) - y);
+    var x = mole.getField().get(0);
+    var y = mole.getField().get(1);
+    var distanceX = Math.abs(field.getField().get(0) - x);
+    var distanceY = Math.abs(field.getField().get(1) - y);
     return List.of(distanceX, distanceY);
   }
 

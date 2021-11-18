@@ -11,12 +11,14 @@
 package de.thundergames.playmechanics.game;
 
 import de.thundergames.MoleGames;
+import de.thundergames.filehandling.Score;
 import de.thundergames.networking.server.PacketHandler;
 import de.thundergames.networking.server.ServerThread;
 import de.thundergames.networking.util.Packet;
 import de.thundergames.networking.util.Packets;
 import de.thundergames.playmechanics.map.Field;
 import de.thundergames.playmechanics.map.Map;
+import de.thundergames.playmechanics.util.Datetime;
 import de.thundergames.playmechanics.util.Mole;
 import de.thundergames.playmechanics.util.Player;
 import de.thundergames.playmechanics.util.Settings;
@@ -26,23 +28,26 @@ import java.util.HashMap;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
 
-public class Game {
+public class Game   {
+  private GameStates currentGameState = GameStates.NOT_STARTED;
 
-  private final int gameID;
   private final ArrayList<Player> players = new ArrayList<>();
   private final HashMap<ServerThread, Player> clientPlayersMap = new HashMap<>();
   private final HashMap<Player, Mole> moleMap = new HashMap<>();
   private final HashMap<Integer, Mole> moleIDMap = new HashMap<>();
   private final ArrayList<ServerThread> AIs = new ArrayList<>();
-  private GameStates currentGameState = GameStates.LOBBY;
   private Map map;
   private Settings settings;
   private Player currentPlayer = null;
   private int moleID = 0;
   private boolean gamePaused = false;
   private boolean allMolesPlaced = false;
-
-  public Game(final int gameID) {
+  private final int gameID;
+  private int currentPlayerCount;
+  private Datetime startDateTime;
+  private Datetime finishDateTime;
+  private Score result;
+  public Game(int gameID) {
     this.gameID = gameID;
   }
 
@@ -62,11 +67,16 @@ public class Game {
    */
   public void startGame() {
     // TODO: Run a Game!
-    if (currentGameState == GameStates.LOBBY) {
-      currentGameState = GameStates.INGAME;
-      System.out.println("Starting a game with the gameID: " + gameID);
+    if (getCurrentGameState() == GameStates.NOT_STARTED) {
+      setCurrentGameState(GameStates.STARTED);
+      setStartDateTime(new Datetime());
+      System.out.println("Starting a game with the gameID: " + getGameID());
       nextPlayer();
     }
+  }
+
+  public void endGame(){
+    setFinishDateTime(new Datetime());
   }
 
   /**
@@ -74,6 +84,7 @@ public class Game {
    * @use forces the game to end
    */
   public void forceGameEnd() {
+    endGame();
   }
 
   public boolean isGamePaused() {
@@ -121,15 +132,16 @@ public class Game {
    * @author Carina
    */
   public void joinGame(@NotNull final Player client, final boolean spectator) {
-    if (currentGameState.equals(GameStates.LOBBY) && !spectator) {
+    if (getCurrentGameState().equals(GameStates.NOT_STARTED) && !spectator) {
       clientPlayersMap.put(client.getServerClient(), client);
       players.add(client);
+      setCurrentPlayerCount(players.size());
       for (var connection : getAIs()) {
         getMap().sendMap(connection);
       }
-      client.getServerClient().sendPacket(PacketHandler.joinedGamePacket(gameID, spectator ? "player" : "spectator"));
+      client.getServerClient().sendPacket(PacketHandler.joinedGamePacket(getGameID(), spectator ? "player" : "spectator"));
       MoleGames.getMoleGames().getGameHandler().getClientGames().put(client.getServerClient(), this);
-    } else if (!currentGameState.equals(GameStates.LOBBY) && !spectator) {
+    } else if (!getCurrentGameState().equals(GameStates.NOT_STARTED) && !spectator) {
       client.getServerClient().sendPacket(new Packet(new JSONObject().put("type", Packets.FULL.getPacketType())));
     }
   }
@@ -152,10 +164,25 @@ public class Game {
         map.getFloor().getOccupied().remove(field);
         player.getMoles().clear();
         players.remove(player);
+        setCurrentPlayerCount(players.size());
         clientPlayersMap.remove(player.getServerClient());
       }
     }
   }
+
+  public String toJsonObject(){
+    var jsonObject = new JSONObject();
+    jsonObject.put("gameID", getGameID());
+    jsonObject.put("currentPlayerCount", getCurrentPlayerCount());
+    jsonObject.put("maxPlayerCount", settings.getMaxPlayers());
+    jsonObject.put("status", getCurrentGameState().getName());
+    jsonObject.put("startDateTime", getStartDateTime().toString());
+    jsonObject.put("finishDateTime", getFinishDateTime().toString());
+    jsonObject.put("result", result.toJsonObject());
+    return jsonObject.toString();
+  }
+
+
 
   public ArrayList<Player> getClients() {
     return players;
@@ -165,9 +192,6 @@ public class Game {
     return settings;
   }
 
-  public GameStates getCurrentGameState() {
-    return currentGameState;
-  }
 
   public HashMap<Integer, Mole> getMoleIDMap() {
     return moleIDMap;
@@ -210,11 +234,58 @@ public class Game {
     return allMolesPlaced;
   }
 
-  public void setAllMolesPlaced(boolean allMolesPlaced) {
-    this.allMolesPlaced = allMolesPlaced;
+  public GameStates getCurrentGameState() {
+    return currentGameState;
   }
+
+
+  public void setCurrentGameState(GameStates currentGameState) {
+    this.currentGameState = currentGameState;
+  }
+
+
+  public int getCurrentPlayerCount() {
+    return currentPlayerCount;
+  }
+
+  public void setCurrentPlayerCount(int currentPlayerCount) {
+    this.currentPlayerCount = currentPlayerCount;
+  }
+
+  public Score getResult() {
+    return result;
+  }
+
+  public void setResult(Score result) {
+    this.result = result;
+  }
+
+  public Datetime getFinishDateTime() {
+    return finishDateTime;
+  }
+
+  public void setFinishDateTime(Datetime finishDateTime) {
+    this.finishDateTime = finishDateTime;
+  }
+
+  public Datetime getStartDateTime() {
+    return startDateTime;
+  }
+
+  public void setStartDateTime(Datetime startDateTime) {
+    this.startDateTime = startDateTime;
+  }
+
 
   public int getGameID() {
     return gameID;
   }
+
+
+
+
+  public void setAllMolesPlaced(boolean allMolesPlaced) {
+    this.allMolesPlaced = allMolesPlaced;
+  }
+
 }

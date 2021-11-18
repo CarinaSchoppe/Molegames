@@ -34,4 +34,6 @@ public enum Directions {
   public int getValue() {
     return value;
   }
+
+
 }

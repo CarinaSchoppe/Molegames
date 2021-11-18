@@ -33,14 +33,16 @@ public class Settings {
   private final Game game;
   private final HashMap<Integer, Integer> pointsForMoleInHoleForFloor = new HashMap<>() {
   };
-  private final HashMap<Integer, Integer> pointsPerFloorForDoubleDraw = new HashMap<>();
-  private int timeToThink = 5;
-  private boolean randomDraw = false;
+  private int numberOfMoles;
+  private final HashMap<Integer, Integer> pointsPerFloorForDrawAgainFields = new HashMap<>();
+  private int turnTime = 5;
+  private boolean pullDiscsOrdered = false;
   private Punishments punishment = Punishments.NOTHING;
-  private int maxPlayers = 4;
-  private int moleAmount = 4;
   private int maxFloors = 4;
   private int radius = 4;
+  private int maxPlayerCount = 0;
+  private final int nextHolePoints = 10; //TODO: mehr implementen! 1
+  private final int visualizationTime = 20;
 
   public Settings(@NotNull final Game game) {
     this.game = game;
@@ -55,20 +57,20 @@ public class Settings {
    * @use updates the map and the Game directly
    */
   public synchronized void updateConfiuration(@NotNull final JSONObject packet) {
-    if (!packet.isNull("randomDraw")) {
-      randomDraw = packet.getBoolean("randomDraw");
+    if (!packet.isNull("pullDiscsOrdered")) {
+      pullDiscsOrdered = packet.getBoolean("pullDiscsOrdered");
     }
     if (!packet.isNull("thinkTime")) {
-      timeToThink = packet.getInt("thinkTime");
+      turnTime = packet.getInt("thinkTime");
     }
-    if (!packet.isNull("punishment")) {
-      punishment = Punishments.getByID(packet.getInt("punishment"));
+    if (!packet.isNull("movePenalty")) {
+      punishment = Punishments.getByName(packet.getString("movePenalty"));
     }
-    if (!packet.isNull("maxPlayers")) {
-      maxPlayers = packet.getInt("maxPlayers");
+    if (!packet.isNull("maxPlayerCount")) {
+      maxPlayerCount = packet.getInt("maxPlayerCount");
     }
-    if (!packet.isNull("moleAmount")) {
-      moleAmount = packet.getInt("moleAmount");
+    if (!packet.isNull("numberOfMoles")) {
+      numberOfMoles = packet.getInt("numberOfMoles");
     }
     if (!packet.isNull("maxFloors")) {
       maxFloors = packet.getInt("maxFloors");
@@ -85,11 +87,11 @@ public class Settings {
             Integer.parseInt(entry), Integer.parseInt(map.get(entry).toString()));
       }
     }
-    if (!packet.isNull("pointsPerFloorForDoubleDraw")) {
-      pointsPerFloorForDoubleDraw.clear();
-      var map = packet.getJSONObject("pointsPerFloorForDoubleDraw").toMap();
+    if (!packet.isNull("pointsPerDrawAgainFields")) {
+      pointsPerFloorForDrawAgainFields.clear();
+      var map = packet.getJSONObject("pointsPerDrawAgainFields").toMap();
       for (var entry : map.keySet()) {
-        pointsPerFloorForDoubleDraw.put(
+        pointsPerFloorForDrawAgainFields.put(
             Integer.parseInt(entry), Integer.parseInt(map.get(entry).toString()));
       }
     }
@@ -107,23 +109,26 @@ public class Settings {
    * @author Carina
    * @use this method is called in the GameMasterClient to the Server to convert the Settings to a jsonObject to save that on the system
    */
-  public JSONObject toJsonConfiguration() {
-    JSONObject jsonObject = new JSONObject();
-    jsonObject.put("randomDraw", randomDraw);
-    jsonObject.put("timeToThink", timeToThink);
-    jsonObject.put("punishment", punishment.getID());
-    jsonObject.put("maxPlayers", maxPlayers);
-    jsonObject.put("moleAmount", moleAmount);
-    jsonObject.put("maxFloors", maxFloors);
-    jsonObject.put("radius", radius);
-    jsonObject.put("cards", cards);
-    jsonObject.put("pointsMoleFloor", pointsForMoleInHoleForFloor);
-    jsonObject.put("pointsPerFloorForDoubleDraw", pointsPerFloorForDoubleDraw);
-    return jsonObject;
+  public String toJsonConfiguration() {
+    var object = new JSONObject();
+    var floorArray = new String[game.getMap().getFloors().size()];
+    for (int i = 0; i < game.getMap().getFloors().size(); i++) {
+      floorArray[i] = game.getMap().getFloors().get(i).toJsonObject() + "";
+    }
+    object.put("maxPlayerCount", maxPlayerCount);
+    object.put("radius", radius);
+    object.put("numberOfMoles", numberOfMoles);
+    object.put("turnTime", turnTime);
+    object.put("levels", floorArray);
+    object.put("pullDiscsOrdered", pullDiscsOrdered);
+    object.put("pullDiscs", cards.toArray());
+    object.put("visualisationTime", visualizationTime);
+    object.put("movePenalty", punishment.getName());
+    return object.toString();
   }
 
-  public int getMoleAmount() {
-    return moleAmount;
+  public int getNumberOfMoles() {
+    return numberOfMoles;
   }
 
   public int getMaxFloors() {
@@ -134,12 +139,12 @@ public class Settings {
     return radius;
   }
 
-  public boolean isRandomDraw() {
-    return randomDraw;
+  public boolean isPullDiscsOrdered() {
+    return pullDiscsOrdered;
   }
 
-  public int getTimeToThink() {
-    return timeToThink;
+  public int getTurnTime() {
+    return turnTime;
   }
 
   public ArrayList<Integer> getCards() {
@@ -147,7 +152,11 @@ public class Settings {
   }
 
   public int getMaxPlayers() {
-    return maxPlayers;
+    return maxPlayerCount;
+  }
+
+  public int getNextHolePoints() {
+    return nextHolePoints;
   }
 
   public Punishments getPunishment() {

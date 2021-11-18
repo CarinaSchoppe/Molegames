@@ -35,6 +35,8 @@ public class GameMasterPacketHandler extends ClientPacketHandler {
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.DISCONNECT.getPacketType())) {
       System.out.println("[GameMasterPacketHandler] Disconnect received");
       client.getMasterClientThread().disconnect();
+    } else if (packet.getPacketType().equalsIgnoreCase(Packets.WELCOME.getPacketType())) {
+      welcomePacket(client, packet);
     }
   }
 }

@@ -128,7 +128,7 @@ public class GameLogic {
    * @use handles the player and the game when won
    */
   public void win(Player player) {
-    MoleGames.getMoleGames().getServer().sendToAllGameClients(player.getGame(), new Packet(new JSONObject().put("type", Packets.WINS.getPacketType()).put("values", new JSONObject().put("playerName", player.getServerClient().getClientName()).toString())));
+    MoleGames.getMoleGames().getServer().sendToAllGameClients(player.getGame(), new Packet(new JSONObject().put("type", Packets.WINS.getPacketType()).put("value", new JSONObject().put("playerName", player.getServerClient().getClientName()).toString())));
   }
 
   /**

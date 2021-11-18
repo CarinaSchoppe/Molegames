@@ -132,7 +132,7 @@ public abstract class NetworkThread extends Thread {
                   object.put("type", Packets.MESSAGE.getPacketType());
                   var json = new JSONObject();
                   json.put("message", message);
-                  object.put("values", json.toString());
+                  object.put("value", json.toString());
                   sendPacket(new Packet(object));
                 } else {
                   for (var iterator =
@@ -142,7 +142,7 @@ public abstract class NetworkThread extends Thread {
                     object.put("type", Packets.MESSAGE.getPacketType());
                     var json = new JSONObject();
                     json.put("message", message);
-                    object.put("values", json.toString());
+                    object.put("value", json.toString());
                     clientSocket.sendPacket(new Packet(object));
                   }
                 }
@@ -204,7 +204,7 @@ public abstract class NetworkThread extends Thread {
    */
   public abstract void disconnect();
 
-  public int getConnectionId() {
+  public int getConnectionID() {
     return id;
   }
 }

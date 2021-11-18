@@ -36,7 +36,7 @@ public class Player {
   private boolean timerIsRunning = false;
   private boolean canDraw = false;
   private boolean hasMoved = true;
-  private PlayerStates playerState;
+  private int points;
 
   /**
    * @param client the serverClient connection established by the Server
@@ -49,7 +49,8 @@ public class Player {
   public Player(@NotNull final ServerThread client, @NotNull final Game game) {
     this.serverClient = client;
     this.game = game;
-    this.cards = new ArrayList<>(game.getSettings().getCards());
+    this.cards = new ArrayList<>();
+    cards.addAll(game.getSettings().getCards());
   }
 
   /**
@@ -59,9 +60,20 @@ public class Player {
    */
   public void nextCard() {
     drawCard = cards.get(0);
-    var card = drawCard;
     cards.remove(0);
-    cards.add(card);
+    refillCards();
+  }
+
+  public void refillCards() {
+    if (cards.isEmpty()) {
+      cards.addAll(game.getSettings().getCards());
+    }
+  }
+
+  public void takeCard(int cardValue) {
+    drawCard = cardValue;
+    cards.remove(cardValue);
+    refillCards();
   }
 
   /**
@@ -70,9 +82,8 @@ public class Player {
    * @see Player
    */
   public synchronized Player create() {
-    playerState = PlayerStates.JOIN;
     var moleIDs = new ArrayList<Integer>();
-    for (int i = 0; i < game.getSettings().getMoleAmount(); i++) {
+    for (int i = 0; i < game.getSettings().getNumberOfMoles(); i++) {
       var mole = new Mole(game.getMoleID(), this);
       moles.add(mole);
       game.getMoleMap().put(this, mole);
@@ -90,7 +101,6 @@ public class Player {
    * @see Settings
    */
   public void startThinkTimer() {
-    playerState = PlayerStates.MOVE;
     hasMoved = false;
     timer = new Timer();
     canDraw = true;
@@ -101,13 +111,12 @@ public class Player {
           public void run() {
             canDraw = false;
             hasMoved = true;
-            playerState = PlayerStates.WAIT;
             getServerClient().sendPacket(new Packet(new JSONObject().put("type", Packets.TURNOVER.getPacketType())));
             timerIsRunning = false;
             game.nextPlayer();
           }
         },
-        game.getSettings().getTimeToThink() * 1000L);
+        game.getSettings().getTurnTime() * 1000L);
   }
 
   /**
@@ -117,11 +126,10 @@ public class Player {
    * @see Settings if the card should be taken in order or randomly if cards a empty refill by the oder
    */
   public void drawACard() {
-    playerState = PlayerStates.DRAW;
     if (!game.getCurrentPlayer().equals(this) || hasMoved || !canDraw) {
       return;
     }
-    if (!game.getSettings().isRandomDraw()) {
+    if (!game.getSettings().isPullDiscsOrdered()) {
       nextCard();
     } else {
       drawCard = cards.get(0);
@@ -148,7 +156,6 @@ public class Player {
     if (!game.getCurrentPlayer().equals(this) || hasMoved || getMole(moleID) == null) {
       return;
     }
-    playerState = PlayerStates.MOVE;
     if (MoleGames.getMoleGames()
         .getGameLogic()
         .wasLegalMove(
@@ -156,7 +163,8 @@ public class Player {
             List.of(x_end, y_end),
             drawCard,
             game.getMap())) { // TODO: drawCard - 3
-      Objects.requireNonNull(getMole(moleID)).setField(game.getMap().getFloor().getFieldMap().get(List.of(x_end, y_end)));
+      var mole = getMole(moleID);
+      Objects.requireNonNull(mole).setField(game.getMap().getFloor().getFieldMap().get(List.of(x_end, y_end)));
       game.getMap()
           .getFloor()
           .getOccupied()
@@ -184,7 +192,7 @@ public class Player {
                   .playerMovesMolePacket(moleID, x_end, y_end));
       System.out.println(
           "Player with id: "
-              + serverClient.getConnectionId()
+              + serverClient.getConnectionID()
               + " has moved his mole from: x="
               + x_start
               + " y="
@@ -194,23 +202,12 @@ public class Player {
               + " y="
               + y_end
               + " with a card=" + drawCard + "." + "\n\n");
-      canDraw = false;
-      hasMoved = true;
-      playerState = PlayerStates.WAIT;
-      for (var connection : game.getAIs()) {
-        game.getMap().sendMap(connection);
-      }
-      if (timerIsRunning) {
-        timer.purge();
-        timer.cancel();
-        getServerClient().sendPacket(new Packet(new JSONObject().put("type", Packets.TURNOVER.getPacketType())));
-        game.nextPlayer();
-      }
+      handleTurnAfterAction();
 
     } else {
       System.out.println(
           "Client with id: "
-              + serverClient.getConnectionId()
+              + serverClient.getConnectionID()
               + " has done in invalid move Punishment: "
               + game.getSettings().getPunishment() +
               " player tried to move from X,Y: [" + x_start + "," + y_start + "] to X,Y: [" + x_end + "," + y_end + "] with a card of " + drawCard + "\n\n");
@@ -237,18 +234,18 @@ public class Player {
     if (!game.getCurrentPlayer().equals(this) || hasMoved || getMole(moleID) == null) {
       return;
     }
-    playerState = PlayerStates.MOVE;
     if (!game.getMap().getFloor().getFieldMap().containsKey(List.of(x, y))) {
       serverClient.sendPacket(
-          new Packet(new JSONObject().put("type", Packets.OCCUPIED.getPacketType()).put("values", new JSONObject().put("moleID", moleID).toString())));
+          new Packet(new JSONObject().put("type", Packets.OCCUPIED.getPacketType()).put("value", new JSONObject().put("moleID", moleID).toString())));
       return;
     }
     if (game.getMap().getFloor().getFieldMap().get(List.of(x, y)).isOccupied()
         || game.getMap().getFloor().getFieldMap().get(List.of(x, y)).isHole()) {
       serverClient.sendPacket(
-          new Packet(new JSONObject().put("type", Packets.OCCUPIED.getPacketType()).put("values", new JSONObject().put("moleID", moleID).toString())));
+          new Packet(new JSONObject().put("type", Packets.OCCUPIED.getPacketType()).put("value", new JSONObject().put("moleID", moleID).toString())));
     } else {
-      Objects.requireNonNull(getMole(moleID))
+      var mole = getMole(moleID);
+      Objects.requireNonNull(mole)
           .setField(game.getMap().getFloor().getFieldMap().get(List.of(x, y)));
       game.getMap()
           .getFloor()
@@ -261,22 +258,11 @@ public class Player {
               game,
               MoleGames.getMoleGames().getPacketHandler().playerPlacesMolePacket(moleID, x, y));
       game.getMap().printMap();
-      canDraw = false;
-      hasMoved = true;
-      playerState = PlayerStates.WAIT;
-      for (var connection : game.getAIs()) {
-        game.getMap().sendMap(connection);
-      }
-      if (timerIsRunning) {
-        timer.purge();
-        timer.cancel();
-        getServerClient().sendPacket(new Packet(new JSONObject().put("type", Packets.TURNOVER.getPacketType())));
-        game.nextPlayer();
-      }
+      handleTurnAfterAction();
 
       System.out.println(
           "Player with id: "
-              + serverClient.getConnectionId()
+              + serverClient.getConnectionID()
               + " has placed his mole on x="
               + x
               + " y="
@@ -284,6 +270,20 @@ public class Player {
               + "." + "\n\n");
     }
 
+  }
+
+  private void handleTurnAfterAction() {
+    canDraw = false;
+    hasMoved = true;
+    for (var connection : game.getAIs()) {
+      game.getMap().sendMap(connection);
+    }
+    if (timerIsRunning) {
+      timer.purge();
+      timer.cancel();
+      getServerClient().sendPacket(new Packet(new JSONObject().put("type", Packets.TURNOVER.getPacketType())));
+      game.nextPlayer();
+    }
   }
 
   /**
@@ -303,8 +303,31 @@ public class Player {
     return null;
   }
 
+  /**
+   * @return the json Object of the player for the network
+   * @author Carina
+   */
+  public String toJsonObject() {
+    var object = new JSONObject();
+    object.put("name", getServerClient().getClientName());
+    object.put("clientID", getServerClient().getConnectionID());
+    return object.toString();
+  }
+
+  public int getPoints() {
+    return points;
+  }
+
+  public void setPoints(int points) {
+    this.points = points;
+  }
+
   public Game getGame() {
     return game;
+  }
+
+  public List<Integer> getCards() {
+    return cards;
   }
 
   public ArrayList<Mole> getMoles() {
@@ -314,4 +337,6 @@ public class Player {
   public ServerThread getServerClient() {
     return serverClient;
   }
+
+
 }

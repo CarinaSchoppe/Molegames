@@ -14,19 +14,20 @@ import de.thundergames.playmechanics.util.Mole;
 import de.thundergames.playmechanics.util.Player;
 import java.util.List;
 import org.jetbrains.annotations.NotNull;
+import org.json.JSONObject;
 
 public class Field {
 
-  private final List<Integer> id;
-  private boolean doubleMove = false;
+  private final List<Integer> field;
+  private boolean drawAgainField = false;
   private boolean occupied;
   private boolean hole;
   private int mole;
-  private Floors floor;
+  private Floor floor;
 
 
-  public Field(@NotNull final List<Integer> id) {
-    this.id = id;
+  public Field(@NotNull final List<Integer> field) {
+    this.field = field;
   }
 
 
@@ -39,26 +40,26 @@ public class Field {
   public String toString() {
     if (isOccupied()) {
       return "field x: "
-          + id.get(0)
+          + field.get(0)
           + " y: "
-          + id.get(1)
+          + field.get(1)
           + isOccupied()
           + " occupied by "
           + floor.getMap().getGame().getMoleIDMap().get(mole).getPlayer().getServerClient().getClientName()
           + " hole"
           + isHole()
-          + " doubleMove"
-          + isDoubleMove();
+          + " drawAgainField"
+          + isDrawAgainField();
     } else {
       return "field x: "
-          + id.get(0)
+          + field.get(0)
           + " y: "
-          + id.get(1)
+          + field.get(1)
           + isOccupied()
           + " hole"
           + isHole()
-          + " doubleMove"
-          + isDoubleMove();
+          + " drawAgainField"
+          + isDrawAgainField();
     }
   }
 
@@ -78,14 +79,23 @@ public class Field {
     }
     this.occupied = occupied;
   }
-
+  /**
+   * @author Carina
+   * @return the json Object of the field(x,y) for the network
+   */
+  public String toJsonPosition(){
+    var object = new JSONObject();
+    object.put("x", field.get(0));
+    object.put("y", field.get(1));
+    return object.toString();
+  }
 
   public int getY() {
-    return id.get(1);
+    return field.get(1);
   }
 
   public int getX() {
-    return id.get(0);
+    return field.get(0);
   }
 
   public boolean isOccupied() {
@@ -104,23 +114,25 @@ public class Field {
     return mole;
   }
 
-  public List<Integer> getId() {
-    return id;
+  public List<Integer> getField() {
+    return field;
   }
 
-  public Floors getFloor() {
+  public Floor getFloor() {
     return floor;
   }
 
-  public void setFloor(Floors floor) {
+  public void setFloor(Floor floor) {
     this.floor = floor;
   }
 
-  public boolean isDoubleMove() {
-    return doubleMove;
+  public boolean isDrawAgainField() {
+    return drawAgainField;
   }
 
-  public void setDoubleMove(boolean doubleMove) {
-    this.doubleMove = doubleMove;
+  public void setDrawAgainField(boolean drawAgainField) {
+    this.drawAgainField = drawAgainField;
   }
+
+
 }

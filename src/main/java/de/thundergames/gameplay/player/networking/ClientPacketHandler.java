@@ -16,6 +16,7 @@ import de.thundergames.networking.util.PacketNotExistsException;
 import de.thundergames.networking.util.Packets;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 public class ClientPacketHandler {
 
@@ -30,8 +31,8 @@ public class ClientPacketHandler {
    */
   public void handlePacket(@NotNull final Client client, @NotNull final Packet packet)
       throws PacketNotExistsException {
-    if (packet.getPacketType().equalsIgnoreCase(Packets.LOGIN.getPacketType())) {
-      loginPacket(client, packet);
+    if (packet.getPacketType().equalsIgnoreCase(Packets.WELCOME.getPacketType())) {
+      welcomePacket(client, packet);
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.JOINGAME.getPacketType())) {
       joinGamePacket(client, packet);
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.MESSAGE.getPacketType())) {
@@ -44,9 +45,7 @@ public class ClientPacketHandler {
       handleMoveMolePacket(client, packet);
     } else if (packet.getPacketType().equals(Packets.MOLES.getPacketType())) {
       handleMolesPacket(client, packet);
-    } else if (packet.getPacketType().equals(Packets.NAME.getPacketType())) {
-      handleNamePacket(client, packet);
-    } else if (packet.getPacketType().equals(Packets.NEXTPLAYER.getPacketType())) {
+    }  else if (packet.getPacketType().equals(Packets.NEXTPLAYER.getPacketType())) {
       nextPlayerPacket(client, packet);
     } else if (packet.getPacketType().equals(Packets.TURNOVER.getPacketType())) {
       turnOverPacket(client, packet);
@@ -60,17 +59,38 @@ public class ClientPacketHandler {
     }
   }
 
+
+  /**
+   * @author Carina
+   * @param clientConnection
+   * @param name
+   * @use sends the login packet to the server and wants response with welcome
+   */
+  public void loginPacket(@NotNull ClientThread clientConnection, String name){
+    clientConnection.sendPacket(new Packet(new JSONObject().put("type", Packets.LOGIN.getPacketType()).put("value", new JSONObject().put("name", name).toString())));
+  }
+
   /**
    * @param client
    * @param packet
    * @author Carina
-   * @use handles the login of a player into the serverr
+   * @use send by server to welcome new client connection with the clientID
    */
-  private void loginPacket(@NotNull final Client client, @NotNull final Packet packet) {
-    var id = packet.getValues().getInt("id");
+  public void welcomePacket(@NotNull final Client client, @NotNull final Packet packet) {
+    var id = packet.getValues().getInt("clientID");
     client.setId(id);
     System.out.println("Client ID: " + id);
     client.getClientThread().setID(id);
+  }
+
+
+  /**
+   * @author Carina
+   * @param clientConnection
+   * @use send to the server when a connection will be removed
+   */
+  public void logoutPacket(@NotNull ClientThread clientConnection){
+    clientConnection.sendPacket(new Packet(new JSONObject().put("type", Packets.LOGOUT.getPacketType())));
   }
 
   /**
@@ -141,15 +161,7 @@ public class ClientPacketHandler {
     }
   }
 
-  /**
-   * @param client
-   * @param packet
-   * @author Carina
-   * @use will be handled when the server sends the user its name
-   */
-  private void handleNamePacket(@NotNull final Client client, @NotNull final Packet packet) {
-    client.setName(packet.getValues().getString("name"));
-  }
+
 
   /**
    * @param client

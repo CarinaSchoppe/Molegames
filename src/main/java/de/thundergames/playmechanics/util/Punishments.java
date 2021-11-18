@@ -11,31 +11,31 @@
 package de.thundergames.playmechanics.util;
 
 public enum Punishments {
-  NOTHING(0),
-  KICK(1),
-  POINTS(2);
+  NOTHING("NOTHING"),
+  KICK("KICK"),
+  POINTS("POINT_DEDUCTION");
 
-  private final int id;
+  private final String name;
 
-  Punishments(final int id) {
-    this.id = id;
+  Punishments(final String name) {
+    this.name = name;
   }
 
   /**
-   * @param id the id of the punishment
+   * @param name the id of the punishment
    * @return the punishment with the given id
    * @author Carina
    */
-  public static synchronized Punishments getByID(final int id) {
+  public static synchronized Punishments getByName(final String name) {
     for (Punishments punishment : Punishments.values()) {
-      if (punishment.getID() == id) {
+      if (punishment.getName() == name) {
         return punishment;
       }
     }
     return null;
   }
 
-  public int getID() {
-    return id;
+  public String getName() {
+    return name;
   }
 }

@@ -40,9 +40,7 @@ public class LoginScreen extends Application {
   @FXML
   private TextField port;
 
-  public static void main(String[] args) {
-    launch(args);
-  }
+
 
   @FXML
   void onLogin(ActionEvent event) throws IOException {

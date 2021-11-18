@@ -10,25 +10,32 @@
  */
 package de.thundergames.playmechanics.game;
 
+import org.jetbrains.annotations.NotNull;
+
 /**
  * @author Carina
  * @use the GameStats that a de.thundergames.game can have
  * @see Game as the class using the GameStates
  */
 public enum GameStates {
-  LOBBY(0),
-  PREGAME(1),
-  INGAME(2),
-  WINNINGSTATE(3),
-  RESETSTATE(4);
 
-  private final int id;
+  NOT_STARTED("NOT_STARTED"),
+  STARTED("STARTED"),
+  PAUSED("PAUSED"),
+  OVER("OVER");
 
-  GameStates(final int id) {
-    this.id = id;
+  private final String name;
+
+  GameStates(@NotNull final String name) {
+    this.name = name;
   }
 
-  public int getId() {
-    return id;
+  public String getName() {
+    return name;
+  }
+
+  @Override
+  public String toString() {
+    return name;
   }
 }

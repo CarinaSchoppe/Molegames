@@ -69,7 +69,7 @@ public class CreateGame {
   @FXML
   private TextField thinkTime;
   @FXML
-  private CheckBox randomDraw;
+  private CheckBox pullDiscsOrdered;
   @FXML
   private TextField visualEffects;
 
@@ -104,7 +104,7 @@ public class CreateGame {
     object.put("type", Packets.CREATEGAME.getPacketType());
     var json = new JSONObject();
     json.put("gameID", MoleGames.getMoleGames().getGameMasterClient().getGameID());
-    object.put("values", json.toString());
+    object.put("value", json.toString());
     var packet = new Packet(object);
     if (GameMasterClient.getClientInstance() != null) {
       GameMasterClient.getClientInstance().getMasterClientThread().sendPacket(packet);
@@ -115,7 +115,7 @@ public class CreateGame {
       json.put("maxPlayers", Integer.parseInt(playerAmount.getText()));
     }
     if (!molesAmount.getText().isEmpty()) {
-      json.put("moleAmount", Integer.parseInt(molesAmount.getText()));
+      json.put("numberOfMoles", Integer.parseInt(molesAmount.getText()));
     }
     if (!thinkTime.getText().isEmpty()) {
       json.put("thinkTime", Integer.parseInt(thinkTime.getText()));
@@ -130,10 +130,10 @@ public class CreateGame {
       json.put("radius", Integer.parseInt(radius.getText()));
     }
     if (punishment.getValue() != null) {
-      json.put("punishment", Boolean.parseBoolean(punishment.getValue()));
+      json.put("movePenalty", Boolean.parseBoolean(punishment.getValue()));
     }
-    json.put("randomDraw", randomDraw.isSelected());
-    object.put("values", json.toString());
+    json.put("pullDiscsOrdered", pullDiscsOrdered.isSelected());
+    object.put("value", json.toString());
     GameMasterClient.getClientInstance().getMasterClientThread().sendPacket(new Packet(object));
     MoleGames.getMoleGames()
         .getGameMasterClient()
@@ -147,7 +147,7 @@ public class CreateGame {
       e.printStackTrace();
     }
     MoleGames.getMoleGames()
-        .getGameMasterClient().getMasterClientThread().sendPacket(new Packet(new JSONObject().put("type", Packets.GAMESTART.getPacketType()).put("values", new JSONObject().put("gameID", MoleGames.getMoleGames().getGameMasterClient().getGameID() - 1).toString())));
+        .getGameMasterClient().getMasterClientThread().sendPacket(new Packet(new JSONObject().put("type", Packets.GAMESTART.getPacketType()).put("value", new JSONObject().put("gameID", MoleGames.getMoleGames().getGameMasterClient().getGameID() - 1).toString())));
   }
 
   private void clearAllComponents() {
@@ -203,8 +203,8 @@ public class CreateGame {
         : "fx:id=\"thinkTime\" was not injected: check your FXML file 'CreateGame.fxml'.";
     assert visualEffects != null
         : "fx:id=\"visualEffects\" was not injected: check your FXML file 'CreateGame.fxml'.";
-    assert randomDraw != null
-        : "fx:id=\"randomDraw\" was not injected: check your FXML file 'CreateGame.fxml'.";
+    assert pullDiscsOrdered != null
+        : "fx:id=\"pullDiscsOrdered\" was not injected: check your FXML file 'CreateGame.fxml'.";
   }
 
   public void create(GameMasterClient client) {

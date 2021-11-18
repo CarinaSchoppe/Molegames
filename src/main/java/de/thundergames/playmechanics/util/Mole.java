@@ -12,8 +12,9 @@ package de.thundergames.playmechanics.util;
 
 import de.thundergames.playmechanics.map.Field;
 import org.jetbrains.annotations.NotNull;
+import org.json.JSONObject;
 
-public class Mole {
+public class Mole   {
 
   private final int MoleID;
   private final Player player;
@@ -28,8 +29,16 @@ public class Mole {
   public int getMoleID() {
     return MoleID;
   }
-
-
+  /**
+   * @author Carina
+   * @return the json Object of the mole for the network
+   */
+  public String toJsonObject(){
+    var object = new JSONObject();
+    object.put("player", player.toJsonObject());
+    object.put("position", field.toJsonPosition());
+    return object.toString();
+  }
   public Field getField() {
     return field;
   }

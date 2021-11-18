@@ -14,6 +14,7 @@ import de.thundergames.networking.server.ServerThread;
 import de.thundergames.networking.util.Packet;
 import de.thundergames.networking.util.Packets;
 import de.thundergames.playmechanics.game.Game;
+import java.util.ArrayList;
 import java.util.List;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
@@ -22,10 +23,11 @@ public class Map {
 
   private final int radius;
   private int currentFloor;
-  private Floors floor;
+  private Floor floor;
   private int holeAmount; // TODO: here
-  private int doubleDrawFields;
+  private int drawAgainFields;
   private Game game;
+  private final ArrayList<Floor> floors = new ArrayList<>(); //TODO: implement! 1
 
 
   /**
@@ -51,7 +53,7 @@ public class Map {
    * @use creates the mapfield in the comitee decided designway
    */
   public synchronized void createMap() {
-    floor = new Floors(currentFloor, holeAmount, doubleDrawFields, this);
+    floor = new Floor(currentFloor, holeAmount, drawAgainFields, this);
     // Top left to mid right
     floor.getFields().clear();
     for (var y = 0; y < radius; y++) {
@@ -81,18 +83,18 @@ public class Map {
   public synchronized void printMap() {
     int row = 0;
     for (var field : floor.getFields()) {
-      if (field.getId().get(1) != row) {
+      if (field.getField().get(1) != row) {
         System.out.println();
-        row = field.getId().get(1);
+        row = field.getField().get(1);
       }
       System.out.print(
           "Field X: "
-              + field.getId().get(0)
+              + field.getField().get(0)
               + ", Y: "
-              + field.getId().get(1)
+              + field.getField().get(1)
               + " occupied: "
               + field.isOccupied()
-              + ", hole: " + field.isHole() + ", doubledraw: " + field.isDoubleMove() + "    "
+              + ", hole: " + field.isHole() + ", drawAgainField: " + field.isDrawAgainField() + "    "
       );
     }
     System.out.println();
@@ -105,7 +107,7 @@ public class Map {
    * @use sends the map as a packet string to the client
    */
   public void sendMap(ServerThread client) {
-    client.sendPacket(new Packet(new JSONObject().put("type", Packets.MAP.getPacketType()).put("values", toJSONString())));
+    client.sendPacket(new Packet(new JSONObject().put("type", Packets.MAP.getPacketType()).put("value", toJSONString())));
   }
 
   /**
@@ -130,39 +132,39 @@ public class Map {
     for (var field : floor.getFields()) {
       object.put(
           "field["
-              + field.getId().get(0)
+              + field.getField().get(0)
               + ","
-              + field.getId().get(1)
+              + field.getField().get(1)
               + "].occupied",
           field.isOccupied());
       object.put(
           "field["
-              + field.getId().get(0)
+              + field.getField().get(0)
               + ","
-              + field.getId().get(1)
+              + field.getField().get(1)
               + "].hole",
           field.isHole());
       object.put(
           "field["
-              + field.getId().get(0)
+              + field.getField().get(0)
               + ","
-              + field.getId().get(1)
-              + "].doubleMove",
-          field.isDoubleMove());
+              + field.getField().get(1)
+              + "].drawAgainField",
+          field.isDrawAgainField());
       if (field.isOccupied()) {
         object.put(
             "field["
-                + field.getId().get(0)
+                + field.getField().get(0)
                 + ","
-                + field.getId().get(1)
+                + field.getField().get(1)
                 + "].mole",
             field.getFloor().getMap().getGame().getMoleIDMap().get(field.getMole()).getMoleID());
       } else {
         object.put(
             "field["
-                + field.getId().get(0)
+                + field.getField().get(0)
                 + ","
-                + field.getId().get(1)
+                + field.getField().get(1)
                 + "].mole",
             field.getMole());
       }
@@ -174,11 +176,15 @@ public class Map {
     return game;
   }
 
-  public Floors getFloor() {
+  public Floor getFloor() {
     return floor;
   }
 
-  public void setFloor(Floors floor) {
+  public ArrayList<Floor> getFloors() {
+    return floors;
+  }
+
+  public void setFloor(Floor floor) {
     this.floor = floor;
   }
 }

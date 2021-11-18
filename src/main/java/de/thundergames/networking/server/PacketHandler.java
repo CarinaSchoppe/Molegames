@@ -10,6 +10,9 @@
  */
 package de.thundergames.networking.server;
 
+import static de.thundergames.networking.util.Packets.GAMEOVERVIEW;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 import de.thundergames.MoleGames;
 import de.thundergames.networking.util.Packet;
 import de.thundergames.networking.util.PacketNotExistsException;
@@ -17,6 +20,7 @@ import de.thundergames.networking.util.Packets;
 import de.thundergames.playmechanics.game.Game;
 import de.thundergames.playmechanics.game.GameStates;
 import de.thundergames.playmechanics.map.Map;
+import de.thundergames.playmechanics.util.Overview;
 import de.thundergames.playmechanics.util.Player;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -36,7 +40,7 @@ public class PacketHandler {
     var json = new JSONObject();
     json.put("gameID", gameID);
     json.put("connectType", joinType);
-    object.put("values", json.toString());
+    object.put("value", json.toString());
     return new Packet(object);
   }
 
@@ -55,14 +59,14 @@ public class PacketHandler {
       createGamePacket(packet, clientConnection);
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.JOINGAME.getPacketType())) {
       joinGamePacket(packet, clientConnection);
-    } else if (packet.getPacketType().equalsIgnoreCase(Packets.GAMEOVERVIEW.getPacketType())) {
+    } else if (packet.getPacketType().equalsIgnoreCase(GAMEOVERVIEW.getPacketType())) {
       gameOverviewPacket(packet, clientConnection);
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.PLACEMOLE.getPacketType())) {
       placeMolePacket(packet, clientConnection);
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.MOVEMOLE.getPacketType())) {
       moveMolePacket(packet, clientConnection);
-    } else if (packet.getPacketType().equalsIgnoreCase(Packets.TIMETOTHINK.getPacketType())) {
-      timeToThinkPacket(packet, clientConnection);
+    } else if (packet.getPacketType().equalsIgnoreCase(Packets.TURNTIME.getPacketType())) {
+      turnTimePacket(packet, clientConnection);
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.LEAVEGAME.getPacketType())) {
       leaveGamePacket(packet, clientConnection);
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.DRAWCARD.getPacketType())) {
@@ -79,48 +83,69 @@ public class PacketHandler {
       freezeGamePacket(packet);
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.GAMERESUME.getPacketType())) {
       resumeGamePacket(packet);
-    } else if (packet.getPacketType().equalsIgnoreCase(Packets.NAME.getPacketType())) {
-      handleNamePacket(clientConnection, packet);
+    } else if (packet.getPacketType().equalsIgnoreCase(Packets.LOGOUT.getPacketType())) {
+      handleLogoutPacket(clientConnection);
+    } else if (packet.getPacketType().equalsIgnoreCase(Packets.LOGIN.getPacketType())) {
+      handleLoginPacket(clientConnection, packet);
+    } else if (packet.getPacketType().equalsIgnoreCase(Packets.GETOVERVIEW.getPacketType())) {
+      getOverViewPacket(clientConnection);
     } else {
       throw new PacketNotExistsException("Packet not exists");
     }
   }
 
+  public void overviewPacket(@NotNull final ServerThread clientConnection, @NotNull final Overview overview) {
+    var mapper = new ObjectMapper();
+    try {
+      var json = mapper.writeValueAsString(overview);
+      clientConnection.sendPacket(new Packet(new JSONObject().put("type", Packets.GAMEOVERVIEW.getPacketType()).put("value", json)));
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
+
   /**
-   * @param clientConnection
+   * @param client
    * @param packet
    * @author Carina
-   * @use handles the name packet send by a player and checks if the name is aviable or not and if not adds a number to it e.g. test1
+   * @use handles the login packet from the client
    */
-  private void handleNamePacket(@NotNull final ServerThread clientConnection, @NotNull final Packet packet) {
+  private void handleLoginPacket(@NotNull final ServerThread client, @NotNull final Packet packet) {
     if (!MoleGames.getMoleGames()
         .getServer()
         .getConnectionNames()
         .containsKey(packet.getValues().getString("name"))) {
-      clientConnection.setClientName(packet.getValues().getString("name"));
+      client.setClientName(packet.getValues().getString("name"));
+      MoleGames.getMoleGames().getServer().getConnectionNames().put(client.getClientName(), client);
     } else {
       for (var i = 1; i < MoleGames.getMoleGames().getServer().getConnectionNames().size(); i++) {
         if (!MoleGames.getMoleGames()
             .getServer()
             .getConnectionNames()
             .containsKey(packet.getValues().getString("name") + i)) {
-          clientConnection.setClientName(packet.getValues().getString("name") + i);
-
+          client.setClientName(packet.getValues().getString("name") + i);
           break;
         }
       }
     }
-    var object = new JSONObject();
-    object.put("type", Packets.NAME.getPacketType());
-    var json = new JSONObject();
-    json.put("name", clientConnection.getClientName());
-    object.put("values", json.toString());
-    clientConnection.sendPacket(new Packet(object));
-    System.out.println(
-        "Client with id: "
-            + clientConnection.getConnectionId()
-            + " got the name:"
-            + packet.getValues().getString("name"));
+  }
+
+  /**
+   * @param client
+   * @author Carina
+   * @use client requesting the overview
+   */
+  private void getOverViewPacket(@NotNull final ServerThread client) {
+
+  }
+
+  /**
+   * @param clientConnection
+   * @author Carina
+   * @use handles the logout packet for a client
+   */
+  private void handleLogoutPacket(@NotNull final ServerThread clientConnection) {
+
   }
 
   /**
@@ -212,7 +237,7 @@ public class PacketHandler {
     object.put("type", Packets.DRAWNCARD.getPacketType());
     var json = new JSONObject();
     json.put("card", card);
-    object.put("values", json.toString());
+    object.put("value", json.toString());
     clientConnection.sendPacket(new Packet(object));
   }
 
@@ -248,7 +273,7 @@ public class PacketHandler {
     json.put("moleID", moleID);
     json.put("x", x);
     json.put("y", y);
-    object.put("values", json.toString());
+    object.put("value", json.toString());
     return new Packet(object);
   }
 
@@ -267,7 +292,7 @@ public class PacketHandler {
     json.put("moleID", moleID);
     json.put("x", x);
     json.put("y", y);
-    object.put("values", json.toString());
+    object.put("value", json.toString());
     return new Packet(object);
   }
 
@@ -301,8 +326,8 @@ public class PacketHandler {
     var object = new JSONObject();
     object.put("type", Packets.KICKPLAYER.getPacketType());
     var json = new JSONObject();
-    json.put("id", clientConnection.getConnectionId());
-    object.put("values", json.toString());
+    json.put("clientID", clientConnection.getConnectionID());
+    object.put("value", json.toString());
     return new Packet(object);
   }
 
@@ -317,7 +342,7 @@ public class PacketHandler {
     var json = new JSONObject();
 
     json.put("floor", map.getFloor());
-    object.put("values", json.toString());
+    object.put("value", json.toString());
     return new Packet(object);
   }
 
@@ -333,7 +358,7 @@ public class PacketHandler {
     object.put("type", Packets.MOLES.getPacketType());
     var json = new JSONObject();
     json.put("moles", moleIDs);
-    object.put("values", json.toString());
+    object.put("value", json.toString());
     clientConnection.sendPacket(new Packet(object));
   }
 
@@ -354,7 +379,7 @@ public class PacketHandler {
    * @param clientConnection the client that is now thinking for a period of time
    * @author Carina
    */
-  private void timeToThinkPacket(
+  private void turnTimePacket(
       @NotNull final Packet packet, @NotNull final ServerThread clientConnection) {
   }
 
@@ -372,12 +397,12 @@ public class PacketHandler {
    * @author Carina
    * @see de.thundergames.gameplay.player.networking.Client
    */
-  public void loginPacket(@NotNull final ServerThread clientConnection, final int threadID) {
+  public void welcomePacket(@NotNull final ServerThread clientConnection, final int threadID) {
     var object = new JSONObject();
-    object.put("type", Packets.LOGIN.getPacketType());
+    object.put("type", Packets.WELCOME.getPacketType());
     var json = new JSONObject();
-    json.put("id", threadID);
-    object.put("values", json.toString());
+    json.put("clientID", threadID);
+    object.put("value", json.toString());
     clientConnection.sendPacket(new Packet(object));
   }
 
@@ -466,7 +491,7 @@ public class PacketHandler {
               .getGames()
               .get(packet.getValues().getInt("gameID"));
       if (connectType.equalsIgnoreCase("player")) {
-        if (game.getCurrentGameState().equals(GameStates.LOBBY)) {
+        if (game.getCurrentGameState().equals(GameStates.NOT_STARTED)) {
           if (game.getClients().size() < game.getSettings().getMaxPlayers()) {
             if (packet.getValues().getBoolean("ai")) {
               game.getAIs().add(clientConnection);
@@ -477,12 +502,11 @@ public class PacketHandler {
             clientConnection.sendPacket(new Packet(object));
           }
         } else {
-          object.put("type", Packets.INGAME.getPacketType()).put("values", new JSONObject().put("gameID", packet.getValues().getInt("gameID")).toString());
+          object.put("type", Packets.INGAME.getPacketType()).put("value", new JSONObject().put("gameID", packet.getValues().getInt("gameID")).toString());
           clientConnection.sendPacket(new Packet(object));
         }
       } else if (connectType.equalsIgnoreCase("spectator")) {
-        if (!game.getCurrentGameState().equals(GameStates.RESETSTATE)
-            || !game.getCurrentGameState().equals(GameStates.WINNINGSTATE)) {
+        if (!game.getCurrentGameState().equals(GameStates.OVER)) {
           game.joinGame(new Player(clientConnection, game).create(), true);
         }
       }

@@ -12,8 +12,10 @@ package de.thundergames.networking.server;
 
 import de.thundergames.MoleGames;
 import de.thundergames.networking.util.Network;
+import de.thundergames.networking.util.NetworkThread;
 import de.thundergames.networking.util.Packet;
 import de.thundergames.playmechanics.game.Game;
+import de.thundergames.playmechanics.util.Overview;
 import de.thundergames.playmechanics.util.Player;
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -27,7 +29,9 @@ public class Server extends Network {
   private static final HashMap<Integer, ServerThread> threadIds = new HashMap<>();
   private static int threadID = 0;
   private static boolean keyboard = false;
+  private static Overview overview;
   private final HashMap<String, ServerThread> connectionNames = new HashMap<>();
+  private final HashMap<Integer, ServerThread> connectionIDs =new HashMap<>();
 
   /**
    * @param port obvious the Serverport in case of empty localhost
@@ -55,6 +59,14 @@ public class Server extends Network {
     return connectionNames;
   }
 
+  public HashMap<Integer, ServerThread> getConnectionIDs() {
+    return connectionIDs;
+  }
+
+  public static Overview getOverview() {
+    return overview;
+  }
+
   /**
    * @author Carina
    * @use creates the Server starts it and runs the handler for the incomming client-connections
@@ -64,15 +76,17 @@ public class Server extends Network {
   @Override
   public void create() {
     try {
+      overview = new Overview(null, null);
       ServerSocket serverSocket = new ServerSocket(port);
       System.out.println("Server listening on port " + getPort());
       while (true) {
         socket = serverSocket.accept();
         ServerThread serverThread = new ServerThread(socket, threadID);
+        getConnectionIDs().put(threadID, serverThread);
         serverThread.start();
-        MoleGames.getMoleGames().getPacketHandler().loginPacket(serverThread, threadID);
+        MoleGames.getMoleGames().getPacketHandler().welcomePacket(serverThread, threadID);
         getClientThreads().add(serverThread);
-        threadIds.put(serverThread.getConnectionId(), serverThread);
+        threadIds.put(serverThread.getConnectionID(), serverThread);
         threadID++;
       }
     } catch (IOException e) {

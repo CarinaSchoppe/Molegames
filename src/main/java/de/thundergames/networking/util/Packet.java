@@ -30,7 +30,14 @@ public class Packet {
    */
   public Packet(@NotNull final JSONObject json) {
     this.packetType = json.getString("type");
-    this.value = !json.isNull("values") ? new JSONObject(json.getString("values")) : new JSONObject();
+    this.value = !json.isNull("value") ? new JSONObject(json.getString("value")) : new JSONObject();
+    this.jsonPacket = json;
+  }
+
+  public Packet(@NotNull final JSONObject json, @NotNull final JSONObject value) {
+    this.packetType = json.getString("type");
+    this.value = value;
+    json.put("value", value.toString());
     this.jsonPacket = json;
   }
 

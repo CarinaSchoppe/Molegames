@@ -61,6 +61,7 @@ public class AI extends Client {
       socket = new Socket(ip, port);
       clientThread = new AIClientThread(socket, 0, this);
       clientThread.start();
+      clientPacketHandler.loginPacket(clientThread, getName());
     } catch (IOException exception) {
       System.out.println("Is the server running?!");
     }
