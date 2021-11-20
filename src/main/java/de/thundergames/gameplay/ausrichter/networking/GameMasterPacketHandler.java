@@ -14,7 +14,6 @@ package de.thundergames.gameplay.ausrichter.networking;
 import de.thundergames.gameplay.ausrichter.GameMasterClient;
 import de.thundergames.gameplay.player.networking.ClientPacketHandler;
 import de.thundergames.networking.util.Packet;
-import de.thundergames.networking.util.Packets;
 import org.jetbrains.annotations.NotNull;
 
 public class GameMasterPacketHandler extends ClientPacketHandler {
@@ -28,7 +27,7 @@ public class GameMasterPacketHandler extends ClientPacketHandler {
    * @use handles the packets incomming for a GameMasterClient
    */
   public void handlePacket(@NotNull GameMasterClient client, @NotNull Packet packet) {
-    if (packet.getPacketType().equalsIgnoreCase(Packets.MESSAGE.getPacketType())) {
+/*TODO: hier    if (packet.getPacketType().equalsIgnoreCase(Packets.MESSAGE.getPacketType())) {
       if (!packet.getValues().isEmpty() && !packet.getValues().toString().equalsIgnoreCase("{}")) {
         System.out.println("[GameMasterPacketHandler] Packet received: " + packet.getValues());
       }
@@ -38,5 +37,7 @@ public class GameMasterPacketHandler extends ClientPacketHandler {
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.WELCOME.getPacketType())) {
       welcomePacket(client, packet);
     }
+  */
+
   }
 }

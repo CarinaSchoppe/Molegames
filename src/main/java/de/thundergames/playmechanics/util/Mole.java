@@ -11,10 +11,11 @@
 package de.thundergames.playmechanics.util;
 
 import de.thundergames.playmechanics.map.Field;
+import de.thundergames.playmechanics.util.interfaceItems.NetworkField;
+import de.thundergames.playmechanics.util.interfaceItems.NetworkMole;
 import org.jetbrains.annotations.NotNull;
-import org.json.JSONObject;
 
-public class Mole   {
+public class Mole extends NetworkMole {
 
   private final int MoleID;
   private final Player player;
@@ -22,28 +23,23 @@ public class Mole   {
   private Field field;
 
   public Mole(final int moleID, @NotNull final Player player) {
+    super(player, null);
     this.player = player;
     MoleID = moleID;
   }
 
+
+
   public int getMoleID() {
     return MoleID;
   }
-  /**
-   * @author Carina
-   * @return the json Object of the mole for the network
-   */
-  public String toJsonObject(){
-    var object = new JSONObject();
-    object.put("player", player.toJsonObject());
-    object.put("position", field.toJsonPosition());
-    return object.toString();
-  }
-  public Field getField() {
+
+  public Field getMoleField() {
     return field;
   }
 
-  public void setField(Field field) {
+  public void setMoleField(Field field) {
+    setNetworkField(new NetworkField(field.getX(), field.getY()));
     this.field = field;
   }
 

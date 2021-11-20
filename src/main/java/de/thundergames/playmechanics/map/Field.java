@@ -9,24 +9,22 @@
  * requires the express written consent of ThunderGames | SwtPra10.
  */
 package de.thundergames.playmechanics.map;
-
-import de.thundergames.playmechanics.util.Mole;
-import de.thundergames.playmechanics.util.Player;
+import de.thundergames.playmechanics.util.interfaceItems.NetworkField;
 import java.util.List;
 import org.jetbrains.annotations.NotNull;
-import org.json.JSONObject;
 
-public class Field {
+public class Field extends NetworkField {
 
   private final List<Integer> field;
   private boolean drawAgainField = false;
   private boolean occupied;
   private boolean hole;
-  private int mole;
-  private Floor floor;
+  private int moleID;
+  private Map map;
 
 
   public Field(@NotNull final List<Integer> field) {
+    super(field.get(0), field.get(1));
     this.field = field;
   }
 
@@ -45,7 +43,7 @@ public class Field {
           + field.get(1)
           + isOccupied()
           + " occupied by "
-          + floor.getMap().getGame().getMoleIDMap().get(mole).getPlayer().getServerClient().getClientName()
+          + map.getGame().getMoleIDMap().get(moleID).getPlayer().getServerClient().getClientName()
           + " hole"
           + isHole()
           + " drawAgainField"
@@ -64,31 +62,12 @@ public class Field {
   }
 
 
-  /**
-   * @param occupied if a field is occupied by a mole from a player
-   * @param mole     the mole that occupies the field
-   * @author Carina
-   * @see Mole
-   * @see Player
-   */
-  public void setOccupied(final boolean occupied, int mole) {
-    if (occupied) {
-      this.mole = mole;
-    } else {
-      this.mole = -1;
-    }
+  public void setOccupied(final boolean occupied, int moleID) {
+    this.moleID = moleID;
     this.occupied = occupied;
   }
-  /**
-   * @author Carina
-   * @return the json Object of the field(x,y) for the network
-   */
-  public String toJsonPosition(){
-    var object = new JSONObject();
-    object.put("x", field.get(0));
-    object.put("y", field.get(1));
-    return object.toString();
-  }
+
+
 
   public int getY() {
     return field.get(1);
@@ -110,20 +89,20 @@ public class Field {
     this.hole = hole;
   }
 
-  public int getMole() {
-    return mole;
+  public int getMoleID() {
+    return moleID;
   }
 
   public List<Integer> getField() {
     return field;
   }
 
-  public Floor getFloor() {
-    return floor;
+  public Map getMap() {
+    return map;
   }
 
-  public void setFloor(Floor floor) {
-    this.floor = floor;
+  public void setMap(Map floor) {
+    this.map = floor;
   }
 
   public boolean isDrawAgainField() {

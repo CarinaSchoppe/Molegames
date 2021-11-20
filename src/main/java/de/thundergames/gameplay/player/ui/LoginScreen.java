@@ -10,9 +10,6 @@
  */
 package de.thundergames.gameplay.player.ui;
 
-import de.thundergames.gameplay.player.networking.Client;
-import de.thundergames.networking.util.Packet;
-import de.thundergames.networking.util.Packets;
 import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -25,7 +22,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import org.json.JSONObject;
 
 public class LoginScreen extends Application {
 
@@ -47,7 +43,7 @@ public class LoginScreen extends Application {
   @FXML
   private TextField port;
 
-  private boolean loggedIn = false;
+  private final boolean loggedIn = false;
 
 
   /**
@@ -57,6 +53,7 @@ public class LoginScreen extends Application {
    */
   @FXML
   void onLoginButtonClick(ActionEvent event) {
+/*  TODO: Hier
     String ip = this.ip.getText();
     String port = this.port.getText();
     String name = this.name.getText();
@@ -74,7 +71,7 @@ public class LoginScreen extends Application {
       loggedIn = true;
       client.getClientThread().sendPacket(new Packet(object));
       stage.close();
-    }
+    }*/
   }
 
   @FXML

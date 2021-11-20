@@ -10,7 +10,6 @@
  */
 package de.thundergames.networking.server;
 
-import de.thundergames.MoleGames;
 import de.thundergames.networking.util.Network;
 import de.thundergames.networking.util.NetworkThread;
 import de.thundergames.networking.util.Packet;
@@ -84,7 +83,7 @@ public class Server extends Network {
         ServerThread serverThread = new ServerThread(socket, threadID);
         getConnectionIDs().put(threadID, serverThread);
         serverThread.start();
-        MoleGames.getMoleGames().getPacketHandler().welcomePacket(serverThread, threadID);
+        //TODO: hier   MoleGames.getMoleGames().getPacketHandler().welcomePacket(serverThread, threadID);
         getClientThreads().add(serverThread);
         threadIds.put(serverThread.getConnectionID(), serverThread);
         threadID++;

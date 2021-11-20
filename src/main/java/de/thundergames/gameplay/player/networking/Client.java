@@ -72,7 +72,7 @@ public class Client extends Network {
       socket = new Socket(ip, port);
       clientThread = new ClientThread(socket, 0, this);
       clientThread.start();
-      clientPacketHandler.loginPacket(clientThread, name);
+      //TODO: hier clientPacketHandler.loginPacket(clientThread, name);
     } catch (IOException exception) {
       System.out.println("Is the server running?!");
     }

@@ -10,16 +10,12 @@
  */
 package de.thundergames.playmechanics.game;
 
-import de.thundergames.MoleGames;
-import de.thundergames.networking.util.Packet;
-import de.thundergames.networking.util.Packets;
 import de.thundergames.playmechanics.map.Field;
 import de.thundergames.playmechanics.map.Map;
 import de.thundergames.playmechanics.util.Player;
 import de.thundergames.playmechanics.util.Punishments;
 import java.util.List;
 import org.jetbrains.annotations.NotNull;
-import org.json.JSONObject;
 
 public class GameLogic {
 
@@ -33,20 +29,20 @@ public class GameLogic {
    * @use add the parameters and it will return if the move was valid with true or invalid with false
    * @premisse the startpoint and endpoint must be in the playingfield and the player was allowed to move.
    */
-  public boolean wasLegalMove(
+  public synchronized boolean wasLegalMove(
       @NotNull final List<Integer> start,
       @NotNull final List<Integer> stop,
       final int moveCounter,
       @NotNull final Map map) {
     // check if player moved to much
-    if (map.getFloor().getFieldMap().containsKey(start)
-        && map.getFloor().getFieldMap().containsKey(stop)
+    if (map.getFieldMap().containsKey(start)
+        && map.getFieldMap().containsKey(stop)
         && start != stop) {
       if (stop.get(0) - start.get(0) == 0 && Math.abs(stop.get(1) - start.get(1)) == moveCounter
           || start.get(1) - stop.get(1) == 0 && Math.abs(stop.get(0) - start.get(0)) == moveCounter
           || Math.abs(stop.get(0) - start.get(0)) == Math.abs(stop.get(1) - start.get(1))
           && Math.abs(start.get(1) - stop.get(1)) == moveCounter) {
-        for (var field : map.getFloor().getOccupied()) {
+        for (var field : map.getOccupied()) {
           if (stop.get(0) - start.get(0) == 0) {
             for (var i = 1; i < moveCounter; i++) {
               if (stop.get(1) - start.get(1) > 0) {
@@ -107,7 +103,7 @@ public class GameLogic {
   public void checkWinning(Map map) {
     var holes = 0;
     Field field = null;
-    for (var fieldCounter : map.getFloor().getFields()) {
+    for (var fieldCounter : map.getFields()) {
       if (fieldCounter.isHole()) {
         holes++;
         field = fieldCounter;
@@ -116,7 +112,7 @@ public class GameLogic {
 
     if (holes == 1) {
       if (field.isOccupied()) {
-        win(field.getFloor().getMap().getGame().getMoleIDMap().get(field.getMole()).getPlayer());
+        win(field.getMap().getGame().getMoleIDMap().get(field.getMoleID()).getPlayer());
       }
     }
 
@@ -128,7 +124,7 @@ public class GameLogic {
    * @use handles the player and the game when won
    */
   public void win(Player player) {
-    MoleGames.getMoleGames().getServer().sendToAllGameClients(player.getGame(), new Packet(new JSONObject().put("type", Packets.WINS.getPacketType()).put("value", new JSONObject().put("playerName", player.getServerClient().getClientName()).toString())));
+    //TODO: hier  MoleGames.getMoleGames().getServer().sendToAllGameClients(player.getGame(), new Packet(new JSONObject().put("type", Packets.WINS.getPacketType()).put("value", new JSONObject().put("playerName", player.getServerClient().getClientName()).toString())));
   }
 
   /**

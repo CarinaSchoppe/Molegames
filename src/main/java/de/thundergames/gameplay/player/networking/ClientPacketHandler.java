@@ -12,25 +12,27 @@ package de.thundergames.gameplay.player.networking;
 
 import de.thundergames.networking.server.PacketHandler;
 import de.thundergames.networking.util.Packet;
-import de.thundergames.networking.util.PacketNotExistsException;
-import de.thundergames.networking.util.Packets;
 import org.jetbrains.annotations.NotNull;
-import org.json.JSONException;
-import org.json.JSONObject;
+
 
 public class ClientPacketHandler {
 
-  //TODO: Aufteilen in einzelne Methoden
+  public void handlePacket(@NotNull final  Client client,@NotNull final Packet packet) {
+  }
+/*
 
-  /**
+TODO: hier
+  */
+/**
    * @param client the client instance that will be passed to the method for handling
    * @param packet the packet that got send by the server
    * @author Carina
    * @use handles the packet that came in
    * @see PacketHandler the packetHandler by the Server as a reference
-   */
+   *//*
+
   public void handlePacket(@NotNull final Client client, @NotNull final Packet packet)
-      throws PacketNotExistsException {
+      throws UndefinedError {
     if (packet.getPacketType().equalsIgnoreCase(Packets.WELCOME.getPacketType())) {
       welcomePacket(client, packet);
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.JOINGAME.getPacketType())) {
@@ -54,62 +56,78 @@ public class ClientPacketHandler {
     } else if (packet.getPacketType().equals(Packets.NOTEXISTS.getPacketType())) {
       handleNotExistsPacket(client, packet);
     } else {
-      throw new PacketNotExistsException(
-          "Packet with type: " + packet.getJsonPacket().toString() + " does not exists");
+      throw new UndefinedError(
+          "Packet with type: " + packet.getPacketType() + " does not exists");
     }
   }
 
 
-  /**
+  */
+/**
    * @author Carina
    * @param clientConnection
    * @param name
    * @use sends the login packet to the server and wants response with welcome
-   */
+   *//*
+
   public void loginPacket(@NotNull ClientThread clientConnection, String name){
-    clientConnection.sendPacket(new Packet(new JSONObject().put("type", Packets.LOGIN.getPacketType()).put("value", new JSONObject().put("name", name).toString())));
+*/
+/*TODO: hier
+
+       clientConnection.sendPacket(new Packet(new JSONObject().put("type", Packets.LOGIN.getPacketType()).put("value", new JSONObject().put("name", name).toString())));*//*
+
   }
 
-  /**
+  */
+/**
    * @param client
    * @param packet
    * @author Carina
    * @use send by server to welcome new client connection with the clientID
-   */
+   *//*
+
   public void welcomePacket(@NotNull final Client client, @NotNull final Packet packet) {
-    var id = packet.getValues().getInt("clientID");
+*/
+/*TODO: hier    var id = packet.getValues().getInt("clientID");
     client.setId(id);
     System.out.println("Client ID: " + id);
-    client.getClientThread().setID(id);
+    client.getClientThread().setID(id);*//*
+
   }
 
 
-  /**
+  */
+/**
    * @author Carina
    * @param clientConnection
    * @use send to the server when a connection will be removed
-   */
+   *//*
+
   public void logoutPacket(@NotNull ClientThread clientConnection){
-    clientConnection.sendPacket(new Packet(new JSONObject().put("type", Packets.LOGOUT.getPacketType())));
+   //TODO: hier clientConnection.sendPacket(new Packet(new JSONObject().put("type", Packets.LOGOUT.getPacketType())));
   }
 
-  /**
+  */
+/**
    * @param client
    * @param packet
    * @author Carina
    * @use handles the joining of a player into the game
-   */
+   *//*
+
   private void joinGamePacket(@NotNull final Client client, @NotNull final Packet packet) {
     System.out.println("Client joined game with id: " + packet.getValues().getInt("gameID"));
     client.setGameID(packet.getValues().getInt("gameID"));
   }
 
-  /**
+  */
+/**
    * @param client
    * @param packet
    * @author Carina
    * @use handles the message that was send with the packet
-   */
+   *//*
+
   private void handleMessagePacket(@NotNull final Client client, @NotNull final Packet packet) {
     try {
       System.out.println("Server sended: " + packet.getValues().getString("message"));
@@ -118,22 +136,26 @@ public class ClientPacketHandler {
     }
   }
 
-  /**
+  */
+/**
    * @param client
    * @param packet
    * @author Carina
    * @use handles the packet if the player did in invalid move
-   */
+   *//*
+
   private void handleInvalidMovePacket(@NotNull final Client client, @NotNull final Packet packet) {
     System.out.println("Server: Youve done an invalid move");
   }
 
-  /**
+  */
+/**
    * @param client
    * @param packet
    * @author Carina
    * @use handles the placement of a mole by a player
-   */
+   *//*
+
   private void handlePlaceMolePacket(@NotNull final Client client, @NotNull final Packet packet) {
     {
 
@@ -141,20 +163,24 @@ public class ClientPacketHandler {
 
   }
 
-  /**
+  */
+/**
    * @param client
    * @param packet
    * @author Carina
    * @use handles the movement if a mole was moved by any player
-   */
+   *//*
+
   private void handleMoveMolePacket(@NotNull final Client client, @NotNull final Packet packet) {
   }
 
-  /**
+  */
+/**
    * @param client
    * @param packet handles the packet when the server gives the player its moleIDs
    * @author Carina
-   */
+   *//*
+
   private void handleMolesPacket(@NotNull final Client client, @NotNull final Packet packet) {
     for (int i = 0; i < packet.getValues().getJSONArray("moles").toList().size(); i++) {
       client.getMoleIDs().add(packet.getValues().getJSONArray("moles").getInt(i));
@@ -163,44 +189,56 @@ public class ClientPacketHandler {
 
 
 
-  /**
+  */
+/**
    * @param client
    * @param packet
    * @author Carina
    * @use handles the packet when the player is on the turn
-   */
+   *//*
+
   private void nextPlayerPacket(@NotNull final Client client, @NotNull final Packet packet) {
     System.out.println("Server sended: You are now on the turn!");
   }
 
-  /**
+  */
+/**
    * @param client
    * @param packet
    * @author Carina
    * @use is send when the server sais the players Turn is over.
-   */
+   *//*
+
   private void turnOverPacket(@NotNull final Client client, @NotNull final Packet packet) {
 
   }
 
-  /**
+  */
+/**
    * @param client
    * @param packet
    * @author Carina
    * @use handles the packet if something does not exist
-   */
+   *//*
+
   private void handleNotExistsPacket(@NotNull final Client client, @NotNull final Packet packet) {
     System.out.println("The game you wanted to join does not exist!");
 
   }
 
-  /**
+  */
+/**
    * @param client
    * @param packet
    * @author Carina
    * @use handles the packet if a drawn card was send
-   */
+   *//*
+
   private void handleDrawnCardPacket(@NotNull final Client client, @NotNull final Packet packet) {
     System.out.println("Server sended: Your card value is: " + packet.getValues().getInt("card"));
   }
+
+
+*/
+
 }

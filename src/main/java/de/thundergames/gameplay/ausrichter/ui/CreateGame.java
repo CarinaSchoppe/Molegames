@@ -11,10 +11,7 @@
 
 package de.thundergames.gameplay.ausrichter.ui;
 
-import de.thundergames.MoleGames;
 import de.thundergames.gameplay.ausrichter.GameMasterClient;
-import de.thundergames.networking.util.Packet;
-import de.thundergames.networking.util.Packets;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -31,7 +28,6 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import org.json.JSONObject;
 
 public class CreateGame {
 
@@ -100,7 +96,9 @@ public class CreateGame {
 
   @FXML
   void createGameButtonEvent(ActionEvent event) {
-    var object = new JSONObject();
+    /*TODO: Hier
+
+       var object = new JSONObject();
     object.put("type", Packets.CREATEGAME.getPacketType());
     var json = new JSONObject();
     json.put("gameID", MoleGames.getMoleGames().getGameMasterClient().getGameID());
@@ -148,7 +146,7 @@ public class CreateGame {
     }
     MoleGames.getMoleGames()
         .getGameMasterClient().getMasterClientThread().sendPacket(new Packet(new JSONObject().put("type", Packets.GAMESTART.getPacketType()).put("value", new JSONObject().put("gameID", MoleGames.getMoleGames().getGameMasterClient().getGameID() - 1).toString())));
-  }
+*/  }
 
   private void clearAllComponents() {
     drawCardValuesList.clear();

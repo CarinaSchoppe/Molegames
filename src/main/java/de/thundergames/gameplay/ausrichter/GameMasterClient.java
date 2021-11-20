@@ -42,7 +42,7 @@ public class GameMasterClient extends Client {
       socket = new Socket(ip, port);
       clientThread = new GameMasterClientThread(socket, 0, this);
       clientThread.start();
-      clientPacketHandler.loginPacket(clientThread, getName());
+      //TODO: hier clientPacketHandler.loginPacket(clientThread, getName());
     } catch (IOException exception) {
       System.out.println("Is the server running?!");
     }

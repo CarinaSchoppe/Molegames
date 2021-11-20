@@ -10,8 +10,8 @@
  */
 package de.thundergames.networking.util;
 
+import com.google.gson.JsonObject;
 import org.jetbrains.annotations.NotNull;
-import org.json.JSONObject;
 
 /**
  * @author Carina
@@ -19,37 +19,31 @@ import org.json.JSONObject;
  */
 public class Packet {
 
-  private final JSONObject value;
+  private final JsonObject jsonObject;
   private final String packetType;
-  private final JSONObject jsonPacket;
+  private final JsonObject values;
 
-  /**
-   * @param json is the JSONobject that will be send to the client
-   * @author Carina
-   * @use create a json object and add the type parameter
-   */
-  public Packet(@NotNull final JSONObject json) {
-    this.packetType = json.getString("type");
-    this.value = !json.isNull("value") ? new JSONObject(json.getString("value")) : new JSONObject();
-    this.jsonPacket = json;
+
+  public Packet(@NotNull final String packetType, @NotNull final JsonObject jsonObject) {
+    this.jsonObject = jsonObject;
+    this.packetType = packetType;
+    this.values = jsonObject.getAsJsonObject("values");
+  }  public Packet( @NotNull final JsonObject jsonObject) {
+    this.jsonObject = jsonObject;
+    this.packetType = jsonObject.get("type").getAsString();
+    this.values = jsonObject.getAsJsonObject("values");
   }
 
-  public Packet(@NotNull final JSONObject json, @NotNull final JSONObject value) {
-    this.packetType = json.getString("type");
-    this.value = value;
-    json.put("value", value.toString());
-    this.jsonPacket = json;
-  }
 
-  public JSONObject getValues() {
-    return value;
+  public JsonObject getValues() {
+    return values;
   }
 
   public String getPacketType() {
     return packetType;
   }
 
-  public JSONObject getJsonPacket() {
-    return jsonPacket;
+  public JsonObject getJsonObject() {
+    return jsonObject;
   }
 }

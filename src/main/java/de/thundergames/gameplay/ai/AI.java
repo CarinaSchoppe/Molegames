@@ -14,6 +14,7 @@ import de.thundergames.gameplay.ai.networking.AIClientThread;
 import de.thundergames.gameplay.ai.networking.AIPacketHandler;
 import de.thundergames.gameplay.player.networking.Client;
 import de.thundergames.playmechanics.map.Map;
+import de.thundergames.playmechanics.util.interfaceItems.GameState;
 import java.io.IOException;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -35,6 +36,7 @@ public class AI extends Client {
   private int placedMolesAmount = 0;
   private Map map;
   private int clientID;
+  private GameState gameState;
 
   /**
    * @param ip
@@ -61,7 +63,7 @@ public class AI extends Client {
       socket = new Socket(ip, port);
       clientThread = new AIClientThread(socket, 0, this);
       clientThread.start();
-      clientPacketHandler.loginPacket(clientThread, getName());
+      //TODO: hier   clientPacketHandler.loginPacket(clientThread, getName());
     } catch (IOException exception) {
       System.out.println("Is the server running?!");
     }
@@ -137,5 +139,13 @@ public class AI extends Client {
 
   public ArrayList<Integer> getPlayerMolesOnField() {
     return playerMolesOnField;
+  }
+
+  public GameState getGameState() {
+    return gameState;
+  }
+
+  public void setGameState(GameState gameState) {
+    this.gameState = gameState;
   }
 }

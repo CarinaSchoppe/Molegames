@@ -10,12 +10,13 @@
  */
 package de.thundergames.filehandling;
 
+import com.google.gson.Gson;
+import de.thundergames.playmechanics.util.interfaceItems.NetworkConfiguration;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import org.jetbrains.annotations.NotNull;
-import org.json.JSONObject;
 
 public class GameConfiguration {
 
@@ -26,16 +27,17 @@ public class GameConfiguration {
   }
 
   /**
-   * @param settings the settings to save
+   * @param config the settings to save
    * @throws IOException
    * @author Carina
+   * @see NetworkConfiguration
    * @use call the method add the settings to the json object and than pass that to create a new file that will be saved
    */
-  public void saveSettings(@NotNull final JSONObject settings) throws IOException {
+  public void saveSettings(@NotNull final NetworkConfiguration config) throws IOException {
     File file = new File("config" + id + ".json");
     id++;
     writer = new FileWriter(file);
-    writer.write(settings.toString());
+    writer.write(config.toString());
     writer.flush();
     writer.close();
   }
@@ -47,7 +49,7 @@ public class GameConfiguration {
    * @autor Carina
    * @use pass in the settings file and done
    */
-  public JSONObject loadConfiguration(@NotNull final File file) throws IOException {
-    return new JSONObject(new String(Files.readAllBytes(file.toPath())));
+  public NetworkConfiguration loadConfiguration(@NotNull final File file) throws IOException {
+    return new Gson().fromJson(new String(Files.readAllBytes(file.toPath())), NetworkConfiguration.class);
   }
 }

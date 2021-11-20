@@ -10,67 +10,52 @@
  */
 package de.thundergames.playmechanics.map;
 
-import de.thundergames.networking.server.ServerThread;
-import de.thundergames.networking.util.Packet;
-import de.thundergames.networking.util.Packets;
 import de.thundergames.playmechanics.game.Game;
+import de.thundergames.playmechanics.util.interfaceItems.NetworkFloor;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import org.jetbrains.annotations.NotNull;
-import org.json.JSONObject;
 
-public class Map {
+public class Map extends NetworkFloor {
 
-  private final int radius;
-  private int currentFloor;
-  private Floor floor;
-  private int holeAmount; // TODO: here
-  private int drawAgainFields;
-  private Game game;
-  private final ArrayList<Floor> floors = new ArrayList<>(); //TODO: implement! 1
+  private final Game game;
+  private List<Field> fields;
+  private final HashMap<List<Integer>, Field> fieldMap = new HashMap<>();
+  private final List<Field> occupied = new ArrayList<>();
 
 
   /**
-   * @param radius the radius of a map
-   * @param game   the game the map is related to
+   * @param game the game the map is related to
    * @author Carina
    * @use creates a new Map object with the given radius
    */
-  public Map(final int radius, @NotNull final Game game) {
-    this.radius = radius + 1;
+  public Map(@NotNull final Game game) {
     this.game = game;
-    currentFloor = game.getSettings().getMaxFloors();
     createMap();
   }
-
-  public Map(int radius) {
-    this.radius = radius;
-  }
-
 
   /**
    * @author Carina
    * @use creates the mapfield in the comitee decided designway
    */
   public synchronized void createMap() {
-    floor = new Floor(currentFloor, holeAmount, drawAgainFields, this);
     // Top left to mid right
-    floor.getFields().clear();
-    for (var y = 0; y < radius; y++) {
-      for (var x = 0; x < radius + y; x++) {
+    fieldMap.clear();
+    for (var y = 0; y < game.getRadius(); y++) {
+      for (var x = 0; x < game.getRadius() + y; x++) {
         var field = new Field(List.of(x, y));
-        field.setFloor(floor);
-        floor.getFieldMap().put(List.of(x, y), field);
-        floor.getFields().add(field);
+        field.setMap(this);
+        fields.add(field);
       }
     }
     // 1 under mid: left to bottom right
-    for (var y = radius; y < radius * 2 - 1; y++) {
-      for (var x = y - radius + 1; x < radius * 2 - 1; x++) {
+    for (var y = game.getRadius(); y < game.getRadius() * 2 - 1; y++) {
+      for (var x = y - game.getRadius() + 1; x < game.getRadius() * 2 - 1; x++) {
         var field = new Field(java.util.List.of(x, y));
-        field.setFloor(floor);
-        floor.getFieldMap().put(java.util.List.of(x, y), field);
-        floor.getFields().add(field);
+        field.setMap(this);
+        fieldMap.put(java.util.List.of(x, y), field);
+        fields.add(field);
       }
     }
     //printMap();
@@ -82,7 +67,7 @@ public class Map {
    */
   public synchronized void printMap() {
     int row = 0;
-    for (var field : floor.getFields()) {
+    for (var field : fields) {
       if (field.getField().get(1) != row) {
         System.out.println();
         row = field.getField().get(1);
@@ -100,16 +85,6 @@ public class Map {
     System.out.println();
   }
 
-
-  /**
-   * @param client
-   * @author Carina
-   * @use sends the map as a packet string to the client
-   */
-  public void sendMap(ServerThread client) {
-    client.sendPacket(new Packet(new JSONObject().put("type", Packets.MAP.getPacketType()).put("value", toJSONString())));
-  }
-
   /**
    * @param x the x position of the Field
    * @param y the y position of the Field
@@ -117,74 +92,23 @@ public class Map {
    * @author Carina
    */
   public boolean existField(final int x, final int y) {
-    return floor.getFieldMap().containsKey(List.of(x, y));
+    return fieldMap.containsKey(List.of(x, y));
   }
 
-  /**
-   * @return the JSONSTRING of the map with all needed information
-   * @author Carina
-   * @use will be saved to the gameConfig stuff.
-   */
-  public synchronized String toJSONString() {
-    JSONObject object = new JSONObject();
-    object.put("radius", radius);
-    object.put("fields", floor.getFields().size());
-    for (var field : floor.getFields()) {
-      object.put(
-          "field["
-              + field.getField().get(0)
-              + ","
-              + field.getField().get(1)
-              + "].occupied",
-          field.isOccupied());
-      object.put(
-          "field["
-              + field.getField().get(0)
-              + ","
-              + field.getField().get(1)
-              + "].hole",
-          field.isHole());
-      object.put(
-          "field["
-              + field.getField().get(0)
-              + ","
-              + field.getField().get(1)
-              + "].drawAgainField",
-          field.isDrawAgainField());
-      if (field.isOccupied()) {
-        object.put(
-            "field["
-                + field.getField().get(0)
-                + ","
-                + field.getField().get(1)
-                + "].mole",
-            field.getFloor().getMap().getGame().getMoleIDMap().get(field.getMole()).getMoleID());
-      } else {
-        object.put(
-            "field["
-                + field.getField().get(0)
-                + ","
-                + field.getField().get(1)
-                + "].mole",
-            field.getMole());
-      }
-    }
-    return object.toString();
+
+  public List<Field> getFields() {
+    return fields;
+  }
+
+  public HashMap<List<Integer>, Field> getFieldMap() {
+    return fieldMap;
   }
 
   public Game getGame() {
     return game;
   }
 
-  public Floor getFloor() {
-    return floor;
-  }
-
-  public ArrayList<Floor> getFloors() {
-    return floors;
-  }
-
-  public void setFloor(Floor floor) {
-    this.floor = floor;
+  public List<Field> getOccupied() {
+    return occupied;
   }
 }

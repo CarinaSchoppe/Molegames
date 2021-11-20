@@ -11,13 +11,10 @@
 package de.thundergames.playmechanics.util;
 
 import de.thundergames.networking.server.ServerThread;
-import de.thundergames.networking.util.Packet;
-import de.thundergames.networking.util.Packets;
 import de.thundergames.playmechanics.game.Game;
 import java.io.IOException;
 import java.util.HashMap;
 import org.jetbrains.annotations.NotNull;
-import org.json.JSONObject;
 
 /**
  * @author Carina
@@ -44,7 +41,7 @@ public class MultiGameHandler {
       }
       games.put(gameID, game);
     } else {
-      ausrichter.sendPacket(new Packet(new JSONObject().put("type", Packets.GAMEEXISTS.getPacketType())));
+    //TODO: hier  ausrichter.sendPacket(new Packet(new JSONObject().put("type", Packets.GAMEEXISTS.getPacketType())));
       System.out.println("Game already exists");
     }
   }

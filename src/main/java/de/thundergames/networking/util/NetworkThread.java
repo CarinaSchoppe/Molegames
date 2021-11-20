@@ -10,6 +10,8 @@
  */
 package de.thundergames.networking.util;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import de.thundergames.MoleGames;
 import de.thundergames.gameplay.ai.networking.AIClientThread;
 import de.thundergames.gameplay.ausrichter.networking.GameMasterClientThread;
@@ -17,6 +19,7 @@ import de.thundergames.gameplay.player.networking.Client;
 import de.thundergames.gameplay.player.networking.ClientThread;
 import de.thundergames.networking.server.Server;
 import de.thundergames.networking.server.ServerThread;
+import de.thundergames.networking.util.exceptions.UndefinedError;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -24,7 +27,6 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
 import org.jetbrains.annotations.NotNull;
-import org.json.JSONObject;
 
 public abstract class NetworkThread extends Thread {
 
@@ -76,9 +78,9 @@ public abstract class NetworkThread extends Thread {
           } catch (IOException e) {
           }
           if (message != null) {
-            var object = new JSONObject(message);
-            if (!object.isNull("type")) {
-              packet = new Packet(object);
+            var object = new Gson().fromJson(message, JsonObject.class);
+            if (object.get("type") != null) {
+              packet = new Packet(object.get("type").getAsString(), object);
               if ("DISCONNECT".equals(packet.getPacketType())) {
                 System.out.println("Content: " + packet.getValues().toString());
                 disconnect();
@@ -87,7 +89,7 @@ public abstract class NetworkThread extends Thread {
             }
             if (this.packet != null) {
               if (this instanceof ServerThread
-                  && !packet.getPacketType().equals(Packets.MESSAGE.getPacketType()) && !packet.getValues().isEmpty()) {
+                  && !packet.getPacketType().equals(Packets.MESSAGE.getPacketType()) && packet.getValues() != null) {
                 System.out.println(
                     "Client with id: "
                         + this.id
@@ -103,7 +105,7 @@ public abstract class NetworkThread extends Thread {
           disconnect();
         }
       }
-    } catch (PacketNotExistsException exception) {
+    } catch (UndefinedError exception) {
       exception.printStackTrace();
     } finally {
       try {
@@ -127,22 +129,22 @@ public abstract class NetworkThread extends Thread {
             while (true) {
               try {
                 var message = keyboardReader.readLine();
-                var object = new JSONObject();
+                var object = new JsonObject();
                 if (client) {
-                  object.put("type", Packets.MESSAGE.getPacketType());
-                  var json = new JSONObject();
-                  json.put("message", message);
-                  object.put("value", json.toString());
+                  object.addProperty("type", Packets.MESSAGE.getPacketType());
+                  var json = new JsonObject();
+                  json.addProperty("message", message);
+                  object.add("value", json);
                   sendPacket(new Packet(object));
                 } else {
                   for (var iterator =
                       MoleGames.getMoleGames().getServer().getClientThreads().iterator();
                       iterator.hasNext(); ) {
                     ServerThread clientSocket = iterator.next();
-                    object.put("type", Packets.MESSAGE.getPacketType());
-                    var json = new JSONObject();
-                    json.put("message", message);
-                    object.put("value", json.toString());
+                    object.addProperty("type", Packets.MESSAGE.getPacketType());
+                    var json = new JsonObject();
+                    json.addProperty("message", message);
+                    object.add("value", json);
                     clientSocket.sendPacket(new Packet(object));
                   }
                 }
@@ -165,7 +167,7 @@ public abstract class NetworkThread extends Thread {
    */
   public void readStringPacketInput(
       @NotNull final Packet packet, @NotNull final NetworkThread reciever)
-      throws PacketNotExistsException {
+      throws UndefinedError {
     // TODO: How to handle the packet from the client! Player has moved -> now in a hole and than
     // handle it
 
@@ -195,7 +197,7 @@ public abstract class NetworkThread extends Thread {
    * @use create a Packet instance of a packet you want to send and pass it in in form of a string seperating the objects with #
    */
   public void sendPacket(Packet data) {
-    writer.println(data.getJsonPacket().toString());
+    writer.println(new Gson().toJson(data.getJsonObject()));
   }
 
   /**

@@ -12,23 +12,20 @@ package de.thundergames.playmechanics.game;
 
 import de.thundergames.MoleGames;
 import de.thundergames.filehandling.Score;
-import de.thundergames.networking.server.PacketHandler;
 import de.thundergames.networking.server.ServerThread;
-import de.thundergames.networking.util.Packet;
-import de.thundergames.networking.util.Packets;
 import de.thundergames.playmechanics.map.Field;
 import de.thundergames.playmechanics.map.Map;
-import de.thundergames.playmechanics.util.Datetime;
 import de.thundergames.playmechanics.util.Mole;
 import de.thundergames.playmechanics.util.Player;
 import de.thundergames.playmechanics.util.Settings;
+import de.thundergames.playmechanics.util.interfaceItems.NetworkGame;
 import java.io.IOException;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashMap;
 import org.jetbrains.annotations.NotNull;
-import org.json.JSONObject;
 
-public class Game   {
+public class Game extends NetworkGame {
   private GameStates currentGameState = GameStates.NOT_STARTED;
 
   private final ArrayList<Player> players = new ArrayList<>();
@@ -42,13 +39,10 @@ public class Game   {
   private int moleID = 0;
   private boolean gamePaused = false;
   private boolean allMolesPlaced = false;
-  private final int gameID;
-  private int currentPlayerCount;
-  private Datetime startDateTime;
-  private Datetime finishDateTime;
-  private Score result;
+  private Score score;
+
   public Game(int gameID) {
-    this.gameID = gameID;
+    super(gameID);
   }
 
   /**
@@ -58,7 +52,22 @@ public class Game   {
    */
   public void create() throws IOException {
     settings = new Settings(this);
-    map = new Map(settings.getRadius(), this);
+    map = new Map(this);
+
+  }
+
+  public void updateNetworkGame(){
+    setMaxPlayerCount(settings.getMaxPlayerCount());
+    setLevelCount(settings.getLevels().length);
+    setMoleCount(settings.getNumberOfMoles());
+    setRadius(settings.getRadius());
+    setPullDiscsOrdered(settings.isPullDiscsOrdered());
+    setPullDiscs(settings.getPullDiscs());
+    setTurnTime(settings.getTurnTime());
+    setVisualizationTime(settings.getVisualizationTime());
+    setStatus(currentGameState.getName());
+    setMovePenalty(settings.getPunishment().getName());
+
   }
 
   /**
@@ -69,14 +78,15 @@ public class Game   {
     // TODO: Run a Game!
     if (getCurrentGameState() == GameStates.NOT_STARTED) {
       setCurrentGameState(GameStates.STARTED);
-      setStartDateTime(new Datetime());
+      setStartDateTime(Instant.now().getEpochSecond());
       System.out.println("Starting a game with the gameID: " + getGameID());
       nextPlayer();
     }
   }
 
   public void endGame(){
-    setFinishDateTime(new Datetime());
+    setFinishDateTime(Instant.now().getEpochSecond());
+    setResult(score);
   }
 
   /**
@@ -122,7 +132,7 @@ public class Game   {
     } else {
       currentPlayer = players.get(0);
     }
-    MoleGames.getMoleGames().getPacketHandler().nextPlayerPacket(currentPlayer.getServerClient());
+   //TODO: hier MoleGames.getMoleGames().getPacketHandler().nextPlayerPacket(currentPlayer.getServerClient());
     currentPlayer.startThinkTimer();
   }
 
@@ -137,12 +147,12 @@ public class Game   {
       players.add(client);
       setCurrentPlayerCount(players.size());
       for (var connection : getAIs()) {
-        getMap().sendMap(connection);
+         //TODO: send the map to all players
       }
-      client.getServerClient().sendPacket(PacketHandler.joinedGamePacket(getGameID(), spectator ? "player" : "spectator"));
+      //TODO: hier   client.getServerClient().sendPacket(PacketHandler.joinedGamePacket(getGameID(), spectator ? "player" : "spectator"));
       MoleGames.getMoleGames().getGameHandler().getClientGames().put(client.getServerClient(), this);
     } else if (!getCurrentGameState().equals(GameStates.NOT_STARTED) && !spectator) {
-      client.getServerClient().sendPacket(new Packet(new JSONObject().put("type", Packets.FULL.getPacketType())));
+       //TODO: game is full!
     }
   }
 
@@ -158,28 +168,16 @@ public class Game   {
    * @see Player
    */
   public void removePlayerFromGame(@NotNull final Player player) {
-    for (var field : map.getFloor().getFields()) {
-      if (field.getFloor().getMap().getGame().getMoleIDMap().get(field.getMole()) != null && field.getFloor().getMap().getGame().getMoleIDMap().get(field.getMole()).getPlayer().equals(player)) {
+    for (var field : map.getFields()) {
+      if (field.getMap().getGame().getMoleIDMap().get(field.getMoleID()) != null && field.getMap().getGame().getMoleIDMap().get(field.getMoleID()).getPlayer().equals(player)) {
         field.setOccupied(false, -1);
-        map.getFloor().getOccupied().remove(field);
+        map.getOccupied().remove(field);
         player.getMoles().clear();
         players.remove(player);
         setCurrentPlayerCount(players.size());
         clientPlayersMap.remove(player.getServerClient());
       }
     }
-  }
-
-  public String toJsonObject(){
-    var jsonObject = new JSONObject();
-    jsonObject.put("gameID", getGameID());
-    jsonObject.put("currentPlayerCount", getCurrentPlayerCount());
-    jsonObject.put("maxPlayerCount", settings.getMaxPlayers());
-    jsonObject.put("status", getCurrentGameState().getName());
-    jsonObject.put("startDateTime", getStartDateTime().toString());
-    jsonObject.put("finishDateTime", getFinishDateTime().toString());
-    jsonObject.put("result", result.toJsonObject());
-    return jsonObject.toString();
   }
 
 
@@ -230,7 +228,6 @@ public class Game   {
   }
 
   public boolean isAllMolesPlaced() {
-
     return allMolesPlaced;
   }
 
@@ -244,42 +241,10 @@ public class Game   {
   }
 
 
-  public int getCurrentPlayerCount() {
-    return currentPlayerCount;
-  }
-
-  public void setCurrentPlayerCount(int currentPlayerCount) {
-    this.currentPlayerCount = currentPlayerCount;
-  }
-
-  public Score getResult() {
-    return result;
-  }
-
-  public void setResult(Score result) {
-    this.result = result;
-  }
-
-  public Datetime getFinishDateTime() {
-    return finishDateTime;
-  }
-
-  public void setFinishDateTime(Datetime finishDateTime) {
-    this.finishDateTime = finishDateTime;
-  }
-
-  public Datetime getStartDateTime() {
-    return startDateTime;
-  }
-
-  public void setStartDateTime(Datetime startDateTime) {
-    this.startDateTime = startDateTime;
-  }
 
 
-  public int getGameID() {
-    return gameID;
-  }
+
+
 
 
 

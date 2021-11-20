@@ -10,6 +10,7 @@
  */
 package de.thundergames.playmechanics.util;
 
+import com.google.gson.JsonObject;
 import de.thundergames.MoleGames;
 import de.thundergames.networking.server.ServerThread;
 import de.thundergames.networking.util.Packet;
@@ -17,20 +18,22 @@ import de.thundergames.networking.util.Packets;
 import de.thundergames.playmechanics.game.Game;
 import de.thundergames.playmechanics.game.GameLogic;
 import de.thundergames.playmechanics.map.Field;
+import de.thundergames.playmechanics.util.interfaceItems.NetworkPlayer;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.stream.Collectors;
 import org.jetbrains.annotations.NotNull;
-import org.json.JSONObject;
 
-public class Player {
+public class Player extends NetworkPlayer {
 
   private final ArrayList<Mole> moles = new ArrayList<>();
-  private final ServerThread serverClient;
-  private final Game game;
-  private final List<Integer> cards;
+  private ServerThread serverClient = null;
+  private Game game = null;
+  private List<Integer> cards = new ArrayList<>();
   private int drawCard = 0;
   private Timer timer;
   private boolean timerIsRunning = false;
@@ -47,11 +50,14 @@ public class Player {
    * @see ServerThread
    */
   public Player(@NotNull final ServerThread client, @NotNull final Game game) {
+    super(client.getClientName(), client.getConnectionID());
     this.serverClient = client;
     this.game = game;
     this.cards = new ArrayList<>();
-    cards.addAll(game.getSettings().getCards());
+    cards.addAll(Arrays.stream(game.getSettings().getPullDiscs()).boxed().collect(Collectors.toList()));
+
   }
+
 
   /**
    * @author Carina
@@ -66,7 +72,7 @@ public class Player {
 
   public void refillCards() {
     if (cards.isEmpty()) {
-      cards.addAll(game.getSettings().getCards());
+      cards.addAll(Arrays.stream(game.getSettings().getPullDiscs()).boxed().collect(Collectors.toList()));
     }
   }
 
@@ -91,7 +97,7 @@ public class Player {
       game.getMoleIDMap().put(mole.getMoleID(), mole);
       game.setMoleID(game.getMoleID() + 1);
     }
-    MoleGames.getMoleGames().getPacketHandler().sendMoleIDs(serverClient, moleIDs);
+    //TODO: hier MoleGames.getMoleGames().getPacketHandler().sendMoleIDs(serverClient, moleIDs);
     return this;
   }
 
@@ -111,7 +117,9 @@ public class Player {
           public void run() {
             canDraw = false;
             hasMoved = true;
-            getServerClient().sendPacket(new Packet(new JSONObject().put("type", Packets.TURNOVER.getPacketType())));
+            var json = new JsonObject();
+            json.addProperty("type", Packets.TURNOVER.getPacketType());
+            getServerClient().sendPacket(new Packet(json));
             timerIsRunning = false;
             game.nextPlayer();
           }
@@ -134,7 +142,7 @@ public class Player {
     } else {
       drawCard = cards.get(0);
     }
-    MoleGames.getMoleGames().getPacketHandler().drawnPlayerCardPacket(serverClient, drawCard);
+    //TODO: hier MoleGames.getMoleGames().getPacketHandler().drawnPlayerCardPacket(serverClient, drawCard);
   }
 
   /**
@@ -164,32 +172,30 @@ public class Player {
             drawCard,
             game.getMap())) { // TODO: drawCard - 3
       var mole = getMole(moleID);
-      Objects.requireNonNull(mole).setField(game.getMap().getFloor().getFieldMap().get(List.of(x_end, y_end)));
+      Objects.requireNonNull(mole).setMoleField(game.getMap().getFieldMap().get(List.of(x_end, y_end)));
+      game.getMap().getOccupied()
+          .remove(game.getMap().getFieldMap().get(List.of(x_start, y_start)));
       game.getMap()
-          .getFloor()
+
           .getOccupied()
-          .remove(game.getMap().getFloor().getFieldMap().get(List.of(x_start, y_start)));
+          .add(game.getMap().getFieldMap().get(List.of(x_end, y_end)));
       game.getMap()
-          .getFloor()
-          .getOccupied()
-          .add(game.getMap().getFloor().getFieldMap().get(List.of(x_end, y_end)));
-      game.getMap()
-          .getFloor()
           .getFieldMap()
           .get(List.of(x_start, y_start))
           .setOccupied(false, -1);
       game.getMap()
-          .getFloor()
           .getFieldMap()
           .get(List.of(x_end, y_end))
           .setOccupied(true, moleID);
-      MoleGames.getMoleGames()
+/*TODO: hier
+
+         MoleGames.getMoleGames()
           .getServer()
           .sendToAllGameClients(
               game,
               MoleGames.getMoleGames()
                   .getPacketHandler()
-                  .playerMovesMolePacket(moleID, x_end, y_end));
+                  .playerMovesMolePacket(moleID, x_end, y_end));*/
       System.out.println(
           "Player with id: "
               + serverClient.getConnectionID()
@@ -211,10 +217,12 @@ public class Player {
               + " has done in invalid move Punishment: "
               + game.getSettings().getPunishment() +
               " player tried to move from X,Y: [" + x_start + "," + y_start + "] to X,Y: [" + x_end + "," + y_end + "] with a card of " + drawCard + "\n\n");
-      serverClient.sendPacket(MoleGames.getMoleGames().getPacketHandler().invalidMovePacket());
+      //TODO: hier serverClient.sendPacket(MoleGames.getMoleGames().getPacketHandler().invalidMovePacket());
       timer.purge();
       timer.cancel();
-      getServerClient().sendPacket(new Packet(new JSONObject().put("type", Packets.TURNOVER.getPacketType())));
+      var json = new JsonObject();
+      json.addProperty("type", Packets.TURNOVER.getPacketType());
+      getServerClient().sendPacket(new Packet(json));
       game.nextPlayer();
 
     }
@@ -234,29 +242,31 @@ public class Player {
     if (!game.getCurrentPlayer().equals(this) || hasMoved || getMole(moleID) == null) {
       return;
     }
-    if (!game.getMap().getFloor().getFieldMap().containsKey(List.of(x, y))) {
+/*  TODO:    if (!game.getMap().getFieldMap().containsKey(List.of(x, y))) {
       serverClient.sendPacket(
           new Packet(new JSONObject().put("type", Packets.OCCUPIED.getPacketType()).put("value", new JSONObject().put("moleID", moleID).toString())));
       return;
-    }
-    if (game.getMap().getFloor().getFieldMap().get(List.of(x, y)).isOccupied()
-        || game.getMap().getFloor().getFieldMap().get(List.of(x, y)).isHole()) {
-      serverClient.sendPacket(
-          new Packet(new JSONObject().put("type", Packets.OCCUPIED.getPacketType()).put("value", new JSONObject().put("moleID", moleID).toString())));
+    }*/
+    if (game.getMap().getFieldMap().get(List.of(x, y)).isOccupied()
+        || game.getMap().getFieldMap().get(List.of(x, y)).isHole()) {
+ /*TODO:     serverClient.sendPacket(
+          new Packet(new JSONObject().put("type", Packets.OCCUPIED.getPacketType()).put("value", new JSONObject().put("moleID", moleID).toString())));*/
     } else {
       var mole = getMole(moleID);
       Objects.requireNonNull(mole)
-          .setField(game.getMap().getFloor().getFieldMap().get(List.of(x, y)));
+          .setMoleField(game.getMap().getFieldMap().get(List.of(x, y)));
       game.getMap()
-          .getFloor()
+
           .getOccupied()
-          .add(game.getMap().getFloor().getFieldMap().get(List.of(x, y)));
-      game.getMap().getFloor().getFieldMap().get(List.of(x, y)).setOccupied(true, moleID);
-      MoleGames.getMoleGames()
+          .add(game.getMap().getFieldMap().get(List.of(x, y)));
+      game.getMap().getFieldMap().get(List.of(x, y)).setOccupied(true, moleID);
+/*TODO: hier
+
+         MoleGames.getMoleGames()
           .getServer()
           .sendToAllGameClients(
               game,
-              MoleGames.getMoleGames().getPacketHandler().playerPlacesMolePacket(moleID, x, y));
+              MoleGames.getMoleGames().getPacketHandler().playerPlacesMolePacket(moleID, x, y));*/
       game.getMap().printMap();
       handleTurnAfterAction();
 
@@ -275,13 +285,15 @@ public class Player {
   private void handleTurnAfterAction() {
     canDraw = false;
     hasMoved = true;
-    for (var connection : game.getAIs()) {
+ /*TODO:    for (var connection : game.getAIs()) {
       game.getMap().sendMap(connection);
-    }
+    }*/
     if (timerIsRunning) {
       timer.purge();
       timer.cancel();
-      getServerClient().sendPacket(new Packet(new JSONObject().put("type", Packets.TURNOVER.getPacketType())));
+      var json= new JsonObject();
+      json.addProperty("type", Packets.TURNOVER.getPacketType());
+      getServerClient().sendPacket(new Packet(json));
       game.nextPlayer();
     }
   }
@@ -303,16 +315,6 @@ public class Player {
     return null;
   }
 
-  /**
-   * @return the json Object of the player for the network
-   * @author Carina
-   */
-  public String toJsonObject() {
-    var object = new JSONObject();
-    object.put("name", getServerClient().getClientName());
-    object.put("clientID", getServerClient().getConnectionID());
-    return object.toString();
-  }
 
   public int getPoints() {
     return points;
