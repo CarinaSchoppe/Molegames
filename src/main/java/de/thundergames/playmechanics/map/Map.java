@@ -10,8 +10,8 @@
  */
 package de.thundergames.playmechanics.map;
 
+import de.thundergames.networking.util.interfaceItems.NetworkFloor;
 import de.thundergames.playmechanics.game.Game;
-import de.thundergames.playmechanics.util.interfaceItems.NetworkFloor;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

@@ -1,8 +1,8 @@
 package de.thundergames.playmechanics.util;
 
 import de.thundergames.filehandling.Score;
-import de.thundergames.playmechanics.util.interfaceItems.NetworkGame;
-import de.thundergames.playmechanics.util.interfaceItems.NetworkPlayer;
+import de.thundergames.networking.util.interfaceItems.NetworkGame;
+import de.thundergames.networking.util.interfaceItems.NetworkPlayer;
 
 public class TournamentState {
 

@@ -10,9 +10,14 @@
  */
 package de.thundergames.playmechanics.util;
 
+import com.google.gson.JsonObject;
 import de.thundergames.networking.server.ServerThread;
+import de.thundergames.networking.util.Packet;
+import de.thundergames.networking.util.Packets;
+import de.thundergames.networking.util.interfaceItems.NetworkGame;
 import de.thundergames.playmechanics.game.Game;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import org.jetbrains.annotations.NotNull;
 
@@ -24,33 +29,67 @@ import org.jetbrains.annotations.NotNull;
  */
 public class MultiGameHandler {
 
-  private static final HashMap<Integer, Game> games = new HashMap<>();
-  private static final HashMap<ServerThread, Game> clientGames = new HashMap<>();
+  private final ArrayList<NetworkGame> games = new ArrayList<>();
+  private final ArrayList<Tournament> tournaments = new ArrayList<>();
+  private final HashMap<Integer, Game> idGames = new HashMap<>();
+  private final HashMap<Integer, Tournament> idTournaments = new HashMap<>();
+  private final HashMap<ServerThread, Game> clientGames = new HashMap<>();
 
   /**
    * @author Carina
-   * @use creates the new Game
+   * @use creates the new Game1
    */
   public void createNewGame(final int gameID, @NotNull final ServerThread ausrichter) {
-    if (!games.containsKey(gameID)) {
+    if (!idGames.containsKey(gameID)) {
       var game = new Game(gameID);
       try {
         game.create();
       } catch (IOException e) {
         e.printStackTrace();
       }
-      games.put(gameID, game);
+      games.add(game);
+      idGames.put(gameID, game);
     } else {
-    //TODO: hier  ausrichter.sendPacket(new Packet(new JSONObject().put("type", Packets.GAMEEXISTS.getPacketType())));
-      System.out.println("Game already exists");
+      var json = new JsonObject();
+      json.addProperty("type", Packets.GAMEEXISTS.getPacketType());
+      ausrichter.sendPacket(new Packet(json));
     }
   }
 
-  public HashMap<Integer, Game> getGames() {
-    return games;
+  /**
+   * @author Carina
+   * @use creates the new Game1
+   */
+  public void createNewTournament(final int tournamentID, @NotNull final ServerThread ausrichter) {
+    if (!idGames.containsKey(tournamentID)) {
+      var tournament = new Tournament(tournamentID);
+      tournament.create();
+      tournaments.add(tournament);
+      idTournaments.put(tournamentID, tournament);
+    } else {
+      var json = new JsonObject();
+      json.addProperty("type", Packets.GAMEEXISTS.getPacketType());
+      ausrichter.sendPacket(new Packet(json));
+    }
+  }
+
+  public HashMap<Integer, Game> getIDGames() {
+    return idGames;
   }
 
   public HashMap<ServerThread, Game> getClientGames() {
     return clientGames;
+  }
+
+  public ArrayList<Tournament> getTournaments() {
+    return tournaments;
+  }
+
+  public ArrayList<NetworkGame> getGames() {
+    return games;
+  }
+
+  public HashMap<Integer, Tournament> getIdTournaments() {
+    return idTournaments;
   }
 }

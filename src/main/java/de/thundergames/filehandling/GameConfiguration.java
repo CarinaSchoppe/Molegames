@@ -11,7 +11,7 @@
 package de.thundergames.filehandling;
 
 import com.google.gson.Gson;
-import de.thundergames.playmechanics.util.interfaceItems.NetworkConfiguration;
+import de.thundergames.networking.util.interfaceItems.NetworkConfiguration;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;

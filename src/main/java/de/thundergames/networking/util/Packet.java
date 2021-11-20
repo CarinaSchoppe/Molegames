@@ -21,22 +21,22 @@ public class Packet {
 
   private final JsonObject jsonObject;
   private final String packetType;
-  private final JsonObject values;
+  private final JsonObject value;
 
 
   public Packet(@NotNull final String packetType, @NotNull final JsonObject jsonObject) {
     this.jsonObject = jsonObject;
     this.packetType = packetType;
-    this.values = jsonObject.getAsJsonObject("values");
+    this.value = jsonObject.getAsJsonObject("value");
   }  public Packet( @NotNull final JsonObject jsonObject) {
     this.jsonObject = jsonObject;
     this.packetType = jsonObject.get("type").getAsString();
-    this.values = jsonObject.getAsJsonObject("values");
+    this.value = jsonObject.getAsJsonObject("value");
   }
 
 
   public JsonObject getValues() {
-    return values;
+    return value;
   }
 
   public String getPacketType() {

@@ -12,8 +12,8 @@
 package de.thundergames.playmechanics.util;
 
 import de.thundergames.filehandling.GameConfiguration;
+import de.thundergames.networking.util.interfaceItems.NetworkConfiguration;
 import de.thundergames.playmechanics.game.Game;
-import de.thundergames.playmechanics.util.interfaceItems.NetworkConfiguration;
 import java.util.HashMap;
 import org.jetbrains.annotations.NotNull;
 

@@ -10,7 +10,7 @@
  */
 package de.thundergames.filehandling;
 
-import de.thundergames.playmechanics.util.interfaceItems.NetworkPlayer;
+import de.thundergames.networking.util.interfaceItems.NetworkPlayer;
 import java.util.List;
 
 public class Score {

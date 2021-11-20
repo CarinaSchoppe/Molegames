@@ -1,6 +1,6 @@
 package de.thundergames.playmechanics.util;
 
-import de.thundergames.playmechanics.util.interfaceItems.NetworkGame;
+import de.thundergames.networking.util.interfaceItems.NetworkGame;
 
 public class Tournament {
 
@@ -13,6 +13,6 @@ public class Tournament {
   }
 
 
-
-
+  public void create() {
+  }
 }

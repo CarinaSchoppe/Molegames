@@ -1,4 +1,4 @@
-package de.thundergames.playmechanics.util.interfaceItems;
+package de.thundergames.networking.util.interfaceItems;
 
 public class NetworkConfiguration extends InterfaceObject {
 

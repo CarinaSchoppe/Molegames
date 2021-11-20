@@ -10,6 +10,8 @@
  */
 package de.thundergames.networking.server;
 
+import com.google.gson.JsonObject;
+import de.thundergames.MoleGames;
 import de.thundergames.networking.util.Packet;
 import de.thundergames.networking.util.Packets;
 import de.thundergames.playmechanics.game.Game;
@@ -20,13 +22,72 @@ import org.jetbrains.annotations.NotNull;
 public class PacketHandler {
 
 
-  public void handlePacket( @NotNull final Packet packet, @NotNull final ServerThread client) {
-
+  public void handlePacket(@NotNull final Packet packet, @NotNull final ServerThread client) {
+    if (packet.getPacketType().equals(Packets.LOGIN.getPacketType())) {
+      handleLoginPacket(client, packet);
+    } else if (packet.getPacketType().equals(Packets.LOGOUT.getPacketType())) {
+      handleLogoutPacket(packet, client);
+    } else if (packet.getPacketType().equals(Packets.MESSAGE.getPacketType())) {
+      System.out.println("Client with id: " + client.getConnectionID() + " sended: " + packet.getValues().get("message").getAsString());
+    } else if (packet.getPacketType().equals(Packets.GETOVERVIEW.getPacketType())) {
+      getOverviewPacket(client);
+    }
   }
 
 
+  /**
+   * @param clientConnection the client that logged in into the server
+   * @param threadID         the threadID of the client that will be send to the client to give hima id
+   * @author Carina
+   * @see de.thundergames.gameplay.player.networking.Client
+   */
+  public void welcomePacket(@NotNull final ServerThread clientConnection, final int threadID) {
+    var object = new JsonObject();
+    object.addProperty("type", Packets.WELCOME.getPacketType());
+    var json = new JsonObject();
+    json.addProperty("clientID", threadID);
+    json.addProperty("magic", "mole42");
+    object.add("value", json);
+    clientConnection.sendPacket(new Packet(object));
+  }
 
+  /**
+   * @param client
+   * @param packet
+   * @author Carina
+   * @use handles the login packet from the client
+   */
+  private void handleLoginPacket(@NotNull final ServerThread client, @NotNull final Packet packet) {
+    if (!MoleGames.getMoleGames()
+        .getServer()
+        .getConnectionNames()
+        .containsKey(packet.getValues().get("name").getAsString())) {
+      client.setClientName(packet.getValues().get("name").getAsString());
+      MoleGames.getMoleGames().getServer().getConnectionNames().put(client.getClientName(), client);
+    } else {
+      for (var i = 1; i < MoleGames.getMoleGames().getServer().getConnectionNames().size(); i++) {
+        if (!MoleGames.getMoleGames()
+            .getServer()
+            .getConnectionNames()
+            .containsKey(packet.getValues().get("name").getAsString() + i)) {
+          client.setClientName(packet.getValues().get("name").getAsString() + i);
+          break;
+        }
+      }
+    }
+  }
 
+  public void overviewPacket(@NotNull final ServerThread client) {
+
+  }
+
+  private void getOverviewPacket(@NotNull final ServerThread client) {
+    overviewPacket(client);
+  }
+
+  private void handleLogoutPacket(@NotNull Packet packet, @NotNull final ServerThread client) {
+    client.endConnection();
+  }
 
 
 

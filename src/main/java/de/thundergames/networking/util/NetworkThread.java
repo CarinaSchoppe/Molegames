@@ -35,6 +35,7 @@ public abstract class NetworkThread extends Thread {
   private final BufferedReader reader;
   protected Packet packet;
   protected int id;
+  private boolean run = true;
 
 
   /**
@@ -70,7 +71,7 @@ public abstract class NetworkThread extends Thread {
       keyBoardListener(true);
     }
     try {
-      while (true) {
+      while (run) {
         if (socket.isConnected()) {
           String message = null; // ließt die packetmessage die reinkommt
           try {
@@ -126,7 +127,7 @@ public abstract class NetworkThread extends Thread {
           try {
             System.out.println("Keylistener started!");
             var keyboardReader = new BufferedReader(new InputStreamReader(System.in));
-            while (true) {
+            while (run) {
               try {
                 var message = keyboardReader.readLine();
                 var object = new JsonObject();
@@ -165,7 +166,7 @@ public abstract class NetworkThread extends Thread {
    * @author Carina
    * @use it will automaticlly pass it forwards to the Server or Client to handle the Packet depending on who recieved it (Server- or Client thread)
    */
-  public void readStringPacketInput(
+  private void readStringPacketInput(
       @NotNull final Packet packet, @NotNull final NetworkThread reciever)
       throws UndefinedError {
     // TODO: How to handle the packet from the client! Player has moved -> now in a hole and than
@@ -208,5 +209,9 @@ public abstract class NetworkThread extends Thread {
 
   public int getConnectionID() {
     return id;
+  }
+
+  public void endConnection() {
+    run = false;
   }
 }

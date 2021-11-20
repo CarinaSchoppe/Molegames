@@ -27,6 +27,11 @@ public class Client extends Network {
   private int id;
   private int gameID;
 
+  public static void main(String[] args) {
+    Client client = new Client(5000, "localhost", "Carina");
+    client.create();
+  }
+
   /**
    * @param port
    * @param ip
@@ -72,7 +77,7 @@ public class Client extends Network {
       socket = new Socket(ip, port);
       clientThread = new ClientThread(socket, 0, this);
       clientThread.start();
-      //TODO: hier clientPacketHandler.loginPacket(clientThread, name);
+      clientPacketHandler.loginPacket(client, name);
     } catch (IOException exception) {
       System.out.println("Is the server running?!");
     }
@@ -84,7 +89,7 @@ public class Client extends Network {
     return clientPacketHandler;
   }
 
-  public void setId(final int id) {
+  public void setClientID(final int id) {
     this.id = id;
   }
 

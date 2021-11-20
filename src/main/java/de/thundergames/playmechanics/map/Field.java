@@ -9,7 +9,7 @@
  * requires the express written consent of ThunderGames | SwtPra10.
  */
 package de.thundergames.playmechanics.map;
-import de.thundergames.playmechanics.util.interfaceItems.NetworkField;
+import de.thundergames.networking.util.interfaceItems.NetworkField;
 import java.util.List;
 import org.jetbrains.annotations.NotNull;
 
