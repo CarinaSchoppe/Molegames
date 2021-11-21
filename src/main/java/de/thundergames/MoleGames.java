@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for Swtpra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 21.11.21, 13:02 by Carina latest changes made by Carina on 21.11.21, 13:02 All contents of "MoleGames" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 21.11.21, 15:19 by Carina latest changes made by Carina on 21.11.21, 15:11 All contents of "MoleGames" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -52,10 +52,6 @@ public class MoleGames {
       new LoginScreen().create(args);
     } else {
       switch (Objects.requireNonNull(args[0])) {
-        case "-c":
-        case "c":
-          new de.thundergames.gameplay.ausrichter.ui.LoginScreen().create(args);
-          break;
         case "-p":
         case "p":
           new LoginScreen().create(args);
@@ -67,6 +63,7 @@ public class MoleGames {
           moleGames.gameHandler = new MultiGameHandler();
           moleGames.gameLogic = new GameLogic();
           moleGames.server.create();
+          new de.thundergames.gameplay.ausrichter.ui.LoginScreen().create(args);
           break;
         case "-a":
         case "a":
@@ -107,10 +104,6 @@ public class MoleGames {
 
   public void setGameMasterClient(GameMasterClient gameMasterClient) {
     this.gameMasterClient = gameMasterClient;
-  }
-
-  public AI getAi() {
-    return ai;
   }
 
 

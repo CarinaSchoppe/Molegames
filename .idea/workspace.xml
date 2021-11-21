@@ -5,20 +5,21 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0b983e64-eaee-4539-9e35-0cc6cea2f64e" name="Changes" comment="implementation of the interface commitee document stuff">
-      <change beforePath="$PROJECT_DIR$/.gradle/7.1/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.1/executionHistory/executionHistory.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/7.1/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.1/executionHistory/executionHistory.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/7.1/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.1/fileHashes/fileHashes.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/7.1/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.1/fileHashes/fileHashes.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/gameplay/ai/AILogic.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/thundergames/gameplay/ai/AILogic.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/MoleGames.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/thundergames/MoleGames.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/gameplay/ausrichter/GameMasterClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/thundergames/gameplay/ausrichter/GameMasterClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/gameplay/ausrichter/networking/GameMasterClientThread.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/gameplay/ausrichter/networking/GameMasterPacketHandler.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/gameplay/ausrichter/ui/LoginScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/thundergames/gameplay/ausrichter/ui/LoginScreen.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/gameplay/player/networking/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/thundergames/gameplay/player/networking/Client.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/gameplay/player/networking/ClientPacketHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/thundergames/gameplay/player/networking/ClientPacketHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/gameplay/player/networking/ClientThread.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/thundergames/gameplay/player/networking/ClientThread.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/networking/server/PacketHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/thundergames/networking/server/PacketHandler.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/networking/server/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/thundergames/networking/server/Server.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/networking/server/ServerThread.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/thundergames/networking/server/ServerThread.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/networking/util/NetworkThread.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/thundergames/networking/util/NetworkThread.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/networking/util/Packets.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/thundergames/networking/util/Packets.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/networking/util/interfaceItems/NetworkGame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/thundergames/networking/util/interfaceItems/NetworkGame.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/playmechanics/game/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/thundergames/playmechanics/game/Game.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/networking/util/interfaceItems/GameState.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/thundergames/networking/util/interfaceItems/GameState.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/networking/util/interfaceItems/NetworkPlayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/thundergames/networking/util/interfaceItems/NetworkPlayer.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -405,6 +406,8 @@
         <item itemvalue="Gradle.SwtPra10 [runShadow]" />
         <item itemvalue="Gradle.SwtPra10 [clean]" />
         <item itemvalue="Gradle.SwtPra10 [build]" />
+        <item itemvalue="Gradle.SwtPra10 [runShadow]" />
+        <item itemvalue="Gradle.SwtPra10 [clean]" />
       </list>
     </recent_temporary>
   </component>

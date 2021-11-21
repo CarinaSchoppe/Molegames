@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for Swtpra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 21.11.21, 14:13 by Carina latest changes made by Carina on 21.11.21, 14:11 All contents of "PacketHandler" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 21.11.21, 15:19 by Carina latest changes made by Carina on 21.11.21, 14:52 All contents of "PacketHandler" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -41,6 +41,15 @@ public class PacketHandler {
     }
   }
 
+
+  private void playerLeftPacket(@NotNull final ServerThread client) {
+    var object = new JsonObject();
+    object.addProperty("type", Packets.WELCOME.getPacketType());
+    var json = new JsonObject();
+    json.addProperty("player", new Gson().toJson(client.getPlayer()));
+    object.add("value", json);
+    client.sendPacket(new Packet(object));
+  }
 
   /**
    * @param clientConnection the client that logged in into the server
@@ -89,6 +98,7 @@ public class PacketHandler {
         }
       }
     }
+    client.setPlayer(new NetworkPlayer(name, client.getConnectionID()));
   }
 
   /**

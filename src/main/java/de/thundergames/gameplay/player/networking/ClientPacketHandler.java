@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for Swtpra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 21.11.21, 14:13 by Carina latest changes made by Carina on 21.11.21, 13:05 All contents of "ClientPacketHandler" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 21.11.21, 15:19 by Carina latest changes made by Carina on 21.11.21, 15:12 All contents of "ClientPacketHandler" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -14,6 +14,8 @@ import com.google.gson.JsonObject;
 import de.thundergames.networking.server.PacketHandler;
 import de.thundergames.networking.util.Packet;
 import de.thundergames.networking.util.Packets;
+import de.thundergames.networking.util.interfaceItems.GameState;
+import de.thundergames.networking.util.interfaceItems.NetworkPlayer;
 import java.util.ArrayList;
 import org.jetbrains.annotations.NotNull;
 
@@ -35,7 +37,39 @@ public class ClientPacketHandler {
       System.out.println("Server sended: " + packet.getValues().get("message").getAsString());
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.ASSIGNTOGAME.getPacketType())) {
       handleAssignToGamePacket(client, packet);
+    } else if (packet.getPacketType().equalsIgnoreCase(Packets.WELCOMEGAME.getPacketType())) {
+      handleWelcomeGamePacket(client, packet);
+    } else if (packet.getPacketType().equalsIgnoreCase(Packets.PLAYERJOINED.getPacketType())) {
+      handlePlayerJoinedPacket(client, packet);
+    } else if (packet.getPacketType().equalsIgnoreCase(Packets.PLAYERLEFT.getPacketType())) {
+      handlePlayerLeftPacket(client, packet);
+    } else if (packet.getPacketType().equalsIgnoreCase(Packets.PLAYERKICKED.getPacketType())) {
+      handlePlayerKickedFromGame(client, packet);
     }
+  }
+
+  public void handlePlayerLeftPacket(@NotNull final Client client, @NotNull final Packet packet) {
+    System.out.println("A player has left the Game + " + new Gson().fromJson(packet.getValues(), NetworkPlayer.class));
+  }
+
+  public void handlePlayerKickedFromGame(@NotNull final Client client, @NotNull final Packet packet) {
+    System.out.println("A player has left the Game + " + new Gson().fromJson(packet.getValues(), NetworkPlayer.class));
+  }
+
+  public void leaveGamePacket(@NotNull final Client client) {
+    var object = new JsonObject();
+    object.addProperty("type", Packets.LEAVEGAME.getPacketType());
+    client.getClientThread().sendPacket(new Packet(object));
+    System.out.println("Client: Send left the game!");
+  }
+
+  private void handlePlayerJoinedPacket(@NotNull final Client client, @NotNull final Packet packet) {
+    System.out.println("A player has joined the Game + " + new Gson().fromJson(packet.getValues(), NetworkPlayer.class));
+  }
+
+  private void handleWelcomeGamePacket(@NotNull final Client client, @NotNull final Packet packet) {
+    client.setGameState(new Gson().fromJson(packet.getValues(), GameState.class));
+    System.out.println(packet.getJsonObject().toString());
   }
 
   /**
@@ -170,6 +204,251 @@ public class ClientPacketHandler {
  * @author Carina
  * @param clientConnection
  * @use send to the server when a connection will be removed
+ * @param client
+ * @param packet
+ * @author Carina
+ * @use handles the message that was send with the packet
+ * @param client
+ * @param packet
+ * @author Carina
+ * @use handles the packet if the player did in invalid move
+ * @param client
+ * @param packet
+ * @author Carina
+ * @use handles the placement of a mole by a player
+ * @param client
+ * @param packet
+ * @author Carina
+ * @use handles the movement if a mole was moved by any player
+ * @param client
+ * @param packet handles the packet when the server gives the player its moleIDs
+ * @author Carina
+ * @param client
+ * @param packet
+ * @author Carina
+ * @use handles the packet when the player is on the turn
+ * @param client
+ * @param packet
+ * @author Carina
+ * @use is send when the server sais the players Turn is over.
+ * @param client
+ * @param packet
+ * @author Carina
+ * @use handles the packet if something does not exist
+ * @param client
+ * @param packet
+ * @author Carina
+ * @use handles the packet if a drawn card was send
+ * @param client
+ * @param packet
+ * @author Carina
+ * @use handles the message that was send with the packet
+ * @param client
+ * @param packet
+ * @author Carina
+ * @use handles the packet if the player did in invalid move
+ * @param client
+ * @param packet
+ * @author Carina
+ * @use handles the placement of a mole by a player
+ * @param client
+ * @param packet
+ * @author Carina
+ * @use handles the movement if a mole was moved by any player
+ * @param client
+ * @param packet handles the packet when the server gives the player its moleIDs
+ * @author Carina
+ * @param client
+ * @param packet
+ * @author Carina
+ * @use handles the packet when the player is on the turn
+ * @param client
+ * @param packet
+ * @author Carina
+ * @use is send when the server sais the players Turn is over.
+ * @param client
+ * @param packet
+ * @author Carina
+ * @use handles the packet if something does not exist
+ * @param client
+ * @param packet
+ * @author Carina
+ * @use handles the packet if a drawn card was send
+ * @param client
+ * @param packet
+ * @author Carina
+ * @use handles the message that was send with the packet
+ * @param client
+ * @param packet
+ * @author Carina
+ * @use handles the packet if the player did in invalid move
+ * @param client
+ * @param packet
+ * @author Carina
+ * @use handles the placement of a mole by a player
+ * @param client
+ * @param packet
+ * @author Carina
+ * @use handles the movement if a mole was moved by any player
+ * @param client
+ * @param packet handles the packet when the server gives the player its moleIDs
+ * @author Carina
+ * @param client
+ * @param packet
+ * @author Carina
+ * @use handles the packet when the player is on the turn
+ * @param client
+ * @param packet
+ * @author Carina
+ * @use is send when the server sais the players Turn is over.
+ * @param client
+ * @param packet
+ * @author Carina
+ * @use handles the packet if something does not exist
+ * @param client
+ * @param packet
+ * @author Carina
+ * @use handles the packet if a drawn card was send
+ * @param client
+ * @param packet
+ * @author Carina
+ * @use handles the message that was send with the packet
+ * @param client
+ * @param packet
+ * @author Carina
+ * @use handles the packet if the player did in invalid move
+ * @param client
+ * @param packet
+ * @author Carina
+ * @use handles the placement of a mole by a player
+ * @param client
+ * @param packet
+ * @author Carina
+ * @use handles the movement if a mole was moved by any player
+ * @param client
+ * @param packet handles the packet when the server gives the player its moleIDs
+ * @author Carina
+ * @param client
+ * @param packet
+ * @author Carina
+ * @use handles the packet when the player is on the turn
+ * @param client
+ * @param packet
+ * @author Carina
+ * @use is send when the server sais the players Turn is over.
+ * @param client
+ * @param packet
+ * @author Carina
+ * @use handles the packet if something does not exist
+ * @param client
+ * @param packet
+ * @author Carina
+ * @use handles the packet if a drawn card was send
+ * @param client
+ * @param packet
+ * @author Carina
+ * @use handles the message that was send with the packet
+ * @param client
+ * @param packet
+ * @author Carina
+ * @use handles the packet if the player did in invalid move
+ * @param client
+ * @param packet
+ * @author Carina
+ * @use handles the placement of a mole by a player
+ * @param client
+ * @param packet
+ * @author Carina
+ * @use handles the movement if a mole was moved by any player
+ * @param client
+ * @param packet handles the packet when the server gives the player its moleIDs
+ * @author Carina
+ * @param client
+ * @param packet
+ * @author Carina
+ * @use handles the packet when the player is on the turn
+ * @param client
+ * @param packet
+ * @author Carina
+ * @use is send when the server sais the players Turn is over.
+ * @param client
+ * @param packet
+ * @author Carina
+ * @use handles the packet if something does not exist
+ * @param client
+ * @param packet
+ * @author Carina
+ * @use handles the packet if a drawn card was send
+ * @param client
+ * @param packet
+ * @author Carina
+ * @use handles the message that was send with the packet
+ * @param client
+ * @param packet
+ * @author Carina
+ * @use handles the packet if the player did in invalid move
+ * @param client
+ * @param packet
+ * @author Carina
+ * @use handles the placement of a mole by a player
+ * @param client
+ * @param packet
+ * @author Carina
+ * @use handles the movement if a mole was moved by any player
+ * @param client
+ * @param packet handles the packet when the server gives the player its moleIDs
+ * @author Carina
+ * @param client
+ * @param packet
+ * @author Carina
+ * @use handles the packet when the player is on the turn
+ * @param client
+ * @param packet
+ * @author Carina
+ * @use is send when the server sais the players Turn is over.
+ * @param client
+ * @param packet
+ * @author Carina
+ * @use handles the packet if something does not exist
+ * @param client
+ * @param packet
+ * @author Carina
+ * @use handles the packet if a drawn card was send
+ * @param client
+ * @param packet
+ * @author Carina
+ * @use handles the message that was send with the packet
+ * @param client
+ * @param packet
+ * @author Carina
+ * @use handles the packet if the player did in invalid move
+ * @param client
+ * @param packet
+ * @author Carina
+ * @use handles the placement of a mole by a player
+ * @param client
+ * @param packet
+ * @author Carina
+ * @use handles the movement if a mole was moved by any player
+ * @param client
+ * @param packet handles the packet when the server gives the player its moleIDs
+ * @author Carina
+ * @param client
+ * @param packet
+ * @author Carina
+ * @use handles the packet when the player is on the turn
+ * @param client
+ * @param packet
+ * @author Carina
+ * @use is send when the server sais the players Turn is over.
+ * @param client
+ * @param packet
+ * @author Carina
+ * @use handles the packet if something does not exist
+ * @param client
+ * @param packet
+ * @author Carina
+ * @use handles the packet if a drawn card was send
  * @param client
  * @param packet
  * @author Carina

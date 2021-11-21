@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for Swtpra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 21.11.21, 13:02 by Carina latest changes made by Carina on 21.11.21, 13:02 All contents of "Client" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 21.11.21, 15:19 by Carina latest changes made by Carina on 21.11.21, 15:12 All contents of "Client" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -10,6 +10,7 @@
 package de.thundergames.gameplay.player.networking;
 
 import de.thundergames.networking.util.Network;
+import de.thundergames.networking.util.interfaceItems.GameState;
 import de.thundergames.networking.util.interfaceItems.NetworkGame;
 import java.io.IOException;
 import java.net.Socket;
@@ -24,6 +25,7 @@ public class Client extends Network {
   protected ClientPacketHandler clientPacketHandler;
   protected ClientThread clientThread;
   private final String name;
+  private GameState gameState;
   private int id;
   private int gameID;
   private final ArrayList<NetworkGame> games = new ArrayList<>();
@@ -32,7 +34,11 @@ public class Client extends Network {
   public static void main(String[] args) {
     Client client = new Client(5000, "localhost", "Carina");
     client.create();
+
+    //TODO: testing
   }
+
+
 
   /**
    * @param port
@@ -85,7 +91,13 @@ public class Client extends Network {
     }
   }
 
+  public GameState getGameState() {
+    return gameState;
+  }
 
+  public void setGameState(GameState gameState) {
+    this.gameState = gameState;
+  }
 
   public ClientPacketHandler getClientPacketHandler() {
     return clientPacketHandler;
