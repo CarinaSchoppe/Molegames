@@ -1,8 +1,7 @@
 /*
  * Copyright Notice for Swtpra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 18.11.21, 10:33 by Carina Latest changes made by Carina on 18.11.21, 09:41
- * All contents of "Player" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 21.11.21, 13:02 by Carina latest changes made by Carina on 21.11.21, 13:02 All contents of "Player" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -20,20 +19,18 @@ import de.thundergames.playmechanics.game.Game;
 import de.thundergames.playmechanics.game.GameLogic;
 import de.thundergames.playmechanics.map.Field;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.stream.Collectors;
 import org.jetbrains.annotations.NotNull;
 
 public class Player extends NetworkPlayer {
 
   private final ArrayList<Mole> moles = new ArrayList<>();
-  private ServerThread serverClient = null;
-  private Game game = null;
-  private List<Integer> cards = new ArrayList<>();
+  private final ServerThread serverClient;
+  private final Game game;
+  private final List<Integer> cards = new ArrayList<>();
   private int drawCard = 0;
   private Timer timer;
   private boolean timerIsRunning = false;
@@ -53,8 +50,7 @@ public class Player extends NetworkPlayer {
     super(client.getClientName(), client.getConnectionID());
     this.serverClient = client;
     this.game = game;
-    this.cards = new ArrayList<>();
-    cards.addAll(Arrays.stream(game.getSettings().getPullDiscs()).boxed().collect(Collectors.toList()));
+    cards.addAll(game.getSettings().getPullDiscs());
 
   }
 
@@ -72,7 +68,7 @@ public class Player extends NetworkPlayer {
 
   public void refillCards() {
     if (cards.isEmpty()) {
-      cards.addAll(Arrays.stream(game.getSettings().getPullDiscs()).boxed().collect(Collectors.toList()));
+      cards.addAll(game.getSettings().getPullDiscs());
     }
   }
 
@@ -80,25 +76,6 @@ public class Player extends NetworkPlayer {
     drawCard = cardValue;
     cards.remove(cardValue);
     refillCards();
-  }
-
-  /**
-   * @author Carina
-   * @use the player object that got created / instanciated after the constructor to get everything ready
-   * @see Player
-   */
-  public synchronized Player create() {
-    var moleIDs = new ArrayList<Integer>();
-    for (int i = 0; i < game.getSettings().getNumberOfMoles(); i++) {
-      var mole = new Mole(game.getMoleID(), this);
-      moles.add(mole);
-      game.getMoleMap().put(this, mole);
-      moleIDs.add(game.getMoleID());
-      game.getMoleIDMap().put(mole.getMoleID(), mole);
-      game.setMoleID(game.getMoleID() + 1);
-    }
-    //TODO: hier MoleGames.getMoleGames().getPacketHandler().sendMoleIDs(serverClient, moleIDs);
-    return this;
   }
 
   /**
@@ -159,9 +136,8 @@ public class Player extends NetworkPlayer {
    * @see Field
    * @see GameLogic
    */
-  public void moveMole(
-      final int moleID, final int x_start, final int y_start, final int x_end, final int y_end) {
-    if (!game.getCurrentPlayer().equals(this) || hasMoved || getMole(moleID) == null) {
+  public void moveMole(final int x_start, final int y_start, final int x_end, final int y_end) {
+    if (!game.getCurrentPlayer().equals(this) || hasMoved) {
       return;
     }
     if (MoleGames.getMoleGames()
@@ -171,31 +147,22 @@ public class Player extends NetworkPlayer {
             List.of(x_end, y_end),
             drawCard,
             game.getMap())) { // TODO: drawCard - 3
-      var mole = getMole(moleID);
+      Mole mole = null;
+      for (var  m : moles) {
+        if (m.getField().getX() == x_start && m.getField().getY() == y_start) {
+          mole = m;
+          break;
+        }
+      }
       Objects.requireNonNull(mole).setMoleField(game.getMap().getFieldMap().get(List.of(x_end, y_end)));
-      game.getMap().getOccupied()
-          .remove(game.getMap().getFieldMap().get(List.of(x_start, y_start)));
-      game.getMap()
-
-          .getOccupied()
-          .add(game.getMap().getFieldMap().get(List.of(x_end, y_end)));
       game.getMap()
           .getFieldMap()
           .get(List.of(x_start, y_start))
-          .setOccupied(false, -1);
+          .setOccupied(false);
       game.getMap()
           .getFieldMap()
           .get(List.of(x_end, y_end))
-          .setOccupied(true, moleID);
-/*TODO: hier
-
-         MoleGames.getMoleGames()
-          .getServer()
-          .sendToAllGameClients(
-              game,
-              MoleGames.getMoleGames()
-                  .getPacketHandler()
-                  .playerMovesMolePacket(moleID, x_end, y_end));*/
+          .setOccupied(true);
       System.out.println(
           "Player with id: "
               + serverClient.getConnectionID()
@@ -209,7 +176,6 @@ public class Player extends NetworkPlayer {
               + y_end
               + " with a card=" + drawCard + "." + "\n\n");
       handleTurnAfterAction();
-
     } else {
       System.out.println(
           "Client with id: "
@@ -231,45 +197,25 @@ public class Player extends NetworkPlayer {
   /**
    * @param x      the x cordinate where a mole will be placed
    * @param y      the y cordinate where a mole will be placed
-   * @param moleID the moleID that will be placed on the map
    * @author Carina
    * @use will check if a field is free than set the mole on this field
    * @see Mole
    * @see Player
    * @see Field
    */
-  public void placeMole(final int x, final int y, final int moleID) {
-    if (!game.getCurrentPlayer().equals(this) || hasMoved || getMole(moleID) == null) {
+  public void placeMole(final int x, final int y) {
+    if (!game.getCurrentPlayer().equals(this) || hasMoved || moles.size() >= game.getSettings().getNumberOfMoles()) {
       return;
     }
-/*  TODO:    if (!game.getMap().getFieldMap().containsKey(List.of(x, y))) {
-      serverClient.sendPacket(
-          new Packet(new JSONObject().put("type", Packets.OCCUPIED.getPacketType()).put("value", new JSONObject().put("moleID", moleID).toString())));
-      return;
-    }*/
     if (game.getMap().getFieldMap().get(List.of(x, y)).isOccupied()
         || game.getMap().getFieldMap().get(List.of(x, y)).isHole()) {
- /*TODO:     serverClient.sendPacket(
-          new Packet(new JSONObject().put("type", Packets.OCCUPIED.getPacketType()).put("value", new JSONObject().put("moleID", moleID).toString())));*/
     } else {
-      var mole = getMole(moleID);
-      Objects.requireNonNull(mole)
-          .setMoleField(game.getMap().getFieldMap().get(List.of(x, y)));
-      game.getMap()
-
-          .getOccupied()
-          .add(game.getMap().getFieldMap().get(List.of(x, y)));
-      game.getMap().getFieldMap().get(List.of(x, y)).setOccupied(true, moleID);
-/*TODO: hier
-
-         MoleGames.getMoleGames()
-          .getServer()
-          .sendToAllGameClients(
-              game,
-              MoleGames.getMoleGames().getPacketHandler().playerPlacesMolePacket(moleID, x, y));*/
+      var mole = new Mole(this, game.getMap().getFieldMap().get(List.of(x, y)));
+      moles.add(mole);
+      game.getMoleMap().put(this, mole);
+      game.getMap().getFieldMap().get(List.of(x, y)).setOccupied(true);
       game.getMap().printMap();
       handleTurnAfterAction();
-
       System.out.println(
           "Player with id: "
               + serverClient.getConnectionID()
@@ -291,28 +237,11 @@ public class Player extends NetworkPlayer {
     if (timerIsRunning) {
       timer.purge();
       timer.cancel();
-      var json= new JsonObject();
+      var json = new JsonObject();
       json.addProperty("type", Packets.TURNOVER.getPacketType());
       getServerClient().sendPacket(new Packet(json));
       game.nextPlayer();
     }
-  }
-
-  /**
-   * @param moleID the mole that will be gotten by its ID
-   * @return the mole with the given ID
-   * @author Carina
-   * @see Mole
-   */
-  private Mole getMole(final int moleID) {
-    Mole mole;
-    for (Mole value : moles) {
-      if (value.getMoleID() == moleID) {
-        mole = value;
-        return mole;
-      }
-    }
-    return null;
   }
 
 

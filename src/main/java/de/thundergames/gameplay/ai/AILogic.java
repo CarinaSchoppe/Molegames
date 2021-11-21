@@ -1,8 +1,7 @@
 /*
  * Copyright Notice for Swtpra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 18.11.21, 10:33 by Carina Latest changes made by Carina on 18.11.21, 10:32
- * All contents of "AILogic" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 21.11.21, 13:02 by Carina latest changes made by Carina on 21.11.21, 13:02 All contents of "AILogic" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -15,6 +14,7 @@ import static de.thundergames.playmechanics.util.Directions.DOWN_LEFT;
 import static de.thundergames.playmechanics.util.Directions.RIGHT;
 
 import de.thundergames.playmechanics.util.Directions;
+import de.thundergames.playmechanics.util.Mole;
 import de.thundergames.playmechanics.util.Player;
 import java.util.List;
 import org.jetbrains.annotations.NotNull;
@@ -26,7 +26,7 @@ public class AILogic {
    * @author Carina
    * @use is called to make a move!
    */
-  public void makeMove(@NotNull final AI ai, final int moleID, @NotNull final Directions direction) {
+  public void makeMove(@NotNull final AI ai, @NotNull final Mole  mole, @NotNull final Directions direction) {
 
     /*TODO: hier
 
@@ -160,13 +160,13 @@ public class AILogic {
    */
   public void moveMoles(@NotNull final AI ai) {
     boolean moveable = false;
-    for (var moleID : ai.getPlayerMolesOnField()) {
-      if (ai.getMolePositions().containsKey(moleID)) {
-        var direction = isMoveable(ai, ai.getCard(), List.of(ai.getMolePositions().get(moleID).get(0), ai.getMolePositions().get(moleID).get(1)));
+    for (var mole : ai.getMolePositions().keySet()) {
+      if (ai.getMolePositions().containsKey(mole)) {
+        var direction = isMoveable(ai, ai.getCard(), List.of(ai.getMolePositions().get(mole).get(0), ai.getMolePositions().get(mole).get(1)));
         if (direction != null) {
           moveable = true;
-          System.out.println("mole with id: " + moleID + " is movable");
-          makeMove(ai, moleID, direction);
+          System.out.println("mole with id: " + mole + " is movable");
+          makeMove(ai, mole, direction);
           break;
         } else {
           System.out.println("all moles are not movable in all directions");
@@ -174,11 +174,11 @@ public class AILogic {
       }
     }
     if (!moveable) {
-      for (var moleID : ai.getPlayerMolesInHoles()) {
-        if (ai.getMolePositions().containsKey(moleID)) {
-          var direction = isMoveable(ai, ai.getCard(), List.of(ai.getMolePositions().get(moleID).get(0), ai.getMolePositions().get(moleID).get(1)));
+      for (var mole : ai.getMolePositions().keySet()) {
+        if (ai.getMolePositions().containsKey(mole)) {
+          var direction = isMoveable(ai, ai.getCard(), List.of(ai.getMolePositions().get(mole).get(0), ai.getMolePositions().get(mole).get(1)));
           if (direction != null) {
-            makeMove(ai, moleID, direction);
+            makeMove(ai, mole, direction);
             break;
           }
         }
@@ -225,7 +225,7 @@ public class AILogic {
   public List<Object> isHoleCloseToMole(@NotNull final AI ai) {
     for (var moleID : ai.getPlayerMolesOnField()) {
       if (ai.getMolePositions().containsKey(moleID)) {
-        for (var hole : ai.getMap().getFields()) {
+        for (var hole : ai.getMap().getFieldMap().values()) {
           if (hole.isHole()) {
             if ((hole.getX() == ai.getMolePositions().get(moleID).get(0) + ai.getCard() || hole.getX() == ai.getMolePositions().get(moleID).get(0) - ai.getCard()) && (hole.getY() == ai.getMolePositions().get(moleID).get(1) + ai.getCard() || hole.getY() == ai.getMolePositions().get(moleID).get(1) - ai.getCard())) {
               System.out.println("AI: there is a hole close to a mole within the drawcard. Hole:" + hole.getX() + "," + hole.getY() + " mole: " + moleID);

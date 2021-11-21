@@ -1,8 +1,7 @@
 /*
  * Copyright Notice for Swtpra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 18.11.21, 10:33 by Carina Latest changes made by Carina on 18.11.21, 10:32
- * All contents of "Map" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 21.11.21, 13:02 by Carina latest changes made by Carina on 21.11.21, 13:02 All contents of "Map" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -12,7 +11,6 @@ package de.thundergames.playmechanics.map;
 
 import de.thundergames.networking.util.interfaceItems.NetworkFloor;
 import de.thundergames.playmechanics.game.Game;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import org.jetbrains.annotations.NotNull;
@@ -20,9 +18,7 @@ import org.jetbrains.annotations.NotNull;
 public class Map extends NetworkFloor {
 
   private final Game game;
-  private List<Field> fields;
   private final HashMap<List<Integer>, Field> fieldMap = new HashMap<>();
-  private final List<Field> occupied = new ArrayList<>();
 
 
   /**
@@ -46,7 +42,7 @@ public class Map extends NetworkFloor {
       for (var x = 0; x < game.getRadius() + y; x++) {
         var field = new Field(List.of(x, y));
         field.setMap(this);
-        fields.add(field);
+        fieldMap.put(java.util.List.of(x, y), field);
       }
     }
     // 1 under mid: left to bottom right
@@ -55,7 +51,6 @@ public class Map extends NetworkFloor {
         var field = new Field(java.util.List.of(x, y));
         field.setMap(this);
         fieldMap.put(java.util.List.of(x, y), field);
-        fields.add(field);
       }
     }
     //printMap();
@@ -67,16 +62,16 @@ public class Map extends NetworkFloor {
    */
   public synchronized void printMap() {
     int row = 0;
-    for (var field : fields) {
-      if (field.getField().get(1) != row) {
+    for (var field : fieldMap.values()) {
+      if (field.getY() != row) {
         System.out.println();
-        row = field.getField().get(1);
+        row = field.getY();
       }
       System.out.print(
           "Field X: "
-              + field.getField().get(0)
+              + field.getX()
               + ", Y: "
-              + field.getField().get(1)
+              + field.getY()
               + " occupied: "
               + field.isOccupied()
               + ", hole: " + field.isHole() + ", drawAgainField: " + field.isDrawAgainField() + "    "
@@ -95,11 +90,6 @@ public class Map extends NetworkFloor {
     return fieldMap.containsKey(List.of(x, y));
   }
 
-
-  public List<Field> getFields() {
-    return fields;
-  }
-
   public HashMap<List<Integer>, Field> getFieldMap() {
     return fieldMap;
   }
@@ -108,7 +98,6 @@ public class Map extends NetworkFloor {
     return game;
   }
 
-  public List<Field> getOccupied() {
-    return occupied;
-  }
+
+
 }

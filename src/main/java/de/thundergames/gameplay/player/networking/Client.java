@@ -1,8 +1,7 @@
 /*
  * Copyright Notice for Swtpra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 18.11.21, 10:33 by Carina Latest changes made by Carina on 18.11.21, 10:32
- * All contents of "Client" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 21.11.21, 13:02 by Carina latest changes made by Carina on 21.11.21, 13:02 All contents of "Client" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -11,6 +10,7 @@
 package de.thundergames.gameplay.player.networking;
 
 import de.thundergames.networking.util.Network;
+import de.thundergames.networking.util.interfaceItems.NetworkGame;
 import java.io.IOException;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -26,6 +26,8 @@ public class Client extends Network {
   private final String name;
   private int id;
   private int gameID;
+  private final ArrayList<NetworkGame> games = new ArrayList<>();
+  private final ArrayList<NetworkGame> tournaments = new ArrayList<>();
 
   public static void main(String[] args) {
     Client client = new Client(5000, "localhost", "Carina");
@@ -103,5 +105,13 @@ public class Client extends Network {
 
   public void setGameID(final int gameID) {
     this.gameID = gameID;
+  }
+
+  public ArrayList<NetworkGame> getGames() {
+    return games;
+  }
+
+  public ArrayList<NetworkGame> getTournaments() {
+    return tournaments;
   }
 }

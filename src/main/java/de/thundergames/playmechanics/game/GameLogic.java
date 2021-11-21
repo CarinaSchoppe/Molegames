@@ -1,8 +1,7 @@
 /*
  * Copyright Notice for Swtpra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 18.11.21, 10:33 by Carina Latest changes made by Carina on 18.11.21, 10:32
- * All contents of "GameLogic" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 21.11.21, 13:02 by Carina latest changes made by Carina on 21.11.21, 13:02 All contents of "GameLogic" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -42,7 +41,7 @@ public class GameLogic {
           || start.get(1) - stop.get(1) == 0 && Math.abs(stop.get(0) - start.get(0)) == moveCounter
           || Math.abs(stop.get(0) - start.get(0)) == Math.abs(stop.get(1) - start.get(1))
           && Math.abs(start.get(1) - stop.get(1)) == moveCounter) {
-        for (var field : map.getOccupied()) {
+        for (var field : map.getFieldMap().values()) {
           if (stop.get(0) - start.get(0) == 0) {
             for (var i = 1; i < moveCounter; i++) {
               if (stop.get(1) - start.get(1) > 0) {
@@ -103,7 +102,7 @@ public class GameLogic {
   public void checkWinning(Map map) {
     var holes = 0;
     Field field = null;
-    for (var fieldCounter : map.getFields()) {
+    for (var fieldCounter : map.getFieldMap().values()) {
       if (fieldCounter.isHole()) {
         holes++;
         field = fieldCounter;
@@ -112,7 +111,14 @@ public class GameLogic {
 
     if (holes == 1) {
       if (field.isOccupied()) {
-        win(field.getMap().getGame().getMoleIDMap().get(field.getMoleID()).getPlayer());
+        for (var player : map.getGame().getClientPlayersMap().values()) {
+          for (var mole : player.getMoles()) {
+            if (mole.getField().equals(field)) {
+              win(player);
+              return;
+            }
+          }
+        }
       }
     }
 

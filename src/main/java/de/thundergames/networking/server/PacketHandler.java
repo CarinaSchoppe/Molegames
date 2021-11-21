@@ -1,8 +1,7 @@
 /*
  * Copyright Notice for Swtpra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 18.11.21, 10:33 by Carina Latest changes made by Carina on 18.11.21, 10:14
- * All contents of "PacketHandler" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 21.11.21, 13:02 by Carina latest changes made by Carina on 21.11.21, 13:02 All contents of "PacketHandler" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -10,11 +9,13 @@
  */
 package de.thundergames.networking.server;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import de.thundergames.MoleGames;
 import de.thundergames.networking.util.Packet;
 import de.thundergames.networking.util.Packets;
 import de.thundergames.playmechanics.game.Game;
+import de.thundergames.playmechanics.game.GameStates;
 import de.thundergames.playmechanics.util.Player;
 import java.io.IOException;
 import org.jetbrains.annotations.NotNull;
@@ -23,14 +24,16 @@ public class PacketHandler {
 
 
   public void handlePacket(@NotNull final Packet packet, @NotNull final ServerThread client) {
-    if (packet.getPacketType().equals(Packets.LOGIN.getPacketType())) {
+    if (packet.getPacketType().equalsIgnoreCase(Packets.LOGIN.getPacketType())) {
       handleLoginPacket(client, packet);
-    } else if (packet.getPacketType().equals(Packets.LOGOUT.getPacketType())) {
+    } else if (packet.getPacketType().equalsIgnoreCase(Packets.LOGOUT.getPacketType())) {
       handleLogoutPacket(packet, client);
-    } else if (packet.getPacketType().equals(Packets.MESSAGE.getPacketType())) {
+    } else if (packet.getPacketType().equalsIgnoreCase(Packets.MESSAGE.getPacketType())) {
       System.out.println("Client with id: " + client.getConnectionID() + " sended: " + packet.getValues().get("message").getAsString());
-    } else if (packet.getPacketType().equals(Packets.GETOVERVIEW.getPacketType())) {
+    } else if (packet.getPacketType().equalsIgnoreCase(Packets.GETOVERVIEW.getPacketType())) {
       getOverviewPacket(client);
+    } else if (packet.getPacketType().equalsIgnoreCase(Packets.JOINGAME.getPacketType())) {
+      handleJoinPacket(packet, client);
     }
   }
 
@@ -58,37 +61,142 @@ public class PacketHandler {
    * @use handles the login packet from the client
    */
   private void handleLoginPacket(@NotNull final ServerThread client, @NotNull final Packet packet) {
+    String name;
+
+    if(packet.getValues().get("name") == null){
+      name = "Player";
+    }
+    else{
+      name = packet.getValues().get("name").getAsString();
+    }
     if (!MoleGames.getMoleGames()
         .getServer()
         .getConnectionNames()
-        .containsKey(packet.getValues().get("name").getAsString())) {
-      client.setClientName(packet.getValues().get("name").getAsString());
+        .containsKey(name)) {
+      client.setClientName(name);
       MoleGames.getMoleGames().getServer().getConnectionNames().put(client.getClientName(), client);
     } else {
       for (var i = 1; i < MoleGames.getMoleGames().getServer().getConnectionNames().size(); i++) {
         if (!MoleGames.getMoleGames()
             .getServer()
             .getConnectionNames()
-            .containsKey(packet.getValues().get("name").getAsString() + i)) {
-          client.setClientName(packet.getValues().get("name").getAsString() + i);
+            .containsKey(name + i)) {
+          client.setClientName(name + i);
           break;
         }
       }
     }
   }
 
-  public void overviewPacket(@NotNull final ServerThread client) {
-
+  /**
+   * @author Carina
+   * @param client
+   * @param gameID
+   * @use sends that a player has joined or been assigned to the game with the gameID
+   * @see Game
+   */
+  public void assignToGamePacket(@NotNull final ServerThread client, final int gameID) {
+    var object = new JsonObject();
+    object.addProperty("type", Packets.ASSIGNTOGAME.getPacketType());
+    var json = new JsonObject();
+    json.addProperty("gameID", gameID);
+    object.add("value", json);
+    client.sendPacket(new Packet(object));
   }
 
+
+  /**
+   * @author Carina
+   * @param client
+   * @use sends the overview to the clients
+   * @see de.thundergames.networking.util.interfaceItems.NetworkGame
+   * @see de.thundergames.playmechanics.util.Tournament
+   */
+  public void overviewPacket(@NotNull final ServerThread client) {
+    var object = new JsonObject();
+    object.addProperty("type", Packets.OVERVIEW.getPacketType());
+    var json = new JsonObject();
+    json.addProperty("games", new Gson().toJson(MoleGames.getMoleGames().getGameHandler().getGames().toArray()));
+    json.addProperty("tournaments", new Gson().toJson(MoleGames.getMoleGames().getGameHandler().getTournaments().toArray()));
+    object.add("value", json);
+    client.sendPacket(new Packet(object));
+  }
+
+  /**
+   * @author Carina
+   * @param client
+   * @use sends the overview packet to the client
+   */
   private void getOverviewPacket(@NotNull final ServerThread client) {
     overviewPacket(client);
   }
 
+  /**
+   * @author Carina
+   * @param packet
+   * @param client
+   * @usa handles the client logout from the game
+   */
   private void handleLogoutPacket(@NotNull Packet packet, @NotNull final ServerThread client) {
     client.endConnection();
   }
+/**
+ * @param packet           the packet that will be send to the client
+ * @param clientConnection the client that has joined a game depending on the packet content if spectator or player
+ * @author Carina
+ * @see Game
+ * @see Player
+ * @see de.thundergames.gameplay.player.networking.Client
+ */
+  private void handleJoinPacket(
+      @NotNull final Packet packet, @NotNull final ServerThread clientConnection) {
+    var object = new JsonObject();
+    // JOIN-GAME#ID
+    if (MoleGames.getMoleGames()
+        .getGameHandler()
+        .getIDGames()
+        .containsKey(packet.getValues().get("gameID").getAsString())) {
+      var connectType = packet.getValues().get("participant").getAsBoolean();
+      var game =
+          MoleGames.getMoleGames()
+              .getGameHandler()
+              .getIDGames()
+              .get(packet.getValues().get("gameID").getAsInt());
+      if (connectType) {
+        if (game.getCurrentGameState().equals(GameStates.NOT_STARTED)) {
+          if (game.getClients().size() < game.getSettings().getMaxPlayers()) {
+            game.joinGame(new Player(clientConnection, game), false);
+          } else {
+            object.addProperty("type", Packets.FULL.getPacketType());
+            clientConnection.sendPacket(new Packet(object));
+          }
+        } else {
+          object.addProperty("type", Packets.INGAME.getPacketType());
+          var json = new JsonObject();
+          json.addProperty("gameID", packet.getValues().get("gameID").getAsInt());
+          object.add("value", json);
+          clientConnection.sendPacket(new Packet(object));
+        }
+      } else if (!connectType) {
+        if (!game.getCurrentGameState().equals(GameStates.OVER)) {
+          game.joinGame(new Player(clientConnection, game), true);
+        }
+      }
+    } else {
+      object.addProperty("type", Packets.NOTEXISTS.getPacketType());
+      clientConnection.sendPacket(new Packet(object));
+    }
+  }
 
+
+  public void welcomeGamePacket(@NotNull final ServerThread clientConnection) {
+    var object = new JsonObject();
+    object.addProperty("type", Packets.WELCOMEGAME.getPacketType());
+    var json = new JsonObject();
+    json.addProperty("gameState", new Gson().toJson(MoleGames.getMoleGames().getGameHandler().getClientGames().get(clientConnection).getGameState()));
+    object.add("value", json);
+    clientConnection.sendPacket(new Packet(object));
+  }
 
 
 
@@ -118,20 +226,7 @@ public class PacketHandler {
 
   /*
 
-   *//**
-   * @param gameID the game that the player joins
-   * @author Carina
-   * @see de.thundergames.gameplay.player.networking.Client
-
-  public static Packet joinedGamePacket(final int gameID, @NotNull final String joinType) {
-  var object = new JSONObject();
-  object.put("type", Packets.JOINGAME.getPacketType());
-  var json = new JSONObject();
-  json.put("gameID", gameID);
-  json.put("connectType", joinType);
-  object.put("value", json.toString());
-  return new Packet(object);
-  }
+   */
   /**
    * @param packet           the packet that got send to the server
    * @param clientConnection the client that send the packet
@@ -557,53 +652,7 @@ public class PacketHandler {
       @NotNull final Packet packet, @NotNull final ServerThread clientConnection) {
   }
 
-  *//**
-   * @param packet           the packet that will be send to the client
-   * @param clientConnection the client that has joined a game depending on the packet content if spectator or player
-   * @author Carina
-   * @see Game
-   * @see Player
-   * @see de.thundergames.gameplay.player.networking.Client
-   *//*
-  private void joinGamePacket(
-      @NotNull final Packet packet, @NotNull final ServerThread clientConnection) {
-    var object = new JSONObject();
-    // JOIN-GAME#ID
-    if (MoleGames.getMoleGames()
-        .getGameHandler()
-        .getGames()
-        .containsKey(packet.getValues().getInt("gameID"))) {
-      var connectType = packet.getValues().getString("connectType");
-      var game =
-          MoleGames.getMoleGames()
-              .getGameHandler()
-              .getGames()
-              .get(packet.getValues().getInt("gameID"));
-      if (connectType.equalsIgnoreCase("player")) {
-        if (game.getCurrentGameState().equals(GameStates.NOT_STARTED)) {
-          if (game.getClients().size() < game.getSettings().getMaxPlayers()) {
-            if (packet.getValues().getBoolean("ai")) {
-              game.getAIs().add(clientConnection);
-            }
-            game.joinGame(new Player(clientConnection, game).create(), false);
-          } else {
-            object.put("type", Packets.FULL.getPacketType());
-            clientConnection.sendPacket(new Packet(object));
-          }
-        } else {
-          object.put("type", Packets.INGAME.getPacketType()).put("value", new JSONObject().put("gameID", packet.getValues().getInt("gameID")).toString());
-          clientConnection.sendPacket(new Packet(object));
-        }
-      } else if (connectType.equalsIgnoreCase("spectator")) {
-        if (!game.getCurrentGameState().equals(GameStates.OVER)) {
-          game.joinGame(new Player(clientConnection, game).create(), true);
-        }
-      }
-    } else {
-      object.put("type", Packets.NOTEXISTS.getPacketType());
-      clientConnection.sendPacket(new Packet(object));
-    }
-  }
+
 
   *//**
    * @param packet     the packet that will be send to the Method
