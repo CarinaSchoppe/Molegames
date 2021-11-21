@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for Swtpra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 21.11.21, 13:02 by Carina latest changes made by Carina on 21.11.21, 13:02 All contents of "Game" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 21.11.21, 14:13 by Carina latest changes made by Carina on 21.11.21, 14:13 All contents of "Game" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -37,7 +37,7 @@ public class Game extends NetworkGame {
   private Player currentPlayer;
   private boolean gamePaused = false;
   private boolean allMolesPlaced = false;
-  private GameState gameState;
+  private final GameState gameState = new GameState();
 
   public Game(int gameID) {
     super(gameID);
@@ -57,6 +57,12 @@ public class Game extends NetworkGame {
     }
     gameState.setPlacedMoles(moles);
     gameState.setMoles(settings.getNumberOfMoles());
+    gameState.setRadius(settings.getRadius());
+    gameState.setLevel(map);
+    gameState.setPullDiscsOrdered(settings.isPullDiscsOrdered());
+    gameState.setPullDiscs(settings.getPullDiscs());
+    gameState.setVisualizationTime(settings.getVisualizationTime());
+    gameState.setScore(getScore());
   }
 
   /**
@@ -65,8 +71,10 @@ public class Game extends NetworkGame {
    * @use creates a new Game with all settings after the Constructor
    */
   public void create() throws IOException {
+    MoleGames.getMoleGames().getGameHandler().getIDGames().put(getGameID(), this);
     settings = new Settings(this);
     map = new Map(this);
+    updateGameState();
   }
 
   public void updateNetworkGame() {
@@ -99,7 +107,7 @@ public class Game extends NetworkGame {
 
   public void endGame() {
     setFinishDateTime(Instant.now().getEpochSecond());
-    setResult(new Score());
+    setScore(new Score());
   }
 
   /**
@@ -165,7 +173,7 @@ public class Game extends NetworkGame {
     }
   }
 
-  public void setOrderOfPlayers(){
+  public void setOrderOfPlayers() {
     players.clear();
 
   }
@@ -186,6 +194,7 @@ public class Game extends NetworkGame {
     clientPlayersMap.remove(player);
     players.remove(player);
     player.getMoles().clear();
+    MoleGames.getMoleGames().getGameHandler().getClientGames().remove(player.getServerClient());
     setCurrentPlayerCount(players.size());
   }
 

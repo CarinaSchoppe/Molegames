@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for Swtpra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 21.11.21, 13:02 by Carina latest changes made by Carina on 21.11.21, 13:02 All contents of "AILogic" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 21.11.21, 14:13 by Carina latest changes made by Carina on 21.11.21, 13:04 All contents of "AILogic" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -26,7 +26,7 @@ public class AILogic {
    * @author Carina
    * @use is called to make a move!
    */
-  public void makeMove(@NotNull final AI ai, @NotNull final Mole  mole, @NotNull final Directions direction) {
+  public void makeMove(@NotNull final AI ai, @NotNull final Mole mole, @NotNull final Directions direction) {
 
     /*TODO: hier
 
@@ -146,7 +146,6 @@ public class AILogic {
         ai.setPlacedMoles(true);
         drawCard(ai);
       } else {
-        ai.getPlayerMolesOnField().add(ai.getMoleIDs().get(ai.getPlacedMolesAmount()));
         placeMoles(ai, ai.getMoleIDs().get(ai.getPlacedMolesAmount()));
         ai.setPlacedMolesAmount(ai.getPlacedMolesAmount() + 1);
       }
@@ -223,13 +222,13 @@ public class AILogic {
    * @use checks if a hole is close to a mole with the exact range of the card returns the mole ID and the x and y cordinates of the hole if the mole is close to a hole
    */
   public List<Object> isHoleCloseToMole(@NotNull final AI ai) {
-    for (var moleID : ai.getPlayerMolesOnField()) {
-      if (ai.getMolePositions().containsKey(moleID)) {
+    for (var mole : ai.getGameState().getPlacedMoles()) {
+      if (mole.getPlayer().getClientID() == ai.getClientThread().getClientThreadID()) {
         for (var hole : ai.getMap().getFieldMap().values()) {
           if (hole.isHole()) {
-            if ((hole.getX() == ai.getMolePositions().get(moleID).get(0) + ai.getCard() || hole.getX() == ai.getMolePositions().get(moleID).get(0) - ai.getCard()) && (hole.getY() == ai.getMolePositions().get(moleID).get(1) + ai.getCard() || hole.getY() == ai.getMolePositions().get(moleID).get(1) - ai.getCard())) {
-              System.out.println("AI: there is a hole close to a mole within the drawcard. Hole:" + hole.getX() + "," + hole.getY() + " mole: " + moleID);
-              return List.of(moleID, hole.getX(), hole.getY());
+            if ((hole.getX() == ai.getMolePositions().get(mole).get(0) + ai.getCard() || hole.getX() == ai.getMolePositions().get(mole).get(0) - ai.getCard()) && (hole.getY() == ai.getMolePositions().get(mole).get(1) + ai.getCard() || hole.getY() == ai.getMolePositions().get(mole).get(1) - ai.getCard())) {
+              System.out.println("AI: there is a hole close to a mole within the drawcard. Hole:" + hole.getX() + "," + hole.getY() + " mole: " + mole);
+              return List.of(mole, hole.getX(), hole.getY());
             }
           }
         }
