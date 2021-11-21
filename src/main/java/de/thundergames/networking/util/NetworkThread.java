@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for Swtpra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 21.11.21, 15:19 by Carina latest changes made by Carina on 21.11.21, 15:14 All contents of "NetworkThread" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 21.11.21, 15:30 by Carina latest changes made by Carina on 21.11.21, 15:30 All contents of "NetworkThread" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -13,7 +13,6 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import de.thundergames.MoleGames;
 import de.thundergames.gameplay.ai.networking.AIClientThread;
-import de.thundergames.gameplay.player.networking.Client;
 import de.thundergames.gameplay.player.networking.ClientThread;
 import de.thundergames.networking.server.Server;
 import de.thundergames.networking.server.ServerThread;
@@ -63,10 +62,6 @@ public abstract class NetworkThread extends Thread {
     if (this instanceof ServerThread && !Server.isKeyboard()) {
       keyBoardListener(false);
       Server.setKeyboard(true);
-    } else if (this instanceof ClientThread
-        && Client.isKeyListener()
-        && !(this instanceof GameMasterClientThread)) {
-      keyBoardListener(true);
     }
     try {
       while (run) {
@@ -170,16 +165,11 @@ public abstract class NetworkThread extends Thread {
     // TODO: How to handle the packet from the client! Player has moved -> now in a hole and than
     // handle it
 
-    if (reciever instanceof ClientThread && !(reciever instanceof GameMasterClientThread) && !(reciever instanceof AIClientThread)) {
+    if (reciever instanceof ClientThread && !(reciever instanceof AIClientThread)) {
       ((ClientThread) reciever)
           .getClient()
           .getClientPacketHandler()
           .handlePacket(((ClientThread) reciever).getClient(), packet);
-    } else if (reciever instanceof GameMasterClientThread) {
-      ((GameMasterClientThread) reciever)
-          .getGameMasterClient()
-          .getClientMasterPacketHandler()
-          .handlePacket(((GameMasterClientThread) reciever).getGameMasterClient(), packet);
     } else if (reciever instanceof AIClientThread) {
       ((AIClientThread) reciever)
           .getAIClient()

@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for Swtpra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 21.11.21, 13:02 by Carina latest changes made by Carina on 21.11.21, 13:02 All contents of "CreateGame" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 21.11.21, 15:30 by Carina latest changes made by Carina on 21.11.21, 15:30 All contents of "CreateGame" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -10,12 +10,13 @@
 
 package de.thundergames.gameplay.ausrichter.ui;
 
+import de.thundergames.MoleGames;
 import de.thundergames.gameplay.ausrichter.GameMasterClient;
 import java.io.File;
-import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -28,7 +29,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-public class CreateGame {
+public class CreateGame extends Application {
 
   private final ArrayList<Integer> drawCardValuesList = new ArrayList<>();
   @FXML
@@ -204,17 +205,16 @@ public class CreateGame {
         : "fx:id=\"pullDiscsOrdered\" was not injected: check your FXML file 'CreateGame.fxml'.";
   }
 
-  public void create(GameMasterClient client) {
-    GameMasterClient.setClientInstance(client);
-    try {
-      start();
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
+  public void create(String... args) {
+    MoleGames.getMoleGames()
+        .setGameMasterClient(new GameMasterClient());
+      launch(args);
+
   }
 
-  public void start() throws IOException {
-    Stage primaryStage = new Stage();
+
+  @Override
+  public void start(Stage primaryStage) throws Exception {
     location =
         new File("src/main/java/de/thundergames/gameplay/ausrichter/ui/CreateGame.fxml")
             .toURI()
