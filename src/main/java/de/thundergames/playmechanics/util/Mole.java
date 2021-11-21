@@ -10,7 +10,6 @@
  */
 package de.thundergames.playmechanics.util;
 
-import de.thundergames.networking.util.interfaceItems.NetworkField;
 import de.thundergames.networking.util.interfaceItems.NetworkMole;
 import de.thundergames.playmechanics.map.Field;
 import org.jetbrains.annotations.NotNull;
@@ -29,7 +28,6 @@ public class Mole extends NetworkMole {
   }
 
 
-
   public int getMoleID() {
     return MoleID;
   }
@@ -39,7 +37,7 @@ public class Mole extends NetworkMole {
   }
 
   public void setMoleField(Field field) {
-    setNetworkField(new NetworkField(field.getX(), field.getY()));
+    setNetworkField(field);
     this.field = field;
   }
 
