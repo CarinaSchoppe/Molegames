@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for Swtpra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 22.11.21, 14:50 by Carina latest changes made by Carina on 22.11.21, 14:45 All contents of "ClientPacketHandler" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 22.11.21, 14:58 by Carina latest changes made by Carina on 22.11.21, 14:58 All contents of "ClientPacketHandler" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -81,6 +81,39 @@ public class ClientPacketHandler {
       handleMolePlacedPacket(client, packet);
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.MOVEPENALTYNOTIFICATION.getPacketType())) {
       handleMovePentaltyNotificationPacket(client, packet);
+    } else if (packet.getPacketType().equalsIgnoreCase(Packets.PLAYERSKIPPED.getPacketType())) {
+      handlePlayerSkippedPacket(client, packet);
+    } else if (packet.getPacketType().equalsIgnoreCase(Packets.NEXTLEVEL.getPacketType())) {
+      handleNextLevelPacket(client, packet);
+    }
+  }
+
+  /**
+   * @param client
+   * @param packet
+   * @author Carina
+   * @use handles when the client gets the new floor
+   */
+  private void handleNextLevelPacket(Client client, Packet packet) {
+    client.setGameState(new Gson().fromJson(packet.getValues().get("gameState").getAsString(), GameState.class));
+    client.setMap(new Map(client.getGameState()));
+    client.getMap().changeFieldParams(client.getGameState());
+    System.out.println("Client got the new level!");
+    System.out.println("Players that are out: " + new Gson().fromJson(packet.getValues().get("eliminatedPlayers").getAsString(), ArrayList.class));
+  }
+
+  /**
+   * @param client
+   * @param packet
+   * @author Carina
+   * @use handles when a player skipped his turn
+   */
+  private void handlePlayerSkippedPacket(@NotNull final Client client, @NotNull final Packet packet) {
+    var player = new Gson().fromJson(packet.getValues().get("player").getAsString(), NetworkPlayer.class);
+    if (player.equals(client.getNetworkPlayer())) {
+      System.out.println("Client is skipping this turn!");
+    } else {
+      System.out.println("The Player " + player.getName() + " skipped his turn!");
     }
   }
 

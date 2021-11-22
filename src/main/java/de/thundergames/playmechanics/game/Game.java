@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for Swtpra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 22.11.21, 14:50 by Carina latest changes made by Carina on 22.11.21, 14:50 All contents of "Game" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 22.11.21, 14:58 by Carina latest changes made by Carina on 22.11.21, 14:56 All contents of "Game" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -38,6 +38,7 @@ public class Game extends NetworkGame {
   private transient boolean gamePaused = false;
   private transient boolean allMolesPlaced = false;
   private final transient GameState gameState = new GameState();
+  private final ArrayList<Player> eliminatedPlayers = new ArrayList<>();
 
   public Game(int gameID) {
     super(gameID);
@@ -171,7 +172,6 @@ public class Game extends NetworkGame {
         MoleGames.getMoleGames().getServer().sendToAllGameClients(this, MoleGames.getMoleGames().getPacketHandler().playersTurnPacket(currentPlayer.getServerClient(), currentPlayer));
 
       }
-      //TODO: hier MoleGames.getMoleGames().getPacketHandler().nextPlayerPacket(currentPlayer.getServerClient());
       currentPlayer.startThinkTimer();
     }
   }
@@ -217,6 +217,9 @@ public class Game extends NetworkGame {
    * @see Player
    */
   public void removePlayerFromGame(@NotNull final Player player) {
+    if (currentGameState != GameStates.NOT_STARTED && !currentGameState.equals(GameStates.OVER)) {
+      eliminatedPlayers.add(player);
+    }
     for (var moles : player.getMoles()) {
       player.getGame().getMap().getFieldMap().get(List.of(moles.getField().getX(), moles.getField().getY())).setOccupied(false);
     }

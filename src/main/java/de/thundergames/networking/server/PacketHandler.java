@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for Swtpra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 22.11.21, 14:50 by Carina latest changes made by Carina on 22.11.21, 14:49 All contents of "PacketHandler" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 22.11.21, 14:58 by Carina latest changes made by Carina on 22.11.21, 14:56 All contents of "PacketHandler" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -176,7 +176,7 @@ public class PacketHandler {
   private void handlePlaceMolePacket(@NotNull final ServerThread client, @NotNull final Packet packet) {
     var game = MoleGames.getMoleGames().getGameHandler().getClientGames().get(client);
     if (game != null) {
-      if (game.getGameState().equals(GameStates.STARTED)) {
+      if (game.getCurrentGameState() ==GameStates.STARTED) {
         for (var player : game.getPlayers()) {
           if (player.getServerClient().equals(client)) {
             player.placeMole(packet.getValues().get("x").getAsInt(), packet.getValues().get("y").getAsInt());
