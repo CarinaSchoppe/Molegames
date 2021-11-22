@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for Swtpra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 22.11.21, 21:41 by Carina latest changes made by Carina on 22.11.21, 21:24 All contents of "NetworkConfiguration" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 22.11.21, 21:42 by Carina latest changes made by Carina on 22.11.21, 21:42 All contents of "NetworkConfiguration" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -16,7 +16,7 @@ import java.util.List;
 
 public class NetworkConfiguration {
 
-  private final ArrayList<Integer> pullDiscs = new ArrayList<>(List.of(1,2,3,4));
+  private final ArrayList<Integer> pullDiscs = new ArrayList<>(List.of(1, 2, 3, 4));
   private final GameState gameState = new GameState();
   private int maxPlayers = 4;
   private int radius = 5;

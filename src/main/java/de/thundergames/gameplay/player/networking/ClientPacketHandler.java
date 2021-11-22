@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for Swtpra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 22.11.21, 21:41 by Carina latest changes made by Carina on 22.11.21, 21:27 All contents of "ClientPacketHandler" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 22.11.21, 21:42 by Carina latest changes made by Carina on 22.11.21, 21:42 All contents of "ClientPacketHandler" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -30,6 +30,9 @@ import org.jetbrains.annotations.NotNull;
 
 public class ClientPacketHandler {
 
+
+  protected Timer timer;
+  private boolean timerRunning = false;
 
   /**
    * @param client the client instance that will be passed to the method for handling
@@ -216,15 +219,12 @@ public class ClientPacketHandler {
     }
   }
 
-  private boolean timerRunning = false;
-
+  protected boolean isTimerRunning() {
+    return timerRunning;
+  }
 
   public void setTimerRunning(boolean timerRunning) {
     this.timerRunning = timerRunning;
-  }
-
-  protected boolean isTimerRunning() {
-    return timerRunning;
   }
 
   /**
@@ -262,8 +262,6 @@ public class ClientPacketHandler {
     object.add("value", json);
     client.getClientThread().sendPacket(new Packet(object));
   }
-
-  protected Timer timer;
 
   /**
    * @param client

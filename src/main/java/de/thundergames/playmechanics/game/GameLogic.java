@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for Swtpra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 22.11.21, 21:41 by Carina latest changes made by Carina on 22.11.21, 21:39 All contents of "GameLogic" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 22.11.21, 21:42 by Carina latest changes made by Carina on 22.11.21, 21:42 All contents of "GameLogic" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -50,7 +50,8 @@ public class GameLogic {
               var field = map.getFieldMap().get(List.of(start.get(0), start.get(1) - i));
               if (field.isOccupied()) {
 
-                if (field.getY() == start.get(1) - i && field.getX() == start.get(0)) {                  System.out.println("occupied field: " + field.getX() + " " + field.getY());
+                if (field.getY() == start.get(1) - i && field.getX() == start.get(0)) {
+                  System.out.println("occupied field: " + field.getX() + " " + field.getY());
 
                   return false;
                 }
@@ -63,7 +64,8 @@ public class GameLogic {
               var field = map.getFieldMap().get(List.of(start.get(0) + i, start.get(1)));
               if (field.isOccupied()) {
 
-                if (field.getX() == start.get(0) + i && field.getY() == start.get(1)) {                  System.out.println("occupied field: " + field.getX() + " " + field.getY());
+                if (field.getX() == start.get(0) + i && field.getY() == start.get(1)) {
+                  System.out.println("occupied field: " + field.getX() + " " + field.getY());
 
                   return false;
                 }
@@ -72,7 +74,8 @@ public class GameLogic {
               var field = map.getFieldMap().get(List.of(start.get(0) - i, start.get(1)));
               if (field.isOccupied()) {
 
-                if (field.getX() == start.get(0) - i && field.getY() == start.get(1)) {System.out.println("occupied field: " + field.getX() + " " + field.getY());
+                if (field.getX() == start.get(0) - i && field.getY() == start.get(1)) {
+                  System.out.println("occupied field: " + field.getX() + " " + field.getY());
                   return false;
                 }
               }
@@ -83,28 +86,32 @@ public class GameLogic {
             if (stop.get(0) - start.get(0) > 0 && stop.get(1) - start.get(1) > 0) {
               var field = map.getFieldMap().get(List.of(start.get(0) + i, start.get(1) + i));
               if (field.isOccupied()) {
-                if (field.getX() == start.get(0) + i && field.getY() == start.get(1) + i) {System.out.println("occupied field: " + field.getX() + " " + field.getY());
+                if (field.getX() == start.get(0) + i && field.getY() == start.get(1) + i) {
+                  System.out.println("occupied field: " + field.getX() + " " + field.getY());
                   return false;
                 }
               }
             } else if (stop.get(0) - start.get(0) < 0 && stop.get(1) - start.get(1) > 0) {
               var field = map.getFieldMap().get(List.of(start.get(0) - i, start.get(1) + i));
               if (field.isOccupied()) {
-                if (field.getX() == start.get(0) - i && field.getY() == start.get(1) + i) {System.out.println("occupied field: " + field.getX() + " " + field.getY());
+                if (field.getX() == start.get(0) - i && field.getY() == start.get(1) + i) {
+                  System.out.println("occupied field: " + field.getX() + " " + field.getY());
                   return false;
                 }
               }
             } else if (stop.get(0) - start.get(0) > 0 && stop.get(1) - start.get(1) < 0) {
               var field = map.getFieldMap().get(List.of(start.get(0) + i, start.get(1) - i));
               if (field.isOccupied()) {
-                if (field.getX() == start.get(0) + i && field.getY() == start.get(1) - i) {System.out.println("occupied field: " + field.getX() + " " + field.getY());
+                if (field.getX() == start.get(0) + i && field.getY() == start.get(1) - i) {
+                  System.out.println("occupied field: " + field.getX() + " " + field.getY());
                   return false;
                 }
               }
             } else if (stop.get(0) - start.get(0) < 0 && stop.get(1) - start.get(1) < 0) {
               var field = map.getFieldMap().get(List.of(start.get(0) - i, start.get(1) - i));
               if (field.isOccupied()) {
-                if (field.getX() == start.get(0) - i && field.getY() == start.get(1) - i) {System.out.println("occupied field: " + field.getX() + " " + field.getY());
+                if (field.getX() == start.get(0) - i && field.getY() == start.get(1) - i) {
+                  System.out.println("occupied field: " + field.getX() + " " + field.getY());
                   return false;
                 }
               }
