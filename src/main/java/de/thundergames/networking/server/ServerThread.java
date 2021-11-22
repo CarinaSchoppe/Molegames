@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for Swtpra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 21.11.21, 15:19 by Carina latest changes made by Carina on 21.11.21, 14:50 All contents of "ServerThread" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 22.11.21, 14:50 by Carina latest changes made by Carina on 21.11.21, 20:25 All contents of "ServerThread" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -56,7 +56,7 @@ public class ServerThread extends NetworkThread {
     {
       try {
         MoleGames.getMoleGames().getServer().getClientThreads().remove(this);
-        Server.getThreadIds().remove(getConnectionID());
+        MoleGames.getMoleGames().getServer().getThreadIds().remove(getConnectionID());
         socket.close();
       } catch (IOException e) {
         e.printStackTrace();

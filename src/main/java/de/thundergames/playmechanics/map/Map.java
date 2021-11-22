@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for Swtpra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 21.11.21, 13:02 by Carina latest changes made by Carina on 21.11.21, 13:02 All contents of "Map" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 22.11.21, 14:50 by Carina latest changes made by Carina on 22.11.21, 14:06 All contents of "Map" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -11,14 +11,15 @@ package de.thundergames.playmechanics.map;
 
 import de.thundergames.networking.util.interfaceItems.NetworkFloor;
 import de.thundergames.playmechanics.game.Game;
+import de.thundergames.playmechanics.game.GameState;
 import java.util.HashMap;
 import java.util.List;
 import org.jetbrains.annotations.NotNull;
 
 public class Map extends NetworkFloor {
 
-  private final Game game;
-  private final HashMap<List<Integer>, Field> fieldMap = new HashMap<>();
+  private transient Game game;
+  private transient final HashMap<List<Integer>, Field> fieldMap = new HashMap<>();
 
 
   /**
@@ -28,32 +29,61 @@ public class Map extends NetworkFloor {
    */
   public Map(@NotNull final Game game) {
     this.game = game;
-    createMap();
+    createMap(game.getRadius());
   }
 
   /**
+   * @param gameState the gameState the map is related to to the client
+   * @author Carina
+   * @use creates a new Map object with the given radius
+   */
+  public Map(GameState gameState) {
+    createMap(gameState.getRadius());
+  }
+
+  /**
+   * @param radius
    * @author Carina
    * @use creates the mapfield in the comitee decided designway
    */
-  public synchronized void createMap() {
+  public synchronized void createMap(final int radius) {
     // Top left to mid right
     fieldMap.clear();
-    for (var y = 0; y < game.getRadius(); y++) {
-      for (var x = 0; x < game.getRadius() + y; x++) {
+    for (var y = 0; y < radius; y++) {
+      for (var x = 0; x < radius + y; x++) {
         var field = new Field(List.of(x, y));
         field.setMap(this);
         fieldMap.put(java.util.List.of(x, y), field);
       }
     }
     // 1 under mid: left to bottom right
-    for (var y = game.getRadius(); y < game.getRadius() * 2 - 1; y++) {
-      for (var x = y - game.getRadius() + 1; x < game.getRadius() * 2 - 1; x++) {
+    for (var y = radius; y < radius * 2 - 1; y++) {
+      for (var x = y - radius + 1; x < radius * 2 - 1; x++) {
         var field = new Field(java.util.List.of(x, y));
         field.setMap(this);
         fieldMap.put(java.util.List.of(x, y), field);
       }
     }
     //printMap();
+  }
+
+  /**
+   * @param gameState
+   * @author Carina
+   * @use sets the properties on the field if its occupied, a hole, a draw again field etc.
+   */
+  public void changeFieldParams(GameState gameState) {
+    for (var field : gameState.getFloor().getHoles()) {
+      getFieldMap().get(List.of(field.getX(), field.getY())).setHole(true);
+    }
+    for (var field : gameState.getFloor().getDrawAgainFields()) {
+      getFieldMap().get(List.of(field.getX(), field.getY())).setDrawAgainField(true);
+    }
+    for (var mole : gameState.getPlacedMoles()) {
+      getFieldMap().get(List.of(mole.getField().getX(), mole.getField().getY())).setMole(mole);
+      getFieldMap().get(List.of(mole.getField().getX(), mole.getField().getY())).setOccupied(true);
+
+    }
   }
 
   /**
@@ -97,7 +127,6 @@ public class Map extends NetworkFloor {
   public Game getGame() {
     return game;
   }
-
 
 
 }

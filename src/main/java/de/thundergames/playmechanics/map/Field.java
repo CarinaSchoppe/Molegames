@@ -1,23 +1,26 @@
 /*
  * Copyright Notice for Swtpra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 21.11.21, 13:02 by Carina latest changes made by Carina on 21.11.21, 13:02 All contents of "Field" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 22.11.21, 14:50 by Carina latest changes made by Carina on 22.11.21, 14:50 All contents of "Field" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
  * requires the express written consent of ThunderGames | SwtPra10.
  */
 package de.thundergames.playmechanics.map;
+
 import de.thundergames.networking.util.interfaceItems.NetworkField;
+import de.thundergames.networking.util.interfaceItems.NetworkMole;
 import java.util.List;
 import org.jetbrains.annotations.NotNull;
 
 public class Field extends NetworkField {
 
-  private boolean drawAgainField = false;
-  private boolean occupied;
-  private boolean hole;
-  private Map map;
+  private transient boolean drawAgainField = false;
+  private transient boolean occupied;
+  private transient boolean hole;
+  private transient Map map;
+  private NetworkMole mole;
 
 
   public Field(@NotNull final List<Integer> field) {
@@ -51,6 +54,14 @@ public class Field extends NetworkField {
 
   public boolean isDrawAgainField() {
     return drawAgainField;
+  }
+
+  public NetworkMole getMole() {
+    return mole;
+  }
+
+  public void setMole(NetworkMole mole) {
+    this.mole = mole;
   }
 
   public void setDrawAgainField(boolean drawAgainField) {

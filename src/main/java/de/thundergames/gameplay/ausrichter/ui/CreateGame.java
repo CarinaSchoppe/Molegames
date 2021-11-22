@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for Swtpra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 21.11.21, 15:30 by Carina latest changes made by Carina on 21.11.21, 15:30 All contents of "CreateGame" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 22.11.21, 14:50 by Carina latest changes made by Carina on 21.11.21, 18:21 All contents of "CreateGame" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -12,6 +12,7 @@ package de.thundergames.gameplay.ausrichter.ui;
 
 import de.thundergames.MoleGames;
 import de.thundergames.gameplay.ausrichter.GameMasterClient;
+import de.thundergames.networking.server.Server;
 import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
@@ -28,6 +29,7 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import org.jetbrains.annotations.NotNull;
 
 public class CreateGame extends Application {
 
@@ -146,7 +148,8 @@ public class CreateGame extends Application {
     }
     MoleGames.getMoleGames()
         .getGameMasterClient().getMasterClientThread().sendPacket(new Packet(new JSONObject().put("type", Packets.GAMESTART.getPacketType()).put("value", new JSONObject().put("gameID", MoleGames.getMoleGames().getGameMasterClient().getGameID() - 1).toString())));
-*/  }
+*/
+  }
 
   private void clearAllComponents() {
     drawCardValuesList.clear();
@@ -205,10 +208,11 @@ public class CreateGame extends Application {
         : "fx:id=\"pullDiscsOrdered\" was not injected: check your FXML file 'CreateGame.fxml'.";
   }
 
-  public void create(String... args) {
+  public void create(@NotNull final Server server, @NotNull final String... args) {
     MoleGames.getMoleGames()
-        .setGameMasterClient(new GameMasterClient());
-      launch(args);
+        .setGameMasterClient(new GameMasterClient(server));
+    MoleGames.getMoleGames().getGameMasterClient().test();
+    launch(args);
 
   }
 

@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for Swtpra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 21.11.21, 15:30 by Carina latest changes made by Carina on 21.11.21, 15:30 All contents of "NetworkThread" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 22.11.21, 14:50 by Carina latest changes made by Carina on 22.11.21, 14:50 All contents of "NetworkThread" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -14,7 +14,6 @@ import com.google.gson.JsonObject;
 import de.thundergames.MoleGames;
 import de.thundergames.gameplay.ai.networking.AIClientThread;
 import de.thundergames.gameplay.player.networking.ClientThread;
-import de.thundergames.networking.server.Server;
 import de.thundergames.networking.server.ServerThread;
 import de.thundergames.networking.util.exceptions.UndefinedError;
 import java.io.BufferedReader;
@@ -59,9 +58,11 @@ public abstract class NetworkThread extends Thread {
    */
   @Override
   public void run() {
-    if (this instanceof ServerThread && !Server.isKeyboard()) {
+    if (this instanceof ServerThread && !MoleGames.getMoleGames().getServer().isKeyboard()) {
       keyBoardListener(false);
-      Server.setKeyboard(true);
+      MoleGames.getMoleGames().getServer().setKeyboard(true);
+    }else if(this instanceof ClientThread){
+      keyBoardListener(true);
     }
     try {
       while (run) {

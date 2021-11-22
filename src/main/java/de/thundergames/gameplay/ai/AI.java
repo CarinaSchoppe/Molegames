@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for Swtpra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 21.11.21, 13:02 by Carina latest changes made by Carina on 21.11.21, 13:02 All contents of "AI" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 22.11.21, 14:50 by Carina latest changes made by Carina on 22.11.21, 14:16 All contents of "AI" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -12,28 +12,18 @@ package de.thundergames.gameplay.ai;
 import de.thundergames.gameplay.ai.networking.AIClientThread;
 import de.thundergames.gameplay.ai.networking.AIPacketHandler;
 import de.thundergames.gameplay.player.networking.Client;
-import de.thundergames.networking.util.interfaceItems.GameState;
-import de.thundergames.playmechanics.map.Map;
-import de.thundergames.playmechanics.util.Mole;
 import java.io.IOException;
 import java.net.Socket;
-import java.util.HashMap;
-import java.util.List;
 import org.jetbrains.annotations.NotNull;
 
 public class AI extends Client {
 
-  private final HashMap<Mole, List<Integer>> molePositions = new HashMap<>();
   private final int gameID;
   private final AILogic logic;
   private final AIUtil aiUtil;
-  private boolean isDraw = false;
   private int card;
   private boolean placedMoles;
   private int placedMolesAmount = 0;
-  private Map map;
-  private int clientID;
-  private GameState gameState;
 
   /**
    * @param ip
@@ -60,27 +50,14 @@ public class AI extends Client {
       socket = new Socket(ip, port);
       clientThread = new AIClientThread(socket, 0, this);
       clientThread.start();
-      //TODO: hier   clientPacketHandler.loginPacket(clientThread, getName());
+      clientPacketHandler.loginPacket(this, getName());
     } catch (IOException exception) {
       System.out.println("Is the server running?!");
     }
   }
 
-  public Map getMap() {
-    return map;
-  }
-
-  public void setMap(Map map) {
-    this.map = map;
-  }
-
-
   public AIPacketHandler getAIPacketHandler() {
     return (AIPacketHandler) clientPacketHandler;
-  }
-
-  public HashMap<Mole, List<Integer>> getMolePositions() {
-    return molePositions;
   }
 
   public AIUtil getAiUtil() {
@@ -111,13 +88,6 @@ public class AI extends Client {
     return logic;
   }
 
-  public boolean isDraw() {
-    return isDraw;
-  }
-
-  public void setDraw(boolean draw) {
-    isDraw = draw;
-  }
 
   public int getPlacedMolesAmount() {
     return placedMolesAmount;
@@ -127,17 +97,5 @@ public class AI extends Client {
     this.placedMolesAmount = placedMolesAmount;
   }
 
-  public void setClientID(int clientID) {
-    this.clientID = clientID;
-  }
 
-
-
-  public GameState getGameState() {
-    return gameState;
-  }
-
-  public void setGameState(GameState gameState) {
-    this.gameState = gameState;
-  }
 }

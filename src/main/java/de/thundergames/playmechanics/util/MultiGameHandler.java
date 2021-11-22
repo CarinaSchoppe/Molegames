@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for Swtpra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 21.11.21, 13:02 by Carina latest changes made by Carina on 21.11.21, 13:02 All contents of "MultiGameHandler" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 22.11.21, 14:50 by Carina latest changes made by Carina on 22.11.21, 14:50 All contents of "MultiGameHandler" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -9,16 +9,12 @@
  */
 package de.thundergames.playmechanics.util;
 
-import com.google.gson.JsonObject;
 import de.thundergames.networking.server.ServerThread;
-import de.thundergames.networking.util.Packet;
-import de.thundergames.networking.util.Packets;
 import de.thundergames.networking.util.interfaceItems.NetworkGame;
 import de.thundergames.playmechanics.game.Game;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import org.jetbrains.annotations.NotNull;
 
 /**
  * @author Carina
@@ -38,7 +34,7 @@ public class MultiGameHandler {
    * @author Carina
    * @use creates the new Game1
    */
-  public void createNewGame(final int gameID, @NotNull final ServerThread ausrichter) {
+  public void createNewGame(final int gameID) {
     if (!idGames.containsKey(gameID)) {
       var game = new Game(gameID);
       try {
@@ -49,9 +45,7 @@ public class MultiGameHandler {
       games.add(game);
       idGames.put(gameID, game);
     } else {
-      var json = new JsonObject();
-      json.addProperty("type", Packets.GAMEEXISTS.getPacketType());
-      ausrichter.sendPacket(new Packet(json));
+      System.out.println("Game already exists");
     }
   }
 
@@ -59,16 +53,14 @@ public class MultiGameHandler {
    * @author Carina
    * @use creates the new Game1
    */
-  public void createNewTournament(final int tournamentID, @NotNull final ServerThread ausrichter) {
+  public void createNewTournament(final int tournamentID) {
     if (!idGames.containsKey(tournamentID)) {
       var tournament = new Tournament(tournamentID);
       tournament.create();
       tournaments.add(tournament);
       idTournaments.put(tournamentID, tournament);
     } else {
-      var json = new JsonObject();
-      json.addProperty("type", Packets.GAMEEXISTS.getPacketType());
-      ausrichter.sendPacket(new Packet(json));
+      System.out.println("Tournament already exists");
     }
   }
 
@@ -88,7 +80,7 @@ public class MultiGameHandler {
     return games;
   }
 
-  public HashMap<Integer, Tournament> getIdTournaments() {
+  public HashMap<Integer, Tournament> getIDTournaments() {
     return idTournaments;
   }
 }

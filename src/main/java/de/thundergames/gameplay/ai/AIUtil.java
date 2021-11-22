@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for Swtpra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 21.11.21, 13:02 by Carina latest changes made by Carina on 21.11.21, 13:02 All contents of "AIUtil" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 22.11.21, 14:50 by Carina latest changes made by Carina on 22.11.21, 13:37 All contents of "AIUtil" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -26,25 +26,16 @@ public class AIUtil {
    * @use returns the map object created on the base of the jsonString
    */
   public Map createMapFromJson(@NotNull final AI ai) {
-//TODO hier
-    return null;
+    var map = new Map(ai.getGameState());
+    map.changeFieldParams(ai.getGameState());
+    return map;
   }
 
-  /**
-   * @param map the floor of the map with all that fields
-   * @param field the field itself
-   * @author Carina
-   * @use sets the items on the field if its occupied and when by what moleID, a hole, a draw again fields etc.
-   */
-  private void setFieldItems(@NotNull final AI ai, @NotNull final Map map, @NotNull final Field field) {
-
-//TODO: hier
-  }
 
   /**
    * @param ai
-   * @param field  that will be checked with the mole
-   * @param mole that will be checked with the field
+   * @param field that will be checked with the mole
+   * @param mole  that will be checked with the field
    * @return the distance between the mole and the field in form of X and Y
    * @author Carina
    * @use input the parameter and than returns the distance between the mole and the field

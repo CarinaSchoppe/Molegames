@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for Swtpra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 21.11.21, 13:02 by Carina latest changes made by Carina on 21.11.21, 13:02 All contents of "NetworkConfiguration" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 22.11.21, 14:50 by Carina latest changes made by Carina on 22.11.21, 11:21 All contents of "NetworkConfiguration" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -10,29 +10,30 @@
 
 package de.thundergames.networking.util.interfaceItems;
 
+import de.thundergames.playmechanics.game.GameState;
 import java.util.ArrayList;
 import java.util.List;
 
-public class NetworkConfiguration extends InterfaceObject {
+public class NetworkConfiguration {
 
-  private int playerCount = 0;
+  private int maxPlayers = 4;
   private int radius = 5;
   private int numberOfMoles = 5;
   private ArrayList<NetworkFloor> levels = new ArrayList<>();
   private boolean pullDiscsOrdered = true;
   private final ArrayList<Integer> pullDiscs = new ArrayList<>(List.of(1, 3, 1, 2, 4, 3, 4, 3, 1, 2, 5, 3, 1, 3, 2));
-  private int turnTime = 20;
+  private long turnTime = 20000;
   private int visualizationTime = 10;
   private String movePenalty = "NOTHING";
   private final GameState gameState = new GameState();
 
 
   public int getMaxPlayers() {
-    return playerCount;
+    return maxPlayers;
   }
 
   public void setMaxPlayers(int playerCount) {
-    this.playerCount = playerCount;
+    this.maxPlayers = playerCount;
   }
 
   public int getRadius() {
@@ -72,11 +73,11 @@ public class NetworkConfiguration extends InterfaceObject {
     return pullDiscs;
   }
 
-  public int getTurnTime() {
+  public long getTurnTime() {
     return turnTime;
   }
 
-  public void setTurnTime(int turnTime) {
+  public void setTurnTime(long turnTime) {
     this.turnTime = turnTime;
   }
 

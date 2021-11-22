@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for Swtpra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 21.11.21, 13:02 by Carina latest changes made by Carina on 21.11.21, 13:02 All contents of "GameLogic" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 22.11.21, 14:50 by Carina latest changes made by Carina on 21.11.21, 20:03 All contents of "GameLogic" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -28,11 +28,7 @@ public class GameLogic {
    * @use add the parameters and it will return if the move was valid with true or invalid with false
    * @premisse the startpoint and endpoint must be in the playingfield and the player was allowed to move.
    */
-  public synchronized boolean wasLegalMove(
-      @NotNull final List<Integer> start,
-      @NotNull final List<Integer> stop,
-      final int moveCounter,
-      @NotNull final Map map) {
+  public synchronized boolean wasLegalMove(@NotNull final List<Integer> start, @NotNull final List<Integer> stop, final int moveCounter, @NotNull final Map map) {
     // check if player moved to much
     if (map.getFieldMap().containsKey(start)
         && map.getFieldMap().containsKey(stop)

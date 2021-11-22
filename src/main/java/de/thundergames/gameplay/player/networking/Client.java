@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for Swtpra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 21.11.21, 15:30 by Carina latest changes made by Carina on 21.11.21, 15:30 All contents of "Client" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 22.11.21, 14:50 by Carina latest changes made by Carina on 22.11.21, 14:16 All contents of "Client" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -10,8 +10,10 @@
 package de.thundergames.gameplay.player.networking;
 
 import de.thundergames.networking.util.Network;
-import de.thundergames.networking.util.interfaceItems.GameState;
 import de.thundergames.networking.util.interfaceItems.NetworkGame;
+import de.thundergames.networking.util.interfaceItems.NetworkPlayer;
+import de.thundergames.playmechanics.game.GameState;
+import de.thundergames.playmechanics.map.Map;
 import java.io.IOException;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -21,24 +23,25 @@ public class Client extends Network {
 
   private static final boolean keyListener = true;
   protected static Client client;
-  private final ArrayList<Integer> moleIDs = new ArrayList<>();
   protected ClientPacketHandler clientPacketHandler;
   protected ClientThread clientThread;
   private final String name;
   private GameState gameState;
-  private int id;
   private int gameID;
+  private long remainingTime;
   private final ArrayList<NetworkGame> games = new ArrayList<>();
   private final ArrayList<NetworkGame> tournaments = new ArrayList<>();
+  private Map map;
+  private NetworkPlayer networkPlayer;
+  private final ArrayList<Integer> pullDiscs = new ArrayList<>();
+  private boolean isDraw = false;
 
 
   public static void main(String[] args) {
     Client client = new Client(5000, "localhost", "Carina");
     client.create();
-
-    //TODO: testing
+    client.clientPacketHandler.joinGamePacket(client, 0, true);
   }
-
 
 
   /**
@@ -73,6 +76,7 @@ public class Client extends Network {
    */
   @Override
   public void create() {
+    client = this;
     connect();
   }
 
@@ -104,16 +108,8 @@ public class Client extends Network {
     return clientPacketHandler;
   }
 
-  public void setClientID(final int id) {
-    this.id = id;
-  }
-
   public ClientThread getClientThread() {
     return clientThread;
-  }
-
-  public ArrayList<Integer> getMoleIDs() {
-    return moleIDs;
   }
 
   public void setGameID(final int gameID) {
@@ -122,6 +118,42 @@ public class Client extends Network {
 
   public ArrayList<NetworkGame> getGames() {
     return games;
+  }
+
+  public long getRemainingTime() {
+    return remainingTime;
+  }
+
+  public void setRemainingTime(long remainingTime) {
+    this.remainingTime = remainingTime;
+  }
+
+  public de.thundergames.playmechanics.map.Map getMap() {
+    return map;
+  }
+
+  public void setMap(de.thundergames.playmechanics.map.Map map) {
+    this.map = map;
+  }
+
+  public NetworkPlayer getNetworkPlayer() {
+    return networkPlayer;
+  }
+
+  public boolean isDraw() {
+    return isDraw;
+  }
+
+  public void setDraw(boolean draw) {
+    isDraw = draw;
+  }
+
+  public void setNetworkPlayer(NetworkPlayer networkPlayer) {
+    this.networkPlayer = networkPlayer;
+  }
+
+  public ArrayList<Integer> getPullDiscs() {
+    return pullDiscs;
   }
 
   public ArrayList<NetworkGame> getTournaments() {

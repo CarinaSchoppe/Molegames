@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for Swtpra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 21.11.21, 13:02 by Carina latest changes made by Carina on 21.11.21, 13:02 All contents of "Player" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 22.11.21, 14:50 by Carina latest changes made by Carina on 22.11.21, 14:42 All contents of "Player" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -9,11 +9,8 @@
  */
 package de.thundergames.playmechanics.util;
 
-import com.google.gson.JsonObject;
 import de.thundergames.MoleGames;
 import de.thundergames.networking.server.ServerThread;
-import de.thundergames.networking.util.Packet;
-import de.thundergames.networking.util.Packets;
 import de.thundergames.networking.util.interfaceItems.NetworkPlayer;
 import de.thundergames.playmechanics.game.Game;
 import de.thundergames.playmechanics.game.GameLogic;
@@ -27,16 +24,17 @@ import org.jetbrains.annotations.NotNull;
 
 public class Player extends NetworkPlayer {
 
-  private final ArrayList<Mole> moles = new ArrayList<>();
-  private final ServerThread serverClient;
-  private final Game game;
-  private final List<Integer> cards = new ArrayList<>();
-  private int drawCard = 0;
-  private Timer timer;
-  private boolean timerIsRunning = false;
-  private boolean canDraw = false;
-  private boolean hasMoved = true;
-  private int points;
+  private transient final ArrayList<Mole> moles = new ArrayList<>();
+  private transient final ServerThread serverClient;
+  private transient final Game game;
+  private transient final ArrayList<Integer> cards = new ArrayList<>();
+  private transient int drawCard = 0;
+  private transient Timer timer;
+  private long startRemainingTime;
+  private transient boolean timerIsRunning = false;
+  private transient boolean canDraw = false;
+  private transient boolean hasMoved = true;
+  private transient int points;
 
   /**
    * @param client the serverClient connection established by the Server
@@ -84,6 +82,7 @@ public class Player extends NetworkPlayer {
    * @see Settings
    */
   public void startThinkTimer() {
+    setStartRemainingTime(System.currentTimeMillis());
     hasMoved = false;
     timer = new Timer();
     canDraw = true;
@@ -94,14 +93,12 @@ public class Player extends NetworkPlayer {
           public void run() {
             canDraw = false;
             hasMoved = true;
-            var json = new JsonObject();
-            json.addProperty("type", Packets.TURNOVER.getPacketType());
-            getServerClient().sendPacket(new Packet(json));
             timerIsRunning = false;
+            System.out.println("client " + getServerClient().getClientName() + " ran out of time");
             game.nextPlayer();
           }
         },
-        game.getSettings().getTurnTime() * 1000L);
+        game.getSettings().getTurnTime());
   }
 
   /**
@@ -123,7 +120,6 @@ public class Player extends NetworkPlayer {
   }
 
   /**
-   * @param moleID  the mole that will be moved
    * @param x_start the x-coordinate of the start field
    * @param y_start the y-coordinate of the start field
    * @param x_end   the x-coordinate of the end field
@@ -136,7 +132,7 @@ public class Player extends NetworkPlayer {
    * @see Field
    * @see GameLogic
    */
-  public void moveMole(final int x_start, final int y_start, final int x_end, final int y_end) {
+  public void moveMole(final int x_start, final int y_start, final int x_end, final int y_end, final int cardValue) {
     if (!game.getCurrentPlayer().equals(this) || hasMoved) {
       return;
     }
@@ -145,10 +141,10 @@ public class Player extends NetworkPlayer {
         .wasLegalMove(
             List.of(x_start, y_start),
             List.of(x_end, y_end),
-            drawCard,
+            cardValue,
             game.getMap())) { // TODO: drawCard - 3
       Mole mole = null;
-      for (var  m : moles) {
+      for (var m : moles) {
         if (m.getField().getX() == x_start && m.getField().getY() == y_start) {
           mole = m;
           break;
@@ -163,6 +159,10 @@ public class Player extends NetworkPlayer {
           .getFieldMap()
           .get(List.of(x_end, y_end))
           .setOccupied(true);
+      game.getMap()
+          .getFieldMap()
+          .get(List.of(x_end, y_end))
+          .setMole(mole);
       System.out.println(
           "Player with id: "
               + serverClient.getConnectionID()
@@ -183,20 +183,17 @@ public class Player extends NetworkPlayer {
               + " has done in invalid move Punishment: "
               + game.getSettings().getPunishment() +
               " player tried to move from X,Y: [" + x_start + "," + y_start + "] to X,Y: [" + x_end + "," + y_end + "] with a card of " + drawCard + "\n\n");
-      //TODO: hier serverClient.sendPacket(MoleGames.getMoleGames().getPacketHandler().invalidMovePacket());
+      MoleGames.getMoleGames().getServer().sendToAllGameClients(game, MoleGames.getMoleGames().getPacketHandler().movePenaltyNotification(this, game.getSettings().getPunishment(), "INVALID_MOVE"));
       timer.purge();
       timer.cancel();
-      var json = new JsonObject();
-      json.addProperty("type", Packets.TURNOVER.getPacketType());
-      getServerClient().sendPacket(new Packet(json));
       game.nextPlayer();
 
     }
   }
 
   /**
-   * @param x      the x cordinate where a mole will be placed
-   * @param y      the y cordinate where a mole will be placed
+   * @param x the x cordinate where a mole will be placed
+   * @param y the y cordinate where a mole will be placed
    * @author Carina
    * @use will check if a field is free than set the mole on this field
    * @see Mole
@@ -214,6 +211,8 @@ public class Player extends NetworkPlayer {
       moles.add(mole);
       game.getMoleMap().put(this, mole);
       game.getMap().getFieldMap().get(List.of(x, y)).setOccupied(true);
+      game.getMap().getFieldMap().get(List.of(x, y)).setMole(mole);
+      MoleGames.getMoleGames().getServer().sendToAllGameClients(game, MoleGames.getMoleGames().getPacketHandler().molePlacedPacket(mole));
       game.getMap().printMap();
       handleTurnAfterAction();
       System.out.println(
@@ -237,9 +236,6 @@ public class Player extends NetworkPlayer {
     if (timerIsRunning) {
       timer.purge();
       timer.cancel();
-      var json = new JsonObject();
-      json.addProperty("type", Packets.TURNOVER.getPacketType());
-      getServerClient().sendPacket(new Packet(json));
       game.nextPlayer();
     }
   }
@@ -257,7 +253,7 @@ public class Player extends NetworkPlayer {
     return game;
   }
 
-  public List<Integer> getCards() {
+  public ArrayList<Integer> getCards() {
     return cards;
   }
 
@@ -269,5 +265,11 @@ public class Player extends NetworkPlayer {
     return serverClient;
   }
 
+  public long getRemainingTime() {
+    return startRemainingTime;
+  }
 
+  public void setStartRemainingTime(long startRemainingTime) {
+    this.startRemainingTime = startRemainingTime;
+  }
 }

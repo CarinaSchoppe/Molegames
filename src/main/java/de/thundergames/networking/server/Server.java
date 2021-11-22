@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for Swtpra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 21.11.21, 15:30 by Carina latest changes made by Carina on 21.11.21, 15:30 All contents of "Server" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 22.11.21, 14:50 by Carina latest changes made by Carina on 21.11.21, 20:26 All contents of "Server" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -14,7 +14,6 @@ import de.thundergames.networking.util.Network;
 import de.thundergames.networking.util.NetworkThread;
 import de.thundergames.networking.util.Packet;
 import de.thundergames.playmechanics.game.Game;
-import de.thundergames.playmechanics.util.Overview;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.util.ArrayList;
@@ -23,11 +22,11 @@ import org.jetbrains.annotations.NotNull;
 
 public class Server extends Network {
 
-  private static final ArrayList<ServerThread> clientThreads = new ArrayList<>();
-  private static final HashMap<Integer, ServerThread> threadIds = new HashMap<>();
-  private static int threadID = 0;
-  private static boolean keyboard = false;
-  private static Overview overview;
+  private final ArrayList<ServerThread> clientThreads = new ArrayList<>();
+  private final ArrayList<ServerThread> observer = new ArrayList<>();
+  private final HashMap<Integer, ServerThread> threadIDs = new HashMap<>();
+  private int threadID = 0;
+  private boolean keyboard = false;
   private final HashMap<String, ServerThread> connectionNames = new HashMap<>();
   private final HashMap<Integer, ServerThread> connectionIDs = new HashMap<>();
 
@@ -41,16 +40,16 @@ public class Server extends Network {
     super(port, ip);
   }
 
-  public static boolean isKeyboard() {
+  public boolean isKeyboard() {
     return keyboard;
   }
 
-  public static void setKeyboard(final boolean keyboard) {
-    Server.keyboard = keyboard;
+  public void setKeyboard(final boolean keyboard) {
+    this.keyboard = keyboard;
   }
 
-  public static HashMap<Integer, ServerThread> getThreadIds() {
-    return threadIds;
+  public HashMap<Integer, ServerThread> getThreadIds() {
+    return threadIDs;
   }
 
   public HashMap<String, ServerThread> getConnectionNames() {
@@ -61,9 +60,6 @@ public class Server extends Network {
     return connectionIDs;
   }
 
-  public static Overview getOverview() {
-    return overview;
-  }
 
   /**
    * @author Carina
@@ -75,7 +71,6 @@ public class Server extends Network {
   public void create() {
     new Thread(() -> {
       try {
-        overview = new Overview(null, null);
         ServerSocket serverSocket = new ServerSocket(port);
         System.out.println("Server listening on port " + getPort());
         while (true) {
@@ -85,7 +80,7 @@ public class Server extends Network {
           serverThread.start();
           MoleGames.getMoleGames().getPacketHandler().welcomePacket(serverThread, threadID);
           getClientThreads().add(serverThread);
-          threadIds.put(serverThread.getConnectionID(), serverThread);
+          threadIDs.put(serverThread.getConnectionID(), serverThread);
           threadID++;
         }
       } catch (IOException e) {
@@ -123,5 +118,10 @@ public class Server extends Network {
 
   public ArrayList<ServerThread> getClientThreads() {
     return clientThreads;
+  }
+
+
+  public ArrayList<ServerThread> getObserver() {
+    return observer;
   }
 }

@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for Swtpra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 21.11.21, 14:13 by Carina latest changes made by Carina on 21.11.21, 13:04 All contents of "AILogic" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 22.11.21, 14:50 by Carina latest changes made by Carina on 22.11.21, 14:33 All contents of "AILogic" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -13,10 +13,14 @@ package de.thundergames.gameplay.ai;
 import static de.thundergames.playmechanics.util.Directions.DOWN_LEFT;
 import static de.thundergames.playmechanics.util.Directions.RIGHT;
 
+import de.thundergames.networking.util.interfaceItems.NetworkField;
+import de.thundergames.networking.util.interfaceItems.NetworkMole;
+import de.thundergames.playmechanics.map.Field;
 import de.thundergames.playmechanics.util.Directions;
-import de.thundergames.playmechanics.util.Mole;
 import de.thundergames.playmechanics.util.Player;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import org.jetbrains.annotations.NotNull;
 
 public class AILogic {
@@ -26,42 +30,47 @@ public class AILogic {
    * @author Carina
    * @use is called to make a move!
    */
-  public void makeMove(@NotNull final AI ai, @NotNull final Mole mole, @NotNull final Directions direction) {
-
-    /*TODO: hier
-
-       var object = new JsonObject();
-    if (!ai.isPlacedMoles()) {
-      ai.getAIPacketHandler().randomPositionPacket(ai.getClientThread(), object, json);
+  public void makeMove(@NotNull final AI ai, @NotNull final NetworkMole mole, @NotNull final Directions direction) {
+    int x = 0;
+    int y = 0;
+    NetworkMole m;
+    if (isHoleCloseToMole(ai) != null) {
+      m = (NetworkMole) isHoleCloseToMole(ai).get(0);
+      x = (int) isHoleCloseToMole(ai).get(1);
+      y = (int) isHoleCloseToMole(ai).get(2);
+      ai.getAIPacketHandler().makeMove(ai, mole.getField(), new NetworkField(x, y), ai.getCard());
     } else {
-      if (isHoleCloseToMole(ai) != null) {
-        json.put("moleID", (int) isHoleCloseToMole(ai).get(0));
-        json.put("x", (int) isHoleCloseToMole(ai).get(1));
-        json.put("y", (int) isHoleCloseToMole(ai).get(2));
-      } else {
-        if (direction == Directions.UP) {
-          json.put("x", ai.getMolePositions().get(moleID).get(0)).put("y", ai.getMolePositions().get(moleID).get(1) + ai.getCard());
-        } else if (direction == Directions.DOWN) {
-          json.put("x", ai.getMolePositions().get(moleID).get(0)).put("y", ai.getMolePositions().get(moleID).get(1) - ai.getCard());
-        } else if (direction == Directions.LEFT) {
-          json.put("x", ai.getMolePositions().get(moleID).get(0) - ai.getCard()).put("y", ai.getMolePositions().get(moleID).get(1));
-        } else if (direction == Directions.RIGHT) {
-          json.put("x", ai.getMolePositions().get(moleID).get(0) + ai.getCard()).put("y", ai.getMolePositions().get(moleID).get(1));
-        } else if (direction == Directions.UP_LEFT) {
-          json.put("x", ai.getMolePositions().get(moleID).get(0) - ai.getCard()).put("y", ai.getMolePositions().get(moleID).get(1) + ai.getCard());
-        } else if (direction == Directions.UP_RIGHT) {
-          json.put("x", ai.getMolePositions().get(moleID).get(0) + ai.getCard()).put("y", ai.getMolePositions().get(moleID).get(1) + ai.getCard());
-        } else if (direction == Directions.DOWN_RIGHT) {
-          json.put("x", ai.getMolePositions().get(moleID).get(0) + ai.getCard()).put("y", ai.getMolePositions().get(moleID).get(1) - ai.getCard());
-        } else if (direction == Directions.DOWN_LEFT) {
-          json.put("x", ai.getMolePositions().get(moleID).get(0) - ai.getCard()).put("y", ai.getMolePositions().get(moleID).get(1) - ai.getCard());
-        }
+      m = mole;
+      if (direction == Directions.UP) {
+        y = mole.getField().getY() + ai.getCard();
+        x = mole.getField().getX();
+      } else if (direction == Directions.DOWN) {
+        y = mole.getField().getY() - ai.getCard();
+        x = mole.getField().getX();
+      } else if (direction == Directions.LEFT) {
+        y = mole.getField().getY();
+        x = mole.getField().getX() - ai.getCard();
+      } else if (direction == Directions.RIGHT) {
+        y = mole.getField().getY();
+        x = mole.getField().getX() + ai.getCard();
+      } else if (direction == Directions.UP_LEFT) {
+        y = mole.getField().getY() + ai.getCard();
+        x = mole.getField().getX() - ai.getCard();
+      } else if (direction == Directions.UP_RIGHT) {
+        y = mole.getField().getY() + ai.getCard();
+        x = mole.getField().getX() + ai.getCard();
+      } else if (direction == Directions.DOWN_RIGHT) {
+        y = mole.getField().getY() - ai.getCard();
+        x = mole.getField().getX() + ai.getCard();
+      } else if (direction == Directions.DOWN_LEFT) {
+        y = mole.getField().getY() - ai.getCard();
+        x = mole.getField().getX() - ai.getCard();
       }
-      object.put("value", json.toString());
-      System.out.println("AI: moving from: " + ai.getMolePositions().get(moleID).get(0) + ", " + ai.getMolePositions().get(moleID).get(1) + " to " + json.getInt("x") + ", " + json.getInt("y"));
-      ai.getClientThread().sendPacket(new Packet(object));
-      System.out.println("ai does smart move");
-    }*/
+    }
+    ai.getAIPacketHandler().makeMove(ai, mole.getField(), new NetworkField(x, y), ai.getCard());
+    System.out.println("AI: moving from: " + mole.getField().getX() + ", " + mole.getField().getY() + " to " + x + ", " + y);
+    System.out.println("ai does smart move");
+
   }
 
   /**
@@ -142,11 +151,11 @@ public class AILogic {
    */
   public void handlePlacement(@NotNull final AI ai) {
     if (ai.isDraw()) {
-      if (ai.getPlacedMolesAmount() >= ai.getMoleIDs().size() - 1) {
+      if (ai.getPlacedMolesAmount() >= ai.getGameState().getMoles()) {
         ai.setPlacedMoles(true);
         drawCard(ai);
       } else {
-        placeMoles(ai, ai.getMoleIDs().get(ai.getPlacedMolesAmount()));
+        placeMoles(ai);
         ai.setPlacedMolesAmount(ai.getPlacedMolesAmount() + 1);
       }
     }
@@ -159,13 +168,13 @@ public class AILogic {
    */
   public void moveMoles(@NotNull final AI ai) {
     boolean moveable = false;
-    for (var mole : ai.getMolePositions().keySet()) {
-      if (ai.getMolePositions().containsKey(mole)) {
-        var direction = isMoveable(ai, ai.getCard(), List.of(ai.getMolePositions().get(mole).get(0), ai.getMolePositions().get(mole).get(1)));
+    for (var moles : ai.getGameState().getPlacedMoles()) {
+      if (moles.getPlayer().equals(ai.getNetworkPlayer())) {
+        var direction = isMoveable(ai, ai.getCard(), List.of(moles.getField().getX(), moles.getField().getY()));
         if (direction != null) {
           moveable = true;
-          System.out.println("mole with id: " + mole + " is movable");
-          makeMove(ai, mole, direction);
+          System.out.println("mole with id: " + moles + " is movable");
+          makeMove(ai, moles, direction);
           break;
         } else {
           System.out.println("all moles are not movable in all directions");
@@ -173,11 +182,11 @@ public class AILogic {
       }
     }
     if (!moveable) {
-      for (var mole : ai.getMolePositions().keySet()) {
-        if (ai.getMolePositions().containsKey(mole)) {
-          var direction = isMoveable(ai, ai.getCard(), List.of(ai.getMolePositions().get(mole).get(0), ai.getMolePositions().get(mole).get(1)));
+      for (var moles : ai.getGameState().getPlacedMoles()) {
+        if (moles.getPlayer().equals(ai.getNetworkPlayer())) {
+          var direction = isMoveable(ai, ai.getCard(), List.of(moles.getField().getX(), moles.getField().getY()));
           if (direction != null) {
-            makeMove(ai, mole, direction);
+            makeMove(ai, moles, direction);
             break;
           }
         }
@@ -187,21 +196,22 @@ public class AILogic {
 
   /**
    * @param ai
-   * @param moleID
    * @author Carina
    * @use placed a mole at a random position
    */
-  public void placeMoles(@NotNull final AI ai, final int moleID) {
-/*TODO: hier
+  public void placeMoles(@NotNull final AI ai) {
+    var random = new Random();
+    var fields = new ArrayList<>(ai.getMap().getFieldMap().values());
+    Field field;
+    while (true) {
+      field = fields.get(random.nextInt(fields.size()));
+      if (!field.isOccupied()) {
+        break;
+      }
 
-       if (ai.getPlacedMolesAmount() < ai.getMoleIDs().size() - 1) {
-      var object = new JSONObject();
-      object.put("type", Packets.PLACEMOLE.getPacketType());
-      var json = new JSONObject();
-      json.put("moleID", moleID);
-      ai.getAIPacketHandler().randomPositionPacket(ai.getClientThread(), object, json);
-    }*/
+    }
   }
+
 
   /**
    * @param ai
@@ -210,7 +220,6 @@ public class AILogic {
    */
   public void drawCard(@NotNull final AI ai) {
 /*TODO: hier
-
        var object = new JSONObject();
     object.put("type", Packets.DRAWCARD.getPacketType());
     ai.getClientThread().sendPacket(new Packet(object));*/
@@ -224,12 +233,10 @@ public class AILogic {
   public List<Object> isHoleCloseToMole(@NotNull final AI ai) {
     for (var mole : ai.getGameState().getPlacedMoles()) {
       if (mole.getPlayer().getClientID() == ai.getClientThread().getClientThreadID()) {
-        for (var hole : ai.getMap().getFieldMap().values()) {
-          if (hole.isHole()) {
-            if ((hole.getX() == ai.getMolePositions().get(mole).get(0) + ai.getCard() || hole.getX() == ai.getMolePositions().get(mole).get(0) - ai.getCard()) && (hole.getY() == ai.getMolePositions().get(mole).get(1) + ai.getCard() || hole.getY() == ai.getMolePositions().get(mole).get(1) - ai.getCard())) {
-              System.out.println("AI: there is a hole close to a mole within the drawcard. Hole:" + hole.getX() + "," + hole.getY() + " mole: " + mole);
-              return List.of(mole, hole.getX(), hole.getY());
-            }
+        for (var hole : ai.getGameState().getFloor().getHoles()) {
+          if ((hole.getX() == mole.getField().getX() + ai.getCard() || hole.getX() == mole.getField().getX() - ai.getCard()) && (hole.getY() == mole.getField().getY() + ai.getCard() || hole.getY() == mole.getField().getY() - ai.getCard())) {
+            System.out.println("AI: there is a hole close to a mole within the drawcard. Hole:" + hole.getX() + "," + hole.getY() + " mole: " + mole);
+            return List.of(mole, hole.getX(), hole.getY());
           }
         }
       }

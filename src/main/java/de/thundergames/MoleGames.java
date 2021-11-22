@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for Swtpra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 21.11.21, 15:30 by Carina latest changes made by Carina on 21.11.21, 15:28 All contents of "MoleGames" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 22.11.21, 14:50 by Carina latest changes made by Carina on 21.11.21, 18:13 All contents of "MoleGames" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -63,7 +63,7 @@ public class MoleGames {
           moleGames.gameHandler = new MultiGameHandler();
           moleGames.gameLogic = new GameLogic();
           moleGames.server.create();
-          new de.thundergames.gameplay.ausrichter.ui.CreateGame().create(args);
+          new de.thundergames.gameplay.ausrichter.ui.CreateGame().create(moleGames.server, args);
           break;
 
         case "-a":

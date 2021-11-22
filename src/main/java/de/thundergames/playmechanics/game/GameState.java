@@ -1,20 +1,24 @@
 /*
  * Copyright Notice for Swtpra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 21.11.21, 15:19 by Carina latest changes made by Carina on 21.11.21, 14:19 All contents of "GameState" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 22.11.21, 14:50 by Carina latest changes made by Carina on 21.11.21, 19:53 All contents of "GameState" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
  * requires the express written consent of ThunderGames | SwtPra10.
  */
 
-package de.thundergames.networking.util.interfaceItems;
+package de.thundergames.playmechanics.game;
 
 import de.thundergames.filehandling.Score;
+import de.thundergames.networking.util.interfaceItems.NetworkFloor;
+import de.thundergames.networking.util.interfaceItems.NetworkMole;
+import de.thundergames.networking.util.interfaceItems.NetworkPlayer;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 
-public class GameState extends InterfaceObject {
+public class GameState {
 
   private ArrayList<NetworkPlayer> players = new ArrayList<>();
   private NetworkPlayer currentPlayer;
@@ -23,10 +27,11 @@ public class GameState extends InterfaceObject {
   private int radius;
   private NetworkFloor level;
   private boolean pullDiscsOrdered;
-  private ArrayList<Integer> pullDiscs = new ArrayList<>();
+  private HashMap<Integer, ArrayList<Integer>> pullDiscs = new HashMap<>();
   private long visualizationTime;
   private String status;
   private Score score;
+
 
   public ArrayList<NetworkPlayer> getPlayers() {
     return players;
@@ -68,11 +73,11 @@ public class GameState extends InterfaceObject {
     this.radius = radius;
   }
 
-  public NetworkFloor getLevel() {
+  public NetworkFloor getFloor() {
     return level;
   }
 
-  public void setLevel(NetworkFloor level) {
+  public void setFloor(NetworkFloor level) {
     this.level = level;
   }
 
@@ -84,11 +89,11 @@ public class GameState extends InterfaceObject {
     this.pullDiscsOrdered = pullDiscsOrdered;
   }
 
-  public ArrayList<Integer> getPullDiscs() {
+  public HashMap<Integer, ArrayList<Integer>> getPullDiscs() {
     return pullDiscs;
   }
 
-  public void setPullDiscs(ArrayList<Integer> pullDiscs) {
+  public void setPullDiscs(HashMap<Integer, ArrayList<Integer>> pullDiscs) {
     this.pullDiscs = pullDiscs;
   }
 
