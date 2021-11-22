@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for Swtpra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 22.11.21, 14:58 by Carina latest changes made by Carina on 22.11.21, 14:58 All contents of "ClientPacketHandler" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 22.11.21, 16:22 by Carina latest changes made by Carina on 22.11.21, 16:22 All contents of "ClientPacketHandler" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -85,7 +85,18 @@ public class ClientPacketHandler {
       handlePlayerSkippedPacket(client, packet);
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.NEXTLEVEL.getPacketType())) {
       handleNextLevelPacket(client, packet);
+    } else if (packet.getPacketType().equalsIgnoreCase(Packets.TOURNAMENTSCORE.getPacketType())) {
+      handleTournamentScorePacket(client, packet);
     }
+  }
+
+  /**
+   * @param client
+   * @param packet
+   * @author Carina
+   * @use handles the tournament score send by the server
+   */
+  private void handleTournamentScorePacket(Client client, Packet packet) {
   }
 
   /**

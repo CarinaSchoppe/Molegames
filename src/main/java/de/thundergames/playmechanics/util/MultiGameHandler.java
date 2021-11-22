@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for Swtpra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 22.11.21, 14:50 by Carina latest changes made by Carina on 22.11.21, 14:50 All contents of "MultiGameHandler" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 22.11.21, 16:22 by Carina latest changes made by Carina on 22.11.21, 16:20 All contents of "MultiGameHandler" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -29,6 +29,7 @@ public class MultiGameHandler {
   private final HashMap<Integer, Game> idGames = new HashMap<>();
   private final HashMap<Integer, Tournament> idTournaments = new HashMap<>();
   private final HashMap<ServerThread, Game> clientGames = new HashMap<>();
+  private final HashMap<ServerThread, Tournament> clientTournaments = new HashMap<>();
 
   /**
    * @author Carina
@@ -70,6 +71,10 @@ public class MultiGameHandler {
 
   public HashMap<ServerThread, Game> getClientGames() {
     return clientGames;
+  }
+
+  public HashMap<ServerThread, Tournament> getClientTournaments() {
+    return clientTournaments;
   }
 
   public ArrayList<Tournament> getTournaments() {

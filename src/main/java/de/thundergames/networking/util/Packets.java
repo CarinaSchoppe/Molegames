@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for Swtpra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 22.11.21, 14:50 by Carina latest changes made by Carina on 22.11.21, 10:56 All contents of "Packets" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 22.11.21, 16:22 by Carina latest changes made by Carina on 22.11.21, 16:19 All contents of "Packets" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -30,6 +30,8 @@ public enum Packets {
   GETREMAININGTIME("getRemainingTime"),
   REMAININGTIME("remainingTime"),
   GAMESTARTED("gameStarted"),
+  TOURNAMENTSCORE("tournamentScore"),
+  GETTOURNAMENTSCORE("getTournamentScore"),
   GAMEOVER("gameOver"),
   MESSAGE("message"),
   SCORENOTIFICATION("scoreNotification"),

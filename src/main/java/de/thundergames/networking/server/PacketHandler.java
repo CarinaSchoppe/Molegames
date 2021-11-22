@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for Swtpra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 22.11.21, 14:58 by Carina latest changes made by Carina on 22.11.21, 14:56 All contents of "PacketHandler" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 22.11.21, 16:22 by Carina latest changes made by Carina on 22.11.21, 16:21 All contents of "PacketHandler" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -28,6 +28,15 @@ import org.jetbrains.annotations.NotNull;
 
 public class PacketHandler {
 
+  /**
+   * @param packet
+   * @param client
+   * @author Carina
+   * @use handles the incomming packets from the server
+   * @see Server
+   * @see Packets
+   * @see de.thundergames.gameplay.player.networking.Client
+   */
   public void handlePacket(@NotNull final Packet packet, @NotNull final ServerThread client) {
     if (packet.getPacketType().equalsIgnoreCase(Packets.LOGIN.getPacketType())) {
       handleLoginPacket(client, packet);
@@ -55,6 +64,8 @@ public class PacketHandler {
       handlePlaceMolePacket(client, packet);
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.MOLEMOVED.getPacketType())) {
       handleMoleMovedPacket(client, packet);
+    } else if (packet.getPacketType().equalsIgnoreCase(Packets.GETTOURNAMENTSCORE.getPacketType())) {
+      handleGetTournamentScore(client);
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.JOINGAME.getPacketType())) {
       if (handleJoinPacket(packet, client)) {
         welcomeGamePacket(client);
@@ -66,9 +77,9 @@ public class PacketHandler {
 
 
   /**
-   * @author Carina
    * @param player
    * @return the packet
+   * @author Carina
    * @use sends the packet to all clients that this player was skipped!
    */
   public Packet playerSkippedPacket(@NotNull final Player player) {
@@ -81,10 +92,10 @@ public class PacketHandler {
   }
 
   /**
-   * @author Carina
    * @param gameState
    * @param eliminatedPlayers
    * @return the packet
+   * @author Carina
    * @use sends the next floor (gamestate) to the players
    */
   public Packet nextLevelPacket(@NotNull final GameState gameState, @NotNull final ArrayList<Player> eliminatedPlayers) {
@@ -176,7 +187,7 @@ public class PacketHandler {
   private void handlePlaceMolePacket(@NotNull final ServerThread client, @NotNull final Packet packet) {
     var game = MoleGames.getMoleGames().getGameHandler().getClientGames().get(client);
     if (game != null) {
-      if (game.getCurrentGameState() ==GameStates.STARTED) {
+      if (game.getCurrentGameState() == GameStates.STARTED) {
         for (var player : game.getPlayers()) {
           if (player.getServerClient().equals(client)) {
             player.placeMole(packet.getValues().get("x").getAsInt(), packet.getValues().get("y").getAsInt());
@@ -370,6 +381,26 @@ public class PacketHandler {
   private void handlePlayerLeavePacket(@NotNull final ServerThread client) {
     removeFromGames(client);
     overviewPacket(client);
+  }
+
+  /**
+   * @param client
+   * @author Carina
+   * @use handles the getTournamentScore from the client
+   * @see de.thundergames.gameplay.player.networking.Client
+   * @see Score
+   */
+  private void handleGetTournamentScore(@NotNull final ServerThread client) {
+    tournamentScore(client, MoleGames.getMoleGames().getGameHandler().getClientTournaments().get(client).getScore());
+  }
+
+  public void tournamentScore(@NotNull final ServerThread client, @NotNull final Score score) {
+    var json = new JsonObject();
+    json.addProperty("type", Packets.TOURNAMENTSCORE.getPacketType());
+    var object = new JsonObject();
+    object.addProperty("score", new Gson().toJson(score));
+    json.add("value", object);
+    client.sendPacket(new Packet(json));
   }
 
   /**
