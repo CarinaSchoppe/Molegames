@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for Swtpra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 22.11.21, 16:22 by Carina latest changes made by Carina on 22.11.21, 16:22 All contents of "ClientPacketHandler" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 22.11.21, 16:34 by Carina latest changes made by Carina on 22.11.21, 16:30 All contents of "ClientPacketHandler" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -96,7 +96,7 @@ public class ClientPacketHandler {
    * @author Carina
    * @use handles the tournament score send by the server
    */
-  private void handleTournamentScorePacket(Client client, Packet packet) {
+  protected void handleTournamentScorePacket(Client client, Packet packet) {
   }
 
   /**
@@ -105,7 +105,7 @@ public class ClientPacketHandler {
    * @author Carina
    * @use handles when the client gets the new floor
    */
-  private void handleNextLevelPacket(Client client, Packet packet) {
+  protected void handleNextLevelPacket(Client client, Packet packet) {
     client.setGameState(new Gson().fromJson(packet.getValues().get("gameState").getAsString(), GameState.class));
     client.setMap(new Map(client.getGameState()));
     client.getMap().changeFieldParams(client.getGameState());
@@ -119,7 +119,7 @@ public class ClientPacketHandler {
    * @author Carina
    * @use handles when a player skipped his turn
    */
-  private void handlePlayerSkippedPacket(@NotNull final Client client, @NotNull final Packet packet) {
+  protected void handlePlayerSkippedPacket(@NotNull final Client client, @NotNull final Packet packet) {
     var player = new Gson().fromJson(packet.getValues().get("player").getAsString(), NetworkPlayer.class);
     if (player.equals(client.getNetworkPlayer())) {
       System.out.println("Client is skipping this turn!");
@@ -134,7 +134,7 @@ public class ClientPacketHandler {
    * @author Carina
    * @use handles if a client did an invalid handling with a punishment
    */
-  private void handleMovePentaltyNotificationPacket(@NotNull final Client client, @NotNull final Packet packet) {
+  protected void handleMovePentaltyNotificationPacket(@NotNull final Client client, @NotNull final Packet packet) {
     System.out.println("The client " + new Gson().fromJson(packet.getValues().get("player").getAsString(), NetworkPlayer.class).getName() + " got a move penalty for the reason" + packet.getValues().get("reason").getAsString());
   }
 
@@ -156,7 +156,7 @@ public class ClientPacketHandler {
    * @author Carina
    * @use handles if the player is now on the turn
    */
-  public void handlePlayersTurnPacket(@NotNull final Client client, @NotNull final Packet packet) {
+  protected void handlePlayersTurnPacket(@NotNull final Client client, @NotNull final Packet packet) {
     if (new Gson().fromJson(packet.getValues().get("player").getAsString(), NetworkPlayer.class).getClientID() == client.getClientThread().getClientThreadID()) {
       System.out.println("Client is now on the turn!");
       client.setDraw(true);
@@ -216,7 +216,7 @@ public class ClientPacketHandler {
    * @see de.thundergames.playmechanics.util.Player
    * @see de.thundergames.playmechanics.util.Mole
    */
-  private void handlePlayerPlacesMolePacket(@NotNull final Client client, @NotNull final Packet packet) {
+  protected void handlePlayerPlacesMolePacket(@NotNull final Client client, @NotNull final Packet packet) {
     System.out.println("The Client " + new Gson().fromJson(packet.getValues().get("player").getAsString(), NetworkPlayer.class).getName() + "needs to place a mole till: " + packet.getValues().get("until").getAsInt());
   }
 
@@ -227,7 +227,7 @@ public class ClientPacketHandler {
    * @use handles that the game of the client was paused
    * @see de.thundergames.playmechanics.game.Game
    */
-  private void handleGamePausedPacket(@NotNull final Client client, @NotNull final Packet packet) {
+  protected void handleGamePausedPacket(@NotNull final Client client, @NotNull final Packet packet) {
   }
 
   /**
@@ -237,7 +237,7 @@ public class ClientPacketHandler {
    * @use handles that a game was canceled
    * @see de.thundergames.playmechanics.game.Game
    */
-  private void handleGameCanceledPacket(@NotNull final Client client, @NotNull final Packet packet) {
+  protected void handleGameCanceledPacket(@NotNull final Client client, @NotNull final Packet packet) {
   }
 
   /**
@@ -247,7 +247,7 @@ public class ClientPacketHandler {
    * @use handles that game is now continued
    * @see de.thundergames.playmechanics.game.Game
    */
-  private void handleGameContinuedPacket(@NotNull final Client client, @NotNull final Packet packet) {
+  protected void handleGameContinuedPacket(@NotNull final Client client, @NotNull final Packet packet) {
   }
 
   /**
@@ -256,7 +256,7 @@ public class ClientPacketHandler {
    * @author Carina
    * @use handles that the game of the client is over
    */
-  private void handleGameOverPacket(@NotNull final Client client, @NotNull final Packet packet) {
+  protected void handleGameOverPacket(@NotNull final Client client, @NotNull final Packet packet) {
   }
 
   /**
@@ -265,7 +265,7 @@ public class ClientPacketHandler {
    * @author Carina
    * @use handles the packet that a game has started
    */
-  private void handleGameStartedPacket(@NotNull final Client client, @NotNull final Packet packet) {
+  protected void handleGameStartedPacket(@NotNull final Client client, @NotNull final Packet packet) {
 
   }
 
@@ -275,7 +275,7 @@ public class ClientPacketHandler {
    * @author Carina
    * @use handles the remaining Time of the client for a turn
    */
-  private void handleRemainingTimePacket(@NotNull final Client client, @NotNull final Packet packet) {
+  protected void handleRemainingTimePacket(@NotNull final Client client, @NotNull final Packet packet) {
     client.setRemainingTime(packet.getValues().get("timeLeft").getAsInt());
   }
 
@@ -285,7 +285,7 @@ public class ClientPacketHandler {
    * @author Carina
    * @use handles the historyResponsePacket from the server
    */
-  private void handleGameHistoryResponsePacket(@NotNull final Client client, @NotNull final Packet packet) {
+  protected void handleGameHistoryResponsePacket(@NotNull final Client client, @NotNull final Packet packet) {
 
   }
 
@@ -295,7 +295,7 @@ public class ClientPacketHandler {
    * @author Carina
    * @use handles that the server send this client the score of the game
    */
-  private void handleScoreNotificationPacket(@NotNull final Client client, @NotNull final Packet packet) {
+  protected void handleScoreNotificationPacket(@NotNull final Client client, @NotNull final Packet packet) {
     client.getGameState().setScore(new Gson().fromJson(packet.getValues(), Score.class));
   }
 

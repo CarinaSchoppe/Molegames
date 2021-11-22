@@ -6,11 +6,10 @@
   <component name="ChangeListManager">
     <list default="true" id="0b983e64-eaee-4539-9e35-0cc6cea2f64e" name="Changes" comment="implementation of the interface commitee document stuff">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/gameplay/ai/AI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/thundergames/gameplay/ai/AI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/gameplay/ai/AILogic.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/thundergames/gameplay/ai/AILogic.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/gameplay/ai/networking/AIPacketHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/thundergames/gameplay/ai/networking/AIPacketHandler.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/gameplay/player/networking/ClientPacketHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/thundergames/gameplay/player/networking/ClientPacketHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/networking/server/PacketHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/thundergames/networking/server/PacketHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/networking/util/Packets.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/thundergames/networking/util/Packets.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/playmechanics/util/MultiGameHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/thundergames/playmechanics/util/MultiGameHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/playmechanics/util/Tournament.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/thundergames/playmechanics/util/Tournament.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -432,7 +431,7 @@
       <workItem from="1637484173742" duration="13002000" />
       <workItem from="1637518223299" duration="7252000" />
       <workItem from="1637570077309" duration="16617000" />
-      <workItem from="1637592890531" duration="1379000" />
+      <workItem from="1637592890531" duration="2104000" />
     </task>
     <task id="LOCAL-00001" summary="added AI logics">
       <created>1637055198741</created>
@@ -546,7 +545,14 @@
       <option name="project" value="LOCAL" />
       <updated>1637589538830</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="implementation of the interface commitee document stuff">
+      <created>1637594534112</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1637594534112</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

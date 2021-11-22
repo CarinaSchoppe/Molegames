@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for Swtpra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 22.11.21, 14:50 by Carina latest changes made by Carina on 22.11.21, 14:16 All contents of "AI" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 22.11.21, 16:34 by Carina latest changes made by Carina on 22.11.21, 16:34 All contents of "AI" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -51,6 +51,7 @@ public class AI extends Client {
       clientThread = new AIClientThread(socket, 0, this);
       clientThread.start();
       clientPacketHandler.loginPacket(this, getName());
+      clientPacketHandler.joinGamePacket(this, gameID, true);
     } catch (IOException exception) {
       System.out.println("Is the server running?!");
     }
@@ -60,7 +61,7 @@ public class AI extends Client {
     return (AIPacketHandler) clientPacketHandler;
   }
 
-  public AIUtil getAiUtil() {
+  public AIUtil getAIUtil() {
     return aiUtil;
   }
 

@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for Swtpra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 22.11.21, 14:50 by Carina latest changes made by Carina on 22.11.21, 14:33 All contents of "AILogic" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 22.11.21, 16:34 by Carina latest changes made by Carina on 22.11.21, 16:34 All contents of "AILogic" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -24,7 +24,6 @@ import java.util.Random;
 import org.jetbrains.annotations.NotNull;
 
 public class AILogic {
-
 
   /**
    * @author Carina
@@ -70,7 +69,6 @@ public class AILogic {
     ai.getAIPacketHandler().makeMove(ai, mole.getField(), new NetworkField(x, y), ai.getCard());
     System.out.println("AI: moving from: " + mole.getField().getX() + ", " + mole.getField().getY() + " to " + x + ", " + y);
     System.out.println("ai does smart move");
-
   }
 
   /**
@@ -149,13 +147,14 @@ public class AILogic {
    * @author Carina
    * @use handles the placement of a mole if the mole needs to be placed or if all moles has been placed
    */
-  public void handlePlacement(@NotNull final AI ai) {
+  public void handleAction(@NotNull final AI ai) {
     if (ai.isDraw()) {
       if (ai.getPlacedMolesAmount() >= ai.getGameState().getMoles()) {
         ai.setPlacedMoles(true);
-        drawCard(ai);
+        ai.setCard(ai.getPullDiscs().get(0));
+        moveMole(ai);
       } else {
-        placeMoles(ai);
+        placeMole(ai);
         ai.setPlacedMolesAmount(ai.getPlacedMolesAmount() + 1);
       }
     }
@@ -166,7 +165,7 @@ public class AILogic {
    * @author Carina
    * @use moves a mole in a smart way checks if a mole can now get into a hole and when not it takes a random mole checks if it can be moved and than moves it in the allowed direction by the value of the drawCard
    */
-  public void moveMoles(@NotNull final AI ai) {
+  public void moveMole(@NotNull final AI ai) {
     boolean moveable = false;
     for (var moles : ai.getGameState().getPlacedMoles()) {
       if (moles.getPlayer().equals(ai.getNetworkPlayer())) {
@@ -199,7 +198,7 @@ public class AILogic {
    * @author Carina
    * @use placed a mole at a random position
    */
-  public void placeMoles(@NotNull final AI ai) {
+  public void placeMole(@NotNull final AI ai) {
     var random = new Random();
     var fields = new ArrayList<>(ai.getMap().getFieldMap().values());
     Field field;
@@ -208,21 +207,8 @@ public class AILogic {
       if (!field.isOccupied()) {
         break;
       }
-
+      ai.getAIPacketHandler().placeMolePacket(ai, field);
     }
-  }
-
-
-  /**
-   * @param ai
-   * @author Carina
-   * @use method that is called to draw a card
-   */
-  public void drawCard(@NotNull final AI ai) {
-/*TODO: hier
-       var object = new JSONObject();
-    object.put("type", Packets.DRAWCARD.getPacketType());
-    ai.getClientThread().sendPacket(new Packet(object));*/
   }
 
   /**
