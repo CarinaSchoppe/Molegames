@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for Swtpra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 22.11.21, 14:58 by Carina latest changes made by Carina on 22.11.21, 14:56 All contents of "Game" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 22.11.21, 21:41 by Carina latest changes made by Carina on 22.11.21, 19:55 All contents of "Game" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -28,17 +28,17 @@ import org.jetbrains.annotations.NotNull;
 
 public class Game extends NetworkGame {
 
-  private transient GameStates currentGameState = GameStates.NOT_STARTED;
   private transient final HashMap<NetworkPlayer, Player> clientPlayersMap = new HashMap<>();
   private transient final ArrayList<Player> players = new ArrayList<>();
   private transient final HashMap<Player, Mole> moleMap = new HashMap<>();
+  private final transient GameState gameState = new GameState();
+  private final ArrayList<Player> eliminatedPlayers = new ArrayList<>();
+  private transient GameStates currentGameState = GameStates.NOT_STARTED;
   private transient Map map;
   private transient Settings settings;
   private transient Player currentPlayer;
   private transient boolean gamePaused = false;
   private transient boolean allMolesPlaced = false;
-  private final transient GameState gameState = new GameState();
-  private final ArrayList<Player> eliminatedPlayers = new ArrayList<>();
 
   public Game(int gameID) {
     super(gameID);
@@ -55,7 +55,7 @@ public class Game extends NetworkGame {
     updateNetworkGame();
     map = new Map(this);
     updateGameState();
-    map.changeFieldParams(gameState);
+
   }
 
   /**
@@ -103,8 +103,8 @@ public class Game extends NetworkGame {
    * @use starts the game
    */
   public void startGame(GameStates gameState) {
-    // TODO: Run a Game!
     if (currentGameState != GameStates.NOT_STARTED || players.isEmpty()) {
+      System.out.println("Server: Cant start a game that has no players in it!");
       return;
     }
     if (getCurrentGameState() == GameStates.NOT_STARTED) {
@@ -163,14 +163,15 @@ public class Game extends NetworkGame {
       currentPlayer = getClientPlayersMap().get(players.get(0));
     }
     if (allMolesInHoles()) {
+      System.out.println("all playerMoles are in holes!");
       MoleGames.getMoleGames().getServer().sendToAllGameClients(this, MoleGames.getMoleGames().getPacketHandler().playerSkippedPacket(currentPlayer));
       nextPlayer();
+      return;
     } else {
       if (currentPlayer.getMoles().size() < settings.getNumberOfMoles()) {
         MoleGames.getMoleGames().getServer().sendToAllGameClients(this, MoleGames.getMoleGames().getPacketHandler().playerPlacesMolePacket(currentPlayer.getServerClient()));
-      } else {
+      } else if (currentPlayer.getMoles().size() >= settings.getNumberOfMoles()) {
         MoleGames.getMoleGames().getServer().sendToAllGameClients(this, MoleGames.getMoleGames().getPacketHandler().playersTurnPacket(currentPlayer.getServerClient(), currentPlayer));
-
       }
       currentPlayer.startThinkTimer();
     }
@@ -180,12 +181,12 @@ public class Game extends NetworkGame {
     var moleInHoles = 0;
     for (var moles : currentPlayer.getMoles()) {
       for (var hole : map.getHoles()) {
-        if (hole.getX() == moles.getField().getX() && hole.getY() == moles.getField().getY()) {
+        if (hole.getX() == moles.getNetworkField().getX() && hole.getY() == moles.getNetworkField().getY()) {
           moleInHoles++;
         }
       }
     }
-    return moleInHoles == currentPlayer.getMoles().size();
+    return moleInHoles == currentPlayer.getMoles().size() && currentPlayer.getMoles().size() == settings.getNumberOfMoles();
   }
 
   /**
@@ -221,7 +222,7 @@ public class Game extends NetworkGame {
       eliminatedPlayers.add(player);
     }
     for (var moles : player.getMoles()) {
-      player.getGame().getMap().getFieldMap().get(List.of(moles.getField().getX(), moles.getField().getY())).setOccupied(false);
+      player.getGame().getMap().getFieldMap().get(List.of(moles.getNetworkField().getX(), moles.getNetworkField().getY())).setOccupied(false);
     }
     clientPlayersMap.remove(player);
     players.remove(player);
@@ -262,24 +263,24 @@ public class Game extends NetworkGame {
     return allMolesPlaced;
   }
 
-  public GameStates getCurrentGameState() {
-    return currentGameState;
+  public void setAllMolesPlaced(boolean allMolesPlaced) {
+    this.allMolesPlaced = allMolesPlaced;
   }
 
-  public ArrayList<Player> getPlayers() {
-    return players;
+  public GameStates getCurrentGameState() {
+    return currentGameState;
   }
 
   public void setCurrentGameState(GameStates currentGameState) {
     this.currentGameState = currentGameState;
   }
 
-  public GameState getGameState() {
-    return gameState;
+  public ArrayList<Player> getPlayers() {
+    return players;
   }
 
-  public void setAllMolesPlaced(boolean allMolesPlaced) {
-    this.allMolesPlaced = allMolesPlaced;
+  public GameState getGameState() {
+    return gameState;
   }
 
 }

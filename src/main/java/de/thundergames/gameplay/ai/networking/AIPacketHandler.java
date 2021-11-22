@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for Swtpra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 22.11.21, 16:34 by Carina latest changes made by Carina on 22.11.21, 16:34 All contents of "AIPacketHandler" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 22.11.21, 21:41 by Carina latest changes made by Carina on 22.11.21, 21:31 All contents of "AIPacketHandler" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -35,19 +35,45 @@ public class AIPacketHandler extends ClientPacketHandler {
       }
       ai.getClientThread().setID(packet.getValues().get("clientID").getAsInt());
       ai.setNetworkPlayer(new NetworkPlayer(ai.getName(), ai.getClientThread().getClientThreadID()));
-    }if(packet.getPacketType().equalsIgnoreCase(Packets.WELCOMEGAME.getPacketType())){
+    } else if (packet.getPacketType().equalsIgnoreCase(Packets.WELCOMEGAME.getPacketType())) {
       handleWelcomeGamePacket(ai, packet);
       ai.getAIUtil().createMapFromJson(ai);
-    }if(packet.getPacketType().equalsIgnoreCase(Packets.NEXTLEVEL.getPacketType())){
+    } else if (packet.getPacketType().equalsIgnoreCase(Packets.NEXTLEVEL.getPacketType())) {
       handleNextLevelPacket(ai, packet);
       ai.getAIUtil().createMapFromJson(ai);
-    }if(packet.getPacketType().equalsIgnoreCase(Packets.PLAYERSTURN.getPacketType())){
+    } else if (packet.getPacketType().equalsIgnoreCase(Packets.MOLEPLACED.getPacketType())) {
+      handleMolePlacedPacket(ai, packet);
+      ai.getAIUtil().createMapFromJson(ai);
+    } else if (packet.getPacketType().equalsIgnoreCase(Packets.MOLEMOVED.getPacketType())) {
+      handleMoleMovedPacket(ai, packet);
+    } else if (packet.getPacketType().equalsIgnoreCase(Packets.PLAYERSTURN.getPacketType())) {
       handlePlayersTurnPacket(ai, packet);
-      ai.getLogic().handleAction(ai);
+      try {
+        Thread.sleep(100);
+        ai.getLogic().handleAction(ai);
+        if (isTimerRunning()) {
+          timer.purge();
+          timer.cancel();
+          setTimerRunning(false);
+        }
+      } catch (InterruptedException e) {
+        e.printStackTrace();
+      }
+    } else if (packet.getPacketType().equalsIgnoreCase(Packets.PLAYERPLACESMOLE.getPacketType())) {
+      handlePlayerPlacesMolePacket(ai, packet);
+      try {
+        Thread.sleep(100);
+        ai.getLogic().handleAction(ai);
+        if (isTimerRunning()) {
+          timer.purge();
+          timer.cancel();
+          setTimerRunning(false);
+        }
+      } catch (InterruptedException e) {
+        e.printStackTrace();
+      }
     }
   }
-
-
 
 
 }

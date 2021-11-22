@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for Swtpra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 22.11.21, 16:34 by Carina latest changes made by Carina on 22.11.21, 16:30 All contents of "ClientPacketHandler" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 22.11.21, 21:41 by Carina latest changes made by Carina on 22.11.21, 21:27 All contents of "ClientPacketHandler" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -21,6 +21,7 @@ import de.thundergames.networking.util.interfaceItems.NetworkPlayer;
 import de.thundergames.playmechanics.game.GameState;
 import de.thundergames.playmechanics.map.Map;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -87,7 +88,36 @@ public class ClientPacketHandler {
       handleNextLevelPacket(client, packet);
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.TOURNAMENTSCORE.getPacketType())) {
       handleTournamentScorePacket(client, packet);
+    } else if (packet.getPacketType().equalsIgnoreCase(Packets.MOLEMOVED.getPacketType())) {
+      handleMoleMovedPacket(client, packet);
     }
+  }
+
+  /**
+   * @param client
+   * @param packet
+   * @author Carina
+   * @use handles the movement of a mole send by the server from a client
+   */
+  protected void handleMoleMovedPacket(@NotNull final Client client, @NotNull final Packet packet) {
+    System.out.println("A mole has been moved from" + packet.getValues().get("from").getAsString() + " to " + packet.getValues().get("to").getAsString());
+    var from = new Gson().fromJson(packet.getValues().get("from").getAsString(), NetworkField.class);
+    var to = new Gson().fromJson(packet.getValues().get("to").getAsString(), NetworkField.class);
+    client.getMap().getFieldMap().get(List.of(from.getX(), from.getY())).setOccupied(false);
+    client.getMap().getFieldMap().get(List.of(to.getX(), to.getY())).setOccupied(true);
+    var mole = client.getMap().getFieldMap().get(List.of(from.getX(), from.getY())).getMole();
+    client.getMap().getFieldMap().get(List.of(from.getX(), from.getY())).setMole(null);
+    client.getMap().getFieldMap().get(List.of(to.getX(), to.getY())).setMole(mole);
+    boolean moved = false;
+    for (var moles : client.getGameState().getPlacedMoles()) {
+      System.out.println(moles.getNetworkField().getX() + " " + moles.getNetworkField().getY());
+      if (moles.getNetworkField().getX() == from.getX() && moles.getNetworkField().getY() == from.getY()) {
+        client.getGameState().getPlacedMoles().remove(moles);
+        client.getGameState().getPlacedMoles().add(new NetworkMole(client.getNetworkPlayer(), to));
+        break;
+      }
+    }
+
   }
 
   /**
@@ -107,6 +137,9 @@ public class ClientPacketHandler {
    */
   protected void handleNextLevelPacket(Client client, Packet packet) {
     client.setGameState(new Gson().fromJson(packet.getValues().get("gameState").getAsString(), GameState.class));
+    HashMap<Integer, ArrayList<Integer>> discs = new Gson().fromJson(packet.getValues().get("pullDiscs").getAsString(), HashMap.class);
+    System.out.println("DISCS" + discs);
+    client.getPullDiscs().addAll(client.getGameState().getPullDiscs().get(client.getClientThread().getClientThreadID()));
     client.setMap(new Map(client.getGameState()));
     client.getMap().changeFieldParams(client.getGameState());
     System.out.println("Client got the new level!");
@@ -146,8 +179,9 @@ public class ClientPacketHandler {
    */
   public void handleMolePlacedPacket(@NotNull final Client client, @NotNull final Packet packet) {
     var mole = new Gson().fromJson(packet.getValues().get("mole").getAsString(), NetworkMole.class);
-    client.getMap().getFieldMap().get(List.of(mole.getField().getX(), mole.getField().getY())).setOccupied(true);
-    client.getMap().getFieldMap().get(List.of(mole.getField().getX(), mole.getField().getY())).setMole(mole);
+    client.getMap().getFieldMap().get(List.of(mole.getNetworkField().getX(), mole.getNetworkField().getY())).setOccupied(true);
+    client.getMap().getFieldMap().get(List.of(mole.getNetworkField().getX(), mole.getNetworkField().getY())).setMole(mole);
+    client.getGameState().getPlacedMoles().add(mole);
   }
 
   /**
@@ -157,19 +191,41 @@ public class ClientPacketHandler {
    * @use handles if the player is now on the turn
    */
   protected void handlePlayersTurnPacket(@NotNull final Client client, @NotNull final Packet packet) {
-    if (new Gson().fromJson(packet.getValues().get("player").getAsString(), NetworkPlayer.class).getClientID() == client.getClientThread().getClientThreadID()) {
+    var player = new Gson().fromJson(packet.getValues().get("player").getAsString(), NetworkPlayer.class);
+    if (player.getClientID() == client.getClientThread().getClientThreadID()) {
       System.out.println("Client is now on the turn!");
       client.setDraw(true);
-      new Timer().schedule(new TimerTask() {
-        @Override
-        public void run() {
-          client.setDraw(false);
-          System.out.println("You ran out of time!");
-        }
-      }, System.currentTimeMillis() - packet.getValues().get("until").getAsInt());
+      if (!timerRunning) {
+        timerRunning = true;
+        timer = new Timer();
+        timer.schedule(new TimerTask() {
+          @Override
+          public void run() {
+            if (client.isDraw()) {
+              client.setDraw(false);
+              timerRunning = false;
+
+              System.out.println("You ran out of time!");
+            }
+          }
+        }, packet.getValues().get("until").getAsLong() - System.currentTimeMillis());
+      }
+
+    } else {
+      System.out.println("Client: the player with the name: " + player.getName() + " is now on the turn!");
     }
   }
 
+  private boolean timerRunning = false;
+
+
+  public void setTimerRunning(boolean timerRunning) {
+    this.timerRunning = timerRunning;
+  }
+
+  protected boolean isTimerRunning() {
+    return timerRunning;
+  }
 
   /**
    * @param client
@@ -179,7 +235,7 @@ public class ClientPacketHandler {
    * @author Carina
    * @use sends the movement of a mole to the server
    */
-  public void makeMove(@NotNull final Client client, @NotNull final NetworkField start, @NotNull final NetworkField end, final int pullDisc) {
+  public void makeMovePacket(@NotNull final Client client, @NotNull final NetworkField start, @NotNull final NetworkField end, final int pullDisc) {
     var object = new JsonObject();
     var json = new JsonObject();
     json.addProperty("from", new Gson().toJson(start));
@@ -207,6 +263,8 @@ public class ClientPacketHandler {
     client.getClientThread().sendPacket(new Packet(object));
   }
 
+  protected Timer timer;
+
   /**
    * @param client
    * @param packet
@@ -217,7 +275,31 @@ public class ClientPacketHandler {
    * @see de.thundergames.playmechanics.util.Mole
    */
   protected void handlePlayerPlacesMolePacket(@NotNull final Client client, @NotNull final Packet packet) {
-    System.out.println("The Client " + new Gson().fromJson(packet.getValues().get("player").getAsString(), NetworkPlayer.class).getName() + "needs to place a mole till: " + packet.getValues().get("until").getAsInt());
+    var player = new Gson().fromJson(packet.getValues().get("player").getAsString(), NetworkPlayer.class);
+    if (player.getClientID() == client.getClientThread().getClientThreadID()) {
+      System.out.println("Client is now on to place a mole!");
+      client.setDraw(true);
+      if (!timerRunning) {
+        timerRunning = true;
+        timer = new Timer();
+        timer.schedule(new TimerTask() {
+          @Override
+          public void run() {
+            if (client.isDraw()) {
+              client.setDraw(false);
+              timerRunning = false;
+
+              System.out.println("You ran out of time!");
+            }
+          }
+        }, 20000);
+      }
+
+
+    } else {
+      System.out.println("The Client " + new Gson().fromJson(packet.getValues().get("player").getAsString(), NetworkPlayer.class).getName() + " needs to place a mole till: " + packet.getValues().get("until").getAsInt());
+
+    }
   }
 
   /**
@@ -296,7 +378,7 @@ public class ClientPacketHandler {
    * @use handles that the server send this client the score of the game
    */
   protected void handleScoreNotificationPacket(@NotNull final Client client, @NotNull final Packet packet) {
-    client.getGameState().setScore(new Gson().fromJson(packet.getValues(), Score.class));
+    client.getGameState().setScore(new Gson().fromJson(packet.getValues().get("score").getAsString(), Score.class));
   }
 
   /**
@@ -342,7 +424,7 @@ public class ClientPacketHandler {
    * @use handles that a player left the game
    */
   protected void handlePlayerLeftPacket(@NotNull final Client client, @NotNull final Packet packet) {
-    System.out.println("A player has left the Game + " + new Gson().fromJson(packet.getValues(), NetworkPlayer.class));
+    System.out.println("A player has left the Game + " + new Gson().fromJson(packet.getValues().get("player").getAsString(), NetworkPlayer.class));
   }
 
   /***
@@ -352,7 +434,7 @@ public class ClientPacketHandler {
    * @use handles that a player was kicked from the game
    */
   protected void handlePlayerKickedFromGame(@NotNull final Client client, @NotNull final Packet packet) {
-    System.out.println("A player has left the Game + " + new Gson().fromJson(packet.getValues(), NetworkPlayer.class));
+    System.out.println("A player has left the Game + " + new Gson().fromJson(packet.getValues().get("player").getAsString(), NetworkPlayer.class));
   }
 
   /**
@@ -374,7 +456,7 @@ public class ClientPacketHandler {
    * @use handles the packet that a player joined the game
    */
   protected void handlePlayerJoinedPacket(@NotNull final Client client, @NotNull final Packet packet) {
-    System.out.println("A player has joined the Game + " + new Gson().fromJson(packet.getValues(), NetworkPlayer.class));
+    System.out.println("A player has joined the Game + " + new Gson().fromJson(packet.getValues().get("player").getAsString(), NetworkPlayer.class));
   }
 
   /**
@@ -384,10 +466,12 @@ public class ClientPacketHandler {
    * @use handles the welcomeGamePacket from the server
    */
   protected void handleWelcomeGamePacket(@NotNull final Client client, @NotNull final Packet packet) {
-    client.setGameState(new Gson().fromJson(packet.getValues(), GameState.class));
+    client.setGameState(new Gson().fromJson(packet.getValues().get("gameState").getAsString(), GameState.class));
+    client.getPullDiscs().addAll(client.getGameState().getPullDiscs().get(client.getClientThread().getClientThreadID()));
+    System.out.println("value" + client.getGameState().getPullDiscs().get(client.getClientThread().getClientThreadID()));
     client.setMap(new Map(client.getGameState()));
     client.getMap().changeFieldParams(client.getGameState());
-    System.out.println(packet.getJsonObject().toString());
+    client.getMap().printMap();
   }
 
   /**

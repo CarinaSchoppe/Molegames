@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for Swtpra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 22.11.21, 16:22 by Carina latest changes made by Carina on 22.11.21, 16:21 All contents of "PacketHandler" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 22.11.21, 21:41 by Carina latest changes made by Carina on 22.11.21, 20:11 All contents of "PacketHandler" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -62,8 +62,8 @@ public class PacketHandler {
       handleGetRemainingTimePacket(client);
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.PLACEMOLE.getPacketType())) {
       handlePlaceMolePacket(client, packet);
-    } else if (packet.getPacketType().equalsIgnoreCase(Packets.MOLEMOVED.getPacketType())) {
-      handleMoleMovedPacket(client, packet);
+    } else if (packet.getPacketType().equalsIgnoreCase(Packets.MAKEMOVE.getPacketType())) {
+      handleMakeMovePacket(client, packet);
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.GETTOURNAMENTSCORE.getPacketType())) {
       handleGetTournamentScore(client);
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.JOINGAME.getPacketType())) {
@@ -132,9 +132,13 @@ public class PacketHandler {
    * @param client
    * @param packet
    * @author Carina
-   * @use handles the movement of a mole
+   * @use handles the movement of a mole from the client to the server
+   * @see Game
+   * @see de.thundergames.playmechanics.map.Field
+   * @see de.thundergames.playmechanics.map.Map
+   * @see Player
    */
-  private void handleMoleMovedPacket(@NotNull final ServerThread client, @NotNull final Packet packet) {
+  private void handleMakeMovePacket(@NotNull final ServerThread client, @NotNull final Packet packet) {
     var game = MoleGames.getMoleGames().getGameHandler().getClientGames().get(client);
     for (var player : game.getPlayers()) {
       if (player.getServerClient().equals(client)) {
@@ -144,6 +148,17 @@ public class PacketHandler {
         return;
       }
     }
+  }
+
+  public Packet moleMovedPacket(@NotNull final NetworkField from, @NotNull final NetworkField to, final int pullDisc) {
+    var object = new JsonObject();
+    var json = new JsonObject();
+    json.addProperty("from", new Gson().toJson(from));
+    json.addProperty("to", new Gson().toJson(to));
+    json.addProperty("pullDisc", pullDisc);
+    object.addProperty("type", Packets.MOLEMOVED.getPacketType());
+    object.add("value", json);
+    return new Packet(object);
   }
 
   /**
@@ -158,7 +173,9 @@ public class PacketHandler {
     object.addProperty("type", Packets.PLAYERSTURN.getPacketType());
     var json = new JsonObject();
     json.addProperty("player", new Gson().toJson(client.getPlayer()));
-    json.addProperty("until", System.currentTimeMillis() + player.getGame().getTurnTime());
+    var millis = System.currentTimeMillis();
+    long value = millis + player.getGame().getTurnTime();
+    json.addProperty("until", value);
     json.addProperty("pullDiscs", new Gson().toJson(player.getCards()));
     object.add("value", json);
     return new Packet(object);
@@ -189,8 +206,9 @@ public class PacketHandler {
     if (game != null) {
       if (game.getCurrentGameState() == GameStates.STARTED) {
         for (var player : game.getPlayers()) {
-          if (player.getServerClient().equals(client)) {
-            player.placeMole(packet.getValues().get("x").getAsInt(), packet.getValues().get("y").getAsInt());
+          if (player.getServerClient().getClientName().equals(client.getClientName())) {
+            var position = new Gson().fromJson(packet.getValues().get("position").getAsString(), NetworkField.class);
+            player.placeMole(position.getX(), position.getY());
             return;
           }
         }
@@ -467,7 +485,7 @@ public class PacketHandler {
         }
       }
     }
-    System.out.println("Client with id" + client.getConnectionID() + " got the name " + client.getClientName() + " and logged in!");
+    System.out.println("Client with id " + client.getConnectionID() + " got the name " + client.getClientName() + " and logged in!");
     client.setPlayer(new NetworkPlayer(name, client.getConnectionID()));
   }
 

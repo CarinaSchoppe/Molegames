@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for Swtpra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 22.11.21, 14:50 by Carina latest changes made by Carina on 21.11.21, 20:26 All contents of "Server" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 22.11.21, 21:41 by Carina latest changes made by Carina on 22.11.21, 19:55 All contents of "Server" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -25,10 +25,10 @@ public class Server extends Network {
   private final ArrayList<ServerThread> clientThreads = new ArrayList<>();
   private final ArrayList<ServerThread> observer = new ArrayList<>();
   private final HashMap<Integer, ServerThread> threadIDs = new HashMap<>();
-  private int threadID = 0;
-  private boolean keyboard = false;
   private final HashMap<String, ServerThread> connectionNames = new HashMap<>();
   private final HashMap<Integer, ServerThread> connectionIDs = new HashMap<>();
+  private int threadID = 0;
+  private boolean keyboard = false;
 
   /**
    * @param port obvious the Serverport in case of empty localhost
@@ -110,6 +110,8 @@ public class Server extends Network {
         for (var clients : game.getPlayers()) {
           clients.getServerClient().sendPacket(packet);
         }
+      } else {
+        System.out.println("The game with the ID" + game.getGameID() + " is empty!");
       }
     } catch (Exception e) {
       e.printStackTrace();

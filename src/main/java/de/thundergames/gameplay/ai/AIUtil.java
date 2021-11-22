@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for Swtpra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 22.11.21, 14:50 by Carina latest changes made by Carina on 22.11.21, 13:37 All contents of "AIUtil" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 22.11.21, 21:41 by Carina latest changes made by Carina on 22.11.21, 19:45 All contents of "AIUtil" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -41,8 +41,8 @@ public class AIUtil {
    * @use input the parameter and than returns the distance between the mole and the field
    */
   public List<Integer> getDistance(@NotNull final AI ai, @NotNull final Field field, final Mole mole) {
-    var x = mole.getField().getX();
-    var y = mole.getField().getY();
+    var x = mole.getNetworkField().getX();
+    var y = mole.getNetworkField().getY();
     var distanceX = Math.abs(field.getX() - x);
     var distanceY = Math.abs(field.getY() - y);
     return List.of(distanceX, distanceY);
