@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for Swtpra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 22.11.21, 21:41 by Carina latest changes made by Carina on 22.11.21, 21:40 All contents of "AILogic" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 22.11.21, 21:48 by Carina latest changes made by Carina on 22.11.21, 21:48 All contents of "AILogic" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -42,36 +42,35 @@ public class AILogic {
       if (GameLogic.wasLegalMove(List.of(mole.getNetworkField().getX(), mole.getNetworkField().getY()), List.of(x, y), ai.getCard(), ai.getMap())) {
         ai.getAIPacketHandler().makeMovePacket(ai, mole.getNetworkField(), new NetworkField(x, y), ai.getCard());
         return true;
-
-      }
-    } else {
-      m = mole;
-      if (direction == Directions.UP) {
-        y = mole.getNetworkField().getY() + ai.getCard();
-        x = mole.getNetworkField().getX();
-      } else if (direction == Directions.DOWN) {
-        y = mole.getNetworkField().getY() - ai.getCard();
-        x = mole.getNetworkField().getX();
-      } else if (direction == Directions.LEFT) {
-        y = mole.getNetworkField().getY();
-        x = mole.getNetworkField().getX() - ai.getCard();
-      } else if (direction == Directions.RIGHT) {
-        y = mole.getNetworkField().getY();
-        x = mole.getNetworkField().getX() + ai.getCard();
-      } else if (direction == Directions.UP_LEFT) {
-        y = mole.getNetworkField().getY() + ai.getCard();
-        x = mole.getNetworkField().getX() - ai.getCard();
-      } else if (direction == Directions.UP_RIGHT) {
-        y = mole.getNetworkField().getY() + ai.getCard();
-        x = mole.getNetworkField().getX() + ai.getCard();
-      } else if (direction == Directions.DOWN_RIGHT) {
-        y = mole.getNetworkField().getY() - ai.getCard();
-        x = mole.getNetworkField().getX() + ai.getCard();
-      } else if (direction == Directions.DOWN_LEFT) {
-        y = mole.getNetworkField().getY() - ai.getCard();
-        x = mole.getNetworkField().getX() - ai.getCard();
       }
     }
+    m = mole;
+    if (direction == Directions.UP) {
+      y = mole.getNetworkField().getY() + ai.getCard();
+      x = mole.getNetworkField().getX();
+    } else if (direction == Directions.DOWN) {
+      y = mole.getNetworkField().getY() - ai.getCard();
+      x = mole.getNetworkField().getX();
+    } else if (direction == Directions.LEFT) {
+      y = mole.getNetworkField().getY();
+      x = mole.getNetworkField().getX() - ai.getCard();
+    } else if (direction == Directions.RIGHT) {
+      y = mole.getNetworkField().getY();
+      x = mole.getNetworkField().getX() + ai.getCard();
+    } else if (direction == Directions.UP_LEFT) {
+      y = mole.getNetworkField().getY() + ai.getCard();
+      x = mole.getNetworkField().getX() - ai.getCard();
+    } else if (direction == Directions.UP_RIGHT) {
+      y = mole.getNetworkField().getY() + ai.getCard();
+      x = mole.getNetworkField().getX() + ai.getCard();
+    } else if (direction == Directions.DOWN_RIGHT) {
+      y = mole.getNetworkField().getY() - ai.getCard();
+      x = mole.getNetworkField().getX() + ai.getCard();
+    } else if (direction == Directions.DOWN_LEFT) {
+      y = mole.getNetworkField().getY() - ai.getCard();
+      x = mole.getNetworkField().getX() - ai.getCard();
+    }
+
     if (GameLogic.wasLegalMove(List.of(mole.getNetworkField().getX(), mole.getNetworkField().getY()), List.of(x, y), ai.getCard(), ai.getMap())) {
       ai.getAIPacketHandler().makeMovePacket(ai, mole.getNetworkField(), new NetworkField(x, y), ai.getCard());
       System.out.println("AI: moving from: " + mole.getNetworkField().getX() + ", " + mole.getNetworkField().getY() + " to " + x + ", " + y);
@@ -187,7 +186,6 @@ public class AILogic {
    * @use moves a mole in a smart way checks if a mole can now get into a hole and when not it takes a random mole checks if it can be moved and than moves it in the allowed direction by the value of the drawCard
    */
   public void moveMole(@NotNull final AI ai) {
-    boolean moveable = false;
     for (var moles : ai.getGameState().getPlacedMoles()) {
       if (moles == null) {
         continue;
@@ -195,24 +193,12 @@ public class AILogic {
       if (moles.getPlayer().getClientID() == ai.getClientThread().getClientThreadID()) {
         var direction = isMoveable(ai, ai.getCard(), List.of(moles.getNetworkField().getX(), moles.getNetworkField().getY()));
         if (direction != null) {
-          moveable = true;
           System.out.println("mole with position: " + moles.getNetworkField().getX() + ", " + moles.getNetworkField().getY() + " is movable");
           if (makeMove(ai, moles, direction)) {
             break;
           }
         } else {
           System.out.println("all moles are not movable in all directions");
-        }
-      }
-    }
-    if (!moveable) {
-      for (var moles : ai.getGameState().getPlacedMoles()) {
-        if (moles.getPlayer().equals(ai.getNetworkPlayer())) {
-          var direction = isMoveable(ai, ai.getCard(), List.of(moles.getNetworkField().getX(), moles.getNetworkField().getY()));
-          if (direction != null) {
-            makeMove(ai, moles, direction);
-            break;
-          }
         }
       }
     }
