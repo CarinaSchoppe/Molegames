@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for Swtpra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 23.11.21, 13:45 by Carina latest changes made by Carina on 23.11.21, 13:45 All contents of "GameMasterClient" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 23.11.21, 14:59 by Carina latest changes made by Carina on 23.11.21, 14:53 All contents of "GameMasterClient" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -37,8 +37,8 @@ public class GameMasterClient {
     floor1.setDrawAgainFields(new ArrayList<>(List.of(new NetworkField(8, 11))));
     floor2.setDrawAgainFields(new ArrayList<>(List.of(new NetworkField(8, 11))));
     floor2.setHoles(new ArrayList<>(List.of(new NetworkField(0, 0))));
-    MoleGames.getMoleGames().getGameHandler().getIDGames().get(0).getSettings().getLevels().add(floor1);
-    MoleGames.getMoleGames().getGameHandler().getIDGames().get(0).getSettings().getLevels().add(floor2);
+    MoleGames.getMoleGames().getGameHandler().getIDGames().get(0).getSettings().getFloors().add(floor1);
+    MoleGames.getMoleGames().getGameHandler().getIDGames().get(0).getSettings().getFloors().add(floor2);
     //TODO:WICHTIG ist nicht null!  System.out.println(MoleGames.getMoleGames().getGameHandler().getIDGames().get(0).getSettings().getLevels().get(MoleGames.getMoleGames().getGameHandler().getIDGames().get(0).getCurrentFloorID()).getHoles());
     // MoleGames.getMoleGames().getGameHandler().getIDGames().get(0).getMap().setHoles(new ArrayList<>(List.of(new NetworkField(0, 0), new NetworkField(3, 2), new NetworkField(1, 4))));
     // MoleGames.getMoleGames().getGameHandler().getIDGames().get(0).getMap().setDrawAgainFields(new ArrayList<>(List.of(new NetworkField(4, 0), new NetworkField(4, 2), new NetworkField(4, 4))));

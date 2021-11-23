@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for Swtpra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 22.11.21, 21:41 by Carina latest changes made by Carina on 22.11.21, 19:55 All contents of "Settings" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 23.11.21, 14:59 by Carina latest changes made by Carina on 23.11.21, 14:59 All contents of "Settings" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -13,7 +13,6 @@ package de.thundergames.playmechanics.util;
 import de.thundergames.filehandling.GameConfiguration;
 import de.thundergames.networking.util.interfaceItems.NetworkConfiguration;
 import de.thundergames.playmechanics.game.Game;
-import java.util.HashMap;
 import org.jetbrains.annotations.NotNull;
 
 public class Settings extends NetworkConfiguration {
@@ -26,9 +25,8 @@ public class Settings extends NetworkConfiguration {
 
   private transient final GameConfiguration gameConfiguration;
   private transient final Game game;
-  private transient final HashMap<Integer, Integer> pointsForMoleInHoleForFloor = new HashMap<>() {
-  };
-  private transient final HashMap<Integer, Integer> pointsPerFloorForDrawAgainFields = new HashMap<>();
+  private final transient int punishmentPoints = 5;
+
 
   public Settings(@NotNull final Game game) {
     this.game = game;
@@ -42,8 +40,18 @@ public class Settings extends NetworkConfiguration {
    * @use this method is called in the GameMasterClient to the Server
    * @use updates the map and the Game directly
    */
-  public synchronized void updateConfiuration(NetworkConfiguration config) {
-    //TODO hier
+  public void updateConfiuration(@NotNull final NetworkConfiguration config) {
+    setMaxPlayers(config.getMaxPlayers());
+    setRadius(config.getRadius());
+    setNumberOfMoles(config.getNumberOfMoles());
+    setFloors(config.getFloors());
+    setPullDiscsOrdered(config.isPullDiscsOrdered());
+    getPullDiscs().clear();
+    getPullDiscs().addAll(config.getPullDiscs());
+    setTurnTime(config.getTurnTime());
+    setVisualizationTime(config.getVisualizationTime());
+    setMovePenalty(config.getMovePenalty());
+    game.updateGameState();
   }
 
   public Punishments getPunishment() {
@@ -51,4 +59,7 @@ public class Settings extends NetworkConfiguration {
   }
 
 
+  public Integer getPunishmentPoints() {
+    return punishmentPoints;
+  }
 }

@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for Swtpra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 23.11.21, 13:45 by Carina latest changes made by Carina on 23.11.21, 13:45 All contents of "NetworkConfiguration" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 23.11.21, 14:59 by Carina latest changes made by Carina on 23.11.21, 14:59 All contents of "NetworkConfiguration" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -10,14 +10,12 @@
 
 package de.thundergames.networking.util.interfaceItems;
 
-import de.thundergames.playmechanics.game.GameState;
 import java.util.ArrayList;
 import java.util.List;
 
 public class NetworkConfiguration {
 
   private final ArrayList<Integer> pullDiscs = new ArrayList<>(List.of(1, 2, 3, 4));
-  private final GameState gameState = new GameState();
   private int maxPlayers = 4;
   private int radius = 10;
   private int numberOfMoles = 4;
@@ -51,11 +49,11 @@ public class NetworkConfiguration {
     this.numberOfMoles = numberOfMoles;
   }
 
-  public ArrayList<NetworkFloor> getLevels() {
+  public ArrayList<NetworkFloor> getFloors() {
     return levels;
   }
 
-  public void setLevels(ArrayList<NetworkFloor> levels) {
+  public void setFloors(ArrayList<NetworkFloor> levels) {
     this.levels = levels;
   }
 

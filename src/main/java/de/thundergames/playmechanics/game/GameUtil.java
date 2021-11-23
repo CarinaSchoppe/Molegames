@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for Swtpra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 23.11.21, 13:45 by Carina latest changes made by Carina on 23.11.21, 13:45 All contents of "GameUtil" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 23.11.21, 14:59 by Carina latest changes made by Carina on 23.11.21, 14:53 All contents of "GameUtil" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -11,8 +11,6 @@
 package de.thundergames.playmechanics.game;
 
 import de.thundergames.MoleGames;
-import de.thundergames.networking.util.interfaceItems.NetworkField;
-import de.thundergames.playmechanics.util.Player;
 import java.util.ArrayList;
 import org.jetbrains.annotations.NotNull;
 
@@ -104,7 +102,7 @@ public class GameUtil {
    * @use goes to the next Floor it it exists
    */
   public void nextFloor() {
-    if (game.getSettings().getLevels().size() > game.getCurrentFloorID() + 1) {
+    if (game.getSettings().getFloors().size() > game.getCurrentFloorID() + 1) {
       var eliminated = new ArrayList<>(game.getPlayers());
       for (var hole : game.getGameState().getFloor().getHoles()) {
         for (var player : game.getPlayers()) {
@@ -119,6 +117,7 @@ public class GameUtil {
           }
         }
       }
+      game.getGameUtil().givePoints();
       game.getActivePlayers().removeAll(eliminated);
       game.getEliminatedPlayers().addAll(eliminated);
       game.setCurrentFloorID(game.getCurrentFloorID() + 1);
@@ -131,7 +130,15 @@ public class GameUtil {
     }
   }
 
-  public void givePoints(@NotNull final NetworkField field, @NotNull final Player player) {
-    game.getScore().getPoints().put(player.getClientID(), game.getScore().getPoints().get(player.getClientID()) + game.getMap().getPoints());
+  public void givePoints() {
+    for (var holes : game.getMap().getHoles()) {
+      for (var player : game.getPlayers()) {
+        for (var mole : player.getMoles()) {
+          if (mole.getNetworkField().getX() == holes.getX() && mole.getNetworkField().getY() == holes.getY()) {
+            game.getScore().getPoints().put(player.getClientID(), game.getScore().getPoints().get(player.getClientID()) + game.getMap().getPoints());
+          }
+        }
+      }
+    }
   }
 }

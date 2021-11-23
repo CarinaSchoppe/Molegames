@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for Swtpra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 23.11.21, 14:33 by Carina latest changes made by Carina on 23.11.21, 14:33 All contents of "Game" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 23.11.21, 14:59 by Carina latest changes made by Carina on 23.11.21, 14:59 All contents of "Game" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -58,8 +58,6 @@ public class Game extends NetworkGame {
     gameUtil = new GameUtil(this);
     MoleGames.getMoleGames().getGameHandler().getIDGames().put(getGameID(), this);
     settings = new Settings(this);
-    updateNetworkGame();
-    map = new Map(this);
     setScore(new Score());
   }
 
@@ -69,6 +67,8 @@ public class Game extends NetworkGame {
    * @use updates the GameState with the current settings
    */
   public void updateGameState() {
+    updateNetworkGame();
+    map = new Map(this);
     gameState.setPlayers(new ArrayList<>(activePlayers));
     gameState.setCurrentPlayer(currentPlayer);
     var moles = new ArrayList<NetworkMole>();
@@ -78,7 +78,7 @@ public class Game extends NetworkGame {
     gameState.setPlacedMoles(moles);
     gameState.setMoles(settings.getNumberOfMoles());
     gameState.setRadius(settings.getRadius());
-    gameState.setFloor(settings.getLevels().get(currentFloorID));
+    gameState.setFloor(settings.getFloors().get(currentFloorID));
     gameState.setPullDiscsOrdered(settings.isPullDiscsOrdered());
     HashMap<Integer, ArrayList<Integer>> mappe = new HashMap<>();
     for (var players : players) {
@@ -93,10 +93,13 @@ public class Game extends NetworkGame {
 
   }
 
-
+  /**
+   * @author Carina
+   * @use handles the update of the NetworkGame stuff (super class)
+   */
   public void updateNetworkGame() {
     setMaxPlayerCount(settings.getMaxPlayers());
-    setLevelCount(settings.getLevels().size());
+    setLevelCount(settings.getFloors().size());
     setMoleCount(settings.getNumberOfMoles());
     setRadius(settings.getRadius());
     setPullDiscsOrdered(settings.isPullDiscsOrdered());
@@ -125,6 +128,10 @@ public class Game extends NetworkGame {
     }
   }
 
+  /**
+   * @author Carina
+   * @use handles when a game ends
+   */
   public void endGame() {
     setFinishDateTime(Instant.now().getEpochSecond());
   }
@@ -211,6 +218,9 @@ public class Game extends NetworkGame {
     return settings;
   }
 
+  public void setSettings(Settings settings) {
+    this.settings = settings;
+  }
 
   public HashMap<Player, Mole> getMoleMap() {
     return moleMap;
