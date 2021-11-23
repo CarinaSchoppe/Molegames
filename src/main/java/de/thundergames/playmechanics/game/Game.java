@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for Swtpra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 23.11.21, 14:59 by Carina latest changes made by Carina on 23.11.21, 14:59 All contents of "Game" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 23.11.21, 19:54 by Carina latest changes made by Carina on 23.11.21, 19:54 All contents of "Game" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -72,8 +72,9 @@ public class Game extends NetworkGame {
     gameState.setPlayers(new ArrayList<>(activePlayers));
     gameState.setCurrentPlayer(currentPlayer);
     var moles = new ArrayList<NetworkMole>();
-    for (var players : map.getGame().getMoleMap().keySet()) {
+    for (var players : activePlayers) {
       moles.addAll(players.getMoles());
+      System.out.println("update + " + players.getMoles().size());
     }
     gameState.setPlacedMoles(moles);
     gameState.setMoles(settings.getNumberOfMoles());
@@ -199,11 +200,16 @@ public class Game extends NetworkGame {
   public void removePlayerFromGame(@NotNull final Player player) {
     //TODO: check if player was really removed
     if (currentGameState != GameStates.NOT_STARTED && !currentGameState.equals(GameStates.OVER)) {
-      eliminatedPlayers.add(player);
+      if (!clientPlayersMap.containsKey(player)) {
+        eliminatedPlayers.add(player);
+      }
     }
     for (var moles : player.getMoles()) {
       player.getGame().getMap().getFieldMap().get(List.of(moles.getNetworkField().getX(), moles.getNetworkField().getY())).setOccupied(false);
+      player.getGame().getMap().getFieldMap().get(List.of(moles.getNetworkField().getX(), moles.getNetworkField().getY())).setMole(null);
+
     }
+    player.getMoles().clear();
     clientPlayersMap.remove(player);
     players.remove(player);
     activePlayers.remove(player);
