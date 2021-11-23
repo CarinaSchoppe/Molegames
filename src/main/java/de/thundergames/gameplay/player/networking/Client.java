@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for Swtpra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 23.11.21, 13:45 by Carina latest changes made by Carina on 23.11.21, 13:45 All contents of "Client" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 23.11.21, 14:33 by Carina latest changes made by Carina on 23.11.21, 14:33 All contents of "Client" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -29,9 +29,9 @@ public class Client extends Network {
   private final HashSet<NetworkGame> games = new HashSet<>();
   private final HashSet<NetworkGame> tournaments = new HashSet<>();
   private final ArrayList<Integer> pullDiscs = new ArrayList<>();
+  private final ArrayList<NetworkMole> moles = new ArrayList<>();
   protected ClientPacketHandler clientPacketHandler;
   protected ClientThread clientThread;
-  private final ArrayList<NetworkMole> moles = new ArrayList<>();
   private GameState gameState;
   private int gameID;
   private long remainingTime;

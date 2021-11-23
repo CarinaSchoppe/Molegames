@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for Swtpra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 23.11.21, 13:45 by Carina latest changes made by Carina on 23.11.21, 13:45 All contents of "Player" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 23.11.21, 14:33 by Carina latest changes made by Carina on 23.11.21, 14:33 All contents of "Player" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -28,8 +28,8 @@ public class Player extends NetworkPlayer {
 
   private transient final HashSet<Mole> moles = new HashSet<>();
   private transient final ServerThread serverClient;
-  private transient Game game;
   private transient final ArrayList<Integer> cards = new ArrayList<>();
+  private transient Game game;
   private transient Timer timer;
   private transient long startRemainingTime;
   private transient boolean timerIsRunning = false;

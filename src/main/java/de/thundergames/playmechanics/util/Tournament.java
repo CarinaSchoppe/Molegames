@@ -20,8 +20,8 @@ import org.jetbrains.annotations.NotNull;
 public class Tournament {
 
   private final int tournamentID;
-  private int playerCount;
   private final transient HashSet<ServerThread> clients = new HashSet<>();
+  private int playerCount;
   private Score score;
   private HashSet<NetworkGame> games;
   private transient TournamentState tournamentState;
