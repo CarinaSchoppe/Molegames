@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for Swtpra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 23.11.21, 13:45 by Carina latest changes made by Carina on 23.11.21, 13:45 All contents of "TournamentState" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 23.11.21, 14:33 by Carina latest changes made by Carina on 23.11.21, 14:33 All contents of "TournamentState" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -17,13 +17,23 @@ import java.util.HashSet;
 
 public class TournamentState {
 
-  private final HashSet<NetworkPlayer> players;
-  private final Score score;
-  private final HashSet<NetworkGame> games;
+  private final HashSet<NetworkPlayer> players = new HashSet<>();
+  private final HashSet<NetworkGame> games = new HashSet<>();
+  private Score score;
 
-  public TournamentState(HashSet<NetworkPlayer> players, Score score, HashSet<NetworkGame> games) {
-    this.players = players;
+  public HashSet<NetworkPlayer> getPlayers() {
+    return players;
+  }
+
+  public Score getScore() {
+    return score;
+  }
+
+  public void setScore(Score score) {
     this.score = score;
-    this.games = games;
+  }
+
+  public HashSet<NetworkGame> getGames() {
+    return games;
   }
 }

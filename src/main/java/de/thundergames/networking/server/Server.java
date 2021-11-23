@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for Swtpra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 23.11.21, 13:45 by Carina latest changes made by Carina on 23.11.21, 13:45 All contents of "Server" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 23.11.21, 14:33 by Carina latest changes made by Carina on 23.11.21, 14:14 All contents of "Server" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -14,6 +14,7 @@ import de.thundergames.networking.util.Network;
 import de.thundergames.networking.util.NetworkThread;
 import de.thundergames.networking.util.Packet;
 import de.thundergames.playmechanics.game.Game;
+import de.thundergames.playmechanics.util.Tournament;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.util.ArrayList;
@@ -97,12 +98,10 @@ public class Server extends Network {
   }
 
   /**
-   * @param game   the de.thundergames.game that all clients are connected to
+   * @param game   the game that all clients are connected to
    * @param packet the packet that should be send
-   * @use the method will send a packet to all connected clients of the de.thundergames.game
+   * @use the method will send a packet to all connected clients of the game
    */
-  // WICHTIG: BEDENKE mach dies immer in einem anderen Thread oder der Mainthread muss sicher frei
-  // sein!
   public synchronized void sendToAllGameClients(
       @NotNull final Game game, @NotNull final Packet packet) {
     try {
@@ -112,6 +111,26 @@ public class Server extends Network {
         }
       } else {
         System.out.println("The game with the ID: " + game.getGameID() + " is empty!");
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+
+  /**
+   * @param tournament that all clients are connected to
+   * @param packet     the packet that should be send
+   * @use the method will send a packet to all connected clients of the game
+   */
+  public synchronized void sendToAllTournamentClients(
+      @NotNull final Tournament tournament, @NotNull final Packet packet) {
+    try {
+      if (!tournament.getClients().isEmpty()) {
+        for (var clients : tournament.getClients()) {
+          clients.sendPacket(packet);
+        }
+      } else {
+        System.out.println("The game with the ID: " + tournament.getTournamentID() + " is empty!");
       }
     } catch (Exception e) {
       e.printStackTrace();

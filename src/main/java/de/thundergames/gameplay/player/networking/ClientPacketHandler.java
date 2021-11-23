@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for Swtpra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 23.11.21, 13:45 by Carina latest changes made by Carina on 23.11.21, 13:45 All contents of "ClientPacketHandler" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 23.11.21, 14:33 by Carina latest changes made by Carina on 23.11.21, 14:33 All contents of "ClientPacketHandler" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -92,7 +92,108 @@ public class ClientPacketHandler {
       handleTournamentScorePacket(client, packet);
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.MOLEMOVED.getPacketType())) {
       handleMoleMovedPacket(client, packet);
+    } else if (packet.getPacketType().equalsIgnoreCase(Packets.TOURNAMENTSTATERESPONSE.getPacketType())) {
+      handleTournamentStateResponePacket(client, packet);
+    } else if (packet.getPacketType().equalsIgnoreCase(Packets.TOURNAMENTPLAYERJOINED.getPacketType())) {
+      handleTournamentPlayerJoinedPacket(client, packet);
+    } else if (packet.getPacketType().equalsIgnoreCase(Packets.TOURNAMENTPLAYERJOINED.getPacketType())) {
+      handleTournamentPlayerLeftPacket(client, packet);
+    } else if (packet.getPacketType().equalsIgnoreCase(Packets.TOURNAMENTPLAYERKICKED.getPacketType())) {
+      handleTournamentPlayerKickedPacket(client, packet);
+    } else if (packet.getPacketType().equalsIgnoreCase(Packets.TOURNAMENTPLAYERINGAME.getPacketType())) {
+      handleTournamentPlayerInGamePacket(client, packet);
+    } else if (packet.getPacketType().equalsIgnoreCase(Packets.TOURNAMENTGAMESOVERVIEW.getPacketType())) {
+      handleTournamentGamesOverviewPacket(client, packet);
+    } else if (packet.getPacketType().equalsIgnoreCase(Packets.TOURNAMENTOVER.getPacketType())) {
+      handleTournamentOverPacket(client);
     }
+  }
+
+  /**
+   * @param client
+   * @author Carina
+   * @use handles the client tournament when the tournament is over
+   */
+  private void handleTournamentOverPacket(@NotNull final Client client) {
+  }
+
+
+  /**
+   * @param client
+   * @param packet
+   * @author Carina
+   * @use handles the leftment of a player from the tournament
+   */
+  private void handleTournamentPlayerLeftPacket(@NotNull final Client client, @NotNull final Packet packet) {
+  }
+
+  /**
+   * @param client
+   * @param packet
+   * @author Carina
+   * @use handles the new overview of all running tournaments
+   */
+  private void handleTournamentGamesOverviewPacket(@NotNull final Client client, @NotNull final Packet packet) {
+    client.getTournaments().addAll(new Gson().fromJson(packet.getValues().get("games"), ArrayList.class));
+  }
+
+  /**
+   * @param client
+   * @param packet
+   * @author Carina
+   * @use handles that a player is in game in the tournament
+   */
+  private void handleTournamentPlayerInGamePacket(@NotNull final Client client, @NotNull final Packet packet) {
+  }
+
+  /**
+   * @param client
+   * @param packet
+   * @author Carina
+   * @use handles the kick of a player from the tournament
+   */
+  private void handleTournamentPlayerKickedPacket(@NotNull final Client client, @NotNull final Packet packet) {
+  }
+
+  /**
+   * @param client
+   * @author Carina
+   * @use sends the leave tournament packet to the server
+   */
+  public void leaveTournament(@NotNull final Client client, final int tournamentID) {
+    var object = new JsonObject();
+    var json = new JsonObject();
+    object.addProperty("type", Packets.LEAVETOURNAMENT.getPacketType());
+    json.addProperty("tournamentID", tournamentID);
+    object.add("value", json);
+    client.getClientThread().sendPacket(new Packet(object));
+  }
+
+  /**
+   * @param client
+   * @param packet
+   * @author Carina
+   * @use handles the joining of a player into the tournament
+   */
+  protected void handleTournamentPlayerJoinedPacket(@NotNull final Client client, @NotNull final Packet packet) {
+  }
+
+
+  /**
+   * @param client
+   * @param tournamentID
+   * @param participant
+   * @author Carina
+   * @use sends the joining of a tournament to the client
+   */
+  public void enterTournamentPacket(@NotNull final Client client, final int tournamentID, final boolean participant) {
+    var object = new JsonObject();
+    var json = new JsonObject();
+    object.addProperty("type", Packets.ENTERTOURNAMENT.getPacketType());
+    json.addProperty("tournamentID", tournamentID);
+    json.addProperty("participant", participant);
+    object.add("value", json);
+    client.getClientThread().sendPacket(new Packet(object));
   }
 
   /**
@@ -169,6 +270,16 @@ public class ClientPacketHandler {
     } else {
       System.out.println("The Player " + player.getName() + " skipped his turn!");
     }
+  }
+
+  /**
+   * @param client
+   * @param packet
+   * @author Carina
+   * @use handles the response after joining a tournament
+   */
+  protected void handleTournamentStateResponePacket(@NotNull final Client client, @NotNull final Packet packet) {
+    //TODO: hier
   }
 
   /**

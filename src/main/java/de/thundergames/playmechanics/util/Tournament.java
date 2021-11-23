@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for Swtpra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 22.11.21, 16:22 by Carina latest changes made by Carina on 22.11.21, 16:20 All contents of "Tournament" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 23.11.21, 14:33 by Carina latest changes made by Carina on 23.11.21, 14:33 All contents of "Tournament" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -10,23 +10,71 @@
 
 package de.thundergames.playmechanics.util;
 
+import de.thundergames.MoleGames;
 import de.thundergames.filehandling.Score;
+import de.thundergames.networking.server.ServerThread;
 import de.thundergames.networking.util.interfaceItems.NetworkGame;
-import java.util.ArrayList;
+import java.util.HashSet;
+import org.jetbrains.annotations.NotNull;
 
 public class Tournament {
 
   private final int tournamentID;
   private int playerCount;
-  private ArrayList<NetworkGame> games;
+  private final transient HashSet<ServerThread> clients = new HashSet<>();
   private Score score;
+  private HashSet<NetworkGame> games;
+  private transient TournamentState tournamentState;
 
   public Tournament(int tournamentID) {
     this.tournamentID = tournamentID;
   }
 
+  /**
+   * @param client
+   * @author Carina
+   * @use handles the joining of a player to a tournament
+   */
+  public void joinTournament(@NotNull final ServerThread client, final boolean participant) {
+    MoleGames.getMoleGames().getGameHandler().getClientTournaments().put(client, this);
+    updateTournamentState();
+    playerCount++;
+  }
 
+  /**
+   * @author Carina
+   * @use creates a new tournament will all stuff needed
+   */
   public void create() {
+    this.score = new Score();
+    this.tournamentState = new TournamentState();
+  }
+
+
+  /**
+   * @param client
+   * @author Carina
+   * @use handles when a player wants to leave the tournament not the game in a tournament
+   */
+  public void leaveTournament(ServerThread client) {
+    playerCount--;
+    clients.remove(client);
+    updateTournamentState();
+  }
+
+  /**
+   * @author Carina
+   * @use updates the tournament state
+   */
+  public void updateTournamentState() {
+    tournamentState.setScore(score);
+    for (var client : clients) {
+      tournamentState.getPlayers().add(client.getPlayer());
+    }
+  }
+
+  public HashSet<ServerThread> getClients() {
+    return clients;
   }
 
   public int getTournamentID() {
@@ -41,19 +89,16 @@ public class Tournament {
     this.playerCount = playerCount;
   }
 
-  public ArrayList<NetworkGame> getGames() {
-    return games;
-  }
 
-  public void setGames(ArrayList<NetworkGame> games) {
-    this.games = games;
+  public HashSet<NetworkGame> getGames() {
+    return games;
   }
 
   public Score getScore() {
     return score;
   }
 
-  public void setScore(Score score) {
-    this.score = score;
+  public TournamentState getTournamentState() {
+    return tournamentState;
   }
 }

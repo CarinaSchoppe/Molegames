@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for Swtpra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 23.11.21, 13:45 by Carina latest changes made by Carina on 23.11.21, 13:45 All contents of "PacketHandler" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 23.11.21, 14:33 by Carina latest changes made by Carina on 23.11.21, 14:32 All contents of "PacketHandler" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -64,8 +64,12 @@ public class PacketHandler {
       handlePlaceMolePacket(client, packet);
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.MAKEMOVE.getPacketType())) {
       handleMakeMovePacket(client, packet);
+    } else if (packet.getPacketType().equalsIgnoreCase(Packets.ENTERTOURNAMENT.getPacketType())) {
+      handleEnterTournamentPacket(packet, client);
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.GETTOURNAMENTSCORE.getPacketType())) {
-      handleGetTournamentScore(client);
+      handleGetTournamentScorePacket(client);
+    } else if (packet.getPacketType().equalsIgnoreCase(Packets.LEAVETOURNAMENT.getPacketType())) {
+      handleLeaveTournamentPacket(client);
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.JOINGAME.getPacketType())) {
       if (handleJoinPacket(packet, client)) {
         welcomeGamePacket(client);
@@ -73,6 +77,80 @@ public class PacketHandler {
     } else {
       System.out.println("Packet not found!" + packet.getJsonObject());
     }
+  }
+
+  public Packet tournamentOverPacket() {
+    var json = new JsonObject();
+    json.addProperty("type", Packets.TOURNAMENTOVER.getPacketType());
+    return new Packet(json);
+  }
+
+  public void tournamentGamesOverviewPacket(@NotNull final ServerThread client) {
+    var object = new JsonObject();
+    var json = new JsonObject();
+    object.addProperty("type", Packets.TOURNAMENTGAMESOVERVIEW.getPacketType());
+    json.addProperty("games", new Gson().toJson(MoleGames.getMoleGames().getGameHandler().getClientTournaments().get(client).getGames()));
+  }
+
+
+  public Packet tournamentPlayerInGamePacket(@NotNull final ServerThread client) {
+    var json = new JsonObject();
+    var object = new JsonObject();
+    object.addProperty("type", Packets.TOURNAMENTPLAYERINGAME.getPacketType());
+    json.addProperty("player", new Gson().toJson(client.getPlayer()));
+    json.addProperty("gameID", MoleGames.getMoleGames().getGameHandler().getClientTournaments().get(client).getTournamentID());
+    object.add("value", json);
+    return new Packet(object);
+  }
+
+  /**
+   * @param client
+   * @return the packet send
+   * @author Carina
+   * @use gets a player left tournament packet that can be send to all clients of the tournament
+   */
+  public Packet tournamentPlayerLeftPacket(@NotNull final ServerThread client) {
+    var json = new JsonObject();
+    var object = new JsonObject();
+    object.addProperty("type", Packets.TOURNAMENTPLAYERLEFT.getPacketType());
+    json.addProperty("player", new Gson().toJson(client.getPlayer()));
+    object.add("value", json);
+    return new Packet(object);
+  }
+
+  /**
+   * @param client
+   * @return the packet send
+   * @author Carina
+   * @use gets a player kicked tournament packet that can be send to all clients of the tournament
+   */
+  public Packet tournamentPlayerKickedPacket(@NotNull final ServerThread client) {
+    var json = new JsonObject();
+    var object = new JsonObject();
+    object.addProperty("type", Packets.TOURNAMENTPLAYERKICKED.getPacketType());
+    json.addProperty("player", new Gson().toJson(client.getPlayer()));
+    object.add("value", json);
+    return new Packet(object);
+  }
+
+  /**
+   * @param client
+   * @author Carina
+   * @use handles when a player wants to leave a tournament
+   */
+  private void handleLeaveTournamentPacket(@NotNull final ServerThread client) {
+    MoleGames.getMoleGames().getGameHandler().getClientTournaments().get(client).leaveTournament(client);
+    MoleGames.getMoleGames().getServer().sendToAllTournamentClients(MoleGames.getMoleGames().getGameHandler().getClientTournaments().get(client), tournamentPlayerLeftPacket(client));
+  }
+
+  public void tournamentStateResponePacket(@NotNull final ServerThread client) {
+    var tournament = MoleGames.getMoleGames().getGameHandler().getClientTournaments().get(client);
+    var object = new JsonObject();
+    object.addProperty("type", Packets.TOURNAMENTSTATERESPONSE.getPacketType());
+    var json = new JsonObject();
+    json.addProperty("tournamentState", new Gson().toJson(tournament.getTournamentState()));
+    object.add("value", json);
+    client.sendPacket(new Packet(object));
   }
 
 
@@ -408,7 +486,7 @@ public class PacketHandler {
    * @see de.thundergames.gameplay.player.networking.Client
    * @see Score
    */
-  private void handleGetTournamentScore(@NotNull final ServerThread client) {
+  private void handleGetTournamentScorePacket(@NotNull final ServerThread client) {
     tournamentScore(client, MoleGames.getMoleGames().getGameHandler().getClientTournaments().get(client).getScore());
   }
 
@@ -605,6 +683,33 @@ public class PacketHandler {
     return false;
   }
 
+  /**
+   * @param client
+   * @return the packet that will be send to the client
+   * @author Carina
+   * @use get a player joined tournament packet to send it to the clients of the tournament
+   */
+  public Packet playerJoinedTournamentPacket(@NotNull final ServerThread client) {
+    var object = new JsonObject();
+    var json = new JsonObject();
+    json.addProperty("player", new Gson().toJson(client.getPlayer()));
+    object.addProperty("type", Packets.TOURNAMENTPLAYERJOINED.getPacketType());
+    object.add("value", json);
+    return new Packet(object);
+  }
+
+  /**
+   * @param packet
+   * @param clientConnection
+   * @author Carina
+   * @use handles the joining of a tournament
+   */
+  private void handleEnterTournamentPacket(@NotNull final Packet packet, @NotNull final ServerThread clientConnection) {
+    var tournament = MoleGames.getMoleGames().getGameHandler().getIDTournaments().get(packet.getValues().get("tournamentID").getAsInt());
+    tournament.joinTournament(clientConnection, packet.getValues().get("participant").getAsBoolean());
+    tournamentStateResponePacket(clientConnection);
+    MoleGames.getMoleGames().getServer().sendToAllTournamentClients(tournament, playerJoinedTournamentPacket(clientConnection));
+  }
 
   /**
    * @param clientConnection
