@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for Swtpra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 22.11.21, 21:41 by Carina latest changes made by Carina on 22.11.21, 20:11 All contents of "PacketHandler" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 23.11.21, 13:45 by Carina latest changes made by Carina on 23.11.21, 13:45 All contents of "PacketHandler" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -43,7 +43,7 @@ public class PacketHandler {
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.LOGOUT.getPacketType())) {
       handleLogoutPacket(client);
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.MESSAGE.getPacketType())) {
-      if (packet.getValues() != null) {
+      if (packet.getValues().get("message") != null) {
         System.out.println("Client with name " + client.getClientName() + " sended: " + packet.getValues().get("message").getAsString());
       }
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.GETOVERVIEW.getPacketType())) {
@@ -590,13 +590,13 @@ public class PacketHandler {
       if (connectType) {
         if (game.getCurrentGameState() == GameStates.NOT_STARTED) {
           if (game.getPlayers().size() < game.getSettings().getMaxPlayers()) {
-            game.joinGame(new Player(clientConnection, game), false);
+            game.joinGame(new Player(clientConnection).create(game), false);
             return true;
           }
         }
       } else if (!connectType) {
         if (!game.getCurrentGameState().equals(GameStates.OVER)) {
-          game.joinGame(new Player(clientConnection, game), true);
+          game.joinGame(new Player(clientConnection).create(game), true);
           return true;
 
         }

@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for Swtpra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 22.11.21, 16:22 by Carina latest changes made by Carina on 22.11.21, 16:20 All contents of "MultiGameHandler" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 23.11.21, 13:45 by Carina latest changes made by Carina on 23.11.21, 13:45 All contents of "MultiGameHandler" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -12,6 +12,7 @@ package de.thundergames.playmechanics.util;
 import de.thundergames.networking.server.ServerThread;
 import de.thundergames.networking.util.interfaceItems.NetworkGame;
 import de.thundergames.playmechanics.game.Game;
+import de.thundergames.playmechanics.game.GameLogic;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,12 +25,14 @@ import java.util.HashMap;
  */
 public class MultiGameHandler {
 
+  private final GameLogic gameLogic = new GameLogic();
   private final ArrayList<NetworkGame> games = new ArrayList<>();
   private final ArrayList<Tournament> tournaments = new ArrayList<>();
   private final HashMap<Integer, Game> idGames = new HashMap<>();
   private final HashMap<Integer, Tournament> idTournaments = new HashMap<>();
   private final HashMap<ServerThread, Game> clientGames = new HashMap<>();
   private final HashMap<ServerThread, Tournament> clientTournaments = new HashMap<>();
+
 
   /**
    * @author Carina
@@ -83,6 +86,10 @@ public class MultiGameHandler {
 
   public ArrayList<NetworkGame> getGames() {
     return games;
+  }
+
+  public GameLogic getGameLogic() {
+    return gameLogic;
   }
 
   public HashMap<Integer, Tournament> getIDTournaments() {

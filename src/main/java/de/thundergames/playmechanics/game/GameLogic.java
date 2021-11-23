@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for Swtpra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 22.11.21, 21:42 by Carina latest changes made by Carina on 22.11.21, 21:42 All contents of "GameLogic" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 23.11.21, 13:45 by Carina latest changes made by Carina on 23.11.21, 13:45 All contents of "GameLogic" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -9,6 +9,7 @@
  */
 package de.thundergames.playmechanics.game;
 
+import de.thundergames.MoleGames;
 import de.thundergames.playmechanics.map.Field;
 import de.thundergames.playmechanics.map.Map;
 import de.thundergames.playmechanics.util.Player;
@@ -28,89 +29,95 @@ public class GameLogic {
    * @use add the parameters and it will return if the move was valid with true or invalid with false
    * @premisse the startpoint and endpoint must be in the playingfield and the player was allowed to move.
    */
-  public static synchronized boolean wasLegalMove(@NotNull final List<Integer> start, @NotNull final List<Integer> stop, final int moveCounter, @NotNull final Map map) {
-    if (map.getFieldMap().containsKey(start)
-        && map.getFieldMap().containsKey(stop)
+  public static synchronized boolean wasLegalMove(@NotNull final int[] start, @NotNull final int[] stop, final int moveCounter, @NotNull final Map map) {
+    if (map.getFieldMap().containsKey(List.of(start[0], start[1]))
+        && map.getFieldMap().containsKey(List.of(stop[0], stop[1]))
         && start != stop) {
-      if (stop.get(0) - start.get(0) == 0 && Math.abs(stop.get(1) - start.get(1)) == moveCounter
-          || start.get(1) - stop.get(1) == 0 && Math.abs(stop.get(0) - start.get(0)) == moveCounter
-          || Math.abs(stop.get(0) - start.get(0)) == Math.abs(stop.get(1) - start.get(1))
-          && Math.abs(start.get(1) - stop.get(1)) == moveCounter) {
-        if (stop.get(0) - start.get(0) == 0) {
+      if (stop[0] - start[0] == 0 && Math.abs(stop[1] - start[1]) == moveCounter
+          || start[1] - stop[1] == 0 && Math.abs(stop[0] - start[0]) == moveCounter
+          || Math.abs(stop[0] - start[0]) == Math.abs(stop[1] - start[1])
+          && Math.abs(start[1] - stop[1]) == moveCounter) {
+
+        if (map.getFieldMap().get(List.of(stop[0], stop[1])).isOccupied()) {
+          return false;
+        }
+        if (stop[0] - start[0] == 0) {
           for (var i = 1; i < moveCounter; i++) {
-            if (stop.get(1) - start.get(1) > 0) {
-              var field = map.getFieldMap().get(List.of(start.get(0), start.get(1) + i));
+            if (stop[1] - start[1] > 0) {
+              var field = map.getFieldMap().get(List.of(stop[0], start[1] + i));
               if (field.isOccupied()) {
-                if (field.getY() == start.get(1) + i && field.getX() == start.get(0)) {
+                if (field.getY() == start[1] + i && field.getX() == start[0]) {
                   System.out.println("occupied field: " + field.getX() + " " + field.getY());
                   return false;
                 }
               }
-            } else if (stop.get(1) - start.get(1) < 0) {
-              var field = map.getFieldMap().get(List.of(start.get(0), start.get(1) - i));
+            } else if (stop[1] - start[1] < 0) {
+
+              var field = map.getFieldMap().get(List.of(start[0], start[1] - i));
               if (field.isOccupied()) {
-
-                if (field.getY() == start.get(1) - i && field.getX() == start.get(0)) {
-                  System.out.println("occupied field: " + field.getX() + " " + field.getY());
-
-                  return false;
-                }
-              }
-            }
-          }
-        } else if (stop.get(1) - start.get(1) == 0) {
-          for (var i = 1; i < moveCounter; i++) {
-            if (stop.get(0) - start.get(0) > 0) {
-              var field = map.getFieldMap().get(List.of(start.get(0) + i, start.get(1)));
-              if (field.isOccupied()) {
-
-                if (field.getX() == start.get(0) + i && field.getY() == start.get(1)) {
-                  System.out.println("occupied field: " + field.getX() + " " + field.getY());
-
-                  return false;
-                }
-              }
-            } else if (stop.get(0) - start.get(0) < 0) {
-              var field = map.getFieldMap().get(List.of(start.get(0) - i, start.get(1)));
-              if (field.isOccupied()) {
-
-                if (field.getX() == start.get(0) - i && field.getY() == start.get(1)) {
+                if (field.getY() == start[1] - i && field.getX() == start[0]) {
                   System.out.println("occupied field: " + field.getX() + " " + field.getY());
                   return false;
                 }
               }
             }
           }
-        } else if (Math.abs(stop.get(0) - start.get(0)) == Math.abs(stop.get(1) - start.get(1))) {
+        } else if (stop[1] - start[1] == 0) {
+
           for (var i = 1; i < moveCounter; i++) {
-            if (stop.get(0) - start.get(0) > 0 && stop.get(1) - start.get(1) > 0) {
-              var field = map.getFieldMap().get(List.of(start.get(0) + i, start.get(1) + i));
+            if (stop[0] - start[0] > 0) {
+              var field = map.getFieldMap().get(List.of(start[0] + i, start[1]));
               if (field.isOccupied()) {
-                if (field.getX() == start.get(0) + i && field.getY() == start.get(1) + i) {
+
+                if (field.getX() == start[0] + i && field.getY() == start[1]) {
+                  System.out.println("occupied field: " + field.getX() + " " + field.getY());
+
+                  return false;
+                }
+              }
+            } else if (stop[0] - start[0] < 0) {
+
+              var field = map.getFieldMap().get(List.of(start[0] - i, start[1]));
+              if (field.isOccupied()) {
+
+                if (field.getX() == start[0] - i && field.getY() == start[1]) {
                   System.out.println("occupied field: " + field.getX() + " " + field.getY());
                   return false;
                 }
               }
-            } else if (stop.get(0) - start.get(0) < 0 && stop.get(1) - start.get(1) > 0) {
-              var field = map.getFieldMap().get(List.of(start.get(0) - i, start.get(1) + i));
+            }
+          }
+        } else if (Math.abs(stop[0] - start[0]) == Math.abs(stop[1] - start[1])) {
+
+          for (var i = 1; i < moveCounter; i++) {
+            if (stop[0] - start[0] > 0 && stop[1] - start[1] > 0) {
+              var field = map.getFieldMap().get(List.of(start[0] + i, start[1] + i));
               if (field.isOccupied()) {
-                if (field.getX() == start.get(0) - i && field.getY() == start.get(1) + i) {
+                if (field.getX() == start[0] + i && field.getY() == start[1] + i) {
                   System.out.println("occupied field: " + field.getX() + " " + field.getY());
                   return false;
                 }
               }
-            } else if (stop.get(0) - start.get(0) > 0 && stop.get(1) - start.get(1) < 0) {
-              var field = map.getFieldMap().get(List.of(start.get(0) + i, start.get(1) - i));
+            } else if (stop[0] - start[0] < 0 && stop[1] - start[1] > 0) {
+              var field = map.getFieldMap().get(List.of(start[0] - i, start[1] + i));
               if (field.isOccupied()) {
-                if (field.getX() == start.get(0) + i && field.getY() == start.get(1) - i) {
+                if (field.getX() == start[0] - i && field.getY() == start[1] + i) {
                   System.out.println("occupied field: " + field.getX() + " " + field.getY());
                   return false;
                 }
               }
-            } else if (stop.get(0) - start.get(0) < 0 && stop.get(1) - start.get(1) < 0) {
-              var field = map.getFieldMap().get(List.of(start.get(0) - i, start.get(1) - i));
+            } else if (stop[0] - start[0] > 0 && stop[1] - start[1] < 0) {
+              var field = map.getFieldMap().get(List.of(start[0] + i, start[1] - i));
               if (field.isOccupied()) {
-                if (field.getX() == start.get(0) - i && field.getY() == start.get(1) - i) {
+                if (field.getX() == start[0] + i && field.getY() == start[1] - i) {
+                  System.out.println("occupied field: " + field.getX() + " " + field.getY());
+                  return false;
+                }
+              }
+            } else if (stop[0] - start[0] < 0 && stop[1] - start[1] < 0) {
+              var field = map.getFieldMap().get(List.of(start[0] - i, start[1] - i));
+              if (field.isOccupied()) {
+                if (field.getX() == start[0] - i && field.getY() == start[1] - i) {
                   System.out.println("occupied field: " + field.getX() + " " + field.getY());
                   return false;
                 }
@@ -118,7 +125,6 @@ public class GameLogic {
             }
           }
         }
-
         return true;
       }
     }
@@ -159,18 +165,25 @@ public class GameLogic {
    * @param player
    * @author Carina
    * @use handles the player and the game when won
+   * TODO: handle win
    */
   public void win(Player player) {
-    //TODO: hier  MoleGames.getMoleGames().getServer().sendToAllGameClients(player.getGame(), new Packet(new JSONObject().put("type", Packets.WINS.getPacketType()).put("value", new JSONObject().put("playerName", player.getServerClient().getClientName()).toString())));
   }
 
   /**
    * @param player
    * @author Carina
    * @use handles the punishment / performs it to the player doing an invalid move
+   * TODO: hier punishments performen
    */
-  public void performPunishment(Player player) {
+  public void performPunishment(Player player, Punishments reason) {
     if (!player.getGame().getSettings().getPunishment().equals(Punishments.NOTHING)) {
+    } else if (player.getGame().getSettings().getPunishment().equals(Punishments.POINTS)) {
+    } else if (player.getGame().getSettings().getPunishment().equals(Punishments.KICK)) {
+      player.getGame().removePlayerFromGame(player);
+      MoleGames.getMoleGames().getServer().sendToAllGameClients(player.getGame(), MoleGames.getMoleGames().getPacketHandler().movePenaltyNotification(player, player.getGame().getSettings().getPunishment(), reason.getName()));
     }
   }
+
+
 }

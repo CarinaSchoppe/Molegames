@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for Swtpra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 22.11.21, 21:41 by Carina latest changes made by Carina on 22.11.21, 19:55 All contents of "Client" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 23.11.21, 13:45 by Carina latest changes made by Carina on 23.11.21, 13:45 All contents of "Client" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -11,12 +11,14 @@ package de.thundergames.gameplay.player.networking;
 
 import de.thundergames.networking.util.Network;
 import de.thundergames.networking.util.interfaceItems.NetworkGame;
+import de.thundergames.networking.util.interfaceItems.NetworkMole;
 import de.thundergames.networking.util.interfaceItems.NetworkPlayer;
 import de.thundergames.playmechanics.game.GameState;
 import de.thundergames.playmechanics.map.Map;
 import java.io.IOException;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.HashSet;
 import org.jetbrains.annotations.NotNull;
 
 public class Client extends Network {
@@ -24,11 +26,12 @@ public class Client extends Network {
   private static final boolean keyListener = true;
   protected static Client client;
   private final String name;
-  private final ArrayList<NetworkGame> games = new ArrayList<>();
-  private final ArrayList<NetworkGame> tournaments = new ArrayList<>();
+  private final HashSet<NetworkGame> games = new HashSet<>();
+  private final HashSet<NetworkGame> tournaments = new HashSet<>();
   private final ArrayList<Integer> pullDiscs = new ArrayList<>();
   protected ClientPacketHandler clientPacketHandler;
   protected ClientThread clientThread;
+  private final ArrayList<NetworkMole> moles = new ArrayList<>();
   private GameState gameState;
   private int gameID;
   private long remainingTime;
@@ -115,7 +118,7 @@ public class Client extends Network {
     this.gameID = gameID;
   }
 
-  public ArrayList<NetworkGame> getGames() {
+  public HashSet<NetworkGame> getGames() {
     return games;
   }
 
@@ -155,7 +158,11 @@ public class Client extends Network {
     return pullDiscs;
   }
 
-  public ArrayList<NetworkGame> getTournaments() {
+  public HashSet<NetworkGame> getTournaments() {
     return tournaments;
+  }
+
+  public ArrayList<NetworkMole> getMoles() {
+    return moles;
   }
 }

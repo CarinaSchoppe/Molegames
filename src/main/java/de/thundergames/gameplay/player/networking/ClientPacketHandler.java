@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for Swtpra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 22.11.21, 21:42 by Carina latest changes made by Carina on 22.11.21, 21:42 All contents of "ClientPacketHandler" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 23.11.21, 13:45 by Carina latest changes made by Carina on 23.11.21, 13:45 All contents of "ClientPacketHandler" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -21,7 +21,6 @@ import de.thundergames.networking.util.interfaceItems.NetworkPlayer;
 import de.thundergames.playmechanics.game.GameState;
 import de.thundergames.playmechanics.map.Map;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -88,7 +87,7 @@ public class ClientPacketHandler {
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.PLAYERSKIPPED.getPacketType())) {
       handlePlayerSkippedPacket(client, packet);
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.NEXTLEVEL.getPacketType())) {
-      handleNextLevelPacket(client, packet);
+      handleNextFloorPacket(client, packet);
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.TOURNAMENTSCORE.getPacketType())) {
       handleTournamentScorePacket(client, packet);
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.MOLEMOVED.getPacketType())) {
@@ -103,7 +102,7 @@ public class ClientPacketHandler {
    * @use handles the movement of a mole send by the server from a client
    */
   protected void handleMoleMovedPacket(@NotNull final Client client, @NotNull final Packet packet) {
-    System.out.println("A mole has been moved from" + packet.getValues().get("from").getAsString() + " to " + packet.getValues().get("to").getAsString());
+    System.out.println("A mole has been moved by: " + client.getClientThread().getClientThreadID() + " from " + packet.getValues().get("from").getAsString() + " to " + packet.getValues().get("to").getAsString());
     var from = new Gson().fromJson(packet.getValues().get("from").getAsString(), NetworkField.class);
     var to = new Gson().fromJson(packet.getValues().get("to").getAsString(), NetworkField.class);
     client.getMap().getFieldMap().get(List.of(from.getX(), from.getY())).setOccupied(false);
@@ -111,15 +110,20 @@ public class ClientPacketHandler {
     var mole = client.getMap().getFieldMap().get(List.of(from.getX(), from.getY())).getMole();
     client.getMap().getFieldMap().get(List.of(from.getX(), from.getY())).setMole(null);
     client.getMap().getFieldMap().get(List.of(to.getX(), to.getY())).setMole(mole);
-    boolean moved = false;
-    for (var moles : client.getGameState().getPlacedMoles()) {
-      System.out.println(moles.getNetworkField().getX() + " " + moles.getNetworkField().getY());
+    for (var m : client.getMoles()) {
+      if (m.getNetworkField().getX() == from.getX() && m.getNetworkField().getY() == from.getY()) {
+        client.getMoles().remove(m);
+        client.getMoles().add(new NetworkMole(client.getNetworkPlayer(), to));
+        break;
+      }
+    }
+/*    for (var moles : client.getGameState().getPlacedMoles()) {
       if (moles.getNetworkField().getX() == from.getX() && moles.getNetworkField().getY() == from.getY()) {
         client.getGameState().getPlacedMoles().remove(moles);
         client.getGameState().getPlacedMoles().add(new NetworkMole(client.getNetworkPlayer(), to));
         break;
       }
-    }
+    }*/
 
   }
 
@@ -138,15 +142,18 @@ public class ClientPacketHandler {
    * @author Carina
    * @use handles when the client gets the new floor
    */
-  protected void handleNextLevelPacket(Client client, Packet packet) {
+  protected void handleNextFloorPacket(Client client, Packet packet) {
+    System.out.println("Client got the new level!");
+    System.out.println("Players that are out: " + new Gson().fromJson(packet.getValues().get("eliminatedPlayers").getAsString(), ArrayList.class));
+    handleFloor(client, packet);
+  }
+
+  private void handleFloor(Client client, Packet packet) {
     client.setGameState(new Gson().fromJson(packet.getValues().get("gameState").getAsString(), GameState.class));
-    HashMap<Integer, ArrayList<Integer>> discs = new Gson().fromJson(packet.getValues().get("pullDiscs").getAsString(), HashMap.class);
-    System.out.println("DISCS" + discs);
     client.getPullDiscs().addAll(client.getGameState().getPullDiscs().get(client.getClientThread().getClientThreadID()));
     client.setMap(new Map(client.getGameState()));
     client.getMap().changeFieldParams(client.getGameState());
-    System.out.println("Client got the new level!");
-    System.out.println("Players that are out: " + new Gson().fromJson(packet.getValues().get("eliminatedPlayers").getAsString(), ArrayList.class));
+    client.getMap().printMap();
   }
 
   /**
@@ -180,11 +187,11 @@ public class ClientPacketHandler {
    * @author Carina
    * @use handles the placement of a mole
    */
-  public void handleMolePlacedPacket(@NotNull final Client client, @NotNull final Packet packet) {
+  protected void handleMolePlacedPacket(@NotNull final Client client, @NotNull final Packet packet) {
     var mole = new Gson().fromJson(packet.getValues().get("mole").getAsString(), NetworkMole.class);
     client.getMap().getFieldMap().get(List.of(mole.getNetworkField().getX(), mole.getNetworkField().getY())).setOccupied(true);
     client.getMap().getFieldMap().get(List.of(mole.getNetworkField().getX(), mole.getNetworkField().getY())).setMole(mole);
-    client.getGameState().getPlacedMoles().add(mole);
+    // client.getGameState().getPlacedMoles().add(mole);
   }
 
   /**
@@ -215,7 +222,7 @@ public class ClientPacketHandler {
       }
 
     } else {
-      System.out.println("Client: the player with the name: " + player.getName() + " is now on the turn!");
+      System.out.println("Client: the player with the id: " + player.getClientID() + " is now on the turn!");
     }
   }
 
@@ -235,11 +242,11 @@ public class ClientPacketHandler {
    * @author Carina
    * @use sends the movement of a mole to the server
    */
-  public void makeMovePacket(@NotNull final Client client, @NotNull final NetworkField start, @NotNull final NetworkField end, final int pullDisc) {
+  public void makeMovePacket(@NotNull final Client client, @NotNull final int[] start, @NotNull final int[] end, final int pullDisc) {
     var object = new JsonObject();
     var json = new JsonObject();
-    json.addProperty("from", new Gson().toJson(start));
-    json.addProperty("to", new Gson().toJson(end));
+    json.addProperty("from", new Gson().toJson(new NetworkField(start[0], start[1])));
+    json.addProperty("to", new Gson().toJson(new NetworkField(end[0], end[1])));
     json.addProperty("pullDisc", pullDisc);
     object.add("value", json);
     object.addProperty("type", Packets.MAKEMOVE.getPacketType());
@@ -260,6 +267,7 @@ public class ClientPacketHandler {
     var json = new JsonObject();
     json.addProperty("position", new Gson().toJson(field));
     object.add("value", json);
+    client.getMoles().add(new NetworkMole(client.getNetworkPlayer(), field));
     client.getClientThread().sendPacket(new Packet(object));
   }
 
@@ -464,12 +472,7 @@ public class ClientPacketHandler {
    * @use handles the welcomeGamePacket from the server
    */
   protected void handleWelcomeGamePacket(@NotNull final Client client, @NotNull final Packet packet) {
-    client.setGameState(new Gson().fromJson(packet.getValues().get("gameState").getAsString(), GameState.class));
-    client.getPullDiscs().addAll(client.getGameState().getPullDiscs().get(client.getClientThread().getClientThreadID()));
-    System.out.println("value" + client.getGameState().getPullDiscs().get(client.getClientThread().getClientThreadID()));
-    client.setMap(new Map(client.getGameState()));
-    client.getMap().changeFieldParams(client.getGameState());
-    client.getMap().printMap();
+    handleFloor(client, packet);
   }
 
   /**
