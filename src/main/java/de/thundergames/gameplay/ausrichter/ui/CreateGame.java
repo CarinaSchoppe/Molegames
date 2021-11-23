@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for Swtpra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 22.11.21, 14:50 by Carina latest changes made by Carina on 21.11.21, 18:21 All contents of "CreateGame" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 23.11.21, 19:54 by Carina latest changes made by Carina on 23.11.21, 19:02 All contents of "CreateGame" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -211,8 +211,8 @@ public class CreateGame extends Application {
   public void create(@NotNull final Server server, @NotNull final String... args) {
     MoleGames.getMoleGames()
         .setGameMasterClient(new GameMasterClient(server));
+    System.out.println("Test Ausrichter");
     MoleGames.getMoleGames().getGameMasterClient().test();
-    launch(args);
 
   }
 

@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for Swtpra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 23.11.21, 14:33 by Carina latest changes made by Carina on 23.11.21, 14:33 All contents of "ClientPacketHandler" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 23.11.21, 19:54 by Carina latest changes made by Carina on 23.11.21, 19:54 All contents of "ClientPacketHandler" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -203,7 +203,7 @@ public class ClientPacketHandler {
    * @use handles the movement of a mole send by the server from a client
    */
   protected void handleMoleMovedPacket(@NotNull final Client client, @NotNull final Packet packet) {
-    System.out.println("A mole has been moved by: " + client.getClientThread().getClientThreadID() + " from " + packet.getValues().get("from").getAsString() + " to " + packet.getValues().get("to").getAsString());
+    System.out.println("A mole has been moved by: " + client.getNetworkPlayer().getClientID() + " from " + packet.getValues().get("from").getAsString() + " to " + packet.getValues().get("to").getAsString());
     var from = new Gson().fromJson(packet.getValues().get("from").getAsString(), NetworkField.class);
     var to = new Gson().fromJson(packet.getValues().get("to").getAsString(), NetworkField.class);
     client.getMap().getFieldMap().get(List.of(from.getX(), from.getY())).setOccupied(false);
@@ -250,10 +250,18 @@ public class ClientPacketHandler {
   }
 
   private void handleFloor(Client client, Packet packet) {
+    client.getMoles().clear();
     client.setGameState(new Gson().fromJson(packet.getValues().get("gameState").getAsString(), GameState.class));
     client.getPullDiscs().addAll(client.getGameState().getPullDiscs().get(client.getClientThread().getClientThreadID()));
     client.setMap(new Map(client.getGameState()));
     client.getMap().changeFieldParams(client.getGameState());
+    System.out.println("moles " + client.getGameState().getPlacedMoles().size());
+    for (var m : client.getGameState().getPlacedMoles()) {
+      System.out.println(m.getPlayer().getClientID() + " my: " + client.getNetworkPlayer().getClientID());
+      if (m.getPlayer().getClientID() == client.getNetworkPlayer().getClientID()) {
+        client.getMoles().add(m);
+      }
+    }
     client.getMap().printMap();
   }
 
