@@ -1,8 +1,7 @@
 /*
  * Copyright Notice for Swtpra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 18.11.21, 10:33 by Carina Latest changes made by Carina on 18.11.21, 09:41
- * All contents of "NetworkThread" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 22.11.21, 21:41 by Carina latest changes made by Carina on 22.11.21, 19:55 All contents of "NetworkThread" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -14,10 +13,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import de.thundergames.MoleGames;
 import de.thundergames.gameplay.ai.networking.AIClientThread;
-import de.thundergames.gameplay.ausrichter.networking.GameMasterClientThread;
-import de.thundergames.gameplay.player.networking.Client;
 import de.thundergames.gameplay.player.networking.ClientThread;
-import de.thundergames.networking.server.Server;
 import de.thundergames.networking.server.ServerThread;
 import de.thundergames.networking.util.exceptions.UndefinedError;
 import java.io.BufferedReader;
@@ -35,6 +31,7 @@ public abstract class NetworkThread extends Thread {
   private final BufferedReader reader;
   protected Packet packet;
   protected int id;
+  private boolean run = true;
 
 
   /**
@@ -61,16 +58,14 @@ public abstract class NetworkThread extends Thread {
    */
   @Override
   public void run() {
-    if (this instanceof ServerThread && !Server.isKeyboard()) {
+    if (this instanceof ServerThread && !MoleGames.getMoleGames().getServer().isKeyboard()) {
       keyBoardListener(false);
-      Server.setKeyboard(true);
-    } else if (this instanceof ClientThread
-        && Client.isKeyListener()
-        && !(this instanceof GameMasterClientThread)) {
+      MoleGames.getMoleGames().getServer().setKeyboard(true);
+    } else if (this instanceof ClientThread) {
       keyBoardListener(true);
     }
     try {
-      while (true) {
+      while (run) {
         if (socket.isConnected()) {
           String message = null; // ließt die packetmessage die reinkommt
           try {
@@ -126,7 +121,7 @@ public abstract class NetworkThread extends Thread {
           try {
             System.out.println("Keylistener started!");
             var keyboardReader = new BufferedReader(new InputStreamReader(System.in));
-            while (true) {
+            while (run) {
               try {
                 var message = keyboardReader.readLine();
                 var object = new JsonObject();
@@ -165,22 +160,17 @@ public abstract class NetworkThread extends Thread {
    * @author Carina
    * @use it will automaticlly pass it forwards to the Server or Client to handle the Packet depending on who recieved it (Server- or Client thread)
    */
-  public void readStringPacketInput(
+  private void readStringPacketInput(
       @NotNull final Packet packet, @NotNull final NetworkThread reciever)
       throws UndefinedError {
     // TODO: How to handle the packet from the client! Player has moved -> now in a hole and than
     // handle it
 
-    if (reciever instanceof ClientThread && !(reciever instanceof GameMasterClientThread) && !(reciever instanceof AIClientThread)) {
+    if (reciever instanceof ClientThread && !(reciever instanceof AIClientThread)) {
       ((ClientThread) reciever)
           .getClient()
           .getClientPacketHandler()
           .handlePacket(((ClientThread) reciever).getClient(), packet);
-    } else if (reciever instanceof GameMasterClientThread) {
-      ((GameMasterClientThread) reciever)
-          .getGameMasterClient()
-          .getClientMasterPacketHandler()
-          .handlePacket(((GameMasterClientThread) reciever).getGameMasterClient(), packet);
     } else if (reciever instanceof AIClientThread) {
       ((AIClientThread) reciever)
           .getAIClient()
@@ -208,5 +198,9 @@ public abstract class NetworkThread extends Thread {
 
   public int getConnectionID() {
     return id;
+  }
+
+  public void endConnection() {
+    run = false;
   }
 }

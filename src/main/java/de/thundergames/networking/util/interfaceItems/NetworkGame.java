@@ -1,17 +1,28 @@
-package de.thundergames.playmechanics.util.interfaceItems;
+/*
+ * Copyright Notice for Swtpra10
+ * Copyright (c) at ThunderGames | SwtPra10 2021
+ * File created on 22.11.21, 21:41 by Carina latest changes made by Carina on 22.11.21, 19:55 All contents of "NetworkGame" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * at ThunderGames | SwtPra10. All rights reserved
+ * Any type of duplication, distribution, rental, sale, award,
+ * Public accessibility or other use
+ * requires the express written consent of ThunderGames | SwtPra10.
+ */
+
+package de.thundergames.networking.util.interfaceItems;
 
 import de.thundergames.filehandling.Score;
+import java.util.ArrayList;
 
-public class NetworkGame  extends InterfaceObject{
+public class NetworkGame {
 
-  private final int GameID;
+  private final int gameID;
   private int currentPlayerCount;
   private int maxPlayerCount;
   private int levelCount;
   private int moleCount;
   private int radius;
   private boolean pullDiscsOrdered;
-  private int[] pullDiscs;
+  private ArrayList<Integer> pullDiscs = new ArrayList<>();
   private long turnTime;
   private long visualizationTime;
   private String status;
@@ -21,11 +32,11 @@ public class NetworkGame  extends InterfaceObject{
   private Score result;
 
   public NetworkGame(int gameID) {
-    GameID = gameID;
+    this.gameID = gameID;
   }
 
   public int getGameID() {
-    return GameID;
+    return gameID;
   }
 
   public int getCurrentPlayerCount() {
@@ -76,11 +87,11 @@ public class NetworkGame  extends InterfaceObject{
     this.pullDiscsOrdered = pullDiscsOrdered;
   }
 
-  public int[] getPullDiscs() {
+  public ArrayList<Integer> getPullDiscs() {
     return pullDiscs;
   }
 
-  public void setPullDiscs(int[] pullDiscs) {
+  public void setPullDiscs(ArrayList<Integer> pullDiscs) {
     this.pullDiscs = pullDiscs;
   }
 
@@ -124,11 +135,11 @@ public class NetworkGame  extends InterfaceObject{
     this.startDateTime = startDateTime;
   }
 
-  public Score getResult() {
+  public Score getScore() {
     return result;
   }
 
-  public void setResult(Score result) {
+  public void setScore(Score result) {
     this.result = result;
   }
 

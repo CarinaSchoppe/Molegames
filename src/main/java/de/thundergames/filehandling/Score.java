@@ -1,8 +1,7 @@
 /*
  * Copyright Notice for Swtpra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 18.11.21, 10:33 by Carina Latest changes made by Carina on 18.11.21, 09:41
- * All contents of "Score" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 23.11.21, 13:45 by Carina latest changes made by Carina on 23.11.21, 13:45 All contents of "Score" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -10,17 +9,26 @@
  */
 package de.thundergames.filehandling;
 
-import de.thundergames.playmechanics.util.interfaceItems.NetworkPlayer;
-import java.util.List;
+import de.thundergames.networking.util.interfaceItems.NetworkPlayer;
+import java.util.HashMap;
+import java.util.HashSet;
 
 public class Score {
 
-  private List<NetworkPlayer> players;
-  private String points; //TODO hier muss ein JSONObject sein
-  private List<NetworkPlayer> winner;
+  private final HashSet<NetworkPlayer> players = new HashSet<>();
+  private final HashMap<Integer, Integer> points = new HashMap<>();
+  private final HashSet<NetworkPlayer> winner = new HashSet<>();
 
 
+  public HashSet<NetworkPlayer> getPlayers() {
+    return players;
+  }
 
+  public HashMap<Integer, Integer> getPoints() {
+    return points;
+  }
 
-
+  public HashSet<NetworkPlayer> getWinner() {
+    return winner;
+  }
 }

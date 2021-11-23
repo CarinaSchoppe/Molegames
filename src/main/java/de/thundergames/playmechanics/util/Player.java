@@ -1,8 +1,7 @@
 /*
  * Copyright Notice for Swtpra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 18.11.21, 10:33 by Carina Latest changes made by Carina on 18.11.21, 09:41
- * All contents of "Player" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 23.11.21, 14:59 by Carina latest changes made by Carina on 23.11.21, 14:45 All contents of "Player" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -10,143 +9,61 @@
  */
 package de.thundergames.playmechanics.util;
 
-import com.google.gson.JsonObject;
 import de.thundergames.MoleGames;
 import de.thundergames.networking.server.ServerThread;
-import de.thundergames.networking.util.Packet;
-import de.thundergames.networking.util.Packets;
+import de.thundergames.networking.util.interfaceItems.NetworkField;
+import de.thundergames.networking.util.interfaceItems.NetworkMole;
+import de.thundergames.networking.util.interfaceItems.NetworkPlayer;
 import de.thundergames.playmechanics.game.Game;
 import de.thundergames.playmechanics.game.GameLogic;
 import de.thundergames.playmechanics.map.Field;
-import de.thundergames.playmechanics.util.interfaceItems.NetworkPlayer;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Timer;
-import java.util.TimerTask;
-import java.util.stream.Collectors;
 import org.jetbrains.annotations.NotNull;
 
 public class Player extends NetworkPlayer {
 
-  private final ArrayList<Mole> moles = new ArrayList<>();
-  private ServerThread serverClient = null;
-  private Game game = null;
-  private List<Integer> cards = new ArrayList<>();
-  private int drawCard = 0;
-  private Timer timer;
-  private boolean timerIsRunning = false;
-  private boolean canDraw = false;
-  private boolean hasMoved = true;
-  private int points;
+  private transient final HashSet<Mole> moles = new HashSet<>();
+  private transient final ServerThread serverClient;
+  private transient final ArrayList<Integer> cards = new ArrayList<>();
+  private transient Game game;
+  private transient Timer timer;
+  private transient long startRemainingTime;
+  private transient boolean timerIsRunning = false;
+  private transient boolean hasMoved = true;
+  private transient PlayerUtil playerUtil;
 
   /**
    * @param client the serverClient connection established by the Server
-   * @param game   the Game a player joined
    * @author Carina
    * @use will only be created on joining a Game
    * @see Game
    * @see ServerThread
    */
-  public Player(@NotNull final ServerThread client, @NotNull final Game game) {
+  public Player(@NotNull final ServerThread client) {
     super(client.getClientName(), client.getConnectionID());
     this.serverClient = client;
+
+  }
+
+  /**
+   * @param game
+   * @author Carina
+   * @use creates a player with all needed stuff
+   */
+  public Player create(@NotNull final Game game) {
     this.game = game;
-    this.cards = new ArrayList<>();
-    cards.addAll(Arrays.stream(game.getSettings().getPullDiscs()).boxed().collect(Collectors.toList()));
-
-  }
-
-
-  /**
-   * @author Carina
-   * @use will be called when a player wants to draw a card and it takes the current first card and puts it afterwards to the back of the list
-   * @see Settings
-   */
-  public void nextCard() {
-    drawCard = cards.get(0);
-    cards.remove(0);
-    refillCards();
-  }
-
-  public void refillCards() {
-    if (cards.isEmpty()) {
-      cards.addAll(Arrays.stream(game.getSettings().getPullDiscs()).boxed().collect(Collectors.toList()));
-    }
-  }
-
-  public void takeCard(int cardValue) {
-    drawCard = cardValue;
-    cards.remove(cardValue);
-    refillCards();
-  }
-
-  /**
-   * @author Carina
-   * @use the player object that got created / instanciated after the constructor to get everything ready
-   * @see Player
-   */
-  public synchronized Player create() {
-    var moleIDs = new ArrayList<Integer>();
-    for (int i = 0; i < game.getSettings().getNumberOfMoles(); i++) {
-      var mole = new Mole(game.getMoleID(), this);
-      moles.add(mole);
-      game.getMoleMap().put(this, mole);
-      moleIDs.add(game.getMoleID());
-      game.getMoleIDMap().put(mole.getMoleID(), mole);
-      game.setMoleID(game.getMoleID() + 1);
-    }
-    //TODO: hier MoleGames.getMoleGames().getPacketHandler().sendMoleIDs(serverClient, moleIDs);
+    game.getScore().getPoints().put(this.getClientID(), 0);
+    cards.addAll(game.getSettings().getPullDiscs());
+    this.playerUtil = new PlayerUtil(this);
     return this;
   }
 
-  /**
-   * @author Carina
-   * @use startes the time a player got for its move
-   * @see Settings
-   */
-  public void startThinkTimer() {
-    hasMoved = false;
-    timer = new Timer();
-    canDraw = true;
-    timerIsRunning = true;
-    timer.schedule(
-        new TimerTask() {
-          @Override
-          public void run() {
-            canDraw = false;
-            hasMoved = true;
-            var json = new JsonObject();
-            json.addProperty("type", Packets.TURNOVER.getPacketType());
-            getServerClient().sendPacket(new Packet(json));
-            timerIsRunning = false;
-            game.nextPlayer();
-          }
-        },
-        game.getSettings().getTurnTime() * 1000L);
-  }
 
   /**
-   * @return the canDraw
-   * @author carina
-   * @use when called draws a card and returns it depending on
-   * @see Settings if the card should be taken in order or randomly if cards a empty refill by the oder
-   */
-  public void drawACard() {
-    if (!game.getCurrentPlayer().equals(this) || hasMoved || !canDraw) {
-      return;
-    }
-    if (!game.getSettings().isPullDiscsOrdered()) {
-      nextCard();
-    } else {
-      drawCard = cards.get(0);
-    }
-    //TODO: hier MoleGames.getMoleGames().getPacketHandler().drawnPlayerCardPacket(serverClient, drawCard);
-  }
-
-  /**
-   * @param moleID  the mole that will be moved
    * @param x_start the x-coordinate of the start field
    * @param y_start the y-coordinate of the start field
    * @param x_end   the x-coordinate of the end field
@@ -159,43 +76,37 @@ public class Player extends NetworkPlayer {
    * @see Field
    * @see GameLogic
    */
-  public void moveMole(
-      final int moleID, final int x_start, final int y_start, final int x_end, final int y_end) {
-    if (!game.getCurrentPlayer().equals(this) || hasMoved || getMole(moleID) == null) {
+  public void moveMole(final int x_start, final int y_start, final int x_end, final int y_end, final int cardValue) {
+    if (!game.getCurrentPlayer().equals(this) || hasMoved) {
       return;
     }
-    if (MoleGames.getMoleGames()
-        .getGameLogic()
-        .wasLegalMove(
-            List.of(x_start, y_start),
-            List.of(x_end, y_end),
-            drawCard,
-            game.getMap())) { // TODO: drawCard - 3
-      var mole = getMole(moleID);
+    if (GameLogic
+        .wasLegalMove(new int[]{x_start, y_start}, new int[]{x_end, y_end}, cardValue, game.getMap())) {
+      Mole mole = null;
+      for (var m : moles) {
+        if (m.getNetworkField().getX() == x_start && m.getNetworkField().getY() == y_start && m.getPlayer().getClientID() == getClientID()) {
+          mole = m;
+          break;
+        }
+      }
+      cards.remove(Integer.valueOf(cardValue));
+      if (cards.isEmpty()) {
+        playerUtil.refillCards();
+      }
+      MoleGames.getMoleGames().getServer().sendToAllGameClients(game, MoleGames.getMoleGames().getPacketHandler().moleMovedPacket(new NetworkField(x_start, y_start), new NetworkField(x_end, y_end), cardValue));
       Objects.requireNonNull(mole).setMoleField(game.getMap().getFieldMap().get(List.of(x_end, y_end)));
-      game.getMap().getOccupied()
-          .remove(game.getMap().getFieldMap().get(List.of(x_start, y_start)));
-      game.getMap()
+      game.getMap().getFieldMap().get(List.of(x_start, y_start)).setOccupied(false);
+      game.getMap().getFieldMap().get(List.of(x_end, y_end)).setOccupied(true);
+      game.getMap().getFieldMap().get(List.of(x_end, y_end)).setMole(mole);
+      game.getMap().getFieldMap().get(List.of(x_start, y_start)).setMole(null);
+      for (var m : moles) {
+        if (m.getNetworkField().getX() == x_start && m.getNetworkField().getY() == y_start) {
+          moles.remove(m);
+          moles.add(mole);
+        }
+      }
 
-          .getOccupied()
-          .add(game.getMap().getFieldMap().get(List.of(x_end, y_end)));
-      game.getMap()
-          .getFieldMap()
-          .get(List.of(x_start, y_start))
-          .setOccupied(false, -1);
-      game.getMap()
-          .getFieldMap()
-          .get(List.of(x_end, y_end))
-          .setOccupied(true, moleID);
-/*TODO: hier
-
-         MoleGames.getMoleGames()
-          .getServer()
-          .sendToAllGameClients(
-              game,
-              MoleGames.getMoleGames()
-                  .getPacketHandler()
-                  .playerMovesMolePacket(moleID, x_end, y_end));*/
+      mole.setNetworkField(new NetworkField(x_end, y_end));
       System.out.println(
           "Player with id: "
               + serverClient.getConnectionID()
@@ -207,69 +118,50 @@ public class Player extends NetworkPlayer {
               + x_end
               + " y="
               + y_end
-              + " with a card=" + drawCard + "." + "\n\n");
-      handleTurnAfterAction();
-
+              + " with a card=" + cardValue + "." + "\n\n");
+      playerUtil.handleTurnAfterAction();
     } else {
+      MoleGames.getMoleGames().getGameHandler().getGameLogic().performPunishment(this, Punishments.INVALIDMOVE);
       System.out.println(
           "Client with id: "
               + serverClient.getConnectionID()
               + " has done in invalid move Punishment: "
               + game.getSettings().getPunishment() +
-              " player tried to move from X,Y: [" + x_start + "," + y_start + "] to X,Y: [" + x_end + "," + y_end + "] with a card of " + drawCard + "\n\n");
-      //TODO: hier serverClient.sendPacket(MoleGames.getMoleGames().getPacketHandler().invalidMovePacket());
+              " player tried to move from X,Y: [" + x_start + "," + y_start + "] to X,Y: [" + x_end + "," + y_end + "] with a card of " + cardValue + "\n\n");
+      MoleGames.getMoleGames().getServer().sendToAllGameClients(game, MoleGames.getMoleGames().getPacketHandler().movePenaltyNotification(this, game.getSettings().getPunishment(), "INVALID_MOVE"));
       timer.purge();
       timer.cancel();
-      var json = new JsonObject();
-      json.addProperty("type", Packets.TURNOVER.getPacketType());
-      getServerClient().sendPacket(new Packet(json));
-      game.nextPlayer();
+      game.getGameUtil().nextPlayer();
 
     }
   }
 
   /**
-   * @param x      the x cordinate where a mole will be placed
-   * @param y      the y cordinate where a mole will be placed
-   * @param moleID the moleID that will be placed on the map
+   * @param x the x cordinate where a mole will be placed
+   * @param y the y cordinate where a mole will be placed
    * @author Carina
    * @use will check if a field is free than set the mole on this field
    * @see Mole
    * @see Player
    * @see Field
    */
-  public void placeMole(final int x, final int y, final int moleID) {
-    if (!game.getCurrentPlayer().equals(this) || hasMoved || getMole(moleID) == null) {
+  public void placeMole(final int x, final int y) {
+    if (!game.getCurrentPlayer().equals(this) || hasMoved || moles.size() >= game.getSettings().getNumberOfMoles()) {
       return;
     }
-/*  TODO:    if (!game.getMap().getFieldMap().containsKey(List.of(x, y))) {
-      serverClient.sendPacket(
-          new Packet(new JSONObject().put("type", Packets.OCCUPIED.getPacketType()).put("value", new JSONObject().put("moleID", moleID).toString())));
-      return;
-    }*/
     if (game.getMap().getFieldMap().get(List.of(x, y)).isOccupied()
         || game.getMap().getFieldMap().get(List.of(x, y)).isHole()) {
- /*TODO:     serverClient.sendPacket(
-          new Packet(new JSONObject().put("type", Packets.OCCUPIED.getPacketType()).put("value", new JSONObject().put("moleID", moleID).toString())));*/
     } else {
-      var mole = getMole(moleID);
-      Objects.requireNonNull(mole)
-          .setMoleField(game.getMap().getFieldMap().get(List.of(x, y)));
-      game.getMap()
-
-          .getOccupied()
-          .add(game.getMap().getFieldMap().get(List.of(x, y)));
-      game.getMap().getFieldMap().get(List.of(x, y)).setOccupied(true, moleID);
-/*TODO: hier
-
-         MoleGames.getMoleGames()
-          .getServer()
-          .sendToAllGameClients(
-              game,
-              MoleGames.getMoleGames().getPacketHandler().playerPlacesMolePacket(moleID, x, y));*/
-      game.getMap().printMap();
-      handleTurnAfterAction();
-
+      var mole = new Mole(this, new Field(List.of(x, y)));
+      moles.add(mole);
+      game.getMoleMap().put(this, mole);
+      game.getMap().getFieldMap().get(List.of(x, y)).setOccupied(true);
+      game.getMap().getFieldMap().get(List.of(x, y)).setMole(mole);
+      var field = new NetworkField(mole.getNetworkField().getX(), mole.getNetworkField().getY());
+      var player = new NetworkPlayer(mole.getPlayer().getName(), mole.getPlayer().getClientID());
+      var netMole = new NetworkMole(player, field);
+      MoleGames.getMoleGames().getServer().sendToAllGameClients(game, MoleGames.getMoleGames().getPacketHandler().molePlacedPacket(netMole));
+      playerUtil.handleTurnAfterAction();
       System.out.println(
           "Player with id: "
               + serverClient.getConnectionID()
@@ -277,62 +169,44 @@ public class Player extends NetworkPlayer {
               + x
               + " y="
               + y
-              + "." + "\n\n");
+              + ". (" + getMoles().size() + "/" + game.getSettings().getNumberOfMoles() + ")\n\n");
     }
 
   }
 
-  private void handleTurnAfterAction() {
-    canDraw = false;
-    hasMoved = true;
- /*TODO:    for (var connection : game.getAIs()) {
-      game.getMap().sendMap(connection);
-    }*/
-    if (timerIsRunning) {
-      timer.purge();
-      timer.cancel();
-      var json= new JsonObject();
-      json.addProperty("type", Packets.TURNOVER.getPacketType());
-      getServerClient().sendPacket(new Packet(json));
-      game.nextPlayer();
-    }
+  public void setHasMoved(boolean hasMoved) {
+    this.hasMoved = hasMoved;
   }
 
-  /**
-   * @param moleID the mole that will be gotten by its ID
-   * @return the mole with the given ID
-   * @author Carina
-   * @see Mole
-   */
-  private Mole getMole(final int moleID) {
-    Mole mole;
-    for (Mole value : moles) {
-      if (value.getMoleID() == moleID) {
-        mole = value;
-        return mole;
-      }
-    }
-    return null;
+  public boolean isTimerIsRunning() {
+    return timerIsRunning;
   }
 
-
-  public int getPoints() {
-    return points;
-  }
-
-  public void setPoints(int points) {
-    this.points = points;
+  public void setTimerIsRunning(boolean timerIsRunning) {
+    this.timerIsRunning = timerIsRunning;
   }
 
   public Game getGame() {
     return game;
   }
 
-  public List<Integer> getCards() {
+  public PlayerUtil getPlayerUtil() {
+    return playerUtil;
+  }
+
+  public Timer getTimer() {
+    return timer;
+  }
+
+  public void setTimer(Timer timer) {
+    this.timer = timer;
+  }
+
+  public ArrayList<Integer> getCards() {
     return cards;
   }
 
-  public ArrayList<Mole> getMoles() {
+  public HashSet<Mole> getMoles() {
     return moles;
   }
 
@@ -340,5 +214,11 @@ public class Player extends NetworkPlayer {
     return serverClient;
   }
 
+  public long getRemainingTime() {
+    return startRemainingTime;
+  }
 
+  public void setStartRemainingTime(long startRemainingTime) {
+    this.startRemainingTime = startRemainingTime;
+  }
 }
