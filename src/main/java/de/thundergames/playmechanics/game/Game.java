@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for Swtpra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 23.11.21, 19:54 by Carina latest changes made by Carina on 23.11.21, 19:54 All contents of "Game" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 24.11.21, 20:03 by Carina latest changes made by Carina on 24.11.21, 20:03 All contents of "Game" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -57,6 +57,10 @@ public class Game extends NetworkGame {
   public void create() throws IOException {
     gameUtil = new GameUtil(this);
     MoleGames.getMoleGames().getGameHandler().getIDGames().put(getGameID(), this);
+    MoleGames.getMoleGames().getGameHandler().getGames().add(this);
+    for (var client : MoleGames.getMoleGames().getServer().getObserver()) {
+      MoleGames.getMoleGames().getPacketHandler().overviewPacket(client);
+    }
     settings = new Settings(this);
     setScore(new Score());
   }

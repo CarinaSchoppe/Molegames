@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for Swtpra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 23.11.21, 14:33 by Carina latest changes made by Carina on 23.11.21, 14:33 All contents of "Tournament" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 24.11.21, 20:03 by Carina latest changes made by Carina on 24.11.21, 20:03 All contents of "Tournament" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -48,8 +48,12 @@ public class Tournament {
   public void create() {
     this.score = new Score();
     this.tournamentState = new TournamentState();
+    MoleGames.getMoleGames().getGameHandler().getTournaments().add(this);
+    MoleGames.getMoleGames().getGameHandler().getIDTournaments().put(tournamentID, this);
+    for (var client : MoleGames.getMoleGames().getServer().getObserver()) {
+      MoleGames.getMoleGames().getPacketHandler().overviewPacket(client);
+    }
   }
-
 
   /**
    * @param client

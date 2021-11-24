@@ -6,6 +6,12 @@
   <component name="ChangeListManager">
     <list default="true" id="0b983e64-eaee-4539-9e35-0cc6cea2f64e" name="Changes" comment="implementation of the interface commitee document stuff">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/gameplay/ausrichter/ui/CreateGame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/thundergames/gameplay/ausrichter/ui/CreateGame.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/gameplay/player/networking/ClientPacketHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/thundergames/gameplay/player/networking/ClientPacketHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/gameplay/player/ui/LoginScreen.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/thundergames/gameplay/player/ui/LoginScreen.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/networking/server/PacketHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/thundergames/networking/server/PacketHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/playmechanics/game/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/thundergames/playmechanics/game/Game.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/playmechanics/util/Tournament.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/thundergames/playmechanics/util/Tournament.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -103,7 +109,7 @@
       <recent name="C:\Users\Carina\ProgrammingProjects\SwtPra10\assets" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.AI">
+  <component name="RunManager" selected="Application.Server">
     <configuration name="AI 2" type="Application" factoryName="Application" singleton="false">
       <option name="MAIN_CLASS_NAME" value="de.thundergames.MoleGames" />
       <module name="Swtpra10.main" />
@@ -418,6 +424,11 @@
       <workItem from="1637679686050" duration="31000" />
       <workItem from="1637688992492" duration="255000" />
       <workItem from="1637689794935" duration="5160000" />
+      <workItem from="1637695988801" duration="4748000" />
+      <workItem from="1637750125403" duration="78000" />
+      <workItem from="1637766655651" duration="356000" />
+      <workItem from="1637779590752" duration="45000" />
+      <workItem from="1637779885033" duration="730000" />
     </task>
     <task id="LOCAL-00001" summary="added AI logics">
       <created>1637055198741</created>
@@ -580,7 +591,14 @@
       <option name="project" value="LOCAL" />
       <updated>1637693661073</updated>
     </task>
-    <option name="localTasksCounter" value="24" />
+    <task id="LOCAL-00024" summary="implementation of the interface commitee document stuff">
+      <created>1637696058916</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1637696058916</updated>
+    </task>
+    <option name="localTasksCounter" value="25" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for Swtpra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 23.11.21, 19:54 by Carina latest changes made by Carina on 23.11.21, 19:02 All contents of "CreateGame" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 24.11.21, 20:03 by Carina latest changes made by Carina on 23.11.21, 20:55 All contents of "CreateGame" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -98,57 +98,7 @@ public class CreateGame extends Application {
 
   @FXML
   void createGameButtonEvent(ActionEvent event) {
-    /*TODO: Hier
 
-       var object = new JSONObject();
-    object.put("type", Packets.CREATEGAME.getPacketType());
-    var json = new JSONObject();
-    json.put("gameID", MoleGames.getMoleGames().getGameMasterClient().getGameID());
-    object.put("value", json.toString());
-    var packet = new Packet(object);
-    if (GameMasterClient.getClientInstance() != null) {
-      GameMasterClient.getClientInstance().getMasterClientThread().sendPacket(packet);
-    }
-    object.put("type", Packets.CONFIGURATION.getPacketType());
-    json.put("gameID", MoleGames.getMoleGames().getGameMasterClient().getGameID());
-    if (!playerAmount.getText().isEmpty()) {
-      json.put("maxPlayers", Integer.parseInt(playerAmount.getText()));
-    }
-    if (!molesAmount.getText().isEmpty()) {
-      json.put("numberOfMoles", Integer.parseInt(molesAmount.getText()));
-    }
-    if (!thinkTime.getText().isEmpty()) {
-      json.put("thinkTime", Integer.parseInt(thinkTime.getText()));
-    }
-    if (!drawCardValuesList.isEmpty()) {
-      json.put("cards", drawCardValuesList);
-    }
-    if (!visualEffects.getText().isEmpty()) {
-      json.put("visualEffects", Integer.parseInt(visualEffects.getText()));
-    }
-    if (!radius.getText().isEmpty()) {
-      json.put("radius", Integer.parseInt(radius.getText()));
-    }
-    if (punishment.getValue() != null) {
-      json.put("movePenalty", Boolean.parseBoolean(punishment.getValue()));
-    }
-    json.put("pullDiscsOrdered", pullDiscsOrdered.isSelected());
-    object.put("value", json.toString());
-    GameMasterClient.getClientInstance().getMasterClientThread().sendPacket(new Packet(object));
-    MoleGames.getMoleGames()
-        .getGameMasterClient()
-        .setSystemGameID(MoleGames.getMoleGames().getGameMasterClient().getGameID() + 1);
-
-    clearAllComponents();
-
-    try {
-      Thread.sleep(20000);
-    } catch (InterruptedException e) {
-      e.printStackTrace();
-    }
-    MoleGames.getMoleGames()
-        .getGameMasterClient().getMasterClientThread().sendPacket(new Packet(new JSONObject().put("type", Packets.GAMESTART.getPacketType()).put("value", new JSONObject().put("gameID", MoleGames.getMoleGames().getGameMasterClient().getGameID() - 1).toString())));
-*/
   }
 
   private void clearAllComponents() {
