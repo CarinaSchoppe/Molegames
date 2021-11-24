@@ -20,11 +20,12 @@ import de.thundergames.networking.util.interfaceItems.NetworkMole;
 import de.thundergames.networking.util.interfaceItems.NetworkPlayer;
 import de.thundergames.playmechanics.game.GameState;
 import de.thundergames.playmechanics.map.Map;
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
-import org.jetbrains.annotations.NotNull;
 
 
 public class ClientPacketHandler {
@@ -643,8 +644,8 @@ public class ClientPacketHandler {
   protected void handleOverviewPacket(@NotNull final Client client, @NotNull final Packet packet) {
     client.getGames().clear();
     client.getTournaments().clear();
-    client.getGames().addAll(new Gson().fromJson(packet.getValues().get("games"), ArrayList.class));
-    client.getTournaments().addAll(new Gson().fromJson(packet.getValues().get("tournaments"), ArrayList.class));
+    client.getGames().addAll(new Gson().fromJson(packet.getValues().get("games").getAsString(), ArrayList.class));
+    client.getTournaments().addAll(new Gson().fromJson(packet.getValues().get("tournaments").getAsString(), ArrayList.class));
   }
 
   /**

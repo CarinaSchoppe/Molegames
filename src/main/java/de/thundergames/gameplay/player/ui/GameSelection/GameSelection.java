@@ -99,8 +99,8 @@ public class GameSelection implements Initializable {
 
     private void UpdateTable() {
         //if (gameList != null) {gameTable.setItems(gameList);}
-        //var test =client.getGames();
-        //var test2 =client.getTournaments();
+        var test = client.getGames();
+        var test2 = client.getTournaments();
     }
 
     @FXML
