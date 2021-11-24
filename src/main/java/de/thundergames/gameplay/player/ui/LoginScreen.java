@@ -9,9 +9,8 @@
  */
 package de.thundergames.gameplay.player.ui;
 
-import java.io.File;
-import java.net.URL;
-import java.util.ResourceBundle;
+import de.thundergames.gameplay.player.networking.Client;
+import de.thundergames.gameplay.player.ui.GameSelection.GameSelection;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -21,6 +20,11 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
 public class LoginScreen extends Application {
 
@@ -44,7 +48,7 @@ public class LoginScreen extends Application {
    * @use handles the login button when clicked
    */
   @FXML
-  void onLoginButtonClick(ActionEvent event) {
+  void onLoginButtonClick(ActionEvent event) throws IOException {
 /*  TODO: Hier
     String ip = this.ip.getText();
     String port = this.port.getText();
@@ -64,6 +68,12 @@ public class LoginScreen extends Application {
       client.getClientThread().sendPacket(new Packet(object));
       stage.close();
     }*/
+    String ip = "127.0.0.1";
+    String port = "5000";
+    String name = "Marc";
+    Client client = new Client(Integer.parseInt(port), ip, name);
+    client.create();
+    new GameSelection().create(event);
   }
 
   @FXML
@@ -89,7 +99,7 @@ public class LoginScreen extends Application {
             .toURL();
     Parent root = FXMLLoader.load(location);
     primaryStage.setResizable(false);
-    primaryStage.setTitle("LoginScreen");
+    primaryStage.setTitle("Maulwurf Company");
     primaryStage.setScene(new Scene(root));
     initialize();
     primaryStage.show();
