@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~ Copyright Notice for Swtpra10
+  ~ Copyright (c) at ThunderGames | SwtPra10 2021
+  ~ File created on 21.11.21, 13:02 by Carina latest changes made by Carina on 21.11.21, 13:02 All contents of "CreateGame.fxml" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+  ~ at ThunderGames | SwtPra10. All rights reserved
+  ~ Any type of duplication, distribution, rental, sale, award,
+  ~ Public accessibility or other use
+  ~ requires the express written consent of ThunderGames | SwtPra10.
+  -->
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.text.Font?>
+<BorderPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="350.0" xmlns="http://javafx.com/javafx/11.0.2" fx:controller="de.thundergames.gameplay.ausrichter.ui.CreateGame">
+  <center>
+    <AnchorPane BorderPane.alignment="CENTER" prefHeight="200.0" prefWidth="200.0">
+      <children>
+        <Button style="-fx-background-color: transparent;" ellipsisString="" layoutX="193.0" layoutY="366.0" mnemonicParsing="false" onAction="#addItemButtonEvent" prefHeight="25.0" prefWidth="21.0" text="Button" fx:id="addItem"/>
+        <Button style="-fx-background-color: transparent;" ellipsisString="" layoutX="231.0" layoutY="368.0" mnemonicParsing="false" onAction="#removeAllButtonEvent" prefHeight="18.0" prefWidth="23.0" text="Button" fx:id="removeAll"/>
+        <Button style="-fx-background-color: transparent;" ellipsisString="" layoutX="72.0" layoutY="483.0" mnemonicParsing="false" onAction="#configureFloorsButtonEvent" prefHeight="5.0" prefWidth="116.0" fx:id="configureFloors"/>
+        <Button style="-fx-background-color: transparent;" ellipsisString="" layoutX="76.0" layoutY="514.0" mnemonicParsing="false" onAction="#configureMapButtonEvent" prefHeight="3.0" prefWidth="108.0" fx:id="configureMap"/>
+        <Button style="-fx-background-color: transparent;" ellipsisString="" layoutX="47.0" layoutY="593.0" mnemonicParsing="false" onAction="#loadConfigButtonEvent" prefHeight="22.0" prefWidth="83.0" fx:id="loadConfig"/>
+        <Button style="-fx-background-color: transparent;" ellipsisString="" layoutX="151.0" layoutY="594.0" mnemonicParsing="false" onAction="#createGameButtonEvent" prefHeight="16.0" prefWidth="81.0" fx:id="createGame"/>
+        <Button style="-fx-background-color: transparent;" layoutX="57.0" layoutY="18.0" mnemonicParsing="false" onAction="#backButtonEvent" prefHeight="12.0" prefWidth="11.0" fx:id="back"/>
+        <CheckBox style="-fx-background-color: transparent; -fx-background-image: transparent; -fx-border-color: transparent;" layoutX="241.0" layoutY="318.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="13.0" fx:id="pullDiscsOrdered"/>
+        <ChoiceBox style="-fx-background-color: transparent; -fx-border-color: transparent;" layoutX="158.0" layoutY="137.0" prefHeight="28.0" prefWidth="144.0" fx:id="movePenalty"/>
+        <ImageView fitHeight="657.0" fitWidth="356.0" layoutX="-1.0" layoutY="-2.0" pickOnBounds="true" smooth="false">
+          <image>
+            <Image url="@../../../../../../resources/gamemaster/CreateGame-Ausrichter.png"/>
+          </image>
+        </ImageView>
+        <TextArea style="-fx-background-color: transparent; -fx-border-color: transparent;" editable="false" layoutX="77.0" layoutY="404.0" prefHeight="65.0" prefWidth="178.0" fx:id="drawCardValues">
+          <font>
+            <Font size="20.0"/>
+          </font>
+        </TextArea>
+        <TextField style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-text-fill: white;" layoutX="71.0" layoutY="136.0" prefHeight="13.0" prefWidth="75.0" fx:id="molesAmount"/>
+        <TextField style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-text-fill: white;" layoutX="74.0" layoutY="189.0" prefHeight="26.0" prefWidth="58.0" fx:id="thinkTime"/>
+        <TextField style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-text-fill: white;" layoutX="159.0" layoutY="185.0" prefHeight="28.0" prefWidth="121.0" fx:id="visualEffects"/>
+        <TextField style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-text-fill: white;" layoutX="73.0" layoutY="318.0" prefHeight="28.0" prefWidth="56.0" fx:id="radius"/>
+        <TextField style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-text-fill: white;" layoutX="162.0" layoutY="317.0" prefHeight="27.0" prefWidth="58.0" fx:id="playerAmount"/>
+        <TextField style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-text-fill: white;" layoutX="76.0" layoutY="365.0" prefHeight="27.0" prefWidth="92.0" fx:id="drawCardValue"/>
+      </children>
+    </AnchorPane>
+  </center>
+</BorderPane>
