@@ -16,19 +16,25 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
-<VBox xmlns:fx="http://javafx.com/fxml/1" maxHeight="400.0" maxWidth="600.0" minHeight="400.0" minWidth="600.0" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.2" fx:controller="de.thundergames.gameplay.player.ui.LoginScreen">
+<VBox xmlns:fx="http://javafx.com/fxml/1" maxHeight="400.0" maxWidth="600.0" minHeight="400.0" minWidth="600.0"
+      prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17"
+      fx:controller="de.thundergames.gameplay.player.ui.LoginScreen">
   <children>
-    <AnchorPane VBox.vgrow="ALWAYS" prefHeight="403.0" prefWidth="561.0">
+    <AnchorPane prefHeight="403.0" prefWidth="561.0" VBox.vgrow="ALWAYS">
       <children>
-        <Button style="-fx-background-color: transparent;" layoutX="85.0" layoutY="333.0" mnemonicParsing="false" onAction="#onLoginButtonClick" prefHeight="34.0" prefWidth="140.0" fx:id="login"/>
         <ImageView fitHeight="403.0" fitWidth="600.0" pickOnBounds="true">
           <image>
             <Image url="@../../../../../../resources/player/pc/Login-Player.png"/>
           </image>
         </ImageView>
-        <TextField style="-fx-background-color: transparent; -fx-text-fill: white;" layoutX="124.0" layoutY="246.0" prefHeight="25.0" prefWidth="185.0" promptText="Port" fx:id="port"/>
-        <TextField style="-fx-background-color: transparent; -fx-text-fill: white;" layoutX="119.0" layoutY="167.0" prefHeight="34.0" prefWidth="185.0" promptText="Username" fx:id="name"/>
-        <TextField style="-fx-background-color: transparent; -fx-text-fill: white;" layoutX="338.0" layoutY="171.0" prefHeight="25.0" prefWidth="194.0" promptText="IP-Adress" fx:id="ip"/>
+        <Button fx:id="login" layoutX="85.0" layoutY="333.0" mnemonicParsing="false" onAction="#onLoginButtonClick"
+                prefHeight="34.0" prefWidth="140.0" style="-fx-background-color: transparent;"/>
+        <TextField fx:id="port" layoutX="124.0" layoutY="246.0" prefHeight="25.0" prefWidth="185.0" promptText="Port"
+                   style="-fx-background-color: transparent; -fx-text-fill: white;"/>
+        <TextField fx:id="name" layoutX="119.0" layoutY="167.0" prefHeight="34.0" prefWidth="185.0"
+                   promptText="Username" style="-fx-background-color: transparent; -fx-text-fill: white;"/>
+        <TextField fx:id="ip" layoutX="338.0" layoutY="171.0" prefHeight="25.0" prefWidth="194.0" promptText="IP-Adress"
+                   style="-fx-background-color: transparent; -fx-text-fill: white;"/>
       </children>
     </AnchorPane>
   </children>

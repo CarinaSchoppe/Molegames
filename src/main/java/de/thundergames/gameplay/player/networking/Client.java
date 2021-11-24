@@ -16,17 +16,18 @@ import de.thundergames.networking.util.interfaceItems.NetworkMole;
 import de.thundergames.networking.util.interfaceItems.NetworkPlayer;
 import de.thundergames.playmechanics.game.GameState;
 import de.thundergames.playmechanics.map.Map;
+import org.jetbrains.annotations.NotNull;
+
 import java.io.IOException;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashSet;
-import org.jetbrains.annotations.NotNull;
 
 public class Client extends Network {
 
   private static final boolean keyListener = true;
   protected static Client client;
-  private final String name;
+  public final String name;
   private final HashSet<NetworkGame> games = new HashSet<>();
   private final HashSet<NetworkGame> tournaments = new HashSet<>();
   private final ArrayList<Integer> pullDiscs = new ArrayList<>();
