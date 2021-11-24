@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for Swtpra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 24.11.21, 20:03 by Carina latest changes made by Carina on 24.11.21, 20:02 All contents of "ClientPacketHandler" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 24.11.21, 20:27 by Carina latest changes made by Carina on 24.11.21, 20:27 All contents of "ClientPacketHandler" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -143,7 +143,7 @@ public class ClientPacketHandler {
    * @use handles the new overview of all running tournaments
    */
   private void handleTournamentGamesOverviewPacket(@NotNull final Client client, @NotNull final Packet packet) {
-    client.getTournaments().addAll(new Gson().fromJson(packet.getValues().get("games"), ArrayList.class));
+    client.getTournaments().addAll(new Gson().fromJson(packet.getValues().get("games").getAsString(), ArrayList.class));
   }
 
   /**
@@ -643,8 +643,8 @@ public class ClientPacketHandler {
   protected void handleOverviewPacket(@NotNull final Client client, @NotNull final Packet packet) {
     client.getGames().clear();
     client.getTournaments().clear();
-    client.getGames().addAll(new Gson().fromJson(packet.getValues().get("games"), ArrayList.class));
-    client.getTournaments().addAll(new Gson().fromJson(packet.getValues().get("tournaments"), ArrayList.class));
+    client.getGames().addAll(new Gson().fromJson(packet.getValues().get("games").getAsString(), ArrayList.class));
+    client.getTournaments().addAll(new Gson().fromJson(packet.getValues().get("tournaments").getAsString(), ArrayList.class));
   }
 
   /**
