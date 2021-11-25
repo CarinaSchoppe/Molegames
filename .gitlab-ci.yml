@@ -1,0 +1,11 @@
+image: gradle:7-jdk11
+stages:
+  - build
+
+default:
+  tags:
+    - shared
+
+build:
+  stage: build
+  script: gradle --build-cache assemble
