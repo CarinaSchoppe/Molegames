@@ -4,9 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ff900dce-44c6-46d1-95d2-1cdab3649f79" name="Changes" comment="commenting stuff fixing AI and made it smarter">
+    <list default="true" id="ff900dce-44c6-46d1-95d2-1cdab3649f79" name="Changes" comment="local push">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/MoleGames.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/thundergames/MoleGames.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/gameplay/ai/networking/AIPacketHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/thundergames/gameplay/ai/networking/AIPacketHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/gameplay/player/networking/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/thundergames/gameplay/player/networking/Client.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/gameplay/player/networking/ClientPacketHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/thundergames/gameplay/player/networking/ClientPacketHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/playmechanics/game/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/thundergames/playmechanics/game/Game.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/playmechanics/game/GameUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/thundergames/playmechanics/game/GameUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/playmechanics/util/Mole.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/thundergames/playmechanics/util/Mole.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/playmechanics/util/Settings.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/thundergames/playmechanics/util/Settings.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -14,6 +21,9 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$">
+      <ProjectState />
+    </projectState>
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
     </projectState>
@@ -107,7 +117,7 @@
     <setting file="jar://$PROJECT_DIR$/../../../../Program Files/Java/jdk-16.0.2/lib/src.zip!/java.base/java/io/BufferedInputStream.java" root0="SKIP_INSPECTION" />
   </component>
   <component name="ProblemsViewState">
-    <option name="selectedIndex" value="3" />
+    <option name="selectedIndex" value="2" />
   </component>
   <component name="ProjectId" id="20GZJvr1FfNetu5d9L14fygpmuD" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
@@ -123,6 +133,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SONARLINT_PRECOMMIT_ANALYSIS" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="extract.method.default.visibility" value="private" />
     <property name="jdk.selected.JAVA_MODULE" value="16" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="node.js.detected.package.eslint" value="true" />
@@ -143,7 +154,15 @@
       <recent name="C:\Users\Carina\ProgrammingProjects\Swtpra10\src\main\java\de\thundergames\gameplay\gamemaster\ui" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Ausrichter">
+  <component name="RunManager" selected="Application.AI">
+    <configuration name="AI" type="Application" factoryName="Application" singleton="false">
+      <option name="MAIN_CLASS_NAME" value="de.thundergames.MoleGames" />
+      <module name="Swtpra10.main" />
+      <option name="PROGRAM_PARAMETERS" value="-a 127.0.0.1 5000 0" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="Ausrichter" type="Application" factoryName="Application">
       <option name="ALTERNATIVE_JRE_PATH" value="16" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
@@ -301,6 +320,7 @@
     <list>
       <item itemvalue="Application.Ausrichter" />
       <item itemvalue="Application.Client" />
+      <item itemvalue="Application.AI" />
       <item itemvalue="Application.Server" />
       <item itemvalue="Gradle.swtpra10 [build]" />
       <item itemvalue="Gradle.swtpra10 [clean]" />
@@ -380,6 +400,11 @@
       <workItem from="1637222237702" duration="5693000" />
       <workItem from="1637228168823" duration="426000" />
       <workItem from="1637247609008" duration="309000" />
+      <workItem from="1637853158869" duration="186000" />
+      <workItem from="1637854244448" duration="98000" />
+      <workItem from="1637854365022" duration="191000" />
+      <workItem from="1637854584765" duration="1011000" />
+      <workItem from="1637855758171" duration="419000" />
     </task>
     <task id="LOCAL-00001" summary="added the Punishments Enum for the possible Punishments when a Player does a not allowed move.&#10;@Carina">
       <created>1635673650207</created>
@@ -458,7 +483,14 @@
       <option name="project" value="LOCAL" />
       <updated>1637228445745</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="local push">
+      <created>1637853298192</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1637853298192</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -490,7 +522,8 @@
     <MESSAGE value="implemented a loginscreen for the player / client" />
     <MESSAGE value="added some ui stuff" />
     <MESSAGE value="commenting stuff fixing AI and made it smarter" />
-    <option name="LAST_COMMIT_MESSAGE" value="commenting stuff fixing AI and made it smarter" />
+    <MESSAGE value="local push" />
+    <option name="LAST_COMMIT_MESSAGE" value="local push" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />
