@@ -3,8 +3,7 @@
 <!--
   ~ Copyright Notice for Swtpra10
   ~ Copyright (c) at ThunderGames | SwtPra10 2021
-  ~ File created on 18.11.21, 10:33 by Carina Latest changes made by Carina on 18.11.21, 09:41
-  ~ All contents of "CreateGame.fxml" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+  ~ File created on 21.11.21, 13:02 by Carina latest changes made by Carina on 21.11.21, 13:02 All contents of "CreateGame.fxml" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
   ~ at ThunderGames | SwtPra10. All rights reserved
   ~ Any type of duplication, distribution, rental, sale, award,
   ~ Public accessibility or other use
@@ -32,8 +31,8 @@
         <Button style="-fx-background-color: transparent;" ellipsisString="" layoutX="47.0" layoutY="593.0" mnemonicParsing="false" onAction="#loadConfigButtonEvent" prefHeight="22.0" prefWidth="83.0" fx:id="loadConfig"/>
         <Button style="-fx-background-color: transparent;" ellipsisString="" layoutX="151.0" layoutY="594.0" mnemonicParsing="false" onAction="#createGameButtonEvent" prefHeight="16.0" prefWidth="81.0" fx:id="createGame"/>
         <Button style="-fx-background-color: transparent;" layoutX="57.0" layoutY="18.0" mnemonicParsing="false" onAction="#backButtonEvent" prefHeight="12.0" prefWidth="11.0" fx:id="back"/>
-        <CheckBox style="-fx-background-color: transparent; -fx-background-image: transparent; -fx-border-color: transparent;" layoutX="241.0" layoutY="318.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="13.0" fx:id="randomDraw"/>
-        <ChoiceBox style="-fx-background-color: transparent; -fx-border-color: transparent;" layoutX="158.0" layoutY="137.0" prefHeight="28.0" prefWidth="144.0" fx:id="punishment"/>
+        <CheckBox style="-fx-background-color: transparent; -fx-background-image: transparent; -fx-border-color: transparent;" layoutX="241.0" layoutY="318.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="13.0" fx:id="pullDiscsOrdered"/>
+        <ChoiceBox style="-fx-background-color: transparent; -fx-border-color: transparent;" layoutX="158.0" layoutY="137.0" prefHeight="28.0" prefWidth="144.0" fx:id="movePenalty"/>
         <ImageView fitHeight="657.0" fitWidth="356.0" layoutX="-1.0" layoutY="-2.0" pickOnBounds="true" smooth="false">
           <image>
             <Image url="@../../../../../../resources/gamemaster/CreateGame-Ausrichter.png"/>

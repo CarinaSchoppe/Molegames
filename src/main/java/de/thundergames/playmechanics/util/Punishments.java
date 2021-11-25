@@ -1,8 +1,7 @@
 /*
  * Copyright Notice for Swtpra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 18.11.21, 10:33 by Carina Latest changes made by Carina on 18.11.21, 09:41
- * All contents of "Punishments" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 23.11.21, 13:45 by Carina latest changes made by Carina on 23.11.21, 13:45 All contents of "Punishments" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -11,31 +10,32 @@
 package de.thundergames.playmechanics.util;
 
 public enum Punishments {
-  NOTHING(0),
-  KICK(1),
-  POINTS(2);
+  NOTHING("NOTHING"),
+  KICK("KICK"),
+  POINTS("POINT_DEDUCTION"),
+  NOMOVE("NO_MOVE"),
+  INVALIDMOVE("INVALID_MOVE");
+  private final String name;
 
-  private final int id;
-
-  Punishments(final int id) {
-    this.id = id;
+  Punishments(final String name) {
+    this.name = name;
   }
 
   /**
-   * @param id the id of the punishment
+   * @param name the id of the punishment
    * @return the punishment with the given id
    * @author Carina
    */
-  public static synchronized Punishments getByID(final int id) {
+  public static synchronized Punishments getByName(final String name) {
     for (Punishments punishment : Punishments.values()) {
-      if (punishment.getID() == id) {
+      if (punishment.getName() == name) {
         return punishment;
       }
     }
     return null;
   }
 
-  public int getID() {
-    return id;
+  public String getName() {
+    return name;
   }
 }

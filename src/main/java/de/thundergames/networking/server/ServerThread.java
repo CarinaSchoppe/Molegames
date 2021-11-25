@@ -1,8 +1,7 @@
 /*
  * Copyright Notice for Swtpra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 18.11.21, 10:33 by Carina Latest changes made by Carina on 18.11.21, 09:41
- * All contents of "ServerThread" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 22.11.21, 14:50 by Carina latest changes made by Carina on 21.11.21, 20:25 All contents of "ServerThread" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -12,12 +11,14 @@ package de.thundergames.networking.server;
 
 import de.thundergames.MoleGames;
 import de.thundergames.networking.util.NetworkThread;
+import de.thundergames.networking.util.interfaceItems.NetworkPlayer;
 import java.io.IOException;
 import java.net.Socket;
 import org.jetbrains.annotations.NotNull;
 
 public class ServerThread extends NetworkThread {
 
+  private NetworkPlayer player;
   private String clientName;
 
   /**
@@ -27,6 +28,7 @@ public class ServerThread extends NetworkThread {
    */
   public ServerThread(@NotNull final Socket socket, final int id) throws IOException {
     super(socket, id);
+
   }
 
   public String getClientName() {
@@ -35,6 +37,14 @@ public class ServerThread extends NetworkThread {
 
   public void setClientName(String clientName) {
     this.clientName = clientName;
+  }
+
+  public NetworkPlayer getPlayer() {
+    return player;
+  }
+
+  public void setPlayer(NetworkPlayer player) {
+    this.player = player;
   }
 
   /**
@@ -46,7 +56,7 @@ public class ServerThread extends NetworkThread {
     {
       try {
         MoleGames.getMoleGames().getServer().getClientThreads().remove(this);
-        Server.getThreadIds().remove(getConnectionId());
+        MoleGames.getMoleGames().getServer().getThreadIds().remove(getConnectionID());
         socket.close();
       } catch (IOException e) {
         e.printStackTrace();

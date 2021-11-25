@@ -1,8 +1,7 @@
 /*
  * Copyright Notice for Swtpra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 18.11.21, 10:33 by Carina Latest changes made by Carina on 18.11.21, 10:32
- * All contents of "Client" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 23.11.21, 14:33 by Carina latest changes made by Carina on 23.11.21, 14:33 All contents of "Client" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -11,24 +10,35 @@
 package de.thundergames.gameplay.player.networking;
 
 import de.thundergames.networking.util.Network;
-import de.thundergames.networking.util.Packet;
-import de.thundergames.networking.util.Packets;
+import de.thundergames.networking.util.interfaceItems.NetworkGame;
+import de.thundergames.networking.util.interfaceItems.NetworkMole;
+import de.thundergames.networking.util.interfaceItems.NetworkPlayer;
+import de.thundergames.playmechanics.game.GameState;
+import de.thundergames.playmechanics.map.Map;
 import java.io.IOException;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.HashSet;
 import org.jetbrains.annotations.NotNull;
-import org.json.JSONObject;
 
 public class Client extends Network {
 
   private static final boolean keyListener = true;
   protected static Client client;
-  private final ArrayList<Integer> moleIDs = new ArrayList<>();
+  private final String name;
+  private final HashSet<NetworkGame> games = new HashSet<>();
+  private final HashSet<NetworkGame> tournaments = new HashSet<>();
+  private final ArrayList<Integer> pullDiscs = new ArrayList<>();
+  private final ArrayList<NetworkMole> moles = new ArrayList<>();
   protected ClientPacketHandler clientPacketHandler;
   protected ClientThread clientThread;
-  private String name;
-  private int id;
+  private GameState gameState;
   private int gameID;
+  private long remainingTime;
+  private Map map;
+  private NetworkPlayer networkPlayer;
+  private boolean isDraw = false;
+
 
   /**
    * @param port
@@ -43,6 +53,12 @@ public class Client extends Network {
     clientPacketHandler = new ClientPacketHandler();
   }
 
+  public static void main(String[] args) {
+    Client client = new Client(5000, "localhost", "Carina");
+    client.create();
+    client.clientPacketHandler.joinGamePacket(client, 0, true);
+  }
+
   public static boolean isKeyListener() {
     return keyListener;
   }
@@ -51,6 +67,9 @@ public class Client extends Network {
     return client;
   }
 
+  public String getName() {
+    return name;
+  }
 
   /**
    * @author Carina
@@ -59,15 +78,8 @@ public class Client extends Network {
    */
   @Override
   public void create() {
+    client = this;
     connect();
-  }
-
-  public String getName() {
-    return name;
-  }
-
-  public void setName(String name) {
-    this.name = name;
   }
 
   /**
@@ -80,105 +92,77 @@ public class Client extends Network {
       socket = new Socket(ip, port);
       clientThread = new ClientThread(socket, 0, this);
       clientThread.start();
+      clientPacketHandler.loginPacket(client, name);
     } catch (IOException exception) {
       System.out.println("Is the server running?!");
     }
   }
 
-  /**
-   * @author Carina Logic to test some things!
-   */
-  public void test() throws InterruptedException {
-    JSONObject object;
-    object = new JSONObject();
-    var json = new JSONObject();
-    json.put("name", name);
-    object.put("values", json.toString());
-    object.put("type", Packets.NAME.getPacketType());
-    clientThread.sendPacket(new Packet(object));
-    object = new JSONObject();
-    object.put("type", Packets.CREATEGAME.getPacketType());
-    json.put("gameID", 0);
-    object.put("values", json.toString());
-    clientThread.sendPacket(new Packet(object));
+  public GameState getGameState() {
+    return gameState;
+  }
 
-    var jsonObject = new JSONObject();
-    jsonObject.put("type", Packets.JOINGAME.getPacketType());
-    json = new JSONObject();
-    json.put("connectType", "player");
-    json.put("gameID", 0);
-    jsonObject.put("values", json.toString());
-    object = new JSONObject();
-    object.put("type", Packets.CONFIGURATION.getPacketType());
-    json = new JSONObject();
-    json.put("gameID", 0);
-    json.put("punishment", 0);
-    json.put("floors", 5);
-    json.put("radius", 2);
-    object.put("values", json.toString());
-    clientThread.sendPacket(new Packet(object));
-    clientThread.sendPacket(new Packet(jsonObject));
-    object = new JSONObject();
-    object.put("type", Packets.GAMESTART.getPacketType());
-    json = new JSONObject();
-    json.put("gameID", 0);
-    object.put("values", json.toString());
-    clientThread.sendPacket(new Packet(object));
-    Thread.sleep(1000);
-    object = new JSONObject();
-    object.put("type", Packets.PLACEMOLE.getPacketType());
-    json = new JSONObject();
-    json.put("x", 3);
-    json.put("y", 2);
-    json.put("moleID", 1);
-    object.put("values", json.toString());
-    clientThread.sendPacket(new Packet(object));
-    object = new JSONObject();
-    json = new JSONObject();
-    object.put("type", Packets.PLACEMOLE.getPacketType());
-    json.put("x", 0);
-    json.put("y", 0);
-    json.put("moleID", 2);
-    object.put("values", json.toString());
-    clientThread.sendPacket(new Packet(object));
-    object = new JSONObject();
-    json = new JSONObject();
-    object.put("type", Packets.PLACEMOLE.getPacketType());
-    json.put("moleID", 0);
-    json.put("x", 2);
-    json.put("y", 1);
-    object.put("values", json.toString());
-    clientThread.sendPacket(new Packet(object));
-    object = new JSONObject();
-    object.put("type", Packets.DRAWCARD.getPacketType());
-    clientThread.sendPacket(new Packet(object));
-    object = new JSONObject();
-    object.put("type", Packets.MOVEMOLE.getPacketType());
-    json = new JSONObject();
-    json.put("x", 2);
-    json.put("y", 4);
-    json.put("moleID", 0);
-    object.put("values", json.toString());
-    clientThread.sendPacket(new Packet(object));
+  public void setGameState(GameState gameState) {
+    this.gameState = gameState;
   }
 
   public ClientPacketHandler getClientPacketHandler() {
     return clientPacketHandler;
   }
 
-  public void setId(final int id) {
-    this.id = id;
-  }
-
   public ClientThread getClientThread() {
     return clientThread;
   }
 
-  public ArrayList<Integer> getMoleIDs() {
-    return moleIDs;
-  }
-
   public void setGameID(final int gameID) {
     this.gameID = gameID;
+  }
+
+  public HashSet<NetworkGame> getGames() {
+    return games;
+  }
+
+  public long getRemainingTime() {
+    return remainingTime;
+  }
+
+  public void setRemainingTime(long remainingTime) {
+    this.remainingTime = remainingTime;
+  }
+
+  public de.thundergames.playmechanics.map.Map getMap() {
+    return map;
+  }
+
+  public void setMap(de.thundergames.playmechanics.map.Map map) {
+    this.map = map;
+  }
+
+  public NetworkPlayer getNetworkPlayer() {
+    return networkPlayer;
+  }
+
+  public void setNetworkPlayer(NetworkPlayer networkPlayer) {
+    this.networkPlayer = networkPlayer;
+  }
+
+  public boolean isDraw() {
+    return isDraw;
+  }
+
+  public void setDraw(boolean draw) {
+    isDraw = draw;
+  }
+
+  public ArrayList<Integer> getPullDiscs() {
+    return pullDiscs;
+  }
+
+  public HashSet<NetworkGame> getTournaments() {
+    return tournaments;
+  }
+
+  public ArrayList<NetworkMole> getMoles() {
+    return moles;
   }
 }

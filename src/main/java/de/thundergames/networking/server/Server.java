@@ -1,8 +1,7 @@
 /*
  * Copyright Notice for Swtpra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 18.11.21, 10:33 by Carina Latest changes made by Carina on 18.11.21, 09:41
- * All contents of "Server" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 23.11.21, 14:33 by Carina latest changes made by Carina on 23.11.21, 14:14 All contents of "Server" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -12,9 +11,10 @@ package de.thundergames.networking.server;
 
 import de.thundergames.MoleGames;
 import de.thundergames.networking.util.Network;
+import de.thundergames.networking.util.NetworkThread;
 import de.thundergames.networking.util.Packet;
 import de.thundergames.playmechanics.game.Game;
-import de.thundergames.playmechanics.util.Player;
+import de.thundergames.playmechanics.util.Tournament;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.util.ArrayList;
@@ -23,11 +23,13 @@ import org.jetbrains.annotations.NotNull;
 
 public class Server extends Network {
 
-  private static final ArrayList<ServerThread> clientThreads = new ArrayList<>();
-  private static final HashMap<Integer, ServerThread> threadIds = new HashMap<>();
-  private static int threadID = 0;
-  private static boolean keyboard = false;
+  private final ArrayList<ServerThread> clientThreads = new ArrayList<>();
+  private final ArrayList<ServerThread> observer = new ArrayList<>();
+  private final HashMap<Integer, ServerThread> threadIDs = new HashMap<>();
   private final HashMap<String, ServerThread> connectionNames = new HashMap<>();
+  private final HashMap<Integer, ServerThread> connectionIDs = new HashMap<>();
+  private int threadID = 0;
+  private boolean keyboard = false;
 
   /**
    * @param port obvious the Serverport in case of empty localhost
@@ -39,21 +41,26 @@ public class Server extends Network {
     super(port, ip);
   }
 
-  public static boolean isKeyboard() {
+  public boolean isKeyboard() {
     return keyboard;
   }
 
-  public static void setKeyboard(final boolean keyboard) {
-    Server.keyboard = keyboard;
+  public void setKeyboard(final boolean keyboard) {
+    this.keyboard = keyboard;
   }
 
-  public static HashMap<Integer, ServerThread> getThreadIds() {
-    return threadIds;
+  public HashMap<Integer, ServerThread> getThreadIds() {
+    return threadIDs;
   }
 
   public HashMap<String, ServerThread> getConnectionNames() {
     return connectionNames;
   }
+
+  public HashMap<Integer, ServerThread> getConnectionIDs() {
+    return connectionIDs;
+  }
+
 
   /**
    * @author Carina
@@ -63,43 +70,67 @@ public class Server extends Network {
    */
   @Override
   public void create() {
-    try {
-      ServerSocket serverSocket = new ServerSocket(port);
-      System.out.println("Server listening on port " + getPort());
-      while (true) {
-        socket = serverSocket.accept();
-        ServerThread serverThread = new ServerThread(socket, threadID);
-        serverThread.start();
-        MoleGames.getMoleGames().getPacketHandler().loginPacket(serverThread, threadID);
-        getClientThreads().add(serverThread);
-        threadIds.put(serverThread.getConnectionId(), serverThread);
-        threadID++;
-      }
-    } catch (IOException e) {
-      e.printStackTrace();
-    } finally {
+    new Thread(() -> {
       try {
-        socket.close();
+        ServerSocket serverSocket = new ServerSocket(port);
+        System.out.println("Server listening on port " + getPort());
+        while (true) {
+          socket = serverSocket.accept();
+          ServerThread serverThread = new ServerThread(socket, threadID);
+          getConnectionIDs().put(threadID, serverThread);
+          serverThread.start();
+          MoleGames.getMoleGames().getPacketHandler().welcomePacket(serverThread, threadID);
+          getClientThreads().add(serverThread);
+          threadIDs.put(serverThread.getConnectionID(), serverThread);
+          threadID++;
+        }
       } catch (IOException e) {
         e.printStackTrace();
+      } finally {
+        try {
+          socket.close();
+        } catch (IOException e) {
+          e.printStackTrace();
+        }
       }
+    }).start();
+
+  }
+
+  /**
+   * @param game   the game that all clients are connected to
+   * @param packet the packet that should be send
+   * @use the method will send a packet to all connected clients of the game
+   */
+  public synchronized void sendToAllGameClients(
+      @NotNull final Game game, @NotNull final Packet packet) {
+    try {
+      if (!game.getPlayers().isEmpty()) {
+        for (var clients : game.getPlayers()) {
+          clients.getServerClient().sendPacket(packet);
+        }
+      } else {
+        System.out.println("The game with the ID: " + game.getGameID() + " is empty!");
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
     }
   }
 
   /**
-   * @param game   the de.thundergames.game that all clients are connected to
-   * @param packet the packet that should be send
-   * @use the method will send a packet to all connected clients of the de.thundergames.game
+   * @param tournament that all clients are connected to
+   * @param packet     the packet that should be send
+   * @use the method will send a packet to all connected clients of the game
    */
-  // WICHTIG: BEDENKE mach dies immer in einem anderen Thread oder der Mainthread muss sicher frei
-  // sein!
-  public synchronized void sendToAllGameClients(
-      @NotNull final Game game, @NotNull final Packet packet) {
+  public synchronized void sendToAllTournamentClients(
+      @NotNull final Tournament tournament, @NotNull final Packet packet) {
     try {
-      if (!game.getClients().isEmpty()) {
-        for (Player client : game.getClients()) {
-          client.getServerClient().sendPacket(packet);
+      if (!tournament.getClients().isEmpty()) {
+        for (var clients : tournament.getClients()) {
+          clients.sendPacket(packet);
         }
+      } else {
+        System.out.println("The game with the ID: " + tournament.getTournamentID() + " is empty!");
       }
     } catch (Exception e) {
       e.printStackTrace();
@@ -108,5 +139,10 @@ public class Server extends Network {
 
   public ArrayList<ServerThread> getClientThreads() {
     return clientThreads;
+  }
+
+
+  public ArrayList<ServerThread> getObserver() {
+    return observer;
   }
 }

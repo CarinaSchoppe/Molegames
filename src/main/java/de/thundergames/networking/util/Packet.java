@@ -1,8 +1,7 @@
 /*
  * Copyright Notice for Swtpra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 18.11.21, 10:33 by Carina Latest changes made by Carina on 18.11.21, 09:41
- * All contents of "Packet" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 22.11.21, 21:41 by Carina latest changes made by Carina on 22.11.21, 19:55 All contents of "Packet" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -10,8 +9,8 @@
  */
 package de.thundergames.networking.util;
 
+import com.google.gson.JsonObject;
 import org.jetbrains.annotations.NotNull;
-import org.json.JSONObject;
 
 /**
  * @author Carina
@@ -19,22 +18,25 @@ import org.json.JSONObject;
  */
 public class Packet {
 
-  private final JSONObject value;
+  private final JsonObject jsonObject;
   private final String packetType;
-  private final JSONObject jsonPacket;
+  private final JsonObject value;
 
-  /**
-   * @param json is the JSONobject that will be send to the client
-   * @author Carina
-   * @use create a json object and add the type parameter
-   */
-  public Packet(@NotNull final JSONObject json) {
-    this.packetType = json.getString("type");
-    this.value = !json.isNull("values") ? new JSONObject(json.getString("values")) : new JSONObject();
-    this.jsonPacket = json;
+
+  public Packet(@NotNull final String packetType, @NotNull final JsonObject jsonObject) {
+    this.jsonObject = jsonObject;
+    this.packetType = packetType;
+    this.value = jsonObject.getAsJsonObject("value");
   }
 
-  public JSONObject getValues() {
+  public Packet(@NotNull final JsonObject jsonObject) {
+    this.jsonObject = jsonObject;
+    this.packetType = jsonObject.get("type").getAsString();
+    this.value = jsonObject.getAsJsonObject("value");
+  }
+
+
+  public JsonObject getValues() {
     return value;
   }
 
@@ -42,7 +44,7 @@ public class Packet {
     return packetType;
   }
 
-  public JSONObject getJsonPacket() {
-    return jsonPacket;
+  public JsonObject getJsonObject() {
+    return jsonObject;
   }
 }

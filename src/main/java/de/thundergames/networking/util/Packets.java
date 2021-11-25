@@ -1,8 +1,7 @@
 /*
  * Copyright Notice for Swtpra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 18.11.21, 10:33 by Carina Latest changes made by Carina on 18.11.21, 10:32
- * All contents of "Packets" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 22.11.21, 16:22 by Carina latest changes made by Carina on 22.11.21, 16:19 All contents of "Packets" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -15,61 +14,59 @@ package de.thundergames.networking.util;
  * @see Packets the packet element that can be send
  */
 public enum Packets {
-  CREATEGAME(0, "CREATE-GAME"),
-  JOINGAME(1, "JOIN-GAME"),
-  LOGIN(2, "LOGIN"),
-  MESSAGE(4, "MESSAGE"),
-  DISCONNECT(5, "DISCONNECT"),
-  ERROR(6, "ERROR"),
-  FULL(7, "FULL"),
-  INGAME(8, "INGAME"),
-  NOTEXISTS(9, "NOT-EXISTS"),
-  CARDS(10, "CARDS"),
-  MOVEMOLE(11, "MOVE-MOLE"),
-  DRAWAGAIN(12, "DRAW-AGAIN"),
-  GAMEOVER(13, "GAME-OVER"),
-  WINS(14, "WINS"),
-  PLACEMOLE(15, "PLACE-MOLE"),
-  TIMETOTHINK(16, "TIME-TO-THINK"),
-  LEAVEGAME(17, "LEAVE-GAME"),
-  MAP(42, "MAP"),
-  GAMEOVERVIEW(18, "GET-GAME-OVERVIEW"),
-  CREATEMAP(19, "CREATE-MAP"),
-  GAMESTART(21, "GAME-START"),
-  MOLEPLACED(22, "MOLE-PLACED"),
-  ALLMOLESPLACED(41, "ALL-MOLES-PLACED"),
-  PLAYERTURN(23, "PLAYER-TURN"),
-  PLAYERSUSPENDS(24, "PLAYER-SUSPENDS"),
-  DRAWCARD(25, "DRAW-CARD"),
-  DRAWNCARD(31, "DRAWEN-CARD"),
-  INVALIDMOVE(26, "INVALID-MOVE"),
-  KICKPLAYER(28, "KICK-PLAYER"),
-  NEXTFLOOR(29, "NEXT-FLOOR"),
-  NEXTPLAYER(30, "NEXT-PLAYER"),
-  CONFIGURATION(31, "CONFIGURATION"),
-  GAMEID(32, "GAME-ID"),
-  OCCUPIED(33, "OCCUPIED"),
-  MOLES(34, "MOLES"),
-  NAME(35, "NAME"),
-  BACKTOLOBBY(36, "BACK-TO-LOBBY"),
-  GAMEPAUSE(37, "GAME-PAUSED"),
-  GAMERESUME(38, "GAME-RESUME"),
-  STOPGAME(39, "STOP-GAME"),
-  AI(40, "AI"),
-  GAMEEXISTS(42, "GAME-EXISTS"),
-  TURNOVER(41, "TURN-OVER");
-  private final int id;
-  private final String packetType;
+  GAMEPAUSED("gamePaused"),
+  ENTERTOURNAMENT("enterTournament"),
+  TOURNAMENTSTATERESPONSE("tournamentStateResponse"),
+  TOURNAMENTPLAYERJOINED("tournamentPlayerJoined"),
+  LEAVETOURNAMENT("leaveTournament"),
+  TOURNAMENTPLAYERLEFT("tournamentPlayerLeft"),
+  TOURNAMENTPLAYERKICKED("tournamentPlayerKicked"),
+  TOURNAMENTPLAYERINGAME("tournamentPlayerInGame"),
+  TOURNAMENTPLAYERINLOBBY("tournamentPlayerInLobby"),
+  TOURNAMENTGAMESOVERVIEW("tournamentGamesOverview"),
+  TOURNAMENTOVER("tournamentOver"),
+  GETGAMEHISTORY("getGameHistory"),
+  GAMEHISTORYRESPONE("gameHistoryResponse"),
+  GETREMAININGTIME("getRemainingTime"),
+  REMAININGTIME("remainingTime"),
+  GAMESTARTED("gameStarted"),
+  TOURNAMENTSCORE("tournamentScore"),
+  GETTOURNAMENTSCORE("getTournamentScore"),
+  GAMEOVER("gameOver"),
+  MESSAGE("message"),
+  SCORENOTIFICATION("scoreNotification"),
+  GETSCORE("getScore"),
+  REGISTEROBSERVER("registerOverviewObserver"),
+  UNREGISTEROBSERVER("unregisterOverviewObserver"),
+  PLAYERKICKED("playerKicked"),
+  PLAYERLEFT("playerLeft"),
+  WELCOMEGAME("welcomeGame"),
+  ASSIGNTOGAME("assignedToGame"),
+  JOINGAME("joinGame"),
+  LEAVEGAME("leaveGame"),
+  LOGIN("login"),
+  WELCOME("welcome"),
+  LOGOUT("logout"),
+  GAMECONTINUED("gameContinued"),
+  GAMECANCELED("gameCanceled"),
+  PLAYERPLACESMOLE("playerPlacedMole"),
+  PLACEMOLE("placeMole"),
+  MOLEPLACED("molePlaced"),
+  PLAYERSTURN("playerTurn"),
+  MAKEMOVE("makeMove"),
+  MOLEMOVED("moleMoved"),
+  MOVEPENALTYNOTIFICATION("movePenaltyNotification"),
+  PLAYERSKIPPED("playerSkipped"),
+  NEXTLEVEL("nextLevel"),
+  GETOVERVIEW("getOverview"),
+  OVERVIEW("overview"),
+  PLAYERJOINED("playerJoined");
 
-  Packets(int id, String packetType) {
-    this.id = id;
+  final String packetType;
+
+  Packets(String packetType) {
     this.packetType = packetType;
   }
-
-  public int getId() {
-    return id;
-  }
-
 
   public String getPacketType() {
     return packetType;

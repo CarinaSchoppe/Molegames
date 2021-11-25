@@ -1,8 +1,7 @@
 /*
  * Copyright Notice for Swtpra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 18.11.21, 10:33 by Carina Latest changes made by Carina on 18.11.21, 09:41
- * All contents of "CreateGame" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 24.11.21, 20:03 by Carina latest changes made by Carina on 23.11.21, 20:55 All contents of "CreateGame" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -13,13 +12,12 @@ package de.thundergames.gameplay.ausrichter.ui;
 
 import de.thundergames.MoleGames;
 import de.thundergames.gameplay.ausrichter.GameMasterClient;
-import de.thundergames.networking.util.Packet;
-import de.thundergames.networking.util.Packets;
+import de.thundergames.networking.server.Server;
 import java.io.File;
-import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -31,9 +29,9 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import org.json.JSONObject;
+import org.jetbrains.annotations.NotNull;
 
-public class CreateGame {
+public class CreateGame extends Application {
 
   private final ArrayList<Integer> drawCardValuesList = new ArrayList<>();
   @FXML
@@ -69,7 +67,7 @@ public class CreateGame {
   @FXML
   private TextField thinkTime;
   @FXML
-  private CheckBox randomDraw;
+  private CheckBox pullDiscsOrdered;
   @FXML
   private TextField visualEffects;
 
@@ -100,54 +98,7 @@ public class CreateGame {
 
   @FXML
   void createGameButtonEvent(ActionEvent event) {
-    var object = new JSONObject();
-    object.put("type", Packets.CREATEGAME.getPacketType());
-    var json = new JSONObject();
-    json.put("gameID", MoleGames.getMoleGames().getGameMasterClient().getGameID());
-    object.put("values", json.toString());
-    var packet = new Packet(object);
-    if (GameMasterClient.getClientInstance() != null) {
-      GameMasterClient.getClientInstance().getMasterClientThread().sendPacket(packet);
-    }
-    object.put("type", Packets.CONFIGURATION.getPacketType());
-    json.put("gameID", MoleGames.getMoleGames().getGameMasterClient().getGameID());
-    if (!playerAmount.getText().isEmpty()) {
-      json.put("maxPlayers", Integer.parseInt(playerAmount.getText()));
-    }
-    if (!molesAmount.getText().isEmpty()) {
-      json.put("moleAmount", Integer.parseInt(molesAmount.getText()));
-    }
-    if (!thinkTime.getText().isEmpty()) {
-      json.put("thinkTime", Integer.parseInt(thinkTime.getText()));
-    }
-    if (!drawCardValuesList.isEmpty()) {
-      json.put("cards", drawCardValuesList);
-    }
-    if (!visualEffects.getText().isEmpty()) {
-      json.put("visualEffects", Integer.parseInt(visualEffects.getText()));
-    }
-    if (!radius.getText().isEmpty()) {
-      json.put("radius", Integer.parseInt(radius.getText()));
-    }
-    if (punishment.getValue() != null) {
-      json.put("punishment", Boolean.parseBoolean(punishment.getValue()));
-    }
-    json.put("randomDraw", randomDraw.isSelected());
-    object.put("values", json.toString());
-    GameMasterClient.getClientInstance().getMasterClientThread().sendPacket(new Packet(object));
-    MoleGames.getMoleGames()
-        .getGameMasterClient()
-        .setSystemGameID(MoleGames.getMoleGames().getGameMasterClient().getGameID() + 1);
 
-    clearAllComponents();
-
-    try {
-      Thread.sleep(20000);
-    } catch (InterruptedException e) {
-      e.printStackTrace();
-    }
-    MoleGames.getMoleGames()
-        .getGameMasterClient().getMasterClientThread().sendPacket(new Packet(new JSONObject().put("type", Packets.GAMESTART.getPacketType()).put("values", new JSONObject().put("gameID", MoleGames.getMoleGames().getGameMasterClient().getGameID() - 1).toString())));
   }
 
   private void clearAllComponents() {
@@ -203,21 +154,21 @@ public class CreateGame {
         : "fx:id=\"thinkTime\" was not injected: check your FXML file 'CreateGame.fxml'.";
     assert visualEffects != null
         : "fx:id=\"visualEffects\" was not injected: check your FXML file 'CreateGame.fxml'.";
-    assert randomDraw != null
-        : "fx:id=\"randomDraw\" was not injected: check your FXML file 'CreateGame.fxml'.";
+    assert pullDiscsOrdered != null
+        : "fx:id=\"pullDiscsOrdered\" was not injected: check your FXML file 'CreateGame.fxml'.";
   }
 
-  public void create(GameMasterClient client) {
-    GameMasterClient.setClientInstance(client);
-    try {
-      start();
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
+  public void create(@NotNull final Server server, @NotNull final String... args) {
+    MoleGames.getMoleGames()
+        .setGameMasterClient(new GameMasterClient(server));
+    System.out.println("Test Ausrichter");
+    MoleGames.getMoleGames().getGameMasterClient().test();
+
   }
 
-  public void start() throws IOException {
-    Stage primaryStage = new Stage();
+
+  @Override
+  public void start(Stage primaryStage) throws Exception {
     location =
         new File("src/main/java/de/thundergames/gameplay/ausrichter/ui/CreateGame.fxml")
             .toURI()

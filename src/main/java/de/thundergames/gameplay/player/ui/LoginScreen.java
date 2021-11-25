@@ -1,8 +1,7 @@
 /*
  * Copyright Notice for Swtpra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 18.11.21, 10:33 by Carina Latest changes made by Carina on 18.11.21, 10:32
- * All contents of "LoginScreen" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 22.11.21, 21:41 by Carina latest changes made by Carina on 22.11.21, 19:55 All contents of "LoginScreen" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -10,9 +9,6 @@
  */
 package de.thundergames.gameplay.player.ui;
 
-import de.thundergames.gameplay.player.networking.Client;
-import de.thundergames.networking.util.Packet;
-import de.thundergames.networking.util.Packets;
 import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -25,30 +21,22 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import org.json.JSONObject;
 
 public class LoginScreen extends Application {
 
+  private final boolean loggedIn = false;
   @FXML
   private ResourceBundle resources;
-
   @FXML
   private URL location;
-
   @FXML
   private TextField ip;
-
   @FXML
   private Button login;
-
   @FXML
   private TextField name;
-
   @FXML
   private TextField port;
-
-  private boolean loggedIn = false;
-
 
   /**
    * @param event
@@ -57,6 +45,7 @@ public class LoginScreen extends Application {
    */
   @FXML
   void onLoginButtonClick(ActionEvent event) {
+/*  TODO: Hier
     String ip = this.ip.getText();
     String port = this.port.getText();
     String name = this.name.getText();
@@ -66,15 +55,15 @@ public class LoginScreen extends Application {
       Client client = new Client(Integer.parseInt(port), ip, name);
       JSONObject object;
       object = new JSONObject();
-      object.put("type", Packets.NAME.getPacketType());
+      object.put("type", Packets.LOGIN.getPacketType());
       var json = new JSONObject();
       json.put("name", name);
-      object.put("values", json.toString());
+      object.put("value", json.toString());
       client.create();
       loggedIn = true;
       client.getClientThread().sendPacket(new Packet(object));
       stage.close();
-    }
+    }*/
   }
 
   @FXML

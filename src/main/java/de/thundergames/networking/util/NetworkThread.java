@@ -1,8 +1,7 @@
 /*
  * Copyright Notice for Swtpra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 18.11.21, 10:33 by Carina Latest changes made by Carina on 18.11.21, 09:41
- * All contents of "NetworkThread" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 22.11.21, 21:41 by Carina latest changes made by Carina on 22.11.21, 19:55 All contents of "NetworkThread" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -10,13 +9,13 @@
  */
 package de.thundergames.networking.util;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import de.thundergames.MoleGames;
 import de.thundergames.gameplay.ai.networking.AIClientThread;
-import de.thundergames.gameplay.ausrichter.networking.GameMasterClientThread;
-import de.thundergames.gameplay.player.networking.Client;
 import de.thundergames.gameplay.player.networking.ClientThread;
-import de.thundergames.networking.server.Server;
 import de.thundergames.networking.server.ServerThread;
+import de.thundergames.networking.util.exceptions.UndefinedError;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -24,7 +23,6 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
 import org.jetbrains.annotations.NotNull;
-import org.json.JSONObject;
 
 public abstract class NetworkThread extends Thread {
 
@@ -33,6 +31,7 @@ public abstract class NetworkThread extends Thread {
   private final BufferedReader reader;
   protected Packet packet;
   protected int id;
+  private boolean run = true;
 
 
   /**
@@ -59,16 +58,14 @@ public abstract class NetworkThread extends Thread {
    */
   @Override
   public void run() {
-    if (this instanceof ServerThread && !Server.isKeyboard()) {
+    if (this instanceof ServerThread && !MoleGames.getMoleGames().getServer().isKeyboard()) {
       keyBoardListener(false);
-      Server.setKeyboard(true);
-    } else if (this instanceof ClientThread
-        && Client.isKeyListener()
-        && !(this instanceof GameMasterClientThread)) {
+      MoleGames.getMoleGames().getServer().setKeyboard(true);
+    } else if (this instanceof ClientThread) {
       keyBoardListener(true);
     }
     try {
-      while (true) {
+      while (run) {
         if (socket.isConnected()) {
           String message = null; // ließt die packetmessage die reinkommt
           try {
@@ -76,9 +73,9 @@ public abstract class NetworkThread extends Thread {
           } catch (IOException e) {
           }
           if (message != null) {
-            var object = new JSONObject(message);
-            if (!object.isNull("type")) {
-              packet = new Packet(object);
+            var object = new Gson().fromJson(message, JsonObject.class);
+            if (object.get("type") != null) {
+              packet = new Packet(object.get("type").getAsString(), object);
               if ("DISCONNECT".equals(packet.getPacketType())) {
                 System.out.println("Content: " + packet.getValues().toString());
                 disconnect();
@@ -87,7 +84,7 @@ public abstract class NetworkThread extends Thread {
             }
             if (this.packet != null) {
               if (this instanceof ServerThread
-                  && !packet.getPacketType().equals(Packets.MESSAGE.getPacketType()) && !packet.getValues().isEmpty()) {
+                  && !packet.getPacketType().equals(Packets.MESSAGE.getPacketType()) && packet.getValues() != null) {
                 System.out.println(
                     "Client with id: "
                         + this.id
@@ -103,7 +100,7 @@ public abstract class NetworkThread extends Thread {
           disconnect();
         }
       }
-    } catch (PacketNotExistsException exception) {
+    } catch (UndefinedError exception) {
       exception.printStackTrace();
     } finally {
       try {
@@ -124,25 +121,25 @@ public abstract class NetworkThread extends Thread {
           try {
             System.out.println("Keylistener started!");
             var keyboardReader = new BufferedReader(new InputStreamReader(System.in));
-            while (true) {
+            while (run) {
               try {
                 var message = keyboardReader.readLine();
-                var object = new JSONObject();
+                var object = new JsonObject();
                 if (client) {
-                  object.put("type", Packets.MESSAGE.getPacketType());
-                  var json = new JSONObject();
-                  json.put("message", message);
-                  object.put("values", json.toString());
+                  object.addProperty("type", Packets.MESSAGE.getPacketType());
+                  var json = new JsonObject();
+                  json.addProperty("message", message);
+                  object.add("value", json);
                   sendPacket(new Packet(object));
                 } else {
                   for (var iterator =
                       MoleGames.getMoleGames().getServer().getClientThreads().iterator();
                       iterator.hasNext(); ) {
                     ServerThread clientSocket = iterator.next();
-                    object.put("type", Packets.MESSAGE.getPacketType());
-                    var json = new JSONObject();
-                    json.put("message", message);
-                    object.put("values", json.toString());
+                    object.addProperty("type", Packets.MESSAGE.getPacketType());
+                    var json = new JsonObject();
+                    json.addProperty("message", message);
+                    object.add("value", json);
                     clientSocket.sendPacket(new Packet(object));
                   }
                 }
@@ -163,22 +160,17 @@ public abstract class NetworkThread extends Thread {
    * @author Carina
    * @use it will automaticlly pass it forwards to the Server or Client to handle the Packet depending on who recieved it (Server- or Client thread)
    */
-  public void readStringPacketInput(
+  private void readStringPacketInput(
       @NotNull final Packet packet, @NotNull final NetworkThread reciever)
-      throws PacketNotExistsException {
+      throws UndefinedError {
     // TODO: How to handle the packet from the client! Player has moved -> now in a hole and than
     // handle it
 
-    if (reciever instanceof ClientThread && !(reciever instanceof GameMasterClientThread) && !(reciever instanceof AIClientThread)) {
+    if (reciever instanceof ClientThread && !(reciever instanceof AIClientThread)) {
       ((ClientThread) reciever)
           .getClient()
           .getClientPacketHandler()
           .handlePacket(((ClientThread) reciever).getClient(), packet);
-    } else if (reciever instanceof GameMasterClientThread) {
-      ((GameMasterClientThread) reciever)
-          .getGameMasterClient()
-          .getClientMasterPacketHandler()
-          .handlePacket(((GameMasterClientThread) reciever).getGameMasterClient(), packet);
     } else if (reciever instanceof AIClientThread) {
       ((AIClientThread) reciever)
           .getAIClient()
@@ -195,7 +187,7 @@ public abstract class NetworkThread extends Thread {
    * @use create a Packet instance of a packet you want to send and pass it in in form of a string seperating the objects with #
    */
   public void sendPacket(Packet data) {
-    writer.println(data.getJsonPacket().toString());
+    writer.println(new Gson().toJson(data.getJsonObject()));
   }
 
   /**
@@ -204,7 +196,11 @@ public abstract class NetworkThread extends Thread {
    */
   public abstract void disconnect();
 
-  public int getConnectionId() {
+  public int getConnectionID() {
     return id;
+  }
+
+  public void endConnection() {
+    run = false;
   }
 }

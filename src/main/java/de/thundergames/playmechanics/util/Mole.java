@@ -1,8 +1,7 @@
 /*
  * Copyright Notice for Swtpra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 18.11.21, 10:33 by Carina Latest changes made by Carina on 18.11.21, 09:41
- * All contents of "Mole" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 22.11.21, 14:50 by Carina latest changes made by Carina on 22.11.21, 14:50 All contents of "Mole" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -10,35 +9,23 @@
  */
 package de.thundergames.playmechanics.util;
 
+import de.thundergames.networking.util.interfaceItems.NetworkMole;
+import de.thundergames.networking.util.interfaceItems.NetworkPlayer;
 import de.thundergames.playmechanics.map.Field;
-import org.jetbrains.annotations.NotNull;
 
-public class Mole {
+public class Mole extends NetworkMole {
 
-  private final int MoleID;
-  private final Player player;
-  private final boolean inHole = false;
-  private Field field;
+  private transient final boolean inHole = false;
+  private transient Field field;
 
-  public Mole(final int moleID, @NotNull final Player player) {
-    this.player = player;
-    MoleID = moleID;
-  }
-
-  public int getMoleID() {
-    return MoleID;
+  public Mole(NetworkPlayer player, Field field) {
+    super(player, field);
   }
 
 
-  public Field getField() {
-    return field;
-  }
-
-  public void setField(Field field) {
+  public void setMoleField(Field field) {
+    setNetworkField(field);
     this.field = field;
   }
 
-  public Player getPlayer() {
-    return player;
-  }
 }

@@ -1,8 +1,7 @@
 /*
  * Copyright Notice for Swtpra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 18.11.21, 10:33 by Carina Latest changes made by Carina on 18.11.21, 09:41
- * All contents of "MoleGames" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 23.11.21, 13:45 by Carina latest changes made by Carina on 23.11.21, 13:45 All contents of "MoleGames" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -16,7 +15,6 @@ import de.thundergames.gameplay.player.networking.Client;
 import de.thundergames.gameplay.player.ui.LoginScreen;
 import de.thundergames.networking.server.PacketHandler;
 import de.thundergames.networking.server.Server;
-import de.thundergames.playmechanics.game.GameLogic;
 import de.thundergames.playmechanics.util.MultiGameHandler;
 import java.util.Objects;
 import org.jetbrains.annotations.Nullable;
@@ -35,7 +33,7 @@ public class MoleGames {
   private AI ai;
   private Server server;
   private MultiGameHandler gameHandler;
-  private GameLogic gameLogic;
+
   private PacketHandler packetHandler;
   private GameMasterClient gameMasterClient;
 
@@ -53,10 +51,6 @@ public class MoleGames {
       new LoginScreen().create(args);
     } else {
       switch (Objects.requireNonNull(args[0])) {
-        case "-c":
-        case "c":
-          new de.thundergames.gameplay.ausrichter.ui.LoginScreen().create(args);
-          break;
         case "-p":
         case "p":
           new LoginScreen().create(args);
@@ -66,9 +60,10 @@ public class MoleGames {
           moleGames.server = new Server(5000, "127.0.0.1");
           moleGames.packetHandler = new PacketHandler();
           moleGames.gameHandler = new MultiGameHandler();
-          moleGames.gameLogic = new GameLogic();
           moleGames.server.create();
+          new de.thundergames.gameplay.ausrichter.ui.CreateGame().create(moleGames.server, args);
           break;
+
         case "-a":
         case "a":
           assert args[3] != null;
@@ -98,10 +93,6 @@ public class MoleGames {
     return packetHandler;
   }
 
-  public GameLogic getGameLogic() {
-    return gameLogic;
-  }
-
   public GameMasterClient getGameMasterClient() {
     return gameMasterClient;
   }
@@ -110,7 +101,5 @@ public class MoleGames {
     this.gameMasterClient = gameMasterClient;
   }
 
-  public AI getAi() {
-    return ai;
-  }
+
 }
