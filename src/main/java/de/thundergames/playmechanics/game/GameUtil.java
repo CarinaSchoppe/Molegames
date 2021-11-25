@@ -1,7 +1,8 @@
 /*
  * Copyright Notice for Swtpra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 23.11.21, 19:54 by Carina latest changes made by Carina on 23.11.21, 19:54 All contents of "GameUtil" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 25.11.21, 17:04 by Carina Latest changes made by Carina on 25.11.21, 17:04
+ * All contents of "GameUtil" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -34,7 +35,8 @@ public class GameUtil {
       boolean inHole = false;
       for (var player : game.getPlayers()) {
         for (var mole : player.getMoles()) {
-          if (hole.getX() == mole.getNetworkField().getX() && hole.getY() == mole.getNetworkField().getY()) {
+          if (hole.getX() == mole.getNetworkField().getX()
+              && hole.getY() == mole.getNetworkField().getY()) {
             inHole = true;
           }
         }
@@ -55,14 +57,15 @@ public class GameUtil {
     var moleInHoles = 0;
     for (var moles : game.getCurrentPlayer().getMoles()) {
       for (var hole : game.getMap().getHoles()) {
-        if (hole.getX() == moles.getNetworkField().getX() && hole.getY() == moles.getNetworkField().getY()) {
+        if (hole.getX() == moles.getNetworkField().getX()
+            && hole.getY() == moles.getNetworkField().getY()) {
           moleInHoles++;
         }
       }
     }
-    return moleInHoles == game.getCurrentPlayer().getMoles().size() && game.getCurrentPlayer().getMoles().size() == game.getSettings().getNumberOfMoles();
+    return moleInHoles == game.getCurrentPlayer().getMoles().size()
+        && game.getCurrentPlayer().getMoles().size() == game.getSettings().getNumberOfMoles();
   }
-
 
   /**
    * @author Carina
@@ -72,8 +75,11 @@ public class GameUtil {
     if (game.isGamePaused()) {
       return;
     }
-    if (game.getActivePlayers().size() - 1 >= game.getActivePlayers().indexOf(game.getCurrentPlayer()) + 1) {
-      game.setCurrentPlayer(game.getActivePlayers().get(game.getActivePlayers().indexOf(game.getCurrentPlayer()) + 1));
+    if (game.getActivePlayers().size() - 1
+        >= game.getActivePlayers().indexOf(game.getCurrentPlayer()) + 1) {
+      game.setCurrentPlayer(
+          game.getActivePlayers()
+              .get(game.getActivePlayers().indexOf(game.getCurrentPlayer()) + 1));
     } else if (!game.getActivePlayers().isEmpty()) {
       game.setCurrentPlayer(game.getClientPlayersMap().get(game.getActivePlayers().get(0)));
     }
@@ -85,15 +91,37 @@ public class GameUtil {
     }
 
     if (allPlayerMolesInHoles()) {
-      System.out.println("all player moles are in holes! for playerID: " + game.getCurrentPlayer().getServerClient().getConnectionID());
-      MoleGames.getMoleGames().getServer().sendToAllGameClients(game, MoleGames.getMoleGames().getPacketHandler().playerSkippedPacket(game.getCurrentPlayer()));
+      System.out.println(
+          "all player moles are in holes! for playerID: "
+              + game.getCurrentPlayer().getServerClient().getConnectionID());
+      MoleGames.getMoleGames()
+          .getServer()
+          .sendToAllGameClients(
+              game,
+              MoleGames.getMoleGames()
+                  .getPacketHandler()
+                  .playerSkippedPacket(game.getCurrentPlayer()));
       nextPlayer();
       return;
     } else {
-      if (game.getCurrentPlayer().getMoles().size() < game.getSettings().getNumberOfMoles() && game.getCurrentFloorID() == 0) {
-        MoleGames.getMoleGames().getServer().sendToAllGameClients(game, MoleGames.getMoleGames().getPacketHandler().playerPlacesMolePacket(game.getCurrentPlayer().getServerClient()));
+      if (game.getCurrentPlayer().getMoles().size() < game.getSettings().getNumberOfMoles()
+          && game.getCurrentFloorID() == 0) {
+        MoleGames.getMoleGames()
+            .getServer()
+            .sendToAllGameClients(
+                game,
+                MoleGames.getMoleGames()
+                    .getPacketHandler()
+                    .playerPlacesMolePacket(game.getCurrentPlayer().getServerClient()));
       } else {
-        MoleGames.getMoleGames().getServer().sendToAllGameClients(game, MoleGames.getMoleGames().getPacketHandler().playersTurnPacket(game.getCurrentPlayer().getServerClient(), game.getCurrentPlayer()));
+        MoleGames.getMoleGames()
+            .getServer()
+            .sendToAllGameClients(
+                game,
+                MoleGames.getMoleGames()
+                    .getPacketHandler()
+                    .playersTurnPacket(
+                        game.getCurrentPlayer().getServerClient(), game.getCurrentPlayer()));
       }
       game.getCurrentPlayer().getPlayerUtil().startThinkTimer();
     }
@@ -111,11 +139,14 @@ public class GameUtil {
           var moles = new HashSet<Mole>();
           for (var mole : player.getMoles()) {
             if (eliminated.contains(player)) {
-              if (mole.getNetworkField().getX() == hole.getX() && mole.getNetworkField().getY() == hole.getY()) {
+              if (mole.getNetworkField().getX() == hole.getX()
+                  && mole.getNetworkField().getY() == hole.getY()) {
                 eliminated.remove(player);
-                System.out.println("mole x" + mole.getNetworkField().getX() + "y" + mole.getNetworkField().getY() + " " + hole.getX() + " y" + hole.getY());
                 moles.add(mole);
-                System.out.println("Server: player with id " + player.getServerClient().getConnectionID() + " is in next level!");
+                System.out.println(
+                    "Server: player with id "
+                        + player.getServerClient().getConnectionID()
+                        + " is in next level!");
                 break;
               }
             }
@@ -132,10 +163,16 @@ public class GameUtil {
       game.getEliminatedPlayers().addAll(eliminated);
       game.setCurrentFloorID(game.getCurrentFloorID() + 1);
       game.updateGameState();
-      MoleGames.getMoleGames().getServer().sendToAllGameClients(game, MoleGames.getMoleGames().getPacketHandler().nextLevelPacket(game.getGameState(), eliminated));
+      MoleGames.getMoleGames()
+          .getServer()
+          .sendToAllGameClients(
+              game,
+              MoleGames.getMoleGames()
+                  .getPacketHandler()
+                  .nextLevelPacket(game.getGameState(), eliminated));
       nextPlayer();
     } else {
-      //TODO: check winning or do winning.
+      // TODO: check winning or do winning.
       System.out.println("PAAAARTTTTTTTTTTTTTTTTTTTTTTYYYYYYYYYYYYYYYYYYYYYYY");
     }
   }
@@ -144,8 +181,14 @@ public class GameUtil {
     for (var holes : game.getMap().getHoles()) {
       for (var player : game.getPlayers()) {
         for (var mole : player.getMoles()) {
-          if (mole.getNetworkField().getX() == holes.getX() && mole.getNetworkField().getY() == holes.getY()) {
-            game.getScore().getPoints().put(player.getClientID(), game.getScore().getPoints().get(player.getClientID()) + game.getMap().getPoints());
+          if (mole.getNetworkField().getX() == holes.getX()
+              && mole.getNetworkField().getY() == holes.getY()) {
+            game.getScore()
+                .getPoints()
+                .put(
+                    player.getClientID(),
+                    game.getScore().getPoints().get(player.getClientID())
+                        + game.getMap().getPoints());
           }
         }
       }

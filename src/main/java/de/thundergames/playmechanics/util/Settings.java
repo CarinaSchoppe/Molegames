@@ -1,7 +1,8 @@
 /*
  * Copyright Notice for Swtpra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 23.11.21, 14:59 by Carina latest changes made by Carina on 23.11.21, 14:59 All contents of "Settings" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 25.11.21, 17:04 by Carina Latest changes made by Carina on 25.11.21, 17:04
+ * All contents of "Settings" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -23,10 +24,9 @@ public class Settings extends NetworkConfiguration {
   TODO: hier mehr adden! und dann auch implementieren
    */
 
-  private transient final GameConfiguration gameConfiguration;
-  private transient final Game game;
+  private final transient GameConfiguration gameConfiguration;
+  private final transient Game game;
   private final transient int punishmentPoints = 5;
-
 
   public Settings(@NotNull final Game game) {
     this.game = game;
@@ -36,7 +36,8 @@ public class Settings extends NetworkConfiguration {
   /**
    * @param config the jsonObject that will update the configuration send by the GameMasterClient
    * @author Carina
-   * @use pass in the new configuration from the GameMasterClient and it will automaticly update every single setting that was included in the jsonObject
+   * @use pass in the new configuration from the GameMasterClient and it will automaticly update
+   *     every single setting that was included in the jsonObject
    * @use this method is called in the GameMasterClient to the Server
    * @use updates the map and the Game directly
    */
@@ -58,6 +59,9 @@ public class Settings extends NetworkConfiguration {
     return Punishments.getByName(getMovePenalty());
   }
 
+  public GameConfiguration getGameConfiguration() {
+    return gameConfiguration;
+  }
 
   public Integer getPunishmentPoints() {
     return punishmentPoints;
