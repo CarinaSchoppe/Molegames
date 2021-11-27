@@ -1,7 +1,8 @@
 /*
  * Copyright Notice for Swtpra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 23.11.21, 13:45 by Carina latest changes made by Carina on 23.11.21, 13:45 All contents of "MoleGames" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 25.11.21, 17:42 by Carina Latest changes made by Carina on 25.11.21, 17:42
+ * All contents of "MoleGames" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -18,7 +19,6 @@ import de.thundergames.networking.server.Server;
 import de.thundergames.playmechanics.util.MultiGameHandler;
 import java.util.Objects;
 import org.jetbrains.annotations.Nullable;
-
 
 /**
  * @author Carina
@@ -39,7 +39,7 @@ public class MoleGames {
 
   /**
    * @author Carina
-   * @use MainClass start
+   * @use Mainclass start method
    * @use creates a server object or AI object or client object depending on the arguments
    * @see Server
    * @see Client
@@ -100,6 +100,4 @@ public class MoleGames {
   public void setGameMasterClient(GameMasterClient gameMasterClient) {
     this.gameMasterClient = gameMasterClient;
   }
-
-
 }
