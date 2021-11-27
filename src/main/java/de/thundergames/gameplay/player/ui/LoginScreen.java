@@ -9,9 +9,6 @@
  */
 package de.thundergames.gameplay.player.ui;
 
-import java.io.File;
-import java.net.URL;
-import java.util.ResourceBundle;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -21,6 +18,10 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+
+import java.io.File;
+import java.net.URL;
+import java.util.ResourceBundle;
 
 public class LoginScreen extends Application {
 
@@ -84,7 +85,7 @@ public class LoginScreen extends Application {
   @Override
   public void start(Stage primaryStage) throws Exception {
     location =
-        new File("src/main/java/de/thundergames/gameplay/player/ui/Loginscreen.fxml")
+            new File("src/main/java/de/thundergames/gameplay/player/ui/LoginScreen.fxml")
             .toURI()
             .toURL();
     Parent root = FXMLLoader.load(location);
