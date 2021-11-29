@@ -11,6 +11,7 @@
 package de.thundergames.networking.util.interfaceItems;
 
 import de.thundergames.filehandling.Score;
+
 import java.util.ArrayList;
 
 public class NetworkGame {
@@ -150,4 +151,29 @@ public class NetworkGame {
   public void setFinishDateTime(long finishDateTime) {
     this.finishDateTime = finishDateTime;
   }
+
+  //region for UI tableview
+
+  /**
+   * @return gameID with a hashtag in front of it
+   */
+  public String getHashtagWithGameID() {
+    return "#" + gameID;
+  }
+
+  /**
+   * @return current player count and the maximum player count with a slash between both
+   */
+  public String getCurrentPlayerCount_MaxCount() {
+    return currentPlayerCount + "/" + maxPlayerCount;
+  }
+
+  /**
+   * @return current player count and the maximum player count with a slash between both
+   */
+  public String getGameType() {
+    return "hallo";
+  }
+
+  //endregion
 }

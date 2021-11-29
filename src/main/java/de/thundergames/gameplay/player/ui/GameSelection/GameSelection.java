@@ -14,7 +14,9 @@
 package de.thundergames.gameplay.player.ui.GameSelection;
 
 import de.thundergames.gameplay.player.networking.Client;
-import de.thundergames.playmechanics.game.Game;
+import de.thundergames.networking.util.interfaceItems.NetworkGame;
+import de.thundergames.playmechanics.util.Tournament;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -42,27 +44,17 @@ public class GameSelection implements Initializable {
     @FXML
     private Text PlayerName;
     @FXML
-    private TableView<Game> gameTable;
+    private TableView<Object> gameTable;
     @FXML
-    private TableColumn<Game, Integer> game_Id;
+    private TableColumn<NetworkGame, Integer> game_Id;
     @FXML
-    private TableColumn<Game, Integer> game_Player; //todo:integer zu String
+    private TableColumn<NetworkGame, String> game_Player_Count;
     @FXML
-    private TableColumn<Game, Integer> game_State; //todo:integer zu String
+    private TableColumn<NetworkGame, String> game_State;
     @FXML
-    private TableColumn<Game, Integer> game_Type; //todo:integer zu String
-    @FXML
-    private ObservableList<Game> gameList;
-    //private ObservableList<Game> gameList = FXCollections.observableArrayList(
-    //        new Game(1123),// todo test
-    //        new Game(231),// todo test
-    //        new Game(3241),// todo test
-    //        new Game(441)
-    //);
-
+    private TableColumn<NetworkGame, String> game_Type;
 
     public void create(ActionEvent event) throws IOException {
-        GameSelection.client = Client.getClient();
         createScene(event);
     }
 
@@ -81,15 +73,20 @@ public class GameSelection implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        client = Client.getClient();
+
+        //show username at scene
         PlayerName.setText("Spieler: " + client.name);
 
-        game_Id.setCellValueFactory(new PropertyValueFactory<Game, Integer>("gameID")); // todo Grüner Eintrag muss von Game ein Attribut sein
-        game_Player.setCellValueFactory(new PropertyValueFactory<Game, Integer>("gameID")); // todo Grüner Eintrag muss von Game ein Attribut sein
-        game_State.setCellValueFactory(new PropertyValueFactory<Game, Integer>("gameID")); // todo Grüner Eintrag muss von Game ein Attribut sein
-        game_Type.setCellValueFactory(new PropertyValueFactory<Game, Integer>("gameID")); // todo Grüner Eintrag muss von Game ein Attribut sein
+        // set value for each row
+        game_Id.setCellValueFactory(new PropertyValueFactory("HashtagWithGameID"));
+        game_Player_Count.setCellValueFactory(new PropertyValueFactory("CurrentPlayerCount_MaxCount"));
+        game_State.setCellValueFactory(new PropertyValueFactory("status"));
+        game_Type.setCellValueFactory(new PropertyValueFactory("gameType"));
 
         UpdateTable();
 
+        //Maybe usefull for later
         //  //open a listener to observe changes of selected item of list
         //  GameList.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
         //      //Selected item of list
@@ -97,10 +94,21 @@ public class GameSelection implements Initializable {
         //   });
     }
 
+    /*
+    Refresh the games of tableview
+     */
     private void UpdateTable() {
-        //if (gameList != null) {gameTable.setItems(gameList);}
-        var test = client.getGames();
-        var test2 = client.getTournaments();
+        //clear tableview
+        gameTable.getItems().clear();
+
+        //get all games from server
+        ObservableList<NetworkGame> gameList = FXCollections.observableArrayList(client.getGames());
+        ObservableList<Tournament> tournamentList = FXCollections.observableArrayList(client.getTournaments());
+
+
+        //Add all games to tableview
+        gameTable.getItems().addAll(gameList);
+        gameTable.getItems().addAll(tournamentList);
     }
 
     @FXML
@@ -114,6 +122,7 @@ public class GameSelection implements Initializable {
         primaryStage.setResizable(false);
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
+        //Todo: client.disconnect();
     }
 
     @FXML
@@ -128,6 +137,7 @@ public class GameSelection implements Initializable {
             JOptionPane.showMessageDialog(null, "Es wurde kein Spiel selektiert!", "Spiel beobachten", JOptionPane.OK_OPTION);
             return;
         }
-        //Todo:weiteres hier
+
+        //Todo:Falls game offen dann. Ansonsten direkt ins Spiel.
     }
 }
