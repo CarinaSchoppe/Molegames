@@ -11,11 +11,13 @@ package de.thundergames.gameplay.player.networking;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.google.gson.reflect.TypeToken;
 import de.thundergames.filehandling.Score;
 import de.thundergames.networking.server.PacketHandler;
 import de.thundergames.networking.util.Packet;
 import de.thundergames.networking.util.Packets;
 import de.thundergames.networking.util.interfaceItems.NetworkField;
+import de.thundergames.networking.util.interfaceItems.NetworkGame;
 import de.thundergames.networking.util.interfaceItems.NetworkMole;
 import de.thundergames.networking.util.interfaceItems.NetworkPlayer;
 import de.thundergames.playmechanics.game.GameState;
@@ -644,8 +646,10 @@ public class ClientPacketHandler {
   protected void handleOverviewPacket(@NotNull final Client client, @NotNull final Packet packet) {
     client.getGames().clear();
     client.getTournaments().clear();
-    client.getGames().addAll(new Gson().fromJson(packet.getValues().get("games").getAsString(), ArrayList.class));
-    client.getTournaments().addAll(new Gson().fromJson(packet.getValues().get("tournaments").getAsString(), ArrayList.class));
+    client.getGames().addAll(new Gson().fromJson(packet.getValues().get("games").getAsString(), new TypeToken<ArrayList<NetworkGame>>() {
+    }.getType()));
+    client.getTournaments().addAll(new Gson().fromJson(packet.getValues().get("tournaments").getAsString(), new TypeToken<ArrayList<NetworkGame>>() {
+    }.getType()));
   }
 
   /**
