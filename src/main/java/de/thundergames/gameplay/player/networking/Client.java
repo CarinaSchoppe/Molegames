@@ -1,7 +1,8 @@
 /*
  * Copyright Notice for Swtpra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 23.11.21, 14:33 by Carina latest changes made by Carina on 23.11.21, 14:33 All contents of "Client" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 25.11.21, 17:04 by Carina Latest changes made by Carina on 25.11.21, 17:04
+ * All contents of "Client" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -41,7 +42,6 @@ public class Client extends Network {
   private NetworkPlayer networkPlayer;
   private boolean isDraw = false;
 
-
   /**
    * @param port
    * @param ip
@@ -75,13 +75,18 @@ public class Client extends Network {
 
   /**
    * @author Carina
-   * @use Due to a bug where we are getting the constructor which is not contructed at the time we create the Constructor and call the create object to create the sockets and stream
+   * @use Due to a bug where we are getting the constructor which is not contructed at the time we
+   *     create the Constructor and call the create object to create the sockets and stream
    * @see Client
    */
   @Override
   public void create() {
     client = this;
     connect();
+  }
+
+  public int getGameID() {
+    return gameID;
   }
 
   /**

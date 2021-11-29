@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for Swtpra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 24.11.21, 20:03 by Carina latest changes made by Carina on 24.11.21, 20:03 All contents of "Game" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 23.11.21, 14:59 by Carina latest changes made by Carina on 23.11.21, 14:59 All contents of "Game" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -29,9 +29,9 @@ import org.jetbrains.annotations.NotNull;
 
 public class Game extends NetworkGame {
 
-  private transient final HashMap<NetworkPlayer, Player> clientPlayersMap = new HashMap<>();
-  private transient final ArrayList<Player> players = new ArrayList<>();
-  private transient final HashMap<Player, Mole> moleMap = new HashMap<>();
+  private final transient HashMap<NetworkPlayer, Player> clientPlayersMap = new HashMap<>();
+  private final transient ArrayList<Player> players = new ArrayList<>();
+  private final transient HashMap<Player, Mole> moleMap = new HashMap<>();
   private final transient GameState gameState = new GameState();
   private final HashSet<Player> eliminatedPlayers = new HashSet<>();
   private final transient ArrayList<Player> activePlayers = new ArrayList<>();
@@ -78,7 +78,6 @@ public class Game extends NetworkGame {
     var moles = new ArrayList<NetworkMole>();
     for (var players : activePlayers) {
       moles.addAll(players.getMoles());
-      System.out.println("update + " + players.getMoles().size());
     }
     gameState.setPlacedMoles(moles);
     gameState.setMoles(settings.getNumberOfMoles());
@@ -172,21 +171,26 @@ public class Game extends NetworkGame {
 
 
   /**
-   * @param client    the player that joins the game
+   * @param client the player that joins the game
    * @param spectator if its a spectator or player that has joined
    * @author Carina
    */
   public void joinGame(@NotNull final Player client, final boolean spectator) {
-    MoleGames.getMoleGames().getPacketHandler().assignToGamePacket(client.getServerClient(), getGameID());
+    MoleGames.getMoleGames()
+        .getPacketHandler()
+        .assignToGamePacket(client.getServerClient(), getGameID());
     if (getCurrentGameState().equals(GameStates.NOT_STARTED) && !spectator) {
       clientPlayersMap.put(client, client);
       players.add(client);
       activePlayers.add(client);
       getScore().getPlayers().add(client);
       setCurrentPlayerCount(clientPlayersMap.size());
-      MoleGames.getMoleGames().getGameHandler().getClientGames().put(client.getServerClient(), this);
+      MoleGames.getMoleGames()
+          .getGameHandler()
+          .getClientGames()
+          .put(client.getServerClient(), this);
     } else if (spectator) {
-      //TODO: join as spectator
+      // TODO: join as spectator
     }
     updateGameState();
   }
@@ -202,16 +206,25 @@ public class Game extends NetworkGame {
    * @see Player
    */
   public void removePlayerFromGame(@NotNull final Player player) {
-    //TODO: check if player was really removed
+    // TODO: check if player was really removed
     if (currentGameState != GameStates.NOT_STARTED && !currentGameState.equals(GameStates.OVER)) {
       if (!clientPlayersMap.containsKey(player)) {
         eliminatedPlayers.add(player);
       }
     }
     for (var moles : player.getMoles()) {
-      player.getGame().getMap().getFieldMap().get(List.of(moles.getNetworkField().getX(), moles.getNetworkField().getY())).setOccupied(false);
-      player.getGame().getMap().getFieldMap().get(List.of(moles.getNetworkField().getX(), moles.getNetworkField().getY())).setMole(null);
-
+      player
+          .getGame()
+          .getMap()
+          .getFieldMap()
+          .get(List.of(moles.getNetworkField().getX(), moles.getNetworkField().getY()))
+          .setOccupied(false);
+      player
+          .getGame()
+          .getMap()
+          .getFieldMap()
+          .get(List.of(moles.getNetworkField().getX(), moles.getNetworkField().getY()))
+          .setMole(null);
     }
     player.getMoles().clear();
     clientPlayersMap.remove(player);

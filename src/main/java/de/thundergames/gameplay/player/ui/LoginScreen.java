@@ -94,7 +94,7 @@ public class LoginScreen extends Application {
   @Override
   public void start(Stage primaryStage) throws Exception {
     location =
-        new File("src/main/java/de/thundergames/gameplay/player/ui/Loginscreen.fxml")
+            new File("src/main/java/de/thundergames/gameplay/player/ui/LoginScreen.fxml")
             .toURI()
             .toURL();
     Parent root = FXMLLoader.load(location);

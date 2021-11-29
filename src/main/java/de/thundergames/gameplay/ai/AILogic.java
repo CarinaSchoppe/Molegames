@@ -1,7 +1,8 @@
 /*
  * Copyright Notice for Swtpra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 23.11.21, 19:54 by Carina latest changes made by Carina on 23.11.21, 19:17 All contents of "AILogic" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 25.11.21, 17:42 by Carina Latest changes made by Carina on 25.11.21, 17:42
+ * All contents of "AILogic" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -30,16 +31,27 @@ public class AILogic {
    * @author Carina
    * @use is called to make a move!
    */
-  public boolean makeMove(@NotNull final AI ai, @NotNull NetworkMole mole, @NotNull final Directions direction) {
+  public boolean makeMove(
+      @NotNull final AI ai, @NotNull NetworkMole mole, @NotNull final Directions direction) {
     int x = 0;
     int y = 0;
     if (isHoleCloseToMole(ai) != null) {
       mole = (NetworkMole) isHoleCloseToMole(ai).get(0);
       x = (int) isHoleCloseToMole(ai).get(1);
       y = (int) isHoleCloseToMole(ai).get(2);
-      System.out.println("AI: there is a hole close to a mole within the drawcard. Hole: " + x + "," + y);
-      if (GameLogic.wasLegalMove(new int[]{mole.getNetworkField().getX(), mole.getNetworkField().getY()}, new int[]{x, y}, ai.getCard(), ai.getMap())) {
-        ai.getAIPacketHandler().makeMovePacket(ai, new int[]{mole.getNetworkField().getX(), mole.getNetworkField().getY()}, new int[]{x, y}, ai.getCard());
+      System.out.println(
+          "AI: there is a hole close to a mole within the drawcard. Hole: " + x + "," + y);
+      if (GameLogic.wasLegalMove(
+          new int[] {mole.getNetworkField().getX(), mole.getNetworkField().getY()},
+          new int[] {x, y},
+          ai.getCard(),
+          ai.getMap())) {
+        ai.getAIPacketHandler()
+            .makeMovePacket(
+                ai,
+                new int[] {mole.getNetworkField().getX(), mole.getNetworkField().getY()},
+                new int[] {x, y},
+                ai.getCard());
         return true;
       } else {
         System.out.println("AI: the close hole at: [" + x + "," + y + "] is not a legal move!");
@@ -47,9 +59,27 @@ public class AILogic {
     }
     int[] endField = endField(ai, mole, direction);
 
-    if (GameLogic.wasLegalMove(new int[]{mole.getNetworkField().getX(), mole.getNetworkField().getY()}, endField, ai.getCard(), ai.getMap())) {
-      ai.getAIPacketHandler().makeMovePacket(ai, new int[]{mole.getNetworkField().getX(), mole.getNetworkField().getY()}, endField, ai.getCard());
-      System.out.println("AI: moving from: [" + mole.getNetworkField().getX() + "," + mole.getNetworkField().getY() + "] to [" + x + "," + y + "]");
+    if (GameLogic.wasLegalMove(
+        new int[] {mole.getNetworkField().getX(), mole.getNetworkField().getY()},
+        endField,
+        ai.getCard(),
+        ai.getMap())) {
+      ai.getAIPacketHandler()
+          .makeMovePacket(
+              ai,
+              new int[] {mole.getNetworkField().getX(), mole.getNetworkField().getY()},
+              endField,
+              ai.getCard());
+      System.out.println(
+          "AI: moving from: ["
+              + mole.getNetworkField().getX()
+              + ","
+              + mole.getNetworkField().getY()
+              + "] to ["
+              + x
+              + ","
+              + y
+              + "]");
       return true;
     }
     return false;
@@ -61,14 +91,30 @@ public class AILogic {
    * @see Player
    * @see de.thundergames.gameplay.ai.AI
    */
-  public Directions isMoveable(@NotNull final AI ai, final int cardValue, @NotNull final List<Integer> field, @NotNull final NetworkMole mole) throws NullPointerException {
+  public Directions isMoveable(
+      @NotNull final AI ai,
+      final int cardValue,
+      @NotNull final List<Integer> field,
+      @NotNull final NetworkMole mole)
+      throws NullPointerException {
     for (var directions : Directions.values()) {
-      Directions direction = (Directions) Arrays.stream(Directions.values()).toArray()[new Random().nextInt(Arrays.stream(Directions.values()).toArray().length)];
+      Directions direction =
+          (Directions)
+              Arrays.stream(Directions.values())
+                  .toArray()[
+                  new Random().nextInt(Arrays.stream(Directions.values()).toArray().length)];
       var endfield = endField(ai, mole, direction);
       if (direction == Directions.DOWN) {
         try {
-          if (!(ai.getMap().getFieldMap().get(List.of(field.get(0), field.get(1) - cardValue)).isOccupied())) {
-            if (GameLogic.wasLegalMove(new int[]{mole.getNetworkField().getX(), mole.getNetworkField().getY()}, endfield, ai.getCard(), ai.getMap())) {
+          if (!(ai.getMap()
+              .getFieldMap()
+              .get(List.of(field.get(0), field.get(1) - cardValue))
+              .isOccupied())) {
+            if (GameLogic.wasLegalMove(
+                new int[] {mole.getNetworkField().getX(), mole.getNetworkField().getY()},
+                endfield,
+                ai.getCard(),
+                ai.getMap())) {
               return Directions.DOWN;
             }
           }
@@ -76,8 +122,15 @@ public class AILogic {
         }
       } else if (direction == Directions.UP) {
         try {
-          if (!(ai.getMap().getFieldMap().get(List.of(field.get(0), field.get(1) + cardValue)).isOccupied())) {
-            if (GameLogic.wasLegalMove(new int[]{mole.getNetworkField().getX(), mole.getNetworkField().getY()}, endfield, ai.getCard(), ai.getMap())) {
+          if (!(ai.getMap()
+              .getFieldMap()
+              .get(List.of(field.get(0), field.get(1) + cardValue))
+              .isOccupied())) {
+            if (GameLogic.wasLegalMove(
+                new int[] {mole.getNetworkField().getX(), mole.getNetworkField().getY()},
+                endfield,
+                ai.getCard(),
+                ai.getMap())) {
               return Directions.UP;
             }
           }
@@ -85,8 +138,15 @@ public class AILogic {
         }
       } else if (direction == Directions.LEFT) {
         try {
-          if (!(ai.getMap().getFieldMap().get(List.of(field.get(0) - cardValue, field.get(1))).isOccupied())) {
-            if (GameLogic.wasLegalMove(new int[]{mole.getNetworkField().getX(), mole.getNetworkField().getY()}, endfield, ai.getCard(), ai.getMap())) {
+          if (!(ai.getMap()
+              .getFieldMap()
+              .get(List.of(field.get(0) - cardValue, field.get(1)))
+              .isOccupied())) {
+            if (GameLogic.wasLegalMove(
+                new int[] {mole.getNetworkField().getX(), mole.getNetworkField().getY()},
+                endfield,
+                ai.getCard(),
+                ai.getMap())) {
               return Directions.LEFT;
             }
           }
@@ -94,8 +154,15 @@ public class AILogic {
         }
       } else if (direction == RIGHT) {
         try {
-          if (!(ai.getMap().getFieldMap().get(List.of(field.get(0) + cardValue, field.get(1))).isOccupied())) {
-            if (GameLogic.wasLegalMove(new int[]{mole.getNetworkField().getX(), mole.getNetworkField().getY()}, endfield, ai.getCard(), ai.getMap())) {
+          if (!(ai.getMap()
+              .getFieldMap()
+              .get(List.of(field.get(0) + cardValue, field.get(1)))
+              .isOccupied())) {
+            if (GameLogic.wasLegalMove(
+                new int[] {mole.getNetworkField().getX(), mole.getNetworkField().getY()},
+                endfield,
+                ai.getCard(),
+                ai.getMap())) {
 
               return Directions.RIGHT;
             }
@@ -104,8 +171,15 @@ public class AILogic {
         }
       } else if (direction == DOWN_LEFT) {
         try {
-          if (!(ai.getMap().getFieldMap().get(List.of(field.get(0) - cardValue, field.get(1) - cardValue)).isOccupied())) {
-            if (GameLogic.wasLegalMove(new int[]{mole.getNetworkField().getX(), mole.getNetworkField().getY()}, endfield, ai.getCard(), ai.getMap())) {
+          if (!(ai.getMap()
+              .getFieldMap()
+              .get(List.of(field.get(0) - cardValue, field.get(1) - cardValue))
+              .isOccupied())) {
+            if (GameLogic.wasLegalMove(
+                new int[] {mole.getNetworkField().getX(), mole.getNetworkField().getY()},
+                endfield,
+                ai.getCard(),
+                ai.getMap())) {
 
               return Directions.DOWN_LEFT;
             }
@@ -114,8 +188,15 @@ public class AILogic {
         }
       } else if (direction == Directions.DOWN_RIGHT) {
         try {
-          if (!(ai.getMap().getFieldMap().get(List.of(field.get(0) + cardValue, field.get(1) - cardValue)).isOccupied())) {
-            if (GameLogic.wasLegalMove(new int[]{mole.getNetworkField().getX(), mole.getNetworkField().getY()}, endfield, ai.getCard(), ai.getMap())) {
+          if (!(ai.getMap()
+              .getFieldMap()
+              .get(List.of(field.get(0) + cardValue, field.get(1) - cardValue))
+              .isOccupied())) {
+            if (GameLogic.wasLegalMove(
+                new int[] {mole.getNetworkField().getX(), mole.getNetworkField().getY()},
+                endfield,
+                ai.getCard(),
+                ai.getMap())) {
 
               return Directions.DOWN_RIGHT;
             }
@@ -124,8 +205,15 @@ public class AILogic {
         }
       } else if (direction == Directions.UP_LEFT) {
         try {
-          if (!(ai.getMap().getFieldMap().get(List.of(field.get(0) - cardValue, field.get(1) + cardValue)).isOccupied())) {
-            if (GameLogic.wasLegalMove(new int[]{mole.getNetworkField().getX(), mole.getNetworkField().getY()}, endfield, ai.getCard(), ai.getMap())) {
+          if (!(ai.getMap()
+              .getFieldMap()
+              .get(List.of(field.get(0) - cardValue, field.get(1) + cardValue))
+              .isOccupied())) {
+            if (GameLogic.wasLegalMove(
+                new int[] {mole.getNetworkField().getX(), mole.getNetworkField().getY()},
+                endfield,
+                ai.getCard(),
+                ai.getMap())) {
               return Directions.UP_LEFT;
             }
           }
@@ -133,8 +221,15 @@ public class AILogic {
         }
       } else if (direction == Directions.UP_RIGHT) {
         try {
-          if (!(ai.getMap().getFieldMap().get(List.of(field.get(0) + cardValue, field.get(1) + cardValue)).isOccupied())) {
-            if (GameLogic.wasLegalMove(new int[]{mole.getNetworkField().getX(), mole.getNetworkField().getY()}, endfield, ai.getCard(), ai.getMap())) {
+          if (!(ai.getMap()
+              .getFieldMap()
+              .get(List.of(field.get(0) + cardValue, field.get(1) + cardValue))
+              .isOccupied())) {
+            if (GameLogic.wasLegalMove(
+                new int[] {mole.getNetworkField().getX(), mole.getNetworkField().getY()},
+                endfield,
+                ai.getCard(),
+                ai.getMap())) {
               return Directions.UP_RIGHT;
             }
           }
@@ -173,14 +268,14 @@ public class AILogic {
       y = mole.getNetworkField().getY() - ai.getCard();
       x = mole.getNetworkField().getX() - ai.getCard();
     }
-    return new int[]{x, y};
-
+    return new int[] {x, y};
   }
 
   /**
    * @param ai
    * @author Carina
-   * @use handles the placement of a mole if the mole needs to be placed or if all moles has been placed
+   * @use handles the placement of a mole if the mole needs to be placed or if all moles has been
+   *     placed
    */
   public void handleAction(@NotNull final AI ai) {
     if (ai.isDraw()) {
@@ -192,8 +287,7 @@ public class AILogic {
         ai.getPullDiscs().remove(0);
         ai.getPullDiscs().add(pullDisc);
 
-        if (moveMole(ai)) {
-        }
+        if (moveMole(ai)) {}
 
       } else {
         placeMole(ai);
@@ -205,17 +299,23 @@ public class AILogic {
   /**
    * @param ai
    * @author Carina
-   * @use moves a mole in a smart way checks if a mole can now get into a hole and when not it takes a random mole checks if it can be moved and than moves it in the allowed direction by the value of the drawCard
+   * @use moves a mole in a smart way checks if a mole can now get into a hole and when not it takes
+   *     a random mole checks if it can be moved and than moves it in the allowed direction by the
+   *     value of the drawCard
    */
   public boolean moveMole(@NotNull final AI ai) {
     var random = new Random();
     for (var moles : ai.getMoles()) {
-      System.out.println("mole");
       var mole = ai.getMoles().get(random.nextInt(ai.getMoles().size()));
       if (mole == null) {
         continue;
       }
-      var direction = isMoveable(ai, ai.getCard(), List.of(mole.getNetworkField().getX(), mole.getNetworkField().getY()), mole);
+      var direction =
+          isMoveable(
+              ai,
+              ai.getCard(),
+              List.of(mole.getNetworkField().getX(), mole.getNetworkField().getY()),
+              mole);
       System.out.println("AI can move a mole!");
       if (direction != null) {
         if (makeMove(ai, mole, direction)) {
@@ -251,13 +351,17 @@ public class AILogic {
   /**
    * @param ai instance
    * @author Carina
-   * @use checks if a hole is close to a mole with the exact range of the card returns the mole ID and the x and y cordinates of the hole if the mole is close to a hole
+   * @use checks if a hole is close to a mole with the exact range of the card returns the mole ID
+   *     and the x and y cordinates of the hole if the mole is close to a hole
    */
   public List<Object> isHoleCloseToMole(@NotNull final AI ai) {
     for (var mole : ai.getMoles()) {
       if (mole.getPlayer().getClientID() == ai.getClientThread().getClientThreadID()) {
         for (var hole : ai.getGameState().getFloor().getHoles()) {
-          if ((hole.getX() == mole.getNetworkField().getX() + ai.getCard() || hole.getX() == mole.getNetworkField().getX() - ai.getCard()) && (hole.getY() == mole.getNetworkField().getY() + ai.getCard() || hole.getY() == mole.getNetworkField().getY() - ai.getCard())) {
+          if ((hole.getX() == mole.getNetworkField().getX() + ai.getCard()
+                  || hole.getX() == mole.getNetworkField().getX() - ai.getCard())
+              && (hole.getY() == mole.getNetworkField().getY() + ai.getCard()
+                  || hole.getY() == mole.getNetworkField().getY() - ai.getCard())) {
             return List.of(mole, hole.getX(), hole.getY());
           }
         }
@@ -265,6 +369,4 @@ public class AILogic {
     }
     return null;
   }
-
 }
-
