@@ -1,15 +1,22 @@
 package de.thundergames.playmechanics.map;
 
 import de.thundergames.playmechanics.game.Game;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class MapTest {
 
+    private Game game;
+
+    @BeforeEach
+    void setUp() {
+        game = new Game(1);
+    }
+
     @Test
     void createMapRadiusTwo() {
-        Game game = new Game(1);
         game.setRadius(2);
         Map map = new Map(game);
 
@@ -58,7 +65,6 @@ class MapTest {
 
     @Test
     void createMapRadiusFive() {
-        Game game = new Game(2);
         game.setRadius(5);
         Map map = new Map(game);
 
