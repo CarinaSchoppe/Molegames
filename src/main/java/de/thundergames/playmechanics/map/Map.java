@@ -49,16 +49,16 @@ public class Map extends NetworkFloor {
   public synchronized void createMap(final int radius) {
     // Top left to mid right
     fieldMap.clear();
-    for (var y = 0; y < radius; y++) {
-      for (var x = 0; x < radius + y; x++) {
+    for (var y = 0; y <= radius; y++) {
+      for (var x = 0; x <= radius + y; x++) {
         var field = new Field(List.of(x, y));
         field.setMap(this);
         fieldMap.put(java.util.List.of(x, y), field);
       }
     }
     // 1 under mid: left to bottom right
-    for (var y = radius; y < radius * 2 - 1; y++) {
-      for (var x = y - radius + 1; x < radius * 2 - 1; x++) {
+    for (var y = radius + 1; y <= radius * 2; y++) {
+      for (var x = y - radius; x <= radius * 2; x++) {
         var field = new Field(java.util.List.of(x, y));
         field.setMap(this);
         fieldMap.put(java.util.List.of(x, y), field);
