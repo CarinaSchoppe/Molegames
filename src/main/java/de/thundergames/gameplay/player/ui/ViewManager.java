@@ -24,11 +24,11 @@ public class ViewManager {
     int anchorPointX = 150;
     int anchorPointY = 150;
     //Load field dot images.
-    Image field_hover = new Image(getSprite("game/path_field_hover.png"), 24, 24, true, true);
+    Image field_hover = new Image(Utils.getSprite("game/path_field_hover.png"), 24, 24, true, true);
     ImageView hover = new ImageView(field_hover);
-    Image field_default = new Image(getSprite("game/path_field.png"), 24, 24, true, true);
+    Image field_default = new Image(Utils.getSprite("game/path_field.png"), 24, 24, true, true);
     ImageView field_def = new ImageView(field_default);
-    Image field_pressed = new Image(getSprite("game/highlight.png"), 24, 24, true, true);
+    Image field_pressed = new Image(Utils.getSprite("game/highlight.png"), 24, 24, true, true);
     ImageView field_pre = new ImageView(field_pressed);
 
     public ViewManager() {
@@ -155,15 +155,15 @@ public class ViewManager {
     private void renderBackground(int level) {
         //Renders the level background according to the level number.
 
-        Image ground = new Image(this.getSprite("background/ground.png"),
+        Image ground = new Image(Utils.getSprite("background/ground.png"),
                 64, 64, true, true);
-        Image rock = new Image(this.getSprite("background/ug_1.png"),
+        Image rock = new Image(Utils.getSprite("background/ug_1.png"),
                 64, 64, true, true);
-        Image dirt = new Image(this.getSprite("background/ug_2.png"),
+        Image dirt = new Image(Utils.getSprite("background/ug_2.png"),
                 64, 64, true, true);
-        Image sand = new Image(this.getSprite("background/ug_3.png"),
+        Image sand = new Image(Utils.getSprite("background/ug_3.png"),
                 64, 64, true, true);
-        Image bed_rock = new Image(this.getSprite("background/final.png"),
+        Image bed_rock = new Image(Utils.getSprite("background/final.png"),
                 64, 64, true, true);
 
         BackgroundImage set_ground = new BackgroundImage(ground, BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT, null);
@@ -198,17 +198,17 @@ public class ViewManager {
         int limit = R;
 
         //Load images.
-        Image north_west = new Image(this.getSprite("game/path_northwest.png"),
+        Image north_west = new Image(Utils.getSprite("game/path_northwest.png"),
                 128, 128, true, true);
-        Image north = new Image(this.getSprite("game/path_north.png")
+        Image north = new Image(Utils.getSprite("game/path_north.png")
                 , 128, 128, true, true);
-        Image south_west = new Image(this.getSprite("game/path_southwest.png"),
+        Image south_west = new Image(Utils.getSprite("game/path_southwest.png"),
                 128, 128, true, true);
-        Image south = new Image(this.getSprite("game/path_south.png"),
+        Image south = new Image(Utils.getSprite("game/path_south.png"),
                 128, 128, true, true);
-        Image north_east = new Image(this.getSprite("game/path_northeast.png"),
+        Image north_east = new Image(Utils.getSprite("game/path_northeast.png"),
                 128, 128, true, true);
-        Image south_east = new Image(this.getSprite("game/path_southeast.png"),
+        Image south_east = new Image(Utils.getSprite("game/path_southeast.png"),
                 128, 128, true, true);
         //Loop for upper left edge
         for (int i = 0; i < R - 1; i++) {
@@ -359,7 +359,7 @@ public class ViewManager {
     }
 
     private void createMole() {
-        Image mole_red = new Image(getSprite("mole/mole.png"), 64, 64, true, true);
+        Image mole_red = new Image(Utils.getSprite("mole/mole.png"), 64, 64, true, true);
         ImageView mole_r = new ImageView(mole_red);
         Button mole = new Button();
         mole.setLayoutX(250);
@@ -376,10 +376,6 @@ public class ViewManager {
 
     }
 
-
-    private String getSprite(String spriteName) {
-        return getClass().getResource("/sprites/" + spriteName).toString();
-    }
 
 
 }
