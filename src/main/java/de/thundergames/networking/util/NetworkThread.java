@@ -25,12 +25,12 @@ import java.nio.charset.StandardCharsets;
 
 public abstract class NetworkThread extends Thread {
 
-  protected final Socket socket;
-  private final PrintWriter writer;
-  private final BufferedReader reader;
-  protected Packet packet;
-  protected int id;
-  private boolean run = true;
+    protected final Socket socket;
+    private final PrintWriter writer;
+    private final BufferedReader reader;
+    protected Packet packet;
+    protected int id;
+    private boolean run = true;
 
   /**
    * Creates a new NetworkThread.
@@ -114,7 +114,6 @@ public abstract class NetworkThread extends Thread {
       }
       return;
     }
-  }
 
   /**
    * @param client checks if the keyBoardlistener is started by a client or a server
@@ -183,7 +182,6 @@ public abstract class NetworkThread extends Thread {
     } else if (reciever instanceof ServerThread) {
       MoleGames.getMoleGames().getPacketHandler().handlePacket(packet, (ServerThread) reciever);
     }
-  }
 
   /**
    * @param data is the packet that will be send in packet format but converted into a string
@@ -195,15 +193,15 @@ public abstract class NetworkThread extends Thread {
     writer.println(new Gson().toJson(data.getJsonObject()));
   }
 
-  /**
-   * @author Carina
-   * @use the basic logic of how a NetworkThread will disconnect
-   */
-  public abstract void disconnect();
+    /**
+     * @author Carina
+     * @use the basic logic of how a NetworkThread will disconnect
+     */
+    public abstract void disconnect();
 
-  public int getConnectionID() {
-    return id;
-  }
+    public int getConnectionID() {
+        return id;
+    }
 
   public Socket getSocket() {
     return socket;
