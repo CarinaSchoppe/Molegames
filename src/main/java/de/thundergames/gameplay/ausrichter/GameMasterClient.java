@@ -14,6 +14,7 @@ import de.thundergames.MoleGames;
 import de.thundergames.networking.server.Server;
 import de.thundergames.networking.util.interfaceItems.NetworkField;
 import de.thundergames.networking.util.interfaceItems.NetworkFloor;
+import de.thundergames.networking.util.interfaceItems.NetworkGame;
 import de.thundergames.playmechanics.game.GameStates;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,17 +29,18 @@ public class GameMasterClient {
   }
 
 
-  public void test() {
-    MoleGames.getMoleGames().getGameHandler().createNewGame(0);
+  public void test_game(int id) {
+    MoleGames.getMoleGames().getGameHandler().createNewGame(id);
+    var test = MoleGames.getMoleGames().getGameHandler().getGames();
     var floor1 = new NetworkFloor();
     var floor2 = new NetworkFloor();
     floor1.setHoles(new ArrayList<>(List.of(new NetworkField(8, 11))));
     floor1.setDrawAgainFields(new ArrayList<>(List.of(new NetworkField(8, 11))));
     floor2.setDrawAgainFields(new ArrayList<>(List.of(new NetworkField(8, 11))));
     floor2.setHoles(new ArrayList<>(List.of(new NetworkField(0, 0))));
-    MoleGames.getMoleGames().getGameHandler().getIDGames().get(0).getSettings().getFloors().add(floor1);
-    MoleGames.getMoleGames().getGameHandler().getIDGames().get(0).getSettings().getFloors().add(floor2);
-    MoleGames.getMoleGames().getGameHandler().getIDGames().get(0).updateGameState();
+    MoleGames.getMoleGames().getGameHandler().getIDGames().get(id).getSettings().getFloors().add(floor1);
+    MoleGames.getMoleGames().getGameHandler().getIDGames().get(id).getSettings().getFloors().add(floor2);
+    MoleGames.getMoleGames().getGameHandler().getIDGames().get(id).updateGameState();
     try {
       Thread.sleep(6000);
     } catch (InterruptedException e) {
@@ -49,5 +51,15 @@ public class GameMasterClient {
 
   public Server getServer() {
     return server;
+  }
+
+  public void test_tournament(int id) {
+    MoleGames.getMoleGames().getGameHandler().createNewTournament(id);
+    MoleGames.getMoleGames().getGameHandler().getIDTournaments().get(id).getGames().add(new NetworkGame(2));
+    MoleGames.getMoleGames().getGameHandler().getIDTournaments().get(id).getGames().add(new NetworkGame(8));
+    MoleGames.getMoleGames().getGameHandler().getIDTournaments().get(id).getGames().add(new NetworkGame(3));
+    MoleGames.getMoleGames().getGameHandler().getIDTournaments().get(id).getGames().add(new NetworkGame(6));
+    MoleGames.getMoleGames().getGameHandler().getIDTournaments().get(id).getGames().add(new NetworkGame(23));
+    MoleGames.getMoleGames().getGameHandler().getIDTournaments().get(id).getGames().add(new NetworkGame(7));
   }
 }

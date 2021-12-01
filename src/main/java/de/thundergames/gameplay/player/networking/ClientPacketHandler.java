@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for Swtpra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 23.11.21, 14:33 by Carina latest changes made by Carina on 23.11.21, 14:33 All contents of "ClientPacketHandler" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 24.11.21, 20:03 by Carina latest changes made by Carina on 24.11.21, 20:02 All contents of "ClientPacketHandler" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -11,20 +11,24 @@ package de.thundergames.gameplay.player.networking;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.google.gson.reflect.TypeToken;
 import de.thundergames.filehandling.Score;
 import de.thundergames.networking.server.PacketHandler;
 import de.thundergames.networking.util.Packet;
 import de.thundergames.networking.util.Packets;
 import de.thundergames.networking.util.interfaceItems.NetworkField;
+import de.thundergames.networking.util.interfaceItems.NetworkGame;
 import de.thundergames.networking.util.interfaceItems.NetworkMole;
 import de.thundergames.networking.util.interfaceItems.NetworkPlayer;
 import de.thundergames.playmechanics.game.GameState;
 import de.thundergames.playmechanics.map.Map;
+import de.thundergames.playmechanics.util.Tournament;
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
-import org.jetbrains.annotations.NotNull;
 
 
 public class ClientPacketHandler {
@@ -44,6 +48,7 @@ public class ClientPacketHandler {
     if (packet.getPacketType().equalsIgnoreCase(Packets.WELCOME.getPacketType())) {
       handleWelcomePacket(client, packet);
       registerOverviewObserverPacket(client);
+      client.getClientPacketHandler().getOverviewPacket(client);
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.MESSAGE.getPacketType())) {
       if (packet.getValues() != null) {
         System.out.println("Server sended: " + packet.getValues().get("message").getAsString());
@@ -716,7 +721,7 @@ public class ClientPacketHandler {
     client.getTournaments().clear();
     client.getGames().addAll(new Gson().fromJson(packet.getValues().get("games").getAsString(), new TypeToken<ArrayList<NetworkGame>>() {
     }.getType()));
-    client.getTournaments().addAll(new Gson().fromJson(packet.getValues().get("tournaments").getAsString(), new TypeToken<ArrayList<NetworkGame>>() {
+    client.getTournaments().addAll(new Gson().fromJson(packet.getValues().get("tournaments").getAsString(), new TypeToken<ArrayList<Tournament>>() {
     }.getType()));
   }
 

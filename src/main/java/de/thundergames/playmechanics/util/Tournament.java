@@ -23,7 +23,7 @@ public class Tournament {
   private final transient HashSet<ServerThread> clients = new HashSet<>();
   private int playerCount;
   private Score score;
-  private HashSet<NetworkGame> games;
+  private HashSet<NetworkGame> games = new HashSet<NetworkGame>();
   private transient TournamentState tournamentState;
 
   public Tournament(int tournamentID) {

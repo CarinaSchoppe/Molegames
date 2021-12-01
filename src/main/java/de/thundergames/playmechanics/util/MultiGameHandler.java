@@ -46,7 +46,6 @@ public class MultiGameHandler {
       } catch (IOException e) {
         e.printStackTrace();
       }
-      games.add(game);
       idGames.put(gameID, game);
     } else {
       System.out.println("Game already exists");
@@ -61,7 +60,6 @@ public class MultiGameHandler {
     if (!idGames.containsKey(tournamentID)) {
       var tournament = new Tournament(tournamentID);
       tournament.create();
-      tournaments.add(tournament);
       idTournaments.put(tournamentID, tournament);
     } else {
       System.out.println("Tournament already exists");

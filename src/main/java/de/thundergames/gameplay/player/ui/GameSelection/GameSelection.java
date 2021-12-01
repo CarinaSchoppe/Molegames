@@ -14,6 +14,7 @@
 package de.thundergames.gameplay.player.ui.GameSelection;
 
 import de.thundergames.gameplay.player.networking.Client;
+import de.thundergames.networking.util.Network;
 import de.thundergames.networking.util.interfaceItems.NetworkGame;
 import de.thundergames.playmechanics.util.Tournament;
 import javafx.collections.FXCollections;
@@ -44,7 +45,7 @@ public class GameSelection implements Initializable {
     @FXML
     private Text PlayerName;
     @FXML
-    private TableView<Object> gameTable;
+    private TableView<NetworkGame> gameTable;
     @FXML
     private TableColumn<NetworkGame, Integer> game_Id;
     @FXML
@@ -101,14 +102,17 @@ public class GameSelection implements Initializable {
         //clear tableview
         gameTable.getItems().clear();
 
-        //get all games from server
-        ObservableList<NetworkGame> gameList = FXCollections.observableArrayList(client.getGames());
-        ObservableList<Tournament> tournamentList = FXCollections.observableArrayList(client.getTournaments());
+        //get  normal games from server and add all to table view
+        gameTable.getItems().addAll(client.getGames());
+        //ObservableList<NetworkGame> gameList = FXCollections.observableArrayList(client.getGames());
 
-
-        //Add all games to tableview
-        gameTable.getItems().addAll(gameList);
-        gameTable.getItems().addAll(tournamentList);
+        //get all tournament from server and add games to table view
+        //for (Tournament tournament :client.getTournaments()) {
+        //    var games = tournament.getGames();
+        //    if (games != null) {
+        //        gameTable.getItems().addAll(games);
+        //    }
+        //}
     }
 
     @FXML
@@ -132,11 +136,12 @@ public class GameSelection implements Initializable {
 
     @FXML
     void onWatchGameClick(ActionEvent event) {
-        var selectedItem = gameTable.getSelectionModel().getSelectedItem();
+        Object selectedItem = gameTable.getSelectionModel().getSelectedItem();
         if (selectedItem == null) {
             JOptionPane.showMessageDialog(null, "Es wurde kein Spiel selektiert!", "Spiel beobachten", JOptionPane.OK_OPTION);
             return;
         }
+
 
         //Todo:Falls game offen dann. Ansonsten direkt ins Spiel.
     }
