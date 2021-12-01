@@ -207,7 +207,7 @@ public abstract class NetworkThread extends Thread {
     return socket;
   }
 
-  public void endConnection() {
-    run = false;
-  }
+    public void endConnection() {
+        run = false;
+    }
 }
