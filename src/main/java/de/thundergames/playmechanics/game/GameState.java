@@ -1,7 +1,8 @@
 /*
  * Copyright Notice for Swtpra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 22.11.21, 14:50 by Carina latest changes made by Carina on 21.11.21, 19:53 All contents of "GameState" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 02.12.21, 15:53 by Carina latest changes made by Carina on 02.12.21, 15:53
+ * All contents of "GameState" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -14,6 +15,7 @@ import de.thundergames.filehandling.Score;
 import de.thundergames.networking.util.interfaceItems.NetworkFloor;
 import de.thundergames.networking.util.interfaceItems.NetworkMole;
 import de.thundergames.networking.util.interfaceItems.NetworkPlayer;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
