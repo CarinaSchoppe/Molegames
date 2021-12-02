@@ -46,7 +46,7 @@ public class Tournament {
 
   /**
    * @author Carina
-   * @use creates a new tournament will all stuff needed
+   * @use creates a new tournament will all stuff needed TODO: mehr ausfüllen
    */
   public synchronized void create() {
     this.score = new Score();
