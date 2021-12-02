@@ -828,5 +828,6 @@ public class PacketHandler {
         .sendToAllGameClients(
             MoleGames.getMoleGames().getGameHandler().getClientGames().get(clientConnection),
             new Packet(object));
+    for (var user : MoleGames.getMoleGames().getServer().getObserver()) overviewPacket(user);
   }
 }
