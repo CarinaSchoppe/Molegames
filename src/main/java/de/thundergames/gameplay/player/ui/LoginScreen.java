@@ -70,7 +70,7 @@ public class LoginScreen extends Application {
     }*/
     String ip = "127.0.0.1";
     String port = "5000";
-    String name = "Marc";
+    String name = "Nick";
     Client client = new Client(Integer.parseInt(port), ip, name);
     client.create();
     new GameSelection().create(event);

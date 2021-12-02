@@ -14,6 +14,7 @@
 package de.thundergames.gameplay.player.ui.GameSelection;
 
 import de.thundergames.gameplay.player.networking.Client;
+import de.thundergames.gameplay.player.ui.lobby.LobbyObserver;
 import de.thundergames.playmechanics.game.Game;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -29,7 +30,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-import javax.swing.*;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -122,12 +122,14 @@ public class GameSelection implements Initializable {
     }
 
     @FXML
-    void onWatchGameClick(ActionEvent event) {
-        var selectedItem = gameTable.getSelectionModel().getSelectedItem();
+    void onWatchGameClick(ActionEvent event) throws IOException {
+        /*var selectedItem = gameTable.getSelectionModel().getSelectedItem();
         if (selectedItem == null) {
             JOptionPane.showMessageDialog(null, "Es wurde kein Spiel selektiert!", "Spiel beobachten", JOptionPane.OK_OPTION);
             return;
         }
-        //Todo:weiteres hier
+        */
+        new LobbyObserver().create(event);
+
     }
 }

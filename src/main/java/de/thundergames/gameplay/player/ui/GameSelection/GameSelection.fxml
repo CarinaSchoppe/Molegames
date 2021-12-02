@@ -21,8 +21,8 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 <?import java.net.URL?>
-<VBox xmlns:fx="http://javafx.com/fxml/1" maxHeight="900.0" maxWidth="856.0" minHeight="900.0" minWidth="856.0"
-      prefHeight="900.0" prefWidth="856.0" xmlns="http://javafx.com/javafx/17"
+<VBox xmlns:fx="http://javafx.com/fxml/1" maxHeight="856.0" maxWidth="900.0" minHeight="856.0" minWidth="900.0"
+      prefHeight="856.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/11.0.2"
       fx:controller="de.thundergames.gameplay.player.ui.GameSelection.GameSelection">
     <children>
         <AnchorPane>
@@ -38,20 +38,19 @@
                         <Font name="Arial Black" size="24.0"/>
                     </font>
                 </Text>
-                <TableView fx:id="gameTable" layoutX="157.0" layoutY="331.0" prefHeight="396.0" prefWidth="608.0"
-                           style="@TableViewStyle.css">
+                <TableView fx:id="gameTable" layoutX="157.0" layoutY="331.0" prefHeight="396.0" prefWidth="608.0">
                     <columns>
-                        <TableColumn fx:id="game_Id" prefWidth="147" sortable="false" reorderable="false"
-                                     resizable="false" text="ID"/>
-                        <TableColumn fx:id="game_Player" prefWidth="147" sortable="false" reorderable="false"
-                                     resizable="false" text="Spieler"/>
-                        <TableColumn fx:id="game_Type" prefWidth="147" sortable="false" reorderable="false"
-                                     resizable="false" text="Typ"/>
-                        <TableColumn fx:id="game_State" prefWidth="147" sortable="false" reorderable="false"
-                                     resizable="false" text="Status"/>
+                        <TableColumn fx:id="game_Id" prefWidth="147" reorderable="false" resizable="false"
+                                     sortable="false" text="ID"/>
+                        <TableColumn fx:id="game_Player" prefWidth="147" reorderable="false" resizable="false"
+                                     sortable="false" text="Spieler"/>
+                        <TableColumn fx:id="game_Type" prefWidth="147" reorderable="false" resizable="false"
+                                     sortable="false" text="Typ"/>
+                        <TableColumn fx:id="game_State" prefWidth="147" reorderable="false" resizable="false"
+                                     sortable="false" text="Status"/>
                     </columns>
                     <stylesheets>
-                        <URL value="@TableViewStyle.css"/>
+                        <URL value="@../../../../../../../resources/style/TableViewStyle.css"/>
                     </stylesheets>
                 </TableView>
                 <Button layoutX="773.0" layoutY="273.0" mnemonicParsing="false" onAction="#onUpdateClick" opacity="0.0"

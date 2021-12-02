@@ -13,6 +13,7 @@ package de.thundergames.gameplay.player.networking;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import de.thundergames.filehandling.Score;
+import de.thundergames.gameplay.player.ui.lobby.LobbyObserver;
 import de.thundergames.networking.server.PacketHandler;
 import de.thundergames.networking.util.Packet;
 import de.thundergames.networking.util.Packets;
@@ -21,11 +22,12 @@ import de.thundergames.networking.util.interfaceItems.NetworkMole;
 import de.thundergames.networking.util.interfaceItems.NetworkPlayer;
 import de.thundergames.playmechanics.game.GameState;
 import de.thundergames.playmechanics.map.Map;
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
-import org.jetbrains.annotations.NotNull;
 
 public class ClientPacketHandler {
 
@@ -661,9 +663,10 @@ public class ClientPacketHandler {
   protected void handlePlayerJoinedPacket(
       @NotNull final Client client, @NotNull final Packet packet) {
     System.out.println(
-        "A player has joined the Game + "
-            + new Gson()
-                .fromJson(packet.getValues().get("player").getAsString(), NetworkPlayer.class));
+            "A player has joined the Game + "
+                    + new Gson()
+                    .fromJson(packet.getValues().get("player").getAsString(), NetworkPlayer.class));
+    LobbyObserver.getObserver().showNewPlayer();
   }
 
   /**
@@ -727,6 +730,7 @@ public class ClientPacketHandler {
         .addAll(
             new Gson()
                 .fromJson(packet.getValues().get("tournaments").getAsString(), ArrayList.class));
+    //updateTable();
   }
 
   /**
@@ -740,6 +744,7 @@ public class ClientPacketHandler {
     System.out.println(
         "Client joined game with id: " + packet.getValues().get("gameID").getAsInt());
     client.setGameID(packet.getValues().get("gameID").getAsInt());
+    LobbyObserver.getObserver().showJoiningSuccessfully();
   }
 
   /**
