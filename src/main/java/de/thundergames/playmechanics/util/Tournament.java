@@ -105,4 +105,11 @@ public class Tournament {
   public TournamentState getTournamentState() {
     return tournamentState;
   }
+
+  /**
+   * @return tournamentID with a hashtag in front of it
+   */
+  public String getHashtagWithTournamentID() {
+    return "#" + tournamentID;
+  }
 }

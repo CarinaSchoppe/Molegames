@@ -11,12 +11,13 @@
  * requires the express written consent of ThunderGames | SwtPra10.
  */
 
-package de.thundergames.gameplay.player.ui.GameSelection;
+package de.thundergames.gameplay.player.ui.TournamentSelection;
 
 import de.thundergames.gameplay.player.networking.Client;
-import de.thundergames.gameplay.player.networking.ClientPacketHandler;
+import de.thundergames.gameplay.player.ui.GameSelection.GameSelection;
 import de.thundergames.gameplay.player.ui.SelectionShared;
 import de.thundergames.networking.util.interfaceItems.NetworkGame;
+import de.thundergames.playmechanics.util.Tournament;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -36,58 +37,40 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class GameSelection extends SelectionShared implements Initializable {
+public class TournamentSelection extends SelectionShared implements Initializable {
 
-    @FXML
+
     private static Client client;
     @FXML
     private Text PlayerName;
     @FXML
-    private TableView<NetworkGame> gameTable;
+    private TableView<Tournament> gameTable;
     @FXML
-    private TableColumn<NetworkGame, Integer> game_Id;
+    private TableColumn<Tournament, Integer> tournament_Id;
     @FXML
-    private TableColumn<NetworkGame, String> game_Player_Count;
-    @FXML
-    private TableColumn<NetworkGame, String> game_State;
+    private TableColumn<Tournament, String> player_Count;
 
-    private static GameSelection gameSelection;
+    private static TournamentSelection tournamentSelection;
 
-    public static GameSelection getGameSelection(){
-        return  gameSelection;
+    public static TournamentSelection getTournamentSelection(){
+        return  tournamentSelection;
     }
-
-    private ClientPacketHandler clientPacketHandler;
 
     public void create(ActionEvent event) throws IOException {
-        createScene(event);
-    }
-
-    private void createScene(ActionEvent event) throws IOException {
-        Stage primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        URL location =
-                new File("src/main/java/de/thundergames/gameplay/player/ui/GameSelection/GameSelection.fxml")
-                        .toURI()
-                        .toURL();
-        Parent root = FXMLLoader.load(location);
-        primaryStage.setTitle("Maulwurf Company");
-        primaryStage.setResizable(false);
-        primaryStage.setScene(new Scene(root));
-        primaryStage.show();
+        createScene(event,"src/main/java/de/thundergames/gameplay/player/ui/TournamentSelection/TournamentSelection.fxml");
+        tournamentSelection = this;
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         client = Client.getClient();
-        clientPacketHandler= new ClientPacketHandler();
 
         //show username at scene
         PlayerName.setText("Spieler: " + client.name);
 
         // set value for each row
-        game_Id.setCellValueFactory(new PropertyValueFactory("HashtagWithGameID"));
-        game_Player_Count.setCellValueFactory(new PropertyValueFactory("CurrentPlayerCount_MaxCount"));
-        game_State.setCellValueFactory(new PropertyValueFactory("status"));
+        tournament_Id.setCellValueFactory(new PropertyValueFactory("HashtagWithTournamentID"));
+        player_Count.setCellValueFactory(new PropertyValueFactory("playerCount"));
 
         // load data for tableview
         updateTable();
@@ -97,9 +80,9 @@ public class GameSelection extends SelectionShared implements Initializable {
     Refresh the games of tableview
      */
     public void updateTable() {
-        //clear tableview and get games from server and add all to table view
+        //clear tableview and get tournaments from server and add all to table view
         gameTable.getItems().clear();
-        gameTable.getItems().addAll(client.getGames());
+        gameTable.getItems().addAll(client.getTournaments());
     }
 
     @FXML
@@ -108,14 +91,12 @@ public class GameSelection extends SelectionShared implements Initializable {
     }
 
     @FXML
-    void onWatchGameClick(ActionEvent event) {
-        NetworkGame selectedItem = gameTable.getSelectionModel().getSelectedItem();
+    public void onWatchTournamentClick(ActionEvent actionEvent) {
+        Object selectedItem = gameTable.getSelectionModel().getSelectedItem();
         if (selectedItem == null) {
             JOptionPane.showMessageDialog(null, "Es wurde kein Spiel selektiert!", "Spiel beobachten", JOptionPane.OK_OPTION);
             return;
         }
-        clientPacketHandler.joinGamePacket(client,selectedItem.getGameID(),false);
         //Todo:Falls game offen dann. Ansonsten direkt ins Spiel.
-
     }
 }

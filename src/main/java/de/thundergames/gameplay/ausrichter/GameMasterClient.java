@@ -55,11 +55,11 @@ public class GameMasterClient {
 
   public void test_tournament(int id) {
     MoleGames.getMoleGames().getGameHandler().createNewTournament(id);
-    MoleGames.getMoleGames().getGameHandler().getIDTournaments().get(id).getGames().add(new NetworkGame(2));
-    MoleGames.getMoleGames().getGameHandler().getIDTournaments().get(id).getGames().add(new NetworkGame(8));
-    MoleGames.getMoleGames().getGameHandler().getIDTournaments().get(id).getGames().add(new NetworkGame(3));
-    MoleGames.getMoleGames().getGameHandler().getIDTournaments().get(id).getGames().add(new NetworkGame(6));
+    MoleGames.getMoleGames().getGameHandler().getIDTournaments().get(id).getGames().add(new NetworkGame(31));
+    MoleGames.getMoleGames().getGameHandler().getIDTournaments().get(id).getGames().add(new NetworkGame(82));
+    MoleGames.getMoleGames().getGameHandler().getIDTournaments().get(id).getGames().add(new NetworkGame(31));
+    MoleGames.getMoleGames().getGameHandler().getIDTournaments().get(id).getGames().add(new NetworkGame(62));
     MoleGames.getMoleGames().getGameHandler().getIDTournaments().get(id).getGames().add(new NetworkGame(23));
-    MoleGames.getMoleGames().getGameHandler().getIDTournaments().get(id).getGames().add(new NetworkGame(7));
+    MoleGames.getMoleGames().getGameHandler().getIDTournaments().get(id).getGames().add(new NetworkGame(741));
   }
 }

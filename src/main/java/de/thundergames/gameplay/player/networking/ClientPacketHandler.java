@@ -207,7 +207,9 @@ public class ClientPacketHandler {
    * @use handles the joining of a player into the tournament
    */
   protected void handleTournamentPlayerJoinedPacket(
-      @NotNull final Client client, @NotNull final Packet packet) {}
+      @NotNull final Client client, @NotNull final Packet packet) {
+    updateTableView();
+  }
 
   /**
    * @param client
@@ -665,6 +667,7 @@ public class ClientPacketHandler {
         "A player has joined the Game + "
             + new Gson()
                 .fromJson(packet.getValues().get("player").getAsString(), NetworkPlayer.class));
+    updateTableView();
   }
 
   /**
@@ -676,6 +679,7 @@ public class ClientPacketHandler {
   protected void handleWelcomeGamePacket(
       @NotNull final Client client, @NotNull final Packet packet) {
     handleFloor(client, packet);
+    updateTableView();
   }
 
   /**
@@ -736,6 +740,7 @@ public class ClientPacketHandler {
     System.out.println(
         "Client joined game with id: " + packet.getValues().get("gameID").getAsInt());
     client.setGameID(packet.getValues().get("gameID").getAsInt());
+    updateTableView();
   }
 
   /**
@@ -769,9 +774,12 @@ public class ClientPacketHandler {
     client.getClientThread().sendPacket(new Packet(object));
   }
 
+  /**
+   * @author Marc
+   * @use update tableview of game/tournament selection
+   */
+  private void updateTableView() {
+    GameSelection.getGameSelection().updateTable();
+    TournamentSelection.getTournamentSelection().updateTable();
+  }
 }
-
-
-
-
-

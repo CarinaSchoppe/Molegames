@@ -24,13 +24,13 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<VBox maxHeight="856.0" maxWidth="900.0" minHeight="856.0" minWidth="900.0" prefHeight="856.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.thundergames.gameplay.player.ui.GameSelection.GameSelection">
+<VBox maxHeight="856.0" maxWidth="900.0" minHeight="856.0" minWidth="900.0" prefHeight="856.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.thundergames.gameplay.player.ui.TournamentSelection.TournamentSelection">
     <children>
         <AnchorPane>
             <children>
                 <ImageView>
                     <image>
-                        <Image url="@../../../../../../../resources/player/pc/GameSelection.png" />
+                        <Image url="@../../../../../../../resources/player/pc/TournamentSelection.png" />
                     </image>
                 </ImageView>
                 <Text fx:id="PlayerName" fill="WHITE" layoutX="8.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Spieler:" wrappingWidth="183.9830722808838">
@@ -40,15 +40,14 @@
                 </Text>
                 <TableView fx:id="gameTable" layoutX="146.0" layoutY="222.0" prefHeight="412.0" prefWidth="608.0">
                     <columns>
-                        <TableColumn fx:id="game_Id" prefWidth="201" reorderable="false" resizable="false" sortable="false" text="Spiel ID" />
-                        <TableColumn fx:id="game_Player_Count" prefWidth="201" reorderable="false" resizable="false" sortable="false" text="Spieler" />
-                        <TableColumn fx:id="game_State" prefWidth="201" reorderable="false" resizable="false" sortable="false" text="Status" />
+                        <TableColumn fx:id="tournament_Id" prefWidth="303" reorderable="false" resizable="false" sortable="false" text="Turnier ID" />
+                        <TableColumn fx:id="player_Count" prefWidth="303" reorderable="false" resizable="false" sortable="false" text="Spieler Anzahl" />
                     </columns>
                     <stylesheets>
                         <URL value="@../../../style/TableViewStyle.css" />
                     </stylesheets>
                 </TableView>
-                <Button layoutX="108.0" layoutY="656.0" mnemonicParsing="false" onAction="#onWatchGameClick" opacity="0.0" prefHeight="66.0" prefWidth="256.0" text="ObserveGame" />
+                <Button layoutX="108.0" layoutY="656.0" mnemonicParsing="false" onAction="#onWatchTournamentClick" opacity="0.0" prefHeight="66.0" prefWidth="256.0" text="ObserveTournament" />
                 <Button layoutX="674.0" layoutY="776.0" mnemonicParsing="false" onAction="#onBackClick" opacity="0.0" prefHeight="59.0" prefWidth="206.0" text="Back" />
             </children>
         </AnchorPane>

@@ -11,6 +11,7 @@ package de.thundergames.gameplay.player.ui;
 
 import de.thundergames.gameplay.player.networking.Client;
 import de.thundergames.gameplay.player.ui.GameSelection.GameSelection;
+import de.thundergames.gameplay.player.ui.PlayerMenu.PlayerMenu;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -73,7 +74,7 @@ public class LoginScreen extends Application {
     String name = "Marc";
     Client client = new Client(Integer.parseInt(port), ip, name);
     client.create();
-    new GameSelection().create(event);
+    new PlayerMenu().create(event);
   }
 
   @FXML
