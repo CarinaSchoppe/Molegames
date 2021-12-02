@@ -39,6 +39,7 @@ public class MainGUI extends Application {
     @FXML
     private Button startGame;
 
+
     @FXML
     void onBreakGame(ActionEvent event) {
 
