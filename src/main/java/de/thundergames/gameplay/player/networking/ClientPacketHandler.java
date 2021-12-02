@@ -1,7 +1,8 @@
 /*
  * Copyright Notice for Swtpra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 24.11.21, 20:03 by Carina latest changes made by Carina on 24.11.21, 20:02 All contents of "ClientPacketHandler" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 25.11.21, 17:04 by Carina Latest changes made by Carina on 25.11.21, 17:04
+ * All contents of "ClientPacketHandler" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -15,6 +16,7 @@ import com.google.gson.reflect.TypeToken;
 import de.thundergames.filehandling.Score;
 import de.thundergames.gameplay.player.ui.GameSelection.GameSelection;
 import de.thundergames.gameplay.player.ui.TournamentSelection.TournamentSelection;
+import de.thundergames.gameplay.player.ui.GameSelection.LobbyGame.LobbyObserverGame;
 import de.thundergames.networking.server.PacketHandler;
 import de.thundergames.networking.util.Packet;
 import de.thundergames.networking.util.Packets;
@@ -34,7 +36,6 @@ import java.util.TimerTask;
 
 
 public class ClientPacketHandler {
-
 
   protected Timer timer;
   private boolean timerRunning = false;
@@ -56,7 +57,7 @@ public class ClientPacketHandler {
         System.out.println("Server sended: " + packet.getValues().get("message").getAsString());
       }
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.ASSIGNTOGAME.getPacketType())) {
-      handleAssignToGamePacket(client, packet);
+      handleAssignedToGamePacket(client, packet);
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.WELCOMEGAME.getPacketType())) {
       handleWelcomeGamePacket(client, packet);
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.PLAYERJOINED.getPacketType())) {
@@ -209,9 +210,7 @@ public class ClientPacketHandler {
    * @use handles the joining of a player into the tournament
    */
   protected void handleTournamentPlayerJoinedPacket(
-      @NotNull final Client client, @NotNull final Packet packet) {
-    updateTableView();
-  }
+      @NotNull final Client client, @NotNull final Packet packet) {}
 
   /**
    * @param client
@@ -295,10 +294,23 @@ public class ClientPacketHandler {
   }
 
   private void handleFloor(Client client, Packet packet) {
-    client.setGameState(new Gson().fromJson(packet.getValues().get("gameState").getAsString(), GameState.class));
-    client.getPullDiscs().addAll(client.getGameState().getPullDiscs().get(client.getClientThread().getClientThreadID()));
+    client.getMoles().clear();
+    client.setGameState(
+        new Gson().fromJson(packet.getValues().get("gameState").getAsString(), GameState.class));
+    client
+        .getPullDiscs()
+        .addAll(
+            client.getGameState().getPullDiscs().get(client.getClientThread().getClientThreadID()));
     client.setMap(new Map(client.getGameState()));
     client.getMap().changeFieldParams(client.getGameState());
+    System.out.println("moles " + client.getGameState().getPlacedMoles().size());
+    for (var m : client.getGameState().getPlacedMoles()) {
+      System.out.println(
+          m.getPlayer().getClientID() + " my: " + client.getNetworkPlayer().getClientID());
+      if (m.getPlayer().getClientID() == client.getNetworkPlayer().getClientID()) {
+        client.getMoles().add(m);
+      }
+    }
     client.getMap().printMap();
   }
 
@@ -489,7 +501,6 @@ public class ClientPacketHandler {
             20000);
       }
 
-
     } else {
       System.out.println(
           "The Client "
@@ -666,9 +677,10 @@ public class ClientPacketHandler {
   protected void handlePlayerJoinedPacket(
       @NotNull final Client client, @NotNull final Packet packet) {
     System.out.println(
-        "A player has joined the Game + "
-            + new Gson()
-                .fromJson(packet.getValues().get("player").getAsString(), NetworkPlayer.class));
+            "A player has joined the Game + "
+                    + new Gson()
+                    .fromJson(packet.getValues().get("player").getAsString(), NetworkPlayer.class));
+    LobbyObserverGame.getObserver().showNewPlayer();
     updateTableView();
   }
 
@@ -681,7 +693,6 @@ public class ClientPacketHandler {
   protected void handleWelcomeGamePacket(
       @NotNull final Client client, @NotNull final Packet packet) {
     handleFloor(client, packet);
-    updateTableView();
   }
 
   /**
@@ -738,11 +749,12 @@ public class ClientPacketHandler {
    * @author Carina
    * @use handles the joining of a player into the game
    */
-  protected void handleAssignToGamePacket(
+  protected void handleAssignedToGamePacket(
       @NotNull final Client client, @NotNull final Packet packet) {
     System.out.println(
         "Client joined game with id: " + packet.getValues().get("gameID").getAsInt());
     client.setGameID(packet.getValues().get("gameID").getAsInt());
+    LobbyObserverGame.getObserver().showJoiningSuccessfully();
     updateTableView();
   }
 
@@ -778,6 +790,17 @@ public class ClientPacketHandler {
   }
 
   /**
+   * @param client
+   * @author Marc and Nick
+   * @use send to the server to unregister as an overview observer
+   */
+  public void unregisterOverviewObserverPacket(@NotNull Client client) {
+    var object = new JsonObject();
+    object.addProperty("type", Packets.UNREGISTEROBSERVER.getPacketType());
+    client.getClientThread().sendPacket(new Packet(object));
+  }
+
+  /**
    * @author Marc
    * @use update tableview of game/tournament selection
    */
@@ -785,4 +808,5 @@ public class ClientPacketHandler {
     GameSelection.getGameSelection().updateTable();
     TournamentSelection.getTournamentSelection().updateTable();
   }
+
 }

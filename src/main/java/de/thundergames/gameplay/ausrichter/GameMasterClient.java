@@ -46,7 +46,7 @@ public class GameMasterClient {
     } catch (InterruptedException e) {
       e.printStackTrace();
     }
-    MoleGames.getMoleGames().getGameHandler().getIDGames().get(0).startGame(GameStates.STARTED);
+    MoleGames.getMoleGames().getGameHandler().getIDGames().get(id).startGame(GameStates.STARTED);
   }
 
   public Server getServer() {

@@ -57,8 +57,6 @@ public class GameSelection extends SelectionShared implements Initializable {
         return  gameSelection;
     }
 
-    private ClientPacketHandler clientPacketHandler;
-
     public void create(ActionEvent event) throws IOException {
         createScene(event,"src/main/java/de/thundergames/gameplay/player/ui/GameSelection/GameSelection.fxml");
         gameSelection = this;
@@ -67,7 +65,6 @@ public class GameSelection extends SelectionShared implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         client = Client.getClient();
-        clientPacketHandler= new ClientPacketHandler();
 
         //show username at scene
         PlayerName.setText("Spieler: " + client.name);
@@ -102,7 +99,15 @@ public class GameSelection extends SelectionShared implements Initializable {
             JOptionPane.showMessageDialog(null, "Es wurde kein Spiel selektiert!", "Spiel beobachten", JOptionPane.OK_OPTION);
             return;
         }
-        clientPacketHandler.joinGamePacket(client,selectedItem.getGameID(),false);
+        client.getClientPacketHandler().joinGamePacket(client,selectedItem.getGameID(),false);
+        client.getClientPacketHandler().registerOverviewObserverPacket(client);
+
+        //wenn Game bereits gestartet
+
+
+        // wenn game noch offen
+
+
         //Todo:Falls game offen dann. Ansonsten direkt ins Spiel.
 
     }

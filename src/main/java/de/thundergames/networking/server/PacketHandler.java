@@ -23,18 +23,19 @@ import de.thundergames.playmechanics.game.GameState;
 import de.thundergames.playmechanics.game.GameStates;
 import de.thundergames.playmechanics.util.Player;
 import de.thundergames.playmechanics.util.Punishments;
-import java.util.ArrayList;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
 
 public class PacketHandler {
 
-  /**
-   * @param packet
-   * @param client
-   * @author Carina
-   * @use handles the incomming packets from the server
-   * @see Server
-   * @see Packets
+    /**
+     * @param packet
+     * @param client
+     * @author Carina
+     * @use handles the incomming packets from the server
+     * @see Server
+     * @see Packets
    * @see de.thundergames.gameplay.player.networking.Client
    */
   public void handlePacket(@NotNull final Packet packet, @NotNull final ServerThread client) {
@@ -731,6 +732,7 @@ public class PacketHandler {
    * @param clientConnection
    * @author Carina
    * @use calls when a player joined the game sending the message to the clients of the game
+   * TODO: hier wenn jemand dem spiel beitritt egal ob spec oder teilnehmer!
    */
   public void playerJoinedPacket(@NotNull final ServerThread clientConnection) {
     var object = new JsonObject();
