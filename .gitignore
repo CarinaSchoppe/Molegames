@@ -10,6 +10,5 @@ gradle-app.setting
 !gradle-wrapper.jar
 # Cache of project
 .gradletasknamecache
-
 bin
 .vscode

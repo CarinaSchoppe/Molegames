@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~ Copyright Notice for SwtPra10                                            
+  ~ Copyright (c) at ThunderGames | SwtPra10 2021                              
+  ~ File created on 02.12.21, 17:19 by Carina latest changes made by Carina on 02.12.21, 17:19
+  ~ All contents of "test.fxml" are protected by copyright. The copyright law, unless expressly indicated otherwise, is  
+  ~ at ThunderGames | SwtPra10. All rights reserved                        
+  ~ Any type of duplication, distribution, rental, sale, award,  
+  ~ Public accessibility or other use                            
+  ~ requires the express written consent of ThunderGames | SwtPra10.
+  -->
+
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.BorderPane?>
+<BorderPane xmlns:fx="http://javafx.com/fxml/1" fx:id="pane" prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17">
+    <left>
+        <Button fx:id="c" mnemonicParsing="false" text="c" BorderPane.alignment="CENTER"/>
+    </left>
+    <right>
+        <Button fx:id="a" mnemonicParsing="false" text="a" BorderPane.alignment="CENTER"/>
+    </right>
+    <top>
+        <Button fx:id="b" mnemonicParsing="false" text="b" BorderPane.alignment="CENTER"/>
+    </top>
+</BorderPane>

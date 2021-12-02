@@ -1,7 +1,7 @@
 /*
- * Copyright Notice for Swtpra10
+ * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 02.12.21, 15:53 by Carina latest changes made by Carina on 02.12.21, 15:53
+ * File created on 02.12.21, 17:19 by Carina latest changes made by Carina on 02.12.21, 17:13
  * All contents of "ClientPacketHandler" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
@@ -224,6 +224,13 @@ public class ClientPacketHandler {
   }
 
   /**
+   * @author Carina
+   * @param map
+   * @use is called everytime a map gets updated
+   */
+  public void updateMap(Map map) {}
+
+  /**
    * @param client
    * @param packet
    * @author Carina
@@ -252,6 +259,7 @@ public class ClientPacketHandler {
         break;
       }
     }
+    updateMap(client.getMap());
   }
 
   /**
@@ -287,15 +295,12 @@ public class ClientPacketHandler {
         .addAll(
             client.getGameState().getPullDiscs().get(client.getClientThread().getClientThreadID()));
     client.setMap(new Map(client.getGameState()));
-    client.getMap().changeFieldParams(client.getGameState());
-    System.out.println("moles " + client.getGameState().getPlacedMoles().size());
-    for (var m : client.getGameState().getPlacedMoles()) {
-      System.out.println(
-          m.getPlayer().getClientID() + " my: " + client.getNetworkPlayer().getClientID());
-      if (m.getPlayer().getClientID() == client.getNetworkPlayer().getClientID()) {
-        client.getMoles().add(m);
+    for (var moles : client.getGameState().getPlacedMoles()) {
+      if (moles.getPlayer().getClientID() == client.getNetworkPlayer().getClientID()) {
+        client.getMoles().add(moles);
       }
     }
+    updateMap(client.getMap());
     client.getMap().printMap();
   }
 
@@ -363,7 +368,8 @@ public class ClientPacketHandler {
         .getFieldMap()
         .get(List.of(mole.getNetworkField().getX(), mole.getNetworkField().getY()))
         .setMole(mole);
-    // client.getGameState().getPlacedMoles().add(mole);
+    client.getGameState().getPlacedMoles().add(mole); // TODO: check hier
+    updateMap(client.getMap());
   }
 
   /**
