@@ -38,7 +38,7 @@ import java.util.ResourceBundle;
 
 public class GameSelection extends SelectionShared implements Initializable {
 
-    @FXML
+
     private static Client client;
     @FXML
     private Text PlayerName;
@@ -60,20 +60,8 @@ public class GameSelection extends SelectionShared implements Initializable {
     private ClientPacketHandler clientPacketHandler;
 
     public void create(ActionEvent event) throws IOException {
-        createScene(event);
-    }
-
-    private void createScene(ActionEvent event) throws IOException {
-        Stage primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        URL location =
-                new File("src/main/java/de/thundergames/gameplay/player/ui/GameSelection/GameSelection.fxml")
-                        .toURI()
-                        .toURL();
-        Parent root = FXMLLoader.load(location);
-        primaryStage.setTitle("Maulwurf Company");
-        primaryStage.setResizable(false);
-        primaryStage.setScene(new Scene(root));
-        primaryStage.show();
+        createScene(event,"src/main/java/de/thundergames/gameplay/player/ui/GameSelection/GameSelection.fxml");
+        gameSelection = this;
     }
 
     @Override

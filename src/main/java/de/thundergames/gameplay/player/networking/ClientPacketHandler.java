@@ -13,6 +13,8 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import de.thundergames.filehandling.Score;
+import de.thundergames.gameplay.player.ui.GameSelection.GameSelection;
+import de.thundergames.gameplay.player.ui.TournamentSelection.TournamentSelection;
 import de.thundergames.networking.server.PacketHandler;
 import de.thundergames.networking.util.Packet;
 import de.thundergames.networking.util.Packets;
@@ -727,6 +729,7 @@ public class ClientPacketHandler {
     }.getType()));
     client.getTournaments().addAll(new Gson().fromJson(packet.getValues().get("tournaments").getAsString(), new TypeToken<ArrayList<Tournament>>() {
     }.getType()));
+    updateTableView();
   }
 
   /**
