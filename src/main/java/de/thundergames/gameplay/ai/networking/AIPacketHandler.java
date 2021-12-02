@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 02.12.21, 18:17 by Carina latest changes made by Carina on 02.12.21, 18:17
+ * File created on 02.12.21, 20:17 by Carina latest changes made by Carina on 02.12.21, 20:17
  * All contents of "AIPacketHandler" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
@@ -16,6 +16,7 @@ import de.thundergames.gameplay.player.networking.ClientPacketHandler;
 import de.thundergames.networking.util.Packet;
 import de.thundergames.networking.util.Packets;
 import de.thundergames.networking.util.interfaceItems.NetworkPlayer;
+import de.thundergames.playmechanics.map.Map;
 import org.jetbrains.annotations.NotNull;
 
 public class AIPacketHandler extends ClientPacketHandler {
@@ -36,13 +37,15 @@ public class AIPacketHandler extends ClientPacketHandler {
           new NetworkPlayer(ai.getName(), ai.getClientThread().getClientThreadID()));
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.WELCOMEGAME.getPacketType())) {
       handleWelcomeGamePacket(ai, packet);
-      ai.getAIUtil().createMapFromJson(ai);
+      ai.setMap(new Map(ai.getGameState()));
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.NEXTLEVEL.getPacketType())) {
       handleNextFloorPacket(ai, packet);
-      ai.getAIUtil().createMapFromJson(ai);
+      ai.setMap(new Map(ai.getGameState()));
+
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.MOLEPLACED.getPacketType())) {
       handleMolePlacedPacket(ai, packet);
-      ai.getAIUtil().createMapFromJson(ai);
+      ai.setMap(new Map(ai.getGameState()));
+
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.MOLEMOVED.getPacketType())) {
       handleMoleMovedPacket(ai, packet);
     }  else if (packet.getPacketType().equalsIgnoreCase(Packets.PLAYERJOINED.getPacketType())) {

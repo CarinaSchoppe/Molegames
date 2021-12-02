@@ -1,7 +1,7 @@
 /*
- * Copyright Notice for Swtpra10
+ * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 02.12.21, 15:53 by Carina latest changes made by Carina on 02.12.21, 15:53
+ * File created on 02.12.21, 20:17 by Carina latest changes made by Carina on 02.12.21, 20:17
  * All contents of "NetworkThread" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
@@ -165,9 +165,6 @@ public abstract class NetworkThread extends Thread {
   private void readStringPacketInput(
       @NotNull final Packet packet, @NotNull final NetworkThread reciever)
       throws UndefinedError {
-    // TODO: How to handle the packet from the client! Player has moved -> now in a hole and than
-    // handle it
-
     if (reciever instanceof ClientThread && !(reciever instanceof AIClientThread)) {
       ((ClientThread) reciever)
           .getClient()

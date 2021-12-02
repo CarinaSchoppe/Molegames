@@ -1,7 +1,7 @@
 /*
- * Copyright Notice for Swtpra10
+ * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 02.12.21, 15:53 by Carina latest changes made by Carina on 02.12.21, 15:53
+ * File created on 02.12.21, 20:17 by Carina latest changes made by Carina on 02.12.21, 20:17
  * All contents of "AILogic" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
@@ -15,6 +15,7 @@ import de.thundergames.networking.util.interfaceItems.NetworkMole;
 import de.thundergames.playmechanics.game.GameLogic;
 import de.thundergames.playmechanics.map.Directions;
 import de.thundergames.playmechanics.map.Field;
+import de.thundergames.playmechanics.util.Mole;
 import de.thundergames.playmechanics.util.Player;
 import org.jetbrains.annotations.NotNull;
 
@@ -326,6 +327,23 @@ public class AILogic {
     }
     System.out.println("all moles are not movable in all directions");
     return false;
+  }
+
+  /**
+   * @param ai
+   * @param field that will be checked with the mole
+   * @param mole that will be checked with the field
+   * @return the distance between the mole and the field in form of X and Y
+   * @author Carina
+   * @use input the parameter and than returns the distance between the mole and the field
+   */
+  public List<Integer> getDistance(
+      @NotNull final AI ai, @NotNull final Field field, final Mole mole) {
+    var x = mole.getNetworkField().getX();
+    var y = mole.getNetworkField().getY();
+    var distanceX = Math.abs(field.getX() - x);
+    var distanceY = Math.abs(field.getY() - y);
+    return List.of(distanceX, distanceY);
   }
 
   /**

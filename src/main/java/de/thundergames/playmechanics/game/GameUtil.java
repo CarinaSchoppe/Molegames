@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 02.12.21, 18:17 by Carina latest changes made by Carina on 02.12.21, 18:17
+ * File created on 02.12.21, 20:17 by Carina latest changes made by Carina on 02.12.21, 20:17
  * All contents of "GameUtil" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
@@ -130,7 +130,8 @@ public class GameUtil {
 
   /**
    * @author Carina
-   * @use goes to the next Floor it it exists
+   * @use goes to the next Floor it it exists TODO: sagen dass man raus ist aber noch updates
+   *     bekommt
    */
   public void nextFloor() {
     if (game.getSettings().getFloors().size() > game.getCurrentFloorID() + 1) {
@@ -178,7 +179,12 @@ public class GameUtil {
     }
   }
 
-  // TODO: kommentaring
+  /**
+   * @author Carina
+   * @use gives points to the player who are in holes when a next floor comes
+   * @sse Player
+   * @see de.thundergames.filehandling.Score
+   */
   public void givePoints() {
     for (var holes : game.getMap().getHoles()) {
       for (var player : game.getPlayers()) {

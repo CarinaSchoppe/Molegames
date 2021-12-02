@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 02.12.21, 18:17 by Carina latest changes made by Carina on 02.12.21, 18:17
+ * File created on 02.12.21, 20:17 by Carina latest changes made by Carina on 02.12.21, 20:17
  * All contents of "AI" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
@@ -22,7 +22,6 @@ public class AI extends Client {
 
   private final int gameID;
   private final AILogic logic;
-  private final AIUtil aiUtil;
   private int card;
   private boolean placedMoles = false;
   private int placedMolesAmount = 0;
@@ -39,7 +38,6 @@ public class AI extends Client {
     this.gameID = gameID;
     clientPacketHandler = new AIPacketHandler();
     logic = new AILogic();
-    aiUtil = new AIUtil();
   }
 
   /**
@@ -63,9 +61,6 @@ public class AI extends Client {
     return (AIPacketHandler) clientPacketHandler;
   }
 
-  public AIUtil getAIUtil() {
-    return aiUtil;
-  }
 
   public int getCard() {
     return card;

@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 02.12.21, 18:17 by Carina latest changes made by Carina on 02.12.21, 18:17
+ * File created on 02.12.21, 20:17 by Carina latest changes made by Carina on 02.12.21, 20:17
  * All contents of "GameLogic" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
@@ -177,8 +177,8 @@ public class GameLogic {
   /**
    * @param player
    * @author Carina
-   * @use handles the punishment / performs it to the player doing an invalid move TODO: hier
-   *     punishments performen
+   * @use handles the punishment / performs it to the player doing an invalid move punishments
+   *     performen
    */
   public void performPunishment(Player player, Punishments reason) {
     if (player.getGame().getSettings().getPunishment().equals(Punishments.POINTS)) {
@@ -190,16 +190,17 @@ public class GameLogic {
               player.getClientID(),
               player.getGame().getScore().getPoints().get(player.getClientID())
                   - player.getGame().getSettings().getPunishmentPoints());
+
     } else if (player.getGame().getSettings().getPunishment().equals(Punishments.KICK)) {
       player.getGame().removePlayerFromGame(player);
-      MoleGames.getMoleGames()
-          .getServer()
-          .sendToAllGameClients(
-              player.getGame(),
-              MoleGames.getMoleGames()
-                  .getPacketHandler()
-                  .movePenaltyNotification(
-                      player, player.getGame().getSettings().getPunishment(), reason.getName()));
     }
+    MoleGames.getMoleGames()
+        .getServer()
+        .sendToAllGameClients(
+            player.getGame(),
+            MoleGames.getMoleGames()
+                .getPacketHandler()
+                .movePenaltyNotification(
+                    player, player.getGame().getSettings().getPunishment(), reason.getName()));
   }
 }
