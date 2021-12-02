@@ -1,7 +1,7 @@
 /*
- * Copyright Notice for Swtpra10
+ * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 02.12.21, 15:53 by Carina latest changes made by Carina on 02.12.21, 15:53
+ * File created on 02.12.21, 18:17 by Carina latest changes made by Carina on 02.12.21, 18:17
  * All contents of "AI" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
@@ -81,10 +81,6 @@ public class AI extends Client {
 
   public void setPlacedMoles(boolean placedMoles) {
     this.placedMoles = placedMoles;
-  }
-
-  public int getGameID() {
-    return gameID;
   }
 
   public AILogic getLogic() {

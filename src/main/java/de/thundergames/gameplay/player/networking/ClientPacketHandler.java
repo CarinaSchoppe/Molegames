@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 02.12.21, 17:19 by Carina latest changes made by Carina on 02.12.21, 17:13
+ * File created on 02.12.21, 18:17 by Carina latest changes made by Carina on 02.12.21, 18:17
  * All contents of "ClientPacketHandler" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
@@ -126,6 +126,11 @@ public class ClientPacketHandler {
     }
   }
 
+  /**
+   * @param client
+   * @author Carina
+   * @use send to client that he wants the overview for all objects
+   */
   public void getOverviewPacket(@NotNull final Client client) {
     var object = new JsonObject();
     var json = new JsonObject();
@@ -139,7 +144,7 @@ public class ClientPacketHandler {
    * @author Carina
    * @use handles the client tournament when the tournament is over
    */
-  private void handleTournamentOverPacket(@NotNull final Client client) {}
+  protected void handleTournamentOverPacket(@NotNull final Client client) {}
 
   /**
    * @param client
@@ -147,7 +152,7 @@ public class ClientPacketHandler {
    * @author Carina
    * @use handles the leftment of a player from the tournament
    */
-  private void handleTournamentPlayerLeftPacket(
+  protected void handleTournamentPlayerLeftPacket(
       @NotNull final Client client, @NotNull final Packet packet) {}
 
   /**
@@ -156,7 +161,7 @@ public class ClientPacketHandler {
    * @author Carina
    * @use handles the new overview of all running tournaments
    */
-  private void handleTournamentGamesOverviewPacket(
+  protected void handleTournamentGamesOverviewPacket(
       @NotNull final Client client, @NotNull final Packet packet) {
     client
         .getTournaments()
@@ -170,7 +175,7 @@ public class ClientPacketHandler {
    * @author Carina
    * @use handles that a player is in game in the tournament
    */
-  private void handleTournamentPlayerInGamePacket(
+  protected void handleTournamentPlayerInGamePacket(
       @NotNull final Client client, @NotNull final Packet packet) {}
 
   /**
@@ -179,7 +184,7 @@ public class ClientPacketHandler {
    * @author Carina
    * @use handles the kick of a player from the tournament
    */
-  private void handleTournamentPlayerKickedPacket(
+  protected void handleTournamentPlayerKickedPacket(
       @NotNull final Client client, @NotNull final Packet packet) {}
 
   /**
@@ -224,11 +229,13 @@ public class ClientPacketHandler {
   }
 
   /**
+   * TODO: hier einbauen
+   *
    * @author Carina
    * @param map
    * @use is called everytime a map gets updated
    */
-  public void updateMap(Map map) {}
+  public void updateMap(@NotNull final Map map) {}
 
   /**
    * @param client
@@ -286,7 +293,7 @@ public class ClientPacketHandler {
     handleFloor(client, packet);
   }
 
-  private void handleFloor(Client client, Packet packet) {
+  protected void handleFloor(Client client, Packet packet) {
     client.getMoles().clear();
     client.setGameState(
         new Gson().fromJson(packet.getValues().get("gameState").getAsString(), GameState.class));
