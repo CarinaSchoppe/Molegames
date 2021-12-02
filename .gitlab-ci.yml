@@ -1,6 +1,7 @@
 image: gradle:7-jdk11
 stages:
   - build
+  - test
 
 default:
   tags:
@@ -21,3 +22,11 @@ build:
     paths:
       - build
       - .gradle
+
+test:
+  stage: test
+  script: gradle test
+  artifacts:
+    when: always
+    reports:
+      junit: build/test-results/test/TEST-*.xml

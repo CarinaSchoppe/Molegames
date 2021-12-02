@@ -1,8 +1,7 @@
 /*
- * Copyright Notice for SwtPra10
+ * Copyright Notice for Swtpra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 02.12.21, 17:19 by Carina latest changes made by Carina on 02.12.21, 17:19
- * All contents of "Map" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 22.11.21, 21:41 by Carina latest changes made by Carina on 22.11.21, 19:55 All contents of "Map" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -13,10 +12,9 @@ package de.thundergames.playmechanics.map;
 import de.thundergames.networking.util.interfaceItems.NetworkFloor;
 import de.thundergames.playmechanics.game.Game;
 import de.thundergames.playmechanics.game.GameState;
-import org.jetbrains.annotations.NotNull;
-
 import java.util.HashMap;
 import java.util.List;
+import org.jetbrains.annotations.NotNull;
 
 public class Map extends NetworkFloor {
 
@@ -41,7 +39,6 @@ public class Map extends NetworkFloor {
    */
   public Map(GameState gameState) {
     createMap(gameState.getRadius());
-    changeFieldParams(gameState);
   }
 
   /**
@@ -61,12 +58,13 @@ public class Map extends NetworkFloor {
     }
     // 1 under mid: left to bottom right
     for (var y = radius + 1; y <= radius * 2; y++) {
-      for (var x = y - radius + 1; x <= radius * 2; x++) {
+      for (var x = y - radius; x <= radius * 2; x++) {
         var field = new Field(java.util.List.of(x, y));
         field.setMap(this);
         fieldMap.put(java.util.List.of(x, y), field);
       }
     }
+    // printMap();
   }
 
   /**
