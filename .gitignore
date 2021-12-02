@@ -1,7 +1,7 @@
 .idea
 !/.idea.copyright
 .gradle
-!gradle.wrapper
+!gradle.wrapper.properties
 **/build/
 !src/**/build/
 # Ignore Gradle GUI config
@@ -10,3 +10,6 @@ gradle-app.setting
 !gradle-wrapper.jar
 # Cache of project
 .gradletasknamecache
+sprites
+bin
+.vscode

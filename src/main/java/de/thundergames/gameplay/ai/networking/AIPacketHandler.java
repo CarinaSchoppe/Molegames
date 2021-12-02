@@ -48,6 +48,8 @@ public class AIPacketHandler extends ClientPacketHandler {
       ai.getAIUtil().createMapFromJson(ai);
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.MOLEMOVED.getPacketType())) {
       handleMoleMovedPacket(ai, packet);
+    }  else if (packet.getPacketType().equalsIgnoreCase(Packets.PLAYERJOINED.getPacketType())) {
+      handlePlayerJoinedPacket(ai, packet);
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.PLAYERSTURN.getPacketType())) {
       handlePlayersTurnPacket(ai, packet);
       timerRelatedController(ai);
