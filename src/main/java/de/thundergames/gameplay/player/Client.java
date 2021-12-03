@@ -1,21 +1,24 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 03.12.21, 13:30 by Carina latest changes made by Carina on 03.12.21, 13:12
+ * File created on 03.12.21, 15:04 by Carina latest changes made by Carina on 03.12.21, 15:04
  * All contents of "Client" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
  * requires the express written consent of ThunderGames | SwtPra10.
  */
-package de.thundergames.gameplay.player.networking;
+package de.thundergames.gameplay.player;
 
+import de.thundergames.gameplay.player.networking.ClientPacketHandler;
+import de.thundergames.gameplay.player.networking.ClientThread;
 import de.thundergames.networking.util.Network;
 import de.thundergames.networking.util.interfaceItems.NetworkGame;
 import de.thundergames.networking.util.interfaceItems.NetworkMole;
 import de.thundergames.networking.util.interfaceItems.NetworkPlayer;
 import de.thundergames.playmechanics.game.GameState;
 import de.thundergames.playmechanics.map.Map;
+import de.thundergames.playmechanics.util.Tournament;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
@@ -29,7 +32,7 @@ public class Client extends Network {
   protected static Client client;
   private final String name;
   private final HashSet<NetworkGame> games = new HashSet<>();
-  private final HashSet<NetworkGame> tournaments = new HashSet<>();
+  private final HashSet<Tournament> tournaments = new HashSet<>();
   private final ArrayList<Integer> pullDiscs = new ArrayList<>();
   private final ArrayList<NetworkMole> moles = new ArrayList<>();
   protected ClientPacketHandler clientPacketHandler;
@@ -155,7 +158,7 @@ public class Client extends Network {
     return pullDiscs;
   }
 
-  public HashSet<NetworkGame> getTournaments() {
+  public HashSet<Tournament> getTournaments() {
     return tournaments;
   }
 

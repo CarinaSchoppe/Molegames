@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 03.12.21, 13:47 by Carina latest changes made by Carina on 03.12.21, 13:47
+ * File created on 03.12.21, 15:04 by Carina latest changes made by Carina on 03.12.21, 15:04
  * All contents of "PacketHandler" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
@@ -14,6 +14,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import de.thundergames.MoleGames;
 import de.thundergames.filehandling.Score;
+import de.thundergames.gameplay.player.Client;
 import de.thundergames.networking.util.Packet;
 import de.thundergames.networking.util.Packets;
 import de.thundergames.networking.util.interfaceItems.NetworkField;
@@ -37,7 +38,7 @@ public class PacketHandler {
    * @use handles the incomming packets from the server
    * @see Server
    * @see Packets
-   * @see de.thundergames.gameplay.player.networking.Client
+   * @see Client
    */
   public void handlePacket(@NotNull final Packet packet, @NotNull final ServerThread client) {
     if (packet.getPacketType().equalsIgnoreCase(Packets.LOGIN.getPacketType())) {
@@ -528,7 +529,7 @@ public class PacketHandler {
    * @param client the client that has left the game
    * @author Carina
    * @see ServerThread
-   * @see de.thundergames.gameplay.player.networking.Client
+   * @see Client
    * @see Player
    */
   private void handlePlayerLeavePacket(@NotNull final ServerThread client) {
@@ -540,7 +541,7 @@ public class PacketHandler {
    * @param client
    * @author Carina
    * @use handles the getTournamentScore from the client
-   * @see de.thundergames.gameplay.player.networking.Client
+   * @see Client
    * @see Score
    */
   private void handleGetTournamentScorePacket(@NotNull final ServerThread client) {
@@ -582,7 +583,7 @@ public class PacketHandler {
    * @param clientConnection the client that logged in into the server
    * @param threadID the threadID of the client that will be send to the client to give hima id
    * @author Carina
-   * @see de.thundergames.gameplay.player.networking.Client
+   * @see Client
    */
   public void welcomePacket(@NotNull final ServerThread clientConnection, final int threadID) {
     var object = new JsonObject();
@@ -720,7 +721,7 @@ public class PacketHandler {
    * @author Carina
    * @see Game
    * @see Player
-   * @see de.thundergames.gameplay.player.networking.Client
+   * @see Client
    */
   private boolean handleJoinPacket(
       @NotNull final Packet packet, @NotNull final ServerThread clientConnection) {
