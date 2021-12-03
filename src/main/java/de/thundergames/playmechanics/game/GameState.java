@@ -1,7 +1,7 @@
 /*
- * Copyright Notice for Swtpra10
+ * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 02.12.21, 15:53 by Carina latest changes made by Carina on 02.12.21, 15:53
+ * File created on 03.12.21, 13:30 by Carina latest changes made by Carina on 03.12.21, 13:15
  * All contents of "GameState" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
@@ -34,18 +34,10 @@ public class GameState {
   private String status;
   private Score score;
 
-
-  public ArrayList<NetworkPlayer> getPlayers() {
-    return players;
-  }
-
   public void setPlayers(ArrayList<NetworkPlayer> players) {
     this.players = players;
   }
 
-  public NetworkPlayer getCurrentPlayer() {
-    return currentPlayer;
-  }
 
   public void setCurrentPlayer(NetworkPlayer currentPlayer) {
     this.currentPlayer = currentPlayer;
@@ -99,17 +91,13 @@ public class GameState {
     this.pullDiscs = pullDiscs;
   }
 
-  public long getVisualizationTime() {
-    return visualizationTime;
-  }
+
 
   public void setVisualizationTime(long visualizationTime) {
     this.visualizationTime = visualizationTime;
   }
 
-  public String getStatus() {
-    return status;
-  }
+
 
   public void setStatus(String status) {
     this.status = status;

@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 02.12.21, 20:17 by Carina latest changes made by Carina on 02.12.21, 20:17
+ * File created on 03.12.21, 13:30 by Carina latest changes made by Carina on 03.12.21, 13:12
  * All contents of "PacketHandler" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
@@ -566,12 +566,11 @@ public class PacketHandler {
     for (var players :
         MoleGames.getMoleGames().getGameHandler().getClientGames().get(client).getPlayers()) {
       if (players.getServerClient().equals(client)) {
-        var player = players;
         MoleGames.getMoleGames()
             .getGameHandler()
             .getClientGames()
             .get(client)
-            .removePlayerFromGame(player);
+            .removePlayerFromGame(players);
         MoleGames.getMoleGames().getGameHandler().getClientGames().remove(client);
         return;
       }

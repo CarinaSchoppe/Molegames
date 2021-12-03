@@ -1,7 +1,7 @@
 /*
- * Copyright Notice for Swtpra10
+ * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 02.12.21, 15:53 by Carina latest changes made by Carina on 02.12.21, 15:49
+ * File created on 03.12.21, 13:30 by Carina latest changes made by Carina on 03.12.21, 13:28
  * All contents of "PlayerUtil" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
@@ -10,6 +10,8 @@
  */
 
 package de.thundergames.playmechanics.util;
+
+import de.thundergames.MoleGames;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -43,23 +45,42 @@ public class PlayerUtil {
     player.setHasMoved(false);
     player.setTimer(new Timer());
     player.setTimerIsRunning(true);
-    player.getTimer().schedule(
-        new TimerTask() {
-          @Override
-          public void run() {
-            player.setHasMoved(true);
-            player.setTimerIsRunning(false);
-            System.out.println("Client " + player.getServerClient().getConnectionID() + " ran out of time");
-            player.getGame().getGameUtil().nextPlayer();
-          }
-        },
-        player.getGame().getSettings().getTurnTime());
+    player
+        .getTimer()
+        .schedule(
+            new TimerTask() {
+              @Override
+              public void run() {
+                if (!player.isHasMoved()) {
+                  MoleGames.getMoleGames()
+                      .getGameHandler()
+                      .getGameLogic()
+                      .performPunishment(player, player.getGame().getSettings().getPunishment());
+                  MoleGames.getMoleGames()
+                      .getServer()
+                      .sendToAllGameClients(
+                          player.getGame(),
+                          MoleGames.getMoleGames()
+                              .getPacketHandler()
+                              .movePenaltyNotification(
+                                  player,
+                                  player.getGame().getSettings().getPunishment(),
+                                  Punishments.NOMOVE.getName()));
+                  player.setHasMoved(true);
+                  player.setTimerIsRunning(false);
+                  System.out.println(
+                      "Client " + player.getServerClient().getClientName() + " ran out of time");
+                  player.getGame().getGameUtil().nextPlayer();
+                  player.getTimer().cancel();
+                }
+              }
+            },
+            player.getGame().getSettings().getTurnTime());
   }
 
   public void handleTurnAfterAction() {
     player.setHasMoved(true);
     if (player.isTimerIsRunning()) {
-      player.getTimer().purge();
       player.getTimer().cancel();
       player.getGame().getGameUtil().nextPlayer();
     }

@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 02.12.21, 20:17 by Carina latest changes made by Carina on 02.12.21, 20:17
+ * File created on 03.12.21, 13:30 by Carina latest changes made by Carina on 03.12.21, 13:30
  * All contents of "NetworkThread" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
@@ -16,7 +16,6 @@ import de.thundergames.MoleGames;
 import de.thundergames.gameplay.ai.networking.AIClientThread;
 import de.thundergames.gameplay.player.networking.ClientThread;
 import de.thundergames.networking.server.ServerThread;
-import de.thundergames.networking.util.exceptions.UndefinedError;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.BufferedReader;
@@ -102,8 +101,6 @@ public abstract class NetworkThread extends Thread {
           disconnect();
         }
       }
-    } catch (UndefinedError exception) {
-      exception.printStackTrace();
     } finally {
       try {
         socket.close();
@@ -157,14 +154,14 @@ public abstract class NetworkThread extends Thread {
   }
 
   /**
-   * @param packet   that got read in by the runnable listener
+   * @param packet that got read in by the runnable listener
    * @param reciever the one that it is recieving the thread of the server
    * @author Carina
-   * @use it will automaticlly pass it forwards to the Server or Client to handle the Packet depending on who recieved it (Server- or Client thread)
+   * @use it will automaticlly pass it forwards to the Server or Client to handle the Packet
+   *     depending on who recieved it (Server- or Client thread)
    */
   private void readStringPacketInput(
-      @NotNull final Packet packet, @NotNull final NetworkThread reciever)
-      throws UndefinedError {
+      @NotNull final Packet packet, @NotNull final NetworkThread reciever) {
     if (reciever instanceof ClientThread && !(reciever instanceof AIClientThread)) {
       ((ClientThread) reciever)
           .getClient()

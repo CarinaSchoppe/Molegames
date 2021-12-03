@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 02.12.21, 18:17 by Carina latest changes made by Carina on 02.12.21, 18:17
+ * File created on 03.12.21, 13:30 by Carina latest changes made by Carina on 03.12.21, 13:27
  * All contents of "Game" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
@@ -22,7 +22,6 @@ import de.thundergames.playmechanics.util.Player;
 import de.thundergames.playmechanics.util.Settings;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.IOException;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -37,12 +36,10 @@ public class Game extends NetworkGame {
   private final transient GameState gameState = new GameState();
   private final HashSet<Player> eliminatedPlayers = new HashSet<>();
   private final transient ArrayList<Player> activePlayers = new ArrayList<>();
-  private final transient boolean allMolesPlaced = false;
   private transient GameStates currentGameState = GameStates.NOT_STARTED;
   private transient Map map;
   private transient Settings settings;
   private transient Player currentPlayer;
-  private transient boolean gamePaused = false;
   private transient GameUtil gameUtil;
   private transient int currentFloorID = 0;
 
@@ -51,11 +48,10 @@ public class Game extends NetworkGame {
   }
 
   /**
-   * @throws IOException
    * @author Carina
    * @use creates a new Game with all settings after the Constructor
    */
-  public void create() throws IOException {
+  public void create() {
     gameUtil = new GameUtil(this);
     MoleGames.getMoleGames().getGameHandler().getIDGames().put(getGameID(), this);
     MoleGames.getMoleGames().getGameHandler().getGames().add(this);
@@ -89,6 +85,7 @@ public class Game extends NetworkGame {
       mappe.put(players.getClientID(), players.getCards());
     }
     gameState.setPullDiscs(mappe);
+    gameState.setStatus(currentGameState.getName());
     gameState.setVisualizationTime(settings.getVisualizationTime());
     gameState.setScore(getScore());
     map.setHoles(gameState.getFloor().getHoles());
@@ -147,24 +144,12 @@ public class Game extends NetworkGame {
     endGame();
   }
 
-  public boolean isGamePaused() {
-    return gamePaused;
-  }
-
-  /**
-   * @author Carina
-   * @use pauses the game
-   */
-  public void pauseGame() {
-    gamePaused = true;
-  }
-
   /**
    * @author Carina
    * @use resumes the game
    */
   public void resumeGame() {
-    gamePaused = false;
+    setCurrentGameState(GameStates.STARTED);
     gameUtil.nextPlayer();
   }
 

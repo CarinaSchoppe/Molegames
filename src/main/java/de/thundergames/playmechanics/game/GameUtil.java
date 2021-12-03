@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 02.12.21, 20:17 by Carina latest changes made by Carina on 02.12.21, 20:17
+ * File created on 03.12.21, 13:30 by Carina latest changes made by Carina on 03.12.21, 13:21
  * All contents of "GameUtil" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
@@ -73,7 +73,8 @@ public class GameUtil {
    * @use sets the next player in the game if all moles are in holes the player is not on turn
    */
   public void nextPlayer() {
-    if (game.isGamePaused()) {
+    if (game.getCurrentGameState() == GameStates.OVER
+        || game.getCurrentGameState() == GameStates.PAUSED) {
       return;
     }
     if (game.getActivePlayers().size() - 1
@@ -103,7 +104,6 @@ public class GameUtil {
                   .getPacketHandler()
                   .playerSkippedPacket(game.getCurrentPlayer()));
       nextPlayer();
-      return;
     } else {
       if (game.getCurrentPlayer().getMoles().size() < game.getSettings().getNumberOfMoles()
           && game.getCurrentFloorID() == 0) {
@@ -175,6 +175,7 @@ public class GameUtil {
       nextPlayer();
     } else {
       // TODO: check winning or do winning.
+      game.setCurrentGameState(GameStates.OVER);
       System.out.println("PAAAARTTTTTTTTTTTTTTTTTTTTTTYYYYYYYYYYYYYYYYYYYYYYY");
     }
   }
