@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 03.12.21, 13:30 by Carina latest changes made by Carina on 03.12.21, 13:12
+ * File created on 03.12.21, 13:47 by Carina latest changes made by Carina on 03.12.21, 13:47
  * All contents of "Settings" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
@@ -19,8 +19,7 @@ import org.jetbrains.annotations.NotNull;
 public class Settings extends NetworkConfiguration {
 
   /*
-
-  ausrichter kann spieler zu einem spiel zuweisen
+  TODO: ausrichter kann spieler zu einem spiel zuweisen
   TODO: hier mehr adden! und dann auch implementieren
    */
 

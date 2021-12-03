@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 02.12.21, 20:17 by Carina latest changes made by Carina on 02.12.21, 20:17
+ * File created on 03.12.21, 13:47 by Carina latest changes made by Carina on 03.12.21, 13:47
  * All contents of "ClientPacketHandler" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
@@ -334,7 +334,7 @@ public class ClientPacketHandler {
    */
   protected void handleTournamentStateResponePacket(
       @NotNull final Client client, @NotNull final Packet packet) {
-    // TODO: hier
+    // TODO: hier response einfügen
   }
 
   /**
@@ -373,7 +373,10 @@ public class ClientPacketHandler {
         .getFieldMap()
         .get(List.of(mole.getNetworkField().getX(), mole.getNetworkField().getY()))
         .setMole(mole);
-    client.getGameState().getPlacedMoles().add(mole); // TODO: check hier
+    client
+        .getGameState()
+        .getPlacedMoles()
+        .add(mole); // TODO: check hier ob das so okay ist oder doch gelöscht werden muss
     updateMap(client.getMap());
   }
 

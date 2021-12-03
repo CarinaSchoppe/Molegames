@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 03.12.21, 13:30 by Carina latest changes made by Carina on 03.12.21, 13:17
+ * File created on 03.12.21, 13:47 by Carina latest changes made by Carina on 03.12.21, 13:47
  * All contents of "Map" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
@@ -47,8 +47,6 @@ public class Map extends NetworkFloor {
   }
 
   /**
-   * TODO: check hier
-   *
    * @param radius
    * @author Carina
    * @use creates the mapfield in the comitee decided designway
