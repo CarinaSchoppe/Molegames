@@ -2,6 +2,7 @@ image: gradle:7-jdk11
 stages:
   - build
   - test
+  - visualize
 
 default:
   tags:
@@ -25,8 +26,21 @@ build:
 
 test:
   stage: test
-  script: gradle test
+  script: gradle test jacocoTestReport
   artifacts:
     when: always
+    paths:
+      - build/reports/
     reports:
       junit: build/test-results/test/TEST-*.xml
+
+coverage:
+  stage: visualize
+  image: registry.gitlab.com/haynes/jacoco2cobertura:1.0.7
+  script:
+    # convert report from jacoco to cobertura, using relative project path
+    - python /opt/cover2cover.py build/reports/jacoco/test/jacocoTestReport.xml $CI_PROJECT_DIR/src/main/java/ > build/cobertura.xml
+  needs: [ "test" ]
+  artifacts:
+    reports:
+      cobertura: build/cobertura.xml

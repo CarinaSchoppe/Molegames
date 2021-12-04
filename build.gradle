@@ -3,6 +3,7 @@ plugins {
     id "com.github.johnrengelman.shadow" version "7.1.0"
     id 'application'
     id 'org.openjfx.javafxplugin' version '0.0.10'
+    id 'jacoco'
 }
 
 group 'de.thundergames'
@@ -34,4 +35,9 @@ application {
 mainClassName = 'de.thundergames.MoleGames'
 test {
     useJUnitPlatform()
+}
+jacocoTestReport {
+    reports {
+        xml.required = true
+    }
 }
