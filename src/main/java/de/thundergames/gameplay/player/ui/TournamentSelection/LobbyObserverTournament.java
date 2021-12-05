@@ -13,7 +13,7 @@
 
 package de.thundergames.gameplay.player.ui.TournamentSelection;
 
-import de.thundergames.gameplay.player.networking.Client;
+import de.thundergames.gameplay.player.Client;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;

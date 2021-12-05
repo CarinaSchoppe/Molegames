@@ -13,14 +13,11 @@
 
 package de.thundergames.gameplay.player.ui.TournamentSelection;
 
-import de.thundergames.gameplay.player.networking.Client;
-import de.thundergames.gameplay.player.ui.GameSelection.LobbyObserverGame;
+import de.thundergames.gameplay.player.Client;
 import de.thundergames.gameplay.player.ui.PlayerMenu;
-import de.thundergames.networking.util.interfaceItems.NetworkGame;
 import de.thundergames.playmechanics.game.GameState;
 import de.thundergames.playmechanics.game.GameStates;
 import de.thundergames.playmechanics.util.Tournament;
-import de.thundergames.playmechanics.util.TournamentState;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;

@@ -13,12 +13,9 @@
 
 package de.thundergames.gameplay.player.ui;
 
-import de.thundergames.gameplay.player.networking.Client;
+import de.thundergames.gameplay.player.Client;
 import de.thundergames.gameplay.player.ui.GameSelection.GameSelection;
-import de.thundergames.gameplay.player.ui.LoginScreen;
 import de.thundergames.gameplay.player.ui.TournamentSelection.TournamentSelection;
-import de.thundergames.networking.util.interfaceItems.NetworkGame;
-import de.thundergames.playmechanics.game.Game;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -26,13 +23,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-import javax.swing.*;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;

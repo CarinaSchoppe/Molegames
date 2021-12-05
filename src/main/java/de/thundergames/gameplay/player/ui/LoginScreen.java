@@ -10,7 +10,7 @@
  */
 package de.thundergames.gameplay.player.ui;
 
-import de.thundergames.gameplay.player.networking.Client;
+import de.thundergames.gameplay.player.Client;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -24,10 +24,6 @@ import javafx.stage.Stage;
 import javax.swing.*;
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
-
-import java.io.File;
 import java.util.ResourceBundle;
 
 public class LoginScreen extends Application {
@@ -79,7 +75,6 @@ public class LoginScreen extends Application {
   public void start(Stage primaryStage) throws Exception {
     var loader =
         new FXMLLoader(new File("src/main/resources/player/LoginScreen.fxml").toURI().toURL());
-    loader.setController(this);
     Parent root = loader.load();
     primaryStage.setResizable(false);
     primaryStage.setTitle("Maulwurf Company");
