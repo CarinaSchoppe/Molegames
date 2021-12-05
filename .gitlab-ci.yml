@@ -39,7 +39,9 @@ build:
 test:
   extends: .test
   stage: test
-  script: gradle test jacocoTestReport
+  script:
+    - gradle test jacocoTestReport
+    - cat build/reports/jacoco/test/html/index.html | grep -o '<tfoot>.*</tfoot>'
   artifacts:
     when: always
     paths:
