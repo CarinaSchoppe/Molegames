@@ -16,6 +16,7 @@ variables:
     changes:
       - src/**/*
       - build.gradle
+      - .gitlab-ci.yml
 
 before_script:
   - export GRADLE_USER_HOME=`pwd`/.gradle
@@ -33,6 +34,7 @@ build:
     changes:
       - src/main/**/*
       - build.gradle
+      - .gitlab-ci.yml
 
 test:
   extends: .test
