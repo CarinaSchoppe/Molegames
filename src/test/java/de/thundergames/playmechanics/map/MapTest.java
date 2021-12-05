@@ -1,14 +1,28 @@
 package de.thundergames.playmechanics.map;
 
+import de.thundergames.networking.util.interfaceItems.NetworkField;
+import de.thundergames.networking.util.interfaceItems.NetworkFloor;
+import de.thundergames.networking.util.interfaceItems.NetworkMole;
 import de.thundergames.playmechanics.game.Game;
+import de.thundergames.playmechanics.game.GameState;
+import de.thundergames.playmechanics.util.Mole;
+import de.thundergames.playmechanics.util.Player;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
 
 class MapTest {
 
     private Game game;
+
+    @Mock
+    private Player playerMock = mock(Player.class);
 
     @BeforeEach
     void setUp() {
@@ -212,5 +226,41 @@ class MapTest {
 
     @Test
     void changeFieldParams() {
+        game.setRadius(5);
+        Map map = new Map(game);
+
+        assertFalse(map.getFieldMap().get(List.of(1, 3)).isOccupied());
+        assertFalse(map.getFieldMap().get(List.of(1, 3)).isHole());
+        assertFalse(map.getFieldMap().get(List.of(1, 3)).isDrawAgainField());
+
+        Field fieldMole = map.getFieldMap().get(List.of(1, 3));
+        Field fieldHole = map.getFieldMap().get(List.of(1, 1));
+        Field fieldDrawAgain = map.getFieldMap().get(List.of(0, 0));
+
+        Mole mole = new Mole(playerMock, fieldMole);
+        fieldMole.setMole(mole);
+
+        ArrayList<NetworkMole> moles = new ArrayList<>();
+        ArrayList<NetworkField> holes = new ArrayList<>();
+        ArrayList<NetworkField> drawAgainFields = new ArrayList<>();
+
+        moles.add(mole);
+        holes.add(fieldHole);
+        drawAgainFields.add(fieldDrawAgain);
+
+        NetworkFloor floor = new NetworkFloor();
+        floor.setHoles(holes);
+        floor.setDrawAgainFields(drawAgainFields);
+
+        GameState gameState = new GameState();
+        gameState.setPlacedMoles(moles);
+        gameState.setFloor(floor);
+
+        map.changeFieldParams(gameState);
+
+        assertTrue(map.getFieldMap().get(List.of(1, 3)).isOccupied());
+        assertTrue(map.getFieldMap().get(List.of(1, 1)).isHole());
+        assertTrue(map.getFieldMap().get(List.of(0, 0)).isDrawAgainField());
+
     }
 }
