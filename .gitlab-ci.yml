@@ -11,6 +11,12 @@ default:
 variables:
   GRADLE_OPTS: "-Dorg.gradle.daemon=false"
 
+.test:
+  only:
+    changes:
+      - src/**/*
+      - build.gradle
+
 before_script:
   - export GRADLE_USER_HOME=`pwd`/.gradle
 
@@ -23,8 +29,13 @@ build:
     paths:
       - build
       - .gradle
+  only:
+    changes:
+      - src/main/**/*
+      - build.gradle
 
 test:
+  extends: .test
   stage: test
   script: gradle test jacocoTestReport
   artifacts:
@@ -35,6 +46,7 @@ test:
       junit: build/test-results/test/TEST-*.xml
 
 coverage:
+  extends: .test
   stage: visualize
   image: registry.gitlab.com/haynes/jacoco2cobertura:1.0.7
   script:
