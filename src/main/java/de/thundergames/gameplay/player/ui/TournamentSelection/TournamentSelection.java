@@ -17,6 +17,7 @@ import de.thundergames.gameplay.player.Client;
 import de.thundergames.gameplay.player.ui.PlayerMenu;
 import de.thundergames.playmechanics.game.GameState;
 import de.thundergames.playmechanics.game.GameStates;
+import de.thundergames.playmechanics.util.SceneController;
 import de.thundergames.playmechanics.util.Tournament;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -68,9 +69,8 @@ public class TournamentSelection implements Initializable {
     public void create(ActionEvent event) throws IOException {
         tournamentSelection = this;
       primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-      var loader = new FXMLLoader(new File("src/main/resources/player/TournamentSelection.fxml")
-        .toURI()
-        .toURL());
+
+      var loader = SceneController.loadFXML("player/TournamentSelection.fxml");
       loader.setController(this);
       Parent root = loader.load();
       primaryStage.setTitle("Maulwurf Company");
