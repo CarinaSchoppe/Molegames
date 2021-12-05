@@ -10,8 +10,6 @@
 package de.thundergames.gameplay.player.ui;
 
 import de.thundergames.gameplay.player.networking.Client;
-import de.thundergames.gameplay.player.ui.GameSelection.GameSelection;
-import de.thundergames.gameplay.player.ui.PlayerMenu.PlayerMenu;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -22,6 +20,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
+import javax.swing.*;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -50,42 +49,29 @@ public class LoginScreen extends Application {
    */
   @FXML
   void onLoginButtonClick(ActionEvent event) throws IOException {
-/*  TODO: Hier
     String ip = this.ip.getText();
     String port = this.port.getText();
     String name = this.name.getText();
-    if (ip != "" && port != "" && name != "" && !loggedIn) {
+    if (ip != "" && port != "" && name != "") {
       System.out.println("IP: " + ip + " Port: " + port + " Name: " + name);
-      Stage stage = (Stage) login.getScene().getWindow();
       Client client = new Client(Integer.parseInt(port), ip, name);
-      JSONObject object;
-      object = new JSONObject();
-      object.put("type", Packets.LOGIN.getPacketType());
-      var json = new JSONObject();
-      json.put("name", name);
-      object.put("value", json.toString());
       client.create();
-      loggedIn = true;
-      client.getClientThread().sendPacket(new Packet(object));
-      stage.close();
-    }*/
-    String ip = "127.0.0.1";
-    String port = "5000";
-    String name = "Nick";
-    Client client = new Client(Integer.parseInt(port), ip, name);
-    client.create();
-    new PlayerMenu().create(event);
+      new PlayerMenu().create(event);
+    } else {
+      JOptionPane.showMessageDialog(null, "Bitte alle Felder ausfuellen!",
+        "Leere Felder", JOptionPane.ERROR_MESSAGE);
+    }
   }
 
   @FXML
   void initialize() {
     assert ip != null : "fx:id=\"ip\" was not injected: check your FXML file 'LoginScreen.fxml'.";
     assert login != null
-        : "fx:id=\"login\" was not injected: check your FXML file 'LoginScreen.fxml'.";
+      : "fx:id=\"login\" was not injected: check your FXML file 'LoginScreen.fxml'.";
     assert name != null
-        : "fx:id=\"name\" was not injected: check your FXML file 'LoginScreen.fxml'.";
+      : "fx:id=\"name\" was not injected: check your FXML file 'LoginScreen.fxml'.";
     assert port != null
-        : "fx:id=\"port\" was not injected: check your FXML file 'LoginScreen.fxml'.";
+      : "fx:id=\"port\" was not injected: check your FXML file 'LoginScreen.fxml'.";
   }
 
   public void create(String... args) {
@@ -95,9 +81,9 @@ public class LoginScreen extends Application {
   @Override
   public void start(Stage primaryStage) throws Exception {
     location =
-            new File("src/main/java/de/thundergames/gameplay/player/ui/LoginScreen.fxml")
-            .toURI()
-            .toURL();
+      new File("src/main/resources/player/LoginScreen.fxml")
+        .toURI()
+        .toURL();
     Parent root = FXMLLoader.load(location);
     primaryStage.setResizable(false);
     primaryStage.setTitle("Maulwurf Company");

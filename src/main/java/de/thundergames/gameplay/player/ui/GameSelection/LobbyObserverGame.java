@@ -11,7 +11,7 @@
  * requires the express written consent of ThunderGames | SwtPra10.
  */
 
-package de.thundergames.gameplay.player.ui.GameSelection.LobbyGame;
+package de.thundergames.gameplay.player.ui.GameSelection;
 
 import de.thundergames.gameplay.player.networking.Client;
 import javafx.event.ActionEvent;
@@ -21,6 +21,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -52,16 +53,30 @@ public class LobbyObserverGame implements Initializable {
     }
 
     private void createScene(ActionEvent event) throws IOException {
-        Stage primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        URL location =
-                new File("src/main/java/de/thundergames/gameplay/player/ui/lobby/LobbyObserver.fxml")
-                        .toURI()
-                        .toURL();
-        Parent root = FXMLLoader.load(location);
-        primaryStage.setTitle("Maulwurf Company");
-        primaryStage.setResizable(false);
-        primaryStage.setScene(new Scene(root));
-        primaryStage.show();
+      Stage primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+      var loader = new FXMLLoader(new File("src/main/resources/player/LobbyObserverGame.fxml")
+        .toURI()
+        .toURL());
+      loader.setController(this);
+      Parent root = loader.load();
+      primaryStage.setTitle("Maulwurf Company");
+      primaryStage.setResizable(false);
+      primaryStage.setScene(new Scene(root));
+      primaryStage.show();
+      primaryStage.setOnCloseRequest(ev -> logout(primaryStage));
+
+      //region Create button events
+      //set event for back button
+      var btnBack = (Button) (primaryStage.getScene().lookup("#backToGameSelection"));
+      btnBack.setOnAction(e ->
+      {
+        try {
+          onBackClick(e);
+        } catch (IOException ex) {
+          ex.printStackTrace();
+        }
+      });
+      //endregion
     }
 
     @Override
@@ -78,18 +93,19 @@ public class LobbyObserverGame implements Initializable {
     void onBackClick(ActionEvent event) throws IOException {
 
         client.getClientPacketHandler().leaveGamePacket(client);
-
-        client.getClientPacketHandler().unregisterOverviewObserverPacket(client);
-        Stage primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        URL location =
-                new File("src/main/java/de/thundergames/gameplay/player/ui/GameSelection/GameSelection.fxml")
-                        .toURI()
-                        .toURL();
-        Parent root = FXMLLoader.load(location);
-        primaryStage.setResizable(false);
-        primaryStage.setScene(new Scene(root));
-        primaryStage.show();
+        new GameSelection().create(event);
     }
+
+  /**
+   * Is called when the close button is clicked.
+   * Logout user.
+   * @param stage current stage
+   */
+  private void logout(Stage stage) {
+    client.getClientPacketHandler().logoutPacket(client);
+    client.getClientPacketHandler().leaveGamePacket(client);
+    stage.close();
+  }
 
     /**
      * @author Nick
@@ -117,5 +133,14 @@ public class LobbyObserverGame implements Initializable {
             e.printStackTrace();
         }
         JoinedSuccessfully.setOpacity(0.0);
+    }
+
+  /**
+   * @author Nick
+   * @use Create scene and spectate the game
+   */
+    public void spectateGame() {
+      var currentGameState = client.getGameState();
+      //TODO:Create scene for game
     }
 }

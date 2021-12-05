@@ -15,8 +15,9 @@ import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import de.thundergames.filehandling.Score;
 import de.thundergames.gameplay.player.ui.GameSelection.GameSelection;
+import de.thundergames.gameplay.player.ui.GameSelection.LobbyObserverGame;
+import de.thundergames.gameplay.player.ui.TournamentSelection.LobbyObserverTournament;
 import de.thundergames.gameplay.player.ui.TournamentSelection.TournamentSelection;
-import de.thundergames.gameplay.player.ui.GameSelection.LobbyGame.LobbyObserverGame;
 import de.thundergames.networking.server.PacketHandler;
 import de.thundergames.networking.util.Packet;
 import de.thundergames.networking.util.Packets;
@@ -146,7 +147,9 @@ public class ClientPacketHandler {
    * @author Carina
    * @use handles the client tournament when the tournament is over
    */
-  private void handleTournamentOverPacket(@NotNull final Client client) {}
+  private void handleTournamentOverPacket(@NotNull final Client client) {
+    updateTableView();
+  }
 
   /**
    * @param client
@@ -155,7 +158,9 @@ public class ClientPacketHandler {
    * @use handles the leftment of a player from the tournament
    */
   private void handleTournamentPlayerLeftPacket(
-      @NotNull final Client client, @NotNull final Packet packet) {}
+      @NotNull final Client client, @NotNull final Packet packet) {
+    updateTableView();
+  }
 
   /**
    * @param client
@@ -169,6 +174,7 @@ public class ClientPacketHandler {
         .getTournaments()
         .addAll(
             new Gson().fromJson(packet.getValues().get("games").getAsString(), ArrayList.class));
+    updateTableView();
   }
 
   /**
@@ -187,7 +193,9 @@ public class ClientPacketHandler {
    * @use handles the kick of a player from the tournament
    */
   private void handleTournamentPlayerKickedPacket(
-      @NotNull final Client client, @NotNull final Packet packet) {}
+      @NotNull final Client client, @NotNull final Packet packet) {
+    updateTableView();
+  }
 
   /**
    * @param client
@@ -201,6 +209,7 @@ public class ClientPacketHandler {
     json.addProperty("tournamentID", tournamentID);
     object.add("value", json);
     client.getClientThread().sendPacket(new Packet(object));
+    updateTableView();
   }
 
   /**
@@ -210,7 +219,11 @@ public class ClientPacketHandler {
    * @use handles the joining of a player into the tournament
    */
   protected void handleTournamentPlayerJoinedPacket(
-      @NotNull final Client client, @NotNull final Packet packet) {}
+      @NotNull final Client client, @NotNull final Packet packet) {
+    updateTableView();
+    var lobbyObserverTournament =  LobbyObserverTournament.getObserver();
+    if (lobbyObserverTournament!=null) lobbyObserverTournament.showJoiningSuccessfully();
+  }
 
   /**
    * @param client
@@ -520,7 +533,9 @@ public class ClientPacketHandler {
    * @see de.thundergames.playmechanics.game.Game
    */
   protected void handleGamePausedPacket(
-      @NotNull final Client client, @NotNull final Packet packet) {}
+      @NotNull final Client client, @NotNull final Packet packet) {
+    updateTableView();
+  }
 
   /**
    * @param client
@@ -530,7 +545,9 @@ public class ClientPacketHandler {
    * @see de.thundergames.playmechanics.game.Game
    */
   protected void handleGameCanceledPacket(
-      @NotNull final Client client, @NotNull final Packet packet) {}
+      @NotNull final Client client, @NotNull final Packet packet) {
+    updateTableView();
+  }
 
   /**
    * @param client
@@ -540,7 +557,9 @@ public class ClientPacketHandler {
    * @see de.thundergames.playmechanics.game.Game
    */
   protected void handleGameContinuedPacket(
-      @NotNull final Client client, @NotNull final Packet packet) {}
+      @NotNull final Client client, @NotNull final Packet packet) {
+    updateTableView();
+  }
 
   /**
    * @param client
@@ -548,7 +567,9 @@ public class ClientPacketHandler {
    * @author Carina
    * @use handles that the game of the client is over
    */
-  protected void handleGameOverPacket(@NotNull final Client client, @NotNull final Packet packet) {}
+  protected void handleGameOverPacket(@NotNull final Client client, @NotNull final Packet packet) {
+    updateTableView();
+  }
 
   /**
    * @param client
@@ -557,7 +578,14 @@ public class ClientPacketHandler {
    * @use handles the packet that a game has started
    */
   protected void handleGameStartedPacket(
-      @NotNull final Client client, @NotNull final Packet packet) {}
+      @NotNull final Client client, @NotNull final Packet packet) {
+    handleFloor(client,packet);
+    updateTableView();
+    var lobbyObserverGame =  LobbyObserverGame.getObserver();
+    if (lobbyObserverGame!=null) lobbyObserverGame.spectateGame();
+    var lobbyObserverTournamentGame =  LobbyObserverTournament.getObserver();
+    if (lobbyObserverTournamentGame!=null) lobbyObserverTournamentGame.spectateGame();
+  }
 
   /**
    * @param client
@@ -640,6 +668,7 @@ public class ClientPacketHandler {
         "A player has left the Game + "
             + new Gson()
                 .fromJson(packet.getValues().get("player").getAsString(), NetworkPlayer.class));
+    updateTableView();
   }
 
   /***
@@ -654,6 +683,7 @@ public class ClientPacketHandler {
         "A player has left the Game + "
             + new Gson()
                 .fromJson(packet.getValues().get("player").getAsString(), NetworkPlayer.class));
+    updateTableView();
   }
 
   /**
@@ -666,6 +696,7 @@ public class ClientPacketHandler {
     object.addProperty("type", Packets.LEAVEGAME.getPacketType());
     client.getClientThread().sendPacket(new Packet(object));
     System.out.println("Client: Send left the game!");
+    updateTableView();
   }
 
   /**
@@ -680,8 +711,9 @@ public class ClientPacketHandler {
             "A player has joined the Game + "
                     + new Gson()
                     .fromJson(packet.getValues().get("player").getAsString(), NetworkPlayer.class));
-    LobbyObserverGame.getObserver().showNewPlayer();
     updateTableView();
+    var lobbyObserverGame =  LobbyObserverGame.getObserver();
+    if (lobbyObserverGame!=null) lobbyObserverGame.showNewPlayer();
   }
 
   /**
@@ -692,6 +724,8 @@ public class ClientPacketHandler {
    */
   protected void handleWelcomeGamePacket(
       @NotNull final Client client, @NotNull final Packet packet) {
+    //Todo: Kommt hier nie an
+    System.out.println("Hallo Welt");
     handleFloor(client, packet);
   }
 
@@ -727,6 +761,19 @@ public class ClientPacketHandler {
   }
 
   /**
+   * @param client
+   * @author Marc
+   * @use sends the logout packet to the server
+   */
+  public void logoutPacket(@NotNull final Client client) {
+    var object = new JsonObject();
+    var json = new JsonObject();
+    object.addProperty("type", Packets.LOGOUT.getPacketType());
+    object.add("value", json);
+    client.getClientThread().sendPacket(new Packet(object));
+  }
+
+  /**
    * author Carina
    *
    * @param client
@@ -754,9 +801,11 @@ public class ClientPacketHandler {
     System.out.println(
         "Client joined game with id: " + packet.getValues().get("gameID").getAsInt());
     client.setGameID(packet.getValues().get("gameID").getAsInt());
-    LobbyObserverGame.getObserver().showJoiningSuccessfully();
+    showPlayerJoinedGameLobby();
     updateTableView();
   }
+
+
 
   /**
    * @param client
@@ -805,8 +854,20 @@ public class ClientPacketHandler {
    * @use update tableview of game/tournament selection
    */
   private void updateTableView() {
-    GameSelection.getGameSelection().updateTable();
-    TournamentSelection.getTournamentSelection().updateTable();
+    //Update tableview of GameSelection
+    var gameSelection = GameSelection.getGameSelection();
+    if (gameSelection != null) gameSelection.updateTable();
+    //Update tableview of TournamentSelection
+    var tournamentSelection = TournamentSelection.getTournamentSelection();
+    if (tournamentSelection != null) tournamentSelection.updateTable();
   }
 
+  /**
+   * @author Nick
+   * @use show player joined message at game lobby
+   */
+  private void showPlayerJoinedGameLobby() {
+    var lobbyObserverGame =  LobbyObserverGame.getObserver();
+    if (lobbyObserverGame!=null) lobbyObserverGame.showJoiningSuccessfully();
+  }
 }

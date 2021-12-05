@@ -11,10 +11,11 @@
  * requires the express written consent of ThunderGames | SwtPra10.
  */
 
-package de.thundergames.gameplay.player.ui.PlayerMenu;
+package de.thundergames.gameplay.player.ui;
 
 import de.thundergames.gameplay.player.networking.Client;
 import de.thundergames.gameplay.player.ui.GameSelection.GameSelection;
+import de.thundergames.gameplay.player.ui.LoginScreen;
 import de.thundergames.gameplay.player.ui.TournamentSelection.TournamentSelection;
 import de.thundergames.networking.util.interfaceItems.NetworkGame;
 import de.thundergames.playmechanics.game.Game;
@@ -44,10 +45,15 @@ public class PlayerMenu  implements Initializable {
     @FXML
     private Text PlayerName;
 
+  /**
+   * Create the Scene for PlayerMenu
+   * @param event event from the current scene to build this scene on same object
+   * @throws IOException error creating the scene PlayerMenu
+   */
     public void create(ActionEvent event) throws IOException {
         Stage primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         URL location =
-                new File("src/main/java/de/thundergames/gameplay/player/ui/PlayerMenu/PlayerMenu.fxml")
+                new File("src/main/resources/player/PlayerMenu.fxml")
                         .toURI()
                         .toURL();
         Parent root = FXMLLoader.load(location);
@@ -55,34 +61,69 @@ public class PlayerMenu  implements Initializable {
         primaryStage.setResizable(false);
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
+        primaryStage.setOnCloseRequest(ev -> logout(primaryStage));
     }
 
+  /**
+   * Is called when the object is initialized
+   * @param location of base class Initialize
+   * @param resources of base class Initialize
+   */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        //set client
         client = Client.getClient();
-
         //show username at scene
         PlayerName.setText("Spieler: " + client.name);
     }
 
+  /**
+   * Button at Scene PlayerMenu. Call start scene LoginScreen. Logout the user.
+   * @param event event from the current scene to build start scene on same object
+   * @throws IOException error creating the scene LoginScreen
+   */
     @FXML
-    void onSignOutClick(ActionEvent event) throws IOException {
+    void onSignOutClick(ActionEvent event) throws Exception {
+      //logout for user
+      client.getClientPacketHandler().logoutPacket(client);
+      //create LoginScreen scene
         Stage primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         URL location =
-                new File("src/main/java/de/thundergames/gameplay/player/ui/LoginScreen.fxml")
+                new File("src/main/resources/player/LoginScreen.fxml")
                         .toURI()
                         .toURL();
         Parent root = FXMLLoader.load(location);
         primaryStage.setResizable(false);
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
-        //Todo: client.disconnect();
     }
 
+  /**
+   * Button at Scene PlayerMenu. Call next scene for GameSelection
+   * @param event event from the current scene to build next scene on same object
+   * @throws IOException error creating the scene GameSelection
+   */
+  @FXML
     public void onGameClick(ActionEvent event) throws IOException {
         new GameSelection().create(event);
     }
 
+  /**
+   * Is called when the close button is clicked.
+   * Logout user.
+   * @param stage current stage
+   */
+  private void logout(Stage stage) {
+    client.getClientPacketHandler().logoutPacket(client);
+    stage.close();
+  }
+
+  /**
+   * Button at Scene PlayerMenu. Call next scene for TournamentSelection
+   * @param event event from the current scene to build next scene on same object
+   * @throws IOException error creating the scene TournamentSelection
+   */
+  @FXML
     public void onTournamentClick(ActionEvent event) throws IOException {
         new TournamentSelection().create(event);
     }
