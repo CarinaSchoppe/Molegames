@@ -12,8 +12,10 @@
 package de.thundergames.networking.util.interfaceItems;
 
 import de.thundergames.filehandling.Score;
+import de.thundergames.playmechanics.game.GameStates;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class NetworkGame {
 
@@ -172,8 +174,8 @@ public class NetworkGame {
   /**
    * @return current player count and the maximum player count with a slash between both
    */
-  public String getGameType() {
-    return "hallo";
+  public String getStatusForTableView() {
+    return Objects.equals(status, GameStates.NOT_STARTED.toString()) ? "OPEN" : status;
   }
 
   //endregion

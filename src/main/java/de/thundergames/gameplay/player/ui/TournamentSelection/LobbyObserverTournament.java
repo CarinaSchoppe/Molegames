@@ -14,6 +14,7 @@
 package de.thundergames.gameplay.player.ui.TournamentSelection;
 
 import de.thundergames.gameplay.player.Client;
+import de.thundergames.playmechanics.util.SceneController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -57,9 +58,7 @@ public class LobbyObserverTournament implements Initializable {
 
   private void createScene(ActionEvent event) throws IOException {
     Stage primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-    var loader = new FXMLLoader(new File("src/main/resources/player/LobbyObserverTournament.fxml")
-      .toURI()
-      .toURL());
+    var loader = SceneController.loadFXML("player/LobbyObserverTournament.fxml");
     loader.setController(this);
     Parent root = loader.load();
     primaryStage.setTitle("Maulwurf Company");

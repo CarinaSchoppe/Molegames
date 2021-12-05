@@ -18,6 +18,7 @@ import de.thundergames.gameplay.player.ui.PlayerMenu;
 import de.thundergames.networking.util.interfaceItems.NetworkGame;
 import de.thundergames.playmechanics.game.GameState;
 import de.thundergames.playmechanics.game.GameStates;
+import de.thundergames.playmechanics.util.SceneController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -71,9 +72,7 @@ public class GameSelection implements Initializable {
   public void create(@NotNull ActionEvent event) throws IOException {
     primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
     //Set scene
-    var loader = new FXMLLoader(new File("src/main/resources/player/GameSelection.fxml")
-      .toURI()
-      .toURL());
+    var loader = SceneController.loadFXML("player/GameSelection.fxml");
     loader.setController(this);
     Parent root = loader.load();
     primaryStage.setTitle("Maulwurf Company");
@@ -132,7 +131,7 @@ public class GameSelection implements Initializable {
     // set value for each row
     game_Id.setCellValueFactory(new PropertyValueFactory<>("HashtagWithGameID"));
     game_Player_Count.setCellValueFactory(new PropertyValueFactory<>("CurrentPlayerCount_MaxCount"));
-    game_State.setCellValueFactory(new PropertyValueFactory<>("status"));
+    game_State.setCellValueFactory(new PropertyValueFactory<>("StatusForTableView"));
     // load data for tableview
     updateTable();
   }

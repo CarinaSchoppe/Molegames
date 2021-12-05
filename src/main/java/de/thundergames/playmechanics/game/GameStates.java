@@ -19,7 +19,7 @@ import org.jetbrains.annotations.NotNull;
  */
 public enum GameStates {
 
-  NOT_STARTED("OPEN"),
+  NOT_STARTED("NOT_STARTED"),
   STARTED("STARTED"),
   PAUSED("PAUSED"),
   OVER("OVER");
