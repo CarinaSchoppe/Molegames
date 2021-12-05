@@ -1,6 +1,8 @@
 /*
- * Copyright Notice for Swtpra10
+ * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
+ * File created on 03.12.21, 13:30 by Carina latest changes made by Carina on 03.12.21, 13:27
+ * All contents of "Game" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * File created on 23.11.21, 14:59 by Carina latest changes made by Carina on 23.11.21, 14:59 All contents of "Game" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
@@ -19,13 +21,13 @@ import de.thundergames.playmechanics.map.Map;
 import de.thundergames.playmechanics.util.Mole;
 import de.thundergames.playmechanics.util.Player;
 import de.thundergames.playmechanics.util.Settings;
-import java.io.IOException;
+import org.jetbrains.annotations.NotNull;
+
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import org.jetbrains.annotations.NotNull;
 
 public class Game extends NetworkGame {
 
@@ -35,26 +37,22 @@ public class Game extends NetworkGame {
   private final transient GameState gameState = new GameState();
   private final HashSet<Player> eliminatedPlayers = new HashSet<>();
   private final transient ArrayList<Player> activePlayers = new ArrayList<>();
-  private final transient boolean allMolesPlaced = false;
   private transient GameStates currentGameState = GameStates.NOT_STARTED;
   private transient Map map;
   private transient Settings settings;
   private transient Player currentPlayer;
-  private transient boolean gamePaused = false;
   private transient GameUtil gameUtil;
   private transient int currentFloorID = 0;
-
 
   public Game(int gameID) {
     super(gameID);
   }
 
   /**
-   * @throws IOException
    * @author Carina
    * @use creates a new Game with all settings after the Constructor
    */
-  public void create() throws IOException {
+  public void create() {
     gameUtil = new GameUtil(this);
     MoleGames.getMoleGames().getGameHandler().getIDGames().put(getGameID(), this);
     MoleGames.getMoleGames().getGameHandler().getGames().add(this);
@@ -64,7 +62,6 @@ public class Game extends NetworkGame {
     settings = new Settings(this);
     setScore(new Score());
   }
-
 
   /**
    * @author Carina
@@ -89,12 +86,12 @@ public class Game extends NetworkGame {
       mappe.put(players.getClientID(), players.getCards());
     }
     gameState.setPullDiscs(mappe);
+    gameState.setStatus(currentGameState.getName());
     gameState.setVisualizationTime(settings.getVisualizationTime());
     gameState.setScore(getScore());
     map.setHoles(gameState.getFloor().getHoles());
     map.setDrawAgainFields(gameState.getFloor().getDrawAgainFields());
     map.changeFieldParams(gameState);
-
   }
 
   /**
@@ -148,27 +145,14 @@ public class Game extends NetworkGame {
     endGame();
   }
 
-  public boolean isGamePaused() {
-    return gamePaused;
-  }
-
-  /**
-   * @author Carina
-   * @use pauses the game
-   */
-  public void pauseGame() {
-    gamePaused = true;
-  }
-
   /**
    * @author Carina
    * @use resumes the game
    */
   public void resumeGame() {
-    gamePaused = false;
+    setCurrentGameState(GameStates.STARTED);
     gameUtil.nextPlayer();
   }
-
 
   /**
    * @param client the player that joins the game
@@ -239,10 +223,6 @@ public class Game extends NetworkGame {
 
   public Settings getSettings() {
     return settings;
-  }
-
-  public void setSettings(Settings settings) {
-    this.settings = settings;
   }
 
   public HashMap<Player, Mole> getMoleMap() {

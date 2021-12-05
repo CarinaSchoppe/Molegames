@@ -1,7 +1,8 @@
 /*
  * Copyright Notice for Swtpra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 23.11.21, 19:54 by Carina latest changes made by Carina on 23.11.21, 18:50 All contents of "GameMasterClient" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 02.12.21, 15:53 by Carina latest changes made by Carina on 02.12.21, 15:53
+ * All contents of "GameMasterClient" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -16,9 +17,10 @@ import de.thundergames.networking.util.interfaceItems.NetworkField;
 import de.thundergames.networking.util.interfaceItems.NetworkFloor;
 import de.thundergames.networking.util.interfaceItems.NetworkGame;
 import de.thundergames.playmechanics.game.GameStates;
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.List;
-import org.jetbrains.annotations.NotNull;
 
 public class GameMasterClient {
 

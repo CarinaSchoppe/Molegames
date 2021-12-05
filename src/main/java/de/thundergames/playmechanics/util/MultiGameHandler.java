@@ -1,7 +1,8 @@
 /*
- * Copyright Notice for Swtpra10
+ * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 23.11.21, 13:45 by Carina latest changes made by Carina on 23.11.21, 13:45 All contents of "MultiGameHandler" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 03.12.21, 13:30 by Carina latest changes made by Carina on 03.12.21, 13:30
+ * All contents of "MultiGameHandler" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -13,7 +14,7 @@ import de.thundergames.networking.server.ServerThread;
 import de.thundergames.networking.util.interfaceItems.NetworkGame;
 import de.thundergames.playmechanics.game.Game;
 import de.thundergames.playmechanics.game.GameLogic;
-import java.io.IOException;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -41,11 +42,8 @@ public class MultiGameHandler {
   public void createNewGame(final int gameID) {
     if (!idGames.containsKey(gameID)) {
       var game = new Game(gameID);
-      try {
-        game.create();
-      } catch (IOException e) {
-        e.printStackTrace();
-      }
+      game.create();
+      games.add(game);
       idGames.put(gameID, game);
     } else {
       System.out.println("Game already exists");
@@ -60,6 +58,7 @@ public class MultiGameHandler {
     if (!idGames.containsKey(tournamentID)) {
       var tournament = new Tournament(tournamentID);
       tournament.create();
+      tournaments.add(tournament);
       idTournaments.put(tournamentID, tournament);
     } else {
       System.out.println("Tournament already exists");

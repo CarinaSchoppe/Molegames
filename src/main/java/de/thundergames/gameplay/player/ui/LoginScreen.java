@@ -1,7 +1,8 @@
 /*
- * Copyright Notice for Swtpra10
+ * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 22.11.21, 21:41 by Carina latest changes made by Carina on 22.11.21, 19:55 All contents of "LoginScreen" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 02.12.21, 18:17 by Carina latest changes made by Carina on 02.12.21, 18:17
+ * All contents of "LoginScreen" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -26,21 +27,17 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import java.io.File;
+import java.util.ResourceBundle;
+
 public class LoginScreen extends Application {
 
   private final boolean loggedIn = false;
-  @FXML
-  private ResourceBundle resources;
-  @FXML
-  private URL location;
-  @FXML
-  private TextField ip;
-  @FXML
-  private Button login;
-  @FXML
-  private TextField name;
-  @FXML
-  private TextField port;
+  @FXML private ResourceBundle resources;
+  @FXML private TextField ip;
+  @FXML private Button login;
+  @FXML private TextField name;
+  @FXML private TextField port;
 
   /**
    * @param event
@@ -74,17 +71,16 @@ public class LoginScreen extends Application {
       : "fx:id=\"port\" was not injected: check your FXML file 'LoginScreen.fxml'.";
   }
 
-  public void create(String... args) {
+  public static void create(String... args) {
     launch(args);
   }
 
   @Override
   public void start(Stage primaryStage) throws Exception {
-    location =
-      new File("src/main/resources/player/LoginScreen.fxml")
-        .toURI()
-        .toURL();
-    Parent root = FXMLLoader.load(location);
+    var loader =
+        new FXMLLoader(new File("src/main/resources/player/LoginScreen.fxml").toURI().toURL());
+    loader.setController(this);
+    Parent root = loader.load();
     primaryStage.setResizable(false);
     primaryStage.setTitle("Maulwurf Company");
     primaryStage.setScene(new Scene(root));

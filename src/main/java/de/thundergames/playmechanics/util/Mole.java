@@ -1,7 +1,7 @@
 /*
- * Copyright Notice for Swtpra10
+ * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 25.11.21, 17:04 by Carina Latest changes made by Carina on 25.11.21, 17:04
+ * File created on 03.12.21, 13:30 by Carina latest changes made by Carina on 03.12.21, 13:12
  * All contents of "Mole" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
@@ -16,7 +16,6 @@ import de.thundergames.playmechanics.map.Field;
 
 public class Mole extends NetworkMole {
 
-  private final transient boolean inHole = false;
   private transient Field field;
 
   public Mole(NetworkPlayer player, Field field) {
@@ -29,6 +28,7 @@ public class Mole extends NetworkMole {
   }
 
   public boolean isInHole() {
+    boolean inHole = false;
     return inHole;
   }
 

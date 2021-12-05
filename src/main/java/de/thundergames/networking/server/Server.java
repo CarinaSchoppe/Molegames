@@ -1,7 +1,8 @@
 /*
- * Copyright Notice for Swtpra10
+ * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 23.11.21, 14:33 by Carina latest changes made by Carina on 23.11.21, 14:14 All contents of "Server" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 02.12.21, 20:17 by Carina latest changes made by Carina on 02.12.21, 20:17
+ * All contents of "Server" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -15,11 +16,12 @@ import de.thundergames.networking.util.NetworkThread;
 import de.thundergames.networking.util.Packet;
 import de.thundergames.playmechanics.game.Game;
 import de.thundergames.playmechanics.util.Tournament;
+import org.jetbrains.annotations.NotNull;
+
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.util.ArrayList;
 import java.util.HashMap;
-import org.jetbrains.annotations.NotNull;
 
 public class Server extends Network {
 
@@ -70,31 +72,33 @@ public class Server extends Network {
    */
   @Override
   public void create() {
-    new Thread(() -> {
-      try {
-        ServerSocket serverSocket = new ServerSocket(port);
-        System.out.println("Server listening on port " + getPort());
-        while (true) {
-          socket = serverSocket.accept();
-          ServerThread serverThread = new ServerThread(socket, threadID);
-          getConnectionIDs().put(threadID, serverThread);
-          serverThread.start();
-          MoleGames.getMoleGames().getPacketHandler().welcomePacket(serverThread, threadID);
-          getClientThreads().add(serverThread);
-          threadIDs.put(serverThread.getConnectionID(), serverThread);
-          threadID++;
-        }
-      } catch (IOException e) {
-        e.printStackTrace();
-      } finally {
-        try {
-          socket.close();
-        } catch (IOException e) {
-          e.printStackTrace();
-        }
-      }
-    }).start();
+    new Thread(
+            () -> {
+              try {
+                ServerSocket serverSocket = new ServerSocket(port);
+                System.out.println("Server listening on port " + getPort());
+                while (true) {
+                  socket = serverSocket.accept();
+                  var serverThread = new ServerThread(socket, threadID);
+                  getConnectionIDs().put(threadID, serverThread);
+                  getClientThreads().add(serverThread);
+                  serverThread.start();
+                  MoleGames.getMoleGames().getPacketHandler().welcomePacket(serverThread, threadID);
 
+                  threadIDs.put(serverThread.getConnectionID(), serverThread);
+                  threadID++;
+                }
+              } catch (IOException e) {
+                e.printStackTrace();
+              } finally {
+                try {
+                  socket.close();
+                } catch (IOException e) {
+                  e.printStackTrace();
+                }
+              }
+            })
+        .start();
   }
 
   /**

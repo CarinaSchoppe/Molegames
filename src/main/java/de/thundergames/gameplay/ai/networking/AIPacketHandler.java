@@ -1,7 +1,7 @@
 /*
- * Copyright Notice for Swtpra10
+ * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 25.11.21, 17:04 by Carina Latest changes made by Carina on 25.11.21, 17:04
+ * File created on 03.12.21, 13:30 by Carina latest changes made by Carina on 03.12.21, 13:28
  * All contents of "AIPacketHandler" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
@@ -15,8 +15,8 @@ import de.thundergames.gameplay.ai.AI;
 import de.thundergames.gameplay.player.networking.ClientPacketHandler;
 import de.thundergames.networking.util.Packet;
 import de.thundergames.networking.util.Packets;
-import de.thundergames.networking.util.exceptions.UndefinedError;
 import de.thundergames.networking.util.interfaceItems.NetworkPlayer;
+import de.thundergames.playmechanics.map.Map;
 import org.jetbrains.annotations.NotNull;
 
 public class AIPacketHandler extends ClientPacketHandler {
@@ -24,12 +24,10 @@ public class AIPacketHandler extends ClientPacketHandler {
   /**
    * @param ai the instance of the AI
    * @param packet the packet recieved
-   * @throws UndefinedError
    * @author Carina
    * @use the logic for the AI to decide what to do depending on the packet recieved
    */
-  public void handlePacket(@NotNull final AI ai, @NotNull final Packet packet)
-      throws UndefinedError {
+  public void handlePacket(@NotNull final AI ai, @NotNull final Packet packet) {
     if (packet.getPacketType().equalsIgnoreCase(Packets.WELCOME.getPacketType())) {
       if (!packet.getValues().get("magic").getAsString().equals("mole42")) {
         System.exit(3);
@@ -39,13 +37,15 @@ public class AIPacketHandler extends ClientPacketHandler {
           new NetworkPlayer(ai.getName(), ai.getClientThread().getClientThreadID()));
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.WELCOMEGAME.getPacketType())) {
       handleWelcomeGamePacket(ai, packet);
-      ai.getAIUtil().createMapFromJson(ai);
+      ai.setMap(new Map(ai.getGameState()));
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.NEXTLEVEL.getPacketType())) {
       handleNextFloorPacket(ai, packet);
-      ai.getAIUtil().createMapFromJson(ai);
+      ai.setMap(new Map(ai.getGameState()));
+
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.MOLEPLACED.getPacketType())) {
       handleMolePlacedPacket(ai, packet);
-      ai.getAIUtil().createMapFromJson(ai);
+      ai.setMap(new Map(ai.getGameState()));
+
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.MOLEMOVED.getPacketType())) {
       handleMoleMovedPacket(ai, packet);
     }  else if (packet.getPacketType().equalsIgnoreCase(Packets.PLAYERJOINED.getPacketType())) {
@@ -61,10 +61,9 @@ public class AIPacketHandler extends ClientPacketHandler {
 
   private void timerRelatedController(@NotNull final AI ai) {
     try {
-      Thread.sleep(100);
+      Thread.sleep(250);
       ai.getLogic().handleAction(ai);
       if (isTimerRunning()) {
-        timer.purge();
         timer.cancel();
         setTimerRunning(false);
       }

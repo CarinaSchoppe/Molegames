@@ -1,7 +1,8 @@
 /*
- * Copyright Notice for Swtpra10
+ * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 23.11.21, 14:59 by Carina latest changes made by Carina on 23.11.21, 14:59 All contents of "GameConfiguration" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 03.12.21, 13:30 by Carina latest changes made by Carina on 03.12.21, 13:12
+ * All contents of "GameConfiguration" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -11,17 +12,16 @@ package de.thundergames.filehandling;
 
 import com.google.gson.Gson;
 import de.thundergames.networking.util.interfaceItems.NetworkConfiguration;
+import org.jetbrains.annotations.NotNull;
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
-import org.jetbrains.annotations.NotNull;
 
 public class GameConfiguration {
 
   private static int id = 0;
-  private FileWriter writer;
-
 
   /**
    * @param config the settings to save
@@ -33,7 +33,7 @@ public class GameConfiguration {
   public void saveSettings(@NotNull final NetworkConfiguration config) throws IOException {
     File file = new File("config" + id + ".json");
     id++;
-    writer = new FileWriter(file);
+    FileWriter writer = new FileWriter(file);
     writer.write(config.toString());
     writer.flush();
     writer.close();

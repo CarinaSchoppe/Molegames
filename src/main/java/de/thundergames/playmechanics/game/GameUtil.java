@@ -1,7 +1,7 @@
 /*
- * Copyright Notice for Swtpra10
+ * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 25.11.21, 17:04 by Carina Latest changes made by Carina on 25.11.21, 17:04
+ * File created on 03.12.21, 13:51 by Carina latest changes made by Carina on 03.12.21, 13:47
  * All contents of "GameUtil" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
@@ -13,9 +13,10 @@ package de.thundergames.playmechanics.game;
 
 import de.thundergames.MoleGames;
 import de.thundergames.playmechanics.util.Mole;
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.HashSet;
-import org.jetbrains.annotations.NotNull;
 
 public class GameUtil {
 
@@ -72,7 +73,8 @@ public class GameUtil {
    * @use sets the next player in the game if all moles are in holes the player is not on turn
    */
   public void nextPlayer() {
-    if (game.isGamePaused()) {
+    if (game.getCurrentGameState() == GameStates.OVER
+        || game.getCurrentGameState() == GameStates.PAUSED) {
       return;
     }
     if (game.getActivePlayers().size() - 1
@@ -102,7 +104,6 @@ public class GameUtil {
                   .getPacketHandler()
                   .playerSkippedPacket(game.getCurrentPlayer()));
       nextPlayer();
-      return;
     } else {
       if (game.getCurrentPlayer().getMoles().size() < game.getSettings().getNumberOfMoles()
           && game.getCurrentFloorID() == 0) {
@@ -129,7 +130,8 @@ public class GameUtil {
 
   /**
    * @author Carina
-   * @use goes to the next Floor it it exists
+   * @use goes to the next Floor it it exists TODO: sagen dass man raus ist aber noch updates
+   *     bekommt
    */
   public void nextFloor() {
     if (game.getSettings().getFloors().size() > game.getCurrentFloorID() + 1) {
@@ -173,10 +175,17 @@ public class GameUtil {
       nextPlayer();
     } else {
       // TODO: check winning or do winning.
+      game.setCurrentGameState(GameStates.OVER);
       System.out.println("PAAAARTTTTTTTTTTTTTTTTTTTTTTYYYYYYYYYYYYYYYYYYYYYYY");
     }
   }
 
+  /**
+   * @author Carina
+   * @use gives points to the player who are in holes when a next floor comes
+   * @sse Player
+   * @see de.thundergames.filehandling.Score
+   */
   public void givePoints() {
     for (var holes : game.getMap().getHoles()) {
       for (var player : game.getPlayers()) {

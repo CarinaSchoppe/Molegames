@@ -1,7 +1,7 @@
 /*
- * Copyright Notice for Swtpra10
+ * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 25.11.21, 17:04 by Carina Latest changes made by Carina on 25.11.21, 17:04
+ * File created on 03.12.21, 13:47 by Carina latest changes made by Carina on 03.12.21, 13:47
  * All contents of "Settings" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
@@ -19,14 +19,12 @@ import org.jetbrains.annotations.NotNull;
 public class Settings extends NetworkConfiguration {
 
   /*
-
-  ausrichter kann spieler zu einem spiel zuweisen
+  TODO: ausrichter kann spieler zu einem spiel zuweisen
   TODO: hier mehr adden! und dann auch implementieren
    */
 
   private final transient GameConfiguration gameConfiguration;
   private final transient Game game;
-  private final transient int punishmentPoints = 5;
 
   public Settings(@NotNull final Game game) {
     this.game = game;
@@ -64,6 +62,7 @@ public class Settings extends NetworkConfiguration {
   }
 
   public Integer getPunishmentPoints() {
+    int punishmentPoints = 5;
     return punishmentPoints;
   }
 }

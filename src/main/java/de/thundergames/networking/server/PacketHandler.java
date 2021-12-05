@@ -1,7 +1,8 @@
 /*
- * Copyright Notice for Swtpra10
+ * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 24.11.21, 20:03 by Carina latest changes made by Carina on 24.11.21, 19:56 All contents of "PacketHandler" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 03.12.21, 15:04 by Carina latest changes made by Carina on 03.12.21, 15:04
+ * All contents of "PacketHandler" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -13,6 +14,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import de.thundergames.MoleGames;
 import de.thundergames.filehandling.Score;
+import de.thundergames.gameplay.player.Client;
 import de.thundergames.networking.util.Packet;
 import de.thundergames.networking.util.Packets;
 import de.thundergames.networking.util.interfaceItems.NetworkField;
@@ -29,14 +31,14 @@ import java.util.ArrayList;
 
 public class PacketHandler {
 
-    /**
-     * @param packet
-     * @param client
-     * @author Carina
-     * @use handles the incomming packets from the server
-     * @see Server
-     * @see Packets
-   * @see de.thundergames.gameplay.player.networking.Client
+  /**
+   * @param packet
+   * @param client
+   * @author Carina
+   * @use handles the incomming packets from the server
+   * @see Server
+   * @see Packets
+   * @see Client
    */
   public void handlePacket(@NotNull final Packet packet, @NotNull final ServerThread client) {
     if (packet.getPacketType().equalsIgnoreCase(Packets.LOGIN.getPacketType())) {
@@ -484,7 +486,7 @@ public class PacketHandler {
   }
 
   /**
-   * TODO: here the messages[]
+   * TODO: here the messages[] einbauen einer history vom game
    *
    * @param client
    * @param gameID
@@ -527,7 +529,7 @@ public class PacketHandler {
    * @param client the client that has left the game
    * @author Carina
    * @see ServerThread
-   * @see de.thundergames.gameplay.player.networking.Client
+   * @see Client
    * @see Player
    */
   private void handlePlayerLeavePacket(@NotNull final ServerThread client) {
@@ -539,7 +541,7 @@ public class PacketHandler {
    * @param client
    * @author Carina
    * @use handles the getTournamentScore from the client
-   * @see de.thundergames.gameplay.player.networking.Client
+   * @see Client
    * @see Score
    */
   private void handleGetTournamentScorePacket(@NotNull final ServerThread client) {
@@ -566,12 +568,11 @@ public class PacketHandler {
     for (var players :
         MoleGames.getMoleGames().getGameHandler().getClientGames().get(client).getPlayers()) {
       if (players.getServerClient().equals(client)) {
-        var player = players;
         MoleGames.getMoleGames()
             .getGameHandler()
             .getClientGames()
             .get(client)
-            .removePlayerFromGame(player);
+            .removePlayerFromGame(players);
         MoleGames.getMoleGames().getGameHandler().getClientGames().remove(client);
         return;
       }
@@ -582,7 +583,7 @@ public class PacketHandler {
    * @param clientConnection the client that logged in into the server
    * @param threadID the threadID of the client that will be send to the client to give hima id
    * @author Carina
-   * @see de.thundergames.gameplay.player.networking.Client
+   * @see Client
    */
   public void welcomePacket(@NotNull final ServerThread clientConnection, final int threadID) {
     var object = new JsonObject();
@@ -720,7 +721,7 @@ public class PacketHandler {
    * @author Carina
    * @see Game
    * @see Player
-   * @see de.thundergames.gameplay.player.networking.Client
+   * @see Client
    */
   private boolean handleJoinPacket(
       @NotNull final Packet packet, @NotNull final ServerThread clientConnection) {
@@ -816,7 +817,6 @@ public class PacketHandler {
    * @param clientConnection
    * @author Carina
    * @use calls when a player joined the game sending the message to the clients of the game
-   * TODO: hier wenn jemand dem spiel beitritt egal ob spec oder teilnehmer!
    */
   public void playerJoinedPacket(@NotNull final ServerThread clientConnection) {
     var object = new JsonObject();

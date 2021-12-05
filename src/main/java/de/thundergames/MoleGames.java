@@ -1,7 +1,7 @@
 /*
- * Copyright Notice for Swtpra10
+ * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 25.11.21, 17:42 by Carina Latest changes made by Carina on 25.11.21, 17:42
+ * File created on 03.12.21, 15:04 by Carina latest changes made by Carina on 03.12.21, 15:04
  * All contents of "MoleGames" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
@@ -12,13 +12,14 @@ package de.thundergames;
 
 import de.thundergames.gameplay.ai.AI;
 import de.thundergames.gameplay.ausrichter.GameMasterClient;
-import de.thundergames.gameplay.player.networking.Client;
+import de.thundergames.gameplay.player.Client;
 import de.thundergames.gameplay.player.ui.LoginScreen;
 import de.thundergames.networking.server.PacketHandler;
 import de.thundergames.networking.server.Server;
 import de.thundergames.playmechanics.util.MultiGameHandler;
-import java.util.Objects;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.Objects;
 
 /**
  * @author Carina
@@ -48,12 +49,12 @@ public class MoleGames {
   public static void main(@Nullable final String... args) {
     moleGames = new MoleGames();
     if (args.length == 0) {
-      new LoginScreen().create(args);
+      LoginScreen.create(args);
     } else {
       switch (Objects.requireNonNull(args[0])) {
         case "-p":
         case "p":
-          new LoginScreen().create(args);
+          LoginScreen.create(args);
           break;
         case "-s":
         case "s":
