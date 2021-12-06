@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 06.12.21, 22:18 by Carina latest changes made by Carina on 06.12.21, 22:13
+ * File created on 06.12.21, 22:24 by Carina latest changes made by Carina on 06.12.21, 22:21
  * All contents of "PlayerUtil" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
@@ -64,7 +64,7 @@ public class PlayerUtil {
                               .getPacketHandler()
                               .movePenaltyNotification(
                                   player,
-                                  player.getGame().getSettings().getDeductedPoints(),
+                                  player.getGame().getDeductedPoints(),
                                   player.getGame().getSettings().getPunishment(),
                                   Punishments.NOMOVE.getName()));
                   player.setHasMoved(true);
