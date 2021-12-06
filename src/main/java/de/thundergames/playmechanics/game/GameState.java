@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 06.12.21, 22:18 by Carina latest changes made by Carina on 06.12.21, 22:14
+ * File created on 06.12.21, 23:19 by Carina latest changes made by Carina on 06.12.21, 23:16
  * All contents of "GameState" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
@@ -24,13 +24,14 @@ public class GameState {
 
   private ArrayList<NetworkPlayer> activePlayers = new ArrayList<>();
   private NetworkPlayer currentPlayer;
+  private int remainingTime;
   private ArrayList<NetworkMole> placedMoles = new ArrayList<>();
   private int moles;
   private int radius;
   private NetworkFloor level;
   private boolean pullDiscsOrdered;
   private HashMap<Integer, ArrayList<Integer>> pullDiscs = new HashMap<>();
-  private long visualizationTime;
+  private long visualizationTime = 10000;
   private String status;
   private Score score;
 
@@ -38,6 +39,13 @@ public class GameState {
     this.activePlayers = activePlayers;
   }
 
+  public int getRemainingTime() {
+    return remainingTime;
+  }
+
+  public void setRemainingTime(int remainingTime) {
+    this.remainingTime = remainingTime;
+  }
 
   public void setCurrentPlayer(NetworkPlayer currentPlayer) {
     this.currentPlayer = currentPlayer;
