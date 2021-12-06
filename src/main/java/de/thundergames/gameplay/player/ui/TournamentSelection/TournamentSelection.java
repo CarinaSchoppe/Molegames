@@ -1,10 +1,8 @@
 /*
- * Copyright Notice for Swtpra10
+ * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 21.11.21, 22:01 by MarcW
- * Latest changes made by MarcW on 21.11.21, 22:01
- * All contents of "PlayerWorkspace" are protected by copyright.
- * The copyright law, unless expressly indicated otherwise, is
+ * File created on 06.12.21, 14:34 by Carina latest changes made by Carina on 06.12.21, 14:33
+ * All contents of "TournamentSelection" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -21,7 +19,6 @@ import de.thundergames.playmechanics.util.SceneController;
 import de.thundergames.playmechanics.util.Tournament;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -34,7 +31,6 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import javax.swing.*;
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Objects;
@@ -42,105 +38,100 @@ import java.util.ResourceBundle;
 
 public class TournamentSelection implements Initializable {
 
+  private static Client client;
+  private static TournamentSelection tournamentSelection;
+  @FXML private Text PlayerName;
+  @FXML private TableView<Tournament> gameTable;
+  @FXML private TableColumn<Tournament, Integer> tournament_Id;
+  @FXML private TableColumn<Tournament, String> player_Count;
 
-    private static Client client;
-    @FXML
-    private Text PlayerName;
-    @FXML
-    private TableView<Tournament> gameTable;
-    @FXML
-    private TableColumn<Tournament, Integer> tournament_Id;
-    @FXML
-    private TableColumn<Tournament, String> player_Count;
-
-    private static TournamentSelection tournamentSelection;
-
-    public static TournamentSelection getTournamentSelection(){
-        return  tournamentSelection;
-    }
+  public static TournamentSelection getTournamentSelection() {
+    return tournamentSelection;
+  }
 
   private Stage primaryStage;
 
   /**
    * Create the Scene for TournamentSelection
+   *
    * @param event event from the current scene to build this scene on same object
    * @throws IOException error creating the scene TournamentSelection
    */
-    public void create(ActionEvent event) throws IOException {
-        tournamentSelection = this;
-      primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+  public void create(ActionEvent event) throws IOException {
+    tournamentSelection = this;
+    primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
-      var loader = SceneController.loadFXML("player/TournamentSelection.fxml");
-      loader.setController(this);
-      Parent root = loader.load();
-      primaryStage.setTitle("Maulwurf Company");
-      primaryStage.setResizable(false);
-      primaryStage.setScene(new Scene(root));
-      primaryStage.show();
-      primaryStage.setOnCloseRequest(ev -> logout(primaryStage));
+    var loader = SceneController.loadFXML("player/TournamentSelection.fxml");
+    loader.setController(this);
+    Parent root = loader.load();
+    primaryStage.setTitle("Maulwurf Company");
+    primaryStage.setResizable(false);
+    primaryStage.setScene(new Scene(root));
+    primaryStage.show();
+    primaryStage.setOnCloseRequest(ev -> logout(primaryStage));
 
-      //region Create button events
-      //set event for back button
-      var btnBack = (Button) (primaryStage.getScene().lookup("#backToMenu"));
-      btnBack.setOnAction(e ->
-      {
-        try {
-          backToMenu(e);
-        } catch (IOException ex) {
-          ex.printStackTrace();
-        }
-      });
-      //set event for spectate game
-      var btnSpectateGame = (Button) (primaryStage.getScene().lookup("#spectateGame"));
-      btnSpectateGame.setOnAction(e ->
-      {
-        try {
-          spectateGame(e);
-        } catch (IOException ex) {
-          ex.printStackTrace();
-        }
-      });
-      //endregion
+    // region Create button events
+    // set event for back button
+    var btnBack = (Button) (primaryStage.getScene().lookup("#backToMenu"));
+    btnBack.setOnAction(
+        e -> {
+          try {
+            backToMenu(e);
+          } catch (IOException ex) {
+            ex.printStackTrace();
+          }
+        });
+    // set event for spectate game
+    var btnSpectateGame = (Button) (primaryStage.getScene().lookup("#spectateGame"));
+    btnSpectateGame.setOnAction(
+        e -> {
+          try {
+            spectateGame(e);
+          } catch (IOException ex) {
+            ex.printStackTrace();
+          }
+        });
+    // endregion
 
-    }
+  }
   /**
    * Is called when the object is initialized
+   *
    * @param location of base class Initialize
    * @param resources of base class Initialize
    */
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        client = Client.getClient();
+  @Override
+  public void initialize(URL location, ResourceBundle resources) {
+    client = Client.getClient();
 
-        //show username at scene
-        PlayerName.setText("Spieler: " + client.name);
+    // show username at scene
+    PlayerName.setText("Spieler: " + client.name);
 
-        // set value for each row
-        tournament_Id.setCellValueFactory(new PropertyValueFactory<>("HashtagWithTournamentID"));
-        player_Count.setCellValueFactory(new PropertyValueFactory<>("playerCount"));
+    // set value for each row
+    tournament_Id.setCellValueFactory(new PropertyValueFactory<>("HashtagWithTournamentID"));
+    player_Count.setCellValueFactory(new PropertyValueFactory<>("playerCount"));
 
-        // load data for tableview
-        updateTable();
-    }
+    // load data for tableview
+    updateTable();
+  }
 
-  /**
-   *     Refresh the games of tableview
-   */
-    public void updateTable() {
-        //clear tableview and get tournaments from server and add all to table view
-        gameTable.getItems().clear();
-        gameTable.getItems().addAll(client.getTournaments());
-    }
+  /** Refresh the games of tableview */
+  public void updateTable() {
+    // clear tableview and get tournaments from server and add all to table view
+    gameTable.getItems().clear();
+    gameTable.getItems().addAll(client.getTournaments());
+  }
 
   /**
    * Button at Scene TournamentSelection. Call scene PlayerMenu
+   *
    * @param event event from the current scene to build PlayerMenu on same object
    * @throws IOException error creating the scene PlayerMenu
    */
   @FXML
-    void backToMenu(ActionEvent event) throws IOException {
-        new PlayerMenu().create(event);
-    }
+  void backToMenu(ActionEvent event) throws IOException {
+    new PlayerMenu().create(event);
+  }
 
   /**
    * Is called when the close button is clicked.
@@ -153,14 +144,14 @@ public class TournamentSelection implements Initializable {
   }
 
   /**
-   * Button at Scene TournamentSelection. Observe the tournament.
-   * If tournament is already started, spectate the tournament,
-   * else join the spectator lobby.
+   * Button at Scene TournamentSelection. Observe the tournament. If tournament is already started,
+   * spectate the tournament, else join the spectator lobby.
+   *
    * @param event event from the current scene to build next scene on same object
    * @throws IOException error at creating the scene
    */
   @FXML
-    public void spectateGame(ActionEvent event) throws IOException {
+  public void spectateGame(ActionEvent event) throws IOException {
     Tournament selectedItem = gameTable.getSelectionModel().getSelectedItem();
     //If no item of tableview is selected.
     if (selectedItem == null) {
@@ -203,4 +194,5 @@ public class TournamentSelection implements Initializable {
     primaryStage.close();
     //Todo:Open scene of Game
   }
+
 }

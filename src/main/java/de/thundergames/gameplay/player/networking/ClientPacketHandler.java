@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 03.12.21, 15:04 by Carina latest changes made by Carina on 03.12.21, 15:04
+ * File created on 06.12.21, 14:34 by Carina latest changes made by Carina on 06.12.21, 14:33
  * All contents of "ClientPacketHandler" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
@@ -14,11 +14,11 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import de.thundergames.filehandling.Score;
+import de.thundergames.gameplay.player.Client;
 import de.thundergames.gameplay.player.ui.GameSelection.GameSelection;
 import de.thundergames.gameplay.player.ui.GameSelection.LobbyObserverGame;
 import de.thundergames.gameplay.player.ui.TournamentSelection.LobbyObserverTournament;
 import de.thundergames.gameplay.player.ui.TournamentSelection.TournamentSelection;
-import de.thundergames.gameplay.player.Client;
 import de.thundergames.networking.server.PacketHandler;
 import de.thundergames.networking.util.Packet;
 import de.thundergames.networking.util.Packets;
@@ -28,8 +28,6 @@ import de.thundergames.networking.util.interfaceItems.NetworkMole;
 import de.thundergames.networking.util.interfaceItems.NetworkPlayer;
 import de.thundergames.playmechanics.game.GameState;
 import de.thundergames.playmechanics.map.Map;
-import org.jetbrains.annotations.NotNull;
-
 import de.thundergames.playmechanics.util.Tournament;
 import org.jetbrains.annotations.NotNull;
 
@@ -37,7 +35,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
-
 
 public class ClientPacketHandler {
 
@@ -229,8 +226,8 @@ public class ClientPacketHandler {
   protected void handleTournamentPlayerJoinedPacket(
       @NotNull final Client client, @NotNull final Packet packet) {
     updateTableView();
-    var lobbyObserverTournament =  LobbyObserverTournament.getObserver();
-    if (lobbyObserverTournament!=null) lobbyObserverTournament.showJoiningSuccessfully();
+    var lobbyObserverTournament = LobbyObserverTournament.getObserver();
+    if (lobbyObserverTournament != null) lobbyObserverTournament.showJoiningSuccessfully();
   }
 
   /**
@@ -314,18 +311,31 @@ public class ClientPacketHandler {
     handleFloor(client, packet);
   }
 
+  /**
+   * @author Carina
+   * @param client
+   * @param packet
+   * @use handles the floor send by the server to do everything to get it ready
+   */
   protected void handleFloor(Client client, Packet packet) {
     client.getMoles().clear();
     client.setGameState(
         new Gson().fromJson(packet.getValues().get("gameState").getAsString(), GameState.class));
-    client
-        .getPullDiscs()
-        .addAll(
-            client.getGameState().getPullDiscs().get(client.getClientThread().getClientThreadID()));
+    if (!client.getGameState().getPullDiscs().isEmpty()) {
+      client
+          .getPullDiscs()
+          .addAll(
+              client
+                  .getGameState()
+                  .getPullDiscs()
+                  .get(client.getClientThread().getClientThreadID()));
+    }
     client.setMap(new Map(client.getGameState()));
-    for (var moles : client.getGameState().getPlacedMoles()) {
-      if (moles.getPlayer().getClientID() == client.getNetworkPlayer().getClientID()) {
-        client.getMoles().add(moles);
+    if (!client.getGameState().getPlacedMoles().isEmpty()) {
+      for (var moles : client.getGameState().getPlacedMoles()) {
+        if (moles.getPlayer().getClientID() == client.getNetworkPlayer().getClientID()) {
+          client.getMoles().add(moles);
+        }
       }
     }
     updateMap(client.getMap());
@@ -588,12 +598,12 @@ public class ClientPacketHandler {
    */
   protected void handleGameStartedPacket(
       @NotNull final Client client, @NotNull final Packet packet) {
-    handleFloor(client,packet);
+    handleFloor(client, packet);
     updateTableView();
-    var lobbyObserverGame =  LobbyObserverGame.getObserver();
-    if (lobbyObserverGame!=null) lobbyObserverGame.spectateGame();
-    var lobbyObserverTournamentGame =  LobbyObserverTournament.getObserver();
-    if (lobbyObserverTournamentGame!=null) lobbyObserverTournamentGame.spectateGame();
+    var lobbyObserverGame = LobbyObserverGame.getObserver();
+    if (lobbyObserverGame != null) lobbyObserverGame.spectateGame();
+    var lobbyObserverTournamentGame = LobbyObserverTournament.getObserver();
+    if (lobbyObserverTournamentGame != null) lobbyObserverTournamentGame.spectateGame();
   }
 
   /**
@@ -717,12 +727,13 @@ public class ClientPacketHandler {
   protected void handlePlayerJoinedPacket(
       @NotNull final Client client, @NotNull final Packet packet) {
     System.out.println(
-            "A player has joined the Game + "
-                    + new Gson()
-                    .fromJson(packet.getValues().get("player").getAsString(), NetworkPlayer.class));
+        "A player has joined the Game + "
+            + new Gson()
+                .fromJson(packet.getValues().get("player").getAsString(), NetworkPlayer.class)
+                .getName());
     updateTableView();
-    var lobbyObserverGame =  LobbyObserverGame.getObserver();
-    if (lobbyObserverGame!=null) lobbyObserverGame.showNewPlayer();
+    var lobbyObserverGame = LobbyObserverGame.getObserver();
+    if (lobbyObserverGame != null) lobbyObserverGame.showNewPlayer();
   }
 
   /**
@@ -733,8 +744,7 @@ public class ClientPacketHandler {
    */
   protected void handleWelcomeGamePacket(
       @NotNull final Client client, @NotNull final Packet packet) {
-    //Todo: Kommt hier nie an
-    System.out.println("Hallo Welt");
+    // Todo: Kommt hier nie an
     handleFloor(client, packet);
   }
 
@@ -792,10 +802,20 @@ public class ClientPacketHandler {
   protected void handleOverviewPacket(@NotNull final Client client, @NotNull final Packet packet) {
     client.getGames().clear();
     client.getTournaments().clear();
-    client.getGames().addAll(new Gson().fromJson(packet.getValues().get("games").getAsString(), new TypeToken<ArrayList<NetworkGame>>() {
-    }.getType()));
-    client.getTournaments().addAll(new Gson().fromJson(packet.getValues().get("tournaments").getAsString(), new TypeToken<ArrayList<Tournament>>() {
-    }.getType()));
+    client
+        .getGames()
+        .addAll(
+            new Gson()
+                .fromJson(
+                    packet.getValues().get("games").getAsString(),
+                    new TypeToken<ArrayList<NetworkGame>>() {}.getType()));
+    client
+        .getTournaments()
+        .addAll(
+            new Gson()
+                .fromJson(
+                    packet.getValues().get("tournaments").getAsString(),
+                    new TypeToken<ArrayList<Tournament>>() {}.getType()));
     updateTableView();
   }
 
@@ -861,10 +881,10 @@ public class ClientPacketHandler {
    * @use update tableview of game/tournament selection
    */
   private void updateTableView() {
-    //Update tableview of GameSelection
+    // Update tableview of GameSelection
     var gameSelection = GameSelection.getGameSelection();
     if (gameSelection != null) gameSelection.updateTable();
-    //Update tableview of TournamentSelection
+    // Update tableview of TournamentSelection
     var tournamentSelection = TournamentSelection.getTournamentSelection();
     if (tournamentSelection != null) tournamentSelection.updateTable();
   }
@@ -874,7 +894,7 @@ public class ClientPacketHandler {
    * @use show player joined message at game lobby
    */
   private void showPlayerJoinedGameLobby() {
-    var lobbyObserverGame =  LobbyObserverGame.getObserver();
-    if (lobbyObserverGame!=null) lobbyObserverGame.showJoiningSuccessfully();
+    var lobbyObserverGame = LobbyObserverGame.getObserver();
+    if (lobbyObserverGame != null) lobbyObserverGame.showJoiningSuccessfully();
   }
 }
