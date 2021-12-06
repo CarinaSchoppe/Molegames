@@ -30,7 +30,7 @@ public class Client extends Network {
 
   private static final boolean keyListener = true;
   protected static Client client;
-  private final String name;
+  public final String name;
   private final HashSet<NetworkGame> games = new HashSet<>();
   private final HashSet<Tournament> tournaments = new HashSet<>();
   private final ArrayList<Integer> pullDiscs = new ArrayList<>();

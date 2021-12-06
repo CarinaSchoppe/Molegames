@@ -25,7 +25,7 @@ public class Tournament {
   private final transient HashSet<ServerThread> clients = new HashSet<>();
   private int playerCount;
   private Score score;
-  private HashSet<NetworkGame> games;
+  private HashSet<NetworkGame> games = new HashSet<NetworkGame>();
   private transient TournamentState tournamentState;
 
   public Tournament(int tournamentID) {
@@ -106,5 +106,12 @@ public class Tournament {
 
   public TournamentState getTournamentState() {
     return tournamentState;
+  }
+
+  /**
+   * @return tournamentID with a hashtag in front of it
+   */
+  public String getHashtagWithTournamentID() {
+    return "#" + tournamentID;
   }
 }
