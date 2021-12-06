@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 03.12.21, 15:04 by Carina latest changes made by Carina on 03.12.21, 15:04
+ * File created on 06.12.21, 22:18 by Carina latest changes made by Carina on 06.12.21, 22:18
  * All contents of "Client" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
@@ -17,8 +17,8 @@ import de.thundergames.networking.util.interfaceItems.NetworkGame;
 import de.thundergames.networking.util.interfaceItems.NetworkMole;
 import de.thundergames.networking.util.interfaceItems.NetworkPlayer;
 import de.thundergames.playmechanics.game.GameState;
+import de.thundergames.playmechanics.game.Tournament;
 import de.thundergames.playmechanics.map.Map;
-import de.thundergames.playmechanics.util.Tournament;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;

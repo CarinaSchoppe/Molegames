@@ -1,7 +1,7 @@
 /*
- * Copyright Notice for Swtpra10
+ * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 02.12.21, 15:53 by Carina latest changes made by Carina on 02.12.21, 15:53
+ * File created on 06.12.21, 22:18 by Carina latest changes made by Carina on 06.12.21, 22:18
  * All contents of "Tournament" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
@@ -9,7 +9,7 @@
  * requires the express written consent of ThunderGames | SwtPra10.
  */
 
-package de.thundergames.playmechanics.util;
+package de.thundergames.playmechanics.game;
 
 import de.thundergames.MoleGames;
 import de.thundergames.filehandling.Score;
@@ -25,8 +25,9 @@ public class Tournament {
   private final transient HashSet<ServerThread> clients = new HashSet<>();
   private int playerCount;
   private Score score;
-  private HashSet<NetworkGame> games = new HashSet<NetworkGame>();
+  private final HashSet<NetworkGame> games = new HashSet<NetworkGame>();
   private transient TournamentState tournamentState;
+  private TournamentStatus status;
 
   public Tournament(int tournamentID) {
     this.tournamentID = tournamentID;
@@ -49,8 +50,9 @@ public class Tournament {
    */
   public void create() {
     this.score = new Score();
-    this.tournamentState = new TournamentState();
+    this.tournamentState = new TournamentState(score, TournamentStatus.NOT_STARTED);
     MoleGames.getMoleGames().getGameHandler().getTournaments().add(this);
+    setStatus(TournamentStatus.NOT_STARTED);
     MoleGames.getMoleGames().getGameHandler().getIDTournaments().put(tournamentID, this);
     for (var client : MoleGames.getMoleGames().getServer().getObserver()) {
       MoleGames.getMoleGames().getPacketHandler().overviewPacket(client);
@@ -95,6 +97,13 @@ public class Tournament {
     this.playerCount = playerCount;
   }
 
+  public TournamentStatus getStatus() {
+    return status;
+  }
+
+  public void setStatus(TournamentStatus status) {
+    this.status = status;
+  }
 
   public HashSet<NetworkGame> getGames() {
     return games;

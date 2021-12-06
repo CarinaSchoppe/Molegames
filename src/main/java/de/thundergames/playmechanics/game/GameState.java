@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 03.12.21, 13:30 by Carina latest changes made by Carina on 03.12.21, 13:15
+ * File created on 06.12.21, 22:18 by Carina latest changes made by Carina on 06.12.21, 22:14
  * All contents of "GameState" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
@@ -22,7 +22,7 @@ import java.util.HashMap;
 
 public class GameState {
 
-  private ArrayList<NetworkPlayer> players = new ArrayList<>();
+  private ArrayList<NetworkPlayer> activePlayers = new ArrayList<>();
   private NetworkPlayer currentPlayer;
   private ArrayList<NetworkMole> placedMoles = new ArrayList<>();
   private int moles;
@@ -34,8 +34,8 @@ public class GameState {
   private String status;
   private Score score;
 
-  public void setPlayers(ArrayList<NetworkPlayer> players) {
-    this.players = players;
+  public void setActivePlayers(ArrayList<NetworkPlayer> activePlayers) {
+    this.activePlayers = activePlayers;
   }
 
 
