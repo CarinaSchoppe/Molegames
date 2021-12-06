@@ -103,6 +103,10 @@ public class GameState {
     this.status = status;
   }
 
+  public String getStatus() {
+    return status;
+  }
+
   public Score getScore() {
     return score;
   }
