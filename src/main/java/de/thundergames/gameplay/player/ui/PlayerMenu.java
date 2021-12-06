@@ -1,10 +1,8 @@
 /*
- * Copyright Notice for Swtpra10
+ * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 21.11.21, 22:01 by MarcW
- * Latest changes made by MarcW on 21.11.21, 22:01
- * All contents of "PlayerWorkspace" are protected by copyright.
- * The copyright law, unless expressly indicated otherwise, is
+ * File created on 06.12.21, 19:39 by Carina latest changes made by Carina on 06.12.21, 19:39
+ * All contents of "PlayerMenu" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -14,8 +12,8 @@
 package de.thundergames.gameplay.player.ui;
 
 import de.thundergames.gameplay.player.Client;
-import de.thundergames.gameplay.player.ui.GameSelection.GameSelection;
 import de.thundergames.gameplay.player.ui.TournamentSelection.TournamentSelection;
+import de.thundergames.gameplay.player.ui.gameselection.GameSelection;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;

@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 06.12.21, 14:34 by Carina latest changes made by Carina on 06.12.21, 14:33
+ * File created on 06.12.21, 19:39 by Carina latest changes made by Carina on 06.12.21, 19:39
  * All contents of "ClientPacketHandler" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
@@ -15,10 +15,10 @@ import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import de.thundergames.filehandling.Score;
 import de.thundergames.gameplay.player.Client;
-import de.thundergames.gameplay.player.ui.GameSelection.GameSelection;
-import de.thundergames.gameplay.player.ui.GameSelection.LobbyObserverGame;
 import de.thundergames.gameplay.player.ui.TournamentSelection.LobbyObserverTournament;
 import de.thundergames.gameplay.player.ui.TournamentSelection.TournamentSelection;
+import de.thundergames.gameplay.player.ui.gameselection.GameSelection;
+import de.thundergames.gameplay.player.ui.gameselection.LobbyObserverGame;
 import de.thundergames.networking.server.PacketHandler;
 import de.thundergames.networking.util.Packet;
 import de.thundergames.networking.util.Packets;
