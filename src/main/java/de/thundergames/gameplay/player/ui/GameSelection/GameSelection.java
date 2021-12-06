@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 06.12.21, 14:34 by Carina latest changes made by Carina on 06.12.21, 14:33
+ * File created on 06.12.21, 14:36 by Carina latest changes made by Carina on 06.12.21, 14:36
  * All contents of "GameSelection" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
@@ -42,9 +42,9 @@ public class GameSelection implements Initializable {
   private static Client client;
   @FXML private Text PlayerName;
   @FXML private TableView<NetworkGame> gameTable;
-  @FXML private TableColumn<NetworkGame, Integer> game_Id;
-  @FXML private TableColumn<NetworkGame, String> game_Player_Count;
-  @FXML private TableColumn<NetworkGame, String> game_State;
+  @FXML private TableColumn<NetworkGame, Integer> gameID;
+  @FXML private TableColumn<NetworkGame, String> gamePlayerCount;
+  @FXML private TableColumn<NetworkGame, String> gameState;
 
   private static GameSelection gameSelection;
 
@@ -119,10 +119,9 @@ public class GameSelection implements Initializable {
     // show username at scene
     PlayerName.setText("Spieler: " + client.name);
     // set value for each row
-    game_Id.setCellValueFactory(new PropertyValueFactory<>("HashtagWithGameID"));
-    game_Player_Count.setCellValueFactory(
-        new PropertyValueFactory<>("CurrentPlayerCount_MaxCount"));
-    game_State.setCellValueFactory(new PropertyValueFactory<>("StatusForTableView"));
+    gameID.setCellValueFactory(new PropertyValueFactory<>("HashtagWithGameID"));
+    gamePlayerCount.setCellValueFactory(new PropertyValueFactory<>("CurrentPlayerCount_MaxCount"));
+    gameState.setCellValueFactory(new PropertyValueFactory<>("StatusForTableView"));
     // load data for tableview
     updateTable();
   }

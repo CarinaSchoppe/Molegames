@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 06.12.21, 14:34 by Carina latest changes made by Carina on 06.12.21, 14:33
+ * File created on 06.12.21, 14:36 by Carina latest changes made by Carina on 06.12.21, 14:36
  * All contents of "TournamentSelection" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
@@ -42,8 +42,8 @@ public class TournamentSelection implements Initializable {
   private static TournamentSelection tournamentSelection;
   @FXML private Text PlayerName;
   @FXML private TableView<Tournament> gameTable;
-  @FXML private TableColumn<Tournament, Integer> tournament_Id;
-  @FXML private TableColumn<Tournament, String> player_Count;
+  @FXML private TableColumn<Tournament, Integer> tournamentID;
+  @FXML private TableColumn<Tournament, String> playerCount;
 
   public static TournamentSelection getTournamentSelection() {
     return tournamentSelection;
@@ -108,8 +108,8 @@ public class TournamentSelection implements Initializable {
     PlayerName.setText("Spieler: " + client.name);
 
     // set value for each row
-    tournament_Id.setCellValueFactory(new PropertyValueFactory<>("HashtagWithTournamentID"));
-    player_Count.setCellValueFactory(new PropertyValueFactory<>("playerCount"));
+    tournamentID.setCellValueFactory(new PropertyValueFactory<>("HashtagWithTournamentID"));
+    playerCount.setCellValueFactory(new PropertyValueFactory<>("playerCount"));
 
     // load data for tableview
     updateTable();
@@ -134,8 +134,8 @@ public class TournamentSelection implements Initializable {
   }
 
   /**
-   * Is called when the close button is clicked.
-   * Logout user.
+   * Is called when the close button is clicked. Logout user.
+   *
    * @param stage current stage
    */
   private void logout(Stage stage) {
@@ -153,13 +153,19 @@ public class TournamentSelection implements Initializable {
   @FXML
   public void spectateGame(ActionEvent event) throws IOException {
     Tournament selectedItem = gameTable.getSelectionModel().getSelectedItem();
-    //If no item of tableview is selected.
+    // If no item of tableview is selected.
     if (selectedItem == null) {
-      JOptionPane.showMessageDialog(null, "Es wurde kein Turnier selektiert!", "Turnier beobachten", JOptionPane.ERROR_MESSAGE);
+      JOptionPane.showMessageDialog(
+          null,
+          "Es wurde kein Turnier selektiert!",
+          "Turnier beobachten",
+          JOptionPane.ERROR_MESSAGE);
       return;
     }
-    //Send Packet to spectate tournament to get GameState
-    client.getClientPacketHandler().enterTournamentPacket(client, selectedItem.getTournamentID(), false);
+    // Send Packet to spectate tournament to get GameState
+    client
+        .getClientPacketHandler()
+        .enterTournamentPacket(client, selectedItem.getTournamentID(), false);
 
     GameState currentGameState = client.getGameState();
 
@@ -168,31 +174,26 @@ public class TournamentSelection implements Initializable {
       return;
     }
     if (Objects.equals(currentGameState.getStatus(), GameStates.STARTED.toString())
-      || Objects.equals(currentGameState.getStatus(), GameStates.PAUSED.toString())) {
+        || Objects.equals(currentGameState.getStatus(), GameStates.PAUSED.toString())) {
       spectateGame(currentGameState);
     } else if (Objects.equals(currentGameState.getStatus(), GameStates.NOT_STARTED.toString())) {
-      new LobbyObserverTournament().create(event,selectedItem.getTournamentID());
+      new LobbyObserverTournament().create(event, selectedItem.getTournamentID());
     } else if (Objects.equals(currentGameState.getStatus(), GameStates.OVER.toString())) {
       loadScoreboard();
     }
   }
 
-  /**
-   * Load scene of scoreboard
-   */
+  /** Load scene of scoreboard */
   private void loadScoreboard() {
     client.getClientPacketHandler().getScorePacket(client);
-    //TODO: Get TournamentState
+    // TODO: Get TournamentState
     // var gameScore = client.getTournamentState().getTournamentScore();
-    //Todo:Open scene of ScoreBoard
+    // Todo:Open scene of ScoreBoard
   }
 
-  /**
-   * Load scene of game
-   */
+  /** Load scene of game */
   private void spectateGame(GameState gameState) {
     primaryStage.close();
-    //Todo:Open scene of Game
+    // Todo:Open scene of Game
   }
-
 }

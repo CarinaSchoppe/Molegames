@@ -1,10 +1,8 @@
 /*
- * Copyright Notice for Swtpra10
+ * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 21.11.21, 20:00 by Nick
- * Latest changes made by Nick on 26.11.21, 16:41
- * All contents of "PlayerWorkspace" are protected by copyright.
- * The copyright law, unless expressly indicated otherwise, is
+ * File created on 06.12.21, 14:36 by Carina latest changes made by Carina on 06.12.21, 14:36
+ * All contents of "LobbyObserverTournament" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -17,7 +15,6 @@ import de.thundergames.gameplay.player.Client;
 import de.thundergames.playmechanics.util.SceneController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -26,22 +23,17 @@ import javafx.scene.control.Button;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class LobbyObserverTournament implements Initializable {
 
-  @FXML
-  private static Client client;
+  @FXML private static Client client;
   private static LobbyObserverTournament observer;
-  @FXML
-  private Text PlayerName;
-  @FXML
-  private Text PlayerJoined;
-  @FXML
-  private Text JoinedSuccessfully;
+  @FXML private Text PlayerName;
+  @FXML private Text PlayerJoined;
+  @FXML private Text JoinedSuccessfully;
 
   private int selectedTournamentId;
 
@@ -67,18 +59,18 @@ public class LobbyObserverTournament implements Initializable {
     primaryStage.show();
     primaryStage.setOnCloseRequest(ev -> logout(primaryStage));
 
-    //region Create button events
-    //set event for back button
+    // region Create button events
+    // set event for back button
     var btnBack = (Button) (primaryStage.getScene().lookup("#backToTournamentSelection"));
-    btnBack.setOnAction(e ->
-    {
-      try {
-        onBackClick(e);
-      } catch (IOException ex) {
-        ex.printStackTrace();
-      }
-    });
-    //endregion
+    btnBack.setOnAction(
+        e -> {
+          try {
+            onBackClick(e);
+          } catch (IOException ex) {
+            ex.printStackTrace();
+          }
+        });
+    // endregion
   }
 
   @Override
@@ -88,18 +80,18 @@ public class LobbyObserverTournament implements Initializable {
 
   /**
    * @author Nick
-   * @use processes the click on the back button, loads previous scene GameSelection and informs server player has left via
-   * leaveGame Packet (method inspired by "onSignOutClick()" -> see GameSelection)
+   * @use processes the click on the back button, loads previous scene GameSelection and informs
+   *     server player has left via leaveGame Packet (method inspired by "onSignOutClick()" -> see
+   *     GameSelection)
    */
   @FXML
   void onBackClick(ActionEvent event) throws IOException {
-    client.getClientPacketHandler().leaveTournament(client,selectedTournamentId);
+    client.getClientPacketHandler().leaveTournament(client, selectedTournamentId);
     new TournamentSelection().create(event);
   }
 
   /**
-   * Is called when the close button is clicked.
-   * Logout user.
+   * Is called when the close button is clicked. Logout user.
    *
    * @param stage current stage
    */
@@ -110,7 +102,9 @@ public class LobbyObserverTournament implements Initializable {
 
   /**
    * @author Nick
-   * @use Changes the opacity of a text field with the content "Ein weiterer Spieler ist beigetreten" thus making it visible for 3 seconds when another player has joined respectively when the client has received playerJoined packet.
+   * @use Changes the opacity of a text field with the content "Ein weiterer Spieler ist
+   *     beigetreten" thus making it visible for 3 seconds when another player has joined
+   *     respectively when the client has received playerJoined packet.
    */
   public void showNewPlayer() {
     PlayerJoined.setOpacity(1.0);
@@ -124,7 +118,8 @@ public class LobbyObserverTournament implements Initializable {
 
   /**
    * @author Nick
-   * @use Changes the opacity of a text field with the content "Beitritt zum Turnier war erfolgreich! Bitte warten." thus making it visible for 5 seconds.
+   * @use Changes the opacity of a text field with the content "Beitritt zum Turnier war
+   *     erfolgreich! Bitte warten." thus making it visible for 5 seconds.
    */
   public void showJoiningSuccessfully() {
     JoinedSuccessfully.setOpacity(1.0);
@@ -142,6 +137,6 @@ public class LobbyObserverTournament implements Initializable {
    */
   public void spectateGame() {
     var currentGameState = client.getGameState();
-    //TODO:Create scene for game
+    // TODO:Create scene for game
   }
 }
