@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 06.12.21, 22:24 by Carina latest changes made by Carina on 06.12.21, 22:24
+ * File created on 06.12.21, 23:09 by Carina latest changes made by Carina on 06.12.21, 23:09
  * All contents of "Game" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
@@ -131,7 +131,8 @@ public class Game extends NetworkGame {
 
   /**
    * @author Carina
-   * @use handles when a game ends
+   * @use handles when a game ends //TODO: die methoden hier füllen und allgemein ein "ende" für das
+   *     game erstellen
    */
   public void endGame() {
     setFinishDateTime(Instant.now().getEpochSecond());

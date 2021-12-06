@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 06.12.21, 22:57 by Carina latest changes made by Carina on 06.12.21, 22:57
+ * File created on 06.12.21, 23:09 by Carina latest changes made by Carina on 06.12.21, 23:09
  * All contents of "NetworkThread" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
@@ -18,10 +18,7 @@ import de.thundergames.gameplay.player.networking.ClientThread;
 import de.thundergames.networking.server.ServerThread;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import java.io.*;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
 
@@ -50,7 +47,9 @@ public abstract class NetworkThread extends Thread {
     reader =
         new BufferedReader(
             new InputStreamReader(socket.getInputStream(), StandardCharsets.UTF_8), 16384);
-    writer = new PrintWriter(socket.getOutputStream(), true);
+    writer =
+        new PrintWriter(
+            new OutputStreamWriter(socket.getOutputStream(), StandardCharsets.UTF_8), true);
   }
 
   /**
@@ -120,7 +119,9 @@ public abstract class NetworkThread extends Thread {
             () -> {
               try {
                 System.out.println("Keylistener started!");
-                var keyboardReader = new BufferedReader(new InputStreamReader(System.in), 16384);
+                var keyboardReader =
+                    new BufferedReader(
+                        new InputStreamReader(System.in, StandardCharsets.UTF_8), 16384);
                 while (run) {
                   try {
                     var message = keyboardReader.readLine();
@@ -179,12 +180,14 @@ public abstract class NetworkThread extends Thread {
   }
 
   /**
-   * @param data is the packet that will be send in packet format but converted into a string seperated with #
+   * @param data is the packet that will be send in packet format but converted into a string
+   *     seperated with #
    * @author Carina
-   * @use create a Packet instance of a packet you want to send and pass it in in form of a string seperating the objects with #
+   * @use create a Packet instance of a packet you want to send and pass it in in form of a string
+   *     seperating the objects with # //TODO: sicherstellen dass auch n linebreak vorhanden ist
    */
   public void sendPacket(Packet data) {
-    writer.print(new Gson().toJson(data.getJsonObject()) + "\n");
+    writer.println(new Gson().toJson(data.getJsonObject()));
   }
 
   /**
