@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 03.12.21, 13:30 by Carina latest changes made by Carina on 03.12.21, 13:30
+ * File created on 06.12.21, 22:27 by Carina latest changes made by Carina on 06.12.21, 22:27
  * All contents of "NetworkThread" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
@@ -48,7 +48,8 @@ public abstract class NetworkThread extends Thread {
       System.out.println("Connection established with id: " + id + "!");
     }
     reader =
-        new BufferedReader(new InputStreamReader(socket.getInputStream(), StandardCharsets.UTF_8));
+        new BufferedReader(
+            new InputStreamReader(socket.getInputStream(), StandardCharsets.UTF_8), 16384);
     writer = new PrintWriter(socket.getOutputStream(), true);
   }
 
@@ -116,40 +117,40 @@ public abstract class NetworkThread extends Thread {
    */
   private void keyBoardListener(final boolean client) {
     new Thread(
-        () -> {
-          try {
-            System.out.println("Keylistener started!");
-            var keyboardReader = new BufferedReader(new InputStreamReader(System.in));
-            while (run) {
+            () -> {
               try {
-                var message = keyboardReader.readLine();
-                var object = new JsonObject();
-                if (client) {
-                  object.addProperty("type", Packets.MESSAGE.getPacketType());
-                  var json = new JsonObject();
-                  json.addProperty("message", message);
-                  object.add("value", json);
-                  sendPacket(new Packet(object));
-                } else {
-                  for (var iterator =
-                      MoleGames.getMoleGames().getServer().getClientThreads().iterator();
-                      iterator.hasNext(); ) {
-                    ServerThread clientSocket = iterator.next();
-                    object.addProperty("type", Packets.MESSAGE.getPacketType());
-                    var json = new JsonObject();
-                    json.addProperty("message", message);
-                    object.add("value", json);
-                    clientSocket.sendPacket(new Packet(object));
+                System.out.println("Keylistener started!");
+                var keyboardReader = new BufferedReader(new InputStreamReader(System.in), 16384);
+                while (run) {
+                  try {
+                    var message = keyboardReader.readLine();
+                    var object = new JsonObject();
+                    if (client) {
+                      object.addProperty("type", Packets.MESSAGE.getPacketType());
+                      var json = new JsonObject();
+                      json.addProperty("message", message);
+                      object.add("value", json);
+                      sendPacket(new Packet(object));
+                    } else {
+                      for (var iterator =
+                              MoleGames.getMoleGames().getServer().getClientThreads().iterator();
+                          iterator.hasNext(); ) {
+                        ServerThread clientSocket = iterator.next();
+                        object.addProperty("type", Packets.MESSAGE.getPacketType());
+                        var json = new JsonObject();
+                        json.addProperty("message", message);
+                        object.add("value", json);
+                        clientSocket.sendPacket(new Packet(object));
+                      }
+                    }
+                  } catch (IOException e) {
+                    e.printStackTrace();
                   }
                 }
-              } catch (IOException e) {
+              } catch (Exception e) {
                 e.printStackTrace();
               }
-            }
-          } catch (Exception e) {
-            e.printStackTrace();
-          }
-        })
+            })
         .start();
   }
 
