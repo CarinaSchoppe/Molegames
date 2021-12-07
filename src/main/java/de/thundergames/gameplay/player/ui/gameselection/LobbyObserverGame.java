@@ -12,7 +12,7 @@
 package de.thundergames.gameplay.player.ui.gameselection;
 
 import de.thundergames.gameplay.player.Client;
-import de.thundergames.playmechanics.util.SceneController;
+import de.thundergames.gameplay.util.SceneController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;

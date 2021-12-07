@@ -25,12 +25,11 @@ public class ServerThread extends NetworkThread {
 
   /**
    * @param socket the server Socket
-   * @param id     Serverthread id
+   * @param id Serverthread id
    * @author Carina
    */
   public ServerThread(@NotNull final Socket socket, final int id) throws IOException {
     super(socket, id);
-
   }
 
   public String getClientName() {
@@ -55,14 +54,15 @@ public class ServerThread extends NetworkThread {
    */
   @Override
   public void disconnect() {
-    {
-      try {
-        MoleGames.getMoleGames().getServer().getClientThreads().remove(this);
-        MoleGames.getMoleGames().getServer().getThreadIds().remove(getConnectionID());
-        socket.close();
-      } catch (IOException e) {
-        e.printStackTrace();
-      }
+    try {
+      System.out.println("Disconnecting " + this.getClientName());
+      MoleGames.getMoleGames().getServer().getConnectionNames().remove(this.getClientName());
+      MoleGames.getMoleGames().getServer().getClientThreads().remove(this);
+      MoleGames.getMoleGames().getServer().getThreadIds().remove(getConnectionID());
+
+      socket.close();
+    } catch (IOException e) {
+      e.printStackTrace();
     }
   }
 }

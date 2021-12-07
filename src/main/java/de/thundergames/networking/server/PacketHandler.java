@@ -571,6 +571,14 @@ public class PacketHandler {
    * @use removes a client from a game
    */
   private void removeFromGames(@NotNull ServerThread client) {
+    if (!MoleGames.getMoleGames().getGameHandler().getClientGames().containsKey(client)) return;
+    if (MoleGames.getMoleGames()
+        .getGameHandler()
+        .getClientGames()
+        .get(client)
+        .getPlayers()
+        .isEmpty()) return;
+    MoleGames.getMoleGames().getGameHandler().getClientGames().remove(client);
     for (var players :
         MoleGames.getMoleGames().getGameHandler().getClientGames().get(client).getPlayers()) {
       if (players.getServerClient().equals(client)) {
@@ -579,7 +587,6 @@ public class PacketHandler {
             .getClientGames()
             .get(client)
             .removePlayerFromGame(players);
-        MoleGames.getMoleGames().getGameHandler().getClientGames().remove(client);
         return;
       }
     }
@@ -614,14 +621,28 @@ public class PacketHandler {
     } else {
       name = packet.getValues().get("name").getAsString();
     }
-    if (!MoleGames.getMoleGames().getServer().getConnectionNames().containsKey(name)) {
+    var inList = false;
+    for (var clientName : MoleGames.getMoleGames().getServer().getConnectionNames().keySet()) {
+      if (clientName.equalsIgnoreCase(name)) {
+        inList = true;
+        break;
+      }
+    }
+    if (!inList) {
       client.setClientName(name);
       MoleGames.getMoleGames().getServer().getConnectionNames().put(client.getClientName(), client);
     } else {
       for (var i = 1;
           i < MoleGames.getMoleGames().getServer().getConnectionNames().size() + 1;
           i++) {
-        if (!MoleGames.getMoleGames().getServer().getConnectionNames().containsKey(name + i)) {
+        var in = false;
+        for (var clientName : MoleGames.getMoleGames().getServer().getConnectionNames().keySet()) {
+          if (clientName.equalsIgnoreCase(name + i)) {
+            in = true;
+            break;
+          }
+        }
+        if (!in) {
           client.setClientName(name + i);
           MoleGames.getMoleGames()
               .getServer()
@@ -681,6 +702,7 @@ public class PacketHandler {
    * @see Tournament
    */
   public void overviewPacket(@NotNull final ServerThread client) {
+
     var object = new JsonObject();
     object.addProperty("type", Packets.OVERVIEW.getPacketType());
     var json = new JsonObject();
@@ -695,6 +717,7 @@ public class PacketHandler {
         clients.sendPacket(new Packet(object));
       }
     } else {
+
       client.sendPacket(new Packet(object));
     }
   }

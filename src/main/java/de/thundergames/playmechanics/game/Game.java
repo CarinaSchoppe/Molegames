@@ -174,14 +174,15 @@ public class Game extends NetworkGame {
           .getGameHandler()
           .getClientGames()
           .put(client.getServerClient(), this);
+      updateGameState();
     } else if (spectator) {
       MoleGames.getMoleGames()
           .getGameHandler()
           .getClientGames()
           .put(client.getServerClient(), this);
-      // TODO: join as spectator
+      players.add(client);
+      //TODO: join as spectator
     }
-    updateGameState();
   }
 
   /**

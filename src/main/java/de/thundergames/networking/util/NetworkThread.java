@@ -31,12 +31,11 @@ public abstract class NetworkThread extends Thread {
   protected int id;
   private boolean run = true;
 
-
   /**
    * Creates a new NetworkThread.
    *
    * @param socket The socket to use.
-   * @param id     the id of the serverSocketConnection
+   * @param id the id of the serverSocketConnection
    */
   public NetworkThread(@NotNull final Socket socket, final int id) throws IOException {
     this.socket = socket;
@@ -53,9 +52,10 @@ public abstract class NetworkThread extends Thread {
   }
 
   /**
-   * @author Carina creates a runnable that will create a listener for the incomming packets and reaches them over to
-   * @use will be automaticlly started by a Server- or Client (Thread) it will wait for an incomming packetmessage than decrypts it and turns it into a Packet
-   * @see readStringPacketInput() method to use that packet for a client- or server handling
+   * @author Carina creates a runnable that will create a listener for the incomming packets and
+   *     reaches them over to
+   * @use will be automaticlly started by a Server- or Client (Thread) it will wait for an incomming
+   *     packetmessage than decrypts it and turns it into a Packet
    */
   @Override
   public void run() {
@@ -68,10 +68,11 @@ public abstract class NetworkThread extends Thread {
     try {
       while (run) {
         if (socket.isConnected()) {
-          String message = null; // ließt die packetmessage die reinkommt
+          String message = null;
           try {
             message = reader.readLine();
           } catch (IOException e) {
+            e.printStackTrace();
           }
           if (message != null) {
             var object = new Gson().fromJson(message, JsonObject.class);
@@ -85,7 +86,8 @@ public abstract class NetworkThread extends Thread {
             }
             if (this.packet != null) {
               if (this instanceof ServerThread
-                  && !packet.getPacketType().equals(Packets.MESSAGE.getPacketType()) && packet.getValues() != null) {
+                  && !packet.getPacketType().equals(Packets.MESSAGE.getPacketType())
+                  && packet.getValues() != null) {
                 System.out.println(
                     "Client with id: "
                         + this.id
@@ -96,17 +98,19 @@ public abstract class NetworkThread extends Thread {
               }
               readStringPacketInput(packet, this);
             }
+          } else {
+
+            disconnect();
+            return;
           }
         } else {
           disconnect();
+          return;
         }
       }
     } finally {
-      try {
-        socket.close();
-      } catch (IOException e) {
-        e.printStackTrace();
-      }
+      disconnect();
+      return;
     }
   }
 
@@ -184,7 +188,6 @@ public abstract class NetworkThread extends Thread {
    *     seperated with #
    * @author Carina
    * @use create a Packet instance of a packet you want to send and pass it in in form of a string
-   *     seperating the objects with # //TODO: sicherstellen dass auch n linebreak vorhanden ist
    */
   public void sendPacket(Packet data) {
     writer.println(new Gson().toJson(data.getJsonObject()));
