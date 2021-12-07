@@ -806,8 +806,7 @@ public class ClientPacketHandler {
         .getGames()
         .addAll(
             new Gson()
-                .fromJson(
-                    packet.getValues().get("games").getAsString(),
+                .fromJson(packet.getValues().get("games").getAsString(),
                     new TypeToken<ArrayList<NetworkGame>>() {}.getType()));
     client
         .getTournaments()
