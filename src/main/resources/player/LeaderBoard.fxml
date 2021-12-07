@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox maxHeight="856.0" maxWidth="917.0" minHeight="806.0" minWidth="900.0" prefHeight="806.0" prefWidth="917.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <AnchorPane>
+         <children>
+            <ImageView fitHeight="806.0" fitWidth="918.0">
+               <image>
+                  <Image url="@Pictures/leaderboard/Frame 5.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="97.0" fitWidth="268.0" layoutX="328.0" layoutY="38.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@Pictures/leaderboard/header.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="361.0" layoutY="645.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@Pictures/leaderboard/Button.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="478.0" fitWidth="760.0" layoutX="73.0" layoutY="117.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@Pictures/leaderboard/Board.png" />
+               </image>
+            </ImageView>
+            <Button fx:id="btnToMenu" layoutX="361.0" layoutY="643.0" mnemonicParsing="false" prefHeight="63.0" prefWidth="200.0" style="-fx-background-color: transparent;" />
+            <TableView fx:id="scoreTable" layoutX="146.0" layoutY="191.0" prefHeight="378.0" prefWidth="626.0">
+               <columns>
+                  <TableColumn fx:id="placeCol" prefWidth="113.06666564941406" reorderable="false" resizable="false" sortable="false" text="Platz" />
+                  <TableColumn fx:id="playerCol" prefWidth="360.2666931152344" reorderable="false" resizable="false" sortable="false" text="Spieler" />
+                  <TableColumn fx:id="pointsCol" prefWidth="151.7332763671875" reorderable="false" resizable="false" sortable="false" text="Punkte" />
+               </columns>
+               <stylesheets>
+                  <URL value="@style/TableViewStyle.css" />
+               </stylesheets>
+            </TableView>
+         </children>
+      </AnchorPane>
+   </children>
+</VBox>
