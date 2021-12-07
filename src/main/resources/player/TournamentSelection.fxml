@@ -36,8 +36,8 @@
         </Text>
         <TableView fx:id="gameTable" layoutX="146.0" layoutY="222.0" prefHeight="412.0" prefWidth="608.0">
             <columns>
-                <TableColumn fx:id="tournament_Id" prefWidth="303" reorderable="false" resizable="false" sortable="false" text="Turnier ID"/>
-                <TableColumn fx:id="player_Count" prefWidth="303" reorderable="false" resizable="false" sortable="false" text="Spieler Anzahl"/>
+                <TableColumn fx:id="tournamentID" prefWidth="303" reorderable="false" resizable="false" sortable="false" text="Turnier ID"/>
+                <TableColumn fx:id="playerCount" prefWidth="303" reorderable="false" resizable="false" sortable="false" text="Spieler Anzahl"/>
             </columns>
             <stylesheets>
                 <URL value="@style/TableViewStyle.css"/>

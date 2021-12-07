@@ -36,9 +36,9 @@
         </Text>
         <TableView fx:id="gameTable" layoutX="146.0" layoutY="222.0" prefHeight="412.0" prefWidth="608.0">
             <columns>
-                <TableColumn fx:id="game_Id" prefWidth="201" reorderable="false" resizable="false" sortable="false" text="Spiel ID" />
-                <TableColumn fx:id="game_Player_Count" prefWidth="201" reorderable="false" resizable="false" sortable="false" text="Spieler" />
-                <TableColumn fx:id="game_State" prefWidth="201" reorderable="false" resizable="false" sortable="false" text="Status" />
+                <TableColumn fx:id="gameID" prefWidth="201" reorderable="false" resizable="false" sortable="false" text="Spiel ID" />
+                <TableColumn fx:id="gamePlayerCount" prefWidth="201" reorderable="false" resizable="false" sortable="false" text="Spieler" />
+                <TableColumn fx:id="gameState" prefWidth="201" reorderable="false" resizable="false" sortable="false" text="Status" />
             </columns>
             <stylesheets>
                 <URL value="@style/TableViewStyle.css" />
