@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 06.12.21, 14:36 by Carina latest changes made by Carina on 06.12.21, 14:36
+ * File created on 06.12.21, 19:39 by Carina latest changes made by Carina on 06.12.21, 19:39
  * All contents of "GameSelection" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
@@ -9,16 +9,17 @@
  * requires the express written consent of ThunderGames | SwtPra10.
  */
 
-package de.thundergames.gameplay.player.ui.GameSelection;
+package de.thundergames.gameplay.player.ui.gameselection;
 
 import de.thundergames.gameplay.player.Client;
 import de.thundergames.gameplay.player.ui.PlayerMenu;
+import de.thundergames.gameplay.util.SceneController;
 import de.thundergames.networking.util.interfaceItems.NetworkGame;
 import de.thundergames.playmechanics.game.GameState;
 import de.thundergames.playmechanics.game.GameStates;
-import de.thundergames.playmechanics.util.SceneController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -32,6 +33,7 @@ import javafx.stage.Stage;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Objects;
@@ -76,23 +78,23 @@ public class GameSelection implements Initializable {
     // set event for back button
     var btnBack = (Button) (primaryStage.getScene().lookup("#backToMenu"));
     btnBack.setOnAction(
-        e -> {
-          try {
-            backToMenu(e);
-          } catch (IOException ex) {
-            ex.printStackTrace();
-          }
-        });
+      e -> {
+        try {
+          backToMenu(e);
+        } catch (IOException ex) {
+          ex.printStackTrace();
+        }
+      });
     // set event for spectate game
     var btnSpectateGame = (Button) (primaryStage.getScene().lookup("#spectateGame"));
     btnSpectateGame.setOnAction(
-        e -> {
-          try {
-            spectateGame(e);
-          } catch (IOException ex) {
-            ex.printStackTrace();
-          }
-        });
+      e -> {
+        try {
+          spectateGame(e);
+        } catch (IOException ex) {
+          ex.printStackTrace();
+        }
+      });
     // endregion
   }
 
@@ -158,7 +160,7 @@ public class GameSelection implements Initializable {
     // If no item of tableview is selected.
     if (selectedItem == null) {
       JOptionPane.showMessageDialog(
-          null, "Es wurde kein Spiel selektiert!", "Spiel beobachten", JOptionPane.ERROR_MESSAGE);
+        null, "Es wurde kein Spiel selektiert!", "Spiel beobachten", JOptionPane.ERROR_MESSAGE);
       return;
     }
     // Send Packet to spectate game to get GameState
@@ -170,7 +172,7 @@ public class GameSelection implements Initializable {
       return;
     }
     if (Objects.equals(currentGameState.getStatus(), GameStates.STARTED.toString())
-        || Objects.equals(currentGameState.getStatus(), GameStates.PAUSED.toString())) {
+      || Objects.equals(currentGameState.getStatus(), GameStates.PAUSED.toString())) {
       spectateGame(currentGameState);
     } else if (Objects.equals(currentGameState.getStatus(), GameStates.NOT_STARTED.toString())) {
       new LobbyObserverGame().create(event);
@@ -191,4 +193,6 @@ public class GameSelection implements Initializable {
     primaryStage.close();
     // Todo:Open scene of Game
   }
+
+
 }

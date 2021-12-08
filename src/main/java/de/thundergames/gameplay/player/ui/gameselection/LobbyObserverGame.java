@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 06.12.21, 14:34 by Carina latest changes made by Carina on 06.12.21, 14:33
+ * File created on 06.12.21, 19:39 by Carina latest changes made by Carina on 06.12.21, 19:38
  * All contents of "LobbyObserverGame" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
@@ -9,10 +9,10 @@
  * requires the express written consent of ThunderGames | SwtPra10.
  */
 
-package de.thundergames.gameplay.player.ui.GameSelection;
+package de.thundergames.gameplay.player.ui.gameselection;
 
 import de.thundergames.gameplay.player.Client;
-import de.thundergames.playmechanics.util.SceneController;
+import de.thundergames.gameplay.util.SceneController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;

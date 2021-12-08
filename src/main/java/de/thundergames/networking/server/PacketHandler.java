@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 06.12.21, 14:34 by Carina latest changes made by Carina on 06.12.21, 14:33
+ * File created on 06.12.21, 23:19 by Carina latest changes made by Carina on 06.12.21, 23:15
  * All contents of "PacketHandler" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
@@ -23,6 +23,7 @@ import de.thundergames.networking.util.interfaceItems.NetworkPlayer;
 import de.thundergames.playmechanics.game.Game;
 import de.thundergames.playmechanics.game.GameState;
 import de.thundergames.playmechanics.game.GameStates;
+import de.thundergames.playmechanics.game.Tournament;
 import de.thundergames.playmechanics.util.Player;
 import de.thundergames.playmechanics.util.Punishments;
 import org.jetbrains.annotations.NotNull;
@@ -230,6 +231,7 @@ public class PacketHandler {
    */
   public Packet movePenaltyNotification(
       @NotNull final NetworkPlayer player,
+      final int points,
       @NotNull final Punishments punishment,
       @NotNull final String reason) {
     var object = new JsonObject();
@@ -237,6 +239,7 @@ public class PacketHandler {
     object.addProperty("type", Packets.MOVEPENALTYNOTIFICATION.getPacketType());
     json.addProperty("player", new Gson().toJson(player));
     json.addProperty("reason", reason);
+    json.addProperty("deductedPoints", points);
     json.addProperty("punishment", punishment.getName());
     object.add("value", json);
     return new Packet(object);
@@ -292,14 +295,15 @@ public class PacketHandler {
    * @use sends to all clients whos players turn it is and with which cards they have
    */
   public Packet playersTurnPacket(
-      @NotNull final ServerThread client, @NotNull final Player player) {
+      @NotNull final ServerThread client, @NotNull final Player player, final boolean maySkip) {
     var object = new JsonObject();
     object.addProperty("type", Packets.PLAYERSTURN.getPacketType());
     var json = new JsonObject();
-    json.addProperty("player", new Gson().toJson(client.getPlayer()));
     var millis = System.currentTimeMillis();
-    long value = millis + player.getGame().getTurnTime();
-    json.addProperty("until", value);
+    long until = millis + player.getGame().getTurnTime();
+    json.addProperty("player", new Gson().toJson(client.getPlayer()));
+    json.addProperty("maySkip", maySkip);
+    json.addProperty("until", until);
     json.addProperty("pullDiscs", new Gson().toJson(player.getCards()));
     object.add("value", json);
     return new Packet(object);
@@ -567,6 +571,14 @@ public class PacketHandler {
    * @use removes a client from a game
    */
   private void removeFromGames(@NotNull ServerThread client) {
+    if (!MoleGames.getMoleGames().getGameHandler().getClientGames().containsKey(client)) return;
+    if (MoleGames.getMoleGames()
+        .getGameHandler()
+        .getClientGames()
+        .get(client)
+        .getPlayers()
+        .isEmpty()) return;
+    MoleGames.getMoleGames().getGameHandler().getClientGames().remove(client);
     for (var players :
         MoleGames.getMoleGames().getGameHandler().getClientGames().get(client).getPlayers()) {
       if (players.getServerClient().equals(client)) {
@@ -575,7 +587,6 @@ public class PacketHandler {
             .getClientGames()
             .get(client)
             .removePlayerFromGame(players);
-        MoleGames.getMoleGames().getGameHandler().getClientGames().remove(client);
         return;
       }
     }
@@ -610,14 +621,28 @@ public class PacketHandler {
     } else {
       name = packet.getValues().get("name").getAsString();
     }
-    if (!MoleGames.getMoleGames().getServer().getConnectionNames().containsKey(name)) {
+    var inList = false;
+    for (var clientName : MoleGames.getMoleGames().getServer().getConnectionNames().keySet()) {
+      if (clientName.equalsIgnoreCase(name)) {
+        inList = true;
+        break;
+      }
+    }
+    if (!inList) {
       client.setClientName(name);
       MoleGames.getMoleGames().getServer().getConnectionNames().put(client.getClientName(), client);
     } else {
       for (var i = 1;
           i < MoleGames.getMoleGames().getServer().getConnectionNames().size() + 1;
           i++) {
-        if (!MoleGames.getMoleGames().getServer().getConnectionNames().containsKey(name + i)) {
+        var in = false;
+        for (var clientName : MoleGames.getMoleGames().getServer().getConnectionNames().keySet()) {
+          if (clientName.equalsIgnoreCase(name + i)) {
+            in = true;
+            break;
+          }
+        }
+        if (!in) {
           client.setClientName(name + i);
           MoleGames.getMoleGames()
               .getServer()
@@ -674,9 +699,10 @@ public class PacketHandler {
    * @author Carina
    * @use sends the overview to the clients
    * @see de.thundergames.networking.util.interfaceItems.NetworkGame
-   * @see de.thundergames.playmechanics.util.Tournament
+   * @see Tournament
    */
   public void overviewPacket(@NotNull final ServerThread client) {
+
     var object = new JsonObject();
     object.addProperty("type", Packets.OVERVIEW.getPacketType());
     var json = new JsonObject();
@@ -691,6 +717,7 @@ public class PacketHandler {
         clients.sendPacket(new Packet(object));
       }
     } else {
+
       client.sendPacket(new Packet(object));
     }
   }

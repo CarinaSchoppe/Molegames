@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 06.12.21, 14:34 by Carina latest changes made by Carina on 06.12.21, 14:33
+ * File created on 06.12.21, 23:09 by Carina latest changes made by Carina on 06.12.21, 23:09
  * All contents of "Game" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
@@ -47,6 +47,7 @@ public class Game extends NetworkGame {
     super(gameID);
   }
 
+  // TODO: Allgemein umsetzung der Libarysachen mehr oder minder.
   /**
    * @author Carina
    * @use creates a new Game with all settings after the Constructor
@@ -69,7 +70,7 @@ public class Game extends NetworkGame {
   public void updateGameState() {
     updateNetworkGame();
     map = new Map(this);
-    gameState.setPlayers(new ArrayList<>(activePlayers));
+    gameState.setActivePlayers(new ArrayList<>(activePlayers));
     gameState.setCurrentPlayer(currentPlayer);
     var moles = new ArrayList<NetworkMole>();
     for (var players : activePlayers) {
@@ -130,7 +131,8 @@ public class Game extends NetworkGame {
 
   /**
    * @author Carina
-   * @use handles when a game ends
+   * @use handles when a game ends //TODO: die methoden hier füllen und allgemein ein "ende" für das
+   *     game erstellen
    */
   public void endGame() {
     setFinishDateTime(Instant.now().getEpochSecond());
@@ -172,14 +174,15 @@ public class Game extends NetworkGame {
           .getGameHandler()
           .getClientGames()
           .put(client.getServerClient(), this);
+      updateGameState();
     } else if (spectator) {
       MoleGames.getMoleGames()
           .getGameHandler()
           .getClientGames()
           .put(client.getServerClient(), this);
-      // TODO: join as spectator
+      players.add(client);
+      //TODO: join as spectator
     }
-    updateGameState();
   }
 
   /**

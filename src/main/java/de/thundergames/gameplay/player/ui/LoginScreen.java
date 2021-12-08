@@ -15,6 +15,7 @@ import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -27,6 +28,7 @@ import java.io.IOException;
 import java.util.ResourceBundle;
 
 public class LoginScreen extends Application {
+
 
   private final boolean loggedIn = false;
   @FXML private ResourceBundle resources;
@@ -74,7 +76,7 @@ public class LoginScreen extends Application {
   @Override
   public void start(Stage primaryStage) throws Exception {
     var loader =
-        new FXMLLoader(new File("src/main/resources/player/LoginScreen.fxml").toURI().toURL());
+      new FXMLLoader(new File("src/main/resources/player/LoginScreen.fxml").toURI().toURL());
     Parent root = loader.load();
     primaryStage.setResizable(false);
     primaryStage.setTitle("Maulwurf Company");
@@ -82,4 +84,5 @@ public class LoginScreen extends Application {
     initialize();
     primaryStage.show();
   }
+
 }

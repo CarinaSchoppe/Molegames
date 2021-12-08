@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 03.12.21, 13:30 by Carina latest changes made by Carina on 03.12.21, 13:30
+ * File created on 06.12.21, 23:09 by Carina latest changes made by Carina on 06.12.21, 23:09
  * All contents of "NetworkThread" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
@@ -18,10 +18,7 @@ import de.thundergames.gameplay.player.networking.ClientThread;
 import de.thundergames.networking.server.ServerThread;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import java.io.*;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
 
@@ -34,12 +31,11 @@ public abstract class NetworkThread extends Thread {
   protected int id;
   private boolean run = true;
 
-
   /**
    * Creates a new NetworkThread.
    *
    * @param socket The socket to use.
-   * @param id     the id of the serverSocketConnection
+   * @param id the id of the serverSocketConnection
    */
   public NetworkThread(@NotNull final Socket socket, final int id) throws IOException {
     this.socket = socket;
@@ -48,14 +44,18 @@ public abstract class NetworkThread extends Thread {
       System.out.println("Connection established with id: " + id + "!");
     }
     reader =
-        new BufferedReader(new InputStreamReader(socket.getInputStream(), StandardCharsets.UTF_8));
-    writer = new PrintWriter(socket.getOutputStream(), true);
+        new BufferedReader(
+            new InputStreamReader(socket.getInputStream(), StandardCharsets.UTF_8), 16384);
+    writer =
+        new PrintWriter(
+            new OutputStreamWriter(socket.getOutputStream(), StandardCharsets.UTF_8), true);
   }
 
   /**
-   * @author Carina creates a runnable that will create a listener for the incomming packets and reaches them over to
-   * @use will be automaticlly started by a Server- or Client (Thread) it will wait for an incomming packetmessage than decrypts it and turns it into a Packet
-   * @see readStringPacketInput() method to use that packet for a client- or server handling
+   * @author Carina creates a runnable that will create a listener for the incomming packets and
+   *     reaches them over to
+   * @use will be automaticlly started by a Server- or Client (Thread) it will wait for an incomming
+   *     packetmessage than decrypts it and turns it into a Packet
    */
   @Override
   public void run() {
@@ -68,10 +68,11 @@ public abstract class NetworkThread extends Thread {
     try {
       while (run) {
         if (socket.isConnected()) {
-          String message = null; // ließt die packetmessage die reinkommt
+          String message = null;
           try {
             message = reader.readLine();
           } catch (IOException e) {
+            e.printStackTrace();
           }
           if (message != null) {
             var object = new Gson().fromJson(message, JsonObject.class);
@@ -85,7 +86,8 @@ public abstract class NetworkThread extends Thread {
             }
             if (this.packet != null) {
               if (this instanceof ServerThread
-                  && !packet.getPacketType().equals(Packets.MESSAGE.getPacketType()) && packet.getValues() != null) {
+                  && !packet.getPacketType().equals(Packets.MESSAGE.getPacketType())
+                  && packet.getValues() != null) {
                 System.out.println(
                     "Client with id: "
                         + this.id
@@ -96,17 +98,19 @@ public abstract class NetworkThread extends Thread {
               }
               readStringPacketInput(packet, this);
             }
+          } else {
+
+            disconnect();
+            return;
           }
         } else {
           disconnect();
+          return;
         }
       }
     } finally {
-      try {
-        socket.close();
-      } catch (IOException e) {
-        e.printStackTrace();
-      }
+      disconnect();
+      return;
     }
   }
 
@@ -116,40 +120,42 @@ public abstract class NetworkThread extends Thread {
    */
   private void keyBoardListener(final boolean client) {
     new Thread(
-        () -> {
-          try {
-            System.out.println("Keylistener started!");
-            var keyboardReader = new BufferedReader(new InputStreamReader(System.in));
-            while (run) {
+            () -> {
               try {
-                var message = keyboardReader.readLine();
-                var object = new JsonObject();
-                if (client) {
-                  object.addProperty("type", Packets.MESSAGE.getPacketType());
-                  var json = new JsonObject();
-                  json.addProperty("message", message);
-                  object.add("value", json);
-                  sendPacket(new Packet(object));
-                } else {
-                  for (var iterator =
-                      MoleGames.getMoleGames().getServer().getClientThreads().iterator();
-                      iterator.hasNext(); ) {
-                    ServerThread clientSocket = iterator.next();
-                    object.addProperty("type", Packets.MESSAGE.getPacketType());
-                    var json = new JsonObject();
-                    json.addProperty("message", message);
-                    object.add("value", json);
-                    clientSocket.sendPacket(new Packet(object));
+                System.out.println("Keylistener started!");
+                var keyboardReader =
+                    new BufferedReader(
+                        new InputStreamReader(System.in, StandardCharsets.UTF_8), 16384);
+                while (run) {
+                  try {
+                    var message = keyboardReader.readLine();
+                    var object = new JsonObject();
+                    if (client) {
+                      object.addProperty("type", Packets.MESSAGE.getPacketType());
+                      var json = new JsonObject();
+                      json.addProperty("message", message);
+                      object.add("value", json);
+                      sendPacket(new Packet(object));
+                    } else {
+                      for (var iterator =
+                              MoleGames.getMoleGames().getServer().getClientThreads().iterator();
+                          iterator.hasNext(); ) {
+                        ServerThread clientSocket = iterator.next();
+                        object.addProperty("type", Packets.MESSAGE.getPacketType());
+                        var json = new JsonObject();
+                        json.addProperty("message", message);
+                        object.add("value", json);
+                        clientSocket.sendPacket(new Packet(object));
+                      }
+                    }
+                  } catch (IOException e) {
+                    e.printStackTrace();
                   }
                 }
-              } catch (IOException e) {
+              } catch (Exception e) {
                 e.printStackTrace();
               }
-            }
-          } catch (Exception e) {
-            e.printStackTrace();
-          }
-        })
+            })
         .start();
   }
 
@@ -178,9 +184,10 @@ public abstract class NetworkThread extends Thread {
   }
 
   /**
-   * @param data is the packet that will be send in packet format but converted into a string seperated with #
+   * @param data is the packet that will be send in packet format but converted into a string
+   *     seperated with #
    * @author Carina
-   * @use create a Packet instance of a packet you want to send and pass it in in form of a string seperating the objects with #
+   * @use create a Packet instance of a packet you want to send and pass it in in form of a string
    */
   public void sendPacket(Packet data) {
     writer.println(new Gson().toJson(data.getJsonObject()));

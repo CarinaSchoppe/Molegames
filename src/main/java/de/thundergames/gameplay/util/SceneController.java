@@ -1,4 +1,4 @@
-package de.thundergames.playmechanics.util;
+package de.thundergames.gameplay.util;
 
 import javafx.fxml.FXMLLoader;
 
