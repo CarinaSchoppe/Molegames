@@ -21,6 +21,8 @@ import org.jetbrains.annotations.NotNull;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.ResourceBundle;
 
 public class LeaderBoard implements Initializable {
@@ -41,13 +43,13 @@ public class LeaderBoard implements Initializable {
 
   @FXML
   public void initialize(URL location, ResourceBundle resources) {
+    scoreTable.setSelectionModel(null);
     client = Client.getClient();
     placement.setCellValueFactory(new PropertyValueFactory<>("placement"));
     name.setCellValueFactory(new PropertyValueFactory<>("name"));
     score.setCellValueFactory(new PropertyValueFactory<>("score"));
 
     if (client == null) return;
-    //var score = client.getGameState().getScore();
     createLeaderbord();
   }
 
@@ -58,54 +60,74 @@ public class LeaderBoard implements Initializable {
    * @see NetworkPlayer
    */
   void createLeaderbord() {
-    ArrayList<PlayerResult> test = new ArrayList<PlayerResult>();
-    test.add(new PlayerResult("Marc",100,1));
-    test.add(new PlayerResult("Max",90,2));
 
-    scoreTable.getItems().addAll(test);
+    client.getClientPacketHandler().getScorePacket(client);  //Muss evtl raus.
+    Score score = client.getGameState().getScore();
+
+    var list = new ArrayList<NetworkPlayer>();
+
+    var players = new ArrayList<>(score.getPlayers());
+
+    //sort players in list by their points
+    for (var i = 0; i < score.getPlayers().size(); i++) {
+      var current = players.get(0);
+      for (var player : players) {
+        if (score.getPoints().get(player.getClientID()) > score.getPoints().get(current.getClientID())) {
+          current = player;
+        }
+      }
+      players.remove(current);
+      list.add(current);
+    }
+
+    //fill sorted players with their placement, name and points into leaderlist
+    ArrayList<PlayerResult> leaderlist = new ArrayList<>();
+    int lastPoints = -999999999;
+    int lastPlace = 0;
+    int thisPlace = 0;
+    for (int place = 0; place < list.size(); place++) {
+      //if two players have equal points they get the same placement
+      if  (lastPoints == score.getPoints().get(list.get(place).getClientID())){
+        thisPlace = lastPlace;
+      }
+      else{
+        thisPlace = lastPlace+1;
+      }
+      leaderlist.add(new PlayerResult(
+        list.get(place).getName(),
+        score.getPoints().get(list.get(place).getClientID()),
+        thisPlace));
+      lastPoints = score.getPoints().get(list.get(place).getClientID());
+      lastPlace = thisPlace;
+    }
+    scoreTable.getItems().addAll(leaderlist);
   }
-  //  var list = new ArrayList<NetworkPlayer>();
-  //  var players = new ArrayList<>(score.getPlayers());
-  //  var current = players.get(0);
-  ////  int currentPoints = 0;
-  ////  var pointsList = new ArrayList<NetworkPlayer>();
-  ////  for (var i = 0; i < score.getPlayers().size(); i++) {
-  ////    for (var player : players) {
-  ////      if (score.getPoints().get(player.getClientID()) > score.getPoints().get(current.getClientID())) {
-  ////        current = player;
-  ////        currentPoints = score.getPoints().get(player.getClientID();
-  ////      }
-  ////    }
-  ////    players.remove(current);
-  ////    list.add(current);
-  ////    pointsList.add(currentPoints);
-//
-  //  }
-    //players in list are sorted by their points
-    //for (int place = 0; place < list.length(); place++) {
-      //var row = place + "         " + list.get(place).getName() + "       " + score.getPoints().get(list.get(place).getClientID()) + "\n";
-      //leaderboard.setText(leaderboard.getText() + row);
-      //placeCol.getItems().add(place);
-      //playerCol.getItems().add(list.get(place).getName());
-      //placeCol.getItems().add(score.getPoints().get(list.get(place).getClientID()));
-  //  }
-  //}
 
+
+  /**
+   * Create the Scene for LeaderBoard
+   *
+   * @param event event from the current scene to build this scene on same object
+   * @throws IOException error creating the scene LeaderBoard
+   */
   public void create(@NotNull ActionEvent event) throws Exception {
     Stage primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+    primaryStage.close();
+
+    Stage stage = new Stage();
     // Set scene
     var loader = SceneController.loadFXML("player/LeaderBoard.fxml");
     loader.setController(this);
     Parent root = loader.load();
-    primaryStage.setTitle("Maulwurf Company");
-    primaryStage.setResizable(false);
-    primaryStage.setScene(new Scene(root));
-    primaryStage.show();
-    primaryStage.setOnCloseRequest(ev -> logout(primaryStage));
+    stage.setTitle("Maulwurf Company");
+    stage.setResizable(false);
+    stage.setScene(new Scene(root));
+    stage.show();
+    stage.setOnCloseRequest(ev -> logout(stage));
 
     // region Create button events
-    // set event for back button
-    var btnBack = (Button) (primaryStage.getScene().lookup("#btnToMenu"));
+    // set event for backToMenu button
+    var btnBack = (Button) (stage.getScene().lookup("#btnToMenu"));
     btnBack.setOnAction(
       e -> {
         try {
@@ -136,5 +158,4 @@ public class LeaderBoard implements Initializable {
   void backToMenu(ActionEvent event) throws IOException {
     new PlayerMenu().create(event);
   }
-
 }

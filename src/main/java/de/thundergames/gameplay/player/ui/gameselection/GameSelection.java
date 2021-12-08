@@ -13,6 +13,7 @@ package de.thundergames.gameplay.player.ui.gameselection;
 
 import de.thundergames.gameplay.player.Client;
 import de.thundergames.gameplay.player.ui.PlayerMenu;
+import de.thundergames.gameplay.player.ui.Score.LeaderBoard;
 import de.thundergames.gameplay.util.SceneController;
 import de.thundergames.networking.util.interfaceItems.NetworkGame;
 import de.thundergames.playmechanics.game.GameState;
@@ -167,6 +168,7 @@ public class GameSelection implements Initializable {
     client.getClientPacketHandler().joinGamePacket(client, selectedItem.getGameID(), false);
     // Get GameState
     GameState currentGameState = client.getGameState();
+
     if (currentGameState == null) {
       System.out.println("GameSelection: GameState is null");
       return;
@@ -177,15 +179,18 @@ public class GameSelection implements Initializable {
     } else if (Objects.equals(currentGameState.getStatus(), GameStates.NOT_STARTED.toString())) {
       new LobbyObserverGame().create(event);
     } else if (Objects.equals(currentGameState.getStatus(), GameStates.OVER.toString())) {
-      loadScoreboard();
+      loadScoreboard(event);
     }
   }
 
   /** Load scene of scoreboard */
-  private void loadScoreboard() {
+  private void loadScoreboard(ActionEvent event) {
     client.getClientPacketHandler().getScorePacket(client);
-    var gameScore = client.getGameState().getScore();
-    // Todo:Open scene of ScoreBoard
+    try {
+      new LeaderBoard().create(event);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
   }
 
   /** Load scene of game */
