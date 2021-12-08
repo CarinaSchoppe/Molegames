@@ -564,8 +564,7 @@ public class ClientPacketHandler {
    * @use handles that a game was canceled
    * @see de.thundergames.playmechanics.game.Game
    */
-  protected void handleGameCanceledPacket(
-    @NotNull final Client client, @NotNull final Packet packet) {
+  protected void handleGameCanceledPacket(@NotNull final Client client, @NotNull final Packet packet) {
     updateTableView();
     //TODO: Rufe Leaderboard auf
   }
@@ -580,7 +579,6 @@ public class ClientPacketHandler {
   protected void handleGameContinuedPacket(
     @NotNull final Client client, @NotNull final Packet packet) {
     updateTableView();
-    //TODO: Rufe leaderboard auf
   }
 
   /**
@@ -591,6 +589,8 @@ public class ClientPacketHandler {
    */
   protected void handleGameOverPacket(@NotNull final Client client, @NotNull final Packet packet) {
     updateTableView();
+    //TODO: Rufe Leaderboard auf
+
   }
 
   /**
