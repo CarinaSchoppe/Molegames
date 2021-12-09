@@ -13,6 +13,7 @@ package de.thundergames.gameplay.player.networking;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
+import de.thundergames.MoleGames;
 import de.thundergames.filehandling.Score;
 import de.thundergames.gameplay.player.Client;
 import de.thundergames.gameplay.player.ui.gameselection.GameSelection;
@@ -31,10 +32,7 @@ import de.thundergames.playmechanics.game.Tournament;
 import de.thundergames.playmechanics.map.Map;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.*;
 
 public class ClientPacketHandler {
 
@@ -590,6 +588,24 @@ public class ClientPacketHandler {
    * @use handles that the game of the client is over
    */
   protected void handleGameOverPacket(@NotNull final Client client, @NotNull final Packet packet) {
+    var score = new Gson().fromJson(packet.getValues().get("score").getAsString(), Score.class);
+    if (!score.getPoints().isEmpty()) {
+      var playerIDs = new ArrayList<>(score.getPoints().keySet());
+      var players = new ArrayList<NetworkPlayer>();
+      var max = Collections.max(score.getPoints().values());
+      for (var playerID : playerIDs) {
+        players.add(MoleGames.getMoleGames().getServer().getConnectionIDs().get(playerID).getPlayer());
+      }
+      //sort the players by score
+      Collections.sort(players, (o1, o2) -> score.getPoints().get(o2.getClientID()).compareTo(score.getPoints().get(o1.getClientID())));
+      System.out.println("Max points: " + max);
+      for (var player : players) {
+        if (score.getPoints().get(player.getClientID()) == max) {
+          score.getWinners().add(player);
+        }
+      }
+    }
+    //TODO: unter gewinner sind nun die gewinner des ersten platzes. unter players findest du die reihenfolge der spieler wie sie im score stehen sollten!
     updateTableView();
   }
 

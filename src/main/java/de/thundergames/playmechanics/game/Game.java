@@ -136,10 +136,11 @@ public class Game extends NetworkGame {
     if (!getScore().getPoints().isEmpty()) {
       var playerIDs = new ArrayList<>(getScore().getPoints().keySet());
       var players = new ArrayList<NetworkPlayer>();
+      var max = Collections.max(getScore().getPoints().values());
       for (var playerID : playerIDs) {
         players.add(MoleGames.getMoleGames().getServer().getConnectionIDs().get(playerID).getPlayer());
       }
-      var max = Collections.max(getScore().getPoints().values());
+      Collections.sort(players, (o1, o2) -> getScore().getPoints().get(o2.getClientID()).compareTo(getScore().getPoints().get(o1.getClientID())));
       System.out.println("Max points: " + max);
       for (var player : players) {
         if (getScore().getPoints().get(player.getClientID()) == max) {
