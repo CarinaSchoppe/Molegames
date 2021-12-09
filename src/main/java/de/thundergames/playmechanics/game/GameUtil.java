@@ -172,7 +172,7 @@ public class GameUtil {
    * @sse Player
    * @see de.thundergames.filehandling.Score
    */
-  public void givePoints() {
+  public synchronized void givePoints() {
     for (var holes : game.getMap().getHoles()) {
       for (var player : game.getActivePlayers()) {
         for (var mole : player.getMoles()) {
