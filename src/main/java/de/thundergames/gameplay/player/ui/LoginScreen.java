@@ -15,7 +15,6 @@ import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -29,13 +28,21 @@ import java.util.ResourceBundle;
 
 public class LoginScreen extends Application {
 
-
   private final boolean loggedIn = false;
-  @FXML private ResourceBundle resources;
-  @FXML private TextField ip;
-  @FXML private Button login;
-  @FXML private TextField name;
-  @FXML private TextField port;
+  @FXML
+  private ResourceBundle resources;
+  @FXML
+  private TextField ip;
+  @FXML
+  private Button login;
+  @FXML
+  private TextField name;
+  @FXML
+  private TextField port;
+
+  public static void create(final String... args) {
+    launch(args);
+  }
 
   /**
    * @param event
@@ -69,10 +76,6 @@ public class LoginScreen extends Application {
       : "fx:id=\"port\" was not injected: check your FXML file 'LoginScreen.fxml'.";
   }
 
-  public static void create(String... args) {
-    launch(args);
-  }
-
   @Override
   public void start(Stage primaryStage) throws Exception {
     var loader =
@@ -84,5 +87,4 @@ public class LoginScreen extends Application {
     initialize();
     primaryStage.show();
   }
-
 }

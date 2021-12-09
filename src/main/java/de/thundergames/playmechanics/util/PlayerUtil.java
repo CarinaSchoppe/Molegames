@@ -12,6 +12,7 @@
 package de.thundergames.playmechanics.util;
 
 import de.thundergames.MoleGames;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -20,7 +21,7 @@ public class PlayerUtil {
 
   private final Player player;
 
-  public PlayerUtil(Player player) {
+  public PlayerUtil(@NotNull final Player player) {
     this.player = player;
   }
 
@@ -46,37 +47,37 @@ public class PlayerUtil {
     player.setTimerIsRunning(true);
     player.setTimer(new Timer());
     player
-        .getTimer()
-        .schedule(
-            new TimerTask() {
-              @Override
-              public void run() {
-                if (!player.isHasMoved()) {
+      .getTimer()
+      .schedule(
+        new TimerTask() {
+          @Override
+          public void run() {
+            if (!player.isHasMoved()) {
+              MoleGames.getMoleGames()
+                .getGameHandler()
+                .getGameLogic()
+                .performPunishment(player, player.getGame().getSettings().getPunishment());
+              MoleGames.getMoleGames()
+                .getServer()
+                .sendToAllGameClients(
+                  player.getGame(),
                   MoleGames.getMoleGames()
-                      .getGameHandler()
-                      .getGameLogic()
-                      .performPunishment(player, player.getGame().getSettings().getPunishment());
-                  MoleGames.getMoleGames()
-                      .getServer()
-                      .sendToAllGameClients(
-                          player.getGame(),
-                          MoleGames.getMoleGames()
-                              .getPacketHandler()
-                              .movePenaltyNotification(
-                                  player,
-                                  player.getGame().getDeductedPoints(),
-                                  player.getGame().getSettings().getPunishment(),
-                                  Punishments.NOMOVE.getName()));
-                  player.setHasMoved(true);
-                  player.setTimerIsRunning(false);
-                  System.out.println(
-                      "Client " + player.getServerClient().getClientName() + " ran out of time");
-                  player.getGame().getGameUtil().nextPlayer();
-                  player.getTimer().cancel();
-                }
-              }
-            },
-            player.getGame().getSettings().getTurnTime());
+                    .getPacketHandler()
+                    .movePenaltyNotification(
+                      player,
+                      player.getGame().getDeductedPoints(),
+                      player.getGame().getSettings().getPunishment(),
+                      Punishments.NOMOVE.getName()));
+              player.setHasMoved(true);
+              player.setTimerIsRunning(false);
+              System.out.println(
+                "Client " + player.getServerClient().getClientName() + " ran out of time");
+              player.getGame().getGameUtil().nextPlayer();
+              player.getTimer().cancel();
+            }
+          }
+        },
+        player.getGame().getSettings().getTurnTime());
   }
 
   public void handleTurnAfterAction() {

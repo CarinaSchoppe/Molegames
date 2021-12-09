@@ -105,7 +105,7 @@ public abstract class NetworkThread extends Thread {
           return;
         }
       }
-    } catch (Exception exe) {
+    } catch (@NotNull final Exception exe) {
       if (!(exe instanceof SocketException))
         exe.printStackTrace();
     } finally {
@@ -120,7 +120,7 @@ public abstract class NetworkThread extends Thread {
    * @param client checks if the keyBoardlistener is started by a client or a server
    * @author Carina
    */
-  private void keyBoardListener(final boolean client) {
+  private synchronized void keyBoardListener(final boolean client) {
     new Thread(
       () -> {
         try {

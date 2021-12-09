@@ -96,7 +96,6 @@ public class CreateGame extends Application {
 
   @FXML
   void createGameButtonEvent(ActionEvent event) {
-
   }
 
   private void clearAllComponents() {
@@ -123,53 +122,52 @@ public class CreateGame extends Application {
   @FXML
   void initialize() {
     assert addItem != null
-        : "fx:id=\"addItem\" was not injected: check your FXML file 'CreateGame.fxml'.";
+      : "fx:id=\"addItem\" was not injected: check your FXML file 'CreateGame.fxml'.";
     assert back != null
-        : "fx:id=\"back\" was not injected: check your FXML file 'CreateGame.fxml'.";
+      : "fx:id=\"back\" was not injected: check your FXML file 'CreateGame.fxml'.";
     assert configureFloors != null
-        : "fx:id=\"configureFloors\" was not injected: check your FXML file 'CreateGame.fxml'.";
+      : "fx:id=\"configureFloors\" was not injected: check your FXML file 'CreateGame.fxml'.";
     assert configureMap != null
-        : "fx:id=\"configureMap\" was not injected: check your FXML file 'CreateGame.fxml'.";
+      : "fx:id=\"configureMap\" was not injected: check your FXML file 'CreateGame.fxml'.";
     assert createGame != null
-        : "fx:id=\"createGame\" was not injected: check your FXML file 'CreateGame.fxml'.";
+      : "fx:id=\"createGame\" was not injected: check your FXML file 'CreateGame.fxml'.";
     assert drawCardValue != null
-        : "fx:id=\"drawCardValue\" was not injected: check your FXML file 'CreateGame.fxml'.";
+      : "fx:id=\"drawCardValue\" was not injected: check your FXML file 'CreateGame.fxml'.";
     assert loadConfig != null
-        : "fx:id=\"loadConfig\" was not injected: check your FXML file 'CreateGame.fxml'.";
+      : "fx:id=\"loadConfig\" was not injected: check your FXML file 'CreateGame.fxml'.";
     assert molesAmount != null
-        : "fx:id=\"molesAmount\" was not injected: check your FXML file 'CreateGame.fxml'.";
+      : "fx:id=\"molesAmount\" was not injected: check your FXML file 'CreateGame.fxml'.";
     assert playerAmount != null
-        : "fx:id=\"playerAmount\" was not injected: check your FXML file 'CreateGame.fxml'.";
+      : "fx:id=\"playerAmount\" was not injected: check your FXML file 'CreateGame.fxml'.";
     assert punishment != null
-        : "fx:id=\"punishment\" was not injected: check your FXML file 'CreateGame.fxml'.";
+      : "fx:id=\"punishment\" was not injected: check your FXML file 'CreateGame.fxml'.";
     assert radius != null
-        : "fx:id=\"radius\" was not injected: check your FXML file 'CreateGame.fxml'.";
+      : "fx:id=\"radius\" was not injected: check your FXML file 'CreateGame.fxml'.";
     assert removeAll != null
-        : "fx:id=\"removeAll\" was not injected: check your FXML file 'CreateGame.fxml'.";
+      : "fx:id=\"removeAll\" was not injected: check your FXML file 'CreateGame.fxml'.";
     assert drawCardValues != null
-        : "fx:id=\"drawCardValues\" was not injected: check your FXML file 'CreateGame.fxml'.";
+      : "fx:id=\"drawCardValues\" was not injected: check your FXML file 'CreateGame.fxml'.";
     assert thinkTime != null
-        : "fx:id=\"thinkTime\" was not injected: check your FXML file 'CreateGame.fxml'.";
+      : "fx:id=\"thinkTime\" was not injected: check your FXML file 'CreateGame.fxml'.";
     assert visualEffects != null
-        : "fx:id=\"visualEffects\" was not injected: check your FXML file 'CreateGame.fxml'.";
+      : "fx:id=\"visualEffects\" was not injected: check your FXML file 'CreateGame.fxml'.";
     assert pullDiscsOrdered != null
-        : "fx:id=\"pullDiscsOrdered\" was not injected: check your FXML file 'CreateGame.fxml'.";
+      : "fx:id=\"pullDiscsOrdered\" was not injected: check your FXML file 'CreateGame.fxml'.";
   }
 
   public void create(@NotNull final Server server, @NotNull final String... args) {
     MoleGames.getMoleGames()
-        .setGameMasterClient(new GameMasterClient(server));
+      .setGameMasterClient(new GameMasterClient(server));
     System.out.println("Test Ausrichter");
-    MoleGames.getMoleGames().getGameMasterClient().test_tournament(1);
-    MoleGames.getMoleGames().getGameMasterClient().test_game(1);
+    MoleGames.getMoleGames().getGameMasterClient().testTournament(1);
+    MoleGames.getMoleGames().getGameMasterClient().testGame(1);
     launch(args);
   }
-
 
   @Override
   public void start(Stage primaryStage) throws Exception {
     var loader =
-        new FXMLLoader(new File("src/main/resources/ausrichter/CreateGame.fxml").toURI().toURL());
+      new FXMLLoader(new File("src/main/resources/ausrichter/CreateGame.fxml").toURI().toURL());
     loader.setController(this);
     Parent root = loader.load();
     initialize();

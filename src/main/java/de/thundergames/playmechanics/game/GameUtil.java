@@ -30,7 +30,7 @@ public class GameUtil {
    * @author Carina
    * @use checks if all holes are filled with moles
    */
-  public boolean allHolesFilled() {
+  public synchronized boolean allHolesFilled() {
     for (var hole : game.getMap().getHoles()) {
       boolean inHole = false;
       for (var player : game.getPlayers()) {
@@ -52,7 +52,7 @@ public class GameUtil {
    * @author Carina
    * @use checks if all moles of a player are in a hole
    */
-  public boolean allPlayerMolesInHoles() {
+  public synchronized boolean allPlayerMolesInHoles() {
     var moleInHoles = 0;
     for (var moles : game.getCurrentPlayer().getMoles()) {
       for (var hole : game.getMap().getHoles()) {
@@ -68,7 +68,7 @@ public class GameUtil {
    * @author Carina
    * @use sets the next player in the game if all moles are in holes the player is not on turn
    */
-  public void nextPlayer() {
+  public synchronized void nextPlayer() {
     if (game.getActivePlayers().isEmpty()) game.forceGameEnd();
     if (game.getCurrentGameState() == GameStates.OVER || game.getCurrentGameState() == GameStates.PAUSED) {
       return;

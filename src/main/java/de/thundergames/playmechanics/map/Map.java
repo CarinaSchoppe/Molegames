@@ -41,7 +41,7 @@ public class Map extends NetworkFloor {
    * @author Carina
    * @use creates a new Map object with the given radius
    */
-  public Map(GameState gameState) {
+  public Map(@NotNull final GameState gameState) {
     createMap(gameState.getRadius());
     changeFieldParams(gameState);
   }
@@ -76,7 +76,7 @@ public class Map extends NetworkFloor {
    * @author Carina
    * @use sets the properties on the field if its occupied, a hole, a draw again field etc.
    */
-  public void changeFieldParams(GameState gameState) {
+  public synchronized void changeFieldParams(@NotNull final GameState gameState) {
     for (var field : gameState.getFloor().getHoles()) {
       if (getFieldMap().containsKey(List.of(field.getX(), field.getY())))
         getFieldMap().get(List.of(field.getX(), field.getY())).setHole(true);
@@ -87,13 +87,13 @@ public class Map extends NetworkFloor {
     }
     for (var mole : gameState.getPlacedMoles()) {
       if (getFieldMap()
-          .containsKey(List.of(mole.getNetworkField().getX(), mole.getNetworkField().getY()))) {
+        .containsKey(List.of(mole.getNetworkField().getX(), mole.getNetworkField().getY()))) {
         getFieldMap()
-            .get(List.of(mole.getNetworkField().getX(), mole.getNetworkField().getY()))
-            .setMole(mole);
+          .get(List.of(mole.getNetworkField().getX(), mole.getNetworkField().getY()))
+          .setMole(mole);
         getFieldMap()
-            .get(List.of(mole.getNetworkField().getX(), mole.getNetworkField().getY()))
-            .setOccupied(true);
+          .get(List.of(mole.getNetworkField().getX(), mole.getNetworkField().getY()))
+          .setOccupied(true);
       }
     }
   }
@@ -104,10 +104,10 @@ public class Map extends NetworkFloor {
    */
   public synchronized void printMap() {
     var fields =
-        new ArrayList<>(fieldMap.values())
-            .stream()
-                .sorted(Comparator.comparing(Field::getY).thenComparing(Field::getX))
-                .collect(Collectors.toList());
+      new ArrayList<>(fieldMap.values())
+        .stream()
+        .sorted(Comparator.comparing(Field::getY).thenComparing(Field::getX))
+        .collect(Collectors.toList());
     var row = 0;
     for (var field : fields) {
       if (field.getY() != row) {
@@ -115,17 +115,17 @@ public class Map extends NetworkFloor {
         System.out.println();
       }
       System.out.print(
-          "Field X: "
-              + field.getX()
-              + ", Y: "
-              + field.getY()
-              + " occupied: "
-              + field.isOccupied()
-              + ", hole: "
-              + field.isHole()
-              + ", drawAgainField: "
-              + field.isDrawAgainField()
-              + "    ");
+        "Field X: "
+          + field.getX()
+          + ", Y: "
+          + field.getY()
+          + " occupied: "
+          + field.isOccupied()
+          + ", hole: "
+          + field.isHole()
+          + ", drawAgainField: "
+          + field.isDrawAgainField()
+          + "    ");
     }
     System.out.println();
   }

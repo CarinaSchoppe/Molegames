@@ -14,6 +14,7 @@ package de.thundergames.playmechanics.game;
 import de.thundergames.filehandling.Score;
 import de.thundergames.networking.util.interfaceItems.NetworkGame;
 import de.thundergames.networking.util.interfaceItems.NetworkPlayer;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.HashSet;
 
@@ -21,10 +22,10 @@ public class TournamentState {
 
   private final HashSet<NetworkPlayer> players = new HashSet<>();
   private final HashSet<NetworkGame> games = new HashSet<>();
-  private Score score;
   private final TournamentStatus status;
+  private Score score;
 
-  public TournamentState(Score score, TournamentStatus status) {
+  public TournamentState(@NotNull final Score score, @NotNull final TournamentStatus status) {
     this.status = status;
     this.score = score;
   }

@@ -262,7 +262,7 @@ public class ClientPacketHandler {
    * @author Carina
    * @use handles the movement of a mole send by the server from a client
    */
-  protected void handleMoleMovedPacket(@NotNull final Client client, @NotNull final Packet packet) {
+  protected synchronized void handleMoleMovedPacket(@NotNull final Client client, @NotNull final Packet packet) {
     System.out.println(
       "A mole has been moved by: "
         + client.getNetworkPlayer().getClientID()
@@ -302,8 +302,8 @@ public class ClientPacketHandler {
    * @param packet
    * @author Carina
    * @use handles when the client gets the new floor
-   *///TODO: dies mal umwandeln
-  protected void handleNextFloorPacket(Client client, Packet packet) {
+   */
+  protected synchronized void handleNextFloorPacket(Client client, Packet packet) {
     System.out.println("Client got the new level!");
     var players = new ArrayList<NetworkPlayer>(new Gson()
       .fromJson(packet.getValues().get("eliminatedPlayers").getAsString(), new TypeToken<ArrayList<NetworkPlayer>>() {
@@ -321,7 +321,7 @@ public class ClientPacketHandler {
    * @author Carina
    * @use handles the floor send by the server to do everything to get it ready
    */
-  protected void handleFloor(Client client, Packet packet) {
+  protected synchronized void handleFloor(Client client, Packet packet) {
     client.getMoles().clear();
     client.setGameState(
       new Gson().fromJson(packet.getValues().get("gameState").getAsString(), GameState.class));
@@ -425,7 +425,7 @@ public class ClientPacketHandler {
    * @author Carina
    * @use handles if the player is now on the turn
    */
-  protected void handlePlayersTurnPacket(
+  protected synchronized void handlePlayersTurnPacket(
     @NotNull final Client client, @NotNull final Packet packet) {
     var player =
       new Gson().fromJson(packet.getValues().get("player").getAsString(), NetworkPlayer.class);
@@ -512,7 +512,7 @@ public class ClientPacketHandler {
    * @see de.thundergames.playmechanics.util.Player
    * @see de.thundergames.playmechanics.util.Mole
    */
-  protected void handlePlayerPlacesMolePacket(
+  protected synchronized void handlePlayerPlacesMolePacket(
     @NotNull final Client client, @NotNull final Packet packet) {
     var player =
       new Gson().fromJson(packet.getValues().get("player").getAsString(), NetworkPlayer.class);
@@ -587,7 +587,7 @@ public class ClientPacketHandler {
    * @author Carina
    * @use handles that the game of the client is over
    */
-  protected void handleGameOverPacket(@NotNull final Client client, @NotNull final Packet packet) {
+  protected synchronized void handleGameOverPacket(@NotNull final Client client, @NotNull final Packet packet) {
     var score = new Gson().fromJson(packet.getValues().get("score").getAsString(), Score.class);
     if (!score.getPoints().isEmpty()) {
       var playerIDs = new ArrayList<>(score.getPoints().keySet());
@@ -865,7 +865,7 @@ public class ClientPacketHandler {
    * @see de.thundergames.playmechanics.util.Player
    */
   public void joinGamePacket(
-    @NotNull final Client client, @NotNull final int gameID, @NotNull final boolean player) {
+    @NotNull final Client client, @NotNull final int gameID, final boolean player) {
     var object = new JsonObject();
     var json = new JsonObject();
     json.addProperty("gameID", gameID);
@@ -891,7 +891,7 @@ public class ClientPacketHandler {
    * @author Marc and Nick
    * @use send to the server to unregister as an overview observer
    */
-  public void unregisterOverviewObserverPacket(@NotNull Client client) {
+  public void unregisterOverviewObserverPacket(@NotNull final Client client) {
     var object = new JsonObject();
     object.addProperty("type", Packets.UNREGISTEROBSERVER.getPacketType());
     client.getClientThread().sendPacket(new Packet(object));

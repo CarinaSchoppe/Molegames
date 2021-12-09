@@ -23,7 +23,6 @@ public class Packet {
   private final String packetType;
   private final JsonObject value;
 
-
   public Packet(@NotNull final String packetType, @NotNull final JsonObject jsonObject) {
     this.jsonObject = jsonObject;
     this.packetType = packetType;
@@ -35,7 +34,6 @@ public class Packet {
     this.packetType = jsonObject.get("type").getAsString();
     this.value = jsonObject.getAsJsonObject("value");
   }
-
 
   public JsonObject getValues() {
     return value;

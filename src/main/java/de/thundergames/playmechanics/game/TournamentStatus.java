@@ -11,6 +11,8 @@
 
 package de.thundergames.playmechanics.game;
 
+import org.jetbrains.annotations.NotNull;
+
 public enum TournamentStatus {
   NOT_STARTED("NOT_STARTED"),
   STARTED("STARTED"),
@@ -18,7 +20,7 @@ public enum TournamentStatus {
   INVALID("INVALID");
   private final String status;
 
-  TournamentStatus(String status) {
+  TournamentStatus(@NotNull final String status) {
     this.status = status;
   }
 

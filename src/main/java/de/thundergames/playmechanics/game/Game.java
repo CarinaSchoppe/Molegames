@@ -41,7 +41,7 @@ public class Game extends NetworkGame {
   private transient GameUtil gameUtil;
   private transient int currentFloorID = 0;
 
-  public Game(int gameID) {
+  public Game(final int gameID) {
     super(gameID);
   }
   // TODO: Allgemein umsetzung der Libarysachen mehr oder minder.
@@ -50,7 +50,7 @@ public class Game extends NetworkGame {
    * @author Carina
    * @use creates a new Game with all settings after the Constructor
    */
-  public void create() {
+  public synchronized void create() {
     gameUtil = new GameUtil(this);
     MoleGames.getMoleGames().getGameHandler().getIDGames().put(super.getGameID(), this);
     MoleGames.getMoleGames().getGameHandler().getGames().add(this);
@@ -65,7 +65,7 @@ public class Game extends NetworkGame {
    * @author Carina
    * @use updates the GameState with the current settings
    */
-  public void updateGameState() {
+  public synchronized void updateGameState() {
     updateNetworkGame();
     map = new Map(this);
     gameState.setActivePlayers(new ArrayList<>(activePlayers));
@@ -113,7 +113,7 @@ public class Game extends NetworkGame {
    * @author Carina
    * @use starts the game
    */
-  public void startGame(GameStates gameState) {
+  public void startGame(@NotNull final GameStates gameState) {
     if (currentGameState != GameStates.NOT_STARTED || players.isEmpty()) {
       System.out.println("Server: Cant start a game that has no players in it!");
       return;
@@ -131,7 +131,7 @@ public class Game extends NetworkGame {
    * @author Carina
    * @use handles when a game ends //TODO: die methoden hier füllen und allgemein ein "ende" für das
    */
-  public void endGame() {
+  public synchronized void endGame() {
     setFinishDateTime(Instant.now().getEpochSecond());
     if (!getScore().getPoints().isEmpty()) {
       var playerIDs = new ArrayList<>(getScore().getPoints().keySet());
@@ -221,7 +221,7 @@ public class Game extends NetworkGame {
    * @see Mole
    * @see Player
    */
-  public void removePlayerFromGame(@NotNull final Player player) {
+  public synchronized void removePlayerFromGame(@NotNull final Player player) {
     if (player == null) {
       return;
     }

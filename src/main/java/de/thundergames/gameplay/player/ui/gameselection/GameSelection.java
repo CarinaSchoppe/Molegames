@@ -19,7 +19,6 @@ import de.thundergames.playmechanics.game.GameState;
 import de.thundergames.playmechanics.game.GameStates;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -33,7 +32,6 @@ import javafx.stage.Stage;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Objects;
@@ -42,19 +40,22 @@ import java.util.ResourceBundle;
 public class GameSelection implements Initializable {
 
   private static Client client;
-  @FXML private Text PlayerName;
-  @FXML private TableView<NetworkGame> gameTable;
-  @FXML private TableColumn<NetworkGame, Integer> gameID;
-  @FXML private TableColumn<NetworkGame, String> gamePlayerCount;
-  @FXML private TableColumn<NetworkGame, String> gameState;
-
   private static GameSelection gameSelection;
+  @FXML
+  private Text PlayerName;
+  @FXML
+  private TableView<NetworkGame> gameTable;
+  @FXML
+  private TableColumn<NetworkGame, Integer> gameID;
+  @FXML
+  private TableColumn<NetworkGame, String> gamePlayerCount;
+  @FXML
+  private TableColumn<NetworkGame, String> gameState;
+  private Stage primaryStage;
 
   public static GameSelection getGameSelection() {
     return gameSelection;
   }
-
-  private Stage primaryStage;
 
   /**
    * Create the Scene for GameSelection
@@ -73,7 +74,6 @@ public class GameSelection implements Initializable {
     primaryStage.setScene(new Scene(root));
     primaryStage.show();
     primaryStage.setOnCloseRequest(ev -> logout(primaryStage));
-
     // region Create button events
     // set event for back button
     var btnBack = (Button) (primaryStage.getScene().lookup("#backToMenu"));
@@ -111,7 +111,7 @@ public class GameSelection implements Initializable {
   /**
    * Is called when the object is initialized
    *
-   * @param location of base class Initialize
+   * @param location  of base class Initialize
    * @param resources of base class Initialize
    */
   @Override
@@ -167,14 +167,18 @@ public class GameSelection implements Initializable {
     client.getClientPacketHandler().joinGamePacket(client, selectedItem.getGameID(), false);
   }
 
-  /** Load scene of scoreboard */
+  /**
+   * Load scene of scoreboard
+   */
   private void loadScoreboard() {
     client.getClientPacketHandler().getScorePacket(client);
     var gameScore = client.getGameState().getScore();
     // Todo:Open scene of ScoreBoard
   }
 
-  /** Load scene of game */
+  /**
+   * Load scene of game
+   */
   private void spectateGame(GameState gameState) {
     primaryStage.close();
     // Todo:Open scene of Game
@@ -190,7 +194,7 @@ public class GameSelection implements Initializable {
     if (Objects.equals(currentGameState.getStatus(), GameStates.STARTED.toString())
       || Objects.equals(currentGameState.getStatus(), GameStates.PAUSED.toString())) {
       spectateGame(currentGameState);
-   // } else if (Objects.equals(currentGameState.getStatus(), GameStates.NOT_STARTED.toString())) {
+      // } else if (Objects.equals(currentGameState.getStatus(), GameStates.NOT_STARTED.toString())) {
       //new LobbyObserverGame().create(event);
     } else if (Objects.equals(currentGameState.getStatus(), GameStates.OVER.toString())) {
       loadScoreboard();

@@ -61,7 +61,6 @@ public class AI extends Client {
     return (AIPacketHandler) clientPacketHandler;
   }
 
-
   public int getCard() {
     return card;
   }
@@ -82,7 +81,6 @@ public class AI extends Client {
     return logic;
   }
 
-
   public int getPlacedMolesAmount() {
     return placedMolesAmount;
   }
@@ -90,6 +88,4 @@ public class AI extends Client {
   public void setPlacedMolesAmount(int placedMolesAmount) {
     this.placedMolesAmount = placedMolesAmount;
   }
-
-
 }

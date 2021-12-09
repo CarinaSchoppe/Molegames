@@ -30,8 +30,7 @@ public class GameMasterClient {
     this.server = server;
   }
 
-
-  public void test_game(int id) {
+  public void testGame(final int id) {
     MoleGames.getMoleGames().getGameHandler().createNewGame(id);
     var floor1 = new NetworkFloor();
     var floor2 = new NetworkFloor();
@@ -56,7 +55,7 @@ public class GameMasterClient {
     return server;
   }
 
-  public void test_tournament(int id) {
+  public void testTournament(final int id) {
     MoleGames.getMoleGames().getGameHandler().createNewTournament(id);
     MoleGames.getMoleGames().getGameHandler().getIDTournaments().get(id).getGames().add(new NetworkGame(31));
     MoleGames.getMoleGames().getGameHandler().getIDTournaments().get(id).getGames().add(new NetworkGame(82));

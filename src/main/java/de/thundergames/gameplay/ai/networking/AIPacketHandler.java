@@ -29,7 +29,7 @@ public class AIPacketHandler extends ClientPacketHandler {
    * @author Carina
    * @use the logic for the AI to decide what to do depending on the packet recieved
    */
-  public void handlePacket(@NotNull final AI ai, @NotNull final Packet packet) {
+  public synchronized void handlePacket(@NotNull final AI ai, @NotNull final Packet packet) {
     if (packet.getPacketType().equalsIgnoreCase(Packets.WELCOME.getPacketType())) {
       if (!packet.getValues().get("magic").getAsString().equals("mole42")) {
         System.exit(3);
@@ -70,7 +70,7 @@ public class AIPacketHandler extends ClientPacketHandler {
     }
   }
 
-  private void timerRelatedController(@NotNull final AI ai) {
+  private synchronized void timerRelatedController(@NotNull final AI ai) {
     try {
       Thread.sleep(250);
       ai.getLogic().handleAction(ai);

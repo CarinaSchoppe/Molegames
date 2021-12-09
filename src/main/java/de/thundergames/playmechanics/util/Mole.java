@@ -13,12 +13,13 @@ package de.thundergames.playmechanics.util;
 import de.thundergames.networking.util.interfaceItems.NetworkMole;
 import de.thundergames.networking.util.interfaceItems.NetworkPlayer;
 import de.thundergames.playmechanics.map.Field;
+import org.jetbrains.annotations.NotNull;
 
 public class Mole extends NetworkMole {
 
   private transient Field field;
 
-  public Mole(NetworkPlayer player, Field field) {
+  public Mole(@NotNull final NetworkPlayer player, @NotNull final Field field) {
     super(player, field);
   }
 

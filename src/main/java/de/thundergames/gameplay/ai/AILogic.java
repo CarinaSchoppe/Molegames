@@ -83,7 +83,7 @@ public class AILogic {
               return Directions.DOWN;
             }
           }
-        } catch (Exception e) {
+        } catch (@NotNull final Exception e) {
         }
       } else if (direction == Directions.UP) {
         try {
@@ -92,7 +92,7 @@ public class AILogic {
               return Directions.UP;
             }
           }
-        } catch (Exception e) {
+        } catch (@NotNull final Exception e) {
         }
       } else if (direction == Directions.LEFT) {
         try {
@@ -101,7 +101,7 @@ public class AILogic {
               return Directions.LEFT;
             }
           }
-        } catch (Exception e) {
+        } catch (@NotNull final Exception e) {
         }
       } else if (direction == RIGHT) {
         try {
@@ -110,7 +110,7 @@ public class AILogic {
               return Directions.RIGHT;
             }
           }
-        } catch (Exception e) {
+        } catch (@NotNull final Exception e) {
         }
       } else if (direction == DOWN_LEFT) {
         try {
@@ -119,7 +119,7 @@ public class AILogic {
               return Directions.DOWN_LEFT;
             }
           }
-        } catch (Exception e) {
+        } catch (@NotNull final Exception e) {
         }
       } else if (direction == Directions.DOWN_RIGHT) {
         try {
@@ -128,7 +128,7 @@ public class AILogic {
               return Directions.DOWN_RIGHT;
             }
           }
-        } catch (Exception e) {
+        } catch (@NotNull final Exception e) {
         }
       } else if (direction == Directions.UP_LEFT) {
         try {
@@ -137,7 +137,7 @@ public class AILogic {
               return Directions.UP_LEFT;
             }
           }
-        } catch (Exception e) {
+        } catch (@NotNull final Exception e) {
         }
       } else if (direction == Directions.UP_RIGHT) {
         try {
@@ -153,7 +153,7 @@ public class AILogic {
     return null;
   }
 
-  public int[] endField(AI ai, NetworkMole mole, Directions direction) {
+  public int[] endField(@NotNull final AI ai, @NotNull final NetworkMole mole, @NotNull final Directions direction) {
     int x = 0;
     int y = 0;
     if (direction == Directions.UP) {
@@ -214,7 +214,7 @@ public class AILogic {
    * @author Carina
    * @use moves a mole depending on in a hole or on a field
    */
-  private boolean move(@NotNull final AI ai, @NotNull final ArrayList<NetworkMole> moles) {
+  private synchronized boolean move(@NotNull final AI ai, @NotNull final ArrayList<NetworkMole> moles) {
     var random = new Random();
     for (var ignored : moles) {
       var mole = moles.get(random.nextInt(moles.size()));
@@ -238,7 +238,7 @@ public class AILogic {
    * a random mole checks if it can be moved and than moves it in the allowed direction by the
    * value of the drawCard
    */
-  public boolean moveMole(@NotNull final AI ai) {
+  public synchronized boolean moveMole(@NotNull final AI ai) {
     var openMoles = new ArrayList<>(ai.getMoles());
     var holeMoles = new ArrayList<>(ai.getMoles());
     for (var hole : ai.getGameState().getFloor().getHoles()) {
@@ -260,7 +260,7 @@ public class AILogic {
    * @author Carina
    * @use input the parameter and than returns the distance between the mole and the field
    */
-  public List<Integer> getDistance(@NotNull final Field field, final Mole mole) {
+  public List<Integer> getDistance(@NotNull final Field field, @NotNull final Mole mole) {
     var x = mole.getNetworkField().getX();
     var y = mole.getNetworkField().getY();
     var distanceX = Math.abs(field.getX() - x);
@@ -273,7 +273,7 @@ public class AILogic {
    * @author Carina
    * @use placed a mole at a random position
    */
-  public void placeMole(@NotNull final AI ai) {
+  public synchronized void placeMole(@NotNull final AI ai) {
     var random = new Random();
     var fields = new ArrayList<>(ai.getMap().getFieldMap().values());
     Field field;
@@ -295,7 +295,7 @@ public class AILogic {
    * @use checks if a hole is close to a mole with the exact range of the card returns the mole ID
    * and the x and y cordinates of the hole if the mole is close to a hole
    */
-  public List<Object> isHoleCloseToMole(@NotNull final AI ai) {
+  public synchronized List<Object> isHoleCloseToMole(@NotNull final AI ai) {
     for (var mole : ai.getMoles()) {
       if (mole.getPlayer().getClientID() == ai.getClientThread().getClientThreadID()) {
         for (var hole : ai.getGameState().getFloor().getHoles()) {

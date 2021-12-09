@@ -21,7 +21,6 @@ public class Score {
   private final HashMap<Integer, Integer> points = new HashMap<>();
   private final HashSet<NetworkPlayer> winner = new HashSet<>();
 
-
   public HashSet<NetworkPlayer> getPlayers() {
     return players;
   }

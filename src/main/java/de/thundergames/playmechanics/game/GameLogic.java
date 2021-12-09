@@ -162,7 +162,7 @@ public class GameLogic {
    * @use handles the punishment / performs it to the player doing an invalid move punishments
    * performen
    */
-  public synchronized void performPunishment(Player player, Punishments reason) {
+  public synchronized void performPunishment(@NotNull final Player player, @NotNull final Punishments reason) {
     if (player.getGame().getSettings().getPunishment().equals(Punishments.POINTS)) {
       player
         .getGame()

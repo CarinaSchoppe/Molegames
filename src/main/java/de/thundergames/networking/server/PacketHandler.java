@@ -41,7 +41,7 @@ public class PacketHandler {
    * @see Packets
    * @see Client
    */
-  public void handlePacket(@NotNull final Packet packet, @NotNull final ServerThread client) {
+  public synchronized void handlePacket(@NotNull final Packet packet, @NotNull final ServerThread client) {
     if (packet.getPacketType().equalsIgnoreCase(Packets.LOGIN.getPacketType())) {
       handleLoginPacket(client, packet);
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.LOGOUT.getPacketType())) {
@@ -255,7 +255,7 @@ public class PacketHandler {
    * @see de.thundergames.playmechanics.map.Map
    * @see Player
    */
-  private void handleMakeMovePacket(
+  private synchronized void handleMakeMovePacket(
     @NotNull final ServerThread client, @NotNull final Packet packet) {
     var game = MoleGames.getMoleGames().getGameHandler().getClientGames().get(client);
     for (var player : game.getPlayers()) {
@@ -329,7 +329,7 @@ public class PacketHandler {
    * @author Carina
    * @use handles the placement of a mole by a player
    */
-  private void handlePlaceMolePacket(
+  private synchronized void handlePlaceMolePacket(
     @NotNull final ServerThread client, @NotNull final Packet packet) {
     if (client.getSocket().isConnected() && MoleGames.getMoleGames().getGameHandler().getClientGames().containsKey(client)) {
       var game = MoleGames.getMoleGames().getGameHandler().getClientGames().get(client);
@@ -470,7 +470,7 @@ public class PacketHandler {
    * @author Carina
    * @use calculates and sends the remaining time to the client
    */
-  public void remainingTimePacket(@NotNull final ServerThread client) {
+  public synchronized void remainingTimePacket(@NotNull final ServerThread client) {
     var game = MoleGames.getMoleGames().getGameHandler().getClientGames().get(client);
     for (var player : game.getPlayers()) {
       if (player.getServerClient().equals(client)) {
@@ -577,7 +577,7 @@ public class PacketHandler {
    * @author Carina
    * @use removes a client from a game
    */
-  private void removeFromGames(@NotNull ServerThread client) {
+  private void removeFromGames(@NotNull final ServerThread client) {
     if (!MoleGames.getMoleGames().getGameHandler().getClientGames().containsKey(client)) return;
     if (MoleGames.getMoleGames().getGameHandler().getClientGames().get(client).getCurrentPlayer().getServerClient().equals(client))
       MoleGames.getMoleGames().getGameHandler().getClientGames().get(client).getCurrentPlayer().getTimer().cancel();
@@ -623,7 +623,7 @@ public class PacketHandler {
    * @author Carina
    * @use handles the login packet from the client
    */
-  private void handleLoginPacket(@NotNull final ServerThread client, @NotNull final Packet packet) {
+  private synchronized void handleLoginPacket(@NotNull final ServerThread client, @NotNull final Packet packet) {
     String name;
     if (packet.getValues().get("name") == null) {
       name = "Player";
@@ -710,7 +710,7 @@ public class PacketHandler {
    * @see de.thundergames.networking.util.interfaceItems.NetworkGame
    * @see Tournament
    */
-  public void overviewPacket(@NotNull final ServerThread client) {
+  public synchronized void overviewPacket(@NotNull final ServerThread client) {
     var object = new JsonObject();
     object.addProperty("type", Packets.OVERVIEW.getPacketType());
     var json = new JsonObject();
@@ -855,7 +855,7 @@ public class PacketHandler {
    * @author Carina
    * @use calls when a player joined the game sending the message to the clients of the game
    */
-  public void playerJoinedPacket(@NotNull final ServerThread clientConnection) {
+  public synchronized void playerJoinedPacket(@NotNull final ServerThread clientConnection) {
     var object = new JsonObject();
     object.addProperty("type", Packets.PLAYERJOINED.getPacketType());
     var json = new JsonObject();
