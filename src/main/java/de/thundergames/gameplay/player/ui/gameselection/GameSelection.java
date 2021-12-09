@@ -165,20 +165,6 @@ public class GameSelection implements Initializable {
     }
     // Send Packet to spectate game to get GameState
     client.getClientPacketHandler().joinGamePacket(client, selectedItem.getGameID(), false);
-    // Get GameState
-    GameState currentGameState = client.getGameState();
-    if (currentGameState == null) {
-      System.out.println("GameSelection: GameState is null");
-      return;
-    }
-    if (Objects.equals(currentGameState.getStatus(), GameStates.STARTED.toString())
-      || Objects.equals(currentGameState.getStatus(), GameStates.PAUSED.toString())) {
-      spectateGame(currentGameState);
-    } else if (Objects.equals(currentGameState.getStatus(), GameStates.NOT_STARTED.toString())) {
-      new LobbyObserverGame().create(event);
-    } else if (Objects.equals(currentGameState.getStatus(), GameStates.OVER.toString())) {
-      loadScoreboard();
-    }
   }
 
   /** Load scene of scoreboard */
@@ -194,5 +180,20 @@ public class GameSelection implements Initializable {
     // Todo:Open scene of Game
   }
 
-
+  public void createGame() {
+    // Get GameState
+    GameState currentGameState = client.getGameState();
+    if (currentGameState == null) {
+      System.out.println("GameSelection: GameState is null");
+      return;
+    }
+    if (Objects.equals(currentGameState.getStatus(), GameStates.STARTED.toString())
+      || Objects.equals(currentGameState.getStatus(), GameStates.PAUSED.toString())) {
+      spectateGame(currentGameState);
+   // } else if (Objects.equals(currentGameState.getStatus(), GameStates.NOT_STARTED.toString())) {
+      //new LobbyObserverGame().create(event);
+    } else if (Objects.equals(currentGameState.getStatus(), GameStates.OVER.toString())) {
+      loadScoreboard();
+    }
+  }
 }

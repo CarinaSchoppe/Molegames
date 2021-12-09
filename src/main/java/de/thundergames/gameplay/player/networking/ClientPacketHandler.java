@@ -747,6 +747,7 @@ public class ClientPacketHandler {
     @NotNull final Client client, @NotNull final Packet packet) {
     // Todo: Kommt hier nie an
     handleFloor(client, packet);
+    OpenGame();
   }
 
   /**
@@ -896,5 +897,15 @@ public class ClientPacketHandler {
   private void showPlayerJoinedGameLobby() {
     var lobbyObserverGame = LobbyObserverGame.getObserver();
     if (lobbyObserverGame != null) lobbyObserverGame.showJoiningSuccessfully();
+  }
+
+  /**
+   * @author Marc
+   * @use open game at tournament/game selection
+   */
+  private void OpenGame() {
+    // create game
+    var gameSelection = GameSelection.getGameSelection();
+    if (gameSelection != null) gameSelection.createGame();
   }
 }
