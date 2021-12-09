@@ -315,7 +315,7 @@ public class PacketHandler {
    * @use sends to the clients of the game the placement of a mole
    */
   public Packet molePlacedPacket(@NotNull final NetworkMole mole) {
-    var object = new JsonObject();
+      var object = new JsonObject();
     object.addProperty("type", Packets.MOLEPLACED.getPacketType());
     var json = new JsonObject();
     json.addProperty("mole", new Gson().toJson(mole));
@@ -331,16 +331,18 @@ public class PacketHandler {
    */
   private void handlePlaceMolePacket(
     @NotNull final ServerThread client, @NotNull final Packet packet) {
-    var game = MoleGames.getMoleGames().getGameHandler().getClientGames().get(client);
-    if (game != null) {
-      if (game.getCurrentGameState() == GameStates.STARTED) {
-        for (var player : game.getPlayers()) {
-          if (player.getServerClient().getClientName().equals(client.getClientName())) {
-            var position =
-              new Gson()
-                .fromJson(packet.getValues().get("position").getAsString(), NetworkField.class);
-            player.placeMole(position.getX(), position.getY());
-            return;
+    if (client.getSocket().isConnected() && MoleGames.getMoleGames().getGameHandler().getClientGames().containsKey(client)) {
+      var game = MoleGames.getMoleGames().getGameHandler().getClientGames().get(client);
+      if (game != null) {
+        if (game.getCurrentGameState() == GameStates.STARTED) {
+          for (var player : game.getPlayers()) {
+            if (player.getServerClient().getClientName().equals(client.getClientName())) {
+              var position =
+                new Gson()
+                  .fromJson(packet.getValues().get("position").getAsString(), NetworkField.class);
+              player.placeMole(position.getX(), position.getY());
+              return;
+            }
           }
         }
       }
@@ -357,12 +359,14 @@ public class PacketHandler {
    */
   public void gameStartedPacket(
     @NotNull final ServerThread client, @NotNull final GameStates gameState) {
-    var object = new JsonObject();
-    object.addProperty("type", Packets.GAMESTARTED.getPacketType());
-    var json = new JsonObject();
-    json.addProperty("initialGameState", gameState.getName());
-    object.add("value", json);
-    client.sendPacket(new Packet(object));
+    if (client.getSocket().isConnected()) {
+      var object = new JsonObject();
+      object.addProperty("type", Packets.GAMESTARTED.getPacketType());
+      var json = new JsonObject();
+      json.addProperty("initialGameState", gameState.getName());
+      object.add("value", json);
+      client.sendPacket(new Packet(object));
+    }
   }
 
   /**
