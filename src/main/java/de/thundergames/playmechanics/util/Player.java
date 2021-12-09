@@ -203,17 +203,17 @@ public class Player extends NetworkPlayer {
       MoleGames.getMoleGames()
           .getServer()
           .sendToAllGameClients(
-              game,
-              MoleGames.getMoleGames()
-                  .getPacketHandler()
-                  .movePenaltyNotification(
-                      this,
-                      getGame().getDeductedPoints(),
-                      game.getSettings().getPunishment(),
-                      Punishments.NOMOVE.getName()));
+            game,
+            MoleGames.getMoleGames()
+              .getPacketHandler()
+              .movePenaltyNotification(
+                this,
+                getGame().getDeductedPoints(),
+                game.getSettings().getPunishment(),
+                Punishments.NOMOVE.getName()));
       timer.cancel();
       game.getGameUtil().nextPlayer();
-    } else {
+    } else if (game.getCurrentPlayer().equals(this)) {
       var mole = new Mole(this, new Field(List.of(x, y)));
       moles.add(mole);
       game.getMoleMap().put(this, mole);
@@ -223,7 +223,7 @@ public class Player extends NetworkPlayer {
       var player = new NetworkPlayer(mole.getPlayer().getName(), mole.getPlayer().getClientID());
       var netMole = new NetworkMole(player, field);
       MoleGames.getMoleGames()
-          .getServer()
+        .getServer()
           .sendToAllGameClients(
               game, MoleGames.getMoleGames().getPacketHandler().molePlacedPacket(netMole));
       playerUtil.handleTurnAfterAction();

@@ -85,7 +85,7 @@ public class GameUtil {
         game.getActivePlayers()
           .get(game.getActivePlayers().indexOf(game.getCurrentPlayer()) + 1));
     } else if (!game.getActivePlayers().isEmpty()) {
-      game.setCurrentPlayer(game.getClientPlayersMap().get(game.getActivePlayers().get(0)));
+      game.setCurrentPlayer(game.getClientPlayersMap().get(game.getActivePlayers().get(0).getServerClient()));
     }
     if (allHolesFilled()) {
       System.out.println("Server: All holes are filled going to next Floor or check the winning!");

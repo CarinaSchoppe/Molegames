@@ -107,17 +107,11 @@ public class Server extends Network {
    */
   public synchronized void sendToAllGameClients(
       @NotNull final Game game, @NotNull final Packet packet) {
-    try {
       if (!game.getPlayers().isEmpty()) {
         for (var clients : game.getPlayers()) {
           clients.getServerClient().sendPacket(packet);
         }
-      } else {
-        System.out.println("The game with the ID: " + game.getGameID() + " is empty!");
       }
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
   }
 
   /**

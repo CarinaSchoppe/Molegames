@@ -130,12 +130,14 @@ public class Game extends NetworkGame {
   }
 
   /**
+   * @param forceEnd
    * @author Carina
    * @use handles when a game ends //TODO: die methoden hier füllen und allgemein ein "ende" für das
-   * game erstellen
    */
-  public void endGame() {
+  public void endGame(final boolean forceEnd) {
     setFinishDateTime(Instant.now().getEpochSecond());
+    if (!forceEnd)
+      MoleGames.getMoleGames().getPacketHandler().gameOverPacket(this);
   }
 
   /**
@@ -143,7 +145,17 @@ public class Game extends NetworkGame {
    * @use forces the game to end
    */
   public void forceGameEnd() {
-    endGame();
+    MoleGames.getMoleGames().getPacketHandler().gameCanceledPacket(this);
+    endGame(true);
+  }
+
+  /**
+   * @author Carina
+   * @use pauses the game if needed //TODO: pause the game
+   */
+  public void pauseGame() {
+    MoleGames.getMoleGames().getPacketHandler().gamePausedPacket(this);
+    currentGameState = GameStates.PAUSED;
   }
 
   /**
@@ -151,6 +163,7 @@ public class Game extends NetworkGame {
    * @use resumes the game
    */
   public void resumeGame() {
+    MoleGames.getMoleGames().getPacketHandler().gameContinuedPacket(this);
     setCurrentGameState(GameStates.STARTED);
     gameUtil.nextPlayer();
   }

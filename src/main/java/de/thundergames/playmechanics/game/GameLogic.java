@@ -167,7 +167,7 @@ public class GameLogic {
    */
   public void win(@NotNull final Game game, @NotNull final Player player) {
     System.out.println("THE WINNER IS: " + player.getName());
-    game.endGame();
+    game.endGame(false);
   }
 
   /**

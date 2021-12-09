@@ -43,8 +43,8 @@ public class PlayerUtil {
   public void startThinkTimer() {
     player.setStartRemainingTime(System.currentTimeMillis());
     player.setHasMoved(false);
-    player.setTimer(new Timer());
     player.setTimerIsRunning(true);
+    player.setTimer(new Timer());
     player
         .getTimer()
         .schedule(

@@ -374,79 +374,82 @@ public class PacketHandler {
    * @see de.thundergames.networking.util.interfaceItems.NetworkMole
    */
   public Packet playerPlacesMolePacket(@NotNull final ServerThread client) {
-    var object = new JsonObject();
-    object.addProperty("type", Packets.PLAYERPLACESMOLE.getPacketType());
-    var json = new JsonObject();
-    json.addProperty("player", new Gson().toJson(client.getPlayer()));
-    json.addProperty(
-      "until",
-      System.currentTimeMillis()
-        + MoleGames.getMoleGames()
-        .getGameHandler()
-        .getClientGames()
-        .get(client)
-        .getSettings()
-        .getTurnTime());
-    object.add("value", json);
-    return new Packet(object);
+    if (client.getSocket().isConnected() && MoleGames.getMoleGames()
+      .getGameHandler()
+      .getClientGames().containsKey(client)) {
+      var object = new JsonObject();
+      object.addProperty("type", Packets.PLAYERPLACESMOLE.getPacketType());
+      var json = new JsonObject();
+      json.addProperty("player", new Gson().toJson(client.getPlayer()));
+      json.addProperty(
+        "until",
+        System.currentTimeMillis()
+          + MoleGames.getMoleGames()
+          .getGameHandler()
+          .getClientGames()
+          .get(client)
+          .getSettings()
+          .getTurnTime());
+      object.add("value", json);
+      return new Packet(object);
+    }
+    return null;
   }
 
   /**
-   * @param client
-   * @param score
+   * @param game
    * @author Carina
    * @use sends to the server that the game was canceled
    * @see Game
    * @see Score
    */
-  public void gameCanceledPacket(@NotNull final ServerThread client, @NotNull final Score score) {
+  public void gameCanceledPacket(@NotNull final Game game) {
     var object = new JsonObject();
     object.addProperty("type", Packets.GAMECANCELED.getPacketType());
     var json = new JsonObject();
-    json.addProperty("result", new Gson().toJson(score));
+    json.addProperty("result", new Gson().toJson(game.getScore()));
     object.add("value", json);
-    client.sendPacket(new Packet(object));
+    MoleGames.getMoleGames().getServer().sendToAllGameClients(game, new Packet(object));
   }
 
   /**
-   * @param client
-   * @param score
+   * @param game
    * @author Carina
    * @use sends to the server that the game was over
    * @see Game
    * @see Score
    */
-  public void gameOverPacket(@NotNull final ServerThread client, @NotNull final Score score) {
+  public void gameOverPacket(@NotNull final Game game) {
     var object = new JsonObject();
     object.addProperty("type", Packets.GAMEOVER.getPacketType());
     var json = new JsonObject();
-    json.addProperty("result", new Gson().toJson(score));
+    json.addProperty("result", new Gson().toJson(game.getScore()));
     object.add("value", json);
-    client.sendPacket(new Packet(object));
+    MoleGames.getMoleGames().getServer().sendToAllGameClients(game, new Packet(object));
   }
 
   /**
-   * @param client
+   * @param game
    * @author Carina
    * @use sends to the server that the game was paused
    * @see Game
    */
-  public void gamePausedPacket(@NotNull final ServerThread client) {
+  public void gamePausedPacket(@NotNull final Game game) {
     var object = new JsonObject();
     object.addProperty("type", Packets.GAMEPAUSED.getPacketType());
-    client.sendPacket(new Packet(object));
+    MoleGames.getMoleGames().getServer().sendToAllGameClients(game, new Packet(object));
   }
 
   /**
-   * @param client
+   * @param game
    * @author Carina
    * @use sends to the server that the game was continued
    * @see Game
    */
-  public void gameContinuedPacket(@NotNull final ServerThread client) {
+  public void gameContinuedPacket(@NotNull final Game game) {
     var object = new JsonObject();
     object.addProperty("type", Packets.GAMECONTINUED.getPacketType());
-    client.sendPacket(new Packet(object));
+    MoleGames.getMoleGames().getServer().sendToAllGameClients(game, new Packet(object));
   }
 
   /**
@@ -572,6 +575,8 @@ public class PacketHandler {
    */
   private void removeFromGames(@NotNull ServerThread client) {
     if (!MoleGames.getMoleGames().getGameHandler().getClientGames().containsKey(client)) return;
+    if (MoleGames.getMoleGames().getGameHandler().getClientGames().get(client).getCurrentPlayer().getServerClient().equals(client))
+      MoleGames.getMoleGames().getGameHandler().getClientGames().get(client).getCurrentPlayer().getTimer().cancel();
     if (MoleGames.getMoleGames()
       .getGameHandler()
       .getClientGames()
