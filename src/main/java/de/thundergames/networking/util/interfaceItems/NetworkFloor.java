@@ -17,7 +17,7 @@ public class NetworkFloor {
 
   private ArrayList<NetworkField> holes;
   private ArrayList<NetworkField> drawAgainFields;
-  private int points;
+  private int points = 1;
 
   public int getPoints() {
     return points;

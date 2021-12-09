@@ -11,6 +11,8 @@
 
 package de.thundergames.gameplay.ai.networking;
 
+import com.google.gson.Gson;
+import de.thundergames.filehandling.Score;
 import de.thundergames.gameplay.ai.AI;
 import de.thundergames.gameplay.player.networking.ClientPacketHandler;
 import de.thundergames.networking.util.Packet;
@@ -22,7 +24,7 @@ import org.jetbrains.annotations.NotNull;
 public class AIPacketHandler extends ClientPacketHandler {
 
   /**
-   * @param ai the instance of the AI
+   * @param ai     the instance of the AI
    * @param packet the packet recieved
    * @author Carina
    * @use the logic for the AI to decide what to do depending on the packet recieved
@@ -34,21 +36,19 @@ public class AIPacketHandler extends ClientPacketHandler {
       }
       ai.getClientThread().setID(packet.getValues().get("clientID").getAsInt());
       ai.setNetworkPlayer(
-          new NetworkPlayer(ai.getName(), ai.getClientThread().getClientThreadID()));
+        new NetworkPlayer(ai.getName(), ai.getClientThread().getClientThreadID()));
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.WELCOMEGAME.getPacketType())) {
       handleWelcomeGamePacket(ai, packet);
       ai.setMap(new Map(ai.getGameState()));
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.NEXTLEVEL.getPacketType())) {
       handleNextFloorPacket(ai, packet);
       ai.setMap(new Map(ai.getGameState()));
-
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.MOLEPLACED.getPacketType())) {
       handleMolePlacedPacket(ai, packet);
       ai.setMap(new Map(ai.getGameState()));
-
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.MOLEMOVED.getPacketType())) {
       handleMoleMovedPacket(ai, packet);
-    }  else if (packet.getPacketType().equalsIgnoreCase(Packets.PLAYERJOINED.getPacketType())) {
+    } else if (packet.getPacketType().equalsIgnoreCase(Packets.PLAYERJOINED.getPacketType())) {
       handlePlayerJoinedPacket(ai, packet);
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.PLAYERSTURN.getPacketType())) {
       handlePlayersTurnPacket(ai, packet);
@@ -56,9 +56,16 @@ public class AIPacketHandler extends ClientPacketHandler {
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.PLAYERPLACESMOLE.getPacketType())) {
       handlePlayerPlacesMolePacket(ai, packet);
       timerRelatedController(ai);
+    } else if (packet.getPacketType().equalsIgnoreCase(Packets.GAMEOVER.getPacketType()) || packet.getPacketType().equalsIgnoreCase(Packets.GAMECANCELED.getPacketType())) {
+      System.out.println("Winners are: ");
+      for (var player : new Gson().fromJson(packet.getValues().get("result").getAsString(), Score.class).getWinners()) {
+        System.out.println(player.getName());
+      }
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.MESSAGE.getPacketType())) {
       if (packet.getValues() != null) {
-        System.out.println("Server sended: " + packet.getValues().get("message").getAsString());
+        if (packet.getValues().get("message") != null) {
+          System.out.println("Server sended: " + packet.getValues().get("message").getAsString());
+        }
       }
     }
   }

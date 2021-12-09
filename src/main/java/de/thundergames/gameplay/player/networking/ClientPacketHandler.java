@@ -335,14 +335,16 @@ public class ClientPacketHandler {
             .getGameState()
             .getPullDiscs()
             .get(client.getClientThread().getClientThreadID()));
-    }
+    } //TODO: warum ist das so?!
     client.setMap(new Map(client.getGameState()));
     if (!client.getGameState().getPlacedMoles().isEmpty()) {
       for (var moles : client.getGameState().getPlacedMoles()) {
-        if (moles.getPlayer().getClientID() == client.getNetworkPlayer().getClientID()) {
+        if (moles.getPlayer().getClientID() == client.getClientThread().getClientThreadID()) {
           client.getMoles().add(moles);
         }
       }
+    } else {
+      System.out.println("THE PLACED MOLES ARE EMPTY: ERROR!");
     }
     updateMap(client.getMap());
     client.getMap().printMap();
@@ -450,7 +452,7 @@ public class ClientPacketHandler {
       }
     } else {
       System.out.println(
-        "Client: the player with the id: " + player.getClientID() + " is now on the turn!");
+        "Client: the player with the id: " + player.getClientID() + " and name: " + player.getName() + " is now on the turn!");
     }
   }
 
@@ -728,10 +730,12 @@ public class ClientPacketHandler {
    */
   protected void handlePlayerJoinedPacket(
     @NotNull final Client client, @NotNull final Packet packet) {
-    System.out.println(
-      "The player: " + new Gson()
-        .fromJson(packet.getValues().get("player").getAsString(), NetworkPlayer.class)
-        .getName() + " has joined the Game " + client.getGameID() + ".");
+    var player = new Gson()
+      .fromJson(packet.getValues().get("player").getAsString(), NetworkPlayer.class);
+    if (player.getClientID() != client.getClientThread().getClientThreadID()) {
+      System.out.println(
+        "The player: " + player.getName() + " has joined the Game " + client.getGameID() + ".");
+    }
     updateTableView();
     var lobbyObserverGame = LobbyObserverGame.getObserver();
     if (lobbyObserverGame != null) lobbyObserverGame.showNewPlayer();

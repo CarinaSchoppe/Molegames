@@ -20,6 +20,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.*;
 import java.net.Socket;
+import java.net.SocketException;
 import java.nio.charset.StandardCharsets;
 
 public abstract class NetworkThread extends Thread {
@@ -68,7 +69,7 @@ public abstract class NetworkThread extends Thread {
     try {
       while (run) {
         if (socket.isConnected()) {
-         var message = reader.readLine();
+          var message = reader.readLine();
           if (message != null) {
             var object = new Gson().fromJson(message, JsonObject.class);
             if (object.get("type") != null) {
@@ -105,7 +106,8 @@ public abstract class NetworkThread extends Thread {
         }
       }
     } catch (Exception exe) {
-      exe.printStackTrace();
+      if (!(exe instanceof SocketException))
+        exe.printStackTrace();
     } finally {
       if (socket.isConnected()) {
         disconnect();

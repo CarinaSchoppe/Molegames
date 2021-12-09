@@ -31,6 +31,6 @@ public class NetworkPlayer {
 
   @Override
   public String toString() {
-    return "Player with name: " + name + " and clientID: " + clientID;
+    return "Player with the name: " + name + " and clientID: " + clientID + "";
   }
 }

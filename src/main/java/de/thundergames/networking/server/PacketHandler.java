@@ -857,8 +857,6 @@ public class PacketHandler {
    */
   public void playerJoinedPacket(@NotNull final ServerThread clientConnection) {
     var object = new JsonObject();
-    System.out.println("player joined with id: " + clientConnection.getPlayer().getClientID() + " intern id: " + clientConnection.getConnectionID());
-    System.out.println("player joined with name: " + clientConnection.getPlayer().getName() + " intern name: " + clientConnection.getClientName());
     object.addProperty("type", Packets.PLAYERJOINED.getPacketType());
     var json = new JsonObject();
     json.addProperty("player", new Gson().toJson(clientConnection.getPlayer()));

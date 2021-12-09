@@ -140,12 +140,13 @@ public class Game extends NetworkGame {
         players.add(MoleGames.getMoleGames().getServer().getConnectionIDs().get(playerID).getPlayer());
       }
       var max = Collections.max(getScore().getPoints().values());
+      System.out.println("Max points: " + max);
       for (var player : players) {
         if (getScore().getPoints().get(player.getClientID()) == max) {
           getScore().getWinners().add(player);
         }
-        System.out.println("Server: Game " + getGameID() + " has ended! Winners are; " + getScore().getWinners());
       }
+      System.out.println("Server: game with id: " + getGameID() + " has ended! Winners are: " + getScore().getWinners());
       MoleGames.getMoleGames().getPacketHandler().gameOverPacket(this);
     }
   }
