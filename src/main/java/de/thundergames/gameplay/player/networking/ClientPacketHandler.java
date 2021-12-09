@@ -304,15 +304,16 @@ public class ClientPacketHandler {
    * @param packet
    * @author Carina
    * @use handles when the client gets the new floor
-   */
+   *///TODO: dies mal umwandeln
   protected void handleNextFloorPacket(Client client, Packet packet) {
     System.out.println("Client got the new level!");
-    System.out.println(
-      "Players that are out: "
-        + new Gson()
-        .fromJson(
-          packet.getValues().get("eliminatedPlayers").getAsString(), new TypeToken<ArrayList<NetworkPlayer>>() {
-          }.getType()));
+    var players = new ArrayList<NetworkPlayer>(new Gson()
+      .fromJson(packet.getValues().get("eliminatedPlayers").getAsString(), new TypeToken<ArrayList<NetworkPlayer>>() {
+      }.getType()));
+    System.out.println("Players that are out: ");
+    for (NetworkPlayer player : players) {
+      System.out.println(player);
+    }
     handleFloor(client, packet);
   }
 
@@ -540,8 +541,7 @@ public class ClientPacketHandler {
           + new Gson()
           .fromJson(packet.getValues().get("player").getAsString(), NetworkPlayer.class)
           .getName()
-          + " needs to place a mole till: "
-          + packet.getValues().get("until").getAsInt());
+          + " needs to place a mole till: " + packet.getValues().get("until").getAsInt());
     }
   }
 

@@ -57,9 +57,6 @@ public class ServerThread extends NetworkThread {
     try {
       if (MoleGames.getMoleGames().getGameHandler().getClientGames().containsKey(this)) {
         MoleGames.getMoleGames().getGameHandler().getClientGames().get(this).removePlayerFromGame(MoleGames.getMoleGames().getGameHandler().getClientGames().get(this).getClientPlayersMap().get(this));
-        MoleGames.getMoleGames().getGameHandler().getClientGames().get(this).getClientPlayersMap().get(this).getTimer().cancel();
-        MoleGames.getMoleGames().getGameHandler().getClientGames().get(this).getClientPlayersMap().get(this).setHasMoved(true);
-        MoleGames.getMoleGames().getGameHandler().getClientGames().get(this).getClientPlayersMap().get(this).setTimerIsRunning(false);
       }
       System.out.println("Disconnecting " + this.getClientName());
       MoleGames.getMoleGames().getServer().getConnectionNames().remove(this.getClientName());

@@ -15,6 +15,7 @@ import de.thundergames.filehandling.Score;
 import de.thundergames.networking.server.ServerThread;
 import de.thundergames.networking.util.interfaceItems.NetworkGame;
 import de.thundergames.networking.util.interfaceItems.NetworkMole;
+import de.thundergames.networking.util.interfaceItems.NetworkPlayer;
 import de.thundergames.playmechanics.map.Field;
 import de.thundergames.playmechanics.map.Map;
 import de.thundergames.playmechanics.util.Mole;
@@ -23,10 +24,7 @@ import de.thundergames.playmechanics.util.Settings;
 import org.jetbrains.annotations.NotNull;
 
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 
 public class Game extends NetworkGame {
 
@@ -130,14 +128,26 @@ public class Game extends NetworkGame {
   }
 
   /**
-   * @param forceEnd
    * @author Carina
    * @use handles when a game ends //TODO: die methoden hier füllen und allgemein ein "ende" für das
    */
-  public void endGame(final boolean forceEnd) {
+  public void endGame() {
     setFinishDateTime(Instant.now().getEpochSecond());
-    if (!forceEnd)
+    if (!getScore().getPoints().isEmpty()) {
+      var playerIDs = new ArrayList<>(getScore().getPoints().keySet());
+      var players = new ArrayList<NetworkPlayer>();
+      for (var playerID : playerIDs) {
+        players.add(MoleGames.getMoleGames().getServer().getConnectionIDs().get(playerID).getPlayer());
+      }
+      var max = Collections.max(getScore().getPoints().values());
+      for (var player : players) {
+        if (getScore().getPoints().get(player.getClientID()) == max) {
+          getScore().getWinners().add(player);
+        }
+        System.out.println("Server: Game " + getGameID() + " has ended! Winners are; " + getScore().getWinners());
+      }
       MoleGames.getMoleGames().getPacketHandler().gameOverPacket(this);
+    }
   }
 
   /**
@@ -146,7 +156,7 @@ public class Game extends NetworkGame {
    */
   public void forceGameEnd() {
     MoleGames.getMoleGames().getPacketHandler().gameCanceledPacket(this);
-    endGame(true);
+    endGame();
   }
 
   /**
@@ -213,12 +223,14 @@ public class Game extends NetworkGame {
     if (player == null) {
       return;
     }
-    // TODO: check if player was really removed
     if (currentGameState != GameStates.NOT_STARTED && !currentGameState.equals(GameStates.OVER)) {
       if (!clientPlayersMap.containsKey(player)) {
         eliminatedPlayers.add(player);
       }
     }
+    MoleGames.getMoleGames().getGameHandler().getClientGames().get(player.getServerClient()).getClientPlayersMap().get(player.getServerClient()).getTimer().cancel();
+    MoleGames.getMoleGames().getGameHandler().getClientGames().get(player.getServerClient()).getClientPlayersMap().get(player.getServerClient()).setHasMoved(true);
+    MoleGames.getMoleGames().getGameHandler().getClientGames().get(player.getServerClient()).getClientPlayersMap().get(player.getServerClient()).setTimerIsRunning(false);
     for (var moles : player.getMoles()) {
       player
         .getGame()

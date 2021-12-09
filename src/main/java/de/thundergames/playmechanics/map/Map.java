@@ -103,7 +103,6 @@ public class Map extends NetworkFloor {
    * @use prints the map
    */
   public synchronized void printMap() {
-
     var fields =
         new ArrayList<>(fieldMap.values())
             .stream()

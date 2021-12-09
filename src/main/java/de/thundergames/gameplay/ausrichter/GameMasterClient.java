@@ -43,7 +43,7 @@ public class GameMasterClient {
     MoleGames.getMoleGames().getGameHandler().getIDGames().get(id).getSettings().getFloors().add(floor2);
     MoleGames.getMoleGames().getGameHandler().getIDGames().get(id).updateGameState();
     try {
-      Thread.sleep(6000);
+      Thread.sleep(20000);
     } catch (InterruptedException e) {
       e.printStackTrace();
     }

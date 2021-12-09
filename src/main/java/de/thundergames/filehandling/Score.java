@@ -30,7 +30,7 @@ public class Score {
     return points;
   }
 
-  public HashSet<NetworkPlayer> getWinner() {
+  public HashSet<NetworkPlayer> getWinners() {
     return winner;
   }
 }

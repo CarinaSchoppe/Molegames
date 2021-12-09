@@ -154,7 +154,9 @@ public class GameUtil {
    * bekommt
    */
   public void nextFloor() {
+    System.out.println("Flooramounts+1: " + game.getSettings().getFloors().size());
     if (game.getSettings().getFloors().size() > game.getCurrentFloorID() + 1) {
+      game.setCurrentFloorID(game.getCurrentFloorID() + 1);
       var eliminated = new ArrayList<>(game.getPlayers());
       for (var hole : game.getGameState().getFloor().getHoles()) {
         for (var player : game.getPlayers()) {
@@ -179,11 +181,11 @@ public class GameUtil {
       }
       for (var player : eliminated) {
         game.removePlayerFromGame(player);
+        game.getPlayers().add(player);
       }
       game.getGameUtil().givePoints();
       game.getActivePlayers().removeAll(eliminated);
       game.getEliminatedPlayers().addAll(eliminated);
-      game.setCurrentFloorID(game.getCurrentFloorID() + 1);
       game.updateGameState();
       MoleGames.getMoleGames()
         .getServer()

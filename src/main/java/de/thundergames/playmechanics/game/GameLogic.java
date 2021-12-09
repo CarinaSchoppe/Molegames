@@ -11,7 +11,6 @@
 package de.thundergames.playmechanics.game;
 
 import de.thundergames.MoleGames;
-import de.thundergames.playmechanics.map.Field;
 import de.thundergames.playmechanics.map.Map;
 import de.thundergames.playmechanics.util.Player;
 import de.thundergames.playmechanics.util.Punishments;
@@ -137,37 +136,24 @@ public class GameLogic {
    * @use checks if a player has won when the player is the only one in a single hole foor
    */
   public synchronized void checkWinning(@NotNull final Game game) {
-    var holes = 0;
-    Field field = null;
-    if (game.getMap().getFieldMap().values().size() != 1)
-      return;
-    for (var fieldCounter : game.getMap().getFieldMap().values()) {
-      if (fieldCounter.isHole()) {
-        holes++;
-        field = fieldCounter;
+    var hole = 0;
+    for (var field : game.getMap().getFieldMap().values()) {
+      if (field.isHole()) {
+        hole++;
       }
     }
-    if (field.isOccupied()) {
-      for (var players : game.getMap().getGame().getActivePlayers()) {
-        for (var mole : players.getMoles()) {
-          if (mole.getNetworkField().equals(field)) {
-            win(game, players);
-            return;
-          }
-        }
-      }
+    if (hole == 1) {
+      win(game);
     }
   }
 
   /**
-   * @param player
    * @param game
    * @author Carina
    * @use handles the player and the game when won TODO: handle win display the end
    */
-  public void win(@NotNull final Game game, @NotNull final Player player) {
-    System.out.println("THE WINNER IS: " + player.getName());
-    game.endGame(false);
+  public void win(@NotNull final Game game) {
+    game.endGame();
   }
 
   /**

@@ -315,7 +315,7 @@ public class PacketHandler {
    * @use sends to the clients of the game the placement of a mole
    */
   public Packet molePlacedPacket(@NotNull final NetworkMole mole) {
-      var object = new JsonObject();
+    var object = new JsonObject();
     object.addProperty("type", Packets.MOLEPLACED.getPacketType());
     var json = new JsonObject();
     json.addProperty("mole", new Gson().toJson(mole));
@@ -667,7 +667,7 @@ public class PacketHandler {
         + " got the name "
         + client.getClientName()
         + " and logged in!");
-    client.setPlayer(new NetworkPlayer(name, client.getConnectionID()));
+    client.setPlayer(new NetworkPlayer(client.getClientName(), client.getConnectionID()));
   }
 
   /**
@@ -857,6 +857,8 @@ public class PacketHandler {
    */
   public void playerJoinedPacket(@NotNull final ServerThread clientConnection) {
     var object = new JsonObject();
+    System.out.println("player joined with id: " + clientConnection.getPlayer().getClientID() + " intern id: " + clientConnection.getConnectionID());
+    System.out.println("player joined with name: " + clientConnection.getPlayer().getName() + " intern name: " + clientConnection.getClientName());
     object.addProperty("type", Packets.PLAYERJOINED.getPacketType());
     var json = new JsonObject();
     json.addProperty("player", new Gson().toJson(clientConnection.getPlayer()));
