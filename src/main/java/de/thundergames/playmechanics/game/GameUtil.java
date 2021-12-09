@@ -180,8 +180,10 @@ public class GameUtil {
             game.getScore().getPoints().put(player.getClientID(), game.getScore().getPoints().get(player.getClientID()) + game.getMap().getPoints());
           }
         }
-        System.out.println("the player with the name: " + player.getName() + " got: " + game.getScore().getPoints().get(player.getClientID()) + " points!");
       }
+    }
+    for (var player : game.getActivePlayers()) {
+      System.out.println("the player with the name: " + player.getName() + " got: " + game.getScore().getPoints().get(player.getClientID()) + " points!");
     }
   }
 }

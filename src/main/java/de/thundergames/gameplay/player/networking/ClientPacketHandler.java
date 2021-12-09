@@ -598,7 +598,6 @@ public class ClientPacketHandler {
       }
       //sort the players by score
       Collections.sort(players, (o1, o2) -> score.getPoints().get(o2.getClientID()).compareTo(score.getPoints().get(o1.getClientID())));
-      System.out.println("Max points: " + max);
       for (var player : players) {
         if (score.getPoints().get(player.getClientID()) == max) {
           score.getWinners().add(player);

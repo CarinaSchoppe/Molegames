@@ -141,7 +141,6 @@ public class Game extends NetworkGame {
         players.add(MoleGames.getMoleGames().getServer().getConnectionIDs().get(playerID).getPlayer());
       }
       Collections.sort(players, (o1, o2) -> getScore().getPoints().get(o2.getClientID()).compareTo(getScore().getPoints().get(o1.getClientID())));
-      System.out.println("Max points: " + max);
       for (var player : players) {
         if (getScore().getPoints().get(player.getClientID()) == max) {
           getScore().getWinners().add(player);
