@@ -56,6 +56,10 @@ public class AIPacketHandler extends ClientPacketHandler {
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.PLAYERPLACESMOLE.getPacketType())) {
       handlePlayerPlacesMolePacket(ai, packet);
       timerRelatedController(ai);
+    } else if (packet.getPacketType().equalsIgnoreCase(Packets.MESSAGE.getPacketType())) {
+      if (packet.getValues() != null) {
+        System.out.println("Server sended: " + packet.getValues().get("message").getAsString());
+      }
     }
   }
 

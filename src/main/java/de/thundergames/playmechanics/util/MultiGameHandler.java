@@ -39,7 +39,7 @@ public class MultiGameHandler {
    * @author Carina
    * @use creates the new game
    */
-  public void createNewGame(final int gameID) {
+  public synchronized void createNewGame(final int gameID) {
     if (!idGames.containsKey(gameID)) {
       var game = new Game(gameID);
       game.create();
@@ -52,7 +52,7 @@ public class MultiGameHandler {
    * @author Carina
    * @use creates the new tournament
    */
-  public void createNewTournament(final int tournamentID) {
+  public synchronized void createNewTournament(final int tournamentID) {
     if (!idGames.containsKey(tournamentID)) {
       var tournament = new Tournament(tournamentID);
       tournament.create();

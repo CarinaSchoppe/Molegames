@@ -68,11 +68,12 @@ public abstract class NetworkThread extends Thread {
     try {
       while (run) {
         if (socket.isConnected()) {
-          String message = null;
+          String message;
           try {
             message = reader.readLine();
           } catch (IOException e) {
-            e.printStackTrace();
+            disconnect();
+            return;
           }
           if (message != null) {
             var object = new Gson().fromJson(message, JsonObject.class);
@@ -81,7 +82,7 @@ public abstract class NetworkThread extends Thread {
               if ("DISCONNECT".equals(packet.getPacketType())) {
                 System.out.println("Content: " + packet.getValues().toString());
                 disconnect();
-                break;
+                return;
               }
             }
             if (this.packet != null) {
@@ -99,7 +100,6 @@ public abstract class NetworkThread extends Thread {
               readStringPacketInput(packet, this);
             }
           } else {
-
             disconnect();
             return;
           }

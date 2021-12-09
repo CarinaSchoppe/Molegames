@@ -12,9 +12,9 @@ package de.thundergames.playmechanics.game;
 
 import de.thundergames.MoleGames;
 import de.thundergames.filehandling.Score;
+import de.thundergames.networking.server.ServerThread;
 import de.thundergames.networking.util.interfaceItems.NetworkGame;
 import de.thundergames.networking.util.interfaceItems.NetworkMole;
-import de.thundergames.networking.util.interfaceItems.NetworkPlayer;
 import de.thundergames.playmechanics.map.Field;
 import de.thundergames.playmechanics.map.Map;
 import de.thundergames.playmechanics.util.Mole;
@@ -30,7 +30,7 @@ import java.util.List;
 
 public class Game extends NetworkGame {
 
-  private final transient HashMap<NetworkPlayer, Player> clientPlayersMap = new HashMap<>();
+  private final transient HashMap<ServerThread, Player> clientPlayersMap = new HashMap<>();
   private final transient ArrayList<Player> players = new ArrayList<>();
   private final transient HashMap<Player, Mole> moleMap = new HashMap<>();
   private final transient GameState gameState = new GameState();
@@ -46,8 +46,8 @@ public class Game extends NetworkGame {
   public Game(int gameID) {
     super(gameID);
   }
-
   // TODO: Allgemein umsetzung der Libarysachen mehr oder minder.
+
   /**
    * @author Carina
    * @use creates a new Game with all settings after the Constructor
@@ -132,7 +132,7 @@ public class Game extends NetworkGame {
   /**
    * @author Carina
    * @use handles when a game ends //TODO: die methoden hier füllen und allgemein ein "ende" für das
-   *     game erstellen
+   * game erstellen
    */
   public void endGame() {
     setFinishDateTime(Instant.now().getEpochSecond());
@@ -156,30 +156,31 @@ public class Game extends NetworkGame {
   }
 
   /**
-   * @param client the player that joins the game
-   * @param spectator if its a spectator or player that has joined
+   * @param clientThread the playerServerThread that joins the game
+   * @param spectator    if its a spectator or player that has joined
    * @author Carina
    */
-  public void joinGame(@NotNull final Player client, final boolean spectator) {
+  public void joinGame(@NotNull final ServerThread clientThread, final boolean spectator) {
+    var client = new Player(clientThread).create(this);
     MoleGames.getMoleGames()
-        .getPacketHandler()
-        .assignToGamePacket(client.getServerClient(), getGameID());
+      .getPacketHandler()
+      .assignToGamePacket(client.getServerClient(), getGameID());
     if (getCurrentGameState().equals(GameStates.NOT_STARTED) && !spectator) {
-      clientPlayersMap.put(client, client);
+      clientPlayersMap.put(clientThread, client);
       players.add(client);
       activePlayers.add(client);
       getScore().getPlayers().add(client);
       setCurrentPlayerCount(clientPlayersMap.size());
       MoleGames.getMoleGames()
-          .getGameHandler()
-          .getClientGames()
-          .put(client.getServerClient(), this);
+        .getGameHandler()
+        .getClientGames()
+        .put(client.getServerClient(), this);
       updateGameState();
     } else if (spectator) {
       MoleGames.getMoleGames()
-          .getGameHandler()
-          .getClientGames()
-          .put(client.getServerClient(), this);
+        .getGameHandler()
+        .getClientGames()
+        .put(client.getServerClient(), this);
       players.add(client);
       //TODO: join as spectator
     }
@@ -196,6 +197,9 @@ public class Game extends NetworkGame {
    * @see Player
    */
   public void removePlayerFromGame(@NotNull final Player player) {
+    if (player == null) {
+      return;
+    }
     // TODO: check if player was really removed
     if (currentGameState != GameStates.NOT_STARTED && !currentGameState.equals(GameStates.OVER)) {
       if (!clientPlayersMap.containsKey(player)) {
@@ -204,17 +208,17 @@ public class Game extends NetworkGame {
     }
     for (var moles : player.getMoles()) {
       player
-          .getGame()
-          .getMap()
-          .getFieldMap()
-          .get(List.of(moles.getNetworkField().getX(), moles.getNetworkField().getY()))
-          .setOccupied(false);
+        .getGame()
+        .getMap()
+        .getFieldMap()
+        .get(List.of(moles.getNetworkField().getX(), moles.getNetworkField().getY()))
+        .setOccupied(false);
       player
-          .getGame()
-          .getMap()
-          .getFieldMap()
-          .get(List.of(moles.getNetworkField().getX(), moles.getNetworkField().getY()))
-          .setMole(null);
+        .getGame()
+        .getMap()
+        .getFieldMap()
+        .get(List.of(moles.getNetworkField().getX(), moles.getNetworkField().getY()))
+        .setMole(null);
     }
     player.getMoles().clear();
     clientPlayersMap.remove(player);
@@ -225,7 +229,6 @@ public class Game extends NetworkGame {
     setCurrentPlayerCount(players.size());
     updateGameState();
   }
-
 
   public Settings getSettings() {
     return settings;
@@ -239,10 +242,9 @@ public class Game extends NetworkGame {
     return gameUtil;
   }
 
-  public HashMap<NetworkPlayer, Player> getClientPlayersMap() {
+  public HashMap<ServerThread, Player> getClientPlayersMap() {
     return clientPlayersMap;
   }
-
 
   public Player getCurrentPlayer() {
     return currentPlayer;

@@ -42,6 +42,7 @@ public class Client extends Network {
   private Map map;
   private NetworkPlayer networkPlayer;
   private boolean isDraw = false;
+  private int gameID;
 
   /**
    * @param port
@@ -73,7 +74,7 @@ public class Client extends Network {
   /**
    * @author Carina
    * @use Due to a bug where we are getting the constructor which is not contructed at the time we
-   *     create the Constructor and call the create object to create the sockets and stream
+   * create the Constructor and call the create object to create the sockets and stream
    * @see Client
    */
   @Override
@@ -81,7 +82,6 @@ public class Client extends Network {
     client = this;
     connect();
   }
-
 
   /**
    * @author Carina
@@ -115,7 +115,12 @@ public class Client extends Network {
     return clientThread;
   }
 
+  public int getGameID() {
+    return gameID;
+  }
+
   public void setGameID(final int gameID) {
+    this.gameID = gameID;
   }
 
   public HashSet<NetworkGame> getGames() {

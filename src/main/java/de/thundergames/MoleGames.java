@@ -64,7 +64,6 @@ public class MoleGames {
           moleGames.server.create();
           new de.thundergames.gameplay.ausrichter.ui.CreateGame().create(moleGames.server, args);
           break;
-
         case "-a":
         case "a":
           assert args[3] != null;

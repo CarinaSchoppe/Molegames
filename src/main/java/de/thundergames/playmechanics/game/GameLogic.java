@@ -22,30 +22,29 @@ import java.util.List;
 public class GameLogic {
 
   /**
-   * @param start the startpoint in form of x and y
-   * @param stop the endpoint where the player wants to go in form of x and y
+   * @param start       the startpoint in form of x and y
+   * @param stop        the endpoint where the player wants to go in form of x and y
    * @param moveCounter the amounts of fields the player can move
-   * @param map of the de.thundergames.game and of the player
+   * @param map         of the de.thundergames.game and of the player
    * @return if the move is valid it will return true
    * @author Carina
    * @use add the parameters and it will return if the move was valid with true or invalid with
-   *     false
+   * false
    * @premisse the startpoint and endpoint must be in the playingfield and the player was allowed to
-   *     move.
+   * move.
    */
   public static synchronized boolean wasLegalMove(
-      @NotNull final int[] start,
-      @NotNull final int[] stop,
-      final int moveCounter,
-      @NotNull final Map map) {
+    @NotNull final int[] start,
+    @NotNull final int[] stop,
+    final int moveCounter,
+    @NotNull final Map map) {
     if (map.getFieldMap().containsKey(List.of(start[0], start[1]))
-        && map.getFieldMap().containsKey(List.of(stop[0], stop[1]))
-        && start != stop) {
+      && map.getFieldMap().containsKey(List.of(stop[0], stop[1]))
+      && start != stop) {
       if (stop[0] - start[0] == 0 && Math.abs(stop[1] - start[1]) == moveCounter
-          || start[1] - stop[1] == 0 && Math.abs(stop[0] - start[0]) == moveCounter
-          || Math.abs(stop[0] - start[0]) == Math.abs(stop[1] - start[1])
-              && Math.abs(start[1] - stop[1]) == moveCounter) {
-
+        || start[1] - stop[1] == 0 && Math.abs(stop[0] - start[0]) == moveCounter
+        || Math.abs(stop[0] - start[0]) == Math.abs(stop[1] - start[1])
+        && Math.abs(start[1] - stop[1]) == moveCounter) {
         if (map.getFieldMap().get(List.of(stop[0], stop[1])).isOccupied()) {
           return false;
         }
@@ -60,7 +59,6 @@ public class GameLogic {
                 }
               }
             } else if (stop[1] - start[1] < 0) {
-
               var field = map.getFieldMap().get(List.of(start[0], start[1] - i));
               if (field.isOccupied()) {
                 if (field.getY() == start[1] - i && field.getX() == start[0]) {
@@ -71,23 +69,18 @@ public class GameLogic {
             }
           }
         } else if (stop[1] - start[1] == 0) {
-
           for (var i = 1; i < moveCounter; i++) {
             if (stop[0] - start[0] > 0) {
               var field = map.getFieldMap().get(List.of(start[0] + i, start[1]));
               if (field.isOccupied()) {
-
                 if (field.getX() == start[0] + i && field.getY() == start[1]) {
                   System.out.println("occupied field: " + field.getX() + " " + field.getY());
-
                   return false;
                 }
               }
             } else if (stop[0] - start[0] < 0) {
-
               var field = map.getFieldMap().get(List.of(start[0] - i, start[1]));
               if (field.isOccupied()) {
-
                 if (field.getX() == start[0] - i && field.getY() == start[1]) {
                   System.out.println("occupied field: " + field.getX() + " " + field.getY());
                   return false;
@@ -96,7 +89,6 @@ public class GameLogic {
             }
           }
         } else if (Math.abs(stop[0] - start[0]) == Math.abs(stop[1] - start[1])) {
-
           for (var i = 1; i < moveCounter; i++) {
             if (stop[0] - start[0] > 0 && stop[1] - start[1] > 0) {
               var field = map.getFieldMap().get(List.of(start[0] + i, start[1] + i));
@@ -140,27 +132,27 @@ public class GameLogic {
   }
 
   /**
-   * @param map
+   * @param game
    * @author Carina
-   * @use checks if a player has won when hes the only one in a single hole foor
+   * @use checks if a player has won when the player is the only one in a single hole foor
    */
-  public void checkWinning(Map map) {
+  public synchronized void checkWinning(@NotNull final Game game) {
     var holes = 0;
     Field field = null;
-    for (var fieldCounter : map.getFieldMap().values()) {
+    if (game.getMap().getFieldMap().values().size() != 1)
+      return;
+    for (var fieldCounter : game.getMap().getFieldMap().values()) {
       if (fieldCounter.isHole()) {
         holes++;
         field = fieldCounter;
       }
     }
-    if (holes == 1) {
-      if (field.isOccupied()) {
-        for (var player : map.getGame().getClientPlayersMap().values()) {
-          for (var mole : player.getMoles()) {
-            if (mole.getNetworkField().equals(field)) {
-              win(player);
-              return;
-            }
+    if (field.isOccupied()) {
+      for (var players : game.getMap().getGame().getActivePlayers()) {
+        for (var mole : players.getMoles()) {
+          if (mole.getNetworkField().equals(field)) {
+            win(game, players);
+            return;
           }
         }
       }
@@ -169,41 +161,44 @@ public class GameLogic {
 
   /**
    * @param player
+   * @param game
    * @author Carina
-   * @use handles the player and the game when won TODO: handle win
+   * @use handles the player and the game when won TODO: handle win display the end
    */
-  public void win(Player player) {}
+  public void win(@NotNull final Game game, @NotNull final Player player) {
+    System.out.println("THE WINNER IS: " + player.getName());
+    game.endGame();
+  }
 
   /**
    * @param player
    * @author Carina
    * @use handles the punishment / performs it to the player doing an invalid move punishments
-   *     performen
+   * performen
    */
-  public void performPunishment(Player player, Punishments reason) {
+  public synchronized void performPunishment(Player player, Punishments reason) {
     if (player.getGame().getSettings().getPunishment().equals(Punishments.POINTS)) {
       player
-          .getGame()
-          .getScore()
-          .getPoints()
-          .put(
-              player.getClientID(),
-              player.getGame().getScore().getPoints().get(player.getClientID())
-                  - player.getGame().getDeductedPoints());
-
+        .getGame()
+        .getScore()
+        .getPoints()
+        .put(
+          player.getClientID(),
+          player.getGame().getScore().getPoints().get(player.getClientID())
+            - player.getGame().getDeductedPoints());
     } else if (player.getGame().getSettings().getPunishment().equals(Punishments.KICK)) {
       player.getGame().removePlayerFromGame(player);
     }
     MoleGames.getMoleGames()
-        .getServer()
-        .sendToAllGameClients(
-            player.getGame(),
-            MoleGames.getMoleGames()
-                .getPacketHandler()
-                .movePenaltyNotification(
-                    player,
-                    player.getGame().getDeductedPoints(),
-                    player.getGame().getSettings().getPunishment(),
-                    reason.getName()));
+      .getServer()
+      .sendToAllGameClients(
+        player.getGame(),
+        MoleGames.getMoleGames()
+          .getPacketHandler()
+          .movePenaltyNotification(
+            player,
+            player.getGame().getDeductedPoints(),
+            player.getGame().getSettings().getPunishment(),
+            reason.getName()));
   }
 }

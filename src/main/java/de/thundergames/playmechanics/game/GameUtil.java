@@ -37,7 +37,7 @@ public class GameUtil {
       for (var player : game.getPlayers()) {
         for (var mole : player.getMoles()) {
           if (hole.getX() == mole.getNetworkField().getX()
-              && hole.getY() == mole.getNetworkField().getY()) {
+            && hole.getY() == mole.getNetworkField().getY()) {
             inHole = true;
           }
         }
@@ -59,13 +59,13 @@ public class GameUtil {
     for (var moles : game.getCurrentPlayer().getMoles()) {
       for (var hole : game.getMap().getHoles()) {
         if (hole.getX() == moles.getNetworkField().getX()
-            && hole.getY() == moles.getNetworkField().getY()) {
+          && hole.getY() == moles.getNetworkField().getY()) {
           moleInHoles++;
         }
       }
     }
     return moleInHoles == game.getCurrentPlayer().getMoles().size()
-        && game.getCurrentPlayer().getMoles().size() == game.getSettings().getNumberOfMoles();
+      && game.getCurrentPlayer().getMoles().size() == game.getSettings().getNumberOfMoles();
   }
 
   /**
@@ -73,47 +73,47 @@ public class GameUtil {
    * @use sets the next player in the game if all moles are in holes the player is not on turn
    */
   public void nextPlayer() {
+    if (game.getActivePlayers().isEmpty())
+      game.forceGameEnd();
     if (game.getCurrentGameState() == GameStates.OVER
-        || game.getCurrentGameState() == GameStates.PAUSED) {
+      || game.getCurrentGameState() == GameStates.PAUSED) {
       return;
     }
     if (game.getActivePlayers().size() - 1
-        >= game.getActivePlayers().indexOf(game.getCurrentPlayer()) + 1) {
+      >= game.getActivePlayers().indexOf(game.getCurrentPlayer()) + 1) {
       game.setCurrentPlayer(
-          game.getActivePlayers()
-              .get(game.getActivePlayers().indexOf(game.getCurrentPlayer()) + 1));
+        game.getActivePlayers()
+          .get(game.getActivePlayers().indexOf(game.getCurrentPlayer()) + 1));
     } else if (!game.getActivePlayers().isEmpty()) {
       game.setCurrentPlayer(game.getClientPlayersMap().get(game.getActivePlayers().get(0)));
     }
-
     if (allHolesFilled()) {
       System.out.println("Server: All holes are filled going to next Floor or check the winning!");
       nextFloor();
       return;
     }
-
     if (allPlayerMolesInHoles()) {
       System.out.println(
-          "all player moles are in holes! for playerID: "
-              + game.getCurrentPlayer().getServerClient().getConnectionID());
+        "all player moles are in holes! for playerID: "
+          + game.getCurrentPlayer().getServerClient().getConnectionID());
       MoleGames.getMoleGames()
-          .getServer()
-          .sendToAllGameClients(
-              game,
-              MoleGames.getMoleGames()
-                  .getPacketHandler()
-                  .playerSkippedPacket(game.getCurrentPlayer()));
+        .getServer()
+        .sendToAllGameClients(
+          game,
+          MoleGames.getMoleGames()
+            .getPacketHandler()
+            .playerSkippedPacket(game.getCurrentPlayer()));
       nextPlayer();
     } else {
       if (game.getCurrentPlayer().getMoles().size() < game.getSettings().getNumberOfMoles()
-          && game.getCurrentFloorID() == 0) {
+        && game.getCurrentFloorID() == 0) {
         MoleGames.getMoleGames()
-            .getServer()
-            .sendToAllGameClients(
-                game,
-                MoleGames.getMoleGames()
-                    .getPacketHandler()
-                    .playerPlacesMolePacket(game.getCurrentPlayer().getServerClient()));
+          .getServer()
+          .sendToAllGameClients(
+            game,
+            MoleGames.getMoleGames()
+              .getPacketHandler()
+              .playerPlacesMolePacket(game.getCurrentPlayer().getServerClient()));
       } else {
         var maySkip = true;
         if (!game.getCurrentPlayer().getMoles().isEmpty()) {
@@ -121,7 +121,7 @@ public class GameUtil {
             var inHole = false;
             for (var hole : game.getMap().getHoles()) {
               if (moles.getNetworkField().getX() == hole.getX()
-                  && moles.getNetworkField().getY() == hole.getY()) {
+                && moles.getNetworkField().getY() == hole.getY()) {
                 inHole = true;
               }
             }
@@ -134,15 +134,15 @@ public class GameUtil {
           maySkip = true;
         }
         MoleGames.getMoleGames()
-            .getServer()
-            .sendToAllGameClients(
-                game,
-                MoleGames.getMoleGames()
-                    .getPacketHandler()
-                    .playersTurnPacket(
-                        game.getCurrentPlayer().getServerClient(),
-                        game.getCurrentPlayer(),
-                        maySkip));
+          .getServer()
+          .sendToAllGameClients(
+            game,
+            MoleGames.getMoleGames()
+              .getPacketHandler()
+              .playersTurnPacket(
+                game.getCurrentPlayer().getServerClient(),
+                game.getCurrentPlayer(),
+                maySkip));
       }
       game.getCurrentPlayer().getPlayerUtil().startThinkTimer();
     }
@@ -151,7 +151,7 @@ public class GameUtil {
   /**
    * @author Carina
    * @use goes to the next Floor it it exists TODO: sagen dass man raus ist aber noch updates
-   *     bekommt
+   * bekommt
    */
   public void nextFloor() {
     if (game.getSettings().getFloors().size() > game.getCurrentFloorID() + 1) {
@@ -162,13 +162,13 @@ public class GameUtil {
           for (var mole : player.getMoles()) {
             if (eliminated.contains(player)) {
               if (mole.getNetworkField().getX() == hole.getX()
-                  && mole.getNetworkField().getY() == hole.getY()) {
+                && mole.getNetworkField().getY() == hole.getY()) {
                 eliminated.remove(player);
                 moles.add(mole);
                 System.out.println(
-                    "Server: player with id "
-                        + player.getServerClient().getConnectionID()
-                        + " is in next level!");
+                  "Server: player with id "
+                    + player.getServerClient().getConnectionID()
+                    + " is in next level!");
                 break;
               }
             }
@@ -186,21 +186,24 @@ public class GameUtil {
       game.setCurrentFloorID(game.getCurrentFloorID() + 1);
       game.updateGameState();
       MoleGames.getMoleGames()
-          .getServer()
-          .sendToAllGameClients(
-              game,
-              MoleGames.getMoleGames()
-                  .getPacketHandler()
-                  .nextLevelPacket(game.getGameState(), eliminated));
+        .getServer()
+        .sendToAllGameClients(
+          game,
+          MoleGames.getMoleGames()
+            .getPacketHandler()
+            .nextLevelPacket(game.getGameState(), eliminated));
       nextPlayer();
     } else {
       // TODO: check winning or do winning.
+      MoleGames.getMoleGames().getGameHandler().getGameLogic().checkWinning(game);
       game.setCurrentGameState(GameStates.OVER);
       System.out.println("PAAAARTTTTTTTTTTTTTTTTTTTTTTYYYYYYYYYYYYYYYYYYYYYYY");
     }
   }
 
   /**
+   * f
+   *
    * @author Carina
    * @use gives points to the player who are in holes when a next floor comes
    * @sse Player
@@ -211,13 +214,13 @@ public class GameUtil {
       for (var player : game.getPlayers()) {
         for (var mole : player.getMoles()) {
           if (mole.getNetworkField().getX() == holes.getX()
-              && mole.getNetworkField().getY() == holes.getY()) {
+            && mole.getNetworkField().getY() == holes.getY()) {
             game.getScore()
-                .getPoints()
-                .put(
-                    player.getClientID(),
-                    game.getScore().getPoints().get(player.getClientID())
-                        + game.getMap().getPoints());
+              .getPoints()
+              .put(
+                player.getClientID(),
+                game.getScore().getPoints().get(player.getClientID())
+                  + game.getMap().getPoints());
           }
         }
       }

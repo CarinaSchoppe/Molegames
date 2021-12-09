@@ -729,10 +729,9 @@ public class ClientPacketHandler {
   protected void handlePlayerJoinedPacket(
     @NotNull final Client client, @NotNull final Packet packet) {
     System.out.println(
-      "A player has joined the Game + "
-        + new Gson()
+      "The player: " + new Gson()
         .fromJson(packet.getValues().get("player").getAsString(), NetworkPlayer.class)
-        .getName());
+        .getName() + " has joined the Game " + client.getGameID() + ".");
     updateTableView();
     var lobbyObserverGame = LobbyObserverGame.getObserver();
     if (lobbyObserverGame != null) lobbyObserverGame.showNewPlayer();

@@ -55,11 +55,13 @@ public class ServerThread extends NetworkThread {
   @Override
   public void disconnect() {
     try {
+      if (MoleGames.getMoleGames().getGameHandler().getClientGames().containsKey(this)) {
+        MoleGames.getMoleGames().getGameHandler().getClientGames().get(this).removePlayerFromGame(MoleGames.getMoleGames().getGameHandler().getClientGames().get(this).getClientPlayersMap().get(this));
+      }
       System.out.println("Disconnecting " + this.getClientName());
       MoleGames.getMoleGames().getServer().getConnectionNames().remove(this.getClientName());
       MoleGames.getMoleGames().getServer().getClientThreads().remove(this);
       MoleGames.getMoleGames().getServer().getThreadIds().remove(getConnectionID());
-
       socket.close();
     } catch (IOException e) {
       e.printStackTrace();
