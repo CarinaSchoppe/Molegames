@@ -77,19 +77,17 @@ public class LeaderBoard implements Initializable {
       players.remove(current);
       list.add(current);
     }
-
     //fill sorted players with their placement, name and points into leaderlist
-    ArrayList<PlayerResult> leaderlist = new ArrayList<>();
-    int lastPoints = -999999999;
-    int lastPlace = 0;
-    int thisPlace = 0;
-    for (int place = 0; place < list.size(); place++) {
+    var leaderlist = new ArrayList<PlayerResult>();
+    var lastPoints = -999999999;
+    var lastPlace = 0;
+    var thisPlace = 0;
+    for (var place = 0; place < list.size(); place++) {
       //if two players have equal points they get the same placement
-      if  (lastPoints == score.getPoints().get(list.get(place).getClientID())){
+      if (lastPoints == score.getPoints().get(list.get(place).getClientID())) {
         thisPlace = lastPlace;
-      }
-      else{
-        thisPlace = lastPlace+1;
+      } else {
+        thisPlace = lastPlace + 1;
       }
       leaderlist.add(new PlayerResult(
         list.get(place).getName(),
@@ -109,10 +107,9 @@ public class LeaderBoard implements Initializable {
    * @throws IOException error creating the scene LeaderBoard
    */
   public void create(@NotNull final ActionEvent event) throws Exception {
-    Stage primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+    var primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
     primaryStage.close();
-
-    Stage stage = new Stage();
+    var stage = new Stage();
     // Set scene
     var loader = SceneController.loadFXML("player/LeaderBoard.fxml");
     loader.setController(this);
