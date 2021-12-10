@@ -59,24 +59,24 @@ class GameUtilTest {
   @Test
   void allHolesFilled() {
     assertFalse(gameUtil.allHolesFilled());
-    Field field = new Field(List.of(1, 1));
-    Mole mole = new Mole(playerMock, field);
+    var field = new Field(List.of(1, 1));
+    var mole = new Mole(playerMock, field);
     moles.add(mole);
     assertTrue(gameUtil.allHolesFilled());
   }
 
   @Test
   void allPlayerMolesInHoles() {
-    NetworkConfiguration netConf = new NetworkConfiguration();
+    var netConf = new NetworkConfiguration();
     netConf.setNumberOfMoles(2);
-    Settings settings = new Settings(gameMock);
+    var settings = new Settings(gameMock);
     settings.updateConfiuration((netConf));
     when(gameMock.getSettings()).thenReturn(settings);
     when(gameMock.getCurrentPlayer()).thenReturn(playerMock);
     assertFalse(gameUtil.allPlayerMolesInHoles());
     holes.add(new NetworkField(0, 1));
-    Field field = new Field(List.of(1, 1));
-    Mole mole = new Mole(playerMock, field);
+    var field = new Field(List.of(1, 1));
+    var mole = new Mole(playerMock, field);
     moles.add(mole);
     assertTrue(gameUtil.allPlayerMolesInHoles());
   }
