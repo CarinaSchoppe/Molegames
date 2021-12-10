@@ -2,7 +2,7 @@
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
  * File created on 06.12.21, 22:24 by Carina latest changes made by Carina on 06.12.21, 22:21
- * All contents of "Player" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * All contents of "PlayerModel" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -12,9 +12,9 @@ package de.thundergames.playmechanics.util;
 
 import de.thundergames.MoleGames;
 import de.thundergames.networking.server.ServerThread;
-import de.thundergames.networking.util.interfaceItems.NetworkField;
-import de.thundergames.networking.util.interfaceItems.NetworkMole;
-import de.thundergames.networking.util.interfaceItems.NetworkPlayer;
+import de.thundergames.networking.util.interfaceitems.NetworkField;
+import de.thundergames.networking.util.interfaceitems.NetworkMole;
+import de.thundergames.networking.util.interfaceitems.NetworkPlayer;
 import de.thundergames.playmechanics.game.Game;
 import de.thundergames.playmechanics.game.GameLogic;
 import de.thundergames.playmechanics.map.Field;
@@ -116,7 +116,7 @@ public class Player extends NetworkPlayer {
       }
       mole.setNetworkField(new NetworkField(x_end, y_end));
       System.out.println(
-        "Player with id: "
+        "PlayerModel with id: "
           + serverClient.getConnectionID()
           + " has moved his mole from: x="
           + x_start
@@ -227,7 +227,7 @@ public class Player extends NetworkPlayer {
           game, MoleGames.getMoleGames().getPacketHandler().molePlacedPacket(netMole));
       playerUtil.handleTurnAfterAction();
       System.out.println(
-        "Player with id: "
+        "PlayerModel with id: "
           + serverClient.getConnectionID()
           + " has placed his mole on x="
           + x

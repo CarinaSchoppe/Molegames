@@ -22,7 +22,6 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import javax.swing.*;
-import java.io.File;
 import java.io.IOException;
 import java.util.ResourceBundle;
 
@@ -51,12 +50,12 @@ public class LoginScreen extends Application {
    */
   @FXML
   void onLoginButtonClick(ActionEvent event) throws IOException {
-    String ip = this.ip.getText();
-    String port = this.port.getText();
-    String name = this.name.getText();
+    var ip = this.ip.getText();
+    var port = this.port.getText();
+    var name = this.name.getText();
     if (ip != "" && port != "" && name != "") {
       System.out.println("IP: " + ip + " Port: " + port + " Name: " + name);
-      Client client = new Client(Integer.parseInt(port), ip, name);
+      var client = new Client(Integer.parseInt(port), ip, name);
       client.create();
       new PlayerMenu().create(event);
     } else {
@@ -78,8 +77,7 @@ public class LoginScreen extends Application {
 
   @Override
   public void start(Stage primaryStage) throws Exception {
-    var loader =
-      new FXMLLoader(new File("src/main/resources/player/LoginScreen.fxml").toURI().toURL());
+    var loader = new FXMLLoader(getClass().getResource("/player/style/LoginScreen.fxml"));
     Parent root = loader.load();
     primaryStage.setResizable(false);
     primaryStage.setTitle("Maulwurf Company");

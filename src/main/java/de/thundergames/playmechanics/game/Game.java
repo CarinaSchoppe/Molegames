@@ -13,9 +13,9 @@ package de.thundergames.playmechanics.game;
 import de.thundergames.MoleGames;
 import de.thundergames.filehandling.Score;
 import de.thundergames.networking.server.ServerThread;
-import de.thundergames.networking.util.interfaceItems.NetworkGame;
-import de.thundergames.networking.util.interfaceItems.NetworkMole;
-import de.thundergames.networking.util.interfaceItems.NetworkPlayer;
+import de.thundergames.networking.util.interfaceitems.NetworkGame;
+import de.thundergames.networking.util.interfaceitems.NetworkMole;
+import de.thundergames.networking.util.interfaceitems.NetworkPlayer;
 import de.thundergames.playmechanics.map.Field;
 import de.thundergames.playmechanics.map.Map;
 import de.thundergames.playmechanics.util.Mole;
@@ -79,7 +79,7 @@ public class Game extends NetworkGame {
     gameState.setRadius(settings.getRadius());
     gameState.setFloor(settings.getFloors().get(currentFloorID));
     gameState.setPullDiscsOrdered(settings.isPullDiscsOrdered());
-    HashMap<Integer, ArrayList<Integer>> mappe = new HashMap<>();
+    var mappe = new HashMap<Integer, ArrayList<Integer>>();
     for (var players : players) {
       mappe.put(players.getClientID(), players.getCards());
     }

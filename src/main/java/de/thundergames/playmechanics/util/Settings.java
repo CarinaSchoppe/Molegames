@@ -12,7 +12,7 @@
 package de.thundergames.playmechanics.util;
 
 import de.thundergames.filehandling.GameConfiguration;
-import de.thundergames.networking.util.interfaceItems.NetworkConfiguration;
+import de.thundergames.networking.util.interfaceitems.NetworkConfiguration;
 import de.thundergames.playmechanics.game.Game;
 import org.jetbrains.annotations.NotNull;
 
@@ -32,11 +32,11 @@ public class Settings extends NetworkConfiguration {
   }
 
   /**
-   * @param config the jsonObject that will update the configuration send by the GameMasterClient
+   * @param config the jsonObject that will update the configuration send by the AusrichterClient
    * @author Carina
-   * @use pass in the new configuration from the GameMasterClient and it will automaticly update
+   * @use pass in the new configuration from the AusrichterClient and it will automaticly update
    * every single setting that was included in the jsonObject
-   * @use this method is called in the GameMasterClient to the Server
+   * @use this method is called in the AusrichterClient to the Server
    * @use updates the map and the Game directly
    */
   public void updateConfiuration(@NotNull final NetworkConfiguration config) {

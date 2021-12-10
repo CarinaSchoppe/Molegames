@@ -24,7 +24,6 @@ import javafx.scene.Scene;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -42,12 +41,8 @@ public class PlayerMenu implements Initializable {
    * @throws IOException error creating the scene PlayerMenu
    */
   public void create(ActionEvent event) throws IOException {
-    Stage primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-    URL location =
-      new File("src/main/resources/player/PlayerMenu.fxml")
-        .toURI()
-        .toURL();
-    Parent root = FXMLLoader.load(location);
+    var primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+    Parent root = FXMLLoader.load(getClass().getResource("/player/style/PlayerMenu.fxml"));
     primaryStage.setTitle("Maulwurf Company");
     primaryStage.setResizable(false);
     primaryStage.setScene(new Scene(root));
@@ -80,12 +75,8 @@ public class PlayerMenu implements Initializable {
     //logout for user
     client.getClientPacketHandler().logoutPacket(client);
     //create LoginScreen scene
-    Stage primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-    URL location =
-      new File("src/main/resources/player/LoginScreen.fxml")
-        .toURI()
-        .toURL();
-    Parent root = FXMLLoader.load(location);
+    var primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+    Parent root = FXMLLoader.load(getClass().getResource("/player/style/LoginScreen.fxml"));
     primaryStage.setResizable(false);
     primaryStage.setScene(new Scene(root));
     primaryStage.show();

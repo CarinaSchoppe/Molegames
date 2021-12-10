@@ -28,7 +28,7 @@ public enum Punishments {
    * @author Carina
    */
   public static synchronized Punishments getByName(final String name) {
-    for (Punishments punishment : Punishments.values()) {
+    for (var punishment : Punishments.values()) {
       if (punishment.getName().equals(name)) {
         return punishment;
       }

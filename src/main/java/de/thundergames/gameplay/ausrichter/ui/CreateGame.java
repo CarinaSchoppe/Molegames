@@ -12,7 +12,7 @@
 package de.thundergames.gameplay.ausrichter.ui;
 
 import de.thundergames.MoleGames;
-import de.thundergames.gameplay.ausrichter.GameMasterClient;
+import de.thundergames.gameplay.ausrichter.AusrichterClient;
 import de.thundergames.networking.server.Server;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -24,7 +24,6 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -157,7 +156,7 @@ public class CreateGame extends Application {
 
   public void create(@NotNull final Server server, @NotNull final String... args) {
     MoleGames.getMoleGames()
-      .setGameMasterClient(new GameMasterClient(server));
+      .setGameMasterClient(new AusrichterClient(server));
     System.out.println("Test Ausrichter");
     MoleGames.getMoleGames().getGameMasterClient().testTournament(1);
     MoleGames.getMoleGames().getGameMasterClient().testGame(1);
@@ -167,7 +166,7 @@ public class CreateGame extends Application {
   @Override
   public void start(Stage primaryStage) throws Exception {
     var loader =
-      new FXMLLoader(new File("src/main/resources/ausrichter/CreateGame.fxml").toURI().toURL());
+      new FXMLLoader(getClass().getResource("/ausrichter/style/CreateGame.fxml"));
     loader.setController(this);
     Parent root = loader.load();
     initialize();

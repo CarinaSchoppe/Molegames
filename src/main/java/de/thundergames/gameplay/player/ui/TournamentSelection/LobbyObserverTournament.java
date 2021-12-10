@@ -53,8 +53,8 @@ public class LobbyObserverTournament implements Initializable {
   }
 
   private void createScene(ActionEvent event) throws IOException {
-    Stage primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-    var loader = SceneController.loadFXML("player/LobbyObserverTournament.fxml");
+    var primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+    var loader = SceneController.loadFXML("player/style/LobbyObserverTournament.fxml");
     loader.setController(this);
     Parent root = loader.load();
     primaryStage.setTitle("Maulwurf Company");

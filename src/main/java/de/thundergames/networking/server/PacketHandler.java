@@ -17,9 +17,9 @@ import de.thundergames.filehandling.Score;
 import de.thundergames.gameplay.player.Client;
 import de.thundergames.networking.util.Packet;
 import de.thundergames.networking.util.Packets;
-import de.thundergames.networking.util.interfaceItems.NetworkField;
-import de.thundergames.networking.util.interfaceItems.NetworkMole;
-import de.thundergames.networking.util.interfaceItems.NetworkPlayer;
+import de.thundergames.networking.util.interfaceitems.NetworkField;
+import de.thundergames.networking.util.interfaceitems.NetworkMole;
+import de.thundergames.networking.util.interfaceitems.NetworkPlayer;
 import de.thundergames.playmechanics.game.Game;
 import de.thundergames.playmechanics.game.GameState;
 import de.thundergames.playmechanics.game.GameStates;
@@ -300,7 +300,7 @@ public class PacketHandler {
     object.addProperty("type", Packets.PLAYERSTURN.getPacketType());
     var json = new JsonObject();
     var millis = System.currentTimeMillis();
-    long until = millis + player.getGame().getTurnTime();
+    var until = millis + player.getGame().getTurnTime();
     json.addProperty("player", new Gson().toJson(client.getPlayer()));
     json.addProperty("maySkip", maySkip);
     json.addProperty("until", until);
@@ -375,7 +375,7 @@ public class PacketHandler {
    * @use sends to the client that he needs to place a mole
    * @see Game
    * @see Player
-   * @see de.thundergames.networking.util.interfaceItems.NetworkMole
+   * @see de.thundergames.networking.util.interfaceitems.NetworkMole
    */
   public Packet playerPlacesMolePacket(@NotNull final ServerThread client) {
     if (client.getSocket().isConnected() && MoleGames.getMoleGames()
@@ -579,8 +579,11 @@ public class PacketHandler {
    */
   private void removeFromGames(@NotNull final ServerThread client) {
     if (!MoleGames.getMoleGames().getGameHandler().getClientGames().containsKey(client)) return;
-    if (MoleGames.getMoleGames().getGameHandler().getClientGames().get(client).getCurrentPlayer().getServerClient().equals(client))
-      MoleGames.getMoleGames().getGameHandler().getClientGames().get(client).getCurrentPlayer().getTimer().cancel();
+    if (MoleGames.getMoleGames().getGameHandler().getClientGames().get(client) != null) {
+      if (MoleGames.getMoleGames().getGameHandler().getClientGames().get(client).getCurrentPlayer() != null) {
+        MoleGames.getMoleGames().getGameHandler().getClientGames().get(client).getCurrentPlayer().getTimer().cancel();
+      }
+    }
     if (MoleGames.getMoleGames()
       .getGameHandler()
       .getClientGames()
@@ -626,7 +629,7 @@ public class PacketHandler {
   private synchronized void handleLoginPacket(@NotNull final ServerThread client, @NotNull final Packet packet) {
     String name;
     if (packet.getValues().get("name") == null) {
-      name = "Player";
+      name = "PlayerModel";
     } else {
       name = packet.getValues().get("name").getAsString();
     }
@@ -707,7 +710,7 @@ public class PacketHandler {
    * @param client
    * @author Carina
    * @use sends the overview to the clients
-   * @see de.thundergames.networking.util.interfaceItems.NetworkGame
+   * @see de.thundergames.networking.util.interfaceitems.NetworkGame
    * @see Tournament
    */
   public synchronized void overviewPacket(@NotNull final ServerThread client) {

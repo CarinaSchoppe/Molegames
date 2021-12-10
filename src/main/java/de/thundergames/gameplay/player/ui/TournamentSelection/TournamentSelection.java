@@ -63,7 +63,7 @@ public class TournamentSelection implements Initializable {
   public void create(ActionEvent event) throws IOException {
     tournamentSelection = this;
     primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-    var loader = SceneController.loadFXML("player/TournamentSelection.fxml");
+    var loader = SceneController.loadFXML("player/style/TournamentSelection.fxml");
     loader.setController(this);
     Parent root = loader.load();
     primaryStage.setTitle("Maulwurf Company");
@@ -152,7 +152,7 @@ public class TournamentSelection implements Initializable {
    */
   @FXML
   public void spectateGame(ActionEvent event) throws IOException {
-    Tournament selectedItem = gameTable.getSelectionModel().getSelectedItem();
+    var selectedItem = gameTable.getSelectionModel().getSelectedItem();
     // If no item of tableview is selected.
     if (selectedItem == null) {
       JOptionPane.showMessageDialog(
@@ -166,7 +166,7 @@ public class TournamentSelection implements Initializable {
     client
       .getClientPacketHandler()
       .enterTournamentPacket(client, selectedItem.getTournamentID(), false);
-    GameState currentGameState = client.getGameState();
+    var currentGameState = client.getGameState();
     if (currentGameState == null) {
       System.out.println("TournamentSelection: GameState is null");
       return;

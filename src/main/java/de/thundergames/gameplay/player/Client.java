@@ -13,9 +13,9 @@ package de.thundergames.gameplay.player;
 import de.thundergames.gameplay.player.networking.ClientPacketHandler;
 import de.thundergames.gameplay.player.networking.ClientThread;
 import de.thundergames.networking.util.Network;
-import de.thundergames.networking.util.interfaceItems.NetworkGame;
-import de.thundergames.networking.util.interfaceItems.NetworkMole;
-import de.thundergames.networking.util.interfaceItems.NetworkPlayer;
+import de.thundergames.networking.util.interfaceitems.NetworkGame;
+import de.thundergames.networking.util.interfaceitems.NetworkMole;
+import de.thundergames.networking.util.interfaceitems.NetworkPlayer;
 import de.thundergames.playmechanics.game.GameState;
 import de.thundergames.playmechanics.game.Tournament;
 import de.thundergames.playmechanics.map.Map;
@@ -58,7 +58,7 @@ public class Client extends Network {
   }
 
   public static void main(String[] args) {
-    Client client = new Client(5000, "localhost", "Carina");
+    var client = new Client(5000, "localhost", "Carina");
     client.create();
     client.clientPacketHandler.joinGamePacket(client, 0, true);
   }

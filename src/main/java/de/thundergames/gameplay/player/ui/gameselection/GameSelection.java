@@ -13,7 +13,6 @@ package de.thundergames.gameplay.player.ui.gameselection;
 
 import de.thundergames.gameplay.player.Client;
 import de.thundergames.gameplay.player.ui.PlayerMenu;
-import de.thundergames.gameplay.player.ui.score.LeaderBoard;
 import de.thundergames.gameplay.util.SceneController;
 import de.thundergames.networking.util.interfaceItems.NetworkGame;
 import de.thundergames.playmechanics.game.GameState;
@@ -64,7 +63,7 @@ public class GameSelection implements Initializable {
    * @param event event from the current scene to build this scene on same object
    * @throws IOException error creating the scene GameSelection
    */
-  public void create(@NotNull final ActionEvent event) throws IOException {
+  public void create(@NotNull ActionEvent event) throws IOException {
     primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
     // Set scene
     var loader = SceneController.loadFXML("player/GameSelection.fxml");
@@ -104,7 +103,7 @@ public class GameSelection implements Initializable {
    *
    * @param stage current stage
    */
-  private void logout(@NotNull final Stage stage) {
+  private void logout(Stage stage) {
     client.getClientPacketHandler().logoutPacket(client);
     stage.close();
   }
@@ -145,7 +144,7 @@ public class GameSelection implements Initializable {
    * @throws IOException error creating the scene PlayerMenu
    */
   @FXML
-  public void backToMenu(ActionEvent event) throws IOException {
+  void backToMenu(ActionEvent event) throws IOException {
     new PlayerMenu().create(event);
   }
 
@@ -156,7 +155,7 @@ public class GameSelection implements Initializable {
    * @throws IOException error at creating the scene
    */
   @FXML
-  public void spectateGame(ActionEvent event) throws IOException {
+  void spectateGame(ActionEvent event) throws IOException {
     NetworkGame selectedItem = gameTable.getSelectionModel().getSelectedItem();
     // If no item of tableview is selected.
     if (selectedItem == null) {
@@ -166,48 +165,25 @@ public class GameSelection implements Initializable {
     }
     // Send Packet to spectate game to get GameState
     client.getClientPacketHandler().joinGamePacket(client, selectedItem.getGameID(), false);
-    // Get GameState
-    GameState currentGameState = client.getGameState();
-    if (currentGameState == null) {
-      System.out.println("GameSelection: GameState is null");
-      return;
-    }
-    if (Objects.equals(currentGameState.getStatus(), GameStates.STARTED.toString())
-      || Objects.equals(currentGameState.getStatus(), GameStates.PAUSED.toString())) {
-      spectateGame(currentGameState);
-    } else if (Objects.equals(currentGameState.getStatus(), GameStates.NOT_STARTED.toString())) {
-      new LobbyObserverGame().create(event);
-    } else if (Objects.equals(currentGameState.getStatus(), GameStates.OVER.toString())) {
-      loadScoreboard(event);
-    }
   }
 
   /**
-   * @author Lennart
-   * @use Load scene of scoreboard
+   * Load scene of scoreboard
    */
-  private void loadScoreboard(ActionEvent event) {
+  private void loadScoreboard() {
     client.getClientPacketHandler().getScorePacket(client);
-    try {
-      new LeaderBoard().create(event);
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
+    var gameScore = client.getGameState().getScore();
+    // Todo:Open scene of ScoreBoard
   }
 
   /**
-   * @author Lennart
-   * @use Load scene of game
+   * Load scene of game
    */
-  private void spectateGame(@NotNull final GameState gameState) {
+  private void spectateGame(GameState gameState) {
     primaryStage.close();
     // Todo:Open scene of Game
   }
 
-  /**
-   * @author Lennart
-   * @use creates a game
-   */
   public void createGame() {
     // Get GameState
     GameState currentGameState = client.getGameState();
@@ -221,7 +197,7 @@ public class GameSelection implements Initializable {
       // } else if (Objects.equals(currentGameState.getStatus(), GameStates.NOT_STARTED.toString())) {
       //new LobbyObserverGame().create(event);
     } else if (Objects.equals(currentGameState.getStatus(), GameStates.OVER.toString())) {
-      //loadScoreboard(); //TODO: load the scoreboard!
+      loadScoreboard();
     }
   }
 }
