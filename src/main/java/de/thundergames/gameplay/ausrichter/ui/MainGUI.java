@@ -8,6 +8,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
+import org.jetbrains.annotations.NotNull;
 
 import java.net.URL;
 
@@ -77,8 +78,14 @@ public class MainGUI extends Application {
     assert startGame != null : "fx:id=\"startGame\" was not injected: check your FXML file 'MainGUI.fxml'.";
   }
 
+  /**
+   * @param primaryStage
+   * @throws Exception
+   * @author Lennart
+   * @use starts the main GUI
+   */
   @Override
-  public void start(Stage primaryStage) throws Exception {
+  public void start(@NotNull final Stage primaryStage) throws Exception {
     Parent root = FXMLLoader.load(getClass().getResource("/ausrichter/style/MainGUI.fxml"));
     primaryStage.setResizable(false);
     primaryStage.setTitle("MainGUI");

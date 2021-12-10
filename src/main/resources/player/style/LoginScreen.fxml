@@ -19,7 +19,7 @@
 <VBox xmlns:fx="http://javafx.com/fxml/1" maxHeight="550.0" maxWidth="700.0" minHeight="550.0" minWidth="700.0" prefHeight="550.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/17" fx:controller="de.thundergames.gameplay.player.ui.LoginScreen">
     <AnchorPane VBox.vgrow="ALWAYS">
         <ImageView fitHeight="550.0" fitWidth="700.0" pickOnBounds="true">
-            <Image url="@../pictures/Login-Player.png"/>
+            <Image url="@Pictures/Login-Player.png"/>
         </ImageView>
         <Button fx:id="login" layoutX="97.0" layoutY="440.0" mnemonicParsing="false" onAction="#onLoginButtonClick" prefHeight="40.0" prefWidth="161.0" style="-fx-background-color: transparent;"/>
         <TextField fx:id="port" layoutX="155.0" layoutY="338.0" prefHeight="25.0" prefWidth="185.0" promptText="Port" style="-fx-background-color: transparent; -fx-text-fill: white;"/>

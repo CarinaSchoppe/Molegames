@@ -564,9 +564,9 @@ public class ClientPacketHandler {
    * @use handles that a game was canceled
    * @see de.thundergames.playmechanics.game.Game
    */
-  protected void handleGameCanceledPacket(
-    @NotNull final Client client, @NotNull final Packet packet) {
+  protected void handleGameCanceledPacket(@NotNull final Client client, @NotNull final Packet packet) {
     updateTableView();
+    //TODO: Rufe Leaderboard auf
   }
 
   /**
@@ -606,6 +606,8 @@ public class ClientPacketHandler {
     }
     //TODO: unter gewinner sind nun die gewinner des ersten platzes. unter players findest du die reihenfolge der spieler wie sie im score stehen sollten!
     updateTableView();
+    //TODO: Rufe Leaderboard auf
+
   }
 
   /**
