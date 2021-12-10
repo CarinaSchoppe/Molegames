@@ -32,7 +32,7 @@ public class GameUtil {
    */
   public synchronized boolean allHolesFilled() {
     for (var hole : game.getMap().getHoles()) {
-      boolean inHole = false;
+      var inHole = false;
       for (var player : game.getPlayers()) {
         for (var mole : player.getMoles()) {
           if (hole.getX() == mole.getNetworkField().getX() && hole.getY() == mole.getNetworkField().getY()) {
@@ -169,7 +169,7 @@ public class GameUtil {
   /**
    * @author Carina
    * @use gives points to the player who are in holes when a next floor comes
-   * @sse Player
+   * @sse PlayerModel
    * @see de.thundergames.filehandling.Score
    */
   public synchronized void givePoints() {

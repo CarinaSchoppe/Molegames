@@ -16,6 +16,12 @@ public class NetworkField {
   private int x;
   private int y;
 
+  /**
+   * @param x
+   * @param y
+   * @author Carina
+   * @use the constructor
+   */
   public NetworkField(final int x, final int y) {
     this.x = x;
     this.y = y;

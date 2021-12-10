@@ -156,7 +156,7 @@ public class GameSelection implements Initializable {
    */
   @FXML
   void spectateGame(ActionEvent event) throws IOException {
-    NetworkGame selectedItem = gameTable.getSelectionModel().getSelectedItem();
+    var selectedItem = gameTable.getSelectionModel().getSelectedItem();
     // If no item of tableview is selected.
     if (selectedItem == null) {
       JOptionPane.showMessageDialog(

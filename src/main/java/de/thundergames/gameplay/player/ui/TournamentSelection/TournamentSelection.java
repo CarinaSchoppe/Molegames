@@ -152,7 +152,7 @@ public class TournamentSelection implements Initializable {
    */
   @FXML
   public void spectateGame(ActionEvent event) throws IOException {
-    Tournament selectedItem = gameTable.getSelectionModel().getSelectedItem();
+    var selectedItem = gameTable.getSelectionModel().getSelectedItem();
     // If no item of tableview is selected.
     if (selectedItem == null) {
       JOptionPane.showMessageDialog(
@@ -166,7 +166,7 @@ public class TournamentSelection implements Initializable {
     client
       .getClientPacketHandler()
       .enterTournamentPacket(client, selectedItem.getTournamentID(), false);
-    GameState currentGameState = client.getGameState();
+    var currentGameState = client.getGameState();
     if (currentGameState == null) {
       System.out.println("TournamentSelection: GameState is null");
       return;

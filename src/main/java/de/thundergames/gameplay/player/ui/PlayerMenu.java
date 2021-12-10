@@ -42,8 +42,8 @@ public class PlayerMenu implements Initializable {
    * @throws IOException error creating the scene PlayerMenu
    */
   public void create(ActionEvent event) throws IOException {
-    Stage primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-    URL location =
+    var primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+    var location =
       new File("src/main/resources/player/PlayerMenu.fxml")
         .toURI()
         .toURL();
@@ -80,8 +80,8 @@ public class PlayerMenu implements Initializable {
     //logout for user
     client.getClientPacketHandler().logoutPacket(client);
     //create LoginScreen scene
-    Stage primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-    URL location =
+    var primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+    var location =
       new File("src/main/resources/player/LoginScreen.fxml")
         .toURI()
         .toURL();

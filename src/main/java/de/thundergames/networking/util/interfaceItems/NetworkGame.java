@@ -36,6 +36,11 @@ public class NetworkGame {
   private Score result;
   private int deductedPoints;
 
+  /**
+   * @param gameID
+   * @author Carina
+   * @use constructor for a networkGame
+   */
   public NetworkGame(final int gameID) {
     this.gameID = gameID;
   }

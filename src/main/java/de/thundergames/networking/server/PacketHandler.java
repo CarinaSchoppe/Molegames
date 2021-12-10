@@ -300,7 +300,7 @@ public class PacketHandler {
     object.addProperty("type", Packets.PLAYERSTURN.getPacketType());
     var json = new JsonObject();
     var millis = System.currentTimeMillis();
-    long until = millis + player.getGame().getTurnTime();
+    var until = millis + player.getGame().getTurnTime();
     json.addProperty("player", new Gson().toJson(client.getPlayer()));
     json.addProperty("maySkip", maySkip);
     json.addProperty("until", until);
@@ -626,7 +626,7 @@ public class PacketHandler {
   private synchronized void handleLoginPacket(@NotNull final ServerThread client, @NotNull final Packet packet) {
     String name;
     if (packet.getValues().get("name") == null) {
-      name = "Player";
+      name = "PlayerModel";
     } else {
       name = packet.getValues().get("name").getAsString();
     }

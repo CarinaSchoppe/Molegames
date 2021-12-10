@@ -2,7 +2,7 @@
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
  * File created on 06.12.21, 14:34 by Carina latest changes made by Carina on 06.12.21, 14:33
- * All contents of "GameMasterClient" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * All contents of "AusrichterClient" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -19,14 +19,14 @@ import de.thundergames.networking.util.interfaceItems.NetworkGame;
 import de.thundergames.playmechanics.game.GameStates;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
-public class GameMasterClient {
+public class AusrichterClient {
 
   private final Server server;
 
-  public GameMasterClient(@NotNull final Server server) {
+  public AusrichterClient(@NotNull final Server server) {
     this.server = server;
   }
 
@@ -34,12 +34,12 @@ public class GameMasterClient {
     MoleGames.getMoleGames().getGameHandler().createNewGame(id);
     var floor1 = new NetworkFloor();
     var floor2 = new NetworkFloor();
-    floor1.setHoles(new ArrayList<>(List.of(new NetworkField(8, 11), new NetworkField(2, 6))));
+    floor1.setHoles(new HashSet<>(List.of(new NetworkField(8, 11), new NetworkField(2, 6))));
     floor1.setPoints(5);
     floor2.setPoints(10);
-    floor1.setDrawAgainFields(new ArrayList<>(List.of(new NetworkField(8, 11), new NetworkField(2, 6))));
-    floor2.setDrawAgainFields(new ArrayList<>(List.of(new NetworkField(8, 11))));
-    floor2.setHoles(new ArrayList<>(List.of(new NetworkField(0, 0))));
+    floor1.setDrawAgainFields(new HashSet<>(List.of(new NetworkField(8, 11), new NetworkField(2, 6))));
+    floor2.setDrawAgainFields(new HashSet<>(List.of(new NetworkField(8, 11))));
+    floor2.setHoles(new HashSet<>(List.of(new NetworkField(0, 0))));
     MoleGames.getMoleGames().getGameHandler().getIDGames().get(id).getSettings().getFloors().add(floor1);
     MoleGames.getMoleGames().getGameHandler().getIDGames().get(id).getSettings().getFloors().add(floor2);
     MoleGames.getMoleGames().getGameHandler().getIDGames().get(id).updateGameState();
