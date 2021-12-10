@@ -85,8 +85,6 @@ public class PacketHandler {
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.JOINGAME.getPacketType())) {
       if (handleJoinPacket(packet, client)) {
         welcomeGamePacket(client);
-      } else {
-        System.out.println("ERROR");
       }
     } else {
       System.out.println("Packet not found!" + packet.getJsonObject());
@@ -473,17 +471,24 @@ public class PacketHandler {
   public synchronized void remainingTimePacket(@NotNull final ServerThread client) {
     var game = MoleGames.getMoleGames().getGameHandler().getClientGames().get(client);
     for (var player : game.getPlayers()) {
-      if (player.getServerClient().equals(client)) {
-        var remainingTime =
-          game.getSettings().getTurnTime()
-            - (System.currentTimeMillis() - player.getRemainingTime());
-        var object = new JsonObject();
-        object.addProperty("type", Packets.REMAININGTIME.getPacketType());
-        var json = new JsonObject();
-        json.addProperty("timeLeft", remainingTime);
-        object.add("value", json);
-        player.getServerClient().sendPacket(new Packet(object));
-      }
+      sendToUsersOnListTimeLeft(client, game, player);
+    }
+    for (var player : game.getSpectators()) {
+      sendToUsersOnListTimeLeft(client, game, player);
+    }
+  }
+
+  private void sendToUsersOnListTimeLeft(@NotNull ServerThread client, Game game, Player player) {
+    if (player.getServerClient().equals(client)) {
+      var remainingTime =
+        game.getSettings().getTurnTime()
+          - (System.currentTimeMillis() - player.getRemainingTime());
+      var object = new JsonObject();
+      object.addProperty("type", Packets.REMAININGTIME.getPacketType());
+      var json = new JsonObject();
+      json.addProperty("timeLeft", remainingTime);
+      object.add("value", json);
+      player.getServerClient().sendPacket(new Packet(object));
     }
   }
 
@@ -519,10 +524,12 @@ public class PacketHandler {
    * @param client
    * @author Carina
    * @use handles the getScore packet from the client
+   * //TODO: wirft ne exception
    */
   private void handleGetScorePacket(@NotNull final ServerThread client) {
-    scoreNotificationPacket(
-      client, MoleGames.getMoleGames().getGameHandler().getClientGames().get(client).getScore());
+    if (MoleGames.getMoleGames().getGameHandler().getClientGames().get(client) != null)
+      scoreNotificationPacket(
+        client, MoleGames.getMoleGames().getGameHandler().getClientGames().get(client).getScore());
   }
 
   /**
@@ -591,15 +598,17 @@ public class PacketHandler {
       .getPlayers()
       .isEmpty()) return;
     MoleGames.getMoleGames().getGameHandler().getClientGames().remove(client);
-    for (var players :
-      MoleGames.getMoleGames().getGameHandler().getClientGames().get(client).getPlayers()) {
-      if (players.getServerClient().equals(client)) {
-        MoleGames.getMoleGames()
-          .getGameHandler()
-          .getClientGames()
-          .get(client)
-          .removePlayerFromGame(players);
-        return;
+    if (MoleGames.getMoleGames().getGameHandler().getClientGames().get(client) != null) {
+      for (var players :
+        MoleGames.getMoleGames().getGameHandler().getClientGames().get(client).getPlayers()) {
+        if (players.getServerClient().equals(client)) {
+          MoleGames.getMoleGames()
+            .getGameHandler()
+            .getClientGames()
+            .get(client)
+            .removePlayerFromGame(players);
+          return;
+        }
       }
     }
   }
@@ -775,21 +784,29 @@ public class PacketHandler {
           .getIDGames()
           .get(packet.getValues().get("gameID").getAsInt());
       if (connectType) {
+        for (var client : game.getPlayers()) {
+          if (client.getClientID() == clientConnection.getConnectionID()) {
+            return false;
+          }
+        }
         if (game.getCurrentGameState() == GameStates.NOT_STARTED) {
           if (game.getPlayers().size() < game.getSettings().getMaxPlayers()) {
             game.joinGame(clientConnection, false);
             return true;
           }
         }
-      } else if (!connectType) {
+      } else {
+        for (var client : game.getSpectators()) {
+          if (client.getClientID() == clientConnection.getConnectionID()) {
+            return false;
+          }
+        }
         // TODO: implement client logic for spectator
         if (!game.getCurrentGameState().equals(GameStates.OVER)) {
           game.joinGame(clientConnection, true);
           return true;
         }
       }
-    } else {
-      System.out.println("ERROR 2");
     }
     return false;
   }

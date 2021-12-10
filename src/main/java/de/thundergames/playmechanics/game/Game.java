@@ -30,6 +30,7 @@ public class Game extends NetworkGame {
 
   private final transient HashMap<ServerThread, Player> clientPlayersMap = new HashMap<>();
   private final transient ArrayList<Player> players = new ArrayList<>();
+  private final transient ArrayList<Player> spectators = new ArrayList<>();
   private final transient HashMap<Player, Mole> moleMap = new HashMap<>();
   private final transient GameState gameState = new GameState();
   private final HashSet<Player> eliminatedPlayers = new HashSet<>();
@@ -114,7 +115,7 @@ public class Game extends NetworkGame {
    * @use starts the game
    */
   public void startGame(@NotNull final GameStates gameState) {
-    if (currentGameState != GameStates.NOT_STARTED || players.isEmpty()) {
+    if (currentGameState != GameStates.NOT_STARTED || activePlayers.isEmpty()) {
       System.out.println("Server: Cant start a game that has no players in it!");
       return;
     }
@@ -146,6 +147,7 @@ public class Game extends NetworkGame {
           getScore().getWinners().add(player);
         }
       }
+      System.out.println("MAX PUNKTE: " + Collections.max(getScore().getPoints().values()));
       System.out.println("Server: game with id: " + getGameID() + " has ended! Winners are: " + getScore().getWinners());
       MoleGames.getMoleGames().getPacketHandler().gameOverPacket(this);
     }
@@ -205,7 +207,7 @@ public class Game extends NetworkGame {
         .getGameHandler()
         .getClientGames()
         .put(client.getServerClient(), this);
-      players.add(client);
+      spectators.add(client);
       //TODO: join as spectator
     }
   }
@@ -224,36 +226,38 @@ public class Game extends NetworkGame {
     if (player == null) {
       return;
     }
-    if (currentGameState != GameStates.NOT_STARTED && !currentGameState.equals(GameStates.OVER)) {
-      if (!clientPlayersMap.containsKey(player)) {
-        eliminatedPlayers.add(player);
+    if (activePlayers.contains(player)) {
+      if (currentGameState != GameStates.NOT_STARTED && !currentGameState.equals(GameStates.OVER)) {
+        if (!clientPlayersMap.containsKey(player)) {
+          eliminatedPlayers.add(player);
+        }
       }
+      MoleGames.getMoleGames().getGameHandler().getClientGames().get(player.getServerClient()).getClientPlayersMap().get(player.getServerClient()).getTimer().cancel();
+      MoleGames.getMoleGames().getGameHandler().getClientGames().get(player.getServerClient()).getClientPlayersMap().get(player.getServerClient()).setHasMoved(true);
+      MoleGames.getMoleGames().getGameHandler().getClientGames().get(player.getServerClient()).getClientPlayersMap().get(player.getServerClient()).setTimerIsRunning(false);
+      for (var moles : player.getMoles()) {
+        player
+          .getGame()
+          .getMap()
+          .getFieldMap()
+          .get(List.of(moles.getNetworkField().getX(), moles.getNetworkField().getY()))
+          .setOccupied(false);
+        player
+          .getGame()
+          .getMap()
+          .getFieldMap()
+          .get(List.of(moles.getNetworkField().getX(), moles.getNetworkField().getY()))
+          .setMole(null);
+      }
+      player.getMoles().clear();
+      clientPlayersMap.remove(player);
+      players.remove(player);
+      activePlayers.remove(player);
+      player.getMoles().clear();
+      MoleGames.getMoleGames().getGameHandler().getClientGames().remove(player.getServerClient());
+      setCurrentPlayerCount(players.size());
+      updateGameState();
     }
-    MoleGames.getMoleGames().getGameHandler().getClientGames().get(player.getServerClient()).getClientPlayersMap().get(player.getServerClient()).getTimer().cancel();
-    MoleGames.getMoleGames().getGameHandler().getClientGames().get(player.getServerClient()).getClientPlayersMap().get(player.getServerClient()).setHasMoved(true);
-    MoleGames.getMoleGames().getGameHandler().getClientGames().get(player.getServerClient()).getClientPlayersMap().get(player.getServerClient()).setTimerIsRunning(false);
-    for (var moles : player.getMoles()) {
-      player
-        .getGame()
-        .getMap()
-        .getFieldMap()
-        .get(List.of(moles.getNetworkField().getX(), moles.getNetworkField().getY()))
-        .setOccupied(false);
-      player
-        .getGame()
-        .getMap()
-        .getFieldMap()
-        .get(List.of(moles.getNetworkField().getX(), moles.getNetworkField().getY()))
-        .setMole(null);
-    }
-    player.getMoles().clear();
-    clientPlayersMap.remove(player);
-    players.remove(player);
-    activePlayers.remove(player);
-    player.getMoles().clear();
-    MoleGames.getMoleGames().getGameHandler().getClientGames().remove(player.getServerClient());
-    setCurrentPlayerCount(players.size());
-    updateGameState();
   }
 
   public Settings getSettings() {
@@ -286,6 +290,10 @@ public class Game extends NetworkGame {
 
   public void setMap(Map map) {
     this.map = map;
+  }
+
+  public ArrayList<Player> getSpectators() {
+    return spectators;
   }
 
   public GameStates getCurrentGameState() {

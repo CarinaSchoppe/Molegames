@@ -55,7 +55,7 @@ public class AIPacketHandler extends ClientPacketHandler {
       handlePlayerPlacesMolePacket(ai, packet);
       timerRelatedController(ai);
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.GAMEOVER.getPacketType()) || packet.getPacketType().equalsIgnoreCase(Packets.GAMECANCELED.getPacketType())) {
-handleGameOverPacket(ai, packet);
+      handleGameOverPacket(ai, packet);
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.MESSAGE.getPacketType())) {
       if (packet.getValues() != null) {
         if (packet.getValues().get("message") != null) {

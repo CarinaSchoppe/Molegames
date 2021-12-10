@@ -22,11 +22,12 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 
 public class Server extends Network {
 
   private final ArrayList<ServerThread> clientThreads = new ArrayList<>();
-  private final ArrayList<ServerThread> observer = new ArrayList<>();
+  private final HashSet<ServerThread> observer = new HashSet<>();
   private final HashMap<Integer, ServerThread> threadIDs = new HashMap<>();
   private final HashMap<String, ServerThread> connectionNames = new HashMap<>();
   private final HashMap<Integer, ServerThread> connectionIDs = new HashMap<>();
@@ -110,6 +111,9 @@ public class Server extends Network {
       for (var clients : game.getPlayers()) {
         clients.getServerClient().sendPacket(packet);
       }
+      for (var clients : game.getSpectators()) {
+        clients.getServerClient().sendPacket(packet);
+      }
     }
   }
 
@@ -117,6 +121,7 @@ public class Server extends Network {
    * @param tournament that all clients are connected to
    * @param packet     the packet that should be send
    * @use the method will send a packet to all connected clients of the game
+   * //TODO: Check hier ob so richtig!
    */
   public synchronized void sendToAllTournamentClients(
     @NotNull final Tournament tournament, @NotNull final Packet packet) {
@@ -125,8 +130,11 @@ public class Server extends Network {
         for (var clients : tournament.getClients()) {
           clients.sendPacket(packet);
         }
-      } else {
-        System.out.println("The game with the ID: " + tournament.getTournamentID() + " is empty!");
+      }
+      if (!tournament.getClients().isEmpty()) {
+        for (var clients : tournament.getClients()) {
+          clients.sendPacket(packet);
+        }
       }
     } catch (Exception e) {
       e.printStackTrace();
@@ -137,7 +145,7 @@ public class Server extends Network {
     return clientThreads;
   }
 
-  public ArrayList<ServerThread> getObserver() {
+  public HashSet<ServerThread> getObserver() {
     return observer;
   }
 }

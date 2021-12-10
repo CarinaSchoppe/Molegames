@@ -13,7 +13,6 @@ package de.thundergames.gameplay.player.networking;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
-import de.thundergames.MoleGames;
 import de.thundergames.filehandling.Score;
 import de.thundergames.gameplay.player.Client;
 import de.thundergames.gameplay.player.ui.gameselection.GameSelection;
@@ -140,9 +139,7 @@ public class ClientPacketHandler {
    */
   public void getOverviewPacket(@NotNull final Client client) {
     var object = new JsonObject();
-    var json = new JsonObject();
     object.addProperty("type", Packets.GETOVERVIEW.getPacketType());
-    object.add("value", json);
     client.getClientThread().sendPacket(new Packet(object));
   }
 
@@ -327,13 +324,9 @@ public class ClientPacketHandler {
     client.setGameState(
       new Gson().fromJson(packet.getValues().get("gameState").getAsString(), GameState.class));
     if (!client.getGameState().getPullDiscs().isEmpty()) {
-      client
-        .getPullDiscs()
-        .addAll(
-          client
-            .getGameState()
-            .getPullDiscs()
-            .get(client.getClientThread().getClientThreadID()));
+      if (client.getGameState().getPullDiscs().containsKey(client.getClientThread().getClientThreadID())) {
+        client.getPullDiscs().addAll(client.getGameState().getPullDiscs().get(client.getClientThread().getClientThreadID()));
+      }
     } //TODO: warum ist das so?!
     client.setMap(new Map(client.getGameState()));
     if (!client.getGameState().getPlacedMoles().isEmpty()) {
@@ -342,12 +335,13 @@ public class ClientPacketHandler {
           client.getMoles().add(moles);
         }
       }
-    } else {
-      System.out.println("THE PLACED MOLES ARE EMPTY: ERROR!");
     }
     updateMap(client.getMap());
     client.getMap().printMap();
   }
+  //TODO: overview öfter aktualliseren
+  //TODO: Punkte richtig anzeigen
+  //TODO: beobachten bei laufendem spiel!
 
   /**
    * @param client
@@ -589,14 +583,11 @@ public class ClientPacketHandler {
    * @use handles that the game of the client is over
    */
   protected synchronized void handleGameOverPacket(@NotNull final Client client, @NotNull final Packet packet) {
-    var score = new Gson().fromJson(packet.getValues().get("score").getAsString(), Score.class);
+    var score = new Gson().fromJson(packet.getValues().get("result").getAsString(), Score.class);
     if (!score.getPoints().isEmpty()) {
       var playerIDs = new ArrayList<>(score.getPoints().keySet());
-      var players = new ArrayList<NetworkPlayer>();
+      var players = new ArrayList<>(score.getPlayers());
       var max = Collections.max(score.getPoints().values());
-      for (var playerID : playerIDs) {
-        players.add(MoleGames.getMoleGames().getServer().getConnectionIDs().get(playerID).getPlayer());
-      }
       //sort the players by score
       Collections.sort(players, (o1, o2) -> score.getPoints().get(o2.getClientID()).compareTo(score.getPoints().get(o1.getClientID())));
       for (var player : players) {
@@ -612,7 +603,6 @@ public class ClientPacketHandler {
     LeaderBoard.create();
     //TODO: Rufe Leaderboard auf unter gewinner sind nun die gewinner des ersten platzes. unter players findest du die reihenfolge der spieler wie sie im score stehen sollten!
     updateTableView();
-
   }
 
   /**
@@ -771,7 +761,6 @@ public class ClientPacketHandler {
    */
   protected void handleWelcomeGamePacket(
     @NotNull final Client client, @NotNull final Packet packet) {
-    // Todo: Kommt hier nie an
     handleFloor(client, packet);
     OpenGame();
   }

@@ -21,16 +21,27 @@ public class PlayerResult {
     this.placement = placement;
   }
 
-  public int getScore(){ return score ; }
+  public int getScore() {
+    return score;
+  }
 
-  public String getName(){ return name; }
+  public void setScore(int score) {
+    this.score = score;
+  }
 
-  public int getPlacement(){ return placement;}
+  public String getName() {
+    return name;
+  }
 
-  public void setScore(int score) { this.score = score; }
+  public void setName(String name) {
+    this.name = name;
+  }
 
-  public void setName(String name) { this.name = name; }
+  public int getPlacement() {
+    return placement;
+  }
 
-  public void setPlacement(int placement) { this.placement = placement; }
-
+  public void setPlacement(int placement) {
+    this.placement = placement;
+  }
 }

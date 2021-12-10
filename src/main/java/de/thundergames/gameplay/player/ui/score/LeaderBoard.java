@@ -39,6 +39,14 @@ public class LeaderBoard extends Application implements Initializable {
   @FXML
   private TableColumn<PlayerResult, Integer> score;
 
+  /**
+   * @author Carina, Lennart
+   * @use launches the Scene
+   */
+  public static void create() {
+    launch();
+  }
+
   @FXML
   public void initialize(URL location, ResourceBundle resources) {
     scoreTable.setSelectionModel(null);
@@ -95,14 +103,6 @@ public class LeaderBoard extends Application implements Initializable {
   }
 
   /**
-   * @author Carina, Lennart
-   * @use launches the Scene
-   */
-  public static void create() {
-    launch();
-  }
-
-  /**
    * Is called when the close button is clicked. Logout user.
    *
    * @param stage current stage
@@ -131,7 +131,7 @@ public class LeaderBoard extends Application implements Initializable {
    */
   @Override
   public void start(Stage primaryStage) throws Exception {
-    var loader = SceneController.loadFXML("/player/LeaderBoard.fxml");
+    var loader = SceneController.loadFXML("/player/style/LeaderBoard.fxml");
     loader.setController(this);
     Parent root = loader.load();
     primaryStage.setTitle("Maulwurf Company");

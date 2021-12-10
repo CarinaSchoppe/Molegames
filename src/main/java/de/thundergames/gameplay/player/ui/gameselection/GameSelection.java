@@ -56,17 +56,18 @@ public class GameSelection implements Initializable {
   public static GameSelection getGameSelection() {
     return gameSelection;
   }
+  //TODO: im fall das man auf Spiele und oder Tourniere klickt automatisch nochmal getOverview sendet.
 
   /**
    * Create the Scene for GameSelection
    *
-   * @param event event from the current scene to build this scene on same object
+   * @param event event from Fthe current scene to build this scene on same object
    * @throws IOException error creating the scene GameSelection
    */
   public void create(@NotNull ActionEvent event) throws IOException {
     primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
     // Set scene
-    var loader = SceneController.loadFXML("/player/GameSelection.fxml");
+    var loader = SceneController.loadFXML("/player/style/GameSelection.fxml");
     loader.setController(this);
     Parent root = loader.load();
     primaryStage.setTitle("Maulwurf Company");

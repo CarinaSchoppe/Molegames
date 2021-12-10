@@ -90,6 +90,8 @@ public class PlayerMenu implements Initializable {
    */
   @FXML
   public void onGameClick(ActionEvent event) throws IOException {
+    //TODO: soll nochmal senden problem: client.getClientThread ist null
+    // client.getClientPacketHandler().getOverviewPacket(client);
     new GameSelection().create(event);
   }
 
@@ -112,6 +114,7 @@ public class PlayerMenu implements Initializable {
    */
   @FXML
   public void onTournamentClick(ActionEvent event) throws IOException {
+    client.getClientPacketHandler().getOverviewPacket(client);
     new TournamentSelection().create(event);
   }
 }
