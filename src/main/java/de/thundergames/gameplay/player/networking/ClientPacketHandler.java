@@ -603,10 +603,13 @@ public class ClientPacketHandler {
           score.getWinners().add(player);
         }
       }
+      System.out.println("Winners are: ");
+      for (var player : score.getWinners()) {
+        System.out.println(player.getName());
+      }
     }
-    //TODO: unter gewinner sind nun die gewinner des ersten platzes. unter players findest du die reihenfolge der spieler wie sie im score stehen sollten!
+    //TODO: Rufe Leaderboard auf unter gewinner sind nun die gewinner des ersten platzes. unter players findest du die reihenfolge der spieler wie sie im score stehen sollten!
     updateTableView();
-    //TODO: Rufe Leaderboard auf
 
   }
 

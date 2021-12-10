@@ -104,8 +104,7 @@ public class LeaderBoard implements Initializable {
     var primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
     primaryStage.close();
     var stage = new Stage();
-    // Set scene
-    var loader = SceneController.loadFXML("player/LeaderBoard.fxml");
+    var loader = SceneController.loadFXML("/player/LeaderBoard.fxml");
     loader.setController(this);
     Parent root = loader.load();
     stage.setTitle("Maulwurf Company");

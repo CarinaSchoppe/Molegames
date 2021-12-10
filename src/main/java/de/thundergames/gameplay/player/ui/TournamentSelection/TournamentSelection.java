@@ -182,7 +182,8 @@ public class TournamentSelection implements Initializable {
   }
 
   /**
-   * Load scene of scoreboard
+   * @author Marc
+   * @use Load scene of scoreboard
    */
   private void loadScoreboard() {
     client.getClientPacketHandler().getScorePacket(client);
@@ -192,7 +193,8 @@ public class TournamentSelection implements Initializable {
   }
 
   /**
-   * Load scene of game
+   * @author Marc
+   * @use Load scene of game
    */
   private void spectateGame(GameState gameState) {
     primaryStage.close();
