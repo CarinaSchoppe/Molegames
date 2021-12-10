@@ -129,7 +129,7 @@ public class Game extends NetworkGame {
 
   /**
    * @author Carina
-   * @use handles when a game ends //TODO: die methoden hier füllen und allgemein ein "ende" für das
+   * @use handles when a game ends
    */
   public synchronized void endGame() {
     setFinishDateTime(Instant.now().getEpochSecond());
