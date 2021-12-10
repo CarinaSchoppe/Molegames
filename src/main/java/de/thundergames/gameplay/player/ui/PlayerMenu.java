@@ -44,7 +44,7 @@ public class PlayerMenu implements Initializable {
   public void create(ActionEvent event) throws IOException {
     var primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
     var location =
-      new File("src/main/resources/player/PlayerMenu.fxml")
+      new File("src/main/resources/player/style/PlayerMenu.fxml")
         .toURI()
         .toURL();
     Parent root = FXMLLoader.load(location);
@@ -82,7 +82,7 @@ public class PlayerMenu implements Initializable {
     //create LoginScreen scene
     var primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
     var location =
-      new File("src/main/resources/player/LoginScreen.fxml")
+      new File("src/main/resources/player/style/LoginScreen.fxml")
         .toURI()
         .toURL();
     Parent root = FXMLLoader.load(location);

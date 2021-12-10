@@ -79,7 +79,7 @@ public class LoginScreen extends Application {
   @Override
   public void start(Stage primaryStage) throws Exception {
     var loader =
-      new FXMLLoader(new File("src/main/resources/player/LoginScreen.fxml").toURI().toURL());
+      new FXMLLoader(new File("src/main/resources/player/style/LoginScreen.fxml").toURI().toURL());
     Parent root = loader.load();
     primaryStage.setResizable(false);
     primaryStage.setTitle("Maulwurf Company");

@@ -1,5 +1,5 @@
 /* Base transparency*/
-.table-view{
+.table-view {
     -fx-base: transparent;
 }
 
@@ -7,13 +7,13 @@
 .table-view,
 .table-view .column-header,
 .table-view .column-header-background,
-.table-view .column-header-background .filler{
-    -fx-background-color:transparent;
+.table-view .column-header-background .filler {
+    -fx-background-color: transparent;
 }
 
 /*color for cell*/
-.table-row-cell{
-    -fx-background-color: -fx-table-cell-border-color, rgba(65,23,167,1);
+.table-row-cell {
+    -fx-background-color: -fx-table-cell-border-color, rgba(65, 23, 167, 1);
 }
 
 /* Set color for selected item */
@@ -23,18 +23,18 @@
 
 /* header font */
 .table-view .column-header .label {
-    -fx-text-fill : white;
+    -fx-text-fill: white;
     -fx-font-size: 20px;
 }
 
 /* cell border transparency*/
-.table-view .table-cell{
-    -fx-border-width:0 0 0 0;
-    -fx-padding : 16 0 16 0 ;
+.table-view .table-cell {
+    -fx-border-width: 0 0 0 0;
+    -fx-padding: 16 0 16 0;
 }
 
 /* font of table items*/
-.table-view .table-column{
+.table-view .table-column {
     -fx-text-alignment: center;
     -fx-alignment: center;
     -fx-text-fill: white;
@@ -45,5 +45,5 @@
 
 /* empty item get transparency*/
 .table-row-cell:empty {
--fx-background-color:transparent;
- }
+    -fx-background-color: transparent;
+}

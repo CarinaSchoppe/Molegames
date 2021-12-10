@@ -579,8 +579,11 @@ public class PacketHandler {
    */
   private void removeFromGames(@NotNull final ServerThread client) {
     if (!MoleGames.getMoleGames().getGameHandler().getClientGames().containsKey(client)) return;
-    if (MoleGames.getMoleGames().getGameHandler().getClientGames().get(client).getCurrentPlayer().getServerClient().equals(client))
-      MoleGames.getMoleGames().getGameHandler().getClientGames().get(client).getCurrentPlayer().getTimer().cancel();
+    if (MoleGames.getMoleGames().getGameHandler().getClientGames().get(client) != null) {
+      if (MoleGames.getMoleGames().getGameHandler().getClientGames().get(client).getCurrentPlayer() != null) {
+        MoleGames.getMoleGames().getGameHandler().getClientGames().get(client).getCurrentPlayer().getTimer().cancel();
+      }
+    }
     if (MoleGames.getMoleGames()
       .getGameHandler()
       .getClientGames()

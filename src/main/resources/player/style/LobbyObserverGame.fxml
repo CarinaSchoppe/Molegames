@@ -23,11 +23,11 @@
       prefHeight="856.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/11.0.2">
     <AnchorPane>
         <ImageView>
-            <Image url="@pictures/Lobby-Observer.png"/>
+            <Image url="@../pictures/Lobby-Observer.png"/>
         </ImageView>
         <Text fx:id="PlayerName" fill="WHITE" layoutX="7.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Spieler:" wrappingWidth="356.9830722808838">
             <font>
-                <Font name="Arial Black" size="24.0" />
+                <Font name="Arial Black" size="24.0"/>
             </font>
         </Text>
         <Text id="PlayerJoined" fx:id="PlayerJoined" fill="WHITE" layoutX="232.0" layoutY="374.0" opacity="0.0"
@@ -39,13 +39,13 @@
         </Text>
         <Text id="JoinedSuccessfully" fx:id="JoinedSuccessfully" fill="#15ff00" layoutX="65.0" layoutY="226.0"
               opacity="0.0" strokeType="OUTSIDE" strokeWidth="0.0"
-              text="Beitritt zum Turnier war erfolgreich! Bitte warten." textAlignment="CENTER"
+              text="Beitritt zum Spiel war erfolgreich! Bitte warten." textAlignment="CENTER"
               wrappingWidth="770.9830722808838">
             <font>
                 <Font name="Arial Black" size="50.0"/>
             </font>
         </Text>
-        <Button fx:id="backToTournamentSelection" layoutX="674.0" layoutY="779.0" mnemonicParsing="false" opacity="0.0"
+        <Button fx:id="backToGameSelection" layoutX="674.0" layoutY="779.0" mnemonicParsing="false" opacity="0.0"
                 prefHeight="59.0" prefWidth="206.0" text="Zurück"/>
     </AnchorPane>
 </VBox>
