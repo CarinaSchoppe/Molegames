@@ -12,8 +12,8 @@
 package de.thundergames.playmechanics.game;
 
 import de.thundergames.filehandling.Score;
-import de.thundergames.networking.util.interfaceItems.NetworkGame;
-import de.thundergames.networking.util.interfaceItems.NetworkPlayer;
+import de.thundergames.networking.util.interfaceitems.NetworkGame;
+import de.thundergames.networking.util.interfaceitems.NetworkPlayer;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashSet;

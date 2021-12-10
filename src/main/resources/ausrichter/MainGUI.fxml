@@ -9,7 +9,7 @@
    <children>
       <ImageView fitHeight="415.0" fitWidth="439.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../../../../../resources/gamemaster/test.png"/>
+            <Image url="@../gamemaster/test.png"/>
          </image>
       </ImageView>
       <Button fx:id="createGame" layoutX="300.0" layoutY="102.0" mnemonicParsing="false" onAction="#onCreateGameAction"

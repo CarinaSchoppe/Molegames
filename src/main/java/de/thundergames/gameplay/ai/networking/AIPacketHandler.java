@@ -17,7 +17,7 @@ import de.thundergames.gameplay.ai.AI;
 import de.thundergames.gameplay.player.networking.ClientPacketHandler;
 import de.thundergames.networking.util.Packet;
 import de.thundergames.networking.util.Packets;
-import de.thundergames.networking.util.interfaceItems.NetworkPlayer;
+import de.thundergames.networking.util.interfaceitems.NetworkPlayer;
 import de.thundergames.playmechanics.map.Map;
 import org.jetbrains.annotations.NotNull;
 

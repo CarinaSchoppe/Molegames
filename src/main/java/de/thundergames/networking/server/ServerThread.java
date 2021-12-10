@@ -12,7 +12,7 @@ package de.thundergames.networking.server;
 
 import de.thundergames.MoleGames;
 import de.thundergames.networking.util.NetworkThread;
-import de.thundergames.networking.util.interfaceItems.NetworkPlayer;
+import de.thundergames.networking.util.interfaceitems.NetworkPlayer;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;

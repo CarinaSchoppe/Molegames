@@ -1,8 +1,8 @@
 package de.thundergames.playmechanics.game;
 
-import de.thundergames.networking.util.interfaceItems.NetworkConfiguration;
-import de.thundergames.networking.util.interfaceItems.NetworkField;
-import de.thundergames.networking.util.interfaceItems.NetworkFloor;
+import de.thundergames.networking.util.interfaceitems.NetworkConfiguration;
+import de.thundergames.networking.util.interfaceitems.NetworkField;
+import de.thundergames.networking.util.interfaceitems.NetworkFloor;
 import de.thundergames.playmechanics.map.Field;
 import de.thundergames.playmechanics.map.Map;
 import de.thundergames.playmechanics.util.Mole;
@@ -12,12 +12,13 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
-import java.util.ArrayList;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 

@@ -10,8 +10,8 @@
  */
 package de.thundergames.playmechanics.util;
 
-import de.thundergames.networking.util.interfaceItems.NetworkMole;
-import de.thundergames.networking.util.interfaceItems.NetworkPlayer;
+import de.thundergames.networking.util.interfaceitems.NetworkMole;
+import de.thundergames.networking.util.interfaceitems.NetworkPlayer;
 import de.thundergames.playmechanics.map.Field;
 import org.jetbrains.annotations.NotNull;
 

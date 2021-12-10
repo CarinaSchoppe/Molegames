@@ -10,7 +10,7 @@
  */
 package de.thundergames.filehandling;
 
-import de.thundergames.networking.util.interfaceItems.NetworkPlayer;
+import de.thundergames.networking.util.interfaceitems.NetworkPlayer;
 
 import java.util.HashMap;
 import java.util.HashSet;

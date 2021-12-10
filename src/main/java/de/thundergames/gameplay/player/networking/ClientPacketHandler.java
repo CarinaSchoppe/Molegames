@@ -23,10 +23,10 @@ import de.thundergames.gameplay.player.ui.tournamentselection.TournamentSelectio
 import de.thundergames.networking.server.PacketHandler;
 import de.thundergames.networking.util.Packet;
 import de.thundergames.networking.util.Packets;
-import de.thundergames.networking.util.interfaceItems.NetworkField;
-import de.thundergames.networking.util.interfaceItems.NetworkGame;
-import de.thundergames.networking.util.interfaceItems.NetworkMole;
-import de.thundergames.networking.util.interfaceItems.NetworkPlayer;
+import de.thundergames.networking.util.interfaceitems.NetworkField;
+import de.thundergames.networking.util.interfaceitems.NetworkGame;
+import de.thundergames.networking.util.interfaceitems.NetworkMole;
+import de.thundergames.networking.util.interfaceitems.NetworkPlayer;
 import de.thundergames.playmechanics.game.GameState;
 import de.thundergames.playmechanics.game.Tournament;
 import de.thundergames.playmechanics.map.Map;

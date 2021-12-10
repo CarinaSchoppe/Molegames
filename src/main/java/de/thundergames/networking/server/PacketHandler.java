@@ -17,9 +17,9 @@ import de.thundergames.filehandling.Score;
 import de.thundergames.gameplay.player.Client;
 import de.thundergames.networking.util.Packet;
 import de.thundergames.networking.util.Packets;
-import de.thundergames.networking.util.interfaceItems.NetworkField;
-import de.thundergames.networking.util.interfaceItems.NetworkMole;
-import de.thundergames.networking.util.interfaceItems.NetworkPlayer;
+import de.thundergames.networking.util.interfaceitems.NetworkField;
+import de.thundergames.networking.util.interfaceitems.NetworkMole;
+import de.thundergames.networking.util.interfaceitems.NetworkPlayer;
 import de.thundergames.playmechanics.game.Game;
 import de.thundergames.playmechanics.game.GameState;
 import de.thundergames.playmechanics.game.GameStates;
@@ -375,7 +375,7 @@ public class PacketHandler {
    * @use sends to the client that he needs to place a mole
    * @see Game
    * @see Player
-   * @see de.thundergames.networking.util.interfaceItems.NetworkMole
+   * @see de.thundergames.networking.util.interfaceitems.NetworkMole
    */
   public Packet playerPlacesMolePacket(@NotNull final ServerThread client) {
     if (client.getSocket().isConnected() && MoleGames.getMoleGames()
@@ -707,7 +707,7 @@ public class PacketHandler {
    * @param client
    * @author Carina
    * @use sends the overview to the clients
-   * @see de.thundergames.networking.util.interfaceItems.NetworkGame
+   * @see de.thundergames.networking.util.interfaceitems.NetworkGame
    * @see Tournament
    */
   public synchronized void overviewPacket(@NotNull final ServerThread client) {

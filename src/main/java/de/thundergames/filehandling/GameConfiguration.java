@@ -11,7 +11,7 @@
 package de.thundergames.filehandling;
 
 import com.google.gson.Gson;
-import de.thundergames.networking.util.interfaceItems.NetworkConfiguration;
+import de.thundergames.networking.util.interfaceitems.NetworkConfiguration;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;

@@ -9,7 +9,7 @@
  * requires the express written consent of ThunderGames | SwtPra10.
  */
 
-package de.thundergames.networking.util.interfaceItems;
+package de.thundergames.networking.util.interfaceitems;
 
 import org.jetbrains.annotations.NotNull;
 

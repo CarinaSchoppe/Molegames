@@ -10,7 +10,7 @@
  */
 package de.thundergames.playmechanics.map;
 
-import de.thundergames.networking.util.interfaceItems.NetworkFloor;
+import de.thundergames.networking.util.interfaceitems.NetworkFloor;
 import de.thundergames.playmechanics.game.Game;
 import de.thundergames.playmechanics.game.GameState;
 import org.jetbrains.annotations.NotNull;

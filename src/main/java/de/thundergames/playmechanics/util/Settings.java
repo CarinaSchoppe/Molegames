@@ -12,7 +12,7 @@
 package de.thundergames.playmechanics.util;
 
 import de.thundergames.filehandling.GameConfiguration;
-import de.thundergames.networking.util.interfaceItems.NetworkConfiguration;
+import de.thundergames.networking.util.interfaceitems.NetworkConfiguration;
 import de.thundergames.playmechanics.game.Game;
 import org.jetbrains.annotations.NotNull;
 

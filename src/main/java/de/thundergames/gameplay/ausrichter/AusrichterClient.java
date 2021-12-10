@@ -13,9 +13,9 @@ package de.thundergames.gameplay.ausrichter;
 
 import de.thundergames.MoleGames;
 import de.thundergames.networking.server.Server;
-import de.thundergames.networking.util.interfaceItems.NetworkField;
-import de.thundergames.networking.util.interfaceItems.NetworkFloor;
-import de.thundergames.networking.util.interfaceItems.NetworkGame;
+import de.thundergames.networking.util.interfaceitems.NetworkField;
+import de.thundergames.networking.util.interfaceitems.NetworkFloor;
+import de.thundergames.networking.util.interfaceitems.NetworkGame;
 import de.thundergames.playmechanics.game.GameStates;
 import org.jetbrains.annotations.NotNull;
 

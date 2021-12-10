@@ -11,7 +11,7 @@
 
 package de.thundergames.gameplay.ai;
 
-import de.thundergames.networking.util.interfaceItems.NetworkMole;
+import de.thundergames.networking.util.interfaceitems.NetworkMole;
 import de.thundergames.playmechanics.game.GameLogic;
 import de.thundergames.playmechanics.map.Directions;
 import de.thundergames.playmechanics.map.Field;

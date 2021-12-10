@@ -12,9 +12,9 @@
 package de.thundergames.playmechanics.game;
 
 import de.thundergames.filehandling.Score;
-import de.thundergames.networking.util.interfaceItems.NetworkFloor;
-import de.thundergames.networking.util.interfaceItems.NetworkMole;
-import de.thundergames.networking.util.interfaceItems.NetworkPlayer;
+import de.thundergames.networking.util.interfaceitems.NetworkFloor;
+import de.thundergames.networking.util.interfaceitems.NetworkMole;
+import de.thundergames.networking.util.interfaceitems.NetworkPlayer;
 
 import java.util.ArrayList;
 import java.util.HashMap;
