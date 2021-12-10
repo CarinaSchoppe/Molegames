@@ -1,10 +1,10 @@
-package de.thundergames.gameplay.player.ui.Score;
+package de.thundergames.gameplay.player.ui.score;
 
 import de.thundergames.filehandling.Score;
 import de.thundergames.gameplay.player.Client;
 import de.thundergames.gameplay.player.ui.PlayerMenu;
-import de.thundergames.networking.util.interfaceItems.NetworkPlayer;
 import de.thundergames.gameplay.util.SceneController;
+import de.thundergames.networking.util.interfaceItems.NetworkPlayer;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -21,8 +21,6 @@ import org.jetbrains.annotations.NotNull;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.ResourceBundle;
 
 public class LeaderBoard implements Initializable {

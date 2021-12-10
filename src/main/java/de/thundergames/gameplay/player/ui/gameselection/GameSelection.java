@@ -13,7 +13,7 @@ package de.thundergames.gameplay.player.ui.gameselection;
 
 import de.thundergames.gameplay.player.Client;
 import de.thundergames.gameplay.player.ui.PlayerMenu;
-import de.thundergames.gameplay.player.ui.Score.LeaderBoard;
+import de.thundergames.gameplay.player.ui.score.LeaderBoard;
 import de.thundergames.gameplay.util.SceneController;
 import de.thundergames.networking.util.interfaceItems.NetworkGame;
 import de.thundergames.playmechanics.game.GameState;
