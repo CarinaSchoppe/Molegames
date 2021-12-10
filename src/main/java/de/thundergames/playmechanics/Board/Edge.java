@@ -1,16 +1,20 @@
 package de.thundergames.playmechanics.Board;
 
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 
 public class Edge extends Line{
-    private int x1;
-    private int x2;
-    private int y1;
-    private int y2;
+    private double x1;
+    private double x2;
+    private double y1;
+    private double y2;
 
-    public Edge(int x1, int x2, int y1, int y2) {
-        super(x1, x2, y1, y2);
-        this.getStrokeDashArray().addAll(3d);
+    public Edge(double x1, double y1, double x2, double y2) {
+        super(x2, y2, x1, y1);
+        this.getStrokeDashArray().addAll(8d);
+        this.setStroke(Color.BLACK);
+        this.setStrokeWidth(2);
     }
+
 
 }
