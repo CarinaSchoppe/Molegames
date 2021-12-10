@@ -12,21 +12,21 @@ enum NodeType {
     HOLE {
         @Override
         public void styleNode(Node n) {
-            Image hole = new Image(Utils.getSprite("game/hole.png"));
+          var hole = new Image(Utils.getSprite("game/hole.png"));
             n.setFill(new ImagePattern(hole));
         }
     },
     DRAW_AGAIN {
         @Override
         public void styleNode(Node n) {
-            Image node = new Image(Utils.getSprite("game/highlight.png"));
+          var node = new Image(Utils.getSprite("game/highlight.png"));
             n.setFill(new ImagePattern(node));
         }
     },
     DEFAULT {
         @Override
         public void styleNode(Node n) {
-            Image node = new Image(Utils.getSprite("game/node.png"));
+          var node = new Image(Utils.getSprite("game/node.png"));
             n.setFill(new ImagePattern(node));
         }
     };

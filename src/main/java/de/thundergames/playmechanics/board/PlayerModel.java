@@ -53,8 +53,8 @@ public class PlayerModel {
    */
   public void notifyNodeClick(@NotNull final Node node) {
     var moleCenter = this.activeMole.getSize() / 2;
-    double x = node.getCenterX() - moleCenter;
-    double y = node.getCenterY() - moleCenter;
+    var x = node.getCenterX() - moleCenter;
+    var y = node.getCenterY() - moleCenter;
     this.activeMole.updatePostion(x, y);
     this.updateMarker();
   }

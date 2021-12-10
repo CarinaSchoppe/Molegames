@@ -50,7 +50,7 @@ public class Board extends Group {
   }
 
   public void setContainerBackground(@NotNull final Pane container, @NotNull final String bgSpritePath) {
-    BackgroundImage backgroundImage = new BackgroundImage(new Image(Utils.getSprite(bgSpritePath), 100, 100, false, true),
+    var backgroundImage = new BackgroundImage(new Image(Utils.getSprite(bgSpritePath), 100, 100, false, true),
       BackgroundRepeat.REPEAT,
       BackgroundRepeat.REPEAT,
       BackgroundPosition.CENTER,
@@ -63,12 +63,12 @@ public class Board extends Group {
    * @author Issam, Alp, Dila
    */
   public List<Node> getNodeNeighbors(@NotNull final Node node) {
-    int nodeId = node.getNodeId();
-    int nodeRow = node.getRow();
-    int rowOffset = nodeRow < this.radius + 1 ? this.radius + nodeRow : 3 * this.radius + 2 - nodeRow;
+    var nodeId = node.getNodeId();
+    var nodeRow = node.getRow();
+    var rowOffset = nodeRow < this.radius + 1 ? this.radius + nodeRow : 3 * this.radius + 2 - nodeRow;
     int maxPossibleId = 3 * (int) Math.pow(this.radius, 2) + 3 * this.radius + 1;
     // Get list of possible neighbors
-    List<Integer> possibleNeighborsIds = new ArrayList<>(List.of(nodeId - 1, nodeId + 1, nodeId + rowOffset));
+    var possibleNeighborsIds = new ArrayList<>(List.of(nodeId - 1, nodeId + 1, nodeId + rowOffset));
     if (nodeRow < this.radius + 1) {
       possibleNeighborsIds.add(nodeId + rowOffset + 1);
     } else {
@@ -95,8 +95,8 @@ public class Board extends Group {
     var maxAreaCoveredByNodes = maxNumberOfNodes * 15; //TODO: change constant to actual node radius
     double verticalMargin = (displayHeight - maxAreaCoveredByNodes - 100) / maxNumberOfNodes;
     double horizentalMargin = verticalMargin / 2;
-    int edgeMargins = maxNumberOfNodes - numberOfNodes;
-    Point2D[] points = new Point2D[numberOfNodes];
+    var edgeMargins = maxNumberOfNodes - numberOfNodes;
+    var points = new Point2D[numberOfNodes];
     var widthSoFar = edgeMargins * horizentalMargin;
     for (var i = 0; i < numberOfNodes; i++) {
       points[i] = new Point2D(widthSoFar, row * verticalMargin + 50);
@@ -112,7 +112,7 @@ public class Board extends Group {
   public void generateNodes() {
     var numberOfGridRows = this.radius * 2 + 1;
     var occupiedNodes = getOccupiedNodes();
-    int startId = 1;
+    var startId = 1;
     for (var i = 0; i < numberOfGridRows; i++) {
       var numberOfGridCols = i <= this.radius ? this.radius + i + 1 : this.radius + numberOfGridRows - i;
       Point2D[] nodesPositions = getNodesPosition(numberOfGridCols, numberOfGridRows, i);
@@ -128,7 +128,6 @@ public class Board extends Group {
    * @use generates the Edges
    */
   public void generateEdges() {
-    int cnt = 0;
     for (var node : nodes) {
       var neighbors = getNodeNeighbors(node);
       for (var neighbor : neighbors) {
@@ -145,7 +144,7 @@ public class Board extends Group {
     // Moles need to be set on each state mutation and should have the same id as the corresponding node
     for (var p : this.players) {
       for (var mole : p.getMoles()) {
-        Node correspondingNode = getNodeById(mole.getMoleId());
+        var correspondingNode = getNodeById(mole.getMoleId());
         mole.setLayoutX(correspondingNode.getCenterX() - mole.getSize() / 2);
         mole.setLayoutY(correspondingNode.getCenterY() - mole.getSize() / 2);
         mole.render();

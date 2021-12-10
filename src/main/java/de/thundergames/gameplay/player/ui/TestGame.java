@@ -1,6 +1,5 @@
 package de.thundergames.gameplay.player.ui;
 
-import de.thundergames.gameplay.player.ui.ViewManager;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
@@ -13,10 +12,10 @@ public class TestGame extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        FXMLLoader loader = new FXMLLoader();
+      var loader = new FXMLLoader();
 
         try {
-            ViewManager manager = new ViewManager();
+          var manager = new ViewManager();
             primaryStage = manager.getMainStage();
             primaryStage.show();
         } catch (Exception e) {

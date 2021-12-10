@@ -23,7 +23,7 @@ public class Marker extends Rectangle {
   public void addStyles() {
     this.setWidth(DEFAULT_SIZE);
     this.setHeight(DEFAULT_SIZE);
-    Image marker = new Image(Utils.getSprite("game/marker.png"));
+    var marker = new Image(Utils.getSprite("game/marker.png"));
     this.setFill(new ImagePattern(marker));
   }
 }

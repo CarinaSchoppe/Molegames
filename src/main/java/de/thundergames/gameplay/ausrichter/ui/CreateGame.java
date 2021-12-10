@@ -12,7 +12,7 @@
 package de.thundergames.gameplay.ausrichter.ui;
 
 import de.thundergames.MoleGames;
-import de.thundergames.gameplay.ausrichter.GameMasterClient;
+import de.thundergames.gameplay.ausrichter.AusrichterClient;
 import de.thundergames.networking.server.Server;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -157,7 +157,7 @@ public class CreateGame extends Application {
 
   public void create(@NotNull final Server server, @NotNull final String... args) {
     MoleGames.getMoleGames()
-      .setGameMasterClient(new GameMasterClient(server));
+      .setGameMasterClient(new AusrichterClient(server));
     System.out.println("Test Ausrichter");
     MoleGames.getMoleGames().getGameMasterClient().testTournament(1);
     MoleGames.getMoleGames().getGameMasterClient().testGame(1);

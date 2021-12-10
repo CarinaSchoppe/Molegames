@@ -34,8 +34,8 @@ public class AILogic {
    * @use is called to make a move!
    */
   public boolean makeMove(@NotNull final AI ai, @NotNull NetworkMole mole, @NotNull final Directions direction) {
-    int x = 0;
-    int y = 0;
+    var x = 0;
+    var y = 0;
     if (isHoleCloseToMole(ai) != null) {
       mole = (NetworkMole) isHoleCloseToMole(ai).get(0);
       x = (int) isHoleCloseToMole(ai).get(1);
@@ -48,7 +48,7 @@ public class AILogic {
         System.out.println("AI: the close hole at: [" + x + "," + y + "] is not a legal move!");
       }
     }
-    int[] endField = endField(ai, mole, direction);
+    var endField = endField(ai, mole, direction);
     if (GameLogic.wasLegalMove(new int[]{mole.getNetworkField().getX(), mole.getNetworkField().getY()}, endField, ai.getCard(), ai.getMap())) {
       ai.getAIPacketHandler().makeMovePacket(ai, new int[]{mole.getNetworkField().getX(), mole.getNetworkField().getY()}, endField, ai.getCard());
 /*      System.out.println(
@@ -154,8 +154,8 @@ public class AILogic {
   }
 
   public int[] endField(@NotNull final AI ai, @NotNull final NetworkMole mole, @NotNull final Directions direction) {
-    int x = 0;
-    int y = 0;
+    var x = 0;
+    var y = 0;
     if (direction == Directions.UP) {
       y = mole.getNetworkField().getY() + ai.getCard();
       x = mole.getNetworkField().getX();

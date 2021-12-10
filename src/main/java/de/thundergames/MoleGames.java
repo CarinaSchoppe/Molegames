@@ -11,7 +11,7 @@
 package de.thundergames;
 
 import de.thundergames.gameplay.ai.AI;
-import de.thundergames.gameplay.ausrichter.GameMasterClient;
+import de.thundergames.gameplay.ausrichter.AusrichterClient;
 import de.thundergames.gameplay.player.Client;
 import de.thundergames.gameplay.player.ui.LoginScreen;
 import de.thundergames.networking.server.PacketHandler;
@@ -36,7 +36,7 @@ public class MoleGames {
   private MultiGameHandler gameHandler;
 
   private PacketHandler packetHandler;
-  private GameMasterClient gameMasterClient;
+  private AusrichterClient ausrichterClient;
 
   /**
    * @author Carina
@@ -93,11 +93,11 @@ public class MoleGames {
     return packetHandler;
   }
 
-  public GameMasterClient getGameMasterClient() {
-    return gameMasterClient;
+  public AusrichterClient getGameMasterClient() {
+    return ausrichterClient;
   }
 
-  public void setGameMasterClient(GameMasterClient gameMasterClient) {
-    this.gameMasterClient = gameMasterClient;
+  public void setGameMasterClient(AusrichterClient ausrichterClient) {
+    this.ausrichterClient = ausrichterClient;
   }
 }

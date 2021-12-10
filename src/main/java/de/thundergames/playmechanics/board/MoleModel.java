@@ -76,7 +76,7 @@ public class MoleModel extends Button {
     // Set size
     this.setMinSize(this.size, this.size);
     // Add sprite as a background
-    BackgroundImage backgroundImage = new BackgroundImage(new Image(Utils.getSprite("mole/mole.png"), this.size, this.size, false, true),
+    var backgroundImage = new BackgroundImage(new Image(Utils.getSprite("mole/mole.png"), this.size, this.size, false, true),
       BackgroundRepeat.NO_REPEAT,
       BackgroundRepeat.NO_REPEAT,
       BackgroundPosition.CENTER,

@@ -32,7 +32,7 @@ public class GameUtil {
    */
   public synchronized boolean allHolesFilled() {
     for (var hole : game.getMap().getHoles()) {
-      boolean inHole = false;
+      var inHole = false;
       for (var player : game.getPlayers()) {
         for (var mole : player.getMoles()) {
           if (hole.getX() == mole.getNetworkField().getX() && hole.getY() == mole.getNetworkField().getY()) {

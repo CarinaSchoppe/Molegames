@@ -51,12 +51,12 @@ public class LoginScreen extends Application {
    */
   @FXML
   void onLoginButtonClick(ActionEvent event) throws IOException {
-    String ip = this.ip.getText();
-    String port = this.port.getText();
-    String name = this.name.getText();
+    var ip = this.ip.getText();
+    var port = this.port.getText();
+    var name = this.name.getText();
     if (ip != "" && port != "" && name != "") {
       System.out.println("IP: " + ip + " Port: " + port + " Name: " + name);
-      Client client = new Client(Integer.parseInt(port), ip, name);
+      var client = new Client(Integer.parseInt(port), ip, name);
       client.create();
       new PlayerMenu().create(event);
     } else {

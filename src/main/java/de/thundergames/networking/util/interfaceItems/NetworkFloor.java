@@ -11,12 +11,12 @@
 
 package de.thundergames.networking.util.interfaceItems;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 
 public class NetworkFloor {
 
-  private ArrayList<NetworkField> holes;
-  private ArrayList<NetworkField> drawAgainFields;
+  private HashSet<NetworkField> holes;
+  private HashSet<NetworkField> drawAgainFields;
   private int points = 1;
 
   public int getPoints() {
@@ -27,19 +27,19 @@ public class NetworkFloor {
     this.points = points;
   }
 
-  public ArrayList<NetworkField> getHoles() {
+  public HashSet<NetworkField> getHoles() {
     return holes;
   }
 
-  public void setHoles(ArrayList<NetworkField> holes) {
+  public void setHoles(HashSet<NetworkField> holes) {
     this.holes = holes;
   }
 
-  public ArrayList<NetworkField> getDrawAgainFields() {
+  public HashSet<NetworkField> getDrawAgainFields() {
     return drawAgainFields;
   }
 
-  public void setDrawAgainFields(ArrayList<NetworkField> drawAgainFields) {
+  public void setDrawAgainFields(HashSet<NetworkField> drawAgainFields) {
     this.drawAgainFields = drawAgainFields;
   }
 }

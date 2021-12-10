@@ -34,7 +34,7 @@ public class TestWindow extends Application {
     borderPane.setCursor(new ImageCursor(cursor,
       cursor.getWidth() / 2,
       cursor.getHeight() / 2));
-    int maxPossibleId = 3 * (int) Math.pow(BOARD_RADIUS, 2) + 3 * BOARD_RADIUS + 1;
+    var maxPossibleID = 3 * (int) Math.pow(BOARD_RADIUS, 2) + 3 * BOARD_RADIUS + 1;
     // Create a game handler and add random players to it
     var nodeTypes = generateRandomNodeTypes(50);
     var players = generateThreePlayers();
@@ -61,7 +61,7 @@ public class TestWindow extends Application {
    * @use generates random moles
    */
   public ArrayList<MoleModel> generateRandomMoles(final int numMoles, final int minId, final int maxId) {
-    ArrayList<MoleModel> moles = new ArrayList<>();
+    var moles = new ArrayList<MoleModel>();
     var randomIntsArray = IntStream.generate(() -> new Random().nextInt(maxId - minId + 1) + minId).limit(numMoles).toArray();
     for (var id : randomIntsArray) {
       moles.add(new MoleModel(id, 40));

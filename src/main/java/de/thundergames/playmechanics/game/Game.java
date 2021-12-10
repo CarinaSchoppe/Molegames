@@ -79,7 +79,7 @@ public class Game extends NetworkGame {
     gameState.setRadius(settings.getRadius());
     gameState.setFloor(settings.getFloors().get(currentFloorID));
     gameState.setPullDiscsOrdered(settings.isPullDiscsOrdered());
-    HashMap<Integer, ArrayList<Integer>> mappe = new HashMap<>();
+    var mappe = new HashMap<Integer, ArrayList<Integer>>();
     for (var players : players) {
       mappe.put(players.getClientID(), players.getCards());
     }

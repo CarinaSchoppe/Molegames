@@ -31,9 +31,9 @@ public class GameConfiguration {
    * @see NetworkConfiguration
    */
   public void saveSettings(@NotNull final NetworkConfiguration config) throws IOException {
-    File file = new File("config" + id + ".json");
+    var file = new File("config" + id + ".json");
     id++;
-    FileWriter writer = new FileWriter(file);
+    var writer = new FileWriter(file);
     writer.write(config.toString());
     writer.flush();
     writer.close();

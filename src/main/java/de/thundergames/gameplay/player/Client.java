@@ -58,7 +58,7 @@ public class Client extends Network {
   }
 
   public static void main(String[] args) {
-    Client client = new Client(5000, "localhost", "Carina");
+    var client = new Client(5000, "localhost", "Carina");
     client.create();
     client.clientPacketHandler.joinGamePacket(client, 0, true);
   }
