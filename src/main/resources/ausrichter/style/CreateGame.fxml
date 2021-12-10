@@ -28,25 +28,25 @@
                 <Button style="-fx-background-color: transparent;" ellipsisString="" layoutX="47.0" layoutY="593.0" mnemonicParsing="false" onAction="#loadConfigButtonEvent" prefHeight="22.0" prefWidth="83.0" fx:id="loadConfig"/>
                 <Button style="-fx-background-color: transparent;" ellipsisString="" layoutX="151.0" layoutY="594.0" mnemonicParsing="false" onAction="#createGameButtonEvent" prefHeight="16.0" prefWidth="81.0" fx:id="createGame"/>
                 <Button style="-fx-background-color: transparent;" layoutX="57.0" layoutY="18.0" mnemonicParsing="false" onAction="#backButtonEvent" prefHeight="12.0" prefWidth="11.0" fx:id="back"/>
-        <CheckBox style="-fx-background-color: transparent; -fx-background-image: transparent; -fx-border-color: transparent;" layoutX="241.0" layoutY="318.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="13.0" fx:id="pullDiscsOrdered"/>
-        <ChoiceBox style="-fx-background-color: transparent; -fx-border-color: transparent;" layoutX="158.0" layoutY="137.0" prefHeight="28.0" prefWidth="144.0" fx:id="movePenalty"/>
-        <ImageView fitHeight="657.0" fitWidth="356.0" layoutX="-1.0" layoutY="-2.0" pickOnBounds="true" smooth="false">
-          <image>
-              <Image url="@../pictures/CreateGame-Ausrichter.png"/>
-          </image>
-        </ImageView>
-        <TextArea style="-fx-background-color: transparent; -fx-border-color: transparent;" editable="false" layoutX="77.0" layoutY="404.0" prefHeight="65.0" prefWidth="178.0" fx:id="drawCardValues">
-          <font>
-            <Font size="20.0"/>
-          </font>
-        </TextArea>
-        <TextField style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-text-fill: white;" layoutX="71.0" layoutY="136.0" prefHeight="13.0" prefWidth="75.0" fx:id="molesAmount"/>
-        <TextField style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-text-fill: white;" layoutX="74.0" layoutY="189.0" prefHeight="26.0" prefWidth="58.0" fx:id="thinkTime"/>
-        <TextField style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-text-fill: white;" layoutX="159.0" layoutY="185.0" prefHeight="28.0" prefWidth="121.0" fx:id="visualEffects"/>
-        <TextField style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-text-fill: white;" layoutX="73.0" layoutY="318.0" prefHeight="28.0" prefWidth="56.0" fx:id="radius"/>
-        <TextField style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-text-fill: white;" layoutX="162.0" layoutY="317.0" prefHeight="27.0" prefWidth="58.0" fx:id="playerAmount"/>
-        <TextField style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-text-fill: white;" layoutX="76.0" layoutY="365.0" prefHeight="27.0" prefWidth="92.0" fx:id="drawCardValue"/>
-      </children>
-    </AnchorPane>
-  </center>
+                <CheckBox style="-fx-background-color: transparent; -fx-background-image: transparent; -fx-border-color: transparent;" layoutX="241.0" layoutY="318.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="13.0" fx:id="pullDiscsOrdered"/>
+                <ChoiceBox style="-fx-background-color: transparent; -fx-border-color: transparent;" layoutX="158.0" layoutY="137.0" prefHeight="28.0" prefWidth="144.0" fx:id="movePenalty"/>
+                <ImageView fitHeight="657.0" fitWidth="356.0" layoutX="-1.0" layoutY="-2.0" pickOnBounds="true" smooth="false">
+                    <image>
+                        <Image url="@../pictures/CreateGame-Ausrichter.png"/>
+                    </image>
+                </ImageView>
+                <TextArea style="-fx-background-color: transparent; -fx-border-color: transparent;" editable="false" layoutX="77.0" layoutY="404.0" prefHeight="65.0" prefWidth="178.0" fx:id="drawCardValues">
+                    <font>
+                        <Font size="20.0"/>
+                    </font>
+                </TextArea>
+                <TextField style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-text-fill: white;" layoutX="71.0" layoutY="136.0" prefHeight="13.0" prefWidth="75.0" fx:id="molesAmount"/>
+                <TextField style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-text-fill: white;" layoutX="74.0" layoutY="189.0" prefHeight="26.0" prefWidth="58.0" fx:id="thinkTime"/>
+                <TextField style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-text-fill: white;" layoutX="159.0" layoutY="185.0" prefHeight="28.0" prefWidth="121.0" fx:id="visualEffects"/>
+                <TextField style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-text-fill: white;" layoutX="73.0" layoutY="318.0" prefHeight="28.0" prefWidth="56.0" fx:id="radius"/>
+                <TextField style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-text-fill: white;" layoutX="162.0" layoutY="317.0" prefHeight="27.0" prefWidth="58.0" fx:id="playerAmount"/>
+                <TextField style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-text-fill: white;" layoutX="76.0" layoutY="365.0" prefHeight="27.0" prefWidth="92.0" fx:id="drawCardValue"/>
+            </children>
+        </AnchorPane>
+    </center>
 </BorderPane>

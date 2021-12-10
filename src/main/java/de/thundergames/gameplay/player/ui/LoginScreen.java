@@ -22,7 +22,6 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import javax.swing.*;
-import java.io.File;
 import java.io.IOException;
 import java.util.ResourceBundle;
 
@@ -78,7 +77,7 @@ public class LoginScreen extends Application {
 
   @Override
   public void start(Stage primaryStage) throws Exception {
-    var loader =      new FXMLLoader(getClass().getResource("/player/style/LoginScreen.fxml"));
+    var loader = new FXMLLoader(getClass().getResource("/player/style/LoginScreen.fxml"));
     Parent root = loader.load();
     primaryStage.setResizable(false);
     primaryStage.setTitle("Maulwurf Company");

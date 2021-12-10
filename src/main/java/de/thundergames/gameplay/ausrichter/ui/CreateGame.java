@@ -24,7 +24,6 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
