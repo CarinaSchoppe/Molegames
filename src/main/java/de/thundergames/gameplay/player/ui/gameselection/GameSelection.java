@@ -104,7 +104,7 @@ public class GameSelection implements Initializable {
    *
    * @param stage current stage
    */
-  private void logout(Stage stage) {
+  private void logout(@NotNull final Stage stage) {
     client.getClientPacketHandler().logoutPacket(client);
     stage.close();
   }
@@ -145,7 +145,7 @@ public class GameSelection implements Initializable {
    * @throws IOException error creating the scene PlayerMenu
    */
   @FXML
-  void backToMenu(ActionEvent event) throws IOException {
+  public void backToMenu(ActionEvent event) throws IOException {
     new PlayerMenu().create(event);
   }
 
@@ -156,7 +156,7 @@ public class GameSelection implements Initializable {
    * @throws IOException error at creating the scene
    */
   @FXML
-  void spectateGame(ActionEvent event) throws IOException {
+  public void spectateGame(ActionEvent event) throws IOException {
     NetworkGame selectedItem = gameTable.getSelectionModel().getSelectedItem();
     // If no item of tableview is selected.
     if (selectedItem == null) {
@@ -168,7 +168,6 @@ public class GameSelection implements Initializable {
     client.getClientPacketHandler().joinGamePacket(client, selectedItem.getGameID(), false);
     // Get GameState
     GameState currentGameState = client.getGameState();
-
     if (currentGameState == null) {
       System.out.println("GameSelection: GameState is null");
       return;
@@ -183,7 +182,10 @@ public class GameSelection implements Initializable {
     }
   }
 
-  /** Load scene of scoreboard */
+  /**
+   * @author Lennart
+   * @use Load scene of scoreboard
+   */
   private void loadScoreboard(ActionEvent event) {
     client.getClientPacketHandler().getScorePacket(client);
     try {
@@ -194,13 +196,18 @@ public class GameSelection implements Initializable {
   }
 
   /**
-   * Load scene of game
+   * @author Lennart
+   * @use Load scene of game
    */
-  private void spectateGame(GameState gameState) {
+  private void spectateGame(@NotNull final GameState gameState) {
     primaryStage.close();
     // Todo:Open scene of Game
   }
 
+  /**
+   * @author Lennart
+   * @use creates a game
+   */
   public void createGame() {
     // Get GameState
     GameState currentGameState = client.getGameState();
@@ -214,7 +221,7 @@ public class GameSelection implements Initializable {
       // } else if (Objects.equals(currentGameState.getStatus(), GameStates.NOT_STARTED.toString())) {
       //new LobbyObserverGame().create(event);
     } else if (Objects.equals(currentGameState.getStatus(), GameStates.OVER.toString())) {
-      loadScoreboard();
+      //loadScoreboard(); //TODO: load the scoreboard!
     }
   }
 }
