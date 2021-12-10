@@ -7,31 +7,30 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 
-
 enum NodeType {
-    HOLE {
-        @Override
-        public void styleNode(Node n) {
-          var hole = new Image(Utils.getSprite("game/hole.png"));
-            n.setFill(new ImagePattern(hole));
-        }
-    },
-    DRAW_AGAIN {
-        @Override
-        public void styleNode(Node n) {
-          var node = new Image(Utils.getSprite("game/highlight.png"));
-            n.setFill(new ImagePattern(node));
-        }
-    },
-    DEFAULT {
-        @Override
-        public void styleNode(Node n) {
-          var node = new Image(Utils.getSprite("game/node.png"));
-            n.setFill(new ImagePattern(node));
-        }
-    };
+  HOLE {
+    @Override
+    public void styleNode(Node n) {
+      var hole = new Image(Utils.getSprite("game/hole.png"));
+      n.setFill(new ImagePattern(hole));
+    }
+  },
+  DRAW_AGAIN {
+    @Override
+    public void styleNode(Node n) {
+      var node = new Image(Utils.getSprite("game/highlight.png"));
+      n.setFill(new ImagePattern(node));
+    }
+  },
+  DEFAULT {
+    @Override
+    public void styleNode(Node n) {
+      var node = new Image(Utils.getSprite("game/node.png"));
+      n.setFill(new ImagePattern(node));
+    }
+  };
 
-    public abstract void styleNode(Node n);
+  public abstract void styleNode(Node n);
 }
 
 public class Node extends Circle {
@@ -61,30 +60,28 @@ public class Node extends Circle {
     this(id, x, y, DEFAULT_RADIUS, NodeType.DEFAULT, 0, false);
   }
 
-    public int getNodeId() {
-        return this.id;
-    }
+  public int getNodeId() {
+    return this.id;
+  }
 
-    public int getRow() {
-        return this.row;
-    }
+  public int getRow() {
+    return this.row;
+  }
 
-    public void setIsOccupied(boolean isOccupied) {
-        this.isOccupied = isOccupied;
-    }
+  public boolean getIsOccupied() {
+    return this.isOccupied;
+  }
 
-    public boolean getIsOccupied() {
-        return this.isOccupied;
-    }
+  public void setIsOccupied(boolean isOccupied) {
+    this.isOccupied = isOccupied;
+  }
 
-    public boolean isNodeOccupied(int[] ocuppieNodeIds) {
-        return Arrays.asList(ocuppieNodeIds).contains(this.id);
-    }
+  public boolean isNodeOccupied(int[] ocuppieNodeIds) {
+    return Arrays.asList(ocuppieNodeIds).contains(this.id);
+  }
 
-
-    @Override
-    public String toString() {
-        return "(id: " + id + ", x: " + this.getCenterX() + ", y: " + this.getCenterY() + ")";
-    }
-
+  @Override
+  public String toString() {
+    return "(id: " + id + ", x: " + this.getCenterX() + ", y: " + this.getCenterY() + ")";
+  }
 }

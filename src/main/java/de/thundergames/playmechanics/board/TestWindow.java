@@ -94,6 +94,4 @@ public class TestWindow extends Application {
   <T> T randomValueFromArray(@NotNull final T[] values) {
     return values[new Random().nextInt(values.length)];
   }
-
-
 }

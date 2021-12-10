@@ -9,11 +9,11 @@ import java.util.List;
 public class GameHandler {
   final public static long DEFAULT_TIMEOUT = 10000; // 10 seconds
   private final ArrayList<PlayerModel> players;
-  private ArrayList<NodeType> nodeTypes;
   private final PlayerModel activePlayer;
-  private Board board;
   private final long timeout;
   private final int boardRadius;
+  private ArrayList<NodeType> nodeTypes;
+  private Board board;
 
   /**
    * @param players
@@ -57,15 +57,14 @@ public class GameHandler {
   }
 
   public void loop() {
-        // TODO: Implement game loop logic with timeout
-    }
+    // TODO: Implement game loop logic with timeout
+  }
 
-    public Board getBoard() {
-        return this.board;
-    }
+  public Board getBoard() {
+    return this.board;
+  }
 
-    public void setNodeTypes(List<NodeType> nodeTypes) {
-        this.nodeTypes = new ArrayList<>(nodeTypes);
-    }
-
+  public void setNodeTypes(List<NodeType> nodeTypes) {
+    this.nodeTypes = new ArrayList<>(nodeTypes);
+  }
 }

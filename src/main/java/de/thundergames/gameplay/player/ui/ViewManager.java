@@ -9,17 +9,16 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
-
 public class ViewManager {
-    private final Pane fieldPane;
-    private final Pane mainPane;
-    private final Stage mainStage;
-    private final int level = 1;
-    private final int LASTLEVEL = 100;
-    public Scene mainScene;
-    public int R = 2;
-    int WIDTH = 800;
-    int HEIGHT = 600;
+  private final Pane fieldPane;
+  private final Pane mainPane;
+  private final Stage mainStage;
+  private final int level = 1;
+  private final int LASTLEVEL = 100;
+  public Scene mainScene;
+  public int R = 2;
+  int WIDTH = 800;
+  int HEIGHT = 600;
   int anchorPointX = 150;
   int anchorPointY = 150;
   //Load field dot images.
@@ -42,21 +41,17 @@ public class ViewManager {
     mainScene = new Scene(borderPane, WIDTH, HEIGHT);
     mainStage = new Stage();
     mainStage.setScene(mainScene);
+    createTestButtons(0, 0);
+    renderBackground(level);
+    renderFields(R);
+    createFields(R);
+    createMole();
+    //Screen Drag trial.
+  }
 
-        createTestButtons(0, 0);
-        renderBackground(level);
-        renderFields(R);
-        createFields(R);
-        createMole();
-
-        //Screen Drag trial.
-
-
-    }
-
-    public Stage getMainStage() {
-        return mainStage;
-    }
+  public Stage getMainStage() {
+    return mainStage;
+  }
 
   public void incR(ActionEvent e) {
     R += 1;
@@ -160,15 +155,15 @@ public class ViewManager {
       }
       if (level % 3 == 2) {
         mainPane.setBackground(new Background(set_dirt));
-            }
-            if (level % 3 == 0) {
-                mainPane.setBackground(new Background(set_sand));
-            }
-            if (level == LASTLEVEL) { // Needs to read game size.
-                mainPane.setBackground(new Background(set_bed_rock));
-            }
-        }
+      }
+      if (level % 3 == 0) {
+        mainPane.setBackground(new Background(set_sand));
+      }
+      if (level == LASTLEVEL) { // Needs to read game size.
+        mainPane.setBackground(new Background(set_bed_rock));
+      }
     }
+  }
 
   private void renderFields(final int r) {
     //Renders the hexagon game board.
@@ -188,7 +183,7 @@ public class ViewManager {
       128, 128, true, true);
     var south_east = new Image(Utils.getSprite("game/path_southeast.png"),
       128, 128, true, true);
-        //Loop for upper left edge
+    //Loop for upper left edge
     for (var i = 0; i < r - 1; i++) {
       ImageView nw = new ImageView();
       nw.setImage(north_west);
@@ -196,7 +191,7 @@ public class ViewManager {
       nw.setY(anchorPointY + 79 * i);
       fieldPane.getChildren().add(nw);
     }
-        //Loop for upper half.
+    //Loop for upper half.
     for (var j = 0; j < r - 1; j++) {
       for (var i = 0; i < limit - 2; i++) {
         ImageView n = new ImageView();
@@ -206,11 +201,11 @@ public class ViewManager {
         fieldPane.getChildren().add(n);
       }
       offsetY += 79;
-            offsetX -= 48;
-            limit += 1;
-        }
-        // Return parameters to default values.
-        offsetY = anchorPointY;
+      offsetX -= 48;
+      limit += 1;
+    }
+    // Return parameters to default values.
+    offsetY = anchorPointY;
     offsetX = anchorPointX;
     limit = r;
     //Loop for lower left edge
@@ -292,32 +287,26 @@ public class ViewManager {
         field.setOnMousePressed(event -> field.setGraphic(field_pre));
         fieldPane.getChildren().add(field);
       }
-            offsetY += 79;
-            offsetX += 48;
-            limit -= 1;
-
-        }
+      offsetY += 79;
+      offsetX += 48;
+      limit -= 1;
     }
+  }
 
-    private void createMole() {
-      var mole_red = new Image(Utils.getSprite("mole/mole.png"), 64, 64, true, true);
-      var mole_r = new ImageView(mole_red);
-      var mole = new Button();
-      mole.setLayoutX(250);
-      mole.setLayoutY(250);
-      mole.setGraphic(mole_r);
-      mole.setBackground(null);
-      fieldPane.getChildren().add(mole);
-      //drag n drop method, can be deleted.
-      mole.setOnMouseDragged(e -> {
-        mole.setLayoutX(e.getSceneX() - 30);
-        mole.setLayoutY(e.getSceneY() - 30);
-      });
-
-
-    }
-
-
-
+  private void createMole() {
+    var mole_red = new Image(Utils.getSprite("mole/mole.png"), 64, 64, true, true);
+    var mole_r = new ImageView(mole_red);
+    var mole = new Button();
+    mole.setLayoutX(250);
+    mole.setLayoutY(250);
+    mole.setGraphic(mole_r);
+    mole.setBackground(null);
+    fieldPane.getChildren().add(mole);
+    //drag n drop method, can be deleted.
+    mole.setOnMouseDragged(e -> {
+      mole.setLayoutX(e.getSceneX() - 30);
+      mole.setLayoutY(e.getSceneY() - 30);
+    });
+  }
 }
 

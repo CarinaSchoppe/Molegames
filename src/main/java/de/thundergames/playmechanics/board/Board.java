@@ -9,6 +9,7 @@ import javafx.scene.layout.*;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -16,7 +17,7 @@ import java.util.stream.Collectors;
 public class Board extends Group {
   private final int radius;
   // TODO:: make a partial type for nodes that decouples logic from UI
-  private final ArrayList<Node> nodes;
+  private final HashSet<Node> nodes;
   private final ArrayList<Edge> edges;
   private ArrayList<NodeType> nodesType;
   private ArrayList<PlayerModel> players;
@@ -41,7 +42,7 @@ public class Board extends Group {
     this.radius = radius;
     this.width = width;
     this.height = height;
-    this.nodes = new ArrayList<>();
+    this.nodes = new HashSet<>();
     this.edges = new ArrayList<>();
     this.players = new ArrayList<>();
     // This is probably not the best way of handling click events on node elements
@@ -66,7 +67,7 @@ public class Board extends Group {
     var nodeId = node.getNodeId();
     var nodeRow = node.getRow();
     var rowOffset = nodeRow < this.radius + 1 ? this.radius + nodeRow : 3 * this.radius + 2 - nodeRow;
-    int maxPossibleId = 3 * (int) Math.pow(this.radius, 2) + 3 * this.radius + 1;
+    var maxPossibleId = 3 * (int) Math.pow(this.radius, 2) + 3 * this.radius + 1;
     // Get list of possible neighbors
     var possibleNeighborsIds = new ArrayList<>(List.of(nodeId - 1, nodeId + 1, nodeId + rowOffset));
     if (nodeRow < this.radius + 1) {
@@ -74,7 +75,7 @@ public class Board extends Group {
     } else {
       possibleNeighborsIds.add(nodeId + rowOffset - 1);
     }
-    List<Node> possibleNeighbors = this.nodes.stream().filter(n -> possibleNeighborsIds.contains(n.getNodeId())).collect(Collectors.toList());
+    var possibleNeighbors = this.nodes.stream().filter(n -> possibleNeighborsIds.contains(n.getNodeId())).collect(Collectors.toList());
     // Filter out invalid neighbors
     Function<Node, Boolean> isValidId = neighbor -> neighbor.getNodeId() > 0 && neighbor.getNodeId() <= maxPossibleId && neighbor.getNodeId() > nodeId;
     Function<Node, Boolean> isNextEdge = neighbor -> (neighbor.getNodeId() == nodeId + 1 && neighbor.getRow() > nodeRow) || neighbor.getRow() - nodeRow > 1;
@@ -115,7 +116,7 @@ public class Board extends Group {
     var startId = 1;
     for (var i = 0; i < numberOfGridRows; i++) {
       var numberOfGridCols = i <= this.radius ? this.radius + i + 1 : this.radius + numberOfGridRows - i;
-      Point2D[] nodesPositions = getNodesPosition(numberOfGridCols, numberOfGridRows, i);
+      var nodesPositions = getNodesPosition(numberOfGridCols, numberOfGridRows, i);
       for (var j = 0; j < numberOfGridCols; j++) {
         this.nodes.add(new Node(startId + j, nodesPositions[j].getX(), nodesPositions[j].getY(), this.nodesType.get(startId + j), i + 1, occupiedNodes.contains(startId + j)));
       }
@@ -210,7 +211,7 @@ public class Board extends Group {
     return this.players.stream().map(player -> player.getOccupiedIds()).flatMap(List::stream).collect(Collectors.toList());
   }
 
-  public ArrayList<Node> getNodes() {
+  public HashSet<Node> getNodes() {
     return nodes;
   }
 }
