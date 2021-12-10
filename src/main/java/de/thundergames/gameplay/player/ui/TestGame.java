@@ -1,5 +1,6 @@
 package de.thundergames.gameplay.player.ui;
 
+import de.thundergames.gameplay.player.ui.ViewManager;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
