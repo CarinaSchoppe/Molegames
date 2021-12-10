@@ -80,11 +80,7 @@ public class MainGUI extends Application {
 
   @Override
   public void start(Stage primaryStage) throws Exception {
-    location =
-      new File("src/main/resources/ausrichter/style/MainGUI.fxml")
-        .toURI()
-        .toURL();
-    Parent root = FXMLLoader.load(location);
+    Parent root = FXMLLoader.load(getClass().getResource("/ausrichter/style/MainGUI.fxml"));
     primaryStage.setResizable(false);
     primaryStage.setTitle("MainGUI");
     primaryStage.setScene(new Scene(root));

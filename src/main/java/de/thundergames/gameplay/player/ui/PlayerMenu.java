@@ -43,11 +43,7 @@ public class PlayerMenu implements Initializable {
    */
   public void create(ActionEvent event) throws IOException {
     var primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-    var location =
-      new File("src/main/resources/player/style/PlayerMenu.fxml")
-        .toURI()
-        .toURL();
-    Parent root = FXMLLoader.load(location);
+    Parent root = FXMLLoader.load(getClass().getResource("/player/style/PlayerMenu.fxml"));
     primaryStage.setTitle("Maulwurf Company");
     primaryStage.setResizable(false);
     primaryStage.setScene(new Scene(root));
@@ -81,11 +77,7 @@ public class PlayerMenu implements Initializable {
     client.getClientPacketHandler().logoutPacket(client);
     //create LoginScreen scene
     var primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-    var location =
-      new File("src/main/resources/player/style/LoginScreen.fxml")
-        .toURI()
-        .toURL();
-    Parent root = FXMLLoader.load(location);
+    Parent root = FXMLLoader.load(getClass().getResource("/player/style/LoginScreen.fxml"));
     primaryStage.setResizable(false);
     primaryStage.setScene(new Scene(root));
     primaryStage.show();

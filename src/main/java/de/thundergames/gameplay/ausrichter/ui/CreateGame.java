@@ -167,7 +167,7 @@ public class CreateGame extends Application {
   @Override
   public void start(Stage primaryStage) throws Exception {
     var loader =
-      new FXMLLoader(new File("src/main/resources/ausrichter/style/CreateGame.fxml").toURI().toURL());
+      new FXMLLoader(getClass().getResource("/ausrichter/style/CreateGame.fxml"));
     loader.setController(this);
     Parent root = loader.load();
     initialize();
