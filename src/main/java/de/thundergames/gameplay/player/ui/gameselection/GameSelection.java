@@ -63,7 +63,7 @@ public class GameSelection implements Initializable {
    * @param event event from the current scene to build this scene on same object
    * @throws IOException error creating the scene GameSelection
    */
-  public void create(@NotNull ActionEvent event) throws IOException {
+  public void create(@NotNull final ActionEvent event) throws IOException {
     primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
     // Set scene
     var loader = SceneController.loadFXML("player/GameSelection.fxml");

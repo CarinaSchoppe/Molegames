@@ -5,7 +5,15 @@ public class PlayerResult {
   private String name;
   private int placement;
 
-  public PlayerResult(String name,int score, int placement)
+/**
+* @author Lennart
+* @param name
+* @param score
+* @param placement
+* @use the result for a player
+* @see de.thundergames.filehandling.Score
+*/
+  public PlayerResult(@NotNull final String name, final int score,final int placement)
   {
     this.name =name;
     this.score = score;

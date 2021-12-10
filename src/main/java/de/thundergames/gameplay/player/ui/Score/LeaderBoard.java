@@ -105,12 +105,12 @@ public class LeaderBoard implements Initializable {
 
 
   /**
-   * Create the Scene for LeaderBoard
-   *
+   * @use Create the Scene for LeaderBoard
+   * @author Lennart 
    * @param event event from the current scene to build this scene on same object
    * @throws IOException error creating the scene LeaderBoard
    */
-  public void create(@NotNull ActionEvent event) throws Exception {
+  public void create(@NotNull final ActionEvent event) throws Exception {
     Stage primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
     primaryStage.close();
 
@@ -155,7 +155,7 @@ public class LeaderBoard implements Initializable {
    * @throws IOException error creating the scene PlayerMenu
    */
   @FXML
-  void backToMenu(ActionEvent event) throws IOException {
+  void backToMenu(@NotNull final ActionEvent event) throws IOException {
     new PlayerMenu().create(event);
   }
 }
