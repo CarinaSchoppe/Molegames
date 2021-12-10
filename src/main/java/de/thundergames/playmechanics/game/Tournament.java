@@ -46,7 +46,7 @@ public class Tournament {
 
   /**
    * @author Carina
-   * @use creates a new tournament will all stuff needed TODO: mehr ausfüllen
+   * @use creates a new tournament will all stuff needed
    */
   public synchronized void create() {
     this.score = new Score();
@@ -58,7 +58,6 @@ public class Tournament {
       MoleGames.getMoleGames().getPacketHandler().overviewPacket(client);
     }
   }
-
 
   /**
    * @param client

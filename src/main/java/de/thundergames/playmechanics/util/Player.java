@@ -62,8 +62,8 @@ public class Player extends NetworkPlayer {
   /**
    * @param x_start the x-coordinate of the start field
    * @param y_start the y-coordinate of the start field
-   * @param x_end the x-coordinate of the end field
-   * @param y_end the y-coordinate of the end field
+   * @param x_end   the x-coordinate of the end field
+   * @param y_end   the y-coordinate of the end field
    * @return true if the move is valid
    * @author Carina
    * @use will check if a field is valid and if the player has the right to move the mole

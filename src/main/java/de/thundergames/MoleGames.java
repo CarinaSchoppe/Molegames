@@ -34,6 +34,7 @@ public class MoleGames {
   private AI ai;
   private Server server;
   private MultiGameHandler gameHandler;
+
   private PacketHandler packetHandler;
   private GameMasterClient gameMasterClient;
 
@@ -45,14 +46,7 @@ public class MoleGames {
    * @see Client
    * @see AI
    */
-  private static final Socket socket = null;
-
-  public static Socket getSocket() {
-    return socket;
-  }
-
   public static void main(@Nullable final String... args) {
-
     moleGames = new MoleGames();
     if (args.length == 0) {
       LoginScreen.create(args);
@@ -64,7 +58,6 @@ public class MoleGames {
           break;
         case "-s":
         case "s":
-          getSocket();
           moleGames.server = new Server(5000, "127.0.0.1");
           moleGames.packetHandler = new PacketHandler();
           moleGames.gameHandler = new MultiGameHandler();
