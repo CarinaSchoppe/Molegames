@@ -25,7 +25,7 @@ public class ServerThread extends NetworkThread {
 
   /**
    * @param socket the server Socket
-   * @param id Serverthread id
+   * @param id     Serverthread id
    * @author Carina
    */
   public ServerThread(@NotNull final Socket socket, final int id) throws IOException {
@@ -55,12 +55,14 @@ public class ServerThread extends NetworkThread {
   @Override
   public void disconnect() {
     try {
-      System.out.println("Disconnecting " + this.getClientName());
+      if (MoleGames.getMoleGames().getGameHandler().getClientGames().containsKey(this)) {
+        MoleGames.getMoleGames().getGameHandler().getClientGames().get(this).removePlayerFromGame(MoleGames.getMoleGames().getGameHandler().getClientGames().get(this).getClientPlayersMap().get(this));
+      }
       MoleGames.getMoleGames().getServer().getConnectionNames().remove(this.getClientName());
       MoleGames.getMoleGames().getServer().getClientThreads().remove(this);
       MoleGames.getMoleGames().getServer().getThreadIds().remove(getConnectionID());
-
       socket.close();
+      System.out.println("Disconnecting " + this.getClientName());
     } catch (IOException e) {
       e.printStackTrace();
     }

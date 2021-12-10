@@ -13,10 +13,10 @@ package de.thundergames.gameplay.player.ui.tournamentselection;
 
 import de.thundergames.gameplay.player.Client;
 import de.thundergames.gameplay.player.ui.PlayerMenu;
+import de.thundergames.gameplay.util.SceneController;
 import de.thundergames.playmechanics.game.GameState;
 import de.thundergames.playmechanics.game.GameStates;
 import de.thundergames.playmechanics.game.Tournament;
-import de.thundergames.gameplay.util.SceneController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -40,16 +40,19 @@ public class TournamentSelection implements Initializable {
 
   private static Client client;
   private static TournamentSelection tournamentSelection;
-  @FXML private Text PlayerName;
-  @FXML private TableView<Tournament> gameTable;
-  @FXML private TableColumn<Tournament, Integer> tournamentID;
-  @FXML private TableColumn<Tournament, String> playerCount;
+  @FXML
+  private Text PlayerName;
+  @FXML
+  private TableView<Tournament> gameTable;
+  @FXML
+  private TableColumn<Tournament, Integer> tournamentID;
+  @FXML
+  private TableColumn<Tournament, String> playerCount;
+  private Stage primaryStage;
 
   public static TournamentSelection getTournamentSelection() {
     return tournamentSelection;
   }
-
-  private Stage primaryStage;
 
   /**
    * Create the Scene for TournamentSelection
@@ -60,7 +63,6 @@ public class TournamentSelection implements Initializable {
   public void create(ActionEvent event) throws IOException {
     tournamentSelection = this;
     primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-
     var loader = SceneController.loadFXML("player/TournamentSelection.fxml");
     loader.setController(this);
     Parent root = loader.load();
@@ -69,53 +71,51 @@ public class TournamentSelection implements Initializable {
     primaryStage.setScene(new Scene(root));
     primaryStage.show();
     primaryStage.setOnCloseRequest(ev -> logout(primaryStage));
-
     // region Create button events
     // set event for back button
     var btnBack = (Button) (primaryStage.getScene().lookup("#backToMenu"));
     btnBack.setOnAction(
-        e -> {
-          try {
-            backToMenu(e);
-          } catch (IOException ex) {
-            ex.printStackTrace();
-          }
-        });
+      e -> {
+        try {
+          backToMenu(e);
+        } catch (IOException ex) {
+          ex.printStackTrace();
+        }
+      });
     // set event for spectate game
     var btnSpectateGame = (Button) (primaryStage.getScene().lookup("#spectateGame"));
     btnSpectateGame.setOnAction(
-        e -> {
-          try {
-            spectateGame(e);
-          } catch (IOException ex) {
-            ex.printStackTrace();
-          }
-        });
+      e -> {
+        try {
+          spectateGame(e);
+        } catch (IOException ex) {
+          ex.printStackTrace();
+        }
+      });
     // endregion
-
   }
+
   /**
    * Is called when the object is initialized
    *
-   * @param location of base class Initialize
+   * @param location  of base class Initialize
    * @param resources of base class Initialize
    */
   @Override
   public void initialize(URL location, ResourceBundle resources) {
     client = Client.getClient();
-
     // show username at scene
     PlayerName.setText("Spieler: " + client.name);
-
     // set value for each row
     tournamentID.setCellValueFactory(new PropertyValueFactory<>("HashtagWithTournamentID"));
     playerCount.setCellValueFactory(new PropertyValueFactory<>("playerCount"));
-
     // load data for tableview
     updateTable();
   }
 
-  /** Refresh the games of tableview */
+  /**
+   * Refresh the games of tableview
+   */
   public void updateTable() {
     // clear tableview and get tournaments from server and add all to table view
     gameTable.getItems().clear();
@@ -156,25 +156,23 @@ public class TournamentSelection implements Initializable {
     // If no item of tableview is selected.
     if (selectedItem == null) {
       JOptionPane.showMessageDialog(
-          null,
-          "Es wurde kein Turnier selektiert!",
-          "Turnier beobachten",
-          JOptionPane.ERROR_MESSAGE);
+        null,
+        "Es wurde kein Turnier selektiert!",
+        "Turnier beobachten",
+        JOptionPane.ERROR_MESSAGE);
       return;
     }
     // Send Packet to spectate tournament to get GameState
     client
-        .getClientPacketHandler()
-        .enterTournamentPacket(client, selectedItem.getTournamentID(), false);
-
+      .getClientPacketHandler()
+      .enterTournamentPacket(client, selectedItem.getTournamentID(), false);
     GameState currentGameState = client.getGameState();
-
     if (currentGameState == null) {
       System.out.println("TournamentSelection: GameState is null");
       return;
     }
     if (Objects.equals(currentGameState.getStatus(), GameStates.STARTED.toString())
-        || Objects.equals(currentGameState.getStatus(), GameStates.PAUSED.toString())) {
+      || Objects.equals(currentGameState.getStatus(), GameStates.PAUSED.toString())) {
       spectateGame(currentGameState);
     } else if (Objects.equals(currentGameState.getStatus(), GameStates.NOT_STARTED.toString())) {
       new LobbyObserverTournament().create(event, selectedItem.getTournamentID());
@@ -183,7 +181,9 @@ public class TournamentSelection implements Initializable {
     }
   }
 
-  /** Load scene of scoreboard */
+  /**
+   * Load scene of scoreboard
+   */
   private void loadScoreboard() {
     client.getClientPacketHandler().getScorePacket(client);
     // TODO: Get TournamentState
@@ -191,7 +191,9 @@ public class TournamentSelection implements Initializable {
     // Todo:Open scene of ScoreBoard
   }
 
-  /** Load scene of game */
+  /**
+   * Load scene of game
+   */
   private void spectateGame(GameState gameState) {
     primaryStage.close();
     // Todo:Open scene of Game

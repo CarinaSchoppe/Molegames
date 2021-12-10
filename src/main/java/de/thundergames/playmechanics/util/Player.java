@@ -62,8 +62,8 @@ public class Player extends NetworkPlayer {
   /**
    * @param x_start the x-coordinate of the start field
    * @param y_start the y-coordinate of the start field
-   * @param x_end the x-coordinate of the end field
-   * @param y_end the y-coordinate of the end field
+   * @param x_end   the x-coordinate of the end field
+   * @param y_end   the y-coordinate of the end field
    * @return true if the move is valid
    * @author Carina
    * @use will check if a field is valid and if the player has the right to move the mole
@@ -73,17 +73,17 @@ public class Player extends NetworkPlayer {
    * @see GameLogic
    */
   public void moveMole(
-      final int x_start, final int y_start, final int x_end, final int y_end, final int cardValue) {
+    final int x_start, final int y_start, final int x_end, final int y_end, final int cardValue) {
     if (!game.getCurrentPlayer().equals(this) || hasMoved) {
       return;
     }
     if (GameLogic.wasLegalMove(
-        new int[] {x_start, y_start}, new int[] {x_end, y_end}, cardValue, game.getMap())) {
+      new int[]{x_start, y_start}, new int[]{x_end, y_end}, cardValue, game.getMap())) {
       Mole mole = null;
       for (var m : moles) {
         if (m.getNetworkField().getX() == x_start
-            && m.getNetworkField().getY() == y_start
-            && m.getPlayer().getClientID() == getClientID()) {
+          && m.getNetworkField().getY() == y_start
+          && m.getPlayer().getClientID() == getClientID()) {
           mole = m;
           break;
         }
@@ -93,17 +93,17 @@ public class Player extends NetworkPlayer {
         playerUtil.refillCards();
       }
       MoleGames.getMoleGames()
-          .getServer()
-          .sendToAllGameClients(
-              game,
-              MoleGames.getMoleGames()
-                  .getPacketHandler()
-                  .moleMovedPacket(
-                      new NetworkField(x_start, y_start),
-                      new NetworkField(x_end, y_end),
-                      cardValue));
+        .getServer()
+        .sendToAllGameClients(
+          game,
+          MoleGames.getMoleGames()
+            .getPacketHandler()
+            .moleMovedPacket(
+              new NetworkField(x_start, y_start),
+              new NetworkField(x_end, y_end),
+              cardValue));
       Objects.requireNonNull(mole)
-          .setMoleField(game.getMap().getFieldMap().get(List.of(x_end, y_end)));
+        .setMoleField(game.getMap().getFieldMap().get(List.of(x_end, y_end)));
       game.getMap().getFieldMap().get(List.of(x_start, y_start)).setOccupied(false);
       game.getMap().getFieldMap().get(List.of(x_end, y_end)).setOccupied(true);
       game.getMap().getFieldMap().get(List.of(x_end, y_end)).setMole(mole);
@@ -114,56 +114,55 @@ public class Player extends NetworkPlayer {
           moles.add(mole);
         }
       }
-
       mole.setNetworkField(new NetworkField(x_end, y_end));
       System.out.println(
-          "Player with id: "
-              + serverClient.getConnectionID()
-              + " has moved his mole from: x="
-              + x_start
-              + " y="
-              + y_start
-              + " to x="
-              + x_end
-              + " y="
-              + y_end
-              + " with a card="
-              + cardValue
-              + "."
-              + "\n\n");
+        "Player with id: "
+          + serverClient.getConnectionID()
+          + " has moved his mole from: x="
+          + x_start
+          + " y="
+          + y_start
+          + " to x="
+          + x_end
+          + " y="
+          + y_end
+          + " with a card="
+          + cardValue
+          + "."
+          + "\n\n");
       playerUtil.handleTurnAfterAction();
     } else {
       MoleGames.getMoleGames()
-          .getGameHandler()
-          .getGameLogic()
-          .performPunishment(this, game.getSettings().getPunishment());
+        .getGameHandler()
+        .getGameLogic()
+        .performPunishment(this, game.getSettings().getPunishment());
       System.out.println(
-          "Client with id: "
-              + serverClient.getConnectionID()
-              + " has done in invalid move Punishment: "
-              + game.getSettings().getPunishment()
-              + " player tried to move from X,Y: ["
-              + x_start
-              + ","
-              + y_start
-              + "] to X,Y: ["
-              + x_end
-              + ","
-              + y_end
-              + "] with a card of "
-              + cardValue
-              + "\n\n");
+        "Client with id: "
+          + serverClient.getConnectionID()
+          + " has done in invalid move Punishment: "
+          + game.getSettings().getPunishment()
+          + " player tried to move from X,Y: ["
+          + x_start
+          + ","
+          + y_start
+          + "] to X,Y: ["
+          + x_end
+          + ","
+          + y_end
+          + "] with a card of "
+          + cardValue
+          + "\n\n");
       MoleGames.getMoleGames()
-          .getServer()
-          .sendToAllGameClients(
-              game,
-              MoleGames.getMoleGames()
-                  .getPacketHandler()
-                  .movePenaltyNotification(
-                      this,
-                      getGame().getDeductedPoints(),
-                      game.getSettings().getPunishment(),
-                      Punishments.NOMOVE.getName()));
+        .getServer()
+        .sendToAllGameClients(
+          game,
+          MoleGames.getMoleGames()
+            .getPacketHandler()
+            .movePenaltyNotification(
+              this,
+              getGame().getDeductedPoints(),
+              game.getSettings().getPunishment(),
+              Punishments.NOMOVE.getName()));
       timer.cancel();
       game.getGameUtil().nextPlayer();
     }
@@ -180,40 +179,40 @@ public class Player extends NetworkPlayer {
    */
   public void placeMole(final int x, final int y) {
     if (!game.getCurrentPlayer().equals(this)
-        || hasMoved
-        || moles.size() >= game.getSettings().getNumberOfMoles()) {
+      || hasMoved
+      || moles.size() >= game.getSettings().getNumberOfMoles()) {
       return;
     }
     if (game.getMap().getFieldMap().get(List.of(x, y)).isOccupied()
-        || game.getMap().getFieldMap().get(List.of(x, y)).isHole()) {
+      || game.getMap().getFieldMap().get(List.of(x, y)).isHole()) {
       MoleGames.getMoleGames()
-          .getGameHandler()
-          .getGameLogic()
-          .performPunishment(this, game.getSettings().getPunishment());
+        .getGameHandler()
+        .getGameLogic()
+        .performPunishment(this, game.getSettings().getPunishment());
       System.out.println(
-          "Client with id: "
-              + serverClient.getConnectionID()
-              + " has done in invalid move Punishment: "
-              + game.getSettings().getPunishment()
-              + " player tried to place a mole on X,Y: ["
-              + x
-              + ","
-              + y
-              + "]");
+        "Client with id: "
+          + serverClient.getConnectionID()
+          + " has done in invalid move Punishment: "
+          + game.getSettings().getPunishment()
+          + " player tried to place a mole on X,Y: ["
+          + x
+          + ","
+          + y
+          + "]");
       MoleGames.getMoleGames()
-          .getServer()
-          .sendToAllGameClients(
-              game,
-              MoleGames.getMoleGames()
-                  .getPacketHandler()
-                  .movePenaltyNotification(
-                      this,
-                      getGame().getDeductedPoints(),
-                      game.getSettings().getPunishment(),
-                      Punishments.NOMOVE.getName()));
+        .getServer()
+        .sendToAllGameClients(
+          game,
+          MoleGames.getMoleGames()
+            .getPacketHandler()
+            .movePenaltyNotification(
+              this,
+              getGame().getDeductedPoints(),
+              game.getSettings().getPunishment(),
+              Punishments.NOMOVE.getName()));
       timer.cancel();
       game.getGameUtil().nextPlayer();
-    } else {
+    } else if (game.getCurrentPlayer().equals(this)) {
       var mole = new Mole(this, new Field(List.of(x, y)));
       moles.add(mole);
       game.getMoleMap().put(this, mole);
@@ -223,27 +222,23 @@ public class Player extends NetworkPlayer {
       var player = new NetworkPlayer(mole.getPlayer().getName(), mole.getPlayer().getClientID());
       var netMole = new NetworkMole(player, field);
       MoleGames.getMoleGames()
-          .getServer()
-          .sendToAllGameClients(
-              game, MoleGames.getMoleGames().getPacketHandler().molePlacedPacket(netMole));
+        .getServer()
+        .sendToAllGameClients(
+          game, MoleGames.getMoleGames().getPacketHandler().molePlacedPacket(netMole));
       playerUtil.handleTurnAfterAction();
       System.out.println(
-          "Player with id: "
-              + serverClient.getConnectionID()
-              + " has placed his mole on x="
-              + x
-              + " y="
-              + y
-              + ". ("
-              + getMoles().size()
-              + "/"
-              + game.getSettings().getNumberOfMoles()
-              + ")\n\n");
+        "Player with id: "
+          + serverClient.getConnectionID()
+          + " has placed his mole on x="
+          + x
+          + " y="
+          + y
+          + ". ("
+          + getMoles().size()
+          + "/"
+          + game.getSettings().getNumberOfMoles()
+          + ")\n\n");
     }
-  }
-
-  public void setHasMoved(boolean hasMoved) {
-    this.hasMoved = hasMoved;
   }
 
   public boolean isTimerIsRunning() {
@@ -292,5 +287,9 @@ public class Player extends NetworkPlayer {
 
   public boolean isHasMoved() {
     return hasMoved;
+  }
+
+  public void setHasMoved(boolean hasMoved) {
+    this.hasMoved = hasMoved;
   }
 }

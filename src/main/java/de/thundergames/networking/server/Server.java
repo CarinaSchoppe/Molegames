@@ -63,7 +63,6 @@ public class Server extends Network {
     return connectionIDs;
   }
 
-
   /**
    * @author Carina
    * @use creates the Server starts it and runs the handler for the incomming client-connections
@@ -71,33 +70,33 @@ public class Server extends Network {
    * @see ServerThread as an instance that will be created here
    */
   @Override
-  public void create() {
+  public synchronized void create() {
     new Thread(
-            () -> {
-              try {
-                ServerSocket serverSocket = new ServerSocket(port);
-                System.out.println("Server listening on port " + getPort());
-                while (true) {
-                  socket = serverSocket.accept();
-                  var serverThread = new ServerThread(socket, threadID);
-                  getConnectionIDs().put(threadID, serverThread);
-                  getClientThreads().add(serverThread);
-                  serverThread.start();
-                  MoleGames.getMoleGames().getPacketHandler().welcomePacket(serverThread, threadID);
-                  threadIDs.put(serverThread.getConnectionID(), serverThread);
-                  threadID++;
-                }
-              } catch (IOException e) {
-                e.printStackTrace();
-              } finally {
-                try {
-                  socket.close();
-                } catch (IOException e) {
-                  e.printStackTrace();
-                }
-              }
-            })
-        .start();
+      () -> {
+        try {
+          ServerSocket serverSocket = new ServerSocket(port);
+          System.out.println("Server listening on port " + getPort());
+          while (true) {
+            socket = serverSocket.accept();
+            var serverThread = new ServerThread(socket, threadID);
+            getConnectionIDs().put(threadID, serverThread);
+            getClientThreads().add(serverThread);
+            serverThread.start();
+            MoleGames.getMoleGames().getPacketHandler().welcomePacket(serverThread, threadID);
+            threadIDs.put(serverThread.getConnectionID(), serverThread);
+            threadID++;
+          }
+        } catch (IOException e) {
+          e.printStackTrace();
+        } finally {
+          try {
+            socket.close();
+          } catch (IOException e) {
+            e.printStackTrace();
+          }
+        }
+      })
+      .start();
   }
 
   /**
@@ -106,17 +105,11 @@ public class Server extends Network {
    * @use the method will send a packet to all connected clients of the game
    */
   public synchronized void sendToAllGameClients(
-      @NotNull final Game game, @NotNull final Packet packet) {
-    try {
-      if (!game.getPlayers().isEmpty()) {
-        for (var clients : game.getPlayers()) {
-          clients.getServerClient().sendPacket(packet);
-        }
-      } else {
-        System.out.println("The game with the ID: " + game.getGameID() + " is empty!");
+    @NotNull final Game game, @NotNull final Packet packet) {
+    if (!game.getPlayers().isEmpty()) {
+      for (var clients : game.getPlayers()) {
+        clients.getServerClient().sendPacket(packet);
       }
-    } catch (Exception e) {
-      e.printStackTrace();
     }
   }
 
@@ -126,7 +119,7 @@ public class Server extends Network {
    * @use the method will send a packet to all connected clients of the game
    */
   public synchronized void sendToAllTournamentClients(
-      @NotNull final Tournament tournament, @NotNull final Packet packet) {
+    @NotNull final Tournament tournament, @NotNull final Packet packet) {
     try {
       if (!tournament.getClients().isEmpty()) {
         for (var clients : tournament.getClients()) {
@@ -143,7 +136,6 @@ public class Server extends Network {
   public ArrayList<ServerThread> getClientThreads() {
     return clientThreads;
   }
-
 
   public ArrayList<ServerThread> getObserver() {
     return observer;

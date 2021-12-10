@@ -11,12 +11,14 @@
 
 package de.thundergames.networking.util.interfaceItems;
 
+import org.jetbrains.annotations.NotNull;
+
 public class NetworkMole {
 
   private final NetworkPlayer player;
   private NetworkField field;
 
-  public NetworkMole(NetworkPlayer player, NetworkField field) {
+  public NetworkMole(@NotNull final NetworkPlayer player, @NotNull final NetworkField field) {
     this.player = player;
     this.field = field;
   }
@@ -32,6 +34,4 @@ public class NetworkMole {
   public void setNetworkField(NetworkField field) {
     this.field = field;
   }
-
-
 }

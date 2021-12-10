@@ -16,12 +16,10 @@ public class NetworkField {
   private int x;
   private int y;
 
-  public NetworkField(int x, int y) {
+  public NetworkField(final int x, final int y) {
     this.x = x;
     this.y = y;
   }
-
-
 
   public int getX() {
     return x;

@@ -24,7 +24,6 @@ public class Field extends NetworkField {
   private transient Map map;
   private NetworkMole mole;
 
-
   public Field(@NotNull final List<Integer> field) {
     super(field.get(0), field.get(1));
   }
@@ -68,6 +67,4 @@ public class Field extends NetworkField {
   public void setMole(NetworkMole mole) {
     this.mole = mole;
   }
-
-
 }

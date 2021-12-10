@@ -23,13 +23,13 @@ public class Tournament {
 
   private final int tournamentID;
   private final transient HashSet<ServerThread> clients = new HashSet<>();
+  private final HashSet<NetworkGame> games = new HashSet<NetworkGame>();
   private int playerCount;
   private Score score;
-  private final HashSet<NetworkGame> games = new HashSet<NetworkGame>();
   private transient TournamentState tournamentState;
   private TournamentStatus status;
 
-  public Tournament(int tournamentID) {
+  public Tournament(final int tournamentID) {
     this.tournamentID = tournamentID;
   }
 
@@ -48,7 +48,7 @@ public class Tournament {
    * @author Carina
    * @use creates a new tournament will all stuff needed
    */
-  public void create() {
+  public synchronized void create() {
     this.score = new Score();
     this.tournamentState = new TournamentState(score, TournamentStatus.NOT_STARTED);
     MoleGames.getMoleGames().getGameHandler().getTournaments().add(this);
@@ -74,7 +74,7 @@ public class Tournament {
    * @author Carina
    * @use updates the tournament state
    */
-  public void updateTournamentState() {
+  public synchronized void updateTournamentState() {
     tournamentState.setScore(score);
     for (var client : clients) {
       tournamentState.getPlayers().add(client.getPlayer());

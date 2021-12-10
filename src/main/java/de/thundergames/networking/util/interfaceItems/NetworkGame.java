@@ -36,16 +36,16 @@ public class NetworkGame {
   private Score result;
   private int deductedPoints;
 
+  public NetworkGame(final int gameID) {
+    this.gameID = gameID;
+  }
+
   public int getDeductedPoints() {
     return deductedPoints;
   }
 
   public void setDeductedPoints(int deductedPoints) {
     this.deductedPoints = deductedPoints;
-  }
-
-  public NetworkGame(int gameID) {
-    this.gameID = gameID;
   }
 
   public int getGameID() {
@@ -163,7 +163,6 @@ public class NetworkGame {
   public void setFinishDateTime(long finishDateTime) {
     this.finishDateTime = finishDateTime;
   }
-
   //region for UI tableview
 
   /**
@@ -186,6 +185,5 @@ public class NetworkGame {
   public String getStatusForTableView() {
     return Objects.equals(status, GameStates.NOT_STARTED.toString()) ? "OPEN" : status;
   }
-
   //endregion
 }

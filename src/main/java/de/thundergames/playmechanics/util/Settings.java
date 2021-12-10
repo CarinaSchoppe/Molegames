@@ -35,7 +35,7 @@ public class Settings extends NetworkConfiguration {
    * @param config the jsonObject that will update the configuration send by the GameMasterClient
    * @author Carina
    * @use pass in the new configuration from the GameMasterClient and it will automaticly update
-   *     every single setting that was included in the jsonObject
+   * every single setting that was included in the jsonObject
    * @use this method is called in the GameMasterClient to the Server
    * @use updates the map and the Game directly
    */
@@ -60,6 +60,4 @@ public class Settings extends NetworkConfiguration {
   public GameConfiguration getGameConfiguration() {
     return gameConfiguration;
   }
-
-
 }

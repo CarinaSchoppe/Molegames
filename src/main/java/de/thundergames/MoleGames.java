@@ -64,15 +64,14 @@ public class MoleGames {
           moleGames.server.create();
           new de.thundergames.gameplay.ausrichter.ui.CreateGame().create(moleGames.server, args);
           break;
-
         case "-a":
         case "a":
           assert args[3] != null;
           MoleGames.getMoleGames().ai =
-              new AI(
-                  Objects.requireNonNull(args[1]),
-                  Integer.parseInt(Objects.requireNonNull(args[2])),
-                  Integer.parseInt(Objects.requireNonNull(args[3])));
+            new AI(
+              Objects.requireNonNull(args[1]),
+              Integer.parseInt(Objects.requireNonNull(args[2])),
+              Integer.parseInt(Objects.requireNonNull(args[3])));
           MoleGames.getMoleGames().ai.create();
       }
     }

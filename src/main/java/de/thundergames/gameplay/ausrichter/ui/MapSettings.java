@@ -16,7 +16,6 @@ import javafx.stage.Stage;
 
 public class MapSettings extends Application {
 
-
   @Override
   public void start(Stage primaryStage) {
   }

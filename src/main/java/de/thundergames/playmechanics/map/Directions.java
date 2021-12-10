@@ -27,13 +27,11 @@ public enum Directions {
 
   private final int value;
 
-  Directions(int value) {
+  Directions(final int value) {
     this.value = value;
   }
 
   public int getValue() {
     return value;
   }
-
-
 }

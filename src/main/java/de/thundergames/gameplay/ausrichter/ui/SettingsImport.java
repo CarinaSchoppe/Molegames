@@ -16,7 +16,6 @@ import javafx.stage.Stage;
 
 public class SettingsImport extends Application {
 
-
   @Override
   public void start(Stage primaryStage) {
   }

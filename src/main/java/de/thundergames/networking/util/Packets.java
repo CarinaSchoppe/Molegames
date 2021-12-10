@@ -10,6 +10,8 @@
  */
 package de.thundergames.networking.util;
 
+import org.jetbrains.annotations.NotNull;
+
 /**
  * @author Carina
  * @see Packets the packet element that can be send
@@ -65,7 +67,7 @@ public enum Packets {
 
   final String packetType;
 
-  Packets(String packetType) {
+  Packets(@NotNull final String packetType) {
     this.packetType = packetType;
   }
 

@@ -11,12 +11,14 @@
 
 package de.thundergames.networking.util.interfaceItems;
 
+import org.jetbrains.annotations.NotNull;
+
 public class NetworkPlayer {
 
   private final int clientID;
   private final String name;
 
-  public NetworkPlayer(String name, int clientID) {
+  public NetworkPlayer(@NotNull final String name, final int clientID) {
     this.name = name;
     this.clientID = clientID;
   }
@@ -29,4 +31,8 @@ public class NetworkPlayer {
     return clientID;
   }
 
+  @Override
+  public String toString() {
+    return "Player with the name: " + name + " and clientID: " + clientID + "";
+  }
 }

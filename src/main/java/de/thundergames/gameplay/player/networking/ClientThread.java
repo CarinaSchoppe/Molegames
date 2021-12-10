@@ -21,8 +21,8 @@ public class ClientThread extends NetworkThread {
 
   protected Client client;
 
-  public ClientThread(@NotNull final Socket socket, final int id, Client client)
-      throws IOException {
+  public ClientThread(@NotNull final Socket socket, final int id, @NotNull final Client client)
+    throws IOException {
     super(socket, id);
     this.client = client;
   }
@@ -55,5 +55,4 @@ public class ClientThread extends NetworkThread {
   public int getClientThreadID() {
     return id;
   }
-
 }

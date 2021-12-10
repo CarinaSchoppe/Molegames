@@ -16,16 +16,16 @@ import java.util.List;
 
 public class NetworkConfiguration {
 
+  private final ArrayList<Integer> pullDiscs = new ArrayList<>(List.of(1, 2, 3, 4));
+  private final int deductedPoints = 5;
   private int maxPlayers = 4;
   private int radius = 10;
   private int numberOfMoles = 4;
   private ArrayList<NetworkFloor> levels = new ArrayList<>();
   private boolean pullDiscsOrdered = true;
-  private final ArrayList<Integer> pullDiscs = new ArrayList<>(List.of(1, 2, 3, 4));
   private long turnTime = 5000;
   private int visualizationTime = 10;
   private String movePenalty = "NOTHING";
-  private final int deductedPoints = 5;
 
   public int getDeductedPoints() {
     return deductedPoints;

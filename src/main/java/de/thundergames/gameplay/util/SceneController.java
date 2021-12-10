@@ -7,7 +7,7 @@ import java.net.MalformedURLException;
 
 public class SceneController {
 
-  public static FXMLLoader loadFXML(String path) throws MalformedURLException {
+  public synchronized static FXMLLoader loadFXML(String path) throws MalformedURLException {
     return new FXMLLoader(new File("src/main/resources/" + path).toURI().toURL());
   }
 }

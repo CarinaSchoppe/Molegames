@@ -19,7 +19,6 @@ import de.thundergames.networking.util.interfaceItems.NetworkPlayer;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-
 public class GameState {
 
   private ArrayList<NetworkPlayer> activePlayers = new ArrayList<>();
@@ -99,20 +98,16 @@ public class GameState {
     this.pullDiscs = pullDiscs;
   }
 
-
-
   public void setVisualizationTime(long visualizationTime) {
     this.visualizationTime = visualizationTime;
   }
 
-
+  public String getStatus() {
+    return status;
+  }
 
   public void setStatus(String status) {
     this.status = status;
-  }
-
-  public String getStatus() {
-    return status;
   }
 
   public Score getScore() {
