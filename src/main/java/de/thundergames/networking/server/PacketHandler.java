@@ -626,7 +626,7 @@ public class PacketHandler {
   private synchronized void handleLoginPacket(@NotNull final ServerThread client, @NotNull final Packet packet) {
     String name;
     if (packet.getValues().get("name") == null) {
-      name = "Player";
+      name = "PlayerModel";
     } else {
       name = packet.getValues().get("name").getAsString();
     }

@@ -33,6 +33,6 @@ public class NetworkPlayer {
 
   @Override
   public String toString() {
-    return "Player with the name: " + name + " and clientID: " + clientID + "";
+    return "PlayerModel with the name: " + name + " and clientID: " + clientID + "";
   }
 }

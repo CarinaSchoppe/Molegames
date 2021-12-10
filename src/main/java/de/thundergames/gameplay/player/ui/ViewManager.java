@@ -1,6 +1,6 @@
 package de.thundergames.gameplay.player.ui;
 
-import de.thundergames.playmechanics.Board.Utils;
+import de.thundergames.playmechanics.board.Utils;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;

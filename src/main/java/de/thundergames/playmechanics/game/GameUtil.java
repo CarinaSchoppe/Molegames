@@ -169,7 +169,7 @@ public class GameUtil {
   /**
    * @author Carina
    * @use gives points to the player who are in holes when a next floor comes
-   * @sse Player
+   * @sse PlayerModel
    * @see de.thundergames.filehandling.Score
    */
   public synchronized void givePoints() {

@@ -1,10 +1,9 @@
-package de.thundergames.playmechanics.Board;
+package de.thundergames.playmechanics.board;
 
-import javafx.event.EventHandler;
 import javafx.scene.image.Image;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 
@@ -36,31 +35,31 @@ enum NodeType {
 }
 
 public class Node extends Circle {
-    public final static int DEFAULT_RADIUS = 15;
-    private int id;
-    private int row;
-    private int radius;
-    private boolean isOccupied;
+  public final static int DEFAULT_RADIUS = 15;
+  private final int id;
+  private final int row;
+  private int radius;
+  private boolean isOccupied;
 
-    public Node(int id, double x, double y, int radius, NodeType nodeType, int row, boolean isOccupied ) {
-        super(x, y, radius);
-        this.id = id;
-        this.row = row;
-        nodeType.styleNode(this);
-        this.isOccupied = isOccupied;
-    }
+  public Node(final int id, final double x, final double y, final int radius, @NotNull final NodeType nodeType, final int row, final boolean isOccupied) {
+    super(x, y, radius);
+    this.id = id;
+    this.row = row;
+    nodeType.styleNode(this);
+    this.isOccupied = isOccupied;
+  }
 
-    public Node(int id, double x, double y, NodeType nodeType, int row, boolean isOccupied ) {
-        this(id, x, y, DEFAULT_RADIUS, nodeType, row, false);
-    }
+  public Node(final int id, final double x, final double y, @NotNull final NodeType nodeType, final int row, final boolean isOccupied) {
+    this(id, x, y, DEFAULT_RADIUS, nodeType, row, false);
+  }
 
-    public Node(int id, double x, double y, int radius ) {
-        this(id, x, y, radius, NodeType.DEFAULT, 0, false);
-    }
+  public Node(final int id, final double x, final double y, final int radius) {
+    this(id, x, y, radius, NodeType.DEFAULT, 0, false);
+  }
 
-    public Node(int id, double x, double y ) {
-        this(id, x, y, DEFAULT_RADIUS, NodeType.DEFAULT, 0, false);
-    }
+  public Node(final int id, final double x, final double y) {
+    this(id, x, y, DEFAULT_RADIUS, NodeType.DEFAULT, 0, false);
+  }
 
     public int getNodeId() {
         return this.id;

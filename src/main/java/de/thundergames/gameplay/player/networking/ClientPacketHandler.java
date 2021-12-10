@@ -361,7 +361,7 @@ public class ClientPacketHandler {
     if (player.equals(client.getNetworkPlayer())) {
       System.out.println("Client is skipping this turn!");
     } else {
-      System.out.println("The Player " + player.getName() + " skipped his turn!");
+      System.out.println("The PlayerModel " + player.getName() + " skipped his turn!");
     }
   }
 
