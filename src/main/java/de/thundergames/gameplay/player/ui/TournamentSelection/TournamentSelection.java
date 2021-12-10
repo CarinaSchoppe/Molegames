@@ -63,7 +63,7 @@ public class TournamentSelection implements Initializable {
   public void create(ActionEvent event) throws IOException {
     tournamentSelection = this;
     primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-    var loader = SceneController.loadFXML("player/style/TournamentSelection.fxml");
+    var loader = SceneController.loadFXML("/player/style/TournamentSelection.fxml");
     loader.setController(this);
     Parent root = loader.load();
     primaryStage.setTitle("Maulwurf Company");

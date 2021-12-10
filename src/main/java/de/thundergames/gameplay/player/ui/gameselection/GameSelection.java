@@ -66,7 +66,7 @@ public class GameSelection implements Initializable {
   public void create(@NotNull ActionEvent event) throws IOException {
     primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
     // Set scene
-    var loader = SceneController.loadFXML("player/GameSelection.fxml");
+    var loader = SceneController.loadFXML("/player/GameSelection.fxml");
     loader.setController(this);
     Parent root = loader.load();
     primaryStage.setTitle("Maulwurf Company");
