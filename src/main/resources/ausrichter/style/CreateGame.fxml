@@ -21,6 +21,11 @@
     <center>
         <AnchorPane BorderPane.alignment="CENTER" prefHeight="200.0" prefWidth="200.0">
             <children>
+                <ImageView fitHeight="657.0" fitWidth="356.0" layoutX="-1.0" layoutY="-2.0" pickOnBounds="true" smooth="false">
+                    <image>
+                        <Image url="@../pictures/CreateGame-Ausrichter.png"/>
+                    </image>
+                </ImageView>
                 <Button style="-fx-background-color: transparent;" ellipsisString="" layoutX="193.0" layoutY="366.0" mnemonicParsing="false" onAction="#addItemButtonEvent" prefHeight="25.0" prefWidth="21.0" text="Button" fx:id="addItem"/>
                 <Button style="-fx-background-color: transparent;" ellipsisString="" layoutX="231.0" layoutY="368.0" mnemonicParsing="false" onAction="#removeAllButtonEvent" prefHeight="18.0" prefWidth="23.0" text="Button" fx:id="removeAll"/>
                 <Button style="-fx-background-color: transparent;" ellipsisString="" layoutX="72.0" layoutY="483.0" mnemonicParsing="false" onAction="#configureFloorsButtonEvent" prefHeight="5.0" prefWidth="116.0" fx:id="configureFloors"/>
@@ -30,11 +35,6 @@
                 <Button style="-fx-background-color: transparent;" layoutX="57.0" layoutY="18.0" mnemonicParsing="false" onAction="#backButtonEvent" prefHeight="12.0" prefWidth="11.0" fx:id="back"/>
                 <CheckBox style="-fx-background-color: transparent; -fx-background-image: transparent; -fx-border-color: transparent;" layoutX="241.0" layoutY="318.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="13.0" fx:id="pullDiscsOrdered"/>
                 <ChoiceBox style="-fx-background-color: transparent; -fx-border-color: transparent;" layoutX="158.0" layoutY="137.0" prefHeight="28.0" prefWidth="144.0" fx:id="movePenalty"/>
-                <ImageView fitHeight="657.0" fitWidth="356.0" layoutX="-1.0" layoutY="-2.0" pickOnBounds="true" smooth="false">
-                    <image>
-                        <Image url="@../pictures/CreateGame-Ausrichter.png"/>
-                    </image>
-                </ImageView>
                 <TextArea style="-fx-background-color: transparent; -fx-border-color: transparent;" editable="false" layoutX="77.0" layoutY="404.0" prefHeight="65.0" prefWidth="178.0" fx:id="drawCardValues">
                     <font>
                         <Font size="20.0"/>

@@ -18,6 +18,7 @@ import de.thundergames.filehandling.Score;
 import de.thundergames.gameplay.player.Client;
 import de.thundergames.gameplay.player.ui.gameselection.GameSelection;
 import de.thundergames.gameplay.player.ui.gameselection.LobbyObserverGame;
+import de.thundergames.gameplay.player.ui.score.LeaderBoard;
 import de.thundergames.gameplay.player.ui.tournamentselection.LobbyObserverTournament;
 import de.thundergames.gameplay.player.ui.tournamentselection.TournamentSelection;
 import de.thundergames.networking.server.PacketHandler;
@@ -608,6 +609,7 @@ public class ClientPacketHandler {
         System.out.println(player.getName());
       }
     }
+    LeaderBoard.create();
     //TODO: Rufe Leaderboard auf unter gewinner sind nun die gewinner des ersten platzes. unter players findest du die reihenfolge der spieler wie sie im score stehen sollten!
     updateTableView();
 

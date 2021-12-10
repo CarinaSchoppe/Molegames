@@ -11,8 +11,6 @@
 
 package de.thundergames.gameplay.ai.networking;
 
-import com.google.gson.Gson;
-import de.thundergames.filehandling.Score;
 import de.thundergames.gameplay.ai.AI;
 import de.thundergames.gameplay.player.networking.ClientPacketHandler;
 import de.thundergames.networking.util.Packet;
@@ -57,10 +55,7 @@ public class AIPacketHandler extends ClientPacketHandler {
       handlePlayerPlacesMolePacket(ai, packet);
       timerRelatedController(ai);
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.GAMEOVER.getPacketType()) || packet.getPacketType().equalsIgnoreCase(Packets.GAMECANCELED.getPacketType())) {
-      System.out.println("Winners are: ");
-      for (var player : new Gson().fromJson(packet.getValues().get("result").getAsString(), Score.class).getWinners()) {
-        System.out.println(player.getName());
-      }
+handleGameOverPacket(ai, packet);
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.MESSAGE.getPacketType())) {
       if (packet.getValues() != null) {
         if (packet.getValues().get("message") != null) {

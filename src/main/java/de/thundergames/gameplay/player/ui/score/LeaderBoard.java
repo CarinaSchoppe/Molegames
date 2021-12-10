@@ -5,10 +5,10 @@ import de.thundergames.gameplay.player.Client;
 import de.thundergames.gameplay.player.ui.PlayerMenu;
 import de.thundergames.gameplay.util.SceneController;
 import de.thundergames.networking.util.interfaceitems.NetworkPlayer;
+import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -23,7 +23,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-public class LeaderBoard implements Initializable {
+public class LeaderBoard extends Application implements Initializable {
 
   private static Client client;
 
@@ -95,34 +95,11 @@ public class LeaderBoard implements Initializable {
   }
 
   /**
-   * @param event event from the current scene to build this scene on same object
-   * @throws IOException error creating the scene LeaderBoard
-   * @use Create the Scene for LeaderBoard
-   * @author Lennart
+   * @author Carina, Lennart
+   * @use launches the Scene
    */
-  public void create(@NotNull final ActionEvent event) throws Exception {
-    var primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-    primaryStage.close();
-    var stage = new Stage();
-    var loader = SceneController.loadFXML("/player/LeaderBoard.fxml");
-    loader.setController(this);
-    Parent root = loader.load();
-    stage.setTitle("Maulwurf Company");
-    stage.setResizable(false);
-    stage.setScene(new Scene(root));
-    stage.show();
-    stage.setOnCloseRequest(ev -> logout(stage));
-    // region Create button events
-    // set event for backToMenu button
-    var btnBack = (Button) (stage.getScene().lookup("#btnToMenu"));
-    btnBack.setOnAction(
-      e -> {
-        try {
-          backToMenu(e);
-        } catch (IOException ex) {
-          ex.printStackTrace();
-        }
-      });
+  public static void create() {
+    launch();
   }
 
   /**
@@ -144,5 +121,34 @@ public class LeaderBoard implements Initializable {
   @FXML
   void backToMenu(@NotNull final ActionEvent event) throws IOException {
     new PlayerMenu().create(event);
+  }
+
+  /**
+   * @param primaryStage stage that will be opend
+   * @throws IOException error creating the scene LeaderBoard
+   * @use Create the Scene for LeaderBoard
+   * @author Lennart, Carina
+   */
+  @Override
+  public void start(Stage primaryStage) throws Exception {
+    var loader = SceneController.loadFXML("/player/LeaderBoard.fxml");
+    loader.setController(this);
+    Parent root = loader.load();
+    primaryStage.setTitle("Maulwurf Company");
+    primaryStage.setResizable(false);
+    primaryStage.setScene(new Scene(root));
+    primaryStage.show();
+    primaryStage.setOnCloseRequest(ev -> logout(primaryStage));
+    // region Create button events
+    // set event for backToMenu button
+    var btnBack = (Button) (primaryStage.getScene().lookup("#btnToMenu"));
+    btnBack.setOnAction(
+      e -> {
+        try {
+          backToMenu(e);
+        } catch (IOException ex) {
+          ex.printStackTrace();
+        }
+      });
   }
 }
