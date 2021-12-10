@@ -23,7 +23,7 @@
       prefHeight="856.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/11.0.2">
     <AnchorPane>
         <ImageView>
-            <Image url="@Pictures/Lobby-Observer.png"/>
+            <Image url="@pictures/Lobby-Observer.png"/>
         </ImageView>
         <Text fx:id="PlayerName" fill="WHITE" layoutX="7.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Spieler:" wrappingWidth="356.9830722808838">
             <font>

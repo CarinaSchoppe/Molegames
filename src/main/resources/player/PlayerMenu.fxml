@@ -20,11 +20,10 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
-
 <VBox maxHeight="856.0" maxWidth="900.0" minHeight="856.0" minWidth="900.0" prefHeight="856.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.thundergames.gameplay.player.ui.PlayerMenu">
     <AnchorPane>
         <ImageView>
-            <Image url="@Pictures/PlayerMenu.png"/>
+            <Image url="@pictures/PlayerMenu.png"/>
         </ImageView>
         <Text fx:id="PlayerName" fill="WHITE" layoutX="7.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Spieler:" wrappingWidth="356.9830722808838">
             <font>
