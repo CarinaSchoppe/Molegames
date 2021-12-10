@@ -24,90 +24,72 @@ import static org.mockito.Mockito.when;
 
 class GameUtilTest {
 
-    private final HashSet<Mole> moles = new HashSet<>();
-    private final ArrayList<NetworkField> holes = new ArrayList<>();
-    private GameUtil gameUtil;
+  private final HashSet<Mole> moles = new HashSet<>();
+  private final HashSet<NetworkField> holes = new HashSet<>();
+  private GameUtil gameUtil;
 
-    @Mock
-    private Player playerMock = mock(Player.class);
+  @Mock
+  private Player playerMock = mock(Player.class);
 
-    @Mock
-    private Game gameMock = mock(Game.class);
+  @Mock
+  private Game gameMock = mock(Game.class);
 
-    @BeforeEach
-    void setUp() {
-        Map map = new Map(gameMock);
-        map.createMap(5);
-        gameMock.setMap(map);
-        
-        Field field = new Field(Arrays.asList(0, 1));
-        Mole mole = new Mole(playerMock, field);
-        moles.add(mole);
-        when(playerMock.getMoles()).thenReturn(moles);
+  @BeforeEach
+  void setUp() {
+    var map = new Map(gameMock);
+    map.createMap(5);
+    gameMock.setMap(map);
+    var field = new Field(Arrays.asList(0, 1));
+    var mole = new Mole(playerMock, field);
+    moles.add(mole);
+    when(playerMock.getMoles()).thenReturn(moles);
+    var players = new ArrayList<Player>();
+    players.add(playerMock);
+    when(gameMock.getMap()).thenReturn(map);
+    when(gameMock.getPlayers()).thenReturn(players);
+    holes.add(new NetworkField(1, 1));
+    var netFloor = new NetworkFloor();
+    netFloor.setHoles(holes);
+    var gameState = new GameState();
+    gameState.setFloor(netFloor);
+    gameUtil = new GameUtil(gameMock);
+    map.setHoles(gameState.getFloor().getHoles());
+  }
 
-        ArrayList<Player> players = new ArrayList<>();
-        players.add(playerMock);
+  @Test
+  void allHolesFilled() {
+    assertFalse(gameUtil.allHolesFilled());
+    Field field = new Field(List.of(1, 1));
+    Mole mole = new Mole(playerMock, field);
+    moles.add(mole);
+    assertTrue(gameUtil.allHolesFilled());
+  }
 
-        when(gameMock.getMap()).thenReturn(map);
-        when(gameMock.getPlayers()).thenReturn(players);
+  @Test
+  void allPlayerMolesInHoles() {
+    NetworkConfiguration netConf = new NetworkConfiguration();
+    netConf.setNumberOfMoles(2);
+    Settings settings = new Settings(gameMock);
+    settings.updateConfiuration((netConf));
+    when(gameMock.getSettings()).thenReturn(settings);
+    when(gameMock.getCurrentPlayer()).thenReturn(playerMock);
+    assertFalse(gameUtil.allPlayerMolesInHoles());
+    holes.add(new NetworkField(0, 1));
+    Field field = new Field(List.of(1, 1));
+    Mole mole = new Mole(playerMock, field);
+    moles.add(mole);
+    assertTrue(gameUtil.allPlayerMolesInHoles());
+  }
 
-        holes.add(new NetworkField(1,1));
-        NetworkFloor netFloor = new NetworkFloor();
-        netFloor.setHoles(holes);
+  @Test
+  void nextPlayer() {
+  }
 
-        GameState gameState = new GameState();
-        gameState.setFloor(netFloor);
+  @Test
+  void nextFloor() {
+  }
 
-        gameUtil = new GameUtil(gameMock);
-
-        map.setHoles(gameState.getFloor().getHoles());
-    }
-
-    @Test
-    void allHolesFilled() {
-        assertFalse(gameUtil.allHolesFilled());
-
-        Field field = new Field(List.of(1, 1));
-        Mole mole = new Mole(playerMock, field);
-        moles.add(mole);
-
-        assertTrue(gameUtil.allHolesFilled());
-    }
-
-    @Test
-    void allPlayerMolesInHoles() {
-        NetworkConfiguration netConf = new NetworkConfiguration();
-        netConf.setNumberOfMoles(2);
-
-        Settings settings = new Settings(gameMock);
-        settings.updateConfiuration((netConf));
-
-        when(gameMock.getSettings()).thenReturn(settings);
-        when(gameMock.getCurrentPlayer()).thenReturn(playerMock);
-
-        assertFalse(gameUtil.allPlayerMolesInHoles());
-
-        holes.add(new NetworkField(0,1));
-
-        Field field = new Field(List.of(1, 1));
-        Mole mole = new Mole(playerMock, field);
-        moles.add(mole);
-
-        assertTrue(gameUtil.allPlayerMolesInHoles());
-    }
-
-    @Test
-    void nextPlayer() {
-
-    }
-
-    @Test
-    void nextFloor() {
-
-    }
-
-    @Test
-    void givePoints() {
-
-    }
+  @Test
+  void givePoints() {
+  }
 }
