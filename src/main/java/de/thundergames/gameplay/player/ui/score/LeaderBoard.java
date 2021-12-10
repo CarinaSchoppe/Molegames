@@ -46,7 +46,6 @@ public class LeaderBoard implements Initializable {
     placement.setCellValueFactory(new PropertyValueFactory<>("placement"));
     name.setCellValueFactory(new PropertyValueFactory<>("name"));
     score.setCellValueFactory(new PropertyValueFactory<>("score"));
-
     if (client == null) return;
     createLeaderbord();
   }
@@ -58,14 +57,10 @@ public class LeaderBoard implements Initializable {
    * @see NetworkPlayer
    */
   void createLeaderbord() {
-
     client.getClientPacketHandler().getScorePacket(client);  //Muss evtl raus.
-    Score score = client.getGameState().getScore();
-
+    var score = client.getGameState().getScore();
     var list = new ArrayList<NetworkPlayer>();
-
     var players = new ArrayList<>(score.getPlayers());
-
     //sort players in list by their points
     for (var i = 0; i < score.getPlayers().size(); i++) {
       var current = players.get(0);
@@ -99,12 +94,11 @@ public class LeaderBoard implements Initializable {
     scoreTable.getItems().addAll(leaderlist);
   }
 
-
   /**
-   * @use Create the Scene for LeaderBoard
-   * @author Lennart 
    * @param event event from the current scene to build this scene on same object
    * @throws IOException error creating the scene LeaderBoard
+   * @use Create the Scene for LeaderBoard
+   * @author Lennart
    */
   public void create(@NotNull final ActionEvent event) throws Exception {
     var primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -119,7 +113,6 @@ public class LeaderBoard implements Initializable {
     stage.setScene(new Scene(root));
     stage.show();
     stage.setOnCloseRequest(ev -> logout(stage));
-
     // region Create button events
     // set event for backToMenu button
     var btnBack = (Button) (stage.getScene().lookup("#btnToMenu"));
@@ -138,7 +131,7 @@ public class LeaderBoard implements Initializable {
    *
    * @param stage current stage
    */
-  private void logout(Stage stage) {
+  private void logout(@NotNull final Stage stage) {
     client.getClientPacketHandler().logoutPacket(client);
     stage.close();
   }
