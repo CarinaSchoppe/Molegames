@@ -187,6 +187,7 @@ public class GameSelection implements Initializable {
     // Get GameState
     //GameState currentGameState = client.getGameState();
     if (currentGameState == null) {
+      System.out.println("GameState is null!");
       return;
     }
     if (Objects.equals(currentGameState.getStatus(), GameStates.STARTED.toString())

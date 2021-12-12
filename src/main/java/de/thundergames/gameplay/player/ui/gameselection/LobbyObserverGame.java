@@ -14,6 +14,7 @@ package de.thundergames.gameplay.player.ui.gameselection;
 import de.thundergames.gameplay.player.Client;
 import de.thundergames.gameplay.util.SceneController;
 import de.thundergames.playmechanics.board.TestWindow;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -141,7 +142,8 @@ public class LobbyObserverGame implements Initializable {
    * @use Create scene and spectate the game
    */
   public void spectateGame() {
-    var currentGameState = client.getGameState();
-    new TestWindow().start(primaryStage);
+    Platform.runLater(() -> {
+      new TestWindow().start(primaryStage);
+    });
   }
 }
