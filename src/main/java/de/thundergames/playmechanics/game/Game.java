@@ -124,6 +124,7 @@ public class Game extends NetworkGame {
       setStartDateTime(Instant.now().getEpochSecond());
       updateNetworkGame();
       System.out.println("Starting a game with the gameID: " + getGameID());
+      MoleGames.getMoleGames().getServer().sendToAllGameClients(this, MoleGames.getMoleGames().getPacketHandler().gameStartedPacket(gameState));
       gameUtil.nextPlayer();
     }
   }

@@ -355,16 +355,13 @@ public class PacketHandler {
    * @see Game
    * @see GameStates
    */
-  public void gameStartedPacket(
-    @NotNull final ServerThread client, @NotNull final GameStates gameState) {
-    if (client.getSocket().isConnected()) {
-      var object = new JsonObject();
-      object.addProperty("type", Packets.GAMESTARTED.getPacketType());
-      var json = new JsonObject();
-      json.addProperty("initialGameState", gameState.getName());
-      object.add("value", json);
-      client.sendPacket(new Packet(object));
-    }
+  public Packet gameStartedPacket(@NotNull final GameStates gameState) {
+    var object = new JsonObject();
+    object.addProperty("type", Packets.GAMESTARTED.getPacketType());
+    var json = new JsonObject();
+    json.addProperty("initialGameState", gameState.getName());
+    object.add("value", json);
+    return new Packet(object);
   }
 
   /**
