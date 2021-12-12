@@ -16,6 +16,7 @@ import de.thundergames.MoleGames;
 import de.thundergames.gameplay.ai.networking.AIClientThread;
 import de.thundergames.gameplay.player.networking.ClientThread;
 import de.thundergames.networking.server.ServerThread;
+import de.thundergames.networking.util.exceptions.NotAllowedError;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.*;
@@ -169,7 +170,7 @@ public abstract class NetworkThread extends Thread {
    * depending on who recieved it (Server- or Client thread)
    */
   private void readStringPacketInput(
-    @NotNull final Packet packet, @NotNull final NetworkThread reciever) {
+    @NotNull final Packet packet, @NotNull final NetworkThread reciever) throws NotAllowedError {
     if (reciever instanceof ClientThread && !(reciever instanceof AIClientThread)) {
       ((ClientThread) reciever)
         .getClient()

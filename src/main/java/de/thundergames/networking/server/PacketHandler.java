@@ -17,6 +17,7 @@ import de.thundergames.filehandling.Score;
 import de.thundergames.gameplay.player.Client;
 import de.thundergames.networking.util.Packet;
 import de.thundergames.networking.util.Packets;
+import de.thundergames.networking.util.exceptions.NotAllowedError;
 import de.thundergames.networking.util.interfaceitems.NetworkField;
 import de.thundergames.networking.util.interfaceitems.NetworkMole;
 import de.thundergames.networking.util.interfaceitems.NetworkPlayer;
@@ -41,7 +42,7 @@ public class PacketHandler {
    * @see Packets
    * @see Client
    */
-  public synchronized void handlePacket(@NotNull final Packet packet, @NotNull final ServerThread client) {
+  public synchronized void handlePacket(@NotNull final Packet packet, @NotNull final ServerThread client) throws NotAllowedError {
     if (packet.getPacketType().equalsIgnoreCase(Packets.LOGIN.getPacketType())) {
       handleLoginPacket(client, packet);
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.LOGOUT.getPacketType())) {
@@ -769,7 +770,7 @@ public class PacketHandler {
    * @see Client
    */
   private boolean handleJoinPacket(
-    @NotNull final Packet packet, @NotNull final ServerThread clientConnection) {
+    @NotNull final Packet packet, @NotNull final ServerThread clientConnection) throws NotAllowedError {
     if (MoleGames.getMoleGames()
       .getGameHandler()
       .getIDGames()
