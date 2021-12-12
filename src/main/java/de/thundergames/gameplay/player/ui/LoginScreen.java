@@ -45,7 +45,7 @@ public class LoginScreen extends Application {
 
   /**
    * @param event
-   * @author Carina
+   * @author Carina and Philipp
    * @use handles the login button when clicked
    */
   @FXML
@@ -53,14 +53,40 @@ public class LoginScreen extends Application {
     var ip = this.ip.getText();
     var port = this.port.getText();
     var name = this.name.getText();
-    if (ip != "" && port != "" && name != "") {
+
+    String errorMessage = "";
+    if (ip.equals("")) {
+      errorMessage += "IP Feld muss ausgefuellt sein!\n";
+    }
+
+    if (port.equals("")) {
+      errorMessage += "Port Feld muss ausgefuellt sein!\n";
+    } else {
+      try {
+        int intPort = Integer.parseInt(port);
+        if (intPort < 0 || intPort > 65535) {
+          errorMessage += "Port Feld muss eine ganze Zahl zwischen 0 und 65535 sein!\n";
+        }
+      }
+      catch (NumberFormatException e) {
+        errorMessage += "Port Feld muss eine ganze Zahl zwischen 0 und 65535 sein!\n";
+      }
+    }
+
+    if (name.equals("")) {
+      errorMessage += "Namensfeld muss ausgefuellt sein!\n";
+    } else if (name.length() > 32) {
+      errorMessage += "Namen duerfen maximal 32 Zeichen lang sein!\n";
+    }
+
+    if (errorMessage.equals("")) {
       System.out.println("IP: " + ip + " Port: " + port + " Name: " + name);
       var client = new Client(Integer.parseInt(port), ip, name);
       client.create();
       new PlayerMenu().create(event);
     } else {
-      JOptionPane.showMessageDialog(null, "Bitte alle Felder ausfuellen!",
-        "Leere Felder", JOptionPane.ERROR_MESSAGE);
+      JOptionPane.showMessageDialog(null, errorMessage,
+        "Falscher Feldinhalt", JOptionPane.ERROR_MESSAGE);
     }
   }
 

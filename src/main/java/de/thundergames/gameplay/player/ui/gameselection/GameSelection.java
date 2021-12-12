@@ -15,6 +15,7 @@ import de.thundergames.gameplay.player.Client;
 import de.thundergames.gameplay.player.ui.PlayerMenu;
 import de.thundergames.gameplay.util.SceneController;
 import de.thundergames.networking.util.interfaceitems.NetworkGame;
+import de.thundergames.playmechanics.board.TestWindow;
 import de.thundergames.playmechanics.game.GameState;
 import de.thundergames.playmechanics.game.GameStates;
 import javafx.event.ActionEvent;
@@ -36,6 +37,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Objects;
 import java.util.ResourceBundle;
+import java.util.Timer;
 
 public class GameSelection implements Initializable {
 
@@ -92,7 +94,7 @@ public class GameSelection implements Initializable {
       e -> {
         try {
           spectateGame(e);
-        } catch (IOException ex) {
+        } catch (IOException | InterruptedException ex) {
           ex.printStackTrace();
         }
       });
@@ -156,7 +158,7 @@ public class GameSelection implements Initializable {
    * @throws IOException error at creating the scene
    */
   @FXML
-  void spectateGame(ActionEvent event) throws IOException {
+  void spectateGame(ActionEvent event) throws IOException, InterruptedException {
     NetworkGame selectedItem = gameTable.getSelectionModel().getSelectedItem();
     // If no item of tableview is selected.
     if (selectedItem == null) {
@@ -166,6 +168,35 @@ public class GameSelection implements Initializable {
     }
     // Send Packet to spectate game to get GameState
     client.getClientPacketHandler().joinGamePacket(client, selectedItem.getGameID(), false);
+
+    boolean waiting = true;
+    int counter = 0;
+    GameState currentGameState = null;
+    while (waiting) {
+
+      Thread.sleep(1000);
+      counter += 1;
+      currentGameState = client.getGameState();
+
+      if (counter == 5 || currentGameState != null)
+      {
+        waiting = false;
+      }
+    }
+
+    // Get GameState
+    //GameState currentGameState = client.getGameState();
+    if (currentGameState == null) {
+      return;
+    }
+    if (Objects.equals(currentGameState.getStatus(), GameStates.STARTED.toString())
+      || Objects.equals(currentGameState.getStatus(), GameStates.PAUSED.toString())) {
+      spectateGame(currentGameState);
+    } else if (Objects.equals(currentGameState.getStatus(), GameStates.NOT_STARTED.toString())) {
+      new LobbyObserverGame().create(primaryStage);
+    } else if (Objects.equals(currentGameState.getStatus(), GameStates.OVER.toString())) {
+      loadScoreboard();
+    }
   }
 
   /**
@@ -182,23 +213,6 @@ public class GameSelection implements Initializable {
    */
   private void spectateGame(GameState gameState) {
     primaryStage.close();
-    // Todo:Open scene of Game
-  }
-
-  public void createGame() {
-    // Get GameState
-    GameState currentGameState = client.getGameState();
-    if (currentGameState == null) {
-      System.out.println("GameSelection: GameState is null");
-      return;
-    }
-    if (Objects.equals(currentGameState.getStatus(), GameStates.STARTED.toString())
-      || Objects.equals(currentGameState.getStatus(), GameStates.PAUSED.toString())) {
-      spectateGame(currentGameState);
-      // } else if (Objects.equals(currentGameState.getStatus(), GameStates.NOT_STARTED.toString())) {
-      //new LobbyObserverGame().create(event);
-    } else if (Objects.equals(currentGameState.getStatus(), GameStates.OVER.toString())) {
-      loadScoreboard();
-    }
+    new TestWindow().start(primaryStage);
   }
 }

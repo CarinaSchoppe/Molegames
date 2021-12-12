@@ -18,8 +18,8 @@ import de.thundergames.gameplay.player.Client;
 import de.thundergames.gameplay.player.ui.gameselection.GameSelection;
 import de.thundergames.gameplay.player.ui.gameselection.LobbyObserverGame;
 import de.thundergames.gameplay.player.ui.score.LeaderBoard;
-import de.thundergames.gameplay.player.ui.tournamentselection.LobbyObserverTournament;
-import de.thundergames.gameplay.player.ui.tournamentselection.TournamentSelection;
+import de.thundergames.gameplay.player.ui.TournamentSelection.LobbyObserverTournament;
+import de.thundergames.gameplay.player.ui.TournamentSelection.TournamentSelection;
 import de.thundergames.networking.server.PacketHandler;
 import de.thundergames.networking.util.Packet;
 import de.thundergames.networking.util.Packets;
@@ -762,7 +762,6 @@ public class ClientPacketHandler {
   protected void handleWelcomeGamePacket(
     @NotNull final Client client, @NotNull final Packet packet) {
     handleFloor(client, packet);
-    OpenGame();
   }
 
   /**
@@ -912,15 +911,5 @@ public class ClientPacketHandler {
   private void showPlayerJoinedGameLobby() {
     var lobbyObserverGame = LobbyObserverGame.getObserver();
     if (lobbyObserverGame != null) lobbyObserverGame.showJoiningSuccessfully();
-  }
-
-  /**
-   * @author Marc
-   * @use open game at tournament/game selection
-   */
-  private void OpenGame() {
-    // create game
-    var gameSelection = GameSelection.getGameSelection();
-    if (gameSelection != null) gameSelection.createGame();
   }
 }

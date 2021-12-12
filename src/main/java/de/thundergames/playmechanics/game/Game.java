@@ -123,6 +123,7 @@ public class Game extends NetworkGame {
       setCurrentGameState(gameState);
       setStartDateTime(Instant.now().getEpochSecond());
       updateNetworkGame();
+      updateGameState();
       System.out.println("Starting a game with the gameID: " + getGameID());
       MoleGames.getMoleGames().getServer().sendToAllGameClients(this, MoleGames.getMoleGames().getPacketHandler().gameStartedPacket(gameState));
       gameUtil.nextPlayer();

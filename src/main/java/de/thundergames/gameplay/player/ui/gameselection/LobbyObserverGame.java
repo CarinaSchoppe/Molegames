@@ -13,6 +13,7 @@ package de.thundergames.gameplay.player.ui.gameselection;
 
 import de.thundergames.gameplay.player.Client;
 import de.thundergames.gameplay.util.SceneController;
+import de.thundergames.playmechanics.board.TestWindow;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -39,18 +40,20 @@ public class LobbyObserverGame implements Initializable {
   @FXML
   private Text JoinedSuccessfully;
 
+  private Stage primaryStage;
+
   public static LobbyObserverGame getObserver() {
     return observer;
   }
 
-  public void create(ActionEvent event) throws IOException {
+  public void create(Stage event) throws IOException {
     client = Client.getClient();
     observer = this;
     createScene(event);
   }
 
-  private void createScene(ActionEvent event) throws IOException {
-    var primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+  private void createScene(Stage primaryStage) throws IOException {
+    this.primaryStage = primaryStage;
     var loader = SceneController.loadFXML("/player/style/LobbyObserverGame.fxml");
     loader.setController(this);
     Parent root = loader.load();
@@ -139,6 +142,6 @@ public class LobbyObserverGame implements Initializable {
    */
   public void spectateGame() {
     var currentGameState = client.getGameState();
-    // TODO:Create scene for game
+    new TestWindow().start(primaryStage);
   }
 }

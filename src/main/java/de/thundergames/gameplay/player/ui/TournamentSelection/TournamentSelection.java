@@ -9,7 +9,7 @@
  * requires the express written consent of ThunderGames | SwtPra10.
  */
 
-package de.thundergames.gameplay.player.ui.tournamentselection;
+package de.thundergames.gameplay.player.ui.TournamentSelection;
 
 import de.thundergames.gameplay.player.Client;
 import de.thundergames.gameplay.player.ui.PlayerMenu;
@@ -61,8 +61,8 @@ public class TournamentSelection implements Initializable {
    * @throws IOException error creating the scene TournamentSelection
    */
   public void create(ActionEvent event) throws IOException {
-    tournamentSelection = this;
     primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+    // Set scene
     var loader = SceneController.loadFXML("/player/style/TournamentSelection.fxml");
     loader.setController(this);
     Parent root = loader.load();
@@ -103,6 +103,7 @@ public class TournamentSelection implements Initializable {
    */
   @Override
   public void initialize(URL location, ResourceBundle resources) {
+    tournamentSelection = this;
     client = Client.getClient();
     // show username at scene
     PlayerName.setText("Spieler: " + client.name);
