@@ -12,5 +12,7 @@
 package de.thundergames.networking.util.exceptions;
 
 public class BadMessageError extends Exception {
-
+  public BadMessageError(String message) {
+    super(message);
+  }
 }

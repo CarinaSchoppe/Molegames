@@ -12,5 +12,7 @@
 package de.thundergames.networking.util.exceptions;
 
 public class InvalidMoveError extends Exception {
-
+  public InvalidMoveError(String message) {
+    super(message);
+  }
 }

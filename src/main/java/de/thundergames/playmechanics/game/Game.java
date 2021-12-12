@@ -13,6 +13,7 @@ package de.thundergames.playmechanics.game;
 import de.thundergames.MoleGames;
 import de.thundergames.filehandling.Score;
 import de.thundergames.networking.server.ServerThread;
+import de.thundergames.networking.util.exceptions.NotAllowedError;
 import de.thundergames.networking.util.interfaceitems.NetworkGame;
 import de.thundergames.networking.util.interfaceitems.NetworkMole;
 import de.thundergames.networking.util.interfaceitems.NetworkPlayer;
@@ -188,7 +189,7 @@ public class Game extends NetworkGame {
    * @param spectator    if its a spectator or player that has joined
    * @author Carina
    */
-  public void joinGame(@NotNull final ServerThread clientThread, final boolean spectator) {
+  public void joinGame(@NotNull final ServerThread clientThread, final boolean spectator) throws NotAllowedError {
     var client = new Player(clientThread).create(this);
     MoleGames.getMoleGames()
       .getPacketHandler()
@@ -211,6 +212,8 @@ public class Game extends NetworkGame {
         .put(client.getServerClient(), this);
       spectators.add(client);
       //TODO: join as spectator
+    } else {
+      throw new NotAllowedError("Game is over cant be joined anymore!");
     }
   }
 

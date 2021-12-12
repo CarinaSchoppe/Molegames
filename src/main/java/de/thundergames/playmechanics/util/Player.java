@@ -116,7 +116,7 @@ public class Player extends NetworkPlayer {
       }
       mole.setNetworkField(new NetworkField(x_end, y_end));
       System.out.println(
-        "PlayerModel with id: "
+        "Playermodel with id: "
           + serverClient.getConnectionID()
           + " has moved his mole from: x="
           + x_start
@@ -227,7 +227,7 @@ public class Player extends NetworkPlayer {
           game, MoleGames.getMoleGames().getPacketHandler().molePlacedPacket(netMole));
       playerUtil.handleTurnAfterAction();
       System.out.println(
-        "PlayerModel with id: "
+        "Playermodel with id: "
           + serverClient.getConnectionID()
           + " has placed his mole on x="
           + x
