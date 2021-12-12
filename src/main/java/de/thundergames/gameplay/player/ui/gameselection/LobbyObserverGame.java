@@ -43,14 +43,13 @@ public class LobbyObserverGame implements Initializable {
     return observer;
   }
 
-  public void create(ActionEvent event) throws IOException {
+  public void create(Stage event) throws IOException {
     client = Client.getClient();
     observer = this;
     createScene(event);
   }
 
-  private void createScene(ActionEvent event) throws IOException {
-    var primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+  private void createScene(Stage primaryStage) throws IOException {
     var loader = SceneController.loadFXML("/player/style/LobbyObserverGame.fxml");
     loader.setController(this);
     Parent root = loader.load();
