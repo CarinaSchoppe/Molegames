@@ -208,7 +208,7 @@ public class PacketHandler {
    * @author Carina
    * @use sends the next floor (gamestate) to the players
    */
-  public Packet nextLevelPacket(
+  public Packet nextFloorPacket(
     @NotNull final GameState gameState, @NotNull final ArrayList<Player> eliminatedPlayers) {
     var object = new JsonObject();
     var json = new JsonObject();

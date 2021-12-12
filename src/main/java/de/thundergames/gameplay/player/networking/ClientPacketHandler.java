@@ -15,11 +15,11 @@ import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import de.thundergames.filehandling.Score;
 import de.thundergames.gameplay.player.Client;
+import de.thundergames.gameplay.player.ui.TournamentSelection.LobbyObserverTournament;
+import de.thundergames.gameplay.player.ui.TournamentSelection.TournamentSelection;
 import de.thundergames.gameplay.player.ui.gameselection.GameSelection;
 import de.thundergames.gameplay.player.ui.gameselection.LobbyObserverGame;
 import de.thundergames.gameplay.player.ui.score.LeaderBoard;
-import de.thundergames.gameplay.player.ui.TournamentSelection.LobbyObserverTournament;
-import de.thundergames.gameplay.player.ui.TournamentSelection.TournamentSelection;
 import de.thundergames.networking.server.PacketHandler;
 import de.thundergames.networking.util.Packet;
 import de.thundergames.networking.util.Packets;
@@ -292,7 +292,7 @@ public class ClientPacketHandler {
    * @author Carina
    * @use handles the tournament score send by the server
    */
-  protected void handleTournamentScorePacket(Client client, Packet packet) {
+  protected void handleTournamentScorePacket(@NotNull final Client client, @NotNull final Packet packet) {
   }
 
   /**
@@ -301,11 +301,10 @@ public class ClientPacketHandler {
    * @author Carina
    * @use handles when the client gets the new floor
    */
-  protected synchronized void handleNextFloorPacket(Client client, Packet packet) {
+  protected synchronized void handleNextFloorPacket(@NotNull final Client client, @NotNull final Packet packet) {
     System.out.println("Client got the new level!");
-    var players = new ArrayList<NetworkPlayer>(new Gson()
-      .fromJson(packet.getValues().get("eliminatedPlayers").getAsString(), new TypeToken<ArrayList<NetworkPlayer>>() {
-      }.getType()));
+    var players = new ArrayList<NetworkPlayer>(new Gson().fromJson(packet.getValues().get("eliminatedPlayers").getAsString(), new TypeToken<ArrayList<NetworkPlayer>>() {
+    }.getType()));
     System.out.println("Players that are out: ");
     for (NetworkPlayer player : players) {
       System.out.println(player);
@@ -319,10 +318,9 @@ public class ClientPacketHandler {
    * @author Carina
    * @use handles the floor send by the server to do everything to get it ready
    */
-  protected synchronized void handleFloor(Client client, Packet packet) {
+  protected synchronized void handleFloor(@NotNull final Client client, @NotNull final Packet packet) {
     client.getMoles().clear();
-    client.setGameState(
-      new Gson().fromJson(packet.getValues().get("gameState").getAsString(), GameState.class));
+    client.setGameState(new Gson().fromJson(packet.getValues().get("gameState").getAsString(), GameState.class));
     if (!client.getGameState().getPullDiscs().isEmpty()) {
       if (client.getGameState().getPullDiscs().containsKey(client.getClientThread().getClientThreadID())) {
         client.getPullDiscs().addAll(client.getGameState().getPullDiscs().get(client.getClientThread().getClientThreadID()));
@@ -613,7 +611,6 @@ public class ClientPacketHandler {
    */
   protected void handleGameStartedPacket(
     @NotNull final Client client, @NotNull final Packet packet) {
-    handleFloor(client, packet);
     updateTableView();
     var lobbyObserverGame = LobbyObserverGame.getObserver();
     if (lobbyObserverGame != null) lobbyObserverGame.spectateGame();

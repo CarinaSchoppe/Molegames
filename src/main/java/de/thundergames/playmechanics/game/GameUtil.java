@@ -156,7 +156,7 @@ public class GameUtil {
       game.getGameUtil().givePoints(); //Giving the points to the players who are in the next level or just won
       game.setCurrentFloorID(game.getCurrentFloorID() + 1);
       game.updateGameState();
-      MoleGames.getMoleGames().getServer().sendToAllGameClients(game, MoleGames.getMoleGames().getPacketHandler().nextLevelPacket(game.getGameState(), eliminated));
+      MoleGames.getMoleGames().getServer().sendToAllGameClients(game, MoleGames.getMoleGames().getPacketHandler().nextFloorPacket(game.getGameState(), eliminated));
       nextPlayer();
     } else {
       game.getGameUtil().givePoints(); //Giving the points to the players who are in the next level or just won
