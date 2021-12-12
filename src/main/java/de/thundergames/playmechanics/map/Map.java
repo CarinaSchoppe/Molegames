@@ -48,7 +48,7 @@ public class Map extends NetworkFloor {
 
   /**
    * @param radius
-   * @author Carina
+   * @author Carina and Philipp
    * @use creates the mapfield in the comitee decided designway
    */
   public synchronized void createMap(final int radius) {

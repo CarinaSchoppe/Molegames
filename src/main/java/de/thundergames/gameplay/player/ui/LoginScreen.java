@@ -45,7 +45,7 @@ public class LoginScreen extends Application {
 
   /**
    * @param event
-   * @author Carina
+   * @author Carina and Philipp
    * @use handles the login button when clicked
    */
   @FXML
