@@ -19,8 +19,8 @@ public abstract class Network {
 
   protected final int port;
   protected final String ip;
-  protected Socket socket;
   private final boolean debug = true;
+  protected Socket socket;
 
   /**
    * Basic logic of creating a de.thundergames.network instance with default values for

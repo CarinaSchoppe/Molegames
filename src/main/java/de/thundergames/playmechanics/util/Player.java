@@ -126,11 +126,11 @@ public class Player extends NetworkPlayer {
             + " to x="
             + x_end
             + " y="
-          + y_end
-          + " with a card="
-          + cardValue
-          + "."
-          + "\n\n");
+            + y_end
+            + " with a card="
+            + cardValue
+            + "."
+            + "\n\n");
       playerUtil.handleTurnAfterAction();
     } else {
       MoleGames.getMoleGames()
@@ -148,12 +148,12 @@ public class Player extends NetworkPlayer {
             + ","
             + y_start
             + "] to X,Y: ["
-          + x_end
-          + ","
-          + y_end
-          + "] with a card of "
-          + cardValue
-          + "\n\n");
+            + x_end
+            + ","
+            + y_end
+            + "] with a card of "
+            + cardValue
+            + "\n\n");
       MoleGames.getMoleGames()
         .getServer()
         .sendToAllGameClients(
@@ -240,8 +240,8 @@ public class Player extends NetworkPlayer {
             + ". ("
             + getMoles().size()
             + "/"
-          + game.getSettings().getNumberOfMoles()
-          + ")\n\n");
+            + game.getSettings().getNumberOfMoles()
+            + ")\n\n");
     }
   }
 

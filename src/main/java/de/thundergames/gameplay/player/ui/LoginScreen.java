@@ -53,12 +53,10 @@ public class LoginScreen extends Application {
     var ip = this.ip.getText();
     var port = this.port.getText();
     var name = this.name.getText();
-
     String errorMessage = "";
     if (ip.equals("")) {
       errorMessage += "IP Feld muss ausgefuellt sein!\n";
     }
-
     if (port.equals("")) {
       errorMessage += "Port Feld muss ausgefuellt sein!\n";
     } else {
@@ -67,8 +65,7 @@ public class LoginScreen extends Application {
         if (intPort < 0 || intPort > 65535) {
           errorMessage += "Port Feld muss eine ganze Zahl zwischen 0 und 65535 sein!\n";
         }
-      }
-      catch (NumberFormatException e) {
+      } catch (NumberFormatException e) {
         errorMessage += "Port Feld muss eine ganze Zahl zwischen 0 und 65535 sein!\n";
       }
     }
