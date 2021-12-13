@@ -117,7 +117,7 @@ public class PacketHandler {
     var json = new JsonObject();
     var object = new JsonObject();
     object.addProperty("type", Packets.TOURNAMENTPLAYERINGAME.getPacketType());
-    json.addProperty("player", new Gson().toJson(client.getPlayer()));
+    json.addProperty("player", new Gson().toJson(client.getNetworkPlayer()));
     json.addProperty(
       "gameID",
       MoleGames.getMoleGames()
@@ -139,7 +139,7 @@ public class PacketHandler {
     var json = new JsonObject();
     var object = new JsonObject();
     object.addProperty("type", Packets.TOURNAMENTPLAYERLEFT.getPacketType());
-    json.addProperty("player", new Gson().toJson(client.getPlayer()));
+    json.addProperty("player", new Gson().toJson(client.getNetworkPlayer()));
     object.add("value", json);
     return new Packet(object);
   }
@@ -154,7 +154,7 @@ public class PacketHandler {
     var json = new JsonObject();
     var object = new JsonObject();
     object.addProperty("type", Packets.TOURNAMENTPLAYERKICKED.getPacketType());
-    json.addProperty("player", new Gson().toJson(client.getPlayer()));
+    json.addProperty("player", new Gson().toJson(client.getNetworkPlayer()));
     object.add("value", json);
     return new Packet(object);
   }
@@ -300,7 +300,7 @@ public class PacketHandler {
     var json = new JsonObject();
     var millis = System.currentTimeMillis();
     var until = millis + player.getGame().getTurnTime();
-    json.addProperty("player", new Gson().toJson(client.getPlayer()));
+    json.addProperty("player", new Gson().toJson(client.getNetworkPlayer()));
     json.addProperty("maySkip", maySkip);
     json.addProperty("until", until);
     json.addProperty("pullDiscs", new Gson().toJson(player.getCards()));
@@ -380,7 +380,7 @@ public class PacketHandler {
       var object = new JsonObject();
       object.addProperty("type", Packets.PLAYERPLACESMOLE.getPacketType());
       var json = new JsonObject();
-      json.addProperty("player", new Gson().toJson(client.getPlayer()));
+      json.addProperty("player", new Gson().toJson(client.getNetworkPlayer()));
       json.addProperty(
         "until",
         System.currentTimeMillis()
@@ -553,6 +553,7 @@ public class PacketHandler {
   private void handlePlayerLeavePacket(@NotNull final ServerThread client) {
     removeFromGames(client);
     overviewPacket(client);
+    client.setPlayer(null);
   }
 
   /**
@@ -583,32 +584,26 @@ public class PacketHandler {
    * @use removes a client from a game
    */
   private void removeFromGames(@NotNull final ServerThread client) {
-    if (!MoleGames.getMoleGames().getGameHandler().getClientGames().containsKey(client)) return;
+    if (!MoleGames.getMoleGames().getGameHandler().getClientGames().containsKey(client)) {
+      System.out.println("Client with id: " + client.getConnectionID() + " tried to leave a game but was not part of one!");
+      return;
+    }
     if (MoleGames.getMoleGames().getGameHandler().getClientGames().get(client) != null) {
       if (MoleGames.getMoleGames().getGameHandler().getClientGames().get(client).getCurrentPlayer() != null) {
         MoleGames.getMoleGames().getGameHandler().getClientGames().get(client).getCurrentPlayer().getTimer().cancel();
       }
     }
-    if (MoleGames.getMoleGames()
-      .getGameHandler()
-      .getClientGames()
-      .get(client)
-      .getPlayers()
-      .isEmpty()) return;
-    MoleGames.getMoleGames().getGameHandler().getClientGames().remove(client);
     if (MoleGames.getMoleGames().getGameHandler().getClientGames().get(client) != null) {
-      for (var players :
-        MoleGames.getMoleGames().getGameHandler().getClientGames().get(client).getPlayers()) {
-        if (players.getServerClient().equals(client)) {
-          MoleGames.getMoleGames()
-            .getGameHandler()
-            .getClientGames()
-            .get(client)
-            .removePlayerFromGame(players);
-          return;
-        }
-      }
+      MoleGames.getMoleGames()
+        .getGameHandler()
+        .getClientGames()
+        .get(client)
+        .removePlayerFromGame(client.getPlayer());
     }
+    MoleGames.getMoleGames().getGameHandler().getClientGames().get(client).getActivePlayers().remove(client.getPlayer());
+    MoleGames.getMoleGames().getGameHandler().getClientGames().get(client).getPlayers().remove(client.getPlayer());
+    MoleGames.getMoleGames().getGameHandler().getClientGames().get(client).getSpectators().remove(client.getPlayer());
+    MoleGames.getMoleGames().getGameHandler().getClientGames().remove(client);
   }
 
   /**
@@ -677,7 +672,7 @@ public class PacketHandler {
         + " got the name "
         + client.getClientName()
         + " and logged in!");
-    client.setPlayer(new NetworkPlayer(client.getClientName(), client.getConnectionID()));
+    client.setNetworkPlayer(new NetworkPlayer(client.getClientName(), client.getConnectionID()));
   }
 
   /**
@@ -794,8 +789,8 @@ public class PacketHandler {
           }
         }
       } else {
-        for (var client : game.getSpectators()) {
-          if (client.getClientID() == clientConnection.getConnectionID()) {
+        if (MoleGames.getMoleGames().getGameHandler().getClientGames().containsKey(clientConnection)) {
+          if (MoleGames.getMoleGames().getGameHandler().getClientGames().get(clientConnection).getSpectators().contains(clientConnection)) {
             return false;
           }
         }
@@ -818,7 +813,7 @@ public class PacketHandler {
   public Packet playerJoinedTournamentPacket(@NotNull final ServerThread client) {
     var object = new JsonObject();
     var json = new JsonObject();
-    json.addProperty("player", new Gson().toJson(client.getPlayer()));
+    json.addProperty("player", new Gson().toJson(client.getNetworkPlayer()));
     object.addProperty("type", Packets.TOURNAMENTPLAYERJOINED.getPacketType());
     object.add("value", json);
     return new Packet(object);
@@ -846,11 +841,11 @@ public class PacketHandler {
   }
 
   /**
-   * @param clientConnection
+   * @param client
    * @author Carina
    * @use sends the welcomePacket to the client when he joins a game
    */
-  public void welcomeGamePacket(@NotNull final ServerThread clientConnection) {
+  public void welcomeGamePacket(@NotNull final ServerThread client) {
     var object = new JsonObject();
     object.addProperty("type", Packets.WELCOMEGAME.getPacketType());
     var json = new JsonObject();
@@ -861,11 +856,11 @@ public class PacketHandler {
           MoleGames.getMoleGames()
             .getGameHandler()
             .getClientGames()
-            .get(clientConnection)
+            .get(client)
             .getGameState()));
     object.add("value", json);
-    clientConnection.sendPacket(new Packet(object));
-    playerJoinedPacket(clientConnection);
+    client.sendPacket(new Packet(object));
+    playerJoinedPacket(client);
   }
 
   /**
@@ -877,7 +872,7 @@ public class PacketHandler {
     var object = new JsonObject();
     object.addProperty("type", Packets.PLAYERJOINED.getPacketType());
     var json = new JsonObject();
-    json.addProperty("player", new Gson().toJson(clientConnection.getPlayer()));
+    json.addProperty("player", new Gson().toJson(clientConnection.getNetworkPlayer()));
     object.add("value", json);
     MoleGames.getMoleGames()
       .getServer()

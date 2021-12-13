@@ -75,11 +75,6 @@ public abstract class NetworkThread extends Thread {
             var object = new Gson().fromJson(message, JsonObject.class);
             if (object.get("type") != null) {
               packet = new Packet(object.get("type").getAsString(), object);
-              if ("DISCONNECT".equals(packet.getPacketType())) {
-                System.out.println("Content: " + packet.getValues().toString());
-                disconnect();
-                return;
-              }
             }
             if (this.packet != null) {
               if (this instanceof ServerThread
@@ -92,6 +87,13 @@ public abstract class NetworkThread extends Thread {
                     + packet.getPacketType()
                     + " contents: "
                     + packet.getValues().toString());
+              } else if (this instanceof ServerThread
+                && !packet.getPacketType().equals(Packets.MESSAGE.getPacketType())) {
+                System.out.println(
+                  "Client with id: "
+                    + this.id
+                    + " sended: type: "
+                    + packet.getPacketType());
               }
               readStringPacketInput(packet, this);
             }

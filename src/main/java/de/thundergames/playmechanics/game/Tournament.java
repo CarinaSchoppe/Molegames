@@ -77,7 +77,7 @@ public class Tournament {
   public synchronized void updateTournamentState() {
     tournamentState.setScore(score);
     for (var client : clients) {
-      tournamentState.getPlayers().add(client.getPlayer());
+      tournamentState.getPlayers().add(client.getNetworkPlayer());
     }
   }
 

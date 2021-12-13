@@ -157,7 +157,6 @@ public class CreateGame extends Application {
   public void create(@NotNull final Server server, @NotNull final String... args) {
     MoleGames.getMoleGames()
       .setGameMasterClient(new AusrichterClient(server));
-    System.out.println("Test Ausrichter");
     MoleGames.getMoleGames().getGameMasterClient().testTournament(1);
     MoleGames.getMoleGames().getGameMasterClient().testGame(1);
     launch(args);

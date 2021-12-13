@@ -142,7 +142,7 @@ public class Game extends NetworkGame {
       var players = new ArrayList<NetworkPlayer>();
       var max = Collections.max(getScore().getPoints().values());
       for (var playerID : playerIDs) {
-        players.add(MoleGames.getMoleGames().getServer().getConnectionIDs().get(playerID).getPlayer());
+        players.add(MoleGames.getMoleGames().getServer().getConnectionIDs().get(playerID).getNetworkPlayer());
       }
       Collections.sort(players, (o1, o2) -> getScore().getPoints().get(o2.getClientID()).compareTo(getScore().getPoints().get(o1.getClientID())));
       for (var player : players) {
@@ -191,6 +191,7 @@ public class Game extends NetworkGame {
    */
   public void joinGame(@NotNull final ServerThread clientThread, final boolean spectator) throws NotAllowedError {
     var client = new Player(clientThread).create(this);
+    clientThread.setPlayer(client);
     MoleGames.getMoleGames()
       .getPacketHandler()
       .assignToGamePacket(client.getServerClient(), getGameID());

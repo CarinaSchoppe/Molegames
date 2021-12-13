@@ -727,7 +727,7 @@ public class ClientPacketHandler {
     var object = new JsonObject();
     object.addProperty("type", Packets.LEAVEGAME.getPacketType());
     client.getClientThread().sendPacket(new Packet(object));
-    System.out.println("Client: Send left the game!");
+    System.out.println("Client: left the game!");
     updateTableView();
   }
 
