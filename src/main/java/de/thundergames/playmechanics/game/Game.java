@@ -56,11 +56,12 @@ public class Game extends NetworkGame {
     gameUtil = new GameUtil(this);
     MoleGames.getMoleGames().getGameHandler().getIDGames().put(super.getGameID(), this);
     MoleGames.getMoleGames().getGameHandler().getGames().add(this);
+    settings = new Settings(this);
+    setScore(new Score());
+    updateGameState();
     for (var client : MoleGames.getMoleGames().getServer().getObserver()) {
       MoleGames.getMoleGames().getPacketHandler().overviewPacket(client);
     }
-    settings = new Settings(this);
-    setScore(new Score());
   }
 
   /**
@@ -70,7 +71,7 @@ public class Game extends NetworkGame {
   public synchronized void updateGameState() {
     updateNetworkGame();
     map = new Map(this);
-    gameState.setActivePlayers(new ArrayList<>(activePlayers));
+    gameState.setActivePlayers(new ArrayList<>(players));
     gameState.setCurrentPlayer(currentPlayer);
     var moles = new ArrayList<NetworkMole>();
     for (var players : activePlayers) {
@@ -79,7 +80,8 @@ public class Game extends NetworkGame {
     gameState.setPlacedMoles(moles);
     gameState.setMoles(settings.getNumberOfMoles());
     gameState.setRadius(settings.getRadius());
-    gameState.setFloor(settings.getFloors().get(currentFloorID));
+    if (!settings.getFloors().isEmpty())
+      gameState.setFloor(settings.getFloors().get(currentFloorID));
     gameState.setPullDiscsOrdered(settings.isPullDiscsOrdered());
     var mappe = new HashMap<Integer, ArrayList<Integer>>();
     for (var players : players) {
@@ -89,9 +91,11 @@ public class Game extends NetworkGame {
     gameState.setStatus(currentGameState.getName());
     gameState.setVisualizationTime(settings.getVisualizationTime());
     gameState.setScore(getScore());
-    map.setHoles(gameState.getFloor().getHoles());
-    map.setDrawAgainFields(gameState.getFloor().getDrawAgainFields());
-    map.changeFieldParams(gameState);
+    if (gameState.getFloor() != null) {
+      map.setHoles(gameState.getFloor().getHoles());
+      map.setDrawAgainFields(gameState.getFloor().getDrawAgainFields());
+      map.changeFieldParams(gameState);
+    }
   }
 
   /**
@@ -123,10 +127,11 @@ public class Game extends NetworkGame {
       }
     }
     if (getCurrentGameState() == GameStates.NOT_STARTED) {
-      setCurrentGameState(gameState);
+      currentGameState = gameState;
       setStartDateTime(Instant.now().getEpochSecond());
-      updateNetworkGame();
       updateGameState();
+      for (var observer : MoleGames.getMoleGames().getServer().getObserver())
+        MoleGames.getMoleGames().getPacketHandler().overviewPacket(observer);
       if (MoleGames.getMoleGames().getServer().isDebug())
         System.out.println("Starting a game with the gameID: " + getGameID());
       MoleGames.getMoleGames().getServer().sendToAllGameClients(this, MoleGames.getMoleGames().getPacketHandler().gameStartedPacket(gameState));
@@ -140,6 +145,10 @@ public class Game extends NetworkGame {
    */
   public synchronized void endGame() {
     setFinishDateTime(Instant.now().getEpochSecond());
+    currentGameState = GameStates.OVER;
+    updateGameState();
+    for (var observer : MoleGames.getMoleGames().getServer().getObserver())
+      MoleGames.getMoleGames().getPacketHandler().overviewPacket(observer);
     if (!getScore().getPoints().isEmpty()) {
       var playerIDs = new ArrayList<>(getScore().getPoints().keySet());
       var players = new ArrayList<NetworkPlayer>();
@@ -175,6 +184,9 @@ public class Game extends NetworkGame {
   public void pauseGame() {
     MoleGames.getMoleGames().getPacketHandler().gamePausedPacket(this);
     currentGameState = GameStates.PAUSED;
+    updateGameState();
+    for (var observer : MoleGames.getMoleGames().getServer().getObserver())
+      MoleGames.getMoleGames().getPacketHandler().overviewPacket(observer);
   }
 
   /**
