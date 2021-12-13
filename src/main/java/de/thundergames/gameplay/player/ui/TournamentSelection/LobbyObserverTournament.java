@@ -9,7 +9,7 @@
  * requires the express written consent of ThunderGames | SwtPra10.
  */
 
-package de.thundergames.gameplay.player.ui.TournamentSelection;
+package de.thundergames.gameplay.player.ui.tournamentselection;
 
 import de.thundergames.gameplay.player.Client;
 import de.thundergames.gameplay.util.SceneController;
@@ -30,8 +30,8 @@ import java.util.ResourceBundle;
 public class LobbyObserverTournament implements Initializable {
 
   @FXML
-  private static Client client;
-  private static LobbyObserverTournament observer;
+  private static Client CLIENT;
+  private static LobbyObserverTournament OBSERVER;
   @FXML
   private Text PlayerName;
   @FXML
@@ -42,13 +42,13 @@ public class LobbyObserverTournament implements Initializable {
   private int selectedTournamentId;
 
   public static LobbyObserverTournament getObserver() {
-    return observer;
+    return OBSERVER;
   }
 
   public void create(ActionEvent event, int tournamentId) throws IOException {
-    client = Client.getClient();
+    CLIENT = Client.getClientInstance();
     selectedTournamentId = tournamentId;
-    observer = this;
+    OBSERVER = this;
     createScene(event);
   }
 
@@ -78,7 +78,7 @@ public class LobbyObserverTournament implements Initializable {
 
   @Override
   public void initialize(URL location, ResourceBundle resources) {
-    PlayerName.setText("Spieler: " + client.name);
+    PlayerName.setText("Spieler: " + CLIENT.name);
   }
 
   /**
@@ -89,7 +89,7 @@ public class LobbyObserverTournament implements Initializable {
    */
   @FXML
   void onBackClick(ActionEvent event) throws IOException {
-    client.getClientPacketHandler().leaveTournament(client, selectedTournamentId);
+    CLIENT.getClientPacketHandler().leaveTournament(CLIENT, selectedTournamentId);
     new TournamentSelection().create(event);
   }
 
@@ -99,7 +99,7 @@ public class LobbyObserverTournament implements Initializable {
    * @param stage current stage
    */
   private void logout(Stage stage) {
-    client.getClientPacketHandler().logoutPacket(client);
+    CLIENT.getClientPacketHandler().logoutPacket(CLIENT);
     stage.close();
   }
 
@@ -139,7 +139,7 @@ public class LobbyObserverTournament implements Initializable {
    * @use Create scene and spectate the game of tournament
    */
   public void spectateGame() {
-    var currentGameState = client.getGameState();
+    var currentGameState = CLIENT.getGameState();
     // TODO:Create scene for game
   }
 }

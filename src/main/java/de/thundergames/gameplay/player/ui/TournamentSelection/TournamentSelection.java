@@ -9,7 +9,7 @@
  * requires the express written consent of ThunderGames | SwtPra10.
  */
 
-package de.thundergames.gameplay.player.ui.TournamentSelection;
+package de.thundergames.gameplay.player.ui.tournamentselection;
 
 import de.thundergames.MoleGames;
 import de.thundergames.gameplay.player.Client;
@@ -39,8 +39,8 @@ import java.util.ResourceBundle;
 
 public class TournamentSelection implements Initializable {
 
-  private static Client client;
-  private static TournamentSelection tournamentSelection;
+  private static Client CLIENT;
+  private static TournamentSelection TOURNAMENT_SELECTION;
   @FXML
   private Text PlayerName;
   @FXML
@@ -52,7 +52,7 @@ public class TournamentSelection implements Initializable {
   private Stage primaryStage;
 
   public static TournamentSelection getTournamentSelection() {
-    return tournamentSelection;
+    return TOURNAMENT_SELECTION;
   }
 
   /**
@@ -104,10 +104,10 @@ public class TournamentSelection implements Initializable {
    */
   @Override
   public void initialize(URL location, ResourceBundle resources) {
-    tournamentSelection = this;
-    client = Client.getClient();
+    TOURNAMENT_SELECTION = this;
+    CLIENT = Client.getClientInstance();
     // show username at scene
-    PlayerName.setText("Spieler: " + client.name);
+    PlayerName.setText("Spieler: " + CLIENT.name);
     // set value for each row
     tournamentID.setCellValueFactory(new PropertyValueFactory<>("HashtagWithTournamentID"));
     playerCount.setCellValueFactory(new PropertyValueFactory<>("playerCount"));
@@ -121,7 +121,7 @@ public class TournamentSelection implements Initializable {
   public void updateTable() {
     // clear tableview and get tournaments from server and add all to table view
     gameTable.getItems().clear();
-    gameTable.getItems().addAll(client.getTournaments());
+    gameTable.getItems().addAll(CLIENT.getTournaments());
   }
 
   /**
@@ -141,7 +141,7 @@ public class TournamentSelection implements Initializable {
    * @param stage current stage
    */
   private void logout(Stage stage) {
-    client.getClientPacketHandler().logoutPacket(client);
+    CLIENT.getClientPacketHandler().logoutPacket(CLIENT);
     stage.close();
   }
 
@@ -165,10 +165,10 @@ public class TournamentSelection implements Initializable {
       return;
     }
     // Send Packet to spectate tournament to get GameState
-    client
+    CLIENT
       .getClientPacketHandler()
-      .enterTournamentPacket(client, selectedItem.getTournamentID(), false);
-    var currentGameState = client.getGameState();
+      .enterTournamentPacket(CLIENT, selectedItem.getTournamentID(), false);
+    var currentGameState = CLIENT.getGameState();
     if (MoleGames.getMoleGames().getServer().isDebug()) {
       if (currentGameState == null) {
         System.out.println("TournamentSelection: GameState is null");
@@ -179,7 +179,7 @@ public class TournamentSelection implements Initializable {
       || Objects.equals(currentGameState.getStatus(), GameStates.PAUSED.toString())) {
       spectateGame(currentGameState);
     } else if (Objects.equals(currentGameState.getStatus(), GameStates.NOT_STARTED.toString())) {
-      new de.thundergames.gameplay.player.ui.TournamentSelection.LobbyObserverTournament().create(event, selectedItem.getTournamentID());
+      //TODO:  new TournamentSelection.LobbyObserverTournament().create(event, selectedItem.getTournamentID());
     } else if (Objects.equals(currentGameState.getStatus(), GameStates.OVER.toString())) {
       loadScoreboard();
     }
@@ -190,7 +190,7 @@ public class TournamentSelection implements Initializable {
    * @use Load scene of scoreboard
    */
   private void loadScoreboard() {
-    client.getClientPacketHandler().getScorePacket(client);
+    CLIENT.getClientPacketHandler().getScorePacket(CLIENT);
     // TODO: Get TournamentState
     // var gameScore = client.getTournamentState().getTournamentScore();
     // Todo:Open scene of ScoreBoard

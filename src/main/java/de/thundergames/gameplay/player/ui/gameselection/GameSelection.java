@@ -40,8 +40,8 @@ import java.util.ResourceBundle;
 
 public class GameSelection implements Initializable {
 
-  private static Client client;
-  private static GameSelection gameSelection;
+  private static Client CLIENT;
+  private static GameSelection GAME_SELECTION;
   @FXML
   private Text PlayerName;
   @FXML
@@ -55,7 +55,7 @@ public class GameSelection implements Initializable {
   private Stage primaryStage;
 
   public static GameSelection getGameSelection() {
-    return gameSelection;
+    return GAME_SELECTION;
   }
   //TODO: im fall das man auf Spiele und oder Tourniere klickt automatisch nochmal getOverview sendet.
 
@@ -106,7 +106,7 @@ public class GameSelection implements Initializable {
    * @param stage current stage
    */
   private void logout(Stage stage) {
-    client.getClientPacketHandler().logoutPacket(client);
+    CLIENT.getClientPacketHandler().logoutPacket(CLIENT);
     stage.close();
   }
 
@@ -118,10 +118,10 @@ public class GameSelection implements Initializable {
    */
   @Override
   public void initialize(URL location, ResourceBundle resources) {
-    gameSelection = this;
-    client = Client.getClient();
+    GAME_SELECTION = this;
+    CLIENT = Client.getClientInstance();
     // show username at scene
-    PlayerName.setText("Spieler: " + client.name);
+    PlayerName.setText("Spieler: " + CLIENT.name);
     // set value for each row
     gameID.setCellValueFactory(new PropertyValueFactory<>("HashtagWithGameID"));
     gamePlayerCount.setCellValueFactory(new PropertyValueFactory<>("CurrentPlayerCount_MaxCount"));
@@ -136,7 +136,7 @@ public class GameSelection implements Initializable {
   public void updateTable() {
     // clear tableview and get games from server and add all to table view
     gameTable.getItems().clear();
-    gameTable.getItems().addAll(client.getGames());
+    gameTable.getItems().addAll(CLIENT.getGames());
   }
 
   /**
@@ -166,21 +166,21 @@ public class GameSelection implements Initializable {
       return;
     }
     // Send Packet to spectate game to get GameState
-    client.getClientPacketHandler().joinGamePacket(client, selectedItem.getGameID(), false);
+    CLIENT.getClientPacketHandler().joinGamePacket(CLIENT, selectedItem.getGameID(), false);
     boolean waiting = true;
     int counter = 0;
     GameState currentGameState = null;
     while (waiting) {
       Thread.sleep(1000);
       counter += 1;
-      currentGameState = client.getGameState();
+      currentGameState = CLIENT.getGameState();
       if (counter == 5 || currentGameState != null) {
         waiting = false;
       }
     }
     // Get GameState
     //GameState currentGameState = client.getGameState();
-    if (Client.getClient().isDebug()) {
+    if (Client.getClientInstance().isDebug()) {
       if (currentGameState == null) {
         System.out.println("GameState is null!");
         return;
@@ -200,8 +200,8 @@ public class GameSelection implements Initializable {
    * Load scene of scoreboard
    */
   private void loadScoreboard() {
-    client.getClientPacketHandler().getScorePacket(client);
-    var gameScore = client.getGameState().getScore();
+    CLIENT.getClientPacketHandler().getScorePacket(CLIENT);
+    var gameScore = CLIENT.getGameState().getScore();
     // Todo:Open scene of ScoreBoard
   }
 

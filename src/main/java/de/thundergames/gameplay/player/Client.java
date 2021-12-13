@@ -28,8 +28,7 @@ import java.util.HashSet;
 
 public class Client extends Network {
 
-  private static final boolean keyListener = true;
-  protected static Client client;
+  protected static Client CLIENT;
   public final String name;
   private final HashSet<NetworkGame> games = new HashSet<>();
   private final HashSet<Tournament> tournaments = new HashSet<>();
@@ -63,8 +62,8 @@ public class Client extends Network {
     client.clientPacketHandler.joinGamePacket(client, 0, true);
   }
 
-  public static Client getClient() {
-    return client;
+  public static Client getClientInstance() {
+    return CLIENT;
   }
 
   public String getName() {
@@ -79,7 +78,7 @@ public class Client extends Network {
    */
   @Override
   public void create() {
-    client = this;
+    CLIENT = this;
     connect();
   }
 
@@ -93,7 +92,7 @@ public class Client extends Network {
       socket = new Socket(ip, port);
       clientThread = new ClientThread(socket, 0, this);
       clientThread.start();
-      clientPacketHandler.loginPacket(client, name);
+      clientPacketHandler.loginPacket(CLIENT, name);
     } catch (IOException exception) {
       if (isDebug())
         System.out.println("Is the server running?!");

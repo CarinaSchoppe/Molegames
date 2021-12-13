@@ -12,8 +12,8 @@
 package de.thundergames.gameplay.player.ui;
 
 import de.thundergames.gameplay.player.Client;
-import de.thundergames.gameplay.player.ui.TournamentSelection.TournamentSelection;
 import de.thundergames.gameplay.player.ui.gameselection.GameSelection;
+import de.thundergames.gameplay.player.ui.tournamentselection.TournamentSelection;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -30,7 +30,7 @@ import java.util.ResourceBundle;
 
 public class PlayerMenu implements Initializable {
 
-  private static Client client;
+  private static Client CLIENT;
   @FXML
   private Text PlayerName;
 
@@ -59,9 +59,9 @@ public class PlayerMenu implements Initializable {
   @Override
   public void initialize(URL location, ResourceBundle resources) {
     //set client
-    client = Client.getClient();
+    CLIENT = Client.getClientInstance();
     //show username at scene
-    PlayerName.setText("Spieler: " + client.name);
+    PlayerName.setText("Spieler: " + CLIENT.name);
   }
 
   /**
@@ -73,7 +73,7 @@ public class PlayerMenu implements Initializable {
   @FXML
   void onSignOutClick(ActionEvent event) throws Exception {
     //logout for user
-    client.getClientPacketHandler().logoutPacket(client);
+    CLIENT.getClientPacketHandler().logoutPacket(CLIENT);
     //create LoginScreen scene
     var primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
     Parent root = FXMLLoader.load(getClass().getResource("/player/style/LoginScreen.fxml"));
@@ -102,7 +102,7 @@ public class PlayerMenu implements Initializable {
    * @param stage current stage
    */
   private void logout(Stage stage) {
-    client.getClientPacketHandler().logoutPacket(client);
+    CLIENT.getClientPacketHandler().logoutPacket(CLIENT);
     stage.close();
   }
 
@@ -114,7 +114,7 @@ public class PlayerMenu implements Initializable {
    */
   @FXML
   public void onTournamentClick(ActionEvent event) throws IOException {
-    client.getClientPacketHandler().getOverviewPacket(client);
+    CLIENT.getClientPacketHandler().getOverviewPacket(CLIENT);
     new TournamentSelection().create(event);
   }
 }

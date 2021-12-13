@@ -31,8 +31,8 @@ import java.util.ResourceBundle;
 public class LobbyObserverGame implements Initializable {
 
   @FXML
-  private static Client client;
-  private static LobbyObserverGame observer;
+  private static Client CLIENT;
+  private static LobbyObserverGame OBSERVER;
   @FXML
   private Text PlayerName;
   @FXML
@@ -43,12 +43,12 @@ public class LobbyObserverGame implements Initializable {
   private Stage primaryStage;
 
   public static LobbyObserverGame getObserver() {
-    return observer;
+    return OBSERVER;
   }
 
   public void create(Stage event) throws IOException {
-    client = Client.getClient();
-    observer = this;
+    CLIENT = Client.getClientInstance();
+    OBSERVER = this;
     createScene(event);
   }
 
@@ -78,7 +78,7 @@ public class LobbyObserverGame implements Initializable {
 
   @Override
   public void initialize(URL location, ResourceBundle resources) {
-    PlayerName.setText("Spieler: " + client.name);
+    PlayerName.setText("Spieler: " + CLIENT.name);
   }
 
   /**
@@ -89,7 +89,7 @@ public class LobbyObserverGame implements Initializable {
    */
   @FXML
   void onBackClick(ActionEvent event) throws IOException {
-    client.getClientPacketHandler().leaveGamePacket(client);
+    CLIENT.getClientPacketHandler().leaveGamePacket(CLIENT);
     new GameSelection().create(event);
   }
 
@@ -99,8 +99,8 @@ public class LobbyObserverGame implements Initializable {
    * @param stage current stage
    */
   private void logout(Stage stage) {
-    client.getClientPacketHandler().logoutPacket(client);
-    client.getClientPacketHandler().leaveGamePacket(client);
+    CLIENT.getClientPacketHandler().logoutPacket(CLIENT);
+    CLIENT.getClientPacketHandler().leaveGamePacket(CLIENT);
     stage.close();
   }
 

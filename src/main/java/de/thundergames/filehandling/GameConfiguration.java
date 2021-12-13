@@ -21,7 +21,7 @@ import java.nio.file.Files;
 
 public class GameConfiguration {
 
-  private static int id = 0;
+  private static int ID = 0;
 
   /**
    * @param config the settings to save
@@ -31,8 +31,8 @@ public class GameConfiguration {
    * @see NetworkConfiguration
    */
   public void saveSettings(@NotNull final NetworkConfiguration config) throws IOException {
-    var file = new File("config" + id + ".json");
-    id++;
+    var file = new File("config" + ID + ".json");
+    ID++;
     var writer = new FileWriter(file);
     writer.write(config.toString());
     writer.flush();

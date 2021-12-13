@@ -30,7 +30,7 @@ import java.util.Objects;
  */
 public class MoleGames {
 
-  private static MoleGames moleGames;
+  private static MoleGames MOLE_GAMES;
   private AI ai;
   private Server server;
   private MultiGameHandler gameHandler;
@@ -47,7 +47,7 @@ public class MoleGames {
    * @see AI
    */
   public static void main(@Nullable final String... args) {
-    moleGames = new MoleGames();
+    MOLE_GAMES = new MoleGames();
     if (args.length == 0) {
       LoginScreen.create(args);
     } else {
@@ -58,11 +58,11 @@ public class MoleGames {
           break;
         case "-s":
         case "s":
-          moleGames.server = new Server(5000, "127.0.0.1");
-          moleGames.packetHandler = new PacketHandler();
-          moleGames.gameHandler = new MultiGameHandler();
-          moleGames.server.create();
-          new de.thundergames.gameplay.ausrichter.ui.CreateGame().create(moleGames.server, args);
+          MOLE_GAMES.server = new Server(5000, "127.0.0.1");
+          MOLE_GAMES.packetHandler = new PacketHandler();
+          MOLE_GAMES.gameHandler = new MultiGameHandler();
+          MOLE_GAMES.server.create();
+          new de.thundergames.gameplay.ausrichter.ui.CreateGame().create(MOLE_GAMES.server, args);
           break;
         case "-a":
         case "a":
@@ -78,7 +78,7 @@ public class MoleGames {
   }
 
   public static MoleGames getMoleGames() {
-    return moleGames;
+    return MOLE_GAMES;
   }
 
   public MultiGameHandler getGameHandler() {

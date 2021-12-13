@@ -25,7 +25,7 @@ import java.util.ResourceBundle;
 
 public class LeaderBoard extends Application implements Initializable {
 
-  private static Client client;
+  private static Client CLIENT;
 
   @FXML
   private TableView<PlayerResult> scoreTable;
@@ -50,11 +50,11 @@ public class LeaderBoard extends Application implements Initializable {
   @FXML
   public void initialize(URL location, ResourceBundle resources) {
     scoreTable.setSelectionModel(null);
-    client = Client.getClient();
+    CLIENT = Client.getClientInstance();
     placement.setCellValueFactory(new PropertyValueFactory<>("placement"));
     name.setCellValueFactory(new PropertyValueFactory<>("name"));
     score.setCellValueFactory(new PropertyValueFactory<>("score"));
-    if (client == null) return;
+    if (CLIENT == null) return;
     createLeaderbord();
   }
 
@@ -65,8 +65,8 @@ public class LeaderBoard extends Application implements Initializable {
    * @see NetworkPlayer
    */
   void createLeaderbord() {
-    client.getClientPacketHandler().getScorePacket(client);  //Muss evtl raus.
-    var score = client.getGameState().getScore();
+    CLIENT.getClientPacketHandler().getScorePacket(CLIENT);  //Muss evtl raus.
+    var score = CLIENT.getGameState().getScore();
     var list = new ArrayList<NetworkPlayer>();
     var players = new ArrayList<>(score.getPlayers());
     //sort players in list by their points
@@ -108,7 +108,7 @@ public class LeaderBoard extends Application implements Initializable {
    * @param stage current stage
    */
   private void logout(@NotNull final Stage stage) {
-    client.getClientPacketHandler().logoutPacket(client);
+    CLIENT.getClientPacketHandler().logoutPacket(CLIENT);
     stage.close();
   }
 
