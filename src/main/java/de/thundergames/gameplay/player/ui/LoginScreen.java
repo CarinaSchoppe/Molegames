@@ -75,8 +75,7 @@ public class LoginScreen extends Application {
       errorMessage += "Namen duerfen maximal 32 Zeichen lang sein!\n";
     }
     if (errorMessage.equals("")) {
-      if (Client.getClient().isDebug())
-        System.out.println("IP: " + ip + " Port: " + port + " Name: " + name);
+      System.out.println("IP: " + ip + " Port: " + port + " Name: " + name);
       var client = new Client(Integer.parseInt(port), ip, name);
       client.create();
       new PlayerMenu().create(event);

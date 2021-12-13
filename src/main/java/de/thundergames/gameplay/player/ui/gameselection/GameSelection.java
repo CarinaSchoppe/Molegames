@@ -11,7 +11,6 @@
 
 package de.thundergames.gameplay.player.ui.gameselection;
 
-import de.thundergames.MoleGames;
 import de.thundergames.gameplay.player.Client;
 import de.thundergames.gameplay.player.ui.PlayerMenu;
 import de.thundergames.gameplay.util.SceneController;
@@ -181,7 +180,7 @@ public class GameSelection implements Initializable {
     }
     // Get GameState
     //GameState currentGameState = client.getGameState();
-    if (MoleGames.getMoleGames().getServer().isDebug()) {
+    if (Client.getClient().isDebug()) {
       if (currentGameState == null) {
         System.out.println("GameState is null!");
         return;
