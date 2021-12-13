@@ -588,18 +588,15 @@ public class PacketHandler {
       System.out.println("Client with id: " + client.getConnectionID() + " tried to leave a game but was not part of one!");
       return;
     }
-    if (MoleGames.getMoleGames().getGameHandler().getClientGames().get(client) != null) {
-      if (MoleGames.getMoleGames().getGameHandler().getClientGames().get(client).getCurrentPlayer() != null) {
-        MoleGames.getMoleGames().getGameHandler().getClientGames().get(client).getCurrentPlayer().getTimer().cancel();
-      }
+    if (MoleGames.getMoleGames().getGameHandler().getClientGames().get(client) != null) return;
+    if (MoleGames.getMoleGames().getGameHandler().getClientGames().get(client).getCurrentPlayer() != null) {
+      MoleGames.getMoleGames().getGameHandler().getClientGames().get(client).getCurrentPlayer().getTimer().cancel();
     }
-    if (MoleGames.getMoleGames().getGameHandler().getClientGames().get(client) != null) {
-      MoleGames.getMoleGames()
-        .getGameHandler()
-        .getClientGames()
-        .get(client)
-        .removePlayerFromGame(client.getPlayer());
-    }
+    MoleGames.getMoleGames()
+      .getGameHandler()
+      .getClientGames()
+      .get(client)
+      .removePlayerFromGame(client.getPlayer());
     MoleGames.getMoleGames().getGameHandler().getClientGames().get(client).getActivePlayers().remove(client.getPlayer());
     MoleGames.getMoleGames().getGameHandler().getClientGames().get(client).getPlayers().remove(client.getPlayer());
     MoleGames.getMoleGames().getGameHandler().getClientGames().get(client).getSpectators().remove(client.getPlayer());

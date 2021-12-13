@@ -150,7 +150,6 @@ public class Game extends NetworkGame {
           getScore().getWinners().add(player);
         }
       }
-      System.out.println("MAX PUNKTE: " + Collections.max(getScore().getPoints().values()));
       System.out.println("Server: game with id: " + getGameID() + " has ended! Winners are: " + getScore().getWinners());
       MoleGames.getMoleGames().getPacketHandler().gameOverPacket(this);
     }
