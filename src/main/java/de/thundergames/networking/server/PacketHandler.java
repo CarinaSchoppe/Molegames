@@ -809,8 +809,8 @@ public class PacketHandler {
           .getIDGames()
           .get(packet.getValues().get("gameID").getAsInt());
       if (connectType) {
-        for (var client : game.getPlayers()) {
-          if (client.getClientID() == clientConnection.getConnectionID()) {
+        if (MoleGames.getMoleGames().getGameHandler().getClientGames().containsKey(clientConnection)) {
+          if (MoleGames.getMoleGames().getGameHandler().getClientGames().get(clientConnection).getPlayers().contains(clientConnection)) {
             return false;
           }
         }
