@@ -11,6 +11,7 @@
 
 package de.thundergames.gameplay.player.ui.TournamentSelection;
 
+import de.thundergames.MoleGames;
 import de.thundergames.gameplay.player.Client;
 import de.thundergames.gameplay.player.ui.PlayerMenu;
 import de.thundergames.gameplay.util.SceneController;
@@ -168,15 +169,17 @@ public class TournamentSelection implements Initializable {
       .getClientPacketHandler()
       .enterTournamentPacket(client, selectedItem.getTournamentID(), false);
     var currentGameState = client.getGameState();
-    if (currentGameState == null) {
-      System.out.println("TournamentSelection: GameState is null");
-      return;
+    if (MoleGames.getMoleGames().getServer().isDebug()) {
+      if (currentGameState == null) {
+        System.out.println("TournamentSelection: GameState is null");
+        return;
+      }
     }
     if (Objects.equals(currentGameState.getStatus(), GameStates.STARTED.toString())
       || Objects.equals(currentGameState.getStatus(), GameStates.PAUSED.toString())) {
       spectateGame(currentGameState);
     } else if (Objects.equals(currentGameState.getStatus(), GameStates.NOT_STARTED.toString())) {
-      new LobbyObserverTournament().create(event, selectedItem.getTournamentID());
+      new de.thundergames.gameplay.player.ui.TournamentSelection.LobbyObserverTournament().create(event, selectedItem.getTournamentID());
     } else if (Objects.equals(currentGameState.getStatus(), GameStates.OVER.toString())) {
       loadScoreboard();
     }
