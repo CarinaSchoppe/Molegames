@@ -19,7 +19,7 @@ public abstract class Network {
 
   protected final int port;
   protected final String ip;
-  private final boolean debug = false;
+  private final boolean debug = true;
   protected Socket socket;
 
   /**
