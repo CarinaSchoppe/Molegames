@@ -39,7 +39,8 @@ public class ClientThread extends NetworkThread {
   public void disconnect() {
     {
       try {
-        System.out.println("Client: Connection to server disconnected!");
+        if (client.isDebug())
+          System.out.println("Client: Connection to server disconnected!");
         socket.close();
         System.exit(5);
       } catch (IOException e) {

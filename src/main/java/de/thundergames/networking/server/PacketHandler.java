@@ -48,12 +48,14 @@ public class PacketHandler {
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.LOGOUT.getPacketType())) {
       handleLogoutPacket(client);
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.MESSAGE.getPacketType())) {
-      if (packet.getValues().get("message") != null) {
-        System.out.println(
-          "Client with the name \""
-            + client.getClientName()
-            + "\" sended: "
-            + packet.getValues().get("message").getAsString());
+      if (MoleGames.getMoleGames().getServer().isDebug()) {
+        if (packet.getValues().get("message") != null) {
+          System.out.println(
+            "Client with the name \""
+              + client.getClientName()
+              + "\" sended: "
+              + packet.getValues().get("message").getAsString());
+        }
       }
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.GETOVERVIEW.getPacketType())) {
       handleGetOverviewPacket(client);
@@ -88,7 +90,8 @@ public class PacketHandler {
         welcomeGamePacket(client);
       }
     } else {
-      System.out.println("Packet not found!" + packet.getJsonObject());
+      if (MoleGames.getMoleGames().getServer().isDebug())
+        System.out.println("Packet not found!" + packet.getJsonObject());
     }
   }
 
@@ -584,23 +587,54 @@ public class PacketHandler {
    * @use removes a client from a game
    */
   private void removeFromGames(@NotNull final ServerThread client) {
-    if (!MoleGames.getMoleGames().getGameHandler().getClientGames().containsKey(client)) {
-      System.out.println("Client with id: " + client.getConnectionID() + " tried to leave a game but was not part of one!");
-      return;
+    if (MoleGames.getMoleGames().getServer().isDebug()) {
+      if (!MoleGames.getMoleGames().getGameHandler().getClientGames().containsKey(client)) {
+        System.out.println("Client with id: " + client.getConnectionID() + " tried to leave a game but was not part of one!");
+        return;
+      }
     }
-    if (MoleGames.getMoleGames().getGameHandler().getClientGames().get(client) != null) return;
-    if (MoleGames.getMoleGames().getGameHandler().getClientGames().get(client).getCurrentPlayer() != null) {
+    if (MoleGames.getMoleGames().
+      getGameHandler().
+      getClientGames().
+      get(client) != null) return;
+    if (MoleGames.getMoleGames().
+      getGameHandler().
+      getClientGames().
+      get(client).
+      getCurrentPlayer() != null) {
       MoleGames.getMoleGames().getGameHandler().getClientGames().get(client).getCurrentPlayer().getTimer().cancel();
     }
     MoleGames.getMoleGames()
-      .getGameHandler()
-      .getClientGames()
-      .get(client)
-      .removePlayerFromGame(client.getPlayer());
-    MoleGames.getMoleGames().getGameHandler().getClientGames().get(client).getActivePlayers().remove(client.getPlayer());
-    MoleGames.getMoleGames().getGameHandler().getClientGames().get(client).getPlayers().remove(client.getPlayer());
-    MoleGames.getMoleGames().getGameHandler().getClientGames().get(client).getSpectators().remove(client.getPlayer());
-    MoleGames.getMoleGames().getGameHandler().getClientGames().remove(client);
+        .
+      getGameHandler()
+        .
+      getClientGames()
+        .
+      get(client)
+        .
+      removePlayerFromGame(client.getPlayer());
+    MoleGames.getMoleGames().
+      getGameHandler().
+      getClientGames().
+      get(client).
+      getActivePlayers().
+      remove(client.getPlayer());
+    MoleGames.getMoleGames().
+      getGameHandler().
+      getClientGames().
+      get(client).
+      getPlayers().
+      remove(client.getPlayer());
+    MoleGames.getMoleGames().
+      getGameHandler().
+      getClientGames().
+      get(client).
+      getSpectators().
+      remove(client.getPlayer());
+    MoleGames.getMoleGames().
+      getGameHandler().
+      getClientGames().
+      remove(client);
   }
 
   /**
@@ -663,12 +697,13 @@ public class PacketHandler {
         }
       }
     }
-    System.out.println(
-      "Client with id "
-        + client.getConnectionID()
-        + " got the name "
-        + client.getClientName()
-        + " and logged in!");
+    if (MoleGames.getMoleGames().getServer().isDebug())
+      System.out.println(
+        "Client with id "
+          + client.getConnectionID()
+          + " got the name "
+          + client.getClientName()
+          + " and logged in!");
     client.setNetworkPlayer(new NetworkPlayer(client.getClientName(), client.getConnectionID()));
   }
 

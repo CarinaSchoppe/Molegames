@@ -95,7 +95,8 @@ public class Client extends Network {
       clientThread.start();
       clientPacketHandler.loginPacket(client, name);
     } catch (IOException exception) {
-      System.out.println("Is the server running?!");
+      if (isDebug())
+        System.out.println("Is the server running?!");
     }
   }
 

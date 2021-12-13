@@ -40,12 +40,14 @@ public class AILogic {
       mole = (NetworkMole) isHoleCloseToMole(ai).get(0);
       x = (int) isHoleCloseToMole(ai).get(1);
       y = (int) isHoleCloseToMole(ai).get(2);
-      System.out.println("AI: there is a hole close to a mole within the drawcard. Hole: " + x + "," + y);
+      if (ai.isDebug())
+        System.out.println("AI: there is a hole close to a mole within the drawcard. Hole: " + x + "," + y);
       if (GameLogic.wasLegalMove(new int[]{mole.getNetworkField().getX(), mole.getNetworkField().getY()}, new int[]{x, y}, ai.getCard(), ai.getMap())) {
         ai.getAIPacketHandler().makeMovePacket(ai, new int[]{mole.getNetworkField().getX(), mole.getNetworkField().getY()}, new int[]{x, y}, ai.getCard());
         return true;
       } else {
-        System.out.println("AI: the close hole at: [" + x + "," + y + "] is not a legal move!");
+        if (ai.isDebug())
+          System.out.println("AI: the close hole at: [" + x + "," + y + "] is not a legal move!");
       }
     }
     var endField = endField(ai, mole, direction);
@@ -285,7 +287,8 @@ public class AILogic {
         fields.remove(field);
       }
     }
-    System.out.println("AI: has placed a mole on: [" + field.getX() + "," + field.getY() + "]");
+    if (ai.isDebug())
+      System.out.println("AI: has placed a mole on: [" + field.getX() + "," + field.getY() + "]");
     ai.getAIPacketHandler().placeMolePacket(ai, field);
   }
 

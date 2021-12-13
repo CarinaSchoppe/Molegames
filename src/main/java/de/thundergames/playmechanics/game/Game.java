@@ -116,16 +116,19 @@ public class Game extends NetworkGame {
    * @use starts the game
    */
   public void startGame(@NotNull final GameStates gameState) {
-    if (currentGameState != GameStates.NOT_STARTED || activePlayers.isEmpty()) {
-      System.out.println("Server: Cant start a game that has no players in it!");
-      return;
+    if (MoleGames.getMoleGames().getServer().isDebug()) {
+      if (currentGameState != GameStates.NOT_STARTED || activePlayers.isEmpty()) {
+        System.out.println("Server: Cant start a game that has no players in it!");
+        return;
+      }
     }
     if (getCurrentGameState() == GameStates.NOT_STARTED) {
       setCurrentGameState(gameState);
       setStartDateTime(Instant.now().getEpochSecond());
       updateNetworkGame();
       updateGameState();
-      System.out.println("Starting a game with the gameID: " + getGameID());
+      if (MoleGames.getMoleGames().getServer().isDebug())
+        System.out.println("Starting a game with the gameID: " + getGameID());
       MoleGames.getMoleGames().getServer().sendToAllGameClients(this, MoleGames.getMoleGames().getPacketHandler().gameStartedPacket(gameState));
       gameUtil.nextPlayer();
     }
@@ -150,7 +153,8 @@ public class Game extends NetworkGame {
           getScore().getWinners().add(player);
         }
       }
-      System.out.println("Server: game with id: " + getGameID() + " has ended! Winners are: " + getScore().getWinners());
+      if (MoleGames.getMoleGames().getServer().isDebug())
+        System.out.println("Server: game with id: " + getGameID() + " has ended! Winners are: " + getScore().getWinners());
       MoleGames.getMoleGames().getPacketHandler().gameOverPacket(this);
     }
   }

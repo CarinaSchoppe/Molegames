@@ -53,7 +53,7 @@ public class GameLogic {
               var field = map.getFieldMap().get(List.of(stop[0], start[1] + i));
               if (field.isOccupied()) {
                 if (field.getY() == start[1] + i && field.getX() == start[0]) {
-                  System.out.println("occupied field: " + field.getX() + " " + field.getY());
+                    System.out.println("occupied field: " + field.getX() + " " + field.getY());
                   return false;
                 }
               }

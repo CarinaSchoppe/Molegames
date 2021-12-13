@@ -79,12 +79,14 @@ public class GameUtil {
       game.setCurrentPlayer(game.getClientPlayersMap().get(game.getActivePlayers().get(0).getServerClient()));
     }
     if (allHolesFilled()) {
-      System.out.println("Server: All holes are filled going to next Floor or check the winning!");
+      if (MoleGames.getMoleGames().getServer().isDebug())
+        System.out.println("Server: All holes are filled going to next Floor or check the winning!");
       nextFloor();
       return;
     }
     if (allPlayerMolesInHoles()) {
-      System.out.println("all player moles are in holes! for playerID: " + game.getCurrentPlayer().getServerClient().getConnectionID());
+      if (MoleGames.getMoleGames().getServer().isDebug())
+        System.out.println("all player moles are in holes! for playerID: " + game.getCurrentPlayer().getServerClient().getConnectionID());
       MoleGames.getMoleGames().getServer().sendToAllGameClients(game, MoleGames.getMoleGames().getPacketHandler().playerSkippedPacket(game.getCurrentPlayer()));
       nextPlayer();
     } else {
@@ -128,7 +130,8 @@ public class GameUtil {
             if (eliminated.contains(player)) {
               if (mole.getNetworkField().getX() == hole.getX() && mole.getNetworkField().getY() == hole.getY()) {
                 eliminated.remove(player);
-                System.out.println("Server: player with id " + player.getServerClient().getConnectionID() + " is in next level!");
+                if (MoleGames.getMoleGames().getServer().isDebug())
+                  System.out.println("Server: player with id " + player.getServerClient().getConnectionID() + " is in next level!");
                 break;
               }
             }
@@ -182,8 +185,10 @@ public class GameUtil {
         }
       }
     }
-    for (var player : game.getActivePlayers()) {
-      System.out.println("the player with the name: " + player.getName() + " got: " + game.getScore().getPoints().get(player.getClientID()) + " points!");
+    if (MoleGames.getMoleGames().getServer().isDebug()) {
+      for (var player : game.getActivePlayers()) {
+        System.out.println("the player with the name: " + player.getName() + " got: " + game.getScore().getPoints().get(player.getClientID()) + " points!");
+      }
     }
   }
 }

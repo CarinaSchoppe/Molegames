@@ -75,8 +75,9 @@ public class Server extends Network {
     new Thread(
       () -> {
         try {
-          ServerSocket serverSocket = new ServerSocket(port);
-          System.out.println("Server listening on port " + getPort());
+          var serverSocket = new ServerSocket(port);
+          if (MoleGames.getMoleGames().getServer().isDebug())
+            System.out.println("Server listening on port " + getPort());
           while (true) {
             socket = serverSocket.accept();
             var serverThread = new ServerThread(socket, threadID);

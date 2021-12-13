@@ -64,7 +64,8 @@ public class ServerThread extends NetworkThread {
       MoleGames.getMoleGames().getServer().getClientThreads().remove(this);
       MoleGames.getMoleGames().getServer().getThreadIds().remove(getConnectionID());
       socket.close();
-      System.out.println("Disconnecting " + this.getClientName());
+      if (MoleGames.getMoleGames().getServer().isDebug())
+        System.out.println("Disconnecting " + this.getClientName());
     } catch (IOException e) {
       e.printStackTrace();
     }

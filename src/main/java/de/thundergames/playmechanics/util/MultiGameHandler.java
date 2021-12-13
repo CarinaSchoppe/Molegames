@@ -10,6 +10,7 @@
  */
 package de.thundergames.playmechanics.util;
 
+import de.thundergames.MoleGames;
 import de.thundergames.networking.server.ServerThread;
 import de.thundergames.networking.util.interfaceitems.NetworkGame;
 import de.thundergames.playmechanics.game.Game;
@@ -44,7 +45,8 @@ public class MultiGameHandler {
       var game = new Game(gameID);
       game.create();
     } else {
-      System.out.println("Game already exists");
+      if (MoleGames.getMoleGames().getServer().isDebug())
+        System.out.println("Game already exists");
     }
   }
 
@@ -57,7 +59,8 @@ public class MultiGameHandler {
       var tournament = new Tournament(tournamentID);
       tournament.create();
     } else {
-      System.out.println("Tournament already exists");
+      if (MoleGames.getMoleGames().getServer().isDebug())
+        System.out.println("Tournament already exists");
     }
   }
 

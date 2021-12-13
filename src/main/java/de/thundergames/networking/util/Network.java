@@ -20,6 +20,7 @@ public abstract class Network {
   protected final int port;
   protected final String ip;
   protected Socket socket;
+  private final boolean debug = true;
 
   /**
    * Basic logic of creating a de.thundergames.network instance with default values for
@@ -48,6 +49,10 @@ public abstract class Network {
    * @see Client
    */
   protected abstract void create();
+
+  public boolean isDebug() {
+    return debug;
+  }
 
   protected int getPort() {
     return port;

@@ -70,8 +70,9 @@ public class PlayerUtil {
                       Punishments.NOMOVE.getName()));
               player.setHasMoved(true);
               player.setTimerIsRunning(false);
-              System.out.println(
-                "Client " + player.getServerClient().getClientName() + " ran out of time");
+              if (MoleGames.getMoleGames().getServer().isDebug())
+                System.out.println(
+                  "Client " + player.getServerClient().getClientName() + " ran out of time");
               player.getGame().getGameUtil().nextPlayer();
               player.getTimer().cancel();
             }

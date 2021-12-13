@@ -53,7 +53,8 @@ public class ClientPacketHandler {
       client.getClientPacketHandler().getOverviewPacket(client);
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.MESSAGE.getPacketType())) {
       if (packet.getValues() != null) {
-        System.out.println("Server sended: " + packet.getValues().get("message").getAsString());
+        if (client.isDebug())
+          System.out.println("Server sended: " + packet.getValues().get("message").getAsString());
       }
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.ASSIGNTOGAME.getPacketType())) {
       handleAssignedToGamePacket(client, packet);
@@ -261,13 +262,14 @@ public class ClientPacketHandler {
    * @use handles the movement of a mole send by the server from a client
    */
   protected synchronized void handleMoleMovedPacket(@NotNull final Client client, @NotNull final Packet packet) {
-    System.out.println(
-      "A mole has been moved by: "
-        + client.getNetworkPlayer().getClientID()
-        + " from "
-        + packet.getValues().get("from").getAsString()
-        + " to "
-        + packet.getValues().get("to").getAsString());
+    if (client.isDebug())
+      System.out.println(
+        "A mole has been moved by: "
+          + client.getNetworkPlayer().getClientID()
+          + " from "
+          + packet.getValues().get("from").getAsString()
+          + " to "
+          + packet.getValues().get("to").getAsString());
     var from =
       new Gson().fromJson(packet.getValues().get("from").getAsString(), NetworkField.class);
     var to = new Gson().fromJson(packet.getValues().get("to").getAsString(), NetworkField.class);
@@ -302,12 +304,15 @@ public class ClientPacketHandler {
    * @use handles when the client gets the new floor
    */
   protected synchronized void handleNextFloorPacket(@NotNull final Client client, @NotNull final Packet packet) {
-    System.out.println("Client got the new level!");
+    if (client.isDebug())
+      System.out.println("Client got the new level!");
     var players = new ArrayList<NetworkPlayer>(new Gson().fromJson(packet.getValues().get("eliminatedPlayers").getAsString(), new TypeToken<ArrayList<NetworkPlayer>>() {
     }.getType()));
-    System.out.println("Players that are out: ");
-    for (NetworkPlayer player : players) {
-      System.out.println(player);
+    if (client.isDebug()) {
+      System.out.println("Players that are out: ");
+      for (NetworkPlayer player : players) {
+        System.out.println(player);
+      }
     }
     handleFloor(client, packet);
   }
@@ -351,10 +356,12 @@ public class ClientPacketHandler {
     @NotNull final Client client, @NotNull final Packet packet) {
     var player =
       new Gson().fromJson(packet.getValues().get("player").getAsString(), NetworkPlayer.class);
-    if (player.equals(client.getNetworkPlayer())) {
-      System.out.println("Client is skipping this turn!");
-    } else {
-      System.out.println("The Playermodel " + player.getName() + " skipped his turn!");
+    if (client.isDebug()) {
+      if (player.equals(client.getNetworkPlayer())) {
+        System.out.println("Client is skipping this turn!");
+      } else {
+        System.out.println("The Playermodel " + player.getName() + " skipped his turn!");
+      }
     }
   }
 
@@ -377,13 +384,14 @@ public class ClientPacketHandler {
    */
   protected void handleMovePentaltyNotificationPacket(
     @NotNull final Client client, @NotNull final Packet packet) {
-    System.out.println(
-      "The client "
-        + new Gson()
-        .fromJson(packet.getValues().get("player").getAsString(), NetworkPlayer.class)
-        .getName()
-        + " got a move penalty for the reason"
-        + packet.getValues().get("reason").getAsString());
+    if (client.isDebug())
+      System.out.println(
+        "The client "
+          + new Gson()
+          .fromJson(packet.getValues().get("player").getAsString(), NetworkPlayer.class)
+          .getName()
+          + " got a move penalty for the reason"
+          + packet.getValues().get("reason").getAsString());
   }
 
   /**
@@ -423,7 +431,8 @@ public class ClientPacketHandler {
     var player =
       new Gson().fromJson(packet.getValues().get("player").getAsString(), NetworkPlayer.class);
     if (player.getClientID() == client.getClientThread().getClientThreadID()) {
-      System.out.println("Client is now on the turn!");
+      if (client.isDebug())
+        System.out.println("Client is now on the turn!");
       client.setDraw(true);
       if (!timerRunning) {
         timerRunning = true;
@@ -435,15 +444,16 @@ public class ClientPacketHandler {
               if (client.isDraw()) {
                 client.setDraw(false);
                 timerRunning = false;
-                System.out.println("You ran out of time!");
+                if (client.isDebug())
+                  System.out.println("You ran out of time!");
               }
             }
           },
           packet.getValues().get("until").getAsLong() - System.currentTimeMillis());
       }
     } else {
-      System.out.println(
-        "Client: the player with the id: " + player.getClientID() + " and name: " + player.getName() + " is now on the turn!");
+      if (client.isDebug())
+        System.out.println("Client: the player with the id: " + player.getClientID() + " and name: " + player.getName() + " is now on the turn!");
     }
   }
 
@@ -510,7 +520,8 @@ public class ClientPacketHandler {
     var player =
       new Gson().fromJson(packet.getValues().get("player").getAsString(), NetworkPlayer.class);
     if (player.getClientID() == client.getClientThread().getClientThreadID()) {
-      System.out.println("Client is now on to place a mole!");
+      if (client.isDebug())
+        System.out.println("Client is now on to place a mole!");
       client.setDraw(true);
       if (!timerRunning) {
         timerRunning = true;
@@ -522,19 +533,21 @@ public class ClientPacketHandler {
               if (client.isDraw()) {
                 client.setDraw(false);
                 timerRunning = false;
-                System.out.println("You ran out of time!");
+                if (client.isDebug())
+                  System.out.println("You ran out of time!");
               }
             }
           },
           20000);
       }
     } else {
-      System.out.println(
-        "The Client "
-          + new Gson()
-          .fromJson(packet.getValues().get("player").getAsString(), NetworkPlayer.class)
-          .getName()
-          + " needs to place a mole till: " + packet.getValues().get("until").getAsInt());
+      if (client.isDebug())
+        System.out.println(
+          "The Client "
+            + new Gson()
+            .fromJson(packet.getValues().get("player").getAsString(), NetworkPlayer.class)
+            .getName()
+            + " needs to place a mole till: " + packet.getValues().get("until").getAsInt());
     }
   }
 
@@ -593,7 +606,8 @@ public class ClientPacketHandler {
           score.getWinners().add(player);
         }
       }
-      System.out.println("Server: game with id: " + client.getGameID() + " has ended! Winners are: " + score.getWinners());
+      if (client.isDebug())
+        System.out.println("Server: game with id: " + client.getGameID() + " has ended! Winners are: " + score.getWinners());
     }
     LeaderBoard.create();
     //TODO: Rufe Leaderboard auf unter gewinner sind nun die gewinner des ersten platzes. unter players findest du die reihenfolge der spieler wie sie im score stehen sollten!
@@ -693,10 +707,11 @@ public class ClientPacketHandler {
    */
   protected void handlePlayerLeftPacket(
     @NotNull final Client client, @NotNull final Packet packet) {
-    System.out.println(
-      "A player has left the Game + "
-        + new Gson()
-        .fromJson(packet.getValues().get("player").getAsString(), NetworkPlayer.class));
+    if (client.isDebug())
+      System.out.println(
+        "A player has left the Game + "
+          + new Gson()
+          .fromJson(packet.getValues().get("player").getAsString(), NetworkPlayer.class));
     updateTableView();
   }
 
@@ -708,10 +723,11 @@ public class ClientPacketHandler {
    */
   protected void handlePlayerKickedFromGame(
     @NotNull final Client client, @NotNull final Packet packet) {
-    System.out.println(
-      "A player has left the Game + "
-        + new Gson()
-        .fromJson(packet.getValues().get("player").getAsString(), NetworkPlayer.class));
+    if (client.isDebug())
+      System.out.println(
+        "A player has left the Game + "
+          + new Gson()
+          .fromJson(packet.getValues().get("player").getAsString(), NetworkPlayer.class));
     updateTableView();
   }
 
@@ -724,7 +740,8 @@ public class ClientPacketHandler {
     var object = new JsonObject();
     object.addProperty("type", Packets.LEAVEGAME.getPacketType());
     client.getClientThread().sendPacket(new Packet(object));
-    System.out.println("Client: left the game!");
+    if (client.isDebug())
+      System.out.println("Client: left the game!");
     updateTableView();
   }
 
@@ -738,9 +755,11 @@ public class ClientPacketHandler {
     @NotNull final Client client, @NotNull final Packet packet) {
     var player = new Gson()
       .fromJson(packet.getValues().get("player").getAsString(), NetworkPlayer.class);
-    if (player.getClientID() != client.getClientThread().getClientThreadID()) {
-      System.out.println(
-        "The player: " + player.getName() + " has joined the Game " + client.getGameID() + ".");
+    if (client.isDebug()) {
+      if (player.getClientID() != client.getClientThread().getClientThreadID()) {
+        System.out.println(
+          "The player: " + player.getName() + " has joined the Game " + client.getGameID() + ".");
+      }
     }
     updateTableView();
     var lobbyObserverGame = LobbyObserverGame.getObserver();
@@ -769,7 +788,8 @@ public class ClientPacketHandler {
       System.exit(3);
     }
     client.getClientThread().setID(packet.getValues().get("clientID").getAsInt());
-    System.out.println("Client connected sucessfully to the Server!");
+    if (client.isDebug())
+      System.out.println("Client connected sucessfully to the Server!");
     client.setNetworkPlayer(
       new NetworkPlayer(client.getName(), client.getClientThread().getClientThreadID()));
   }
@@ -819,7 +839,6 @@ public class ClientPacketHandler {
           .fromJson(packet.getValues().get("games").getAsString(),
             new TypeToken<ArrayList<NetworkGame>>() {
             }.getType()));
-    System.out.println();
     client
       .getTournaments()
       .addAll(new Gson().fromJson(packet.getValues().get("tournaments").getAsString(),
@@ -836,8 +855,9 @@ public class ClientPacketHandler {
    */
   protected void handleAssignedToGamePacket(
     @NotNull final Client client, @NotNull final Packet packet) {
-    System.out.println(
-      "Client joined game with id: " + packet.getValues().get("gameID").getAsInt());
+    if (client.isDebug())
+      System.out.println(
+        "Client joined game with id: " + packet.getValues().get("gameID").getAsInt());
     client.setGameID(packet.getValues().get("gameID").getAsInt());
     showPlayerJoinedGameLobby();
     updateTableView();

@@ -115,16 +115,17 @@ public class Player extends NetworkPlayer {
         }
       }
       mole.setNetworkField(new NetworkField(x_end, y_end));
-      System.out.println(
-        "Playermodel with id: "
-          + serverClient.getConnectionID()
-          + " has moved his mole from: x="
-          + x_start
-          + " y="
-          + y_start
-          + " to x="
-          + x_end
-          + " y="
+      if (MoleGames.getMoleGames().getServer().isDebug())
+        System.out.println(
+          "Playermodel with id: "
+            + serverClient.getConnectionID()
+            + " has moved his mole from: x="
+            + x_start
+            + " y="
+            + y_start
+            + " to x="
+            + x_end
+            + " y="
           + y_end
           + " with a card="
           + cardValue
@@ -136,16 +137,17 @@ public class Player extends NetworkPlayer {
         .getGameHandler()
         .getGameLogic()
         .performPunishment(this, game.getSettings().getPunishment());
-      System.out.println(
-        "Client with id: "
-          + serverClient.getConnectionID()
-          + " has done in invalid move Punishment: "
-          + game.getSettings().getPunishment()
-          + " player tried to move from X,Y: ["
-          + x_start
-          + ","
-          + y_start
-          + "] to X,Y: ["
+      if (MoleGames.getMoleGames().getServer().isDebug())
+        System.out.println(
+          "Client with id: "
+            + serverClient.getConnectionID()
+            + " has done in invalid move Punishment: "
+            + game.getSettings().getPunishment()
+            + " player tried to move from X,Y: ["
+            + x_start
+            + ","
+            + y_start
+            + "] to X,Y: ["
           + x_end
           + ","
           + y_end
@@ -189,16 +191,17 @@ public class Player extends NetworkPlayer {
         .getGameHandler()
         .getGameLogic()
         .performPunishment(this, game.getSettings().getPunishment());
-      System.out.println(
-        "Client with id: "
-          + serverClient.getConnectionID()
-          + " has done in invalid move Punishment: "
-          + game.getSettings().getPunishment()
-          + " player tried to place a mole on X,Y: ["
-          + x
-          + ","
-          + y
-          + "]");
+      if (MoleGames.getMoleGames().getServer().isDebug())
+        System.out.println(
+          "Client with id: "
+            + serverClient.getConnectionID()
+            + " has done in invalid move Punishment: "
+            + game.getSettings().getPunishment()
+            + " player tried to place a mole on X,Y: ["
+            + x
+            + ","
+            + y
+            + "]");
       MoleGames.getMoleGames()
         .getServer()
         .sendToAllGameClients(
@@ -226,16 +229,17 @@ public class Player extends NetworkPlayer {
         .sendToAllGameClients(
           game, MoleGames.getMoleGames().getPacketHandler().molePlacedPacket(netMole));
       playerUtil.handleTurnAfterAction();
-      System.out.println(
-        "Playermodel with id: "
-          + serverClient.getConnectionID()
-          + " has placed his mole on x="
-          + x
-          + " y="
-          + y
-          + ". ("
-          + getMoles().size()
-          + "/"
+      if (MoleGames.getMoleGames().getServer().isDebug())
+        System.out.println(
+          "Playermodel with id: "
+            + serverClient.getConnectionID()
+            + " has placed his mole on x="
+            + x
+            + " y="
+            + y
+            + ". ("
+            + getMoles().size()
+            + "/"
           + game.getSettings().getNumberOfMoles()
           + ")\n\n");
     }

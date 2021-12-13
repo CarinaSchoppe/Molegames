@@ -11,6 +11,7 @@
 
 package de.thundergames.gameplay.player.ui.gameselection;
 
+import de.thundergames.MoleGames;
 import de.thundergames.gameplay.player.Client;
 import de.thundergames.gameplay.player.ui.PlayerMenu;
 import de.thundergames.gameplay.util.SceneController;
@@ -37,7 +38,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Objects;
 import java.util.ResourceBundle;
-import java.util.Timer;
 
 public class GameSelection implements Initializable {
 
@@ -168,27 +168,24 @@ public class GameSelection implements Initializable {
     }
     // Send Packet to spectate game to get GameState
     client.getClientPacketHandler().joinGamePacket(client, selectedItem.getGameID(), false);
-
     boolean waiting = true;
     int counter = 0;
     GameState currentGameState = null;
     while (waiting) {
-
       Thread.sleep(1000);
       counter += 1;
       currentGameState = client.getGameState();
-
-      if (counter == 5 || currentGameState != null)
-      {
+      if (counter == 5 || currentGameState != null) {
         waiting = false;
       }
     }
-
     // Get GameState
     //GameState currentGameState = client.getGameState();
-    if (currentGameState == null) {
-      System.out.println("GameState is null!");
-      return;
+    if (MoleGames.getMoleGames().getServer().isDebug()) {
+      if (currentGameState == null) {
+        System.out.println("GameState is null!");
+        return;
+      }
     }
     if (Objects.equals(currentGameState.getStatus(), GameStates.STARTED.toString())
       || Objects.equals(currentGameState.getStatus(), GameStates.PAUSED.toString())) {

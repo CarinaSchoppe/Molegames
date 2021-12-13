@@ -53,7 +53,8 @@ public class AI extends Client {
       clientPacketHandler.loginPacket(this, getName());
       clientPacketHandler.joinGamePacket(this, gameID, true);
     } catch (IOException exception) {
-      System.out.println("Is the server running?!");
+      if (isDebug())
+        System.out.println("Is the server running?!");
     }
   }
 
