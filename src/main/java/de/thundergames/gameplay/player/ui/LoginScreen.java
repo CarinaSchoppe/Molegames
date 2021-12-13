@@ -69,9 +69,7 @@ public class LoginScreen extends Application {
         errorMessage += "Port Feld muss eine ganze Zahl zwischen 0 und 65535 sein!\n";
       }
     }
-    if (name.equals("")) {
-      errorMessage += "Namensfeld muss ausgefuellt sein!\n";
-    } else if (name.length() > 32) {
+    if (name.length() > 32) {
       errorMessage += "Namen duerfen maximal 32 Zeichen lang sein!\n";
     }
     if (errorMessage.equals("")) {
