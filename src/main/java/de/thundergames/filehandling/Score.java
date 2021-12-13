@@ -12,16 +12,16 @@ package de.thundergames.filehandling;
 
 import de.thundergames.networking.util.interfaceitems.NetworkPlayer;
 
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 
 public class Score {
 
-  private final HashSet<NetworkPlayer> players = new HashSet<>();
+  private final ArrayList<NetworkPlayer> players = new ArrayList<>();
   private final HashMap<Integer, Integer> points = new HashMap<>();
-  private final HashSet<NetworkPlayer> winner = new HashSet<>();
+  private final ArrayList<NetworkPlayer> winner = new ArrayList<>();
 
-  public HashSet<NetworkPlayer> getPlayers() {
+  public ArrayList<NetworkPlayer> getPlayers() {
     return players;
   }
 
@@ -29,7 +29,7 @@ public class Score {
     return points;
   }
 
-  public HashSet<NetworkPlayer> getWinners() {
+  public ArrayList<NetworkPlayer> getWinners() {
     return winner;
   }
 }

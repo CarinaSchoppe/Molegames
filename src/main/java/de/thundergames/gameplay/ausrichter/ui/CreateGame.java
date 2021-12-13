@@ -170,7 +170,7 @@ public class CreateGame extends Application {
     Parent root = loader.load();
     initialize();
     primaryStage.setTitle("CreateGame");
-    primaryStage.setResizable(true);
+    primaryStage.setResizable(false);
     primaryStage.setScene(new Scene(root));
     primaryStage.show();
   }
