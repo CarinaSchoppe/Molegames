@@ -4,8 +4,15 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="400.0" prefWidth="432.0" xmlns="http://javafx.com/javafx/17"
-            fx:controller="de.thundergames.gameplay.ausrichter.ui.MainGUI">
+<!--
+  ~ Copyright Notice for SwtPra10
+  ~ Copyright (c) at ThunderGames | SwtPra10 2021
+  ~ File created on 14.12.21, 15:41 by Carina Latest changes made by Carina on 14.12.21, 15:41 All contents of "MainGUI.fxml" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+  ~ at ThunderGames | SwtPra10. All rights reserved
+  ~ Any type of duplication, distribution, rental, sale, award,
+  ~ Public accessibility or other use
+  ~ requires the express written consent of ThunderGames | SwtPra10.
+  -->    fx:controller="de.thundergames.gameplay.ausrichter.ui.MainGUI">
     <children>
         <ImageView fitHeight="415.0" fitWidth="439.0" pickOnBounds="true" preserveRatio="true">
             <image>
