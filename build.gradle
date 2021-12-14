@@ -14,6 +14,10 @@ repositories {
 }
 
 dependencies {
+    compileOnly 'org.projectlombok:lombok:1.18.22'
+    annotationProcessor 'org.projectlombok:lombok:1.18.22'
+    testCompileOnly 'org.projectlombok:lombok:1.18.22'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.22'
     implementation 'org.openjfx:javafx-plugin:0.0.10'
     implementation 'org.openjfx:javafx:17.0.0.1'
     implementation 'com.google.code.gson:gson:2.8.9'
