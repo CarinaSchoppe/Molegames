@@ -1,28 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
 <!--
   ~ Copyright Notice for SwtPra10
   ~ Copyright (c) at ThunderGames | SwtPra10 2021
-  ~ File created on 14.12.21, 15:41 by Carina Latest changes made by Carina on 14.12.21, 15:41 All contents of "MainGUI.fxml" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+  ~ File created on 15.12.21, 17:42 by Carina Latest changes made by Carina on 15.12.21, 17:42 All contents of "MainGUI.fxml" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
   ~ at ThunderGames | SwtPra10. All rights reserved
   ~ Any type of duplication, distribution, rental, sale, award,
   ~ Public accessibility or other use
   ~ requires the express written consent of ThunderGames | SwtPra10.
-  -->    fx:controller="de.thundergames.gameplay.ausrichter.ui.MainGUI">
-    <children>
-        <ImageView fitHeight="415.0" fitWidth="439.0" pickOnBounds="true" preserveRatio="true">
-            <image>
-                <Image url="@../pictures/test.png"/>
-            </image>
-        </ImageView>
-        <Button fx:id="createGame" layoutX="300.0" layoutY="102.0" mnemonicParsing="false" onAction="#onCreateGameAction"
-                prefHeight="29.0" prefWidth="122.0" style="-fx-background-color: transparent;"/>
-        <Button fx:id="editGame" layoutX="300.0" layoutY="134.0" mnemonicParsing="false" onAction="#onEditGame"
-                prefHeight="31.0" prefWidth="121.0" style="-fx-background-color: transparent;"/>
+  -->    <?import javafx.scene.control.*?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>fx:controller="de.thundergames.gameplay.ausrichter.ui.MainGUI">
+<children>
+    <ImageView fitHeight="415.0" fitWidth="439.0" pickOnBounds="true" preserveRatio="true">
+        <image>
+            <Image url="@../pictures/test.png"/>
+        </image>
+    </ImageView>
+    <Button fx:id="createGame" layoutX="300.0" layoutY="102.0" mnemonicParsing="false" onAction="#onCreateGameAction"
+            prefHeight="29.0" prefWidth="122.0" style="-fx-background-color: transparent;"/>
+    <Button fx:id="editGame" layoutX="300.0" layoutY="134.0" mnemonicParsing="false" onAction="#onEditGame"
+            prefHeight="31.0" prefWidth="121.0" style="-fx-background-color: transparent;"/>
         <Button fx:id="startGame" layoutX="299.0" layoutY="170.0" mnemonicParsing="false" onAction="#onStartGame"
                 prefHeight="30.0" prefWidth="121.0" style="-fx-background-color: transparent;"/>
         <Button fx:id="editTournament" layoutX="304.0" layoutY="300.0" mnemonicParsing="false"

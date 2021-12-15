@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 15.12.21, 16:25 by Carina Latest changes made by Carina on 15.12.21, 15:42 All contents of "GameSelection" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 15.12.21, 17:42 by Carina Latest changes made by Carina on 15.12.21, 17:41 All contents of "GameSelection" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -59,10 +59,10 @@ public class GameSelection implements Initializable {
   //TODO: im fall das man auf Spiele und oder Tourniere klickt automatisch nochmal getOverview sendet.
 
   /**
-   * Create the Scene for GameSelection
-   *
    * @param event event from Fthe current scene to build this scene on same object
    * @throws IOException error creating the scene GameSelection
+   * @author Marc
+   * @use Create the Scene for GameSelection
    */
   public void create(@NotNull ActionEvent event) throws IOException {
     primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -74,6 +74,7 @@ public class GameSelection implements Initializable {
     primaryStage.setResizable(false);
     primaryStage.setScene(new Scene(root));
     primaryStage.show();
+    updateTable();
     primaryStage.setOnCloseRequest(ev -> logout(primaryStage));
     // region Create button events
     // set event for back button
@@ -100,9 +101,9 @@ public class GameSelection implements Initializable {
   }
 
   /**
-   * Is called when the close button is clicked. Logout user.
-   *
    * @param stage current stage
+   * @use Is called when the close button is clicked. Logout user.
+   * @author Marc
    */
   private void logout(Stage stage) {
     CLIENT.getClientPacketHandler().logoutPacket();
@@ -110,10 +111,10 @@ public class GameSelection implements Initializable {
   }
 
   /**
-   * Is called when the object is initialized
-   *
    * @param location  of base class Initialize
    * @param resources of base class Initialize
+   * @author Marc
+   * @use Is called when the object is initialized
    */
   @Override
   public void initialize(URL location, ResourceBundle resources) {
@@ -129,8 +130,9 @@ public class GameSelection implements Initializable {
     updateTable();
   }
 
-  /*
-  Refresh the games of tableview
+  /**
+   * @author Marc
+   * @use Refresh the games of tableview
    */
   public void updateTable() {
     // clear tableview and get games from server and add all to table view
@@ -139,10 +141,10 @@ public class GameSelection implements Initializable {
   }
 
   /**
-   * Call scene PlayerMenu
-   *
    * @param event event from the current scene to build PlayerMenu on same object
    * @throws IOException error creating the scene PlayerMenu
+   * @author Marc
+   * @use Call scene PlayerMenu
    */
   @FXML
   void backToMenu(ActionEvent event) throws IOException {
@@ -150,10 +152,10 @@ public class GameSelection implements Initializable {
   }
 
   /**
-   * Observe the game. If game is already started, spectate the game, else join the spectator lobby.
-   *
    * @param event event from the current scene to build next scene on same object
    * @throws IOException error at creating the scene
+   * @author Marc
+   * @use Observe the game. If game is already started, spectate the game, else join the spectator lobby.
    */
   @FXML
   void spectateGame(ActionEvent event) throws IOException, InterruptedException {
