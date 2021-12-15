@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 15.12.21, 19:20 by Carina Latest changes made by Carina on 15.12.21, 19:20 All contents of "AIPacketHandler" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 15.12.21, 19:23 by Carina Latest changes made by Carina on 15.12.21, 19:22 All contents of "AIPacketHandler" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -24,7 +24,6 @@ import org.jetbrains.annotations.NotNull;
 @Getter
 @Setter
 public class AIPacketHandler extends ClientPacketHandler {
-
 
   public AIPacketHandler(Client client) {
     super(client);
@@ -79,6 +78,9 @@ public class AIPacketHandler extends ClientPacketHandler {
 
   private synchronized void timerRelatedController(@NotNull final AI ai) {
     try {
+      if (ai.getSleepingTime() < 0) {
+        ai.setSleepingTime(0);
+      }
       Thread.sleep(ai.getSleepingTime());
       ai.getLogic().handleAction(ai);
       if (isTimerRunning()) {
