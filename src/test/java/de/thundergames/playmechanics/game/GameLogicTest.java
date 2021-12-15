@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 14.12.21, 17:41 by Carina Latest changes made by Carina on 14.12.21, 17:41 All contents of "GameLogicTest" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 15.12.21, 13:46 by Carina Latest changes made by Carina on 15.12.21, 13:18 All contents of "GameLogicTest" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -38,7 +38,6 @@ class GameLogicTest {
   void setUp() {
     var game = new Game(1);
     map = new Map(game);
-    map.createMap(2);
     game.setMap(map);
   }
 
@@ -61,9 +60,7 @@ class GameLogicTest {
     moles.add(mole);
     holes.add(fieldHole);
     drawAgainFields.add(fieldDrawAgain);
-    var floor = new NetworkFloor();
-    floor.setHoles(holes);
-    floor.setDrawAgainFields(drawAgainFields);
+    var floor = new NetworkFloor(holes, drawAgainFields, 1);
     var gameState = new GameState();
     gameState.setPlacedMoles(moles);
     gameState.setFloor(floor);

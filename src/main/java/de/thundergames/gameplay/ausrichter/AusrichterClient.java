@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 14.12.21, 15:41 by Carina Latest changes made by Carina on 14.12.21, 15:41 All contents of "AusrichterClient" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 15.12.21, 13:46 by Carina Latest changes made by Carina on 15.12.21, 13:37 All contents of "AusrichterClient" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -31,14 +31,10 @@ public class AusrichterClient {
 
   public void testGame(final int id) {
     MoleGames.getMoleGames().getGameHandler().createNewGame(id);
-    var floor1 = new NetworkFloor();
-    var floor2 = new NetworkFloor();
-    floor1.setHoles(new HashSet<>(List.of(new NetworkField(8, 11), new NetworkField(2, 6))));
-    floor1.setPoints(5);
-    floor2.setPoints(10);
-    floor1.setDrawAgainFields(new HashSet<>(List.of(new NetworkField(8, 11), new NetworkField(2, 6))));
-    floor2.setDrawAgainFields(new HashSet<>(List.of(new NetworkField(8, 11))));
-    floor2.setHoles(new HashSet<>(List.of(new NetworkField(0, 0))));
+    var set1new = new HashSet<>(List.of(new NetworkField(8, 11), new NetworkField(2, 6)));
+    var set2new = new HashSet<>(List.of(new NetworkField(0, 0)));
+    var floor1 = new NetworkFloor(set1new, set1new, 5);
+    var floor2 = new NetworkFloor(set2new, set2new, 10);
     MoleGames.getMoleGames().getGameHandler().getIDGames().get(id).getSettings().getFloors().add(floor1);
     MoleGames.getMoleGames().getGameHandler().getIDGames().get(id).getSettings().getFloors().add(floor2);
     MoleGames.getMoleGames().getGameHandler().getIDGames().get(id).updateGameState();

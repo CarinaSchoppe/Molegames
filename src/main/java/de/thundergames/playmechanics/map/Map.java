@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 14.12.21, 15:41 by Carina Latest changes made by Carina on 14.12.21, 15:41 All contents of "Map" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 15.12.21, 13:46 by Carina Latest changes made by Carina on 15.12.21, 13:21 All contents of "Map" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -31,8 +31,10 @@ public class Map extends NetworkFloor {
    * @use creates a new Map object with the given radius
    */
   public Map(@NotNull final Game game) {
+    super(game.getGameState().getFloor().getHoles(), game.getGameState().getFloor().getDrawAgainFields(), game.getGameState().getFloor().getPoints());
     this.game = game;
     createMap(game.getRadius());
+    changeFieldParams(game.getGameState());
   }
 
   /**
@@ -41,6 +43,7 @@ public class Map extends NetworkFloor {
    * @use creates a new Map object with the given radius
    */
   public Map(@NotNull final GameState gameState) {
+    super(gameState.getFloor().getHoles(), gameState.getFloor().getDrawAgainFields(), gameState.getFloor().getPoints());
     createMap(gameState.getRadius());
     changeFieldParams(gameState);
   }

@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 14.12.21, 17:41 by Carina Latest changes made by Carina on 14.12.21, 17:41 All contents of "GameUtilTest" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 15.12.21, 13:46 by Carina Latest changes made by Carina on 15.12.21, 13:07 All contents of "GameUtilTest" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -66,10 +66,9 @@ class GameUtilTest {
     when(gameMock.getMap()).thenReturn(map);
     when(gameMock.getPlayers()).thenReturn(players);
     holes.add(new NetworkField(1, 1));
-    var netFloor = new NetworkFloor();
-    netFloor.setHoles(holes);
+    var nextFloor = new NetworkFloor(holes, holes, 1);
     var gameState = new GameState();
-    gameState.setFloor(netFloor);
+    gameState.setFloor(nextFloor);
     gameUtil = new GameUtil(gameMock);
     map.setHoles(gameState.getFloor().getHoles());
   }
