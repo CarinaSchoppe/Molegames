@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 15.12.21, 16:25 by Carina Latest changes made by Carina on 15.12.21, 16:25 All contents of "Settings" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 15.12.21, 16:26 by Carina Latest changes made by Carina on 15.12.21, 16:26 All contents of "Settings" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -31,6 +31,8 @@ public class Settings {
    */
   private final ArrayList<Integer> pullDiscs = new ArrayList<>(List.of(1, 2, 3, 4));
   private final int deductedPoints = 5;
+  private final transient GameConfiguration gameConfiguration;
+  private final transient Game game;
   private int maxPlayers = 4;
   private int radius = 10;
   private int numberOfMoles = 4;
@@ -40,8 +42,6 @@ public class Settings {
   private long turnTime = 5000;
   private int visualizationTime = 10;
   private String movePenalty = "NOTHING";
-  private final transient GameConfiguration gameConfiguration;
-  private final transient Game game;
 
   public Settings(@NotNull final Game game) {
     this.game = game;

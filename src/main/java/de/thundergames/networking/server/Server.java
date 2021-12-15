@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 15.12.21, 16:25 by Carina Latest changes made by Carina on 15.12.21, 16:17 All contents of "Server" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 15.12.21, 16:26 by Carina Latest changes made by Carina on 15.12.21, 16:26 All contents of "Server" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -28,12 +28,12 @@ import java.util.HashSet;
 @Getter
 @Setter
 public class Server extends Network {
-  private PacketHandler packetHandler;
   private final ArrayList<ServerThread> clientThreads = new ArrayList<>();
   private final HashSet<ServerThread> observer = new HashSet<>();
   private final HashMap<Integer, ServerThread> threadIDs = new HashMap<>();
   private final HashMap<String, ServerThread> connectionNames = new HashMap<>();
   private final HashMap<Integer, ServerThread> connectionIDs = new HashMap<>();
+  private PacketHandler packetHandler;
   private int threadID = 0;
   private boolean keyboard = false;
 

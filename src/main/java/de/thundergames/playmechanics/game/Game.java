@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 15.12.21, 16:25 by Carina Latest changes made by Carina on 15.12.21, 16:25 All contents of "Game" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 15.12.21, 16:26 by Carina Latest changes made by Carina on 15.12.21, 16:26 All contents of "Game" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -29,6 +29,13 @@ import java.util.*;
 @Setter
 public class Game {
   private final int gameID;
+  private final transient HashMap<ServerThread, Player> clientPlayersMap = new HashMap<>();
+  private final transient ArrayList<Player> players = new ArrayList<>();
+  private final transient ArrayList<Player> spectators = new ArrayList<>();
+  private final transient HashMap<Player, Mole> moleMap = new HashMap<>();
+  private final transient GameState gameState = new GameState();
+  private final HashSet<Player> eliminatedPlayers = new HashSet<>();
+  private final transient ArrayList<Player> activePlayers = new ArrayList<>();
   private int currentPlayerCount;
   private int maxPlayerCount;
   private int levelCount;
@@ -45,13 +52,6 @@ public class Game {
   @SerializedName(value = "result")
   private Score score;
   private int deductedPoints;
-  private final transient HashMap<ServerThread, Player> clientPlayersMap = new HashMap<>();
-  private final transient ArrayList<Player> players = new ArrayList<>();
-  private final transient ArrayList<Player> spectators = new ArrayList<>();
-  private final transient HashMap<Player, Mole> moleMap = new HashMap<>();
-  private final transient GameState gameState = new GameState();
-  private final HashSet<Player> eliminatedPlayers = new HashSet<>();
-  private final transient ArrayList<Player> activePlayers = new ArrayList<>();
   private transient GameStates currentGameState = GameStates.NOT_STARTED;
   private transient Map map;
   private transient Settings settings;
