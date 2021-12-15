@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 15.12.21, 13:46 by Carina Latest changes made by Carina on 15.12.21, 13:21 All contents of "Map" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 15.12.21, 16:25 by Carina Latest changes made by Carina on 15.12.21, 16:25 All contents of "Map" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -9,41 +9,57 @@
  */
 package de.thundergames.playmechanics.map;
 
-import de.thundergames.networking.util.interfaceitems.NetworkFloor;
 import de.thundergames.playmechanics.game.Game;
 import de.thundergames.playmechanics.game.GameState;
+import lombok.Getter;
+import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
-public class Map extends NetworkFloor {
-
-  private final transient HashMap<List<Integer>, Field> fieldMap = new HashMap<>();
+@Getter
+@Setter
+public class Map {
+  private final HashSet<Field> holes;
+  private final HashSet<Field> drawAgainFields;
+  private final int points;
+  private transient final HashMap<List<Integer>, Field> fieldMap = new HashMap<>();
   private transient Game game;
 
   /**
-   * @param game the game the map is related to
+   * @param holes
+   * @param drawAgainFields
+   * @param points
+   * @param game
    * @author Carina
    * @use creates a new Map object with the given radius
    */
-  public Map(@NotNull final Game game) {
-    super(game.getGameState().getFloor().getHoles(), game.getGameState().getFloor().getDrawAgainFields(), game.getGameState().getFloor().getPoints());
+  public Map(@NotNull final Game game, @NotNull final HashSet<Field> holes, @NotNull final HashSet<Field> drawAgainFields, final int points) {
+    this.holes = holes;
+    this.drawAgainFields = drawAgainFields;
+    this.points = points;
     this.game = game;
-    createMap(game.getRadius());
-    changeFieldParams(game.getGameState());
   }
 
   /**
-   * @param gameState the gameState the map is related to to the client
+   * @param holes
+   * @param drawAgainFields
+   * @param points
    * @author Carina
    * @use creates a new Map object with the given radius
    */
-  public Map(@NotNull final GameState gameState) {
-    super(gameState.getFloor().getHoles(), gameState.getFloor().getDrawAgainFields(), gameState.getFloor().getPoints());
+  public Map(@NotNull final HashSet<Field> holes, @NotNull final HashSet<Field> drawAgainFields, final int points) {
+    this.holes = holes;
+    this.drawAgainFields = drawAgainFields;
+    this.points = points;
+  }
+
+  public void build(@NotNull final Game game) {
+    createMap(game.getRadius());
+  }
+
+  public void build(@NotNull final GameState gameState) {
     createMap(gameState.getRadius());
     changeFieldParams(gameState);
   }
@@ -58,7 +74,7 @@ public class Map extends NetworkFloor {
     fieldMap.clear();
     for (var y = 0; y <= radius; y++) {
       for (var x = 0; x <= radius + y; x++) {
-        var field = new Field(List.of(x, y));
+        var field = new Field(x, y);
         field.setMap(this);
         fieldMap.put(java.util.List.of(x, y), field);
       }
@@ -66,7 +82,7 @@ public class Map extends NetworkFloor {
     // 1 under mid: left to bottom right
     for (var y = radius + 1; y <= radius * 2; y++) {
       for (var x = y - radius; x <= radius * 2; x++) {
-        var field = new Field(java.util.List.of(x, y));
+        var field = new Field(x, y);
         field.setMap(this);
         fieldMap.put(java.util.List.of(x, y), field);
       }
@@ -89,12 +105,12 @@ public class Map extends NetworkFloor {
     }
     for (var mole : gameState.getPlacedMoles()) {
       if (getFieldMap()
-        .containsKey(List.of(mole.getNetworkField().getX(), mole.getNetworkField().getY()))) {
+        .containsKey(List.of(mole.getField().getX(), mole.getField().getY()))) {
         getFieldMap()
-          .get(List.of(mole.getNetworkField().getX(), mole.getNetworkField().getY()))
+          .get(List.of(mole.getField().getX(), mole.getField().getY()))
           .setMole(mole);
         getFieldMap()
-          .get(List.of(mole.getNetworkField().getX(), mole.getNetworkField().getY()))
+          .get(List.of(mole.getField().getX(), mole.getField().getY()))
           .setOccupied(true);
       }
     }
@@ -108,7 +124,7 @@ public class Map extends NetworkFloor {
     var fields =
       new ArrayList<>(fieldMap.values())
         .stream()
-        .sorted(Comparator.comparing(Field::getY).thenComparing(Field::getX))
+        .sorted(Comparator.comparing(de.thundergames.playmechanics.map.Field::getY).thenComparing(de.thundergames.playmechanics.map.Field::getX))
         .collect(Collectors.toList());
     var row = 0;
     for (var field : fields) {
@@ -140,13 +156,5 @@ public class Map extends NetworkFloor {
    */
   public boolean existField(final int x, final int y) {
     return fieldMap.containsKey(List.of(x, y));
-  }
-
-  public HashMap<List<Integer>, Field> getFieldMap() {
-    return fieldMap;
-  }
-
-  public Game getGame() {
-    return game;
   }
 }

@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 14.12.21, 15:41 by Carina Latest changes made by Carina on 14.12.21, 15:41 All contents of "TournamentState" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 15.12.21, 16:25 by Carina Latest changes made by Carina on 15.12.21, 16:25 All contents of "TournamentState" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -11,41 +11,24 @@
 package de.thundergames.playmechanics.game;
 
 import de.thundergames.filehandling.Score;
-import de.thundergames.networking.util.interfaceitems.NetworkGame;
-import de.thundergames.networking.util.interfaceitems.NetworkPlayer;
+import de.thundergames.playmechanics.util.Player;
+import lombok.Getter;
+import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashSet;
 
+@Getter
+@Setter
 public class TournamentState {
 
-  private final HashSet<NetworkPlayer> players = new HashSet<>();
-  private final HashSet<NetworkGame> games = new HashSet<>();
+  private final HashSet<Player> players = new HashSet<>();
+  private final HashSet<Game> games = new HashSet<>();
   private final TournamentStatus status;
   private Score score;
 
   public TournamentState(@NotNull final Score score, @NotNull final TournamentStatus status) {
     this.status = status;
     this.score = score;
-  }
-
-  public TournamentStatus getStatus() {
-    return status;
-  }
-
-  public HashSet<NetworkPlayer> getPlayers() {
-    return players;
-  }
-
-  public Score getScore() {
-    return score;
-  }
-
-  public void setScore(Score score) {
-    this.score = score;
-  }
-
-  public HashSet<NetworkGame> getGames() {
-    return games;
   }
 }

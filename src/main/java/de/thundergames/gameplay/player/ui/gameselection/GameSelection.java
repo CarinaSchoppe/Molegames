@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 14.12.21, 15:41 by Carina Latest changes made by Carina on 14.12.21, 15:41 All contents of "GameSelection" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 15.12.21, 16:25 by Carina Latest changes made by Carina on 15.12.21, 15:42 All contents of "GameSelection" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -13,8 +13,8 @@ package de.thundergames.gameplay.player.ui.gameselection;
 import de.thundergames.gameplay.player.Client;
 import de.thundergames.gameplay.player.ui.PlayerMenu;
 import de.thundergames.gameplay.util.SceneController;
-import de.thundergames.networking.util.interfaceitems.NetworkGame;
 import de.thundergames.playmechanics.board.TestWindow;
+import de.thundergames.playmechanics.game.Game;
 import de.thundergames.playmechanics.game.GameState;
 import de.thundergames.playmechanics.game.GameStates;
 import javafx.event.ActionEvent;
@@ -44,13 +44,13 @@ public class GameSelection implements Initializable {
   @FXML
   private Text PlayerName;
   @FXML
-  private TableView<NetworkGame> gameTable;
+  private TableView<Game> gameTable;
   @FXML
-  private TableColumn<NetworkGame, Integer> gameID;
+  private TableColumn<Game, Integer> gameID;
   @FXML
-  private TableColumn<NetworkGame, String> gamePlayerCount;
+  private TableColumn<Game, String> gamePlayerCount;
   @FXML
-  private TableColumn<NetworkGame, String> gameState;
+  private TableColumn<Game, String> gameState;
   private Stage primaryStage;
 
   public static GameSelection getGameSelection() {
@@ -105,7 +105,7 @@ public class GameSelection implements Initializable {
    * @param stage current stage
    */
   private void logout(Stage stage) {
-    CLIENT.getClientPacketHandler().logoutPacket(CLIENT);
+    CLIENT.getClientPacketHandler().logoutPacket();
     stage.close();
   }
 
@@ -157,7 +157,7 @@ public class GameSelection implements Initializable {
    */
   @FXML
   void spectateGame(ActionEvent event) throws IOException, InterruptedException {
-    NetworkGame selectedItem = gameTable.getSelectionModel().getSelectedItem();
+    var selectedItem = gameTable.getSelectionModel().getSelectedItem();
     // If no item of tableview is selected.
     if (selectedItem == null) {
       JOptionPane.showMessageDialog(
@@ -165,7 +165,7 @@ public class GameSelection implements Initializable {
       return;
     }
     // Send Packet to spectate game to get GameState
-    CLIENT.getClientPacketHandler().joinGamePacket(CLIENT, selectedItem.getGameID(), false);
+    CLIENT.getClientPacketHandler().joinGamePacket(selectedItem.getGameID(), false);
     boolean waiting = true;
     int counter = 0;
     GameState currentGameState = null;
@@ -199,7 +199,7 @@ public class GameSelection implements Initializable {
    * Load scene of scoreboard
    */
   private void loadScoreboard() {
-    CLIENT.getClientPacketHandler().getScorePacket(CLIENT);
+    CLIENT.getClientPacketHandler().getScorePacket();
     var gameScore = CLIENT.getGameState().getScore();
     // Todo:Open scene of ScoreBoard
   }

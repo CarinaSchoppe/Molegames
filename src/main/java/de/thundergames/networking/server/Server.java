@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 14.12.21, 15:41 by Carina Latest changes made by Carina on 14.12.21, 15:41 All contents of "Server" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 15.12.21, 16:25 by Carina Latest changes made by Carina on 15.12.21, 16:17 All contents of "Server" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -15,6 +15,8 @@ import de.thundergames.networking.util.NetworkThread;
 import de.thundergames.networking.util.Packet;
 import de.thundergames.playmechanics.game.Game;
 import de.thundergames.playmechanics.game.Tournament;
+import lombok.Getter;
+import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
@@ -23,8 +25,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 
+@Getter
+@Setter
 public class Server extends Network {
-
+  private PacketHandler packetHandler;
   private final ArrayList<ServerThread> clientThreads = new ArrayList<>();
   private final HashSet<ServerThread> observer = new HashSet<>();
   private final HashMap<Integer, ServerThread> threadIDs = new HashMap<>();
@@ -39,28 +43,8 @@ public class Server extends Network {
    * @author Carina
    * @use creates a Server with a @param serverSocket and uses this one to create a ServerThread which will handle the Inputreading and got info about the Outputsending adds every ServerThread to a List and adds an Id to it and puts that into a Map
    */
-  public Server(final int port, @NotNull final String ip) {
+  public Server(int port, String ip) {
     super(port, ip);
-  }
-
-  public boolean isKeyboard() {
-    return keyboard;
-  }
-
-  public void setKeyboard(final boolean keyboard) {
-    this.keyboard = keyboard;
-  }
-
-  public HashMap<Integer, ServerThread> getThreadIds() {
-    return threadIDs;
-  }
-
-  public HashMap<String, ServerThread> getConnectionNames() {
-    return connectionNames;
-  }
-
-  public HashMap<Integer, ServerThread> getConnectionIDs() {
-    return connectionIDs;
   }
 
   /**
@@ -83,8 +67,9 @@ public class Server extends Network {
             getConnectionIDs().put(threadID, serverThread);
             getClientThreads().add(serverThread);
             serverThread.start();
-            MoleGames.getMoleGames().getPacketHandler().welcomePacket(serverThread, threadID);
-            threadIDs.put(serverThread.getConnectionID(), serverThread);
+            packetHandler = new PacketHandler(serverThread);
+            packetHandler.welcomePacket(threadID);
+            threadIDs.put(serverThread.getThreadID(), serverThread);
             threadID++;
           }
         } catch (IOException e) {
@@ -139,13 +124,5 @@ public class Server extends Network {
     } catch (Exception e) {
       e.printStackTrace();
     }
-  }
-
-  public ArrayList<ServerThread> getClientThreads() {
-    return clientThreads;
-  }
-
-  public HashSet<ServerThread> getObserver() {
-    return observer;
   }
 }

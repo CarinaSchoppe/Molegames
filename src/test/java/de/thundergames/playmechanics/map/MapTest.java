@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 15.12.21, 13:46 by Carina Latest changes made by Carina on 15.12.21, 13:07 All contents of "MapTest" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 15.12.21, 16:25 by Carina Latest changes made by Carina on 15.12.21, 16:25 All contents of "MapTest" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -18,9 +18,6 @@ package de.thundergames.playmechanics.map;/*
  * requires the express written consent of ThunderGames | SwtPra10.
  */
 
-import de.thundergames.networking.util.interfaceitems.NetworkField;
-import de.thundergames.networking.util.interfaceitems.NetworkFloor;
-import de.thundergames.networking.util.interfaceitems.NetworkMole;
 import de.thundergames.playmechanics.game.Game;
 import de.thundergames.playmechanics.game.GameState;
 import de.thundergames.playmechanics.util.Mole;
@@ -52,7 +49,8 @@ class MapTest {
   @Test
   void createMapRadiusTwo() {
     game.setRadius(2);
-    var map = new Map(game);
+    var map = new Map(game, new HashSet<>(), new HashSet<>(), 1);
+    map.build(game);
     assertTrue(map.existField(0, 0));
     assertTrue(map.existField(1, 0));
     assertTrue(map.existField(2, 0));
@@ -93,7 +91,8 @@ class MapTest {
   @Test
   void createMapRadiusFive() {
     game.setRadius(5);
-    var map = new Map(game);
+    var map = new Map(game, new HashSet<>(), new HashSet<>(), 1);
+    map.build(game);
     assertTrue(map.existField(0, 0));
     assertTrue(map.existField(1, 0));
     assertTrue(map.existField(2, 0));
@@ -228,7 +227,8 @@ class MapTest {
   @Test
   void changeFieldParams() {
     game.setRadius(5);
-    var map = new Map(game);
+    var map = new Map(game, new HashSet<>(), new HashSet<>(), 1);
+    map.build(game);
     assertFalse(map.getFieldMap().get(List.of(1, 3)).isOccupied());
     assertFalse(map.getFieldMap().get(List.of(1, 3)).isHole());
     assertFalse(map.getFieldMap().get(List.of(1, 3)).isDrawAgainField());
@@ -237,15 +237,13 @@ class MapTest {
     var fieldDrawAgain = map.getFieldMap().get(List.of(0, 0));
     var mole = new Mole(playerMock, fieldMole);
     fieldMole.setMole(mole);
-    var moles = new ArrayList<NetworkMole>();
-    var holes = new HashSet<NetworkField>();
-    var drawAgainFields = new HashSet<NetworkField>();
+    var moles = new ArrayList<Mole>();
+    var holes = new HashSet<Field>();
+    var drawAgainFields = new HashSet<Field>();
     moles.add(mole);
     holes.add(fieldHole);
     drawAgainFields.add(fieldDrawAgain);
-    var floor = new NetworkFloor(holes, drawAgainFields, 1);
-    floor.setHoles(holes);
-    floor.setDrawAgainFields(drawAgainFields);
+    var floor = new Map(holes, drawAgainFields, 1);
     var gameState = new GameState();
     gameState.setPlacedMoles(moles);
     gameState.setFloor(floor);

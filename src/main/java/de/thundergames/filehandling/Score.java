@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 14.12.21, 15:41 by Carina Latest changes made by Carina on 14.12.21, 15:41 All contents of "Score" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 15.12.21, 16:25 by Carina Latest changes made by Carina on 15.12.21, 15:51 All contents of "Score" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -9,26 +9,18 @@
  */
 package de.thundergames.filehandling;
 
-import de.thundergames.networking.util.interfaceitems.NetworkPlayer;
+import com.google.gson.annotations.SerializedName;
+import de.thundergames.playmechanics.util.Player;
+import lombok.Data;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
+@Data
 public class Score {
 
-  private final ArrayList<NetworkPlayer> players = new ArrayList<>();
+  private final ArrayList<Player> players = new ArrayList<>();
   private final HashMap<Integer, Integer> points = new HashMap<>();
-  private final ArrayList<NetworkPlayer> winner = new ArrayList<>();
-
-  public ArrayList<NetworkPlayer> getPlayers() {
-    return players;
-  }
-
-  public HashMap<Integer, Integer> getPoints() {
-    return points;
-  }
-
-  public ArrayList<NetworkPlayer> getWinners() {
-    return winner;
-  }
+  @SerializedName(value = "winner")
+  private final ArrayList<Player> winners = new ArrayList<>();
 }

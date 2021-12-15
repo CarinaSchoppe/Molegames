@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 14.12.21, 15:41 by Carina Latest changes made by Carina on 14.12.21, 15:41 All contents of "MoleGames" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 15.12.21, 16:25 by Carina Latest changes made by Carina on 15.12.21, 16:25 All contents of "MoleGames" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -13,9 +13,10 @@ import de.thundergames.gameplay.ai.AI;
 import de.thundergames.gameplay.ausrichter.AusrichterClient;
 import de.thundergames.gameplay.player.Client;
 import de.thundergames.gameplay.player.ui.LoginScreen;
-import de.thundergames.networking.server.PacketHandler;
 import de.thundergames.networking.server.Server;
 import de.thundergames.playmechanics.util.MultiGameHandler;
+import lombok.Getter;
+import lombok.Setter;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
@@ -27,14 +28,14 @@ import java.util.Objects;
  * @see Client as an instance that will be integrated
  * @see AI as an instance that will be integrated
  */
+@Getter
+@Setter
 public class MoleGames {
 
   private static MoleGames MOLE_GAMES;
   private AI ai;
   private Server server;
   private MultiGameHandler gameHandler;
-
-  private PacketHandler packetHandler;
   private AusrichterClient ausrichterClient;
 
   /**
@@ -58,7 +59,6 @@ public class MoleGames {
         case "-s":
         case "s":
           MOLE_GAMES.server = new Server(5000, "127.0.0.1");
-          MOLE_GAMES.packetHandler = new PacketHandler();
           MOLE_GAMES.gameHandler = new MultiGameHandler();
           MOLE_GAMES.server.create();
           new de.thundergames.gameplay.ausrichter.ui.CreateGame().create(MOLE_GAMES.server, args);
@@ -78,25 +78,5 @@ public class MoleGames {
 
   public static MoleGames getMoleGames() {
     return MOLE_GAMES;
-  }
-
-  public MultiGameHandler getGameHandler() {
-    return gameHandler;
-  }
-
-  public Server getServer() {
-    return server;
-  }
-
-  public PacketHandler getPacketHandler() {
-    return packetHandler;
-  }
-
-  public AusrichterClient getGameMasterClient() {
-    return ausrichterClient;
-  }
-
-  public void setGameMasterClient(AusrichterClient ausrichterClient) {
-    this.ausrichterClient = ausrichterClient;
   }
 }

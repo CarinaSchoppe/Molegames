@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 14.12.21, 15:41 by Carina Latest changes made by Carina on 14.12.21, 15:41 All contents of "LeaderBoard" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 15.12.21, 16:25 by Carina Latest changes made by Carina on 15.12.21, 15:42 All contents of "LeaderBoard" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -14,7 +14,7 @@ import de.thundergames.filehandling.Score;
 import de.thundergames.gameplay.player.Client;
 import de.thundergames.gameplay.player.ui.PlayerMenu;
 import de.thundergames.gameplay.util.SceneController;
-import de.thundergames.networking.util.interfaceitems.NetworkPlayer;
+import de.thundergames.playmechanics.util.Player;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -72,12 +72,12 @@ public class LeaderBoard extends Application implements Initializable {
    * @author Lennart, Carina
    * @use creates a leaderboard and filles it with the playerscores depending on the placement (points)
    * @see Score
-   * @see NetworkPlayer
+   * @see Player
    */
   void createLeaderbord() {
-    CLIENT.getClientPacketHandler().getScorePacket(CLIENT);  //Muss evtl raus.
+    CLIENT.getClientPacketHandler().getScorePacket();  //Muss evtl raus.
     var score = CLIENT.getGameState().getScore();
-    var list = new ArrayList<NetworkPlayer>();
+    var list = new ArrayList<Player>();
     var players = new ArrayList<>(score.getPlayers());
     //sort players in list by their points
     for (var i = 0; i < score.getPlayers().size(); i++) {
@@ -118,7 +118,7 @@ public class LeaderBoard extends Application implements Initializable {
    * @param stage current stage
    */
   private void logout(@NotNull final Stage stage) {
-    CLIENT.getClientPacketHandler().logoutPacket(CLIENT);
+    CLIENT.getClientPacketHandler().logoutPacket();
     stage.close();
   }
 

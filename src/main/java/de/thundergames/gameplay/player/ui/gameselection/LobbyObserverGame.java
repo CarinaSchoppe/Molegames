@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 14.12.21, 15:41 by Carina Latest changes made by Carina on 14.12.21, 15:41 All contents of "LobbyObserverGame" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 15.12.21, 16:25 by Carina Latest changes made by Carina on 15.12.21, 15:42 All contents of "LobbyObserverGame" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -88,7 +88,7 @@ public class LobbyObserverGame implements Initializable {
    */
   @FXML
   void onBackClick(ActionEvent event) throws IOException {
-    CLIENT.getClientPacketHandler().leaveGamePacket(CLIENT);
+    CLIENT.getClientPacketHandler().leaveGamePacket();
     new GameSelection().create(event);
   }
 
@@ -98,8 +98,8 @@ public class LobbyObserverGame implements Initializable {
    * @param stage current stage
    */
   private void logout(Stage stage) {
-    CLIENT.getClientPacketHandler().logoutPacket(CLIENT);
-    CLIENT.getClientPacketHandler().leaveGamePacket(CLIENT);
+    CLIENT.getClientPacketHandler().logoutPacket();
+    CLIENT.getClientPacketHandler().leaveGamePacket();
     stage.close();
   }
 

@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 14.12.21, 15:41 by Carina Latest changes made by Carina on 14.12.21, 15:41 All contents of "NetworkThread" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 15.12.21, 16:25 by Carina Latest changes made by Carina on 15.12.21, 16:25 All contents of "NetworkThread" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -16,6 +16,8 @@ import de.thundergames.gameplay.ai.networking.AIClientThread;
 import de.thundergames.gameplay.player.networking.ClientThread;
 import de.thundergames.networking.server.ServerThread;
 import de.thundergames.networking.util.exceptions.NotAllowedError;
+import lombok.Getter;
+import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.*;
@@ -23,26 +25,28 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.nio.charset.StandardCharsets;
 
+@Getter
 public abstract class NetworkThread extends Thread {
 
   protected final Socket socket;
   private final PrintWriter writer;
   private final BufferedReader reader;
   protected Packet packet;
-  protected int id;
+  @Setter
+  protected int threadID;
   private boolean run = true;
 
   /**
    * Creates a new NetworkThread.
    *
-   * @param socket The socket to use.
-   * @param id     the id of the serverSocketConnection
+   * @param socket   The socket to use.
+   * @param threadID the id of the serverSocketConnection
    */
-  public NetworkThread(@NotNull final Socket socket, final int id) throws IOException {
+  public NetworkThread(@NotNull final Socket socket, final int threadID) throws IOException {
     this.socket = socket;
-    this.id = id;
+    this.threadID = threadID;
     if (this instanceof ServerThread) {
-      System.out.println("Connection established with id: " + id + "!");
+      System.out.println("Connection established with id: " + threadID + "!");
     }
     reader =
       new BufferedReader(
@@ -82,7 +86,7 @@ public abstract class NetworkThread extends Thread {
                 if (MoleGames.getMoleGames().getServer().isDebug()) {
                   System.out.println(
                     "Client with id: "
-                      + this.id
+                      + this.threadID
                       + " sended: type: "
                       + packet.getPacketType()
                       + " contents: "
@@ -93,7 +97,7 @@ public abstract class NetworkThread extends Thread {
                 if (MoleGames.getMoleGames().getServer().isDebug()) {
                   System.out.println(
                     "Client with id: "
-                      + this.id
+                      + this.threadID
                       + " sended: type: "
                       + packet.getPacketType());
                 }
@@ -180,14 +184,14 @@ public abstract class NetworkThread extends Thread {
       ((ClientThread) reciever)
         .getClient()
         .getClientPacketHandler()
-        .handlePacket(((ClientThread) reciever).getClient(), packet);
+        .handlePacket(packet);
     } else if (reciever instanceof AIClientThread) {
       ((AIClientThread) reciever)
         .getAIClient()
         .getAIPacketHandler()
         .handlePacket(((AIClientThread) reciever).getAIClient(), packet);
     } else if (reciever instanceof ServerThread) {
-      MoleGames.getMoleGames().getPacketHandler().handlePacket(packet, (ServerThread) reciever);
+      MoleGames.getMoleGames().getServer().getPacketHandler().handlePacket(packet, (ServerThread) reciever);
     }
   }
 
@@ -207,13 +211,6 @@ public abstract class NetworkThread extends Thread {
    */
   public abstract void disconnect();
 
-  public int getConnectionID() {
-    return id;
-  }
-
-  public Socket getSocket() {
-    return socket;
-  }
 
   public void endConnection() {
     run = false;

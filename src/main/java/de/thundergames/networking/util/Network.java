@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 14.12.21, 15:41 by Carina Latest changes made by Carina on 14.12.21, 15:41 All contents of "Network" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 15.12.21, 16:25 by Carina Latest changes made by Carina on 15.12.21, 16:25 All contents of "Network" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -10,36 +10,17 @@
 package de.thundergames.networking.util;
 
 import de.thundergames.gameplay.player.Client;
-import org.jetbrains.annotations.NotNull;
+import lombok.Data;
 
 import java.net.Socket;
 
+@Data
 public abstract class Network {
 
   protected final int port;
   protected final String ip;
-  private final boolean debug = true;
+  private boolean debug = false;
   protected Socket socket;
-
-  /**
-   * Basic logic of creating a de.thundergames.network instance with default values for
-   *
-   * @see Network port and ip with defaults 291220 and "localhost"
-   */
-  public Network() {
-    port = 5000;
-    ip = "127.0.0.1";
-  }
-
-  /**
-   * @param port for a de.thundergames.network instance
-   * @param ip   for a de.thundergames.network instance
-   * @author Carina
-   */
-  public Network(final int port, @NotNull final String ip) {
-    this.port = port;
-    this.ip = ip;
-  }
 
   /**
    * @author Carina
@@ -49,11 +30,4 @@ public abstract class Network {
    */
   protected abstract void create();
 
-  public boolean isDebug() {
-    return debug;
-  }
-
-  protected int getPort() {
-    return port;
-  }
 }

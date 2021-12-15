@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 14.12.21, 15:41 by Carina Latest changes made by Carina on 14.12.21, 15:41 All contents of "Client" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 15.12.21, 16:25 by Carina Latest changes made by Carina on 15.12.21, 16:25 All contents of "Client" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -12,12 +12,14 @@ package de.thundergames.gameplay.player;
 import de.thundergames.gameplay.player.networking.ClientPacketHandler;
 import de.thundergames.gameplay.player.networking.ClientThread;
 import de.thundergames.networking.util.Network;
-import de.thundergames.networking.util.interfaceitems.NetworkGame;
-import de.thundergames.networking.util.interfaceitems.NetworkMole;
-import de.thundergames.networking.util.interfaceitems.NetworkPlayer;
+import de.thundergames.playmechanics.game.Game;
 import de.thundergames.playmechanics.game.GameState;
 import de.thundergames.playmechanics.game.Tournament;
 import de.thundergames.playmechanics.map.Map;
+import de.thundergames.playmechanics.util.Mole;
+import de.thundergames.playmechanics.util.Player;
+import lombok.Getter;
+import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
@@ -25,20 +27,22 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashSet;
 
+@Getter
+@Setter
 public class Client extends Network {
 
   protected static Client CLIENT;
   public final String name;
-  private final HashSet<NetworkGame> games = new HashSet<>();
+  private final HashSet<Game> games = new HashSet<>();
   private final HashSet<Tournament> tournaments = new HashSet<>();
   private final ArrayList<Integer> pullDiscs = new ArrayList<>();
-  private final ArrayList<NetworkMole> moles = new ArrayList<>();
+  private final ArrayList<Mole> moles = new ArrayList<>();
   protected ClientPacketHandler clientPacketHandler;
   protected ClientThread clientThread;
   private GameState gameState;
   private long remainingTime;
   private Map map;
-  private NetworkPlayer networkPlayer;
+  private Player player;
   private boolean isDraw = false;
   private int gameID;
 
@@ -52,13 +56,12 @@ public class Client extends Network {
   public Client(final int port, @NotNull final String ip, @NotNull final String name) {
     super(port, ip);
     this.name = name;
-    clientPacketHandler = new ClientPacketHandler();
   }
 
   public static void main(String[] args) {
     var client = new Client(5000, "localhost", "Carina");
     client.create();
-    client.clientPacketHandler.joinGamePacket(client, 0, true);
+    client.clientPacketHandler.joinGamePacket(0, true);
   }
 
   public static Client getClientInstance() {
@@ -78,6 +81,7 @@ public class Client extends Network {
   @Override
   public void create() {
     CLIENT = this;
+    clientPacketHandler = new ClientPacketHandler(this);
     connect();
   }
 
@@ -91,82 +95,10 @@ public class Client extends Network {
       socket = new Socket(ip, port);
       clientThread = new ClientThread(socket, 0, this);
       clientThread.start();
-      clientPacketHandler.loginPacket(CLIENT, name);
+      clientPacketHandler.loginPacket(name);
     } catch (IOException exception) {
       if (isDebug())
         System.out.println("Is the server running?!");
     }
-  }
-
-  public GameState getGameState() {
-    return gameState;
-  }
-
-  public void setGameState(GameState gameState) {
-    this.gameState = gameState;
-  }
-
-  public ClientPacketHandler getClientPacketHandler() {
-    return clientPacketHandler;
-  }
-
-  public ClientThread getClientThread() {
-    return clientThread;
-  }
-
-  public int getGameID() {
-    return gameID;
-  }
-
-  public void setGameID(final int gameID) {
-    this.gameID = gameID;
-  }
-
-  public HashSet<NetworkGame> getGames() {
-    return games;
-  }
-
-  public long getRemainingTime() {
-    return remainingTime;
-  }
-
-  public void setRemainingTime(long remainingTime) {
-    this.remainingTime = remainingTime;
-  }
-
-  public de.thundergames.playmechanics.map.Map getMap() {
-    return map;
-  }
-
-  public void setMap(de.thundergames.playmechanics.map.Map map) {
-    this.map = map;
-  }
-
-  public NetworkPlayer getNetworkPlayer() {
-    return networkPlayer;
-  }
-
-  public void setNetworkPlayer(NetworkPlayer networkPlayer) {
-    this.networkPlayer = networkPlayer;
-  }
-
-  public boolean isDraw() {
-    return isDraw;
-  }
-
-  public void setDraw(boolean draw) {
-    isDraw = draw;
-  }
-
-  public ArrayList<Integer> getPullDiscs() {
-    return pullDiscs;
-  }
-
-  public HashSet<Tournament> getTournaments() {
-    return tournaments;
-  }
-
-  public ArrayList<NetworkMole> getMoles() {
-    return moles;
   }
 }

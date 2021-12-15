@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 14.12.21, 15:41 by Carina Latest changes made by Carina on 14.12.21, 15:41 All contents of "PlayerModel" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 15.12.21, 16:25 by Carina Latest changes made by Carina on 15.12.21, 16:25 All contents of "PlayerModel" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -16,20 +16,21 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+
 public class PlayerModel {
-  private final int id;
+  private final int ID;
   private final Marker activeMoleMarker;
   private ArrayList<MoleModel> moles;
   private MoleModel activeMole;
   private boolean isItMyTurn;
 
   /**
-   * @param id
+   * @param ID
    * @param moles
    * @author Alp, Dila, Issam
    */
-  public PlayerModel(final int id, @NotNull final ArrayList<MoleModel> moles) {
-    this.id = id;
+  public PlayerModel(final int ID, @NotNull final ArrayList<MoleModel> moles) {
+    this.ID = ID;
     this.moles = moles;
     this.activeMole = this.moles.get(0); // By default first mole in the list
     this.activeMoleMarker = new Marker();
@@ -75,8 +76,8 @@ public class PlayerModel {
     });
   }
 
-  public int getId() {
-    return this.id;
+  public int getID() {
+    return this.ID;
   }
 
   public ArrayList<MoleModel> getMoles() {
@@ -102,7 +103,7 @@ public class PlayerModel {
     this.updateMarker();
   }
 
-  public List<Integer> getOccupiedIds() {
+  public List<Integer> getOccupiedIDs() {
     return this.moles.stream().map(mole -> mole.getMoleId()).collect(Collectors.toList());
   }
 }
