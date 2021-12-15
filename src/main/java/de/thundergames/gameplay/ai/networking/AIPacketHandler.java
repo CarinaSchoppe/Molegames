@@ -79,7 +79,7 @@ public class AIPacketHandler extends ClientPacketHandler {
 
   private synchronized void timerRelatedController(@NotNull final AI ai) {
     try {
-      Thread.sleep(ai.getSLEEPING_TIME());
+      Thread.sleep(ai.getSleepingTime());
       ai.getLogic().handleAction(ai);
       if (isTimerRunning()) {
         timer.cancel();
