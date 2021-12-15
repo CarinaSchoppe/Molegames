@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 15.12.21, 17:42 by Carina Latest changes made by Carina on 15.12.21, 17:41 All contents of "Game" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 15.12.21, 19:16 by Carina Latest changes made by Carina on 15.12.21, 19:16 All contents of "Game" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -30,6 +30,12 @@ import java.util.*;
 public class Game {
   private final int gameID;
   private final HashSet<Player> eliminatedPlayers = new HashSet<>();
+  private final transient HashMap<ServerThread, Player> clientPlayersMap = new HashMap<>();
+  private final transient ArrayList<Player> players = new ArrayList<>();
+  private final transient ArrayList<Player> spectators = new ArrayList<>();
+  private final transient HashMap<Player, Mole> moleMap = new HashMap<>();
+  private final transient GameState gameState = new GameState();
+  private final transient ArrayList<Player> activePlayers = new ArrayList<>();
   private int currentPlayerCount;
   private int maxPlayerCount;
   private int levelCount;
@@ -46,12 +52,6 @@ public class Game {
   @SerializedName(value = "result")
   private Score score;
   private int deductedPoints;
-  private final transient HashMap<ServerThread, Player> clientPlayersMap = new HashMap<>();
-  private final transient ArrayList<Player> players = new ArrayList<>();
-  private final transient ArrayList<Player> spectators = new ArrayList<>();
-  private final transient HashMap<Player, Mole> moleMap = new HashMap<>();
-  private final transient GameState gameState = new GameState();
-  private final transient ArrayList<Player> activePlayers = new ArrayList<>();
   private transient GameStates currentGameState = GameStates.NOT_STARTED;
   private transient Map map;
   private transient Settings settings;
@@ -75,7 +75,7 @@ public class Game {
     settings = new Settings(this);
     setScore(new Score());
     for (var client : MoleGames.getMoleGames().getServer().getObserver()) {
-      MoleGames.getMoleGames().getServer().getPacketHandler().overviewPacket();
+      MoleGames.getMoleGames().getServer().getPacketHandler().overviewPacket(client);
     }
   }
 
@@ -143,12 +143,15 @@ public class Game {
       currentGameState = gameState;
       setStartDateTime(Instant.now().getEpochSecond());
       updateGameState();
-      for (var observer : MoleGames.getMoleGames().getServer().getObserver())
-        MoleGames.getMoleGames().getServer().getPacketHandler().overviewPacket();
-      if (MoleGames.getMoleGames().getServer().isDebug())
+      for (var client : MoleGames.getMoleGames().getServer().getObserver()) {
+        MoleGames.getMoleGames().getServer().getPacketHandler().overviewPacket(client);
+      }
+      if (MoleGames.getMoleGames().getServer().isDebug()) {
         System.out.println("Starting a game with the gameID: " + getGameID());
-      MoleGames.getMoleGames().getServer().sendToAllGameClients(this, MoleGames.getMoleGames().getServer().getPacketHandler().gameStartedPacket(gameState));
+      }
       gameUtil.nextPlayer();
+      System.out.println("Current player is: " + currentPlayer.getClientID() + " name: " + currentPlayer.getName());
+      MoleGames.getMoleGames().getServer().sendToAllGameClients(this, MoleGames.getMoleGames().getServer().getPacketHandler().gameStartedPacket(gameState));
     }
   }
 
@@ -160,17 +163,18 @@ public class Game {
     setFinishDateTime(Instant.now().getEpochSecond());
     currentGameState = GameStates.OVER;
     updateGameState();
-    for (var observer : MoleGames.getMoleGames().getServer().getObserver())
-      MoleGames.getMoleGames().getServer().getPacketHandler().overviewPacket();
+    for (var client : MoleGames.getMoleGames().getServer().getObserver()) {
+      MoleGames.getMoleGames().getServer().getPacketHandler().overviewPacket(client);
+    }
     if (!getScore().getPoints().isEmpty()) {
       var playerIDs = new ArrayList<>(getScore().getPoints().keySet());
-      var players = new ArrayList<Player>();
       var max = Collections.max(getScore().getPoints().values());
       for (var playerID : playerIDs) {
         players.add(MoleGames.getMoleGames().getServer().getConnectionIDs().get(playerID).getPlayer());
       }
-      Collections.sort(players, (o1, o2) -> getScore().getPoints().get(o2.getClientID()).compareTo(getScore().getPoints().get(o1.getClientID())));
-      for (var player : players) {
+      //Sorting the players ascending on their points
+      Collections.sort(getScore().getPlayers(), (o1, o2) -> getScore().getPoints().get(o2.getClientID()).compareTo(getScore().getPoints().get(o1.getClientID())));
+      for (var player : getScore().getPlayers()) {
         if (getScore().getPoints().get(player.getClientID()) == max) {
           getScore().getWinners().add(player);
         }
@@ -203,7 +207,7 @@ public class Game {
     currentGameState = GameStates.PAUSED;
     updateGameState();
     for (var observer : MoleGames.getMoleGames().getServer().getObserver())
-      MoleGames.getMoleGames().getServer().getPacketHandler().overviewPacket();
+      MoleGames.getMoleGames().getServer().getPacketHandler().overviewPacket(observer);
   }
 
   /**
@@ -217,33 +221,25 @@ public class Game {
   }
 
   /**
-   * @param clientThread the playerServerThread that joins the game
-   * @param spectator    if its a spectator or player that has joined
+   * @param client    the playerServerThread that joins the game
+   * @param spectator if its a spectator or player that has joined
    * @author Carina
    */
-  public void joinGame(@NotNull final ServerThread clientThread, final boolean spectator) throws NotAllowedError {
-    var client = new Player(clientThread).create(this);
-    clientThread.setPlayer(client);
-    MoleGames.getMoleGames()
-      .getServer().getPacketHandler()
-      .assignToGamePacket(getGameID());
+  public void joinGame(@NotNull final ServerThread client, final boolean spectator) throws NotAllowedError {
+    var player = new Player(client).create(this);
+    client.setPlayer(player);
+    MoleGames.getMoleGames().getServer().getPacketHandler().assignToGamePacket(client, getGameID());
     if (getCurrentGameState().equals(GameStates.NOT_STARTED) && !spectator) {
-      clientPlayersMap.put(clientThread, client);
-      players.add(client);
-      activePlayers.add(client);
-      getScore().getPlayers().add(client);
+      clientPlayersMap.put(client, player);
+      players.add(player);
+      activePlayers.add(player);
+      getScore().getPlayers().add(player);
       setCurrentPlayerCount(clientPlayersMap.size());
-      MoleGames.getMoleGames()
-        .getGameHandler()
-        .getClientGames()
-        .put((ServerThread) client.getServerClient(), this);
+      MoleGames.getMoleGames().getGameHandler().getClientGames().put((ServerThread) player.getServerClient(), this);
       updateGameState();
     } else if (spectator) {
-      MoleGames.getMoleGames()
-        .getGameHandler()
-        .getClientGames()
-        .put((ServerThread) client.getServerClient(), this);
-      spectators.add(client);
+      MoleGames.getMoleGames().getGameHandler().getClientGames().put((ServerThread) player.getServerClient(), this);
+      spectators.add(player);
       //TODO: join as spectator
     } else {
       throw new NotAllowedError("Game is over cant be joined anymore!");
@@ -270,22 +266,12 @@ public class Game {
           eliminatedPlayers.add(player);
         }
       }
-      MoleGames.getMoleGames().getGameHandler().getClientGames().get(player.getServerClient()).getClientPlayersMap().get(player.getServerClient()).getTimer().cancel();
-      MoleGames.getMoleGames().getGameHandler().getClientGames().get(player.getServerClient()).getClientPlayersMap().get(player.getServerClient()).setHasMoved(true);
-      MoleGames.getMoleGames().getGameHandler().getClientGames().get(player.getServerClient()).getClientPlayersMap().get(player.getServerClient()).setTimerIsRunning(false);
+      player.getGame().getClientPlayersMap().get(player.getServerClient()).getTimer().cancel();
+      player.getGame().getClientPlayersMap().get(player.getServerClient()).setHasMoved(true);
+      player.getGame().getClientPlayersMap().get(player.getServerClient()).setTimerIsRunning(false);
       for (var moles : player.getMoles()) {
-        player
-          .getGame()
-          .getMap()
-          .getFieldMap()
-          .get(List.of(moles.getField().getX(), moles.getField().getY()))
-          .setOccupied(false);
-        player
-          .getGame()
-          .getMap()
-          .getFieldMap()
-          .get(List.of(moles.getField().getX(), moles.getField().getY()))
-          .setMole(null);
+        player.getGame().getMap().getFieldMap().get(List.of(moles.getField().getX(), moles.getField().getY())).setOccupied(false);
+        player.getGame().getMap().getFieldMap().get(List.of(moles.getField().getX(), moles.getField().getY())).setMole(null);
       }
       player.getMoles().clear();
       clientPlayersMap.remove(player);

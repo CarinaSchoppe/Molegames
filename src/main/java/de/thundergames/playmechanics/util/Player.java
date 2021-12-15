@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 15.12.21, 17:42 by Carina Latest changes made by Carina on 15.12.21, 17:41 All contents of "Player" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 15.12.21, 19:16 by Carina Latest changes made by Carina on 15.12.21, 19:16 All contents of "Player" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -33,10 +33,10 @@ public class Player {
   private transient final NetworkThread serverClient;
   private transient final ArrayList<Integer> cards = new ArrayList<>();
   private transient Game game;
-  private transient Timer timer;
+  private transient Timer timer = new Timer();
   private transient long startRemainingTime;
   private transient boolean timerIsRunning = false;
-  private transient boolean hasMoved = true;
+  private transient boolean hasMoved = false;
   private transient PlayerUtil playerUtil;
 
   /**
@@ -157,6 +157,7 @@ public class Player {
             + "\n\n");
       playerUtil.handleTurnAfterAction();
     } else {
+      System.out.println("HIERIRIRIRIR");
       MoleGames.getMoleGames()
         .getGameHandler()
         .getGameLogic()
@@ -207,6 +208,7 @@ public class Player {
     if (!game.getCurrentPlayer().equals(this)
       || hasMoved
       || moles.size() >= game.getSettings().getNumberOfMoles()) {
+      System.out.println("Has moved: " + hasMoved + " size: " + (moles.size() >= game.getSettings().getNumberOfMoles()) + "this: " + this.getClientID() + " current: " + game.getCurrentPlayer().getClientID());
       return;
     }
     if (game.getMap().getFieldMap().get(List.of(x, y)).isOccupied()

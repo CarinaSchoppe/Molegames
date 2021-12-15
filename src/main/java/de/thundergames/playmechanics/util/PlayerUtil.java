@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 15.12.21, 17:42 by Carina Latest changes made by Carina on 15.12.21, 17:41 All contents of "PlayerUtil" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 15.12.21, 19:16 by Carina Latest changes made by Carina on 15.12.21, 19:16 All contents of "PlayerUtil" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -11,7 +11,6 @@
 package de.thundergames.playmechanics.util;
 
 import de.thundergames.MoleGames;
-import de.thundergames.networking.server.ServerThread;
 import lombok.Data;
 
 import java.util.Timer;
@@ -65,11 +64,12 @@ public class PlayerUtil {
                       player.getGame().getDeductedPoints(),
                       player.getGame().getSettings().getPunishment(),
                       Punishments.NOMOVE.getName()));
+              System.out.println("hier2");
               player.setHasMoved(true);
               player.setTimerIsRunning(false);
               if (MoleGames.getMoleGames().getServer().isDebug())
                 System.out.println(
-                  "Client " + ((ServerThread) player.getServerClient()).getClientName() + " ran out of time");
+                  "Client " + player.getServerClient().getThreadID() + " ran out of time");
               player.getGame().getGameUtil().nextPlayer();
               player.getTimer().cancel();
             }
@@ -79,6 +79,7 @@ public class PlayerUtil {
   }
 
   public void handleTurnAfterAction() {
+    System.out.println("hier11");
     player.setHasMoved(true);
     if (player.isTimerIsRunning()) {
       player.getTimer().cancel();

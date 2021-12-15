@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 15.12.21, 17:42 by Carina Latest changes made by Carina on 15.12.21, 17:41 All contents of "Server" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 15.12.21, 19:16 by Carina Latest changes made by Carina on 15.12.21, 18:53 All contents of "Server" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -45,6 +45,7 @@ public class Server extends Network {
    */
   public Server(int port, String ip) {
     super(port, ip);
+    packetHandler = new PacketHandler();
   }
 
   /**
@@ -67,8 +68,7 @@ public class Server extends Network {
             getConnectionIDs().put(threadID, serverThread);
             getClientThreads().add(serverThread);
             serverThread.start();
-            packetHandler = new PacketHandler(serverThread);
-            packetHandler.welcomePacket(threadID);
+            packetHandler.welcomePacket(serverThread, threadID);
             threadIDs.put(serverThread.getThreadID(), serverThread);
             threadID++;
           }

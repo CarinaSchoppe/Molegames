@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 15.12.21, 17:42 by Carina Latest changes made by Carina on 15.12.21, 17:41 All contents of "LeaderBoard" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 15.12.21, 19:16 by Carina Latest changes made by Carina on 15.12.21, 19:16 All contents of "LeaderBoard" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -35,8 +35,6 @@ import java.util.ResourceBundle;
 
 public class LeaderBoard extends Application implements Initializable {
 
-  private static Client CLIENT;
-
   @FXML
   private TableView<PlayerResult> scoreTable;
 
@@ -53,18 +51,18 @@ public class LeaderBoard extends Application implements Initializable {
    * @author Carina, Lennart
    * @use launches the Scene
    */
-  public static void create() {
+  public void create(@NotNull final Score score) {
+    Client.getClientInstance().getGameState().setScore(score);
     launch();
   }
 
   @FXML
   public void initialize(URL location, ResourceBundle resources) {
     scoreTable.setSelectionModel(null);
-    CLIENT = Client.getClientInstance();
     placement.setCellValueFactory(new PropertyValueFactory<>("placement"));
     name.setCellValueFactory(new PropertyValueFactory<>("name"));
     score.setCellValueFactory(new PropertyValueFactory<>("score"));
-    if (CLIENT == null) return;
+    if (Client.getClientInstance() == null) return;
     createLeaderbord();
   }
 
@@ -75,39 +73,18 @@ public class LeaderBoard extends Application implements Initializable {
    * @see Player
    */
   void createLeaderbord() {
-    CLIENT.getClientPacketHandler().getScorePacket();  //Muss evtl raus.
-    var score = CLIENT.getGameState().getScore();
-    var list = new ArrayList<Player>();
-    var players = new ArrayList<>(score.getPlayers());
+    var score = Client.getClientInstance().getGameState().getScore();
     //sort players in list by their points
-    for (var i = 0; i < score.getPlayers().size(); i++) {
-      var current = players.get(0);
-      for (var player : players) {
-        if (score.getPoints().get(player.getClientID()) > score.getPoints().get(current.getClientID())) {
-          current = player;
-        }
-      }
-      players.remove(current);
-      list.add(current);
-    }
     //fill sorted players with their placement, name and points into leaderlist
     var leaderlist = new ArrayList<PlayerResult>();
-    var lastPoints = -999999999;
-    var lastPlace = 0;
-    var thisPlace = 0;
-    for (var place = 0; place < list.size(); place++) {
-      //if two players have equal points they get the same placement
-      if (lastPoints == score.getPoints().get(list.get(place).getClientID())) {
-        thisPlace = lastPlace;
-      } else {
-        thisPlace = lastPlace + 1;
-      }
+    var thisPlace = 1;
+    for (var player : score.getPlayers()) {
+      System.out.println("points: " + score.getPoints().get(player.getClientID()));
       leaderlist.add(new PlayerResult(
-        list.get(place).getName(),
-        score.getPoints().get(list.get(place).getClientID()),
+        player.getName(),
+        score.getPoints().get(player.getClientID()),
         thisPlace));
-      lastPoints = score.getPoints().get(list.get(place).getClientID());
-      lastPlace = thisPlace;
+      thisPlace++;
     }
     scoreTable.getItems().addAll(leaderlist);
   }
@@ -118,7 +95,7 @@ public class LeaderBoard extends Application implements Initializable {
    * @param stage current stage
    */
   private void logout(@NotNull final Stage stage) {
-    CLIENT.getClientPacketHandler().logoutPacket();
+    Client.getClientInstance().getClientPacketHandler().logoutPacket();
     stage.close();
   }
 

@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 15.12.21, 17:42 by Carina Latest changes made by Carina on 15.12.21, 17:41 All contents of "AusrichterClient" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 15.12.21, 19:16 by Carina Latest changes made by Carina on 15.12.21, 19:16 All contents of "AusrichterClient" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -25,6 +25,7 @@ import java.util.List;
 public class AusrichterClient {
 
   private final Server server;
+  private float WAIT_TIME = 5;
 
   public void testGame(final int id) {
     MoleGames.getMoleGames().getGameHandler().createNewGame(id);
@@ -36,7 +37,7 @@ public class AusrichterClient {
     MoleGames.getMoleGames().getGameHandler().getIDGames().get(id).getSettings().getFloors().add(floor2);
     MoleGames.getMoleGames().getGameHandler().getIDGames().get(id).updateGameState();
     try {
-      Thread.sleep(5000);
+      Thread.sleep((long) (WAIT_TIME * 1000));
     } catch (InterruptedException e) {
       e.printStackTrace();
     }

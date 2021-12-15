@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 15.12.21, 17:42 by Carina Latest changes made by Carina on 15.12.21, 17:42 All contents of "PacketHandler" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 15.12.21, 19:16 by Carina Latest changes made by Carina on 15.12.21, 19:09 All contents of "PacketHandler" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -25,17 +25,11 @@ import de.thundergames.playmechanics.tournament.Tournament;
 import de.thundergames.playmechanics.util.Mole;
 import de.thundergames.playmechanics.util.Player;
 import de.thundergames.playmechanics.util.Punishments;
-import lombok.Data;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
-@Data
 public class PacketHandler {
-
-  private final ServerThread client;
-  private Packet packet;
-
   /**
    * @param packet
    * @param client
@@ -46,11 +40,10 @@ public class PacketHandler {
    * @see Client
    */
   public synchronized void handlePacket(@NotNull final Packet packet, @NotNull final ServerThread client) throws NotAllowedError {
-    this.packet = packet;
     if (packet.getPacketType().equalsIgnoreCase(Packets.LOGIN.getPacketType())) {
-      handleLoginPacket();
+      handleLoginPacket(client, packet);
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.LOGOUT.getPacketType())) {
-      handleLogoutPacket();
+      handleLogoutPacket(client);
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.MESSAGE.getPacketType())) {
       if (MoleGames.getMoleGames().getServer().isDebug()) {
         if (packet.getValues().get("message") != null) {
@@ -58,52 +51,68 @@ public class PacketHandler {
         }
       }
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.GETOVERVIEW.getPacketType())) {
-      handleGetOverviewPacket();
+      handleGetOverviewPacket(client);
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.REGISTEROBSERVER.getPacketType())) {
-      handleRegisterOverviewObserverPacket();
+      handleRegisterOverviewObserverPacket(client);
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.UNREGISTEROBSERVER.getPacketType())) {
-      handleUnregisterOverviewObserverPacket();
+      handleUnregisterOverviewObserverPacket(client);
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.LEAVEGAME.getPacketType())) {
-      handlePlayerLeavePacket();
+      handlePlayerLeavePacket(client);
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.GETSCORE.getPacketType())) {
-      handleGetScorePacket();
+      handleGetScorePacket(client);
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.GETGAMEHISTORY.getPacketType())) {
-      handleGetGameHistoryPacket();
+      handleGetGameHistoryPacket(client, packet);
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.GETREMAININGTIME.getPacketType())) {
-      handleGetRemainingTimePacket();
+      handleGetRemainingTimePacket(client);
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.PLACEMOLE.getPacketType())) {
-      handlePlaceMolePacket();
+      handlePlaceMolePacket(client, packet);
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.MAKEMOVE.getPacketType())) {
-      handleMakeMovePacket();
+      handleMakeMovePacket(client, packet);
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.ENTERTOURNAMENT.getPacketType())) {
-      handleEnterTournamentPacket();
+      handleEnterTournamentPacket(client, packet);
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.GETTOURNAMENTSCORE.getPacketType())) {
-      handleGetTournamentScorePacket();
+      handleGetTournamentScorePacket(client);
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.LEAVETOURNAMENT.getPacketType())) {
-      handleLeaveTournamentPacket();
+      handleLeaveTournamentPacket(client);
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.JOINGAME.getPacketType())) {
-      if (handleJoinPacket()) {
-        welcomeGamePacket();
+      if (handleJoinPacket(client, packet)) {
+        welcomeGamePacket(client);
       }
     } else {
       if (MoleGames.getMoleGames().getServer().isDebug()) System.out.println("Packet not found!" + packet.getJsonObject());
     }
   }
 
+  /**
+   * @return the packet itself
+   * @author Carina
+   * @use send to the clients that the tournament is over
+   */
   public Packet tournamentOverPacket() {
     var json = new JsonObject();
     json.addProperty("type", Packets.TOURNAMENTOVER.getPacketType());
     return new Packet(json);
   }
 
-  public void tournamentGamesOverviewPacket() {
+  /**
+   * @param client
+   * @author Carina
+   * @use gets the overview of a tournamentPacket
+   */
+  public void tournamentGamesOverviewPacket(@NotNull final ServerThread client) {
     var object = new JsonObject();
     var json = new JsonObject();
     object.addProperty("type", Packets.TOURNAMENTGAMESOVERVIEW.getPacketType());
     json.addProperty("games", new Gson().toJson(MoleGames.getMoleGames().getGameHandler().getClientTournaments().get(client).getGames()));
   }
 
-  public Packet tournamentPlayerInGamePacket() {
+  /**
+   * @param client
+   * @return the packet itself
+   * @author Carina
+   * @use sends that a player is now in a game of a tournament
+   */
+  public Packet tournamentPlayerInGamePacket(@NotNull final ServerThread client) {
     var json = new JsonObject();
     var object = new JsonObject();
     object.addProperty("type", Packets.TOURNAMENTPLAYERINGAME.getPacketType());
@@ -114,11 +123,12 @@ public class PacketHandler {
   }
 
   /**
+   * @param client
    * @return the packet send
    * @author Carina
    * @use gets a player left tournament packet that can be send to all clients of the tournament
    */
-  public Packet tournamentPlayerLeftPacket() {
+  public Packet tournamentPlayerLeftPacket(@NotNull final ServerThread client) {
     var json = new JsonObject();
     var object = new JsonObject();
     object.addProperty("type", Packets.TOURNAMENTPLAYERLEFT.getPacketType());
@@ -128,11 +138,12 @@ public class PacketHandler {
   }
 
   /**
+   * @param client
    * @return the packet send
    * @author Carina
    * @use gets a player kicked tournament packet that can be send to all clients of the tournament
    */
-  public Packet tournamentPlayerKickedPacket() {
+  public Packet tournamentPlayerKickedPacket(@NotNull final ServerThread client) {
     var json = new JsonObject();
     var object = new JsonObject();
     object.addProperty("type", Packets.TOURNAMENTPLAYERKICKED.getPacketType());
@@ -142,15 +153,21 @@ public class PacketHandler {
   }
 
   /**
+   * @param client
    * @author Carina
    * @use handles when a player wants to leave a tournament
    */
-  private void handleLeaveTournamentPacket() {
+  private void handleLeaveTournamentPacket(@NotNull final ServerThread client) {
     MoleGames.getMoleGames().getGameHandler().getClientTournaments().get(client).leaveTournament(client);
-    MoleGames.getMoleGames().getServer().sendToAllTournamentClients(MoleGames.getMoleGames().getGameHandler().getClientTournaments().get(client), tournamentPlayerLeftPacket());
+    MoleGames.getMoleGames().getServer().sendToAllTournamentClients(MoleGames.getMoleGames().getGameHandler().getClientTournaments().get(client), tournamentPlayerLeftPacket(client));
   }
 
-  public void tournamentStateResponePacket() {
+  /**
+   * @param client
+   * @author Carina
+   * @use is the response to the getTournamentState packet
+   */
+  public void tournamentStateResponePacket(@NotNull final ServerThread client) {
     var tournament = MoleGames.getMoleGames().getGameHandler().getClientTournaments().get(client);
     var object = new JsonObject();
     object.addProperty("type", Packets.TOURNAMENTSTATERESPONSE.getPacketType());
@@ -213,6 +230,8 @@ public class PacketHandler {
   }
 
   /**
+   * @param client
+   * @param packet
    * @author Carina
    * @use handles the movement of a mole from the client to the server
    * @see Game
@@ -220,8 +239,8 @@ public class PacketHandler {
    * @see de.thundergames.playmechanics.map.Map
    * @see Player
    */
-  private synchronized void handleMakeMovePacket() {
-    var game = MoleGames.getMoleGames().getGameHandler().getClientGames().get(client);
+  private synchronized void handleMakeMovePacket(@NotNull final ServerThread client, @NotNull final Packet packet) {
+    var game = client.getPlayer().getGame();
     for (var player : game.getPlayers()) {
       if (player.getServerClient().equals(client)) {
         var fieldStart = new Gson().fromJson(packet.getValues().get("from").getAsString(), Field.class);
@@ -232,6 +251,17 @@ public class PacketHandler {
     }
   }
 
+  /**
+   * @param from
+   * @param to
+   * @param pullDisc
+   * @return the package that will be send to the clients
+   * @use sends to the clients that a mole was moved
+   * @author Carina
+   * @see Mole
+   * @see Client
+   * @see Player
+   */
   public Packet moleMovedPacket(@NotNull final Field from, @NotNull final Field to, final int pullDisc) {
     var object = new JsonObject();
     var json = new JsonObject();
@@ -244,21 +274,21 @@ public class PacketHandler {
   }
 
   /**
-   * @param player
+   * @param client
    * @return the packet
    * @author Carina
    * @use sends to all clients whos players turn it is and with which cards they have
    */
-  public Packet playersTurnPacket(@NotNull final Player player, final boolean maySkip) {
+  public Packet playersTurnPacket(@NotNull final ServerThread client, final boolean maySkip) {
     var object = new JsonObject();
     object.addProperty("type", Packets.PLAYERSTURN.getPacketType());
     var json = new JsonObject();
     var millis = System.currentTimeMillis();
-    var until = millis + player.getGame().getTurnTime();
+    var until = millis + client.getPlayer().getGame().getTurnTime();
     json.addProperty("player", new Gson().toJson(client.getPlayer()));
     json.addProperty("maySkip", maySkip);
     json.addProperty("until", until);
-    json.addProperty("pullDiscs", new Gson().toJson(player.getCards()));
+    json.addProperty("pullDiscs", new Gson().toJson(client.getPlayer().getCards()));
     object.add("value", json);
     return new Packet(object);
   }
@@ -278,28 +308,25 @@ public class PacketHandler {
   }
 
   /**
+   * @param client
+   * @param packet
    * @author Carina
    * @use handles the placement of a mole by a player
    */
-  private synchronized void handlePlaceMolePacket() {
-    if (client.getSocket().isConnected() && MoleGames.getMoleGames().getGameHandler().getClientGames().containsKey(client)) {
-      var game = MoleGames.getMoleGames().getGameHandler().getClientGames().get(client);
+  private synchronized void handlePlaceMolePacket(@NotNull final ServerThread client, @NotNull final Packet packet) {
+    if (client.getSocket().isConnected() && client.getPlayer().getGame() != null) {
+      var game = client.getPlayer().getGame();
       if (game != null) {
         if (game.getCurrentGameState() == GameStates.STARTED) {
-          for (var player : game.getPlayers()) {
-            if (((ServerThread) player.getServerClient()).getClientName().equals(client.getClientName())) {
-              var position = new Gson().fromJson(packet.getValues().get("position").getAsString(), Field.class);
-              player.placeMole(position.getX(), position.getY());
-              return;
-            }
-          }
+          var position = new Gson().fromJson(packet.getValues().get("position").getAsString(), Field.class);
+          client.getPlayer().placeMole(position.getX(), position.getY());
+          System.out.println("CLIENT ID: " + client.getThreadID());
         }
       }
     }
   }
 
   /**
-   * @param client
    * @param gameState
    * @author Carina
    * @use sends to the server that the game was started activated by the ausrichter
@@ -316,23 +343,21 @@ public class PacketHandler {
   }
 
   /**
+   * @param player
    * @author Carina
    * @use sends to the client that he needs to place a mole
    * @see Game
    * @see Player
    * @see Mole
    */
-  public Packet playerPlacesMolePacket() {
-    if (client.getSocket().isConnected() && MoleGames.getMoleGames().getGameHandler().getClientGames().containsKey(client)) {
-      var object = new JsonObject();
-      object.addProperty("type", Packets.PLAYERPLACESMOLE.getPacketType());
-      var json = new JsonObject();
-      json.addProperty("player", new Gson().toJson(client.getPlayer()));
-      json.addProperty("until", System.currentTimeMillis() + MoleGames.getMoleGames().getGameHandler().getClientGames().get(client).getSettings().getTurnTime());
-      object.add("value", json);
-      return new Packet(object);
-    }
-    return null;
+  public Packet playerPlacesMolePacket(@NotNull final Player player) {
+    var object = new JsonObject();
+    object.addProperty("type", Packets.PLAYERPLACESMOLE.getPacketType());
+    var json = new JsonObject();
+    json.addProperty("player", new Gson().toJson(player));
+    json.addProperty("until", System.currentTimeMillis() + player.getGame().getSettings().getTurnTime());
+    object.add("value", json);
+    return new Packet(object);
   }
 
   /**
@@ -392,55 +417,66 @@ public class PacketHandler {
   }
 
   /**
+   * @param client
    * @author Carina
    * @use handles the remaining Time of the client
    */
-  private void handleGetRemainingTimePacket() {
-    remainingTimePacket();
+  private void handleGetRemainingTimePacket(@NotNull final ServerThread client) {
+    remainingTimePacket(client);
   }
 
   /**
+   * @param client
    * @author Carina
    * @use calculates and sends the remaining time to the client
    */
-  public synchronized void remainingTimePacket() {
-    var game = MoleGames.getMoleGames().getGameHandler().getClientGames().get(client);
-    for (var player : game.getPlayers()) {
-      sendToUsersOnListTimeLeft(game, player);
+  public synchronized void remainingTimePacket(@NotNull final ServerThread client) {
+    var game = client.getPlayer().getGame();
+    for (var ignored : game.getPlayers()) {
+      sendToUsersOnListTimeLeft(game, client);
     }
-    for (var player : game.getSpectators()) {
-      sendToUsersOnListTimeLeft(game, player);
+    for (var ignored : game.getSpectators()) {
+      sendToUsersOnListTimeLeft(game, client);
     }
   }
 
-  private void sendToUsersOnListTimeLeft(Game game, Player player) {
-    if (player.getServerClient().equals(client)) {
+  /**
+   * @param game
+   * @param client
+   * @author Carina
+   * @use is send to the usersto tell them the time they got left
+   */
+  private void sendToUsersOnListTimeLeft(Game game, @NotNull final ServerThread client) {
+    if (client.getPlayer().getServerClient().equals(client)) {
       var remainingTime = game.getSettings().getTurnTime() - (System.currentTimeMillis());
       var object = new JsonObject();
       object.addProperty("type", Packets.REMAININGTIME.getPacketType());
       var json = new JsonObject();
       json.addProperty("timeLeft", remainingTime);
       object.add("value", json);
-      player.getServerClient().sendPacket(new Packet(object));
+      client.getPlayer().getServerClient().sendPacket(new Packet(object));
     }
   }
 
   /**
+   * @param client
+   * @param packet
    * @author Carina
    * @use gets the history of the game and sends it back to the client
    */
-  private void handleGetGameHistoryPacket() {
-    gameHistoryPacket(packet.getValues().get("gameID").getAsInt());
+  private void handleGetGameHistoryPacket(@NotNull final ServerThread client, @NotNull final Packet packet) {
+    gameHistoryPacket(client, packet.getValues().get("gameID").getAsInt());
   }
 
   /**
    * TODO: here the messages[] einbauen einer history vom game
    *
+   * @param client
    * @param gameID
    * @author Carina
    * @use sends the gameHistory of the game to the client
    */
-  public void gameHistoryPacket(@NotNull final int gameID) {
+  public void gameHistoryPacket(@NotNull final ServerThread client, @NotNull final int gameID) {
     var json = new JsonObject();
     json.addProperty("type", Packets.GAMEHISTORYRESPONE.getPacketType());
     var object = new JsonObject();
@@ -450,49 +486,67 @@ public class PacketHandler {
   }
 
   /**
+   * @param client
    * @author Carina
    * @use handles the getScore packet from the client
    * //TODO: wirft ne exception
    */
-  private void handleGetScorePacket() {
-    if (MoleGames.getMoleGames().getGameHandler().getClientGames().get(client) != null) scoreNotificationPacket(MoleGames.getMoleGames().getGameHandler().getClientGames().get(client).getScore());
+  private void handleGetScorePacket(@NotNull final ServerThread client) {
+    if (client.getPlayer().getGame() != null) {
+      System.out.println(client.getPlayer().getGame().getScore().getWinners());
+      scoreNotificationPacket(client);
+    }
   }
 
   /**
+   * @param client
    * @author Carina
    * @use unregisters the overview observer from the client
    */
-  private void handleUnregisterOverviewObserverPacket() {
+  private void handleUnregisterOverviewObserverPacket(@NotNull final ServerThread client) {
     MoleGames.getMoleGames().getServer().getObserver().remove(client);
   }
 
-  private void handleRegisterOverviewObserverPacket() {
+  /**
+   * @param client
+   * @author Carina
+   * @use handles the registration of an overviewobserver
+   */
+  private void handleRegisterOverviewObserverPacket(@NotNull final ServerThread client) {
     MoleGames.getMoleGames().getServer().getObserver().add(client);
   }
 
   /**
+   * @param client
    * @author Carina
    * @see ServerThread
    * @see Client
    * @see Player
    */
-  private void handlePlayerLeavePacket() {
-    removeFromGames();
-    overviewPacket();
+  private void handlePlayerLeavePacket(@NotNull final ServerThread client) {
+    removeFromGames(client);
+    overviewPacket(client);
     client.setPlayer(null);
   }
 
   /**
+   * @param client
    * @author Carina
    * @use handles the getTournamentScore from the client
    * @see Client
    * @see Score
    */
-  private void handleGetTournamentScorePacket() {
-    tournamentScore(MoleGames.getMoleGames().getGameHandler().getClientTournaments().get(client).getScore());
+  private void handleGetTournamentScorePacket(@NotNull final ServerThread client) {
+    tournamentScore(client, MoleGames.getMoleGames().getGameHandler().getClientTournaments().get(client).getScore());
   }
 
-  public void tournamentScore(@NotNull final Score score) {
+  /**
+   * @param client
+   * @param score
+   * @author Carina
+   * @use the score of the tournament is sent to the client
+   */
+  public void tournamentScore(@NotNull final ServerThread client, @NotNull final Score score) {
     var json = new JsonObject();
     json.addProperty("type", Packets.TOURNAMENTSCORE.getPacketType());
     var object = new JsonObject();
@@ -502,33 +556,35 @@ public class PacketHandler {
   }
 
   /**
+   * @param client
    * @author Carina
    * @use removes a client from a game
    */
-  private void removeFromGames() {
+  private void removeFromGames(@NotNull final ServerThread client) {
     if (MoleGames.getMoleGames().getServer().isDebug()) {
-      if (!MoleGames.getMoleGames().getGameHandler().getClientGames().containsKey(client)) {
+      if (client.getPlayer().getGame() != null) {
         System.out.println("Client with id: " + client.getThreadID() + " tried to leave a game but was not part of one!");
         return;
       }
     }
-    if (MoleGames.getMoleGames().getGameHandler().getClientGames().get(client) != null) return;
-    if (MoleGames.getMoleGames().getGameHandler().getClientGames().get(client).getCurrentPlayer() != null) {
-      MoleGames.getMoleGames().getGameHandler().getClientGames().get(client).getCurrentPlayer().getTimer().cancel();
+    if (client.getPlayer().getGame() != null) return;
+    if (client.getPlayer().getGame().getCurrentPlayer() != null) {
+      client.getPlayer().getGame().getCurrentPlayer().getTimer().cancel();
     }
-    MoleGames.getMoleGames().getGameHandler().getClientGames().get(client).removePlayerFromGame(client.getPlayer());
-    MoleGames.getMoleGames().getGameHandler().getClientGames().get(client).getActivePlayers().remove(client.getPlayer());
-    MoleGames.getMoleGames().getGameHandler().getClientGames().get(client).getPlayers().remove(client.getPlayer());
-    MoleGames.getMoleGames().getGameHandler().getClientGames().get(client).getSpectators().remove(client.getPlayer());
+    client.getPlayer().getGame().removePlayerFromGame(client.getPlayer());
+    client.getPlayer().getGame().getActivePlayers().remove(client.getPlayer());
+    client.getPlayer().getGame().getPlayers().remove(client.getPlayer());
+    client.getPlayer().getGame().getSpectators().remove(client.getPlayer());
     MoleGames.getMoleGames().getGameHandler().getClientGames().remove(client);
   }
 
   /**
+   * @param client
    * @param threadID the threadID of the client that will be send to the client to give hima id
    * @author Carina
    * @see Client
    */
-  public void welcomePacket(final int threadID) {
+  public void welcomePacket(@NotNull final ServerThread client, final int threadID) {
     var object = new JsonObject();
     object.addProperty("type", Packets.WELCOME.getPacketType());
     var json = new JsonObject();
@@ -539,10 +595,12 @@ public class PacketHandler {
   }
 
   /**
+   * @param packet
+   * @param client
    * @author Carina
    * @use handles the login packet from the client
    */
-  private synchronized void handleLoginPacket() {
+  private synchronized void handleLoginPacket(@NotNull final ServerThread client, @NotNull final Packet packet) {
     String name;
     if (packet.getValues().get("name") == null) {
       name = "PlayerModel";
@@ -580,12 +638,13 @@ public class PacketHandler {
   }
 
   /**
+   * @param client
    * @param gameID
    * @author Carina
    * @use sends that a player has joined or been assigned to the game with the gameID
    * @see Game
    */
-  public void assignToGamePacket(final int gameID) {
+  public void assignToGamePacket(@NotNull final ServerThread client, final int gameID) {
     var object = new JsonObject();
     object.addProperty("type", Packets.ASSIGNTOGAME.getPacketType());
     var json = new JsonObject();
@@ -595,27 +654,28 @@ public class PacketHandler {
   }
 
   /**
-   * @param score
+   * @param client
    * @author Carina
    * @use sends the score of the client to the client
    * @see Score
    */
-  private void scoreNotificationPacket(@NotNull final Score score) {
+  private void scoreNotificationPacket(@NotNull final ServerThread client) {
     var object = new JsonObject();
     object.addProperty("type", Packets.SCORENOTIFICATION.getPacketType());
     var json = new JsonObject();
-    json.addProperty("score", new Gson().toJson(score));
+    json.addProperty("score", new Gson().toJson(client.getPlayer().getGame().getScore()));
     object.add("value", json);
     client.sendPacket(new Packet(object));
   }
 
   /**
+   * @param client
    * @author Carina
    * @use sends the overview to the clients
    * @see Game
    * @see Tournament
    */
-  public synchronized void overviewPacket() {
+  public synchronized void overviewPacket(@NotNull final ServerThread client) {
     var object = new JsonObject();
     object.addProperty("type", Packets.OVERVIEW.getPacketType());
     var json = new JsonObject();
@@ -632,37 +692,40 @@ public class PacketHandler {
   }
 
   /**
+   * @param client
    * @author Carina
    * @use sends the overview packet to the client
    */
-  private void handleGetOverviewPacket() {
-    overviewPacket();
+  private void handleGetOverviewPacket(@NotNull final ServerThread client) {
+    overviewPacket(client);
   }
 
   /**
+   * @param client
    * @author Carina
    * @usa handles the client logout from the game
    */
-  private void handleLogoutPacket() {
-    removeFromGames();
+  private void handleLogoutPacket(@NotNull final ServerThread client) {
+    removeFromGames(client);
     client.endConnection();
     MoleGames.getMoleGames().getServer().getObserver().remove(client);
     MoleGames.getMoleGames().getServer().getConnectionNames().remove(client.getClientName());
   }
 
   /**
+   * @param client
    * @author Carina
    * @see Game
    * @see Player
    * @see Client
    */
-  private boolean handleJoinPacket() throws NotAllowedError {
+  private boolean handleJoinPacket(@NotNull final ServerThread client, @NotNull final Packet packet) throws NotAllowedError {
     if (MoleGames.getMoleGames().getGameHandler().getIDGames().containsKey(packet.getValues().get("gameID").getAsInt())) {
       var connectType = packet.getValues().get("participant").getAsBoolean();
       var game = MoleGames.getMoleGames().getGameHandler().getIDGames().get(packet.getValues().get("gameID").getAsInt());
       if (connectType) {
-        if (MoleGames.getMoleGames().getGameHandler().getClientGames().containsKey(client)) {
-          if (MoleGames.getMoleGames().getGameHandler().getClientGames().get(client).getPlayers().contains(client)) {
+        if (client.getPlayer().getGame() != null) {
+          if (client.getPlayer().getGame().getPlayers().contains(client)) {
             return false;
           }
         }
@@ -673,8 +736,8 @@ public class PacketHandler {
           }
         }
       } else {
-        if (MoleGames.getMoleGames().getGameHandler().getClientGames().containsKey(client)) {
-          if (MoleGames.getMoleGames().getGameHandler().getClientGames().get(client).getSpectators().contains(client)) {
+        if (client.getPlayer().getGame() != null) {
+          if (client.getPlayer().getGame().getSpectators().contains(client)) {
             return false;
           }
         }
@@ -689,11 +752,12 @@ public class PacketHandler {
   }
 
   /**
+   * @param client
    * @return the packet that will be send to the client
    * @author Carina
    * @use get a player joined tournament packet to send it to the clients of the tournament
    */
-  public Packet playerJoinedTournamentPacket() {
+  public Packet playerJoinedTournamentPacket(@NotNull final ServerThread client) {
     var object = new JsonObject();
     var json = new JsonObject();
     json.addProperty("player", new Gson().toJson(client.getPlayer()));
@@ -703,41 +767,45 @@ public class PacketHandler {
   }
 
   /**
+   * @param client
+   * @param packet
    * @author Carina
    * @use handles the joining of a tournament
    */
-  private void handleEnterTournamentPacket() {
+  private void handleEnterTournamentPacket(@NotNull final ServerThread client, @NotNull final Packet packet) {
     var tournament = MoleGames.getMoleGames().getGameHandler().getIDTournaments().get(packet.getValues().get("tournamentID").getAsInt());
     tournament.joinTournament(client, packet.getValues().get("participant").getAsBoolean());
-    tournamentStateResponePacket();
-    MoleGames.getMoleGames().getServer().sendToAllTournamentClients(tournament, playerJoinedTournamentPacket());
+    tournamentStateResponePacket(client);
+    MoleGames.getMoleGames().getServer().sendToAllTournamentClients(tournament, playerJoinedTournamentPacket(client));
   }
 
   /**
+   * @param client
    * @author Carina
    * @use sends the welcomePacket to the client when he joins a game
    */
-  public void welcomeGamePacket() {
+  public void welcomeGamePacket(@NotNull final ServerThread client) {
     var object = new JsonObject();
     object.addProperty("type", Packets.WELCOMEGAME.getPacketType());
     var json = new JsonObject();
-    json.addProperty("gameState", new Gson().toJson(MoleGames.getMoleGames().getGameHandler().getClientGames().get(client).getGameState()));
+    json.addProperty("gameState", new Gson().toJson(client.getPlayer().getGame().getGameState()));
     object.add("value", json);
     client.sendPacket(new Packet(object));
-    playerJoinedPacket();
+    playerJoinedPacket(client);
   }
 
   /**
+   * @param client
    * @author Carina
    * @use calls when a player joined the game sending the message to the clients of the game
    */
-  public synchronized void playerJoinedPacket() {
+  public synchronized void playerJoinedPacket(@NotNull final ServerThread client) {
     var object = new JsonObject();
     object.addProperty("type", Packets.PLAYERJOINED.getPacketType());
     var json = new JsonObject();
     json.addProperty("player", new Gson().toJson(client.getPlayer()));
     object.add("value", json);
-    MoleGames.getMoleGames().getServer().sendToAllGameClients(MoleGames.getMoleGames().getGameHandler().getClientGames().get(client), new Packet(object));
-    for (var ignored : MoleGames.getMoleGames().getServer().getObserver()) overviewPacket();
+    MoleGames.getMoleGames().getServer().sendToAllGameClients(client.getPlayer().getGame(), new Packet(object));
+    for (var ignored : MoleGames.getMoleGames().getServer().getObserver()) overviewPacket(client);
   }
 }

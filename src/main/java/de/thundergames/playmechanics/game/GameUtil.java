@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 15.12.21, 17:42 by Carina Latest changes made by Carina on 15.12.21, 17:41 All contents of "GameUtil" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 15.12.21, 19:16 by Carina Latest changes made by Carina on 15.12.21, 18:57 All contents of "GameUtil" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -11,6 +11,7 @@
 package de.thundergames.playmechanics.game;
 
 import de.thundergames.MoleGames;
+import de.thundergames.networking.server.ServerThread;
 import lombok.Data;
 
 import java.util.ArrayList;
@@ -87,7 +88,7 @@ public class GameUtil {
       nextPlayer();
     } else {
       if (game.getCurrentPlayer().getMoles().size() < game.getSettings().getNumberOfMoles() && game.getCurrentFloorID() == 0) {
-        MoleGames.getMoleGames().getServer().sendToAllGameClients(game, MoleGames.getMoleGames().getServer().getPacketHandler().playerPlacesMolePacket());
+        MoleGames.getMoleGames().getServer().sendToAllGameClients(game, MoleGames.getMoleGames().getServer().getPacketHandler().playerPlacesMolePacket(game.getCurrentPlayer()));
       } else {
         var maySkip = true;
         if (!game.getCurrentPlayer().getMoles().isEmpty()) {
@@ -106,7 +107,7 @@ public class GameUtil {
         } else {
           maySkip = true;
         }
-        MoleGames.getMoleGames().getServer().sendToAllGameClients(game, MoleGames.getMoleGames().getServer().getPacketHandler().playersTurnPacket(game.getCurrentPlayer(), maySkip));
+        MoleGames.getMoleGames().getServer().sendToAllGameClients(game, MoleGames.getMoleGames().getServer().getPacketHandler().playersTurnPacket((ServerThread) game.getCurrentPlayer().getServerClient(), maySkip));
       }
       game.getCurrentPlayer().getPlayerUtil().startThinkTimer();
     }

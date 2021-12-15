@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 15.12.21, 17:42 by Carina Latest changes made by Carina on 15.12.21, 17:42 All contents of "ClientPacketHandler" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 15.12.21, 19:16 by Carina Latest changes made by Carina on 15.12.21, 18:36 All contents of "ClientPacketHandler" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -316,7 +316,9 @@ public class ClientPacketHandler {
       }
     }
     updateMap();
-    client.getMap().printMap();
+    if (client.isDebug()) {
+      client.getMap().printMap();
+    }
   }
   //TODO: overview öfter aktualliseren
   //TODO: Punkte richtig anzeigen
@@ -467,8 +469,9 @@ public class ClientPacketHandler {
     var player =
       new Gson().fromJson(packet.getValues().get("player").getAsString(), Player.class);
     if (player.getClientID() == client.getClientThread().getThreadID()) {
-      if (client.isDebug())
+      if (client.isDebug()) {
         System.out.println("Client is now on to place a mole!");
+      }
       client.setDraw(true);
       if (!timerRunning) {
         timerRunning = true;
@@ -533,21 +536,17 @@ public class ClientPacketHandler {
   protected synchronized void handleGameOverPacket() {
     var score = new Gson().fromJson(packet.getValues().get("result").getAsString(), Score.class);
     if (!score.getPoints().isEmpty()) {
-      var playerIDs = new ArrayList<>(score.getPoints().keySet());
       var players = new ArrayList<>(score.getPlayers());
-      var max = Collections.max(score.getPoints().values());
       //sort the players by score
       Collections.sort(players, (o1, o2) -> score.getPoints().get(o2.getClientID()).compareTo(score.getPoints().get(o1.getClientID())));
-      for (var player : players) {
-        if (score.getPoints().get(player.getClientID()) == max) {
-          score.getWinners().add(player);
-        }
-      }
-      if (client.isDebug())
-        System.out.println("Server: game with id: " + client.getGameID() + " has ended! Winners are: " + score.getWinners());
     }
-    LeaderBoard.create();
-    //TODO: Rufe Leaderboard auf unter gewinner sind nun die gewinner des ersten platzes. unter players findest du die reihenfolge der spieler wie sie im score stehen sollten!
+    if (client.isDebug()) {
+      System.out.println("Client: game with id: " + client.getGameID() + " has ended! Winners are: " + score.getWinners());
+      for (var player : score.getPlayers()) {
+        System.out.println("Client: player with the name: " + player.getName() + " has points: " + score.getPoints().get(player.getClientID()));
+      }
+    }
+    new LeaderBoard().create(score);
     updateTableView();
   }
 
@@ -558,9 +557,13 @@ public class ClientPacketHandler {
   protected void handleGameStartedPacket() {
     updateTableView();
     var lobbyObserverGame = LobbyObserverGame.getObserver();
-    if (lobbyObserverGame != null) lobbyObserverGame.spectateGame();
+    if (lobbyObserverGame != null) {
+      lobbyObserverGame.spectateGame();
+    }
     var lobbyObserverTournamentGame = LobbyObserverTournament.getObserver();
-    if (lobbyObserverTournamentGame != null) lobbyObserverTournamentGame.spectateGame();
+    if (lobbyObserverTournamentGame != null) {
+      lobbyObserverTournamentGame.spectateGame();
+    }
   }
 
   /**
