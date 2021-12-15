@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 15.12.21, 16:25 by Carina Latest changes made by Carina on 15.12.21, 16:25 All contents of "AIPacketHandler" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 15.12.21, 16:32 by Carina Latest changes made by Carina on 15.12.21, 16:32 All contents of "AIPacketHandler" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -17,13 +17,19 @@ import de.thundergames.networking.util.Packet;
 import de.thundergames.networking.util.Packets;
 import de.thundergames.playmechanics.map.Map;
 import de.thundergames.playmechanics.util.Player;
+import lombok.Getter;
+import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 
+@Getter
+@Setter
 public class AIPacketHandler extends ClientPacketHandler {
 
   public AIPacketHandler(Client client) {
     super(client);
   }
+
+  private final int SLEEPING_TIME = 150;
 
   /**
    * @param ai     the instance of the AI
@@ -38,8 +44,7 @@ public class AIPacketHandler extends ClientPacketHandler {
         System.exit(3);
       }
       ai.getClientThread().setThreadID(packet.getValues().get("clientID").getAsInt());
-      ai.setPlayer(
-        new Player(ai));
+      ai.setPlayer(new Player(ai));
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.WELCOMEGAME.getPacketType())) {
       handleWelcomeGamePacket();
       ai.setMap(new Map(ai.getGameState().getFloor().getHoles(), ai.getGameState().getFloor().getDrawAgainFields(), ai.getGameState().getFloor().getPoints()));
@@ -67,8 +72,7 @@ public class AIPacketHandler extends ClientPacketHandler {
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.MESSAGE.getPacketType())) {
       if (packet.getValues() != null) {
         if (packet.getValues().get("message") != null) {
-          if (ai.isDebug())
-            System.out.println("Server sended: " + packet.getValues().get("message").getAsString());
+          if (ai.isDebug()) System.out.println("Server sended: " + packet.getValues().get("message").getAsString());
         }
       }
     }
@@ -76,7 +80,7 @@ public class AIPacketHandler extends ClientPacketHandler {
 
   private synchronized void timerRelatedController(@NotNull final AI ai) {
     try {
-      Thread.sleep(250);
+      Thread.sleep(SLEEPING_TIME);
       ai.getLogic().handleAction(ai);
       if (isTimerRunning()) {
         timer.cancel();
