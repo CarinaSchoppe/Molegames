@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 15.12.21, 16:26 by Carina Latest changes made by Carina on 15.12.21, 16:26 All contents of "Game" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 15.12.21, 16:27 by Carina Latest changes made by Carina on 15.12.21, 16:27 All contents of "Game" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -251,7 +251,7 @@ public class Game {
    * @author Carina
    * @use removes all references to the player from the game
    * @use removes all Moles from the Map
-   * @see Field
+   * @see de.thundergames.playmechanics.map.Field
    * @see Map
    * @see Mole
    * @see Player
@@ -294,66 +294,6 @@ public class Game {
     }
   }
 
-  public Settings getSettings() {
-    return settings;
-  }
-
-  public HashMap<Player, Mole> getMoleMap() {
-    return moleMap;
-  }
-
-  public GameUtil getGameUtil() {
-    return gameUtil;
-  }
-
-  public HashMap<ServerThread, Player> getClientPlayersMap() {
-    return clientPlayersMap;
-  }
-
-  public Player getCurrentPlayer() {
-    return currentPlayer;
-  }
-
-  public void setCurrentPlayer(Player currentPlayer) {
-    this.currentPlayer = currentPlayer;
-  }
-
-  public Map getMap() {
-    return map;
-  }
-
-  public void setMap(Map map) {
-    this.map = map;
-  }
-
-  public ArrayList<Player> getSpectators() {
-    return spectators;
-  }
-
-  public GameStates getCurrentGameState() {
-    return currentGameState;
-  }
-
-  public void setCurrentGameState(GameStates currentGameState) {
-    this.currentGameState = currentGameState;
-  }
-
-  public ArrayList<Player> getPlayers() {
-    return players;
-  }
-
-  public int getCurrentFloorID() {
-    return currentFloorID;
-  }
-
-  public void setCurrentFloorID(int currentFloorID) {
-    this.currentFloorID = currentFloorID;
-  }
-
-  public GameState getGameState() {
-    return gameState;
-  }
-
   /**
    * @return gameID with a hashtag in front of it
    */
@@ -374,13 +314,5 @@ public class Game {
   public String getStatusForTableView() {
     return Objects.equals(status, GameStates.NOT_STARTED.toString()) ? "OPEN" : status;
   }
-
   //endregion
-  public ArrayList<Player> getActivePlayers() {
-    return activePlayers;
-  }
-
-  public HashSet<Player> getEliminatedPlayers() {
-    return eliminatedPlayers;
-  }
 }
