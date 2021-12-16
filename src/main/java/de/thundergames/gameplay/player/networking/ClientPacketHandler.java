@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 15.12.21, 19:20 by Carina Latest changes made by Carina on 15.12.21, 19:19 All contents of "ClientPacketHandler" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 16.12.21, 16:15 by Carina Latest changes made by Carina on 16.12.21, 16:01 All contents of "ClientPacketHandler" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -233,7 +233,7 @@ public class ClientPacketHandler {
   /**
    * @author Carina
    * @use is called everytime a map gets updated
-   * TODO: implment this
+   * TODO: implement this
    */
   public void updateMap() {
   }
@@ -242,7 +242,7 @@ public class ClientPacketHandler {
    * @author Carina
    * @use handles the movement of a mole send by the server from a client
    */
-  protected synchronized void handleMoleMovedPacket() {
+  protected void handleMoleMovedPacket() {
     if (client.isDebug())
       System.out.println(
         "A mole has been moved by: "
@@ -280,7 +280,7 @@ public class ClientPacketHandler {
    * @author Carina
    * @use handles when the client gets the new floor
    */
-  protected synchronized void handleNextFloorPacket() {
+  protected void handleNextFloorPacket() {
     if (client.isDebug())
       System.out.println("Client got the new level!");
     var players = new ArrayList<Player>(new Gson().fromJson(packet.getValues().get("eliminatedPlayers").getAsString(), new TypeToken<ArrayList<Player>>() {
@@ -298,14 +298,13 @@ public class ClientPacketHandler {
    * @author Carina
    * @use handles the floor send by the server to do everything to get it ready
    */
-  protected synchronized void handleFloor() {
+  protected void handleFloor() {
     client.getMoles().clear();
     client.setGameState(new Gson().fromJson(packet.getValues().get("gameState").getAsString(), GameState.class));
-    if (!client.getGameState().getPullDiscs().isEmpty()) {
-      if (client.getGameState().getPullDiscs().containsKey(client.getClientThread().getThreadID())) {
-        client.getPullDiscs().addAll(client.getGameState().getPullDiscs().get(client.getClientThread().getThreadID()));
-      }
-    } //TODO: warum ist das so?!
+    if (client.getGameState().getPullDiscs().containsKey(client.getClientThread().getThreadID())) {
+      client.getPullDiscs().addAll(client.getGameState().getPullDiscs().get(client.getClientThread().getThreadID()));
+    }
+    //Muss gemacht werden damit der code sicher arbeitet
     client.setMap(new Map(client.getGameState().getFloor().getHoles(), client.getGameState().getFloor().getDrawAgainFields(), client.getGameState().getFloor().getPoints()));
     client.getMap().build(client.getGameState());
     if (!client.getGameState().getPlacedMoles().isEmpty()) {
@@ -321,8 +320,6 @@ public class ClientPacketHandler {
     }
   }
   //TODO: overview öfter aktualliseren
-  //TODO: Punkte richtig anzeigen
-  //TODO: beobachten bei laufendem spiel!
 
   /**
    * @author Carina
@@ -382,7 +379,7 @@ public class ClientPacketHandler {
     client
       .getGameState()
       .getPlacedMoles()
-      .add(mole); // TODO: check hier ob das so okay ist oder doch gelöscht werden muss
+      .add(mole);
     updateMap();
   }
 
@@ -390,7 +387,7 @@ public class ClientPacketHandler {
    * @author Carina
    * @use handles if the player is now on the turn
    */
-  protected synchronized void handlePlayersTurnPacket() {
+  protected void handlePlayersTurnPacket() {
     var player =
       new Gson().fromJson(packet.getValues().get("player").getAsString(), Player.class);
     if (player.getClientID() == client.getClientThread().getThreadID()) {
@@ -465,7 +462,7 @@ public class ClientPacketHandler {
    * @see de.thundergames.playmechanics.util.Player
    * @see de.thundergames.playmechanics.util.Mole
    */
-  protected synchronized void handlePlayerPlacesMolePacket() {
+  protected void handlePlayerPlacesMolePacket() {
     var player =
       new Gson().fromJson(packet.getValues().get("player").getAsString(), Player.class);
     if (player.getClientID() == client.getClientThread().getThreadID()) {
@@ -516,8 +513,7 @@ public class ClientPacketHandler {
    * @see de.thundergames.playmechanics.game.Game
    */
   protected void handleGameCanceledPacket() {
-    updateTableView();
-    //TODO: Rufe Leaderboard auf
+    handleGameOverPacket();
   }
 
   /**
@@ -533,7 +529,7 @@ public class ClientPacketHandler {
    * @author Carina
    * @use handles that the game of the client is over
    */
-  protected synchronized void handleGameOverPacket() {
+  protected void handleGameOverPacket() {
     var score = new Gson().fromJson(packet.getValues().get("result").getAsString(), Score.class);
     if (!score.getPoints().isEmpty()) {
       var players = new ArrayList<>(score.getPlayers());

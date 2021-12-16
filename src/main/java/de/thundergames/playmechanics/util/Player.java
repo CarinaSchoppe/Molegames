@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 15.12.21, 19:20 by Carina Latest changes made by Carina on 15.12.21, 19:19 All contents of "Player" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 16.12.21, 16:15 by Carina Latest changes made by Carina on 16.12.21, 16:08 All contents of "Player" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -38,6 +38,7 @@ public class Player {
   private transient boolean timerIsRunning = false;
   private transient boolean hasMoved = false;
   private transient PlayerUtil playerUtil;
+  private transient boolean drawAgain = false;
 
   /**
    * @param client the serverClient connection established by the Server
@@ -139,7 +140,7 @@ public class Player {
         }
       }
       mole.setField(new Field(x_end, y_end));
-      if (MoleGames.getMoleGames().getServer().isDebug())
+      if (MoleGames.getMoleGames().getServer().isDebug()) {
         System.out.println(
           "Playermodel with id: "
             + serverClient.getThreadID()
@@ -155,9 +156,12 @@ public class Player {
             + cardValue
             + "."
             + "\n\n");
+      }
+      if (game.getMap().getFieldMap().get(List.of(x_end, y_end)).isDrawAgainField()) {
+        setDrawAgain(true);
+      }
       playerUtil.handleTurnAfterAction();
     } else {
-      System.out.println("HIERIRIRIRIR");
       MoleGames.getMoleGames()
         .getGameHandler()
         .getGameLogic()

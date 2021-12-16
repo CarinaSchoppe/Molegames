@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 15.12.21, 19:20 by Carina Latest changes made by Carina on 15.12.21, 19:19 All contents of "Server" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 16.12.21, 16:15 by Carina Latest changes made by Carina on 16.12.21, 16:01 All contents of "Server" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -55,7 +55,7 @@ public class Server extends Network {
    * @see ServerThread as an instance that will be created here
    */
   @Override
-  public synchronized void create() {
+  public void create() {
     new Thread(
       () -> {
         try {
@@ -90,7 +90,7 @@ public class Server extends Network {
    * @param packet the packet that should be send
    * @use the method will send a packet to all connected clients of the game
    */
-  public synchronized void sendToAllGameClients(
+  public void sendToAllGameClients(
     @NotNull final Game game, @NotNull final Packet packet) {
     if (!game.getPlayers().isEmpty()) {
       for (var clients : game.getPlayers()) {
@@ -106,18 +106,17 @@ public class Server extends Network {
    * @param tournament that all clients are connected to
    * @param packet     the packet that should be send
    * @use the method will send a packet to all connected clients of the game
-   * //TODO: Check hier ob so richtig!
    */
-  public synchronized void sendToAllTournamentClients(
+  public void sendToAllTournamentClients(
     @NotNull final Tournament tournament, @NotNull final Packet packet) {
     try {
-      if (!tournament.getClients().isEmpty()) {
-        for (var clients : tournament.getClients()) {
+      if (!tournament.getPlayers().isEmpty()) {
+        for (var clients : tournament.getPlayers()) {
           clients.sendPacket(packet);
         }
       }
-      if (!tournament.getClients().isEmpty()) {
-        for (var clients : tournament.getClients()) {
+      if (!tournament.getSpectators().isEmpty()) {
+        for (var clients : tournament.getSpectators()) {
           clients.sendPacket(packet);
         }
       }

@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 15.12.21, 19:20 by Carina Latest changes made by Carina on 15.12.21, 19:19 All contents of "GameSelection" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 16.12.21, 16:15 by Carina Latest changes made by Carina on 16.12.21, 15:51 All contents of "GameSelection" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -56,7 +56,6 @@ public class GameSelection implements Initializable {
   public static GameSelection getGameSelection() {
     return GAME_SELECTION;
   }
-  //TODO: im fall das man auf Spiele und oder Tourniere klickt automatisch nochmal getOverview sendet.
 
   /**
    * @param event event from Fthe current scene to build this scene on same object
@@ -203,7 +202,7 @@ public class GameSelection implements Initializable {
   private void loadScoreboard() {
     CLIENT.getClientPacketHandler().getScorePacket();
     var gameScore = CLIENT.getGameState().getScore();
-    // Todo:Open scene of ScoreBoard
+    // Todo:Open scene of ScoreBoard with gameScore and check if it is even possible to do so
   }
 
   /**

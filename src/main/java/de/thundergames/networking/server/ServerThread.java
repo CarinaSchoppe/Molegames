@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 15.12.21, 19:20 by Carina Latest changes made by Carina on 15.12.21, 19:19 All contents of "ServerThread" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 16.12.21, 16:15 by Carina Latest changes made by Carina on 16.12.21, 16:13 All contents of "ServerThread" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -43,8 +43,11 @@ public class ServerThread extends NetworkThread {
   @Override
   public void disconnect() {
     try {
-      if (getPlayer().getGame() != null) {
-        getPlayer().getGame().removePlayerFromGame(MoleGames.getMoleGames().getGameHandler().getClientGames().get(this).getClientPlayersMap().get(this));
+      getPlayer().getGame().getGameUtil().nextPlayer();
+      if (getPlayer() != null) {
+        if (getPlayer().getGame() != null) {
+          getPlayer().getGame().removePlayerFromGame(MoleGames.getMoleGames().getGameHandler().getClientGames().get(this).getClientPlayersMap().get(this));
+        }
       }
       MoleGames.getMoleGames().getServer().getConnectionNames().remove(this.getClientName());
       MoleGames.getMoleGames().getServer().getClientThreads().remove(this);

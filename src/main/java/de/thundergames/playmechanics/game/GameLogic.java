@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 15.12.21, 19:20 by Carina Latest changes made by Carina on 15.12.21, 19:19 All contents of "GameLogic" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 16.12.21, 16:15 by Carina Latest changes made by Carina on 16.12.21, 16:01 All contents of "GameLogic" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -31,7 +31,7 @@ public class GameLogic {
    * @premisse the startpoint and endpoint must be in the playingfield and the player was allowed to
    * move.
    */
-  public static synchronized boolean wasLegalMove(
+  public static boolean wasLegalMove(
     @NotNull final int[] start,
     @NotNull final int[] stop,
     final int moveCounter,
@@ -134,7 +134,7 @@ public class GameLogic {
    * @author Carina
    * @use checks if a player has won when the player is the only one in a single hole foor
    */
-  public synchronized void checkWinning(@NotNull final Game game) {
+  public void checkWinning(@NotNull final Game game) {
     var hole = 0;
     for (var field : game.getMap().getFieldMap().values()) {
       if (field.isHole()) {
@@ -149,7 +149,7 @@ public class GameLogic {
   /**
    * @param game
    * @author Carina
-   * @use handles the player and the game when won TODO: handle win display the end
+   * @use handles the player and the game when won
    */
   public void win(@NotNull final Game game) {
     game.endGame();
@@ -161,7 +161,7 @@ public class GameLogic {
    * @use handles the punishment / performs it to the player doing an invalid move punishments
    * performen
    */
-  public synchronized void performPunishment(@NotNull final Player player, @NotNull final Punishments reason) {
+  public void performPunishment(@NotNull final Player player, @NotNull final Punishments reason) {
     if (player.getGame().getSettings().getPunishment().equals(Punishments.POINTS)) {
       player
         .getGame()

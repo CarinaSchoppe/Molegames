@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 15.12.21, 19:20 by Carina Latest changes made by Carina on 15.12.21, 19:19 All contents of "Game" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 16.12.21, 16:15 by Carina Latest changes made by Carina on 16.12.21, 16:01 All contents of "Game" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -62,13 +62,12 @@ public class Game {
   public Game(final int gameID) {
     this.gameID = gameID;
   }
-  // TODO: Allgemein umsetzung der Libarysachen mehr oder minder.
 
   /**
    * @author Carina
    * @use creates a new Game with all settings after the Constructor
    */
-  public synchronized void create() {
+  public void create() {
     gameUtil = new GameUtil(this);
     MoleGames.getMoleGames().getGameHandler().getIDGames().put(gameID, this);
     MoleGames.getMoleGames().getGameHandler().getGames().add(this);
@@ -83,7 +82,7 @@ public class Game {
    * @author Carina
    * @use updates the GameState with the current settings
    */
-  public synchronized void updateGameState() {
+  public void updateGameState() {
     updateNetworkGame();
     gameState.setActivePlayers(new ArrayList<>(players));
     gameState.setCurrentPlayer(currentPlayer);
@@ -159,7 +158,7 @@ public class Game {
    * @author Carina
    * @use handles when a game ends
    */
-  public synchronized void endGame() {
+  public void endGame() {
     setFinishDateTime(Instant.now().getEpochSecond());
     currentGameState = GameStates.OVER;
     updateGameState();
@@ -200,7 +199,7 @@ public class Game {
 
   /**
    * @author Carina
-   * @use pauses the game if needed //TODO: pause the game
+   * @use pauses the game if needed
    */
   public void pauseGame() {
     MoleGames.getMoleGames().getServer().getPacketHandler().gamePausedPacket(this);
@@ -240,7 +239,6 @@ public class Game {
     } else if (spectator) {
       MoleGames.getMoleGames().getGameHandler().getClientGames().put((ServerThread) player.getServerClient(), this);
       spectators.add(player);
-      //TODO: join as spectator
     } else {
       throw new NotAllowedError("Game is over cant be joined anymore!");
     }
@@ -256,7 +254,7 @@ public class Game {
    * @see Mole
    * @see Player
    */
-  public synchronized void removePlayerFromGame(@NotNull final Player player) {
+  public void removePlayerFromGame(@NotNull final Player player) {
     if (player == null) {
       return;
     }

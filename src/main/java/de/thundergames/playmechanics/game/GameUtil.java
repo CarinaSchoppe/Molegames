@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 15.12.21, 19:20 by Carina Latest changes made by Carina on 15.12.21, 19:19 All contents of "GameUtil" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 16.12.21, 16:15 by Carina Latest changes made by Carina on 16.12.21, 16:08 All contents of "GameUtil" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -27,7 +27,7 @@ public class GameUtil {
    * @author Carina
    * @use checks if all holes are filled with moles
    */
-  public synchronized boolean allHolesFilled() {
+  public boolean allHolesFilled() {
     for (var hole : game.getMap().getHoles()) {
       var inHole = false;
       for (var player : game.getPlayers()) {
@@ -49,7 +49,7 @@ public class GameUtil {
    * @author Carina
    * @use checks if all moles of a player are in a hole
    */
-  public synchronized boolean allPlayerMolesInHoles() {
+  public boolean allPlayerMolesInHoles() {
     var moleInHoles = 0;
     for (var moles : game.getCurrentPlayer().getMoles()) {
       for (var hole : game.getMap().getHoles()) {
@@ -65,13 +65,23 @@ public class GameUtil {
    * @author Carina
    * @use sets the next player in the game if all moles are in holes the player is not on turn
    */
-  public synchronized void nextPlayer() {
+  public void nextPlayer() {
     if (game.getActivePlayers().isEmpty()) game.forceGameEnd();
     if (game.getCurrentGameState() == GameStates.OVER || game.getCurrentGameState() == GameStates.PAUSED) {
       return;
     }
+    //setting the new current player and if current can draw again or not
     if (game.getActivePlayers().size() - 1 >= game.getActivePlayers().indexOf(game.getCurrentPlayer()) + 1) {
-      game.setCurrentPlayer(game.getActivePlayers().get(game.getActivePlayers().indexOf(game.getCurrentPlayer()) + 1));
+      if (game.getCurrentPlayer() != null) {
+        if (!game.getCurrentPlayer().isDrawAgain()) {
+          game.setCurrentPlayer(game.getActivePlayers().get(game.getActivePlayers().indexOf(game.getCurrentPlayer()) + 1));
+        } else {
+          game.getCurrentPlayer().setDrawAgain(false);
+          System.out.println("Player can draw again");
+        }
+      } else {
+        game.setCurrentPlayer(game.getActivePlayers().get(game.getActivePlayers().indexOf(game.getCurrentPlayer()) + 1));
+      }
     } else if (!game.getActivePlayers().isEmpty()) {
       game.setCurrentPlayer(game.getClientPlayersMap().get(game.getActivePlayers().get(0).getServerClient()));
     }
@@ -115,10 +125,10 @@ public class GameUtil {
 
   /**
    * @author Carina
-   * @use goes to the next Floor it it exists TODO: sagen dass man raus ist aber noch updates
+   * @use goes to the next Floor it it exists
    * bekommt
    */
-  public synchronized void nextFloor() {
+  public void nextFloor() {
     if (game.getSettings().getFloors().size() > game.getCurrentFloorID() + 1) {
       var eliminated = new ArrayList<>(game.getPlayers());
       for (var hole : game.getGameState().getFloor().getHoles()) {
@@ -160,7 +170,6 @@ public class GameUtil {
       nextPlayer();
     } else {
       game.getGameUtil().givePoints(); //Giving the points to the players who are in the next level or just won
-      // TODO: check winning or do winning.
       MoleGames.getMoleGames().getGameHandler().getGameLogic().checkWinning(game);
       game.setCurrentGameState(GameStates.OVER);
     }
@@ -172,7 +181,7 @@ public class GameUtil {
    * @sse PlayerModel
    * @see de.thundergames.filehandling.Score
    */
-  public synchronized void givePoints() {
+  public void givePoints() {
     for (var holes : game.getMap().getHoles()) {
       for (var player : game.getActivePlayers()) {
         for (var mole : player.getMoles()) {

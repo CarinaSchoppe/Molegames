@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 15.12.21, 19:20 by Carina Latest changes made by Carina on 15.12.21, 19:19 All contents of "AILogic" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 16.12.21, 16:15 by Carina Latest changes made by Carina on 16.12.21, 16:01 All contents of "AILogic" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -219,7 +219,7 @@ public class AILogic {
    * @author Carina
    * @use moves a mole depending on in a hole or on a field
    */
-  private synchronized boolean move(@NotNull final AI ai, @NotNull final ArrayList<Mole> moles) {
+  private boolean move(@NotNull final AI ai, @NotNull final ArrayList<Mole> moles) {
     var random = new Random();
     for (var ignored : moles) {
       var mole = moles.get(random.nextInt(moles.size()));
@@ -243,7 +243,7 @@ public class AILogic {
    * a random mole checks if it can be moved and than moves it in the allowed direction by the
    * value of the drawCard
    */
-  public synchronized boolean moveMole(@NotNull final AI ai) {
+  public boolean moveMole(@NotNull final AI ai) {
     var openMoles = new ArrayList<>(ai.getMoles());
     var holeMoles = new ArrayList<>(ai.getMoles());
     for (var hole : ai.getGameState().getFloor().getHoles()) {
@@ -278,7 +278,7 @@ public class AILogic {
    * @author Carina
    * @use placed a mole at a random position
    */
-  public synchronized void placeMole(@NotNull final AI ai) {
+  public void placeMole(@NotNull final AI ai) {
     var random = new Random();
     var fields = new ArrayList<>(ai.getMap().getFieldMap().values());
     Field field;
@@ -301,7 +301,7 @@ public class AILogic {
    * @use checks if a hole is close to a mole with the exact range of the card returns the mole ID
    * and the x and y cordinates of the hole if the mole is close to a hole
    */
-  public synchronized List<Object> isHoleCloseToMole(@NotNull final AI ai) {
+  public List<Object> isHoleCloseToMole(@NotNull final AI ai) {
     for (var mole : ai.getMoles()) {
       if (mole.getPlayer().getClientID() == ai.getClientThread().getThreadID()) {
         for (var hole : ai.getGameState().getFloor().getHoles()) {

@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 15.12.21, 19:20 by Carina Latest changes made by Carina on 15.12.21, 19:19 All contents of "PacketHandler" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 16.12.21, 16:15 by Carina Latest changes made by Carina on 16.12.21, 16:14 All contents of "PacketHandler" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -39,7 +39,7 @@ public class PacketHandler {
    * @see Packets
    * @see Client
    */
-  public synchronized void handlePacket(@NotNull final Packet packet, @NotNull final ServerThread client) throws NotAllowedError {
+  public void handlePacket(@NotNull final Packet packet, @NotNull final ServerThread client) throws NotAllowedError {
     if (packet.getPacketType().equalsIgnoreCase(Packets.LOGIN.getPacketType())) {
       handleLoginPacket(client, packet);
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.LOGOUT.getPacketType())) {
@@ -239,7 +239,7 @@ public class PacketHandler {
    * @see de.thundergames.playmechanics.map.Map
    * @see Player
    */
-  private synchronized void handleMakeMovePacket(@NotNull final ServerThread client, @NotNull final Packet packet) {
+  private void handleMakeMovePacket(@NotNull final ServerThread client, @NotNull final Packet packet) {
     var game = client.getPlayer().getGame();
     for (var player : game.getPlayers()) {
       if (player.getServerClient().equals(client)) {
@@ -313,14 +313,13 @@ public class PacketHandler {
    * @author Carina
    * @use handles the placement of a mole by a player
    */
-  private synchronized void handlePlaceMolePacket(@NotNull final ServerThread client, @NotNull final Packet packet) {
+  private void handlePlaceMolePacket(@NotNull final ServerThread client, @NotNull final Packet packet) {
     if (client.getSocket().isConnected() && client.getPlayer().getGame() != null) {
       var game = client.getPlayer().getGame();
       if (game != null) {
         if (game.getCurrentGameState() == GameStates.STARTED) {
           var position = new Gson().fromJson(packet.getValues().get("position").getAsString(), Field.class);
           client.getPlayer().placeMole(position.getX(), position.getY());
-          System.out.println("CLIENT ID: " + client.getThreadID());
         }
       }
     }
@@ -430,7 +429,7 @@ public class PacketHandler {
    * @author Carina
    * @use calculates and sends the remaining time to the client
    */
-  public synchronized void remainingTimePacket(@NotNull final ServerThread client) {
+  public void remainingTimePacket(@NotNull final ServerThread client) {
     var game = client.getPlayer().getGame();
     for (var ignored : game.getPlayers()) {
       sendToUsersOnListTimeLeft(game, client);
@@ -489,11 +488,9 @@ public class PacketHandler {
    * @param client
    * @author Carina
    * @use handles the getScore packet from the client
-   * //TODO: wirft ne exception
    */
   private void handleGetScorePacket(@NotNull final ServerThread client) {
     if (client.getPlayer().getGame() != null) {
-      System.out.println(client.getPlayer().getGame().getScore().getWinners());
       scoreNotificationPacket(client);
     }
   }
@@ -600,7 +597,7 @@ public class PacketHandler {
    * @author Carina
    * @use handles the login packet from the client
    */
-  private synchronized void handleLoginPacket(@NotNull final ServerThread client, @NotNull final Packet packet) {
+  private void handleLoginPacket(@NotNull final ServerThread client, @NotNull final Packet packet) {
     String name;
     if (packet.getValues().get("name") == null) {
       name = "PlayerModel";
@@ -675,7 +672,7 @@ public class PacketHandler {
    * @see Game
    * @see Tournament
    */
-  public synchronized void overviewPacket(@NotNull final ServerThread client) {
+  public void overviewPacket(@NotNull final ServerThread client) {
     var object = new JsonObject();
     object.addProperty("type", Packets.OVERVIEW.getPacketType());
     var json = new JsonObject();
@@ -741,7 +738,6 @@ public class PacketHandler {
             return false;
           }
         }
-        // TODO: implement client logic for spectator
         if (!game.getCurrentGameState().equals(GameStates.OVER)) {
           game.joinGame(client, true);
           return true;
@@ -799,7 +795,7 @@ public class PacketHandler {
    * @author Carina
    * @use calls when a player joined the game sending the message to the clients of the game
    */
-  public synchronized void playerJoinedPacket(@NotNull final ServerThread client) {
+  public void playerJoinedPacket(@NotNull final ServerThread client) {
     var object = new JsonObject();
     object.addProperty("type", Packets.PLAYERJOINED.getPacketType());
     var json = new JsonObject();

@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 15.12.21, 19:20 by Carina Latest changes made by Carina on 15.12.21, 19:19 All contents of "PlayerMenu" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 16.12.21, 16:15 by Carina Latest changes made by Carina on 16.12.21, 15:51 All contents of "PlayerMenu" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -90,7 +90,7 @@ public class PlayerMenu implements Initializable {
    */
   @FXML
   public void onGameClick(ActionEvent event) throws IOException {
-    //TODO: soll nochmal senden problem: client.getClientThread ist null
+    //TODO: soll nochmal senden problem: client.getClientThread ist null,
     // client.getClientPacketHandler().getOverviewPacket(client);
     new GameSelection().create(event);
   }

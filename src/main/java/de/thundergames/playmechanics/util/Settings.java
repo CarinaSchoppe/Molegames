@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 15.12.21, 19:20 by Carina Latest changes made by Carina on 15.12.21, 19:19 All contents of "Settings" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 16.12.21, 16:15 by Carina Latest changes made by Carina on 16.12.21, 15:55 All contents of "Settings" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -27,7 +27,7 @@ public class Settings {
 
   /*
   TODO: ausrichter kann spieler zu einem spiel zuweisen
-  TODO: hier mehr adden! und dann auch implementieren
+   hier mehr adden! und dann auch implementieren
    */
   private final ArrayList<Integer> pullDiscs = new ArrayList<>(List.of(1, 2, 3, 4));
   private final int deductedPoints = 5;

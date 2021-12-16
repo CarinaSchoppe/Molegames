@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 15.12.21, 19:20 by Carina Latest changes made by Carina on 15.12.21, 19:19 All contents of "Map" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 16.12.21, 16:15 by Carina Latest changes made by Carina on 16.12.21, 16:01 All contents of "Map" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -69,7 +69,7 @@ public class Map {
    * @author Carina and Philipp
    * @use creates the mapfield in the comitee decided designway
    */
-  public synchronized void createMap(final int radius) {
+  public void createMap(final int radius) {
     // Top left to mid right
     fieldMap.clear();
     for (var y = 0; y <= radius; y++) {
@@ -94,7 +94,7 @@ public class Map {
    * @author Carina
    * @use sets the properties on the field if its occupied, a hole, a draw again field etc.
    */
-  public synchronized void changeFieldParams(@NotNull final GameState gameState) {
+  public void changeFieldParams(@NotNull final GameState gameState) {
     for (var field : gameState.getFloor().getHoles()) {
       if (getFieldMap().containsKey(List.of(field.getX(), field.getY())))
         getFieldMap().get(List.of(field.getX(), field.getY())).setHole(true);
@@ -120,7 +120,7 @@ public class Map {
    * @author Carina
    * @use prints the map
    */
-  public synchronized void printMap() {
+  public void printMap() {
     var fields =
       new ArrayList<>(fieldMap.values())
         .stream()

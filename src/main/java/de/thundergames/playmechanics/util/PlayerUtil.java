@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 15.12.21, 19:20 by Carina Latest changes made by Carina on 15.12.21, 19:19 All contents of "PlayerUtil" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 16.12.21, 16:15 by Carina Latest changes made by Carina on 16.12.21, 16:09 All contents of "PlayerUtil" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -64,7 +64,6 @@ public class PlayerUtil {
                       player.getGame().getDeductedPoints(),
                       player.getGame().getSettings().getPunishment(),
                       Punishments.NOMOVE.getName()));
-              System.out.println("hier2");
               player.setHasMoved(true);
               player.setTimerIsRunning(false);
               if (MoleGames.getMoleGames().getServer().isDebug())
@@ -79,7 +78,6 @@ public class PlayerUtil {
   }
 
   public void handleTurnAfterAction() {
-    System.out.println("hier11");
     player.setHasMoved(true);
     if (player.isTimerIsRunning()) {
       player.getTimer().cancel();

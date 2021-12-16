@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 15.12.21, 19:20 by Carina Latest changes made by Carina on 15.12.21, 19:19 All contents of "Tournament" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 16.12.21, 16:15 by Carina Latest changes made by Carina on 16.12.21, 16:01 All contents of "Tournament" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -24,12 +24,13 @@ import java.util.HashSet;
 @Setter
 public class Tournament {
 
+  private final transient HashSet<ServerThread> spectators = new HashSet<>();
+  private final transient HashSet<ServerThread> players = new HashSet<>();
   private final int tournamentID;
-  private final transient HashSet<ServerThread> clients = new HashSet<>();
   private final HashSet<Game> games = new HashSet<>();
+  private transient TournamentState tournamentState;
   private int playerCount;
   private Score score;
-  private transient TournamentState tournamentState;
   private TournamentStatus status;
 
   public Tournament(final int tournamentID) {
@@ -51,7 +52,7 @@ public class Tournament {
    * @author Carina
    * @use creates a new tournament will all stuff needed
    */
-  public synchronized void create() {
+  public void create() {
     this.score = new Score();
     this.tournamentState = new TournamentState(score, TournamentStatus.NOT_STARTED);
     MoleGames.getMoleGames().getGameHandler().getTournaments().add(this);
@@ -69,7 +70,7 @@ public class Tournament {
    */
   public void leaveTournament(ServerThread client) {
     playerCount--;
-    clients.remove(client);
+    players.remove(client);
     updateTournamentState();
   }
 
@@ -77,9 +78,9 @@ public class Tournament {
    * @author Carina
    * @use updates the tournament state
    */
-  public synchronized void updateTournamentState() {
+  public void updateTournamentState() {
     tournamentState.setScore(score);
-    for (var client : clients) {
+    for (var client : players) {
       tournamentState.getPlayers().add(client.getPlayer());
     }
   }
