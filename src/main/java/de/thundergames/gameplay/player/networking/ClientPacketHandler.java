@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 16.12.21, 16:15 by Carina Latest changes made by Carina on 16.12.21, 16:01 All contents of "ClientPacketHandler" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 16.12.21, 17:36 by Carina Latest changes made by Carina on 16.12.21, 17:36 All contents of "ClientPacketHandler" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -542,7 +542,10 @@ public class ClientPacketHandler {
         System.out.println("Client: player with the name: " + player.getName() + " has points: " + score.getPoints().get(player.getClientID()));
       }
     }
-    new LeaderBoard().create(score);
+    try {
+      new LeaderBoard().create(score);
+    } catch (IllegalStateException e) {
+    }
     updateTableView();
   }
 
