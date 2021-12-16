@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 15.12.21, 19:23 by Carina Latest changes made by Carina on 15.12.21, 19:19 All contents of "TournamentSelection" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 16.12.21, 16:16 by Carina Latest changes made by Carina on 16.12.21, 15:51 All contents of "TournamentSelection" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -178,7 +178,7 @@ public class TournamentSelection implements Initializable {
       || Objects.equals(currentGameState.getStatus(), GameStates.PAUSED.toString())) {
       spectateGame(currentGameState);
     } else if (Objects.equals(currentGameState.getStatus(), GameStates.NOT_STARTED.toString())) {
-      //TODO:  new TournamentSelection.LobbyObserverTournament().create(event, selectedItem.getTournamentID());
+      //new TournamentSelection.LobbyObserverTournament().create(event, selectedItem.getTournamentID());
     } else if (Objects.equals(currentGameState.getStatus(), GameStates.OVER.toString())) {
       loadScoreboard();
     }
@@ -190,9 +190,8 @@ public class TournamentSelection implements Initializable {
    */
   private void loadScoreboard() {
     CLIENT.getClientPacketHandler().getScorePacket();
-    // TODO: Get TournamentState
+    // TODO: Get TournamentState and open scene of ScoreBoard
     // var gameScore = client.getTournamentState().getTournamentScore();
-    // Todo:Open scene of ScoreBoard
   }
 
   /**
