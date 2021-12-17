@@ -8,43 +8,59 @@
  * requires the express written consent of ThunderGames | SwtPra10.
  */
 
-package de.thundergames.playmechanics.board;
+package de.thundergames.gameplay.player.board;
 
+import de.thundergames.gameplay.player.Client;
+import de.thundergames.networking.server.ServerThread;
+import lombok.Getter;
+import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import de.thundergames.playmechanics.util.Player;
 
-public class PlayerModel {
-  private final int ID;
-  private final Marker activeMoleMarker;
+
+@Getter
+@Setter
+public class PlayerModel{
+  private int ID;
+  private Marker activeMoleMarker;
   private ArrayList<MoleModel> moles;
   private MoleModel activeMole;
   private boolean isItMyTurn;
+  private Player player;
 
   /**
    * @param ID
    * @param moles
    * @author Alp, Dila, Issam
    */
-  public PlayerModel(final int ID, @NotNull final ArrayList<MoleModel> moles) {
+  public PlayerModel(@NotNull Client client, final int ID, @NotNull final ArrayList<MoleModel> moles,Player player) {
     this.ID = ID;
     this.moles = moles;
     this.activeMole = this.moles.get(0); // By default first mole in the list
     this.activeMoleMarker = new Marker();
     this.isItMyTurn = false;
     this.attachMolesClickEvent();
+    this.player=player;
+  }
+
+  public PlayerModel(@NotNull ServerThread client,Player player) {
+  }
+
+  public PlayerModel(@NotNull Client client,Player player) {
   }
 
   /**
    * @author Alp, Dila, Issam
    * @use updates the moles
    */
-  public void updateMoles() {
-    this.moles.forEach(mole -> mole.setDisable(!this.isItMyTurn));
-    this.moles.forEach(mole -> mole.setOpacity(this.isItMyTurn ? 1 : 0.6));
-  }
+//  public void updateMoles() {
+//    this.moles.forEach(mole -> mole.setDisable(!this.isItMyTurn));
+//    this.moles.forEach(mole -> mole.setOpacity(this.isItMyTurn ? 1 : 0.6));
+//  }
 
   /**
    * @author Alp, Dila, Issam
@@ -73,15 +89,6 @@ public class PlayerModel {
     this.moles.forEach(mole -> {
       mole.setOnAction(event -> setActiveMole(mole));
     });
-  }
-
-  public int getID() {
-    return this.ID;
-  }
-
-  public ArrayList<MoleModel> getMoles() {
-    this.updateMoles();
-    return this.moles;
   }
 
   public void setMoles(ArrayList<MoleModel> moles) {

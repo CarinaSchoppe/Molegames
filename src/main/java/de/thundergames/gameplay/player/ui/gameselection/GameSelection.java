@@ -11,9 +11,9 @@
 package de.thundergames.gameplay.player.ui.gameselection;
 
 import de.thundergames.gameplay.player.Client;
+import de.thundergames.gameplay.player.board.GameBoard;
 import de.thundergames.gameplay.player.ui.PlayerMenu;
 import de.thundergames.gameplay.util.SceneController;
-import de.thundergames.playmechanics.board.TestWindow;
 import de.thundergames.playmechanics.game.Game;
 import de.thundergames.playmechanics.game.GameState;
 import de.thundergames.playmechanics.game.GameStates;
@@ -188,7 +188,7 @@ public class GameSelection implements Initializable {
     }
     if (Objects.equals(currentGameState.getStatus(), GameStates.STARTED.toString())
       || Objects.equals(currentGameState.getStatus(), GameStates.PAUSED.toString())) {
-      spectateGame(currentGameState);
+      spectateGame();
     } else if (Objects.equals(currentGameState.getStatus(), GameStates.NOT_STARTED.toString())) {
       new LobbyObserverGame().create(primaryStage);
     } else if (Objects.equals(currentGameState.getStatus(), GameStates.OVER.toString())) {
@@ -208,8 +208,7 @@ public class GameSelection implements Initializable {
   /**
    * Load scene of game
    */
-  private void spectateGame(GameState gameState) {
-    primaryStage.close();
-    new TestWindow().start(primaryStage);
+  private void spectateGame() {
+    new GameBoard().create(primaryStage);
   }
 }

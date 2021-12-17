@@ -8,14 +8,15 @@
  * requires the express written consent of ThunderGames | SwtPra10.
  */
 
-package de.thundergames.playmechanics.board;
+package de.thundergames.gameplay.player.board;
 
+import de.thundergames.playmechanics.map.Field;
 import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
+import lombok.Getter;
+import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.Arrays;
 
 enum NodeType {
   HOLE {
@@ -43,55 +44,36 @@ enum NodeType {
   public abstract void styleNode(Node n);
 }
 
+@Getter
+@Setter
 public class Node extends Circle {
   public final static int DEFAULT_RADIUS = 15;
-  private final int id;
+  private final int nodeId;
   private final int row;
-  private int radius;
-  private boolean isOccupied;
+  private Field field;
+  private int nodeRadius;
 
-  public Node(final int id, final double x, final double y, final int radius, @NotNull final NodeType nodeType, final int row, final boolean isOccupied) {
+  public Node(final int id, final double x, final double y, final int radius, @NotNull final NodeType nodeType, final int row) {
     super(x, y, radius);
-    this.id = id;
+    this.nodeId = id;
     this.row = row;
     nodeType.styleNode(this);
-    this.isOccupied = isOccupied;
   }
 
   public Node(final int id, final double x, final double y, @NotNull final NodeType nodeType, final int row, final boolean isOccupied) {
-    this(id, x, y, DEFAULT_RADIUS, nodeType, row, false);
+    this(id, x, y, DEFAULT_RADIUS, nodeType, row);
   }
 
   public Node(final int id, final double x, final double y, final int radius) {
-    this(id, x, y, radius, NodeType.DEFAULT, 0, false);
+    this(id, x, y, radius, NodeType.DEFAULT, 0);
   }
 
   public Node(final int id, final double x, final double y) {
-    this(id, x, y, DEFAULT_RADIUS, NodeType.DEFAULT, 0, false);
-  }
-
-  public int getNodeId() {
-    return this.id;
-  }
-
-  public int getRow() {
-    return this.row;
-  }
-
-  public boolean getIsOccupied() {
-    return this.isOccupied;
-  }
-
-  public void setIsOccupied(boolean isOccupied) {
-    this.isOccupied = isOccupied;
-  }
-
-  public boolean isNodeOccupied(int[] ocuppieNodeIds) {
-    return Arrays.asList(ocuppieNodeIds).contains(this.id);
+    this(id, x, y, DEFAULT_RADIUS, NodeType.DEFAULT, 0);
   }
 
   @Override
   public String toString() {
-    return "(id: " + id + ", x: " + this.getCenterX() + ", y: " + this.getCenterY() + ")";
+    return "(id: " + nodeId + ", x: " + this.getCenterX() + ", y: " + this.getCenterY() + ")";
   }
 }
