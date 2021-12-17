@@ -1,8 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 06.12.21, 22:18 by Carina latest changes made by Carina on 06.12.21, 22:01
- * All contents of "Server" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 16.12.21, 16:15 by Carina Latest changes made by Carina on 16.12.21, 16:01 All contents of "Server" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -15,21 +14,26 @@ import de.thundergames.networking.util.Network;
 import de.thundergames.networking.util.NetworkThread;
 import de.thundergames.networking.util.Packet;
 import de.thundergames.playmechanics.game.Game;
-import de.thundergames.playmechanics.game.Tournament;
+import de.thundergames.playmechanics.tournament.Tournament;
+import lombok.Getter;
+import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 
+@Getter
+@Setter
 public class Server extends Network {
-
   private final ArrayList<ServerThread> clientThreads = new ArrayList<>();
-  private final ArrayList<ServerThread> observer = new ArrayList<>();
+  private final HashSet<ServerThread> observer = new HashSet<>();
   private final HashMap<Integer, ServerThread> threadIDs = new HashMap<>();
   private final HashMap<String, ServerThread> connectionNames = new HashMap<>();
   private final HashMap<Integer, ServerThread> connectionIDs = new HashMap<>();
+  private PacketHandler packetHandler;
   private int threadID = 0;
   private boolean keyboard = false;
 
@@ -39,30 +43,10 @@ public class Server extends Network {
    * @author Carina
    * @use creates a Server with a @param serverSocket and uses this one to create a ServerThread which will handle the Inputreading and got info about the Outputsending adds every ServerThread to a List and adds an Id to it and puts that into a Map
    */
-  public Server(final int port, @NotNull final String ip) {
+  public Server(int port, String ip) {
     super(port, ip);
+    packetHandler = new PacketHandler();
   }
-
-  public boolean isKeyboard() {
-    return keyboard;
-  }
-
-  public void setKeyboard(final boolean keyboard) {
-    this.keyboard = keyboard;
-  }
-
-  public HashMap<Integer, ServerThread> getThreadIds() {
-    return threadIDs;
-  }
-
-  public HashMap<String, ServerThread> getConnectionNames() {
-    return connectionNames;
-  }
-
-  public HashMap<Integer, ServerThread> getConnectionIDs() {
-    return connectionIDs;
-  }
-
 
   /**
    * @author Carina
@@ -73,31 +57,32 @@ public class Server extends Network {
   @Override
   public void create() {
     new Thread(
-            () -> {
-              try {
-                ServerSocket serverSocket = new ServerSocket(port);
-                System.out.println("Server listening on port " + getPort());
-                while (true) {
-                  socket = serverSocket.accept();
-                  var serverThread = new ServerThread(socket, threadID);
-                  getConnectionIDs().put(threadID, serverThread);
-                  getClientThreads().add(serverThread);
-                  serverThread.start();
-                  MoleGames.getMoleGames().getPacketHandler().welcomePacket(serverThread, threadID);
-                  threadIDs.put(serverThread.getConnectionID(), serverThread);
-                  threadID++;
-                }
-              } catch (IOException e) {
-                e.printStackTrace();
-              } finally {
-                try {
-                  socket.close();
-                } catch (IOException e) {
-                  e.printStackTrace();
-                }
-              }
-            })
-        .start();
+      () -> {
+        try {
+          var serverSocket = new ServerSocket(port);
+          if (MoleGames.getMoleGames().getServer().isDebug())
+            System.out.println("Server listening on port " + getPort());
+          while (true) {
+            socket = serverSocket.accept();
+            var serverThread = new ServerThread(socket, threadID);
+            getConnectionIDs().put(threadID, serverThread);
+            getClientThreads().add(serverThread);
+            serverThread.start();
+            packetHandler.welcomePacket(serverThread, threadID);
+            threadIDs.put(serverThread.getThreadID(), serverThread);
+            threadID++;
+          }
+        } catch (IOException e) {
+          e.printStackTrace();
+        } finally {
+          try {
+            socket.close();
+          } catch (IOException e) {
+            e.printStackTrace();
+          }
+        }
+      })
+      .start();
   }
 
   /**
@@ -105,18 +90,15 @@ public class Server extends Network {
    * @param packet the packet that should be send
    * @use the method will send a packet to all connected clients of the game
    */
-  public synchronized void sendToAllGameClients(
-      @NotNull final Game game, @NotNull final Packet packet) {
-    try {
-      if (!game.getPlayers().isEmpty()) {
-        for (var clients : game.getPlayers()) {
-          clients.getServerClient().sendPacket(packet);
-        }
-      } else {
-        System.out.println("The game with the ID: " + game.getGameID() + " is empty!");
+  public void sendToAllGameClients(
+    @NotNull final Game game, @NotNull final Packet packet) {
+    if (!game.getPlayers().isEmpty()) {
+      for (var clients : game.getPlayers()) {
+        clients.getServerClient().sendPacket(packet);
       }
-    } catch (Exception e) {
-      e.printStackTrace();
+      for (var clients : game.getSpectators()) {
+        clients.getServerClient().sendPacket(packet);
+      }
     }
   }
 
@@ -125,27 +107,21 @@ public class Server extends Network {
    * @param packet     the packet that should be send
    * @use the method will send a packet to all connected clients of the game
    */
-  public synchronized void sendToAllTournamentClients(
-      @NotNull final Tournament tournament, @NotNull final Packet packet) {
+  public void sendToAllTournamentClients(
+    @NotNull final Tournament tournament, @NotNull final Packet packet) {
     try {
-      if (!tournament.getClients().isEmpty()) {
-        for (var clients : tournament.getClients()) {
+      if (!tournament.getPlayers().isEmpty()) {
+        for (var clients : tournament.getPlayers()) {
           clients.sendPacket(packet);
         }
-      } else {
-        System.out.println("The game with the ID: " + tournament.getTournamentID() + " is empty!");
+      }
+      if (!tournament.getSpectators().isEmpty()) {
+        for (var clients : tournament.getSpectators()) {
+          clients.sendPacket(packet);
+        }
       }
     } catch (Exception e) {
       e.printStackTrace();
     }
-  }
-
-  public ArrayList<ServerThread> getClientThreads() {
-    return clientThreads;
-  }
-
-
-  public ArrayList<ServerThread> getObserver() {
-    return observer;
   }
 }

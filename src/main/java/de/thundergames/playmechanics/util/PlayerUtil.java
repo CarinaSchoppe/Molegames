@@ -1,8 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 06.12.21, 22:24 by Carina latest changes made by Carina on 06.12.21, 22:21
- * All contents of "PlayerUtil" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 16.12.21, 16:15 by Carina Latest changes made by Carina on 16.12.21, 16:09 All contents of "PlayerUtil" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -12,17 +11,15 @@
 package de.thundergames.playmechanics.util;
 
 import de.thundergames.MoleGames;
+import lombok.Data;
 
 import java.util.Timer;
 import java.util.TimerTask;
 
+@Data
 public class PlayerUtil {
 
   private final Player player;
-
-  public PlayerUtil(Player player) {
-    this.player = player;
-  }
 
   /**
    * @author Carina
@@ -43,40 +40,41 @@ public class PlayerUtil {
   public void startThinkTimer() {
     player.setStartRemainingTime(System.currentTimeMillis());
     player.setHasMoved(false);
-    player.setTimer(new Timer());
     player.setTimerIsRunning(true);
+    player.setTimer(new Timer());
     player
-        .getTimer()
-        .schedule(
-            new TimerTask() {
-              @Override
-              public void run() {
-                if (!player.isHasMoved()) {
+      .getTimer()
+      .schedule(
+        new TimerTask() {
+          @Override
+          public void run() {
+            if (!player.isHasMoved()) {
+              MoleGames.getMoleGames()
+                .getGameHandler()
+                .getGameLogic()
+                .performPunishment(player, player.getGame().getSettings().getPunishment());
+              MoleGames.getMoleGames()
+                .getServer()
+                .sendToAllGameClients(
+                  player.getGame(),
                   MoleGames.getMoleGames()
-                      .getGameHandler()
-                      .getGameLogic()
-                      .performPunishment(player, player.getGame().getSettings().getPunishment());
-                  MoleGames.getMoleGames()
-                      .getServer()
-                      .sendToAllGameClients(
-                          player.getGame(),
-                          MoleGames.getMoleGames()
-                              .getPacketHandler()
-                              .movePenaltyNotification(
-                                  player,
-                                  player.getGame().getDeductedPoints(),
-                                  player.getGame().getSettings().getPunishment(),
-                                  Punishments.NOMOVE.getName()));
-                  player.setHasMoved(true);
-                  player.setTimerIsRunning(false);
-                  System.out.println(
-                      "Client " + player.getServerClient().getClientName() + " ran out of time");
-                  player.getGame().getGameUtil().nextPlayer();
-                  player.getTimer().cancel();
-                }
-              }
-            },
-            player.getGame().getSettings().getTurnTime());
+                    .getServer().getPacketHandler()
+                    .movePenaltyNotification(
+                      player,
+                      player.getGame().getDeductedPoints(),
+                      player.getGame().getSettings().getPunishment(),
+                      Punishments.NOMOVE.getName()));
+              player.setHasMoved(true);
+              player.setTimerIsRunning(false);
+              if (MoleGames.getMoleGames().getServer().isDebug())
+                System.out.println(
+                  "Client " + player.getServerClient().getThreadID() + " ran out of time");
+              player.getGame().getGameUtil().nextPlayer();
+              player.getTimer().cancel();
+            }
+          }
+        },
+        player.getGame().getSettings().getTurnTime());
   }
 
   public void handleTurnAfterAction() {

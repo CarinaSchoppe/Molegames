@@ -1,8 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 06.12.21, 14:34 by Carina latest changes made by Carina on 06.12.21, 14:33
- * All contents of "CreateGame" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 15.12.21, 19:20 by Carina Latest changes made by Carina on 15.12.21, 19:19 All contents of "CreateGame" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -12,7 +11,7 @@
 package de.thundergames.gameplay.ausrichter.ui;
 
 import de.thundergames.MoleGames;
-import de.thundergames.gameplay.ausrichter.GameMasterClient;
+import de.thundergames.gameplay.ausrichter.AusrichterClient;
 import de.thundergames.networking.server.Server;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -24,7 +23,6 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -96,7 +94,6 @@ public class CreateGame extends Application {
 
   @FXML
   void createGameButtonEvent(ActionEvent event) {
-
   }
 
   private void clearAllComponents() {
@@ -123,58 +120,56 @@ public class CreateGame extends Application {
   @FXML
   void initialize() {
     assert addItem != null
-        : "fx:id=\"addItem\" was not injected: check your FXML file 'CreateGame.fxml'.";
+      : "fx:id=\"addItem\" was not injected: check your FXML file 'CreateGame.fxml'.";
     assert back != null
-        : "fx:id=\"back\" was not injected: check your FXML file 'CreateGame.fxml'.";
+      : "fx:id=\"back\" was not injected: check your FXML file 'CreateGame.fxml'.";
     assert configureFloors != null
-        : "fx:id=\"configureFloors\" was not injected: check your FXML file 'CreateGame.fxml'.";
+      : "fx:id=\"configureFloors\" was not injected: check your FXML file 'CreateGame.fxml'.";
     assert configureMap != null
-        : "fx:id=\"configureMap\" was not injected: check your FXML file 'CreateGame.fxml'.";
+      : "fx:id=\"configureMap\" was not injected: check your FXML file 'CreateGame.fxml'.";
     assert createGame != null
-        : "fx:id=\"createGame\" was not injected: check your FXML file 'CreateGame.fxml'.";
+      : "fx:id=\"createGame\" was not injected: check your FXML file 'CreateGame.fxml'.";
     assert drawCardValue != null
-        : "fx:id=\"drawCardValue\" was not injected: check your FXML file 'CreateGame.fxml'.";
+      : "fx:id=\"drawCardValue\" was not injected: check your FXML file 'CreateGame.fxml'.";
     assert loadConfig != null
-        : "fx:id=\"loadConfig\" was not injected: check your FXML file 'CreateGame.fxml'.";
+      : "fx:id=\"loadConfig\" was not injected: check your FXML file 'CreateGame.fxml'.";
     assert molesAmount != null
-        : "fx:id=\"molesAmount\" was not injected: check your FXML file 'CreateGame.fxml'.";
+      : "fx:id=\"molesAmount\" was not injected: check your FXML file 'CreateGame.fxml'.";
     assert playerAmount != null
-        : "fx:id=\"playerAmount\" was not injected: check your FXML file 'CreateGame.fxml'.";
+      : "fx:id=\"playerAmount\" was not injected: check your FXML file 'CreateGame.fxml'.";
     assert punishment != null
-        : "fx:id=\"punishment\" was not injected: check your FXML file 'CreateGame.fxml'.";
+      : "fx:id=\"punishment\" was not injected: check your FXML file 'CreateGame.fxml'.";
     assert radius != null
-        : "fx:id=\"radius\" was not injected: check your FXML file 'CreateGame.fxml'.";
+      : "fx:id=\"radius\" was not injected: check your FXML file 'CreateGame.fxml'.";
     assert removeAll != null
-        : "fx:id=\"removeAll\" was not injected: check your FXML file 'CreateGame.fxml'.";
+      : "fx:id=\"removeAll\" was not injected: check your FXML file 'CreateGame.fxml'.";
     assert drawCardValues != null
-        : "fx:id=\"drawCardValues\" was not injected: check your FXML file 'CreateGame.fxml'.";
+      : "fx:id=\"drawCardValues\" was not injected: check your FXML file 'CreateGame.fxml'.";
     assert thinkTime != null
-        : "fx:id=\"thinkTime\" was not injected: check your FXML file 'CreateGame.fxml'.";
+      : "fx:id=\"thinkTime\" was not injected: check your FXML file 'CreateGame.fxml'.";
     assert visualEffects != null
-        : "fx:id=\"visualEffects\" was not injected: check your FXML file 'CreateGame.fxml'.";
+      : "fx:id=\"visualEffects\" was not injected: check your FXML file 'CreateGame.fxml'.";
     assert pullDiscsOrdered != null
-        : "fx:id=\"pullDiscsOrdered\" was not injected: check your FXML file 'CreateGame.fxml'.";
+      : "fx:id=\"pullDiscsOrdered\" was not injected: check your FXML file 'CreateGame.fxml'.";
   }
 
   public void create(@NotNull final Server server, @NotNull final String... args) {
     MoleGames.getMoleGames()
-        .setGameMasterClient(new GameMasterClient(server));
-    System.out.println("Test Ausrichter");
-    MoleGames.getMoleGames().getGameMasterClient().test_tournament(1);
-    MoleGames.getMoleGames().getGameMasterClient().test_game(1);
-    launch(args);
+      .setAusrichterClient(new AusrichterClient(server));
+    new Thread(() -> launch(args)).start();
+    MoleGames.getMoleGames().getAusrichterClient().testTournament(1);
+    MoleGames.getMoleGames().getAusrichterClient().testGame(1);
   }
-
 
   @Override
   public void start(Stage primaryStage) throws Exception {
     var loader =
-        new FXMLLoader(new File("src/main/resources/ausrichter/CreateGame.fxml").toURI().toURL());
+      new FXMLLoader(getClass().getResource("/ausrichter/style/CreateGame.fxml"));
     loader.setController(this);
     Parent root = loader.load();
     initialize();
     primaryStage.setTitle("CreateGame");
-    primaryStage.setResizable(true);
+    primaryStage.setResizable(false);
     primaryStage.setScene(new Scene(root));
     primaryStage.show();
   }

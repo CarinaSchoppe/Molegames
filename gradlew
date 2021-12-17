@@ -1,19 +1,18 @@
 #!/usr/bin/env sh
 
 #
-# Copyright 2015 the original author or authors.
+# Copyright Notice for SwtPra10
+# Copyright (c) at ThunderGames | SwtPra10 2021
+# File created on 15.12.21, 19:20 by Carina Latest changes made by Carina on 15.12.21, 19:19 All contents of "gradlew" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+# at ThunderGames | SwtPra10. All rights reserved
+# Any type of duplication, distribution, rental, sale, award,
+# Public accessibility or other use
+# requires the express written consent of ThunderGames | SwtPra10.
 #
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#      https://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
+
+2 , distribution, rental, sale, award,
+# Public accessibility or other use
+# requires the express written consent of ThunderGames | SwtPra10.
 #
 
 ##############################################################################

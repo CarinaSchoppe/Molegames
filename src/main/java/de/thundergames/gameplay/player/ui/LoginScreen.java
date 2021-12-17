@@ -1,8 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 02.12.21, 18:17 by Carina latest changes made by Carina on 02.12.21, 18:17
- * All contents of "LoginScreen" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 15.12.21, 19:20 by Carina Latest changes made by Carina on 15.12.21, 19:19 All contents of "LoginScreen" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -22,37 +21,64 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import javax.swing.*;
-import java.io.File;
 import java.io.IOException;
 import java.util.ResourceBundle;
 
 public class LoginScreen extends Application {
 
   private final boolean loggedIn = false;
-  @FXML private ResourceBundle resources;
-  @FXML private TextField ip;
-  @FXML private Button login;
-  @FXML private TextField name;
-  @FXML private TextField port;
+  @FXML
+  private ResourceBundle resources;
+  @FXML
+  private TextField ip;
+  @FXML
+  private Button login;
+  @FXML
+  private TextField name;
+  @FXML
+  private TextField port;
+
+  public static void create(final String... args) {
+    launch(args);
+  }
 
   /**
    * @param event
-   * @author Carina
+   * @author Carina and Philipp
    * @use handles the login button when clicked
    */
   @FXML
   void onLoginButtonClick(ActionEvent event) throws IOException {
-    String ip = this.ip.getText();
-    String port = this.port.getText();
-    String name = this.name.getText();
-    if (ip != "" && port != "" && name != "") {
+    var ip = this.ip.getText();
+    var port = this.port.getText();
+    var name = this.name.getText();
+    String errorMessage = "";
+    if (ip.equals("")) {
+      errorMessage += "IP Feld muss ausgefuellt sein!\n";
+    }
+    if (port.equals("")) {
+      errorMessage += "Port Feld muss ausgefuellt sein!\n";
+    } else {
+      try {
+        int intPort = Integer.parseInt(port);
+        if (intPort < 0 || intPort > 65535) {
+          errorMessage += "Port Feld muss eine ganze Zahl zwischen 0 und 65535 sein!\n";
+        }
+      } catch (NumberFormatException e) {
+        errorMessage += "Port Feld muss eine ganze Zahl zwischen 0 und 65535 sein!\n";
+      }
+    }
+    if (name.length() > 32) {
+      errorMessage += "Namen duerfen maximal 32 Zeichen lang sein!\n";
+    }
+    if (errorMessage.equals("")) {
       System.out.println("IP: " + ip + " Port: " + port + " Name: " + name);
-      Client client = new Client(Integer.parseInt(port), ip, name);
+      var client = new Client(Integer.parseInt(port), ip, name);
       client.create();
       new PlayerMenu().create(event);
     } else {
-      JOptionPane.showMessageDialog(null, "Bitte alle Felder ausfuellen!",
-        "Leere Felder", JOptionPane.ERROR_MESSAGE);
+      JOptionPane.showMessageDialog(null, errorMessage,
+        "Falscher Feldinhalt", JOptionPane.ERROR_MESSAGE);
     }
   }
 
@@ -67,14 +93,9 @@ public class LoginScreen extends Application {
       : "fx:id=\"port\" was not injected: check your FXML file 'LoginScreen.fxml'.";
   }
 
-  public static void create(String... args) {
-    launch(args);
-  }
-
   @Override
   public void start(Stage primaryStage) throws Exception {
-    var loader =
-        new FXMLLoader(new File("src/main/resources/player/LoginScreen.fxml").toURI().toURL());
+    var loader = new FXMLLoader(getClass().getResource("/player/style/LoginScreen.fxml"));
     Parent root = loader.load();
     primaryStage.setResizable(false);
     primaryStage.setTitle("Maulwurf Company");
