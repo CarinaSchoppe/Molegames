@@ -1,8 +1,7 @@
 /*
- * Copyright Notice for Swtpra10
+ * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 25.11.21, 17:42 by Carina Latest changes made by Carina on 25.11.21, 17:42
- * All contents of "MoleGames" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 15.12.21, 19:20 by Carina Latest changes made by Carina on 15.12.21, 19:19 All contents of "MoleGames" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -11,14 +10,16 @@
 package de.thundergames;
 
 import de.thundergames.gameplay.ai.AI;
-import de.thundergames.gameplay.ausrichter.GameMasterClient;
-import de.thundergames.gameplay.player.networking.Client;
+import de.thundergames.gameplay.ausrichter.AusrichterClient;
+import de.thundergames.gameplay.player.Client;
 import de.thundergames.gameplay.player.ui.LoginScreen;
-import de.thundergames.networking.server.PacketHandler;
 import de.thundergames.networking.server.Server;
 import de.thundergames.playmechanics.util.MultiGameHandler;
-import java.util.Objects;
+import lombok.Getter;
+import lombok.Setter;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.Objects;
 
 /**
  * @author Carina
@@ -27,15 +28,15 @@ import org.jetbrains.annotations.Nullable;
  * @see Client as an instance that will be integrated
  * @see AI as an instance that will be integrated
  */
+@Getter
+@Setter
 public class MoleGames {
 
-  private static MoleGames moleGames;
+  private static MoleGames MOLE_GAMES;
   private AI ai;
   private Server server;
   private MultiGameHandler gameHandler;
-
-  private PacketHandler packetHandler;
-  private GameMasterClient gameMasterClient;
+  private AusrichterClient ausrichterClient;
 
   /**
    * @author Carina
@@ -46,58 +47,36 @@ public class MoleGames {
    * @see AI
    */
   public static void main(@Nullable final String... args) {
-    moleGames = new MoleGames();
+    MOLE_GAMES = new MoleGames();
     if (args.length == 0) {
-      new LoginScreen().create(args);
+      LoginScreen.create(args);
     } else {
       switch (Objects.requireNonNull(args[0])) {
         case "-p":
         case "p":
-          new LoginScreen().create(args);
+          LoginScreen.create(args);
           break;
         case "-s":
         case "s":
-          moleGames.server = new Server(5000, "127.0.0.1");
-          moleGames.packetHandler = new PacketHandler();
-          moleGames.gameHandler = new MultiGameHandler();
-          moleGames.server.create();
-          new de.thundergames.gameplay.ausrichter.ui.CreateGame().create(moleGames.server, args);
+          MOLE_GAMES.server = new Server(5000, "127.0.0.1");
+          MOLE_GAMES.gameHandler = new MultiGameHandler();
+          MOLE_GAMES.server.create();
+          new de.thundergames.gameplay.ausrichter.ui.CreateGame().create(MOLE_GAMES.server, args);
           break;
-
         case "-a":
         case "a":
           assert args[3] != null;
           MoleGames.getMoleGames().ai =
-              new AI(
-                  Objects.requireNonNull(args[1]),
-                  Integer.parseInt(Objects.requireNonNull(args[2])),
-                  Integer.parseInt(Objects.requireNonNull(args[3])));
+            new AI(
+              Objects.requireNonNull(args[1]),
+              Integer.parseInt(Objects.requireNonNull(args[2])),
+              Integer.parseInt(Objects.requireNonNull(args[3])));
           MoleGames.getMoleGames().ai.create();
       }
     }
   }
 
   public static MoleGames getMoleGames() {
-    return moleGames;
-  }
-
-  public MultiGameHandler getGameHandler() {
-    return gameHandler;
-  }
-
-  public Server getServer() {
-    return server;
-  }
-
-  public PacketHandler getPacketHandler() {
-    return packetHandler;
-  }
-
-  public GameMasterClient getGameMasterClient() {
-    return gameMasterClient;
-  }
-
-  public void setGameMasterClient(GameMasterClient gameMasterClient) {
-    this.gameMasterClient = gameMasterClient;
+    return MOLE_GAMES;
   }
 }

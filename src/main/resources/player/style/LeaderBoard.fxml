@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~ Copyright Notice for SwtPra10
+  ~ Copyright (c) at ThunderGames | SwtPra10 2021
+  ~ File created on 16.12.21, 16:15 by Carina Latest changes made by Carina on 16.12.21, 16:01 All contents of "LeaderBoard.fxml" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+  ~ at ThunderGames | SwtPra10. All rights reserved
+  ~ Any type of duplication, distribution, rental, sale, award,
+  ~ Public accessibility or other use
+  ~ requires the express written consent of ThunderGames | SwtPra10.
+  -->
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import java.net.URL?>
+<VBox xmlns:fx="http://javafx.com/fxml/1" maxHeight="856.0" maxWidth="917.0" minHeight="806.0" minWidth="900.0" prefHeight="806.0" prefWidth="917.0" xmlns="http://javafx.com/javafx/17">
+    <children>
+        <AnchorPane>
+            <children>
+                <ImageView fitHeight="860.0" fitWidth="930.0" layoutX="-6.0">
+                    <image>
+                        <Image url="@../pictures/leaderboard/Frame 5.png"/>
+                    </image>
+                </ImageView>
+                <ImageView fitHeight="97.0" fitWidth="268.0" layoutX="328.0" layoutY="38.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@../pictures/leaderboard/header.png"/>
+                    </image>
+                </ImageView>
+                <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="352.0" layoutY="727.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@../pictures/leaderboard/Button.png"/>
+                    </image>
+                </ImageView>
+                <ImageView fitHeight="580.0" fitWidth="760.0" layoutX="73.0" layoutY="117.0" pickOnBounds="true">
+                    <image>
+                        <Image url="@../pictures/leaderboard/Board.png"/>
+                    </image>
+                </ImageView>
+                <Button fx:id="btnToMenu" layoutX="346.0" layoutY="725.0" mnemonicParsing="false" prefHeight="63.0" prefWidth="200.0" style="-fx-background-color: transparent;"/>
+                <TableView fx:id="scoreTable" layoutX="145.0" layoutY="189.0" prefHeight="482.0" prefWidth="634.0">
+                    <columns>
+                        <TableColumn fx:id="placement" prefWidth="110" reorderable="false" resizable="false" sortable="false" text="Platz"/>
+                        <TableColumn fx:id="name" prefWidth="394.4000549316406" reorderable="false" resizable="false" sortable="false" text="Spieler"/>
+                        <TableColumn fx:id="score" prefWidth="128.7999267578125" reorderable="false" resizable="false" sortable="false" text="Punkte"/>
+                    </columns>
+                    <stylesheets>
+                        <URL value="@css/LeaderBoardStyle.css"/>
+                    </stylesheets>
+                </TableView>
+                <ImageView fitHeight="88.0" fitWidth="187.0" layoutX="91.0" layoutY="127.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@../pictures/leaderboard/placementLabel.png"/>
+                    </image>
+                </ImageView>
+            </children>
+        </AnchorPane>
+    </children>
+</VBox>

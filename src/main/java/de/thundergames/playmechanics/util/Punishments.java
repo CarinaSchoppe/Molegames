@@ -1,7 +1,7 @@
 /*
- * Copyright Notice for Swtpra10
+ * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 23.11.21, 13:45 by Carina latest changes made by Carina on 23.11.21, 13:45 All contents of "Punishments" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 16.12.21, 16:15 by Carina Latest changes made by Carina on 16.12.21, 16:01 All contents of "Punishments" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -26,9 +26,9 @@ public enum Punishments {
    * @return the punishment with the given id
    * @author Carina
    */
-  public static synchronized Punishments getByName(final String name) {
-    for (Punishments punishment : Punishments.values()) {
-      if (punishment.getName() == name) {
+  public static Punishments getByName(final String name) {
+    for (var punishment : Punishments.values()) {
+      if (punishment.getName().equals(name)) {
         return punishment;
       }
     }

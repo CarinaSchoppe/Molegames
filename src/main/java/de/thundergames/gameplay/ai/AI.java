@@ -1,7 +1,7 @@
 /*
- * Copyright Notice for Swtpra10
+ * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 22.11.21, 21:41 by Carina latest changes made by Carina on 22.11.21, 19:25 All contents of "AI" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 15.12.21, 19:23 by Carina Latest changes made by Carina on 15.12.21, 19:22 All contents of "AI" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -11,19 +11,24 @@ package de.thundergames.gameplay.ai;
 
 import de.thundergames.gameplay.ai.networking.AIClientThread;
 import de.thundergames.gameplay.ai.networking.AIPacketHandler;
-import de.thundergames.gameplay.player.networking.Client;
-import java.io.IOException;
-import java.net.Socket;
+import de.thundergames.gameplay.player.Client;
+import lombok.Getter;
+import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.IOException;
+import java.net.Socket;
+
+@Getter
+@Setter
 public class AI extends Client {
 
   private final int gameID;
-  private final AILogic logic;
-  private final AIUtil aiUtil;
+  private AILogic logic;
   private int card;
   private boolean placedMoles = false;
   private int placedMolesAmount = 0;
+  private int sleepingTime = 0;
 
   /**
    * @param ip
@@ -35,9 +40,14 @@ public class AI extends Client {
   public AI(@NotNull final String ip, final int port, final int gameID) {
     super(port, ip, "AI");
     this.gameID = gameID;
-    clientPacketHandler = new AIPacketHandler();
-    logic = new AILogic();
-    aiUtil = new AIUtil();
+  }
+
+  @Override
+  public void create() {
+    CLIENT = this;
+    clientPacketHandler = new AIPacketHandler(this);
+    logic = new AILogic(this);
+    connect();
   }
 
   /**
@@ -50,53 +60,15 @@ public class AI extends Client {
       socket = new Socket(ip, port);
       clientThread = new AIClientThread(socket, 0, this);
       clientThread.start();
-      clientPacketHandler.loginPacket(this, getName());
-      clientPacketHandler.joinGamePacket(this, gameID, true);
+      clientPacketHandler.loginPacket(getName());
+      clientPacketHandler.joinGamePacket(gameID, true);
     } catch (IOException exception) {
-      System.out.println("Is the server running?!");
+      if (isDebug())
+        System.out.println("Is the server running?!");
     }
   }
 
   public AIPacketHandler getAIPacketHandler() {
     return (AIPacketHandler) clientPacketHandler;
   }
-
-  public AIUtil getAIUtil() {
-    return aiUtil;
-  }
-
-  public int getCard() {
-    return card;
-  }
-
-  public void setCard(int card) {
-    this.card = card;
-  }
-
-  public boolean isPlacedMoles() {
-    return placedMoles;
-  }
-
-  public void setPlacedMoles(boolean placedMoles) {
-    this.placedMoles = placedMoles;
-  }
-
-  public int getGameID() {
-    return gameID;
-  }
-
-  public AILogic getLogic() {
-    return logic;
-  }
-
-
-  public int getPlacedMolesAmount() {
-    return placedMolesAmount;
-  }
-
-  public void setPlacedMolesAmount(int placedMolesAmount) {
-    this.placedMolesAmount = placedMolesAmount;
-  }
-
-
 }
