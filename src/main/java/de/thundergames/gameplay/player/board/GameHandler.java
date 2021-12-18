@@ -15,6 +15,7 @@ import javafx.scene.layout.Pane;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class GameHandler {
@@ -23,7 +24,7 @@ public class GameHandler {
   private final PlayerModel activePlayer;
   private final long timeout;
   private final int boardRadius;
-  private ArrayList<NodeType> nodeTypes;
+  private HashMap<List<Integer>, NodeType> nodeTypes;
   private Board board;
 
   /**
@@ -34,12 +35,12 @@ public class GameHandler {
    * @author Alp, Dila, Issam
    * @use constructor
    */
-  public GameHandler(@NotNull final ArrayList<PlayerModel> players, final int boardRadius, @NotNull final List<NodeType> nodeTypes, final long timeout) {
+  public GameHandler(@NotNull final ArrayList<PlayerModel> players, final int boardRadius, @NotNull final HashMap<List<Integer>, NodeType> nodeTypes, final long timeout) {
     this.players = players;
     this.activePlayer = players.get(0);
     this.timeout = timeout;
     this.boardRadius = boardRadius;
-    this.nodeTypes = new ArrayList<>(nodeTypes);
+    this.nodeTypes = new HashMap<>(nodeTypes);
   }
 
   /**
@@ -49,7 +50,7 @@ public class GameHandler {
    * @author Alp, Dila, Issam
    * @use constructor
    */
-  public GameHandler(@NotNull final ArrayList<Player> players, final int boardRadius, @NotNull final List<NodeType> nodeTypes) {
+  public GameHandler(@NotNull final ArrayList<PlayerModel> players, final int boardRadius, @NotNull final HashMap<List<Integer>, NodeType> nodeTypes) {
     this(players, boardRadius, nodeTypes, DEFAULT_TIMEOUT);
   }
 
@@ -59,10 +60,10 @@ public class GameHandler {
    * @use starts the pane
    */
   public void start(@NotNull final Pane container) {
-    this.board = new Board(this.boardRadius, container.getWidth(), container.getHeight());
+    this.board = new Board(this.boardRadius, container.getWidth(), container.getHeight(),nodeTypes,players);
     this.board.setContainerBackground(container, "background/ground.png"); // TODO: change depending on level
-    this.board.setPlayers(this.players);
-    this.board.setNodeTypes(this.nodeTypes);
+    //this.board.setPlayers(this.players);
+    //this.board.setNodeTypes(this.nodeTypes);
     this.board.render();
     this.activePlayer.setItMyTurn(true);
   }
@@ -73,9 +74,5 @@ public class GameHandler {
 
   public Board getBoard() {
     return this.board;
-  }
-
-  public void setNodeTypes(List<NodeType> nodeTypes) {
-    this.nodeTypes = new ArrayList<>(nodeTypes);
   }
 }

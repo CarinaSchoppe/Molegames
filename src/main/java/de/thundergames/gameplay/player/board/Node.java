@@ -53,23 +53,16 @@ public class Node extends Circle {
   private Field field;
   private int nodeRadius;
 
-  public Node(final int id, final double x, final double y, final int radius, @NotNull final NodeType nodeType, final int row) {
+  public Node(final int id, final double x, final double y, final int radius, @NotNull final NodeType nodeType, final int row, Field field) {
     super(x, y, radius);
     this.nodeId = id;
     this.row = row;
     nodeType.styleNode(this);
+    this.field = field;
   }
 
-  public Node(final int id, final double x, final double y, @NotNull final NodeType nodeType, final int row, final boolean isOccupied) {
-    this(id, x, y, DEFAULT_RADIUS, nodeType, row);
-  }
-
-  public Node(final int id, final double x, final double y, final int radius) {
-    this(id, x, y, radius, NodeType.DEFAULT, 0);
-  }
-
-  public Node(final int id, final double x, final double y) {
-    this(id, x, y, DEFAULT_RADIUS, NodeType.DEFAULT, 0);
+  public Node(final int id, final double x, final double y, @NotNull final NodeType nodeType, final int row, Field field) {
+    this(id, x, y, DEFAULT_RADIUS, nodeType, row, field);
   }
 
   @Override

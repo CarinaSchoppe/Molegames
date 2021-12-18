@@ -47,10 +47,20 @@ public class PlayerModel{
     this.player=player;
   }
 
+  public PlayerModel() {
+
+  }
+
+
   public PlayerModel(@NotNull ServerThread client,Player player) {
   }
 
   public PlayerModel(@NotNull Client client,Player player) {
+  }
+
+  public PlayerModel(Player player) {
+    this.player = player;
+    this.moles = this.player.getMoles().stream().map(mole -> new MoleModel(1, mole)).collect(Collectors.toCollection(ArrayList::new));
   }
 
   /**

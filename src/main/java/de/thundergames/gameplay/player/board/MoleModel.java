@@ -65,7 +65,7 @@ public class MoleModel extends Button {
 
   public MoleModel(final int id,Mole mole) {
     this(id, 0, 0, DEFAULT_SIZE, false);
-
+    this.mole = mole;
   }
 
   public int getMoleId() {

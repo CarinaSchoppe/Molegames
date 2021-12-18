@@ -18,6 +18,7 @@ import javafx.scene.layout.*;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.function.Function;
@@ -28,7 +29,7 @@ public class Board extends Group {
   // TODO:: make a partial type for nodes that decouples logic from UI
   private final HashSet<Node> nodes;
   private final ArrayList<Edge> edges;
-  private ArrayList<NodeType> nodesType;
+  private HashMap<List<Integer>, NodeType> nodesType;
   private ArrayList<PlayerModel> players;
   private double width;
   private double height;
@@ -40,14 +41,15 @@ public class Board extends Group {
    * @author Issam, Alp, Dila
    * @use generate nodes and edges
    */
-  public Board(final int radius, final double width, final double height) {
+  public Board(final int radius, final double width, final double height, HashMap<List<Integer>, NodeType> nodesType,ArrayList<PlayerModel> players) {
     super();
     this.radius = radius;
     this.width = width;
     this.height = height;
     this.nodes = new HashSet<>();
     this.edges = new ArrayList<>();
-    this.players = new ArrayList<>();
+    this.players = players;
+    this.nodesType = nodesType;
   }
 
   public void setContainerBackground(@NotNull final Pane container, @NotNull final String bgSpritePath) {
@@ -112,13 +114,15 @@ public class Board extends Group {
    */
   public void generateNodes() {
     var numberOfGridRows = this.radius * 2 + 1;
-    var occupiedNodes = getOccupiedNodes();
     var startId = 1;
     for (var i = 0; i < numberOfGridRows; i++) {
       var numberOfGridCols = i <= this.radius ? this.radius + i + 1 : this.radius + numberOfGridRows - i;
       var nodesPositions = getNodesPosition(numberOfGridCols, numberOfGridRows, i);
       for (var j = 0; j < numberOfGridCols; j++) {
-        this.nodes.add(new Node(startId + j, nodesPositions[j].getX(), nodesPositions[j].getY(), this.nodesType.get(startId + j), i + 1, occupiedNodes.contains(startId + j)));
+        var nodeType = this.nodesType.get(List.of(i,j)) != null
+          ? this.nodesType.get(List.of(i,j))
+          : NodeType.DEFAULT;
+        this.nodes.add(new Node(startId + j, nodesPositions[j].getX(), nodesPositions[j].getY(), nodeType, i + 1,new Field(i,j)));
       }
       startId += numberOfGridCols;
     }
@@ -187,24 +191,15 @@ public class Board extends Group {
     this.generateMoles();
     this.players.forEach(player -> this.getChildren().addAll(player.getMoles()));
     // display markers
-    this.players.forEach(player -> this.getChildren().add(player.getMarker()));
+    //this.players.forEach(player -> this.getChildren().add(player.getMarker()));
   }
   private Node getNodeByField(final Field field) {
       for (var node : nodes) {
-        if (node.getField() == field) {
+        if (node.getField().getX() == field.getX() && node.getField().getY() == field.getY()) {
           return node;
         }
       }
 
     return null;
-  }
-
-
-  public List<Integer> getOccupiedNodes() {
-    return this.players.stream().map(player -> player.getOccupiedIDs()).flatMap(List::stream).collect(Collectors.toList());
-  }
-
-  public HashSet<Node> getNodes() {
-    return nodes;
   }
 }
