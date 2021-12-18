@@ -1,7 +1,8 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 15.12.21, 19:20 by Carina Latest changes made by Carina on 15.12.21, 19:19 All contents of "LeaderBoard" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 18.12.21, 16:37 by Carina Latest changes made by Carina on 18.12.21, 16:35
+ * All contents of "LeaderBoard" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -35,17 +36,13 @@ import java.util.ResourceBundle;
 
 public class LeaderBoard extends Application implements Initializable {
 
-  @FXML
-  private TableView<PlayerResult> scoreTable;
+  @FXML private TableView<PlayerResult> scoreTable;
 
-  @FXML
-  private TableColumn<PlayerResult, Integer> placement;
+  @FXML private TableColumn<PlayerResult, Integer> placement;
 
-  @FXML
-  private TableColumn<PlayerResult, String> name;
+  @FXML private TableColumn<PlayerResult, String> name;
 
-  @FXML
-  private TableColumn<PlayerResult, Integer> score;
+  @FXML private TableColumn<PlayerResult, Integer> score;
 
   /**
    * @author Carina, Lennart
@@ -68,22 +65,22 @@ public class LeaderBoard extends Application implements Initializable {
 
   /**
    * @author Lennart, Carina
-   * @use creates a leaderboard and filles it with the playerscores depending on the placement (points)
+   * @use creates a leaderboard and filles it with the playerscores depending on the placement
+   *     (points)
    * @see Score
    * @see Player
    */
   void createLeaderbord() {
     var score = Client.getClientInstance().getGameState().getScore();
-    //sort players in list by their points
-    //fill sorted players with their placement, name and points into leaderlist
+    // sort players in list by their points
+    // fill sorted players with their placement, name and points into leaderlist
     var leaderlist = new ArrayList<PlayerResult>();
     var thisPlace = 1;
     for (var player : score.getPlayers()) {
       System.out.println("points: " + score.getPoints().get(player.getClientID()));
-      leaderlist.add(new PlayerResult(
-        player.getName(),
-        score.getPoints().get(player.getClientID()),
-        thisPlace));
+      leaderlist.add(
+          new PlayerResult(
+              player.getName(), score.getPoints().get(player.getClientID()), thisPlace));
       thisPlace++;
     }
     scoreTable.getItems().addAll(leaderlist);
@@ -130,12 +127,12 @@ public class LeaderBoard extends Application implements Initializable {
     // set event for backToMenu button
     var btnBack = (Button) (primaryStage.getScene().lookup("#btnToMenu"));
     btnBack.setOnAction(
-      e -> {
-        try {
-          backToMenu(e);
-        } catch (IOException ex) {
-          ex.printStackTrace();
-        }
-      });
+        e -> {
+          try {
+            backToMenu(e);
+          } catch (IOException ex) {
+            ex.printStackTrace();
+          }
+        });
   }
 }

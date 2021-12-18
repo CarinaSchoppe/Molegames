@@ -1,7 +1,8 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 15.12.21, 19:20 by Carina Latest changes made by Carina on 15.12.21, 19:19 All contents of "MoleModel" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 18.12.21, 16:37 by Carina Latest changes made by Carina on 18.12.21, 16:35
+ * All contents of "MoleModel" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -15,7 +16,7 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 
 public class MoleModel extends Button {
-  private final static int DEFAULT_SIZE = 48;
+  private static final int DEFAULT_SIZE = 48;
   private final int id;
   private final int size;
 
@@ -28,7 +29,8 @@ public class MoleModel extends Button {
    * @use constructor
    * @author Issam, Dila, Alp
    */
-  public MoleModel(final int id, final double x, final double y, final int size, final boolean isActive) {
+  public MoleModel(
+      final int id, final double x, final double y, final int size, final boolean isActive) {
     super();
     this.id = id;
     this.size = size;
@@ -86,11 +88,13 @@ public class MoleModel extends Button {
     // Set size
     this.setMinSize(this.size, this.size);
     // Add sprite as a background
-    var backgroundImage = new BackgroundImage(new Image(Utils.getSprite("mole/mole.png"), this.size, this.size, false, true),
-      BackgroundRepeat.NO_REPEAT,
-      BackgroundRepeat.NO_REPEAT,
-      BackgroundPosition.CENTER,
-      BackgroundSize.DEFAULT);
+    var backgroundImage =
+        new BackgroundImage(
+            new Image(Utils.getSprite("mole/mole.png"), this.size, this.size, false, true),
+            BackgroundRepeat.NO_REPEAT,
+            BackgroundRepeat.NO_REPEAT,
+            BackgroundPosition.CENTER,
+            BackgroundSize.DEFAULT);
     this.setBackground(new Background(backgroundImage));
   }
 

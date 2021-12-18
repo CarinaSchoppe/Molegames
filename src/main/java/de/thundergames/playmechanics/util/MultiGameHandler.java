@@ -1,7 +1,8 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 15.12.21, 19:20 by Carina Latest changes made by Carina on 15.12.21, 19:19 All contents of "MultiGameHandler" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 18.12.21, 16:37 by Carina Latest changes made by Carina on 18.12.21, 16:35
+ * All contents of "MultiGameHandler" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -25,7 +26,6 @@ import java.util.HashSet;
  * @see de.thundergames.networking.server.Server the server that is using this clas
  * @see ServerThread the thread that is instanciated by the server
  */
-
 @Data
 public class MultiGameHandler {
 
@@ -45,8 +45,7 @@ public class MultiGameHandler {
     if (!IDGames.containsKey(gameID)) {
       new Game(gameID).create();
     } else {
-      if (MoleGames.getMoleGames().getServer().isDebug())
-        System.out.println("Game already exists");
+      if (MoleGames.getMoleGames().getServer().isDebug()) System.out.println("Game already exists");
     }
   }
 

@@ -1,7 +1,8 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 16.12.21, 16:15 by Carina Latest changes made by Carina on 16.12.21, 16:01 All contents of "Server" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 18.12.21, 16:37 by Carina Latest changes made by Carina on 18.12.21, 16:35
+ * All contents of "Server" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -39,9 +40,11 @@ public class Server extends Network {
 
   /**
    * @param port obvious the Serverport in case of empty localhost
-   * @param ip   obvious the ServerIp in case of empty localhost
+   * @param ip obvious the ServerIp in case of empty localhost
    * @author Carina
-   * @use creates a Server with a @param serverSocket and uses this one to create a ServerThread which will handle the Inputreading and got info about the Outputsending adds every ServerThread to a List and adds an Id to it and puts that into a Map
+   * @use creates a Server with a @param serverSocket and uses this one to create a ServerThread
+   *     which will handle the Inputreading and got info about the Outputsending adds every
+   *     ServerThread to a List and adds an Id to it and puts that into a Map
    */
   public Server(int port, String ip) {
     super(port, ip);
@@ -57,41 +60,40 @@ public class Server extends Network {
   @Override
   public void create() {
     new Thread(
-      () -> {
-        try {
-          var serverSocket = new ServerSocket(port);
-          if (MoleGames.getMoleGames().getServer().isDebug())
-            System.out.println("Server listening on port " + getPort());
-          while (true) {
-            socket = serverSocket.accept();
-            var serverThread = new ServerThread(socket, threadID);
-            getConnectionIDs().put(threadID, serverThread);
-            getClientThreads().add(serverThread);
-            serverThread.start();
-            packetHandler.welcomePacket(serverThread, threadID);
-            threadIDs.put(serverThread.getThreadID(), serverThread);
-            threadID++;
-          }
-        } catch (IOException e) {
-          e.printStackTrace();
-        } finally {
-          try {
-            socket.close();
-          } catch (IOException e) {
-            e.printStackTrace();
-          }
-        }
-      })
-      .start();
+            () -> {
+              try {
+                var serverSocket = new ServerSocket(port);
+                if (MoleGames.getMoleGames().getServer().isDebug())
+                  System.out.println("Server listening on port " + getPort());
+                while (true) {
+                  socket = serverSocket.accept();
+                  var serverThread = new ServerThread(socket, threadID);
+                  getConnectionIDs().put(threadID, serverThread);
+                  getClientThreads().add(serverThread);
+                  serverThread.start();
+                  packetHandler.welcomePacket(serverThread, threadID);
+                  threadIDs.put(serverThread.getThreadID(), serverThread);
+                  threadID++;
+                }
+              } catch (IOException e) {
+                e.printStackTrace();
+              } finally {
+                try {
+                  socket.close();
+                } catch (IOException e) {
+                  e.printStackTrace();
+                }
+              }
+            })
+        .start();
   }
 
   /**
-   * @param game   the game that all clients are connected to
+   * @param game the game that all clients are connected to
    * @param packet the packet that should be send
    * @use the method will send a packet to all connected clients of the game
    */
-  public void sendToAllGameClients(
-    @NotNull final Game game, @NotNull final Packet packet) {
+  public void sendToAllGameClients(@NotNull final Game game, @NotNull final Packet packet) {
     if (!game.getPlayers().isEmpty()) {
       for (var clients : game.getPlayers()) {
         clients.getServerClient().sendPacket(packet);
@@ -104,11 +106,11 @@ public class Server extends Network {
 
   /**
    * @param tournament that all clients are connected to
-   * @param packet     the packet that should be send
+   * @param packet the packet that should be send
    * @use the method will send a packet to all connected clients of the game
    */
   public void sendToAllTournamentClients(
-    @NotNull final Tournament tournament, @NotNull final Packet packet) {
+      @NotNull final Tournament tournament, @NotNull final Packet packet) {
     try {
       if (!tournament.getPlayers().isEmpty()) {
         for (var clients : tournament.getPlayers()) {

@@ -1,22 +1,23 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 15.12.21, 19:20 by Carina Latest changes made by Carina on 15.12.21, 19:19 All contents of "MapTest" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 18.12.21, 16:37 by Carina Latest changes made by Carina on 18.12.21, 16:35
+ * All contents of "MapTest" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
  * requires the express written consent of ThunderGames | SwtPra10.
  */
 
-package de.thundergames.playmechanics.map;/*
- * Copyright Notice for SwtPra10
- * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 14.12.21, 15:41 by Carina Latest changes made by Carina on 14.12.21, 15:41 All contents of "MapTest" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
- * at ThunderGames | SwtPra10. All rights reserved
- * Any type of duplication, distribution, rental, sale, award,
- * Public accessibility or other use
- * requires the express written consent of ThunderGames | SwtPra10.
- */
+package de.thundergames.playmechanics.map; /*
+                                            * Copyright Notice for SwtPra10
+                                            * Copyright (c) at ThunderGames | SwtPra10 2021
+                                            * File created on 14.12.21, 15:41 by Carina Latest changes made by Carina on 14.12.21, 15:41 All contents of "MapTest" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+                                            * at ThunderGames | SwtPra10. All rights reserved
+                                            * Any type of duplication, distribution, rental, sale, award,
+                                            * Public accessibility or other use
+                                            * requires the express written consent of ThunderGames | SwtPra10.
+                                            */
 
 import de.thundergames.playmechanics.game.Game;
 import de.thundergames.playmechanics.game.GameState;
@@ -38,8 +39,7 @@ class MapTest {
 
   private Game game;
 
-  @Mock
-  private Player playerMock = mock(Player.class);
+  @Mock private Player playerMock = mock(Player.class);
 
   @BeforeEach
   void setUp() {

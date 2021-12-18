@@ -1,7 +1,8 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 16.12.21, 16:15 by Carina Latest changes made by Carina on 16.12.21, 15:55 All contents of "Settings" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 18.12.21, 16:37 by Carina Latest changes made by Carina on 18.12.21, 16:35
+ * All contents of "Settings" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -36,8 +37,10 @@ public class Settings {
   private int maxPlayers = 4;
   private int radius = 10;
   private int numberOfMoles = 4;
+
   @SerializedName(value = "levels")
   private ArrayList<Map> floors = new ArrayList<>();
+
   private boolean pullDiscsOrdered = true;
   private long turnTime = 5000;
   private int visualizationTime = 10;
@@ -52,7 +55,7 @@ public class Settings {
    * @param newConfig the jsonObject that will update the configuration send by the AusrichterClient
    * @author Carina
    * @use pass in the new configuration from the AusrichterClient and it will automaticly update
-   * every single setting that was included in the jsonObject
+   *     every single setting that was included in the jsonObject
    * @use this method is called in the AusrichterClient to the Server
    * @use updates the map and the Game directly
    */

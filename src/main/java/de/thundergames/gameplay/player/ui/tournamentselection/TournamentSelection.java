@@ -1,7 +1,8 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 16.12.21, 16:16 by Carina Latest changes made by Carina on 16.12.21, 15:51 All contents of "TournamentSelection" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 18.12.21, 16:37 by Carina Latest changes made by Carina on 18.12.21, 16:35
+ * All contents of "TournamentSelection" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -40,14 +41,10 @@ public class TournamentSelection implements Initializable {
 
   private static Client CLIENT;
   private static TournamentSelection TOURNAMENT_SELECTION;
-  @FXML
-  private Text PlayerName;
-  @FXML
-  private TableView<Tournament> gameTable;
-  @FXML
-  private TableColumn<Tournament, Integer> tournamentID;
-  @FXML
-  private TableColumn<Tournament, String> playerCount;
+  @FXML private Text PlayerName;
+  @FXML private TableView<Tournament> gameTable;
+  @FXML private TableColumn<Tournament, Integer> tournamentID;
+  @FXML private TableColumn<Tournament, String> playerCount;
   private Stage primaryStage;
 
   public static TournamentSelection getTournamentSelection() {
@@ -75,30 +72,30 @@ public class TournamentSelection implements Initializable {
     // set event for back button
     var btnBack = (Button) (primaryStage.getScene().lookup("#backToMenu"));
     btnBack.setOnAction(
-      e -> {
-        try {
-          backToMenu(e);
-        } catch (IOException ex) {
-          ex.printStackTrace();
-        }
-      });
+        e -> {
+          try {
+            backToMenu(e);
+          } catch (IOException ex) {
+            ex.printStackTrace();
+          }
+        });
     // set event for spectate game
     var btnSpectateGame = (Button) (primaryStage.getScene().lookup("#spectateGame"));
     btnSpectateGame.setOnAction(
-      e -> {
-        try {
-          spectateGame(e);
-        } catch (IOException ex) {
-          ex.printStackTrace();
-        }
-      });
+        e -> {
+          try {
+            spectateGame(e);
+          } catch (IOException ex) {
+            ex.printStackTrace();
+          }
+        });
     // endregion
   }
 
   /**
    * Is called when the object is initialized
    *
-   * @param location  of base class Initialize
+   * @param location of base class Initialize
    * @param resources of base class Initialize
    */
   @Override
@@ -114,9 +111,7 @@ public class TournamentSelection implements Initializable {
     updateTable();
   }
 
-  /**
-   * Refresh the games of tableview
-   */
+  /** Refresh the games of tableview */
   public void updateTable() {
     // clear tableview and get tournaments from server and add all to table view
     gameTable.getItems().clear();
@@ -157,16 +152,14 @@ public class TournamentSelection implements Initializable {
     // If no item of tableview is selected.
     if (selectedItem == null) {
       JOptionPane.showMessageDialog(
-        null,
-        "Es wurde kein Turnier selektiert!",
-        "Turnier beobachten",
-        JOptionPane.ERROR_MESSAGE);
+          null,
+          "Es wurde kein Turnier selektiert!",
+          "Turnier beobachten",
+          JOptionPane.ERROR_MESSAGE);
       return;
     }
     // Send Packet to spectate tournament to get GameState
-    CLIENT
-      .getClientPacketHandler()
-      .enterTournamentPacket(selectedItem.getTournamentID(), false);
+    CLIENT.getClientPacketHandler().enterTournamentPacket(selectedItem.getTournamentID(), false);
     var currentGameState = CLIENT.getGameState();
     if (MoleGames.getMoleGames().getServer().isDebug()) {
       if (currentGameState == null) {
@@ -175,10 +168,11 @@ public class TournamentSelection implements Initializable {
       }
     }
     if (Objects.equals(currentGameState.getStatus(), GameStates.STARTED.toString())
-      || Objects.equals(currentGameState.getStatus(), GameStates.PAUSED.toString())) {
+        || Objects.equals(currentGameState.getStatus(), GameStates.PAUSED.toString())) {
       spectateGame(currentGameState);
     } else if (Objects.equals(currentGameState.getStatus(), GameStates.NOT_STARTED.toString())) {
-      //new TournamentSelection.LobbyObserverTournament().create(event, selectedItem.getTournamentID());
+      // new TournamentSelection.LobbyObserverTournament().create(event,
+      // selectedItem.getTournamentID());
     } else if (Objects.equals(currentGameState.getStatus(), GameStates.OVER.toString())) {
       loadScoreboard();
     }

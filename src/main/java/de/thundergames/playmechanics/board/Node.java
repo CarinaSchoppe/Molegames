@@ -1,7 +1,8 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 15.12.21, 19:20 by Carina Latest changes made by Carina on 15.12.21, 19:19 All contents of "NodeType" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 18.12.21, 16:37 by Carina Latest changes made by Carina on 18.12.21, 16:35
+ * All contents of "NodeType" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -44,13 +45,20 @@ enum NodeType {
 }
 
 public class Node extends Circle {
-  public final static int DEFAULT_RADIUS = 15;
+  public static final int DEFAULT_RADIUS = 15;
   private final int id;
   private final int row;
   private int radius;
   private boolean isOccupied;
 
-  public Node(final int id, final double x, final double y, final int radius, @NotNull final NodeType nodeType, final int row, final boolean isOccupied) {
+  public Node(
+      final int id,
+      final double x,
+      final double y,
+      final int radius,
+      @NotNull final NodeType nodeType,
+      final int row,
+      final boolean isOccupied) {
     super(x, y, radius);
     this.id = id;
     this.row = row;
@@ -58,7 +66,13 @@ public class Node extends Circle {
     this.isOccupied = isOccupied;
   }
 
-  public Node(final int id, final double x, final double y, @NotNull final NodeType nodeType, final int row, final boolean isOccupied) {
+  public Node(
+      final int id,
+      final double x,
+      final double y,
+      @NotNull final NodeType nodeType,
+      final int row,
+      final boolean isOccupied) {
     this(id, x, y, DEFAULT_RADIUS, nodeType, row, false);
   }
 

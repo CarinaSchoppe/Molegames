@@ -1,7 +1,8 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 15.12.21, 19:20 by Carina Latest changes made by Carina on 15.12.21, 19:19 All contents of "TestWindow" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 18.12.21, 16:37 by Carina Latest changes made by Carina on 18.12.21, 16:35
+ * All contents of "TestWindow" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -25,7 +26,7 @@ import java.util.stream.IntStream;
 
 public class TestWindow extends Application {
 
-  final static int BOARD_RADIUS = 3;
+  static final int BOARD_RADIUS = 3;
 
   public static void main(String[] args) {
     launch(args);
@@ -41,9 +42,7 @@ public class TestWindow extends Application {
     var borderPane = new BorderPane();
     // Set custom cursor
     var cursor = new Image(Utils.getSprite("game/cursor.png"));
-    borderPane.setCursor(new ImageCursor(cursor,
-      cursor.getWidth() / 2,
-      cursor.getHeight() / 2));
+    borderPane.setCursor(new ImageCursor(cursor, cursor.getWidth() / 2, cursor.getHeight() / 2));
     var maxPossibleID = 3 * (int) Math.pow(BOARD_RADIUS, 2) + 3 * BOARD_RADIUS + 1;
     // Create a game handler and add random players to it
     var nodeTypes = generateRandomNodeTypes(50);
@@ -51,7 +50,9 @@ public class TestWindow extends Application {
     var gameHandler = new GameHandler(players, BOARD_RADIUS, nodeTypes);
     gameHandler.start(borderPane);
     // Add resize event listener
-    ChangeListener<Number> resizeObserver = (obs, newValue, oldValue) -> gameHandler.getBoard().onResize(borderPane.getWidth(), borderPane.getHeight());
+    ChangeListener<Number> resizeObserver =
+        (obs, newValue, oldValue) ->
+            gameHandler.getBoard().onResize(borderPane.getWidth(), borderPane.getHeight());
     borderPane.widthProperty().addListener(resizeObserver);
     borderPane.heightProperty().addListener(resizeObserver);
     // Add board to center of borderPane
@@ -70,9 +71,13 @@ public class TestWindow extends Application {
    * @author Issam, Dila, Alp
    * @use generates random moles
    */
-  public ArrayList<MoleModel> generateRandomMoles(final int numMoles, final int minId, final int maxId) {
+  public ArrayList<MoleModel> generateRandomMoles(
+      final int numMoles, final int minId, final int maxId) {
     var moles = new ArrayList<MoleModel>();
-    var randomIntsArray = IntStream.generate(() -> new Random().nextInt(maxId - minId + 1) + minId).limit(numMoles).toArray();
+    var randomIntsArray =
+        IntStream.generate(() -> new Random().nextInt(maxId - minId + 1) + minId)
+            .limit(numMoles)
+            .toArray();
     for (var id : randomIntsArray) {
       moles.add(new MoleModel(id, 40));
     }
