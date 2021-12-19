@@ -1,22 +1,23 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 15.12.21, 19:20 by Carina Latest changes made by Carina on 15.12.21, 19:19 All contents of "GameUtilTest" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 18.12.21, 16:37 by Carina Latest changes made by Carina on 18.12.21, 16:35
+ * All contents of "GameUtilTest" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
  * requires the express written consent of ThunderGames | SwtPra10.
  */
 
-package de.thundergames.playmechanics.game;/*
- * Copyright Notice for SwtPra10
- * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 14.12.21, 15:41 by Carina Latest changes made by Carina on 14.12.21, 15:41 All contents of "GameUtilTest" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
- * at ThunderGames | SwtPra10. All rights reserved
- * Any type of duplication, distribution, rental, sale, award,
- * Public accessibility or other use
- * requires the express written consent of ThunderGames | SwtPra10.
- */
+package de.thundergames.playmechanics.game; /*
+                                             * Copyright Notice for SwtPra10
+                                             * Copyright (c) at ThunderGames | SwtPra10 2021
+                                             * File created on 14.12.21, 15:41 by Carina Latest changes made by Carina on 14.12.21, 15:41 All contents of "GameUtilTest" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+                                             * at ThunderGames | SwtPra10. All rights reserved
+                                             * Any type of duplication, distribution, rental, sale, award,
+                                             * Public accessibility or other use
+                                             * requires the express written consent of ThunderGames | SwtPra10.
+                                             */
 
 import de.thundergames.playmechanics.map.Field;
 import de.thundergames.playmechanics.map.Map;
@@ -41,11 +42,9 @@ class GameUtilTest {
   private final HashSet<Field> holes = new HashSet<>();
   private GameUtil gameUtil;
 
-  @Mock
-  private Player playerMock = mock(Player.class);
+  @Mock private Player playerMock = mock(Player.class);
 
-  @Mock
-  private Game gameMock = mock(Game.class);
+  @Mock private Game gameMock = mock(Game.class);
 
   @BeforeEach
   void setUp() {
@@ -91,14 +90,11 @@ class GameUtilTest {
   }
 
   @Test
-  void nextPlayer() {
-  }
+  void nextPlayer() {}
 
   @Test
-  void nextFloor() {
-  }
+  void nextFloor() {}
 
   @Test
-  void givePoints() {
-  }
+  void givePoints() {}
 }

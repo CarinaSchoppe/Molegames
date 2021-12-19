@@ -1,7 +1,8 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 15.12.21, 19:20 by Carina Latest changes made by Carina on 15.12.21, 19:19 All contents of "ClientThread" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 18.12.21, 16:37 by Carina Latest changes made by Carina on 18.12.21, 16:35
+ * All contents of "ClientThread" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -25,21 +26,21 @@ public class ClientThread extends NetworkThread {
   protected Client client;
 
   public ClientThread(@NotNull final Socket socket, final int id, @NotNull final Client client)
-    throws IOException {
+      throws IOException {
     super(socket, id);
     this.client = client;
   }
 
   /**
    * @author Carina
-   * @use disconnects the ClientThread from the System and will run the shutdown-logic of the playerSystem
+   * @use disconnects the ClientThread from the System and will run the shutdown-logic of the
+   *     playerSystem
    */
   @Override
   public void disconnect() {
     {
       try {
-        if (client.isDebug())
-          System.out.println("Client: Connection to server disconnected!");
+        if (client.isDebug()) System.out.println("Client: Connection to server disconnected!");
         socket.close();
         System.exit(5);
       } catch (IOException e) {
