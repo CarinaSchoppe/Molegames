@@ -1,8 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 18.12.21, 16:37 by Carina Latest changes made by Carina on 18.12.21, 16:35
- * All contents of "Player" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 20.12.21, 16:43 by Carina Latest changes made by Carina on 20.12.21, 16:43 All contents of "Player" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -22,7 +21,10 @@ import lombok.Getter;
 import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Timer;
 
 @Getter
 @Setter
@@ -119,15 +121,15 @@ public class Player {
         playerUtil.refillCards();
       }
       MoleGames.getMoleGames()
-          .getServer()
-          .sendToAllGameClients(
-              game,
-              MoleGames.getMoleGames()
-                  .getServer()
-                  .getPacketHandler()
-                  .moleMovedPacket(
-                      new Field(x_start, y_start), new Field(x_end, y_end), cardValue));
-      Objects.requireNonNull(mole).setField(game.getMap().getFieldMap().get(List.of(x_end, y_end)));
+        .getServer()
+        .sendToAllGameClients(
+          game,
+          MoleGames.getMoleGames()
+            .getServer()
+            .getPacketHandler()
+            .moleMovedPacket(
+              new Field(x_start, y_start), new Field(x_end, y_end), cardValue));
+      mole.setField(game.getMap().getFieldMap().get(List.of(x_end, y_end)));
       game.getMap().getFieldMap().get(List.of(x_start, y_start)).setOccupied(false);
       game.getMap().getFieldMap().get(List.of(x_end, y_end)).setOccupied(true);
       game.getMap().getFieldMap().get(List.of(x_end, y_end)).setMole(mole);

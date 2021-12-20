@@ -1,8 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 18.12.21, 16:37 by Carina Latest changes made by Carina on 18.12.21, 16:35
- * All contents of "ServerThread" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 20.12.21, 16:43 by Carina Latest changes made by Carina on 20.12.21, 16:43 All contents of "ServerThread" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -11,6 +10,7 @@
 package de.thundergames.networking.server;
 
 import de.thundergames.MoleGames;
+import de.thundergames.gameplay.ausrichter.ui.MainGUI;
 import de.thundergames.networking.util.NetworkThread;
 import de.thundergames.playmechanics.util.Player;
 import lombok.Getter;
@@ -48,16 +48,18 @@ public class ServerThread extends NetworkThread {
       if (getPlayer() != null) {
         if (getPlayer().getGame() != null) {
           getPlayer()
-              .getGame()
-              .removePlayerFromGame(player.getGame().getClientPlayersMap().get(this));
+            .getGame()
+            .removePlayerFromGame(player.getGame().getClientPlayersMap().get(this));
         }
       }
       MoleGames.getMoleGames().getServer().getConnectionNames().remove(this.getClientName());
       MoleGames.getMoleGames().getServer().getClientThreads().remove(this);
       MoleGames.getMoleGames().getServer().getThreadIDs().remove(getThreadID());
       socket.close();
-      if (MoleGames.getMoleGames().getServer().isDebug())
+      if (MoleGames.getMoleGames().getServer().isDebug()) {
         System.out.println("Disconnecting " + this.getClientName());
+      }
+      MainGUI.getGUI().updateTable();
     } catch (IOException e) {
       e.printStackTrace();
     }

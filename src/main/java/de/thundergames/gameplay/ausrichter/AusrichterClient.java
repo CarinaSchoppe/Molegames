@@ -1,8 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 18.12.21, 16:37 by Carina Latest changes made by Carina on 18.12.21, 16:35
- * All contents of "AusrichterClient" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 20.12.21, 16:43 by Carina Latest changes made by Carina on 20.12.21, 16:43 All contents of "AusrichterClient" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -39,16 +38,33 @@ public class AusrichterClient {
         .getIDGames()
         .get(id)
         .getSettings()
-        .getFloors()
-        .add(floor1);
+      .getFloors()
+      .add(floor1);
     MoleGames.getMoleGames()
-        .getGameHandler()
-        .getIDGames()
-        .get(id)
-        .getSettings()
-        .getFloors()
-        .add(floor2);
+      .getGameHandler()
+      .getIDGames()
+      .get(id)
+      .getSettings()
+      .getFloors()
+      .add(floor2);
     MoleGames.getMoleGames().getGameHandler().getIDGames().get(id).updateGameState();
+    //next game
+    MoleGames.getMoleGames().getGameHandler().createNewGame(id + 1);
+    MoleGames.getMoleGames()
+      .getGameHandler()
+      .getIDGames()
+      .get(id + 1)
+      .getSettings()
+      .getFloors()
+      .add(floor1);
+    MoleGames.getMoleGames()
+      .getGameHandler()
+      .getIDGames()
+      .get(id + 1)
+      .getSettings()
+      .getFloors()
+      .add(floor2);
+    MoleGames.getMoleGames().getGameHandler().getIDGames().get(id + 1).updateGameState();
     try {
       Thread.sleep((long) (WAIT_TIME * 1000));
     } catch (InterruptedException e) {

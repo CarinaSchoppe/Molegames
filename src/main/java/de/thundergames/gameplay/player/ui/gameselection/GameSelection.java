@@ -1,8 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 18.12.21, 16:37 by Carina Latest changes made by Carina on 18.12.21, 16:35
- * All contents of "GameSelection" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 20.12.21, 16:43 by Carina Latest changes made by Carina on 20.12.21, 16:43 All contents of "GameSelection" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -42,8 +41,10 @@ public class GameSelection implements Initializable {
 
   private static Client CLIENT;
   private static GameSelection GAME_SELECTION;
-  @FXML private Text PlayerName;
-  @FXML private TableView<Game> gameTable;
+  @FXML
+  private Text playerName;
+  @FXML
+  private TableView<Game> gameTable;
   @FXML private TableColumn<Game, Integer> gameID;
   @FXML private TableColumn<Game, String> gamePlayerCount;
   @FXML private TableColumn<Game, String> gameState;
@@ -116,7 +117,7 @@ public class GameSelection implements Initializable {
     GAME_SELECTION = this;
     CLIENT = Client.getClientInstance();
     // show username at scene
-    PlayerName.setText("Spieler: " + CLIENT.name);
+    playerName.setText("Spieler: " + CLIENT.name);
     // set value for each row
     gameID.setCellValueFactory(new PropertyValueFactory<>("HashtagWithGameID"));
     gamePlayerCount.setCellValueFactory(new PropertyValueFactory<>("CurrentPlayerCount_MaxCount"));

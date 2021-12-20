@@ -1,8 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 18.12.21, 16:37 by Carina Latest changes made by Carina on 18.12.21, 16:35
- * All contents of "MoleGames" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 20.12.21, 16:43 by Carina Latest changes made by Carina on 20.12.21, 16:42 All contents of "MoleGames" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -12,6 +11,7 @@ package de.thundergames;
 
 import de.thundergames.gameplay.ai.AI;
 import de.thundergames.gameplay.ausrichter.AusrichterClient;
+import de.thundergames.gameplay.ausrichter.ui.MainGUI;
 import de.thundergames.gameplay.player.Client;
 import de.thundergames.gameplay.player.ui.LoginScreen;
 import de.thundergames.networking.server.Server;
@@ -38,6 +38,7 @@ public class MoleGames {
   private Server server;
   private MultiGameHandler gameHandler;
   private AusrichterClient ausrichterClient;
+  private MainGUI gui;
 
   /**
    * @author Carina
@@ -62,16 +63,13 @@ public class MoleGames {
           MOLE_GAMES.server = new Server(5000, "127.0.0.1");
           MOLE_GAMES.gameHandler = new MultiGameHandler();
           MOLE_GAMES.server.create();
-          new de.thundergames.gameplay.ausrichter.ui.CreateGame().create(MOLE_GAMES.server, args);
+          MOLE_GAMES.gui = new MainGUI();
+          MainGUI.create(MOLE_GAMES.server, args);
           break;
         case "-a":
         case "a":
           assert args[3] != null;
-          MoleGames.getMoleGames().ai =
-              new AI(
-                  Objects.requireNonNull(args[1]),
-                  Integer.parseInt(Objects.requireNonNull(args[2])),
-                  Integer.parseInt(Objects.requireNonNull(args[3])));
+          MoleGames.getMoleGames().ai = new AI(Objects.requireNonNull(args[1]), Integer.parseInt(Objects.requireNonNull(args[2])), Integer.parseInt(Objects.requireNonNull(args[3])));
           MoleGames.getMoleGames().ai.create();
       }
     }
