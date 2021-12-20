@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 20.12.21, 16:43 by Carina Latest changes made by Carina on 20.12.21, 16:18 All contents of "PacketHandler" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 20.12.21, 16:49 by Carina Latest changes made by Carina on 20.12.21, 16:49 All contents of "PacketHandler" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -281,18 +281,14 @@ public class PacketHandler {
   private void handleMakeMovePacket(
     @NotNull final ServerThread client, @NotNull final Packet packet) {
     var game = client.getPlayer().getGame();
-    for (var player : game.getPlayers()) {
-      if (player.getServerClient().equals(client)) {
-        var fieldStart =
-          new Gson().fromJson(packet.getValues().get("from").getAsString(), Field.class);
-        var fieldEnd = new Gson().fromJson(packet.getValues().get("to").getAsString(), Field.class);
-        player.moveMole(
-          fieldStart.getX(),
-          fieldStart.getY(),
-          fieldEnd.getX(),
-          fieldEnd.getY(),
-          packet.getValues().get("pullDisc").getAsInt());
-        return;
+    if (game.getCurrentGameState() != GameStates.OVER && game.getCurrentGameState() != GameStates.NOT_STARTED) {
+      for (var player : game.getPlayers()) {
+        if (player.getServerClient().equals(client)) {
+          var fieldStart = new Gson().fromJson(packet.getValues().get("from").getAsString(), Field.class);
+          var fieldEnd = new Gson().fromJson(packet.getValues().get("to").getAsString(), Field.class);
+          player.moveMole(fieldStart.getX(), fieldStart.getY(), fieldEnd.getX(), fieldEnd.getY(), packet.getValues().get("pullDisc").getAsInt());
+          return;
+        }
       }
     }
   }
@@ -365,9 +361,8 @@ public class PacketHandler {
     if (client.getSocket().isConnected() && client.getPlayer().getGame() != null) {
       var game = client.getPlayer().getGame();
       if (game != null) {
-        if (game.getCurrentGameState() == GameStates.STARTED) {
-          var position =
-            new Gson().fromJson(packet.getValues().get("position").getAsString(), Field.class);
+        if (game.getCurrentGameState() != GameStates.OVER && game.getCurrentGameState() != GameStates.NOT_STARTED) {
+          var position = new Gson().fromJson(packet.getValues().get("position").getAsString(), Field.class);
           client.getPlayer().placeMole(position.getX(), position.getY());
         }
       }

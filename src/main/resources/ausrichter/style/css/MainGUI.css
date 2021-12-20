@@ -1,0 +1,59 @@
+/*
+ * Copyright Notice for SwtPra10
+ * Copyright (c) at ThunderGames | SwtPra10 2021
+ * File created on 20.12.21, 16:49 by Carina Latest changes made by Carina on 20.12.21, 16:18 All contents of "MainGUI.css" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * at ThunderGames | SwtPra10. All rights reserved
+ * Any type of duplication, distribution, rental, sale, award,
+ * Public accessibility or other use
+ * requires the express written consent of ThunderGames | SwtPra10.
+ */
+
+/* Base transparency*/
+.table-view {
+    -fx-base: transparent;
+}
+
+/* transparency*/
+.table-view,
+.table-view .column-header,
+.table-view .column-header-background,
+.table-view .column-header-background .filler {
+    -fx-background-color: transparent;
+}
+
+/*color for cell*/
+.table-row-cell {
+    -fx-background-color: -fx-table-cell-border-color, rgba(65, 23, 167, 1);
+}
+
+/* Set color for selected item */
+.table-view:focused .table-row-cell:selected {
+    -fx-background-color: rgba(75, 203, 79, 1);
+}
+
+/* header font */
+.table-view .column-header .label {
+    -fx-text-fill: white;
+    -fx-font-size: 10px;
+}
+
+/* cell border transparency*/
+.table-view .table-cell {
+    -fx-border-width: 0 0 0 0;
+    -fx-padding: 16 0 16 0;
+}
+
+/* font of table items*/
+.table-view .table-column {
+    -fx-text-alignment: center;
+    -fx-alignment: center;
+    -fx-text-fill: white;
+    -fx-font-size: 20px;
+    -fx-font-family: Chicle;
+    -fx-font-weight: bold;
+}
+
+/* empty item get transparency*/
+.table-row-cell:empty {
+    -fx-background-color: transparent;
+}

@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 20.12.21, 16:43 by Carina Latest changes made by Carina on 20.12.21, 16:43 All contents of "Player" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 20.12.21, 16:49 by Carina Latest changes made by Carina on 20.12.21, 16:49 All contents of "Player" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -246,17 +246,17 @@ public class Player {
           .getServer()
           .sendToAllGameClients(
               game,
-              MoleGames.getMoleGames()
-                  .getServer()
-                  .getPacketHandler()
-                  .movePenaltyNotification(
-                      this,
-                      getGame().getDeductedPoints(),
-                      game.getSettings().getPunishment(),
-                      Punishments.NOMOVE.getName()));
+            MoleGames.getMoleGames()
+              .getServer()
+              .getPacketHandler()
+              .movePenaltyNotification(
+                this,
+                getGame().getDeductedPoints(),
+                game.getSettings().getPunishment(),
+                Punishments.NOMOVE.getName()));
       timer.cancel();
       game.getGameUtil().nextPlayer();
-    } else if (game.getCurrentPlayer().equals(this)) {
+    } else {
       var mole = new Mole(this, new Field(x, y));
       moles.add(mole);
       game.getMoleMap().put(this, mole);
@@ -266,7 +266,7 @@ public class Player {
       var player = new Player((ServerThread) getServerClient());
       var netMole = new Mole(player, field);
       MoleGames.getMoleGames()
-          .getServer()
+        .getServer()
           .sendToAllGameClients(
               game,
               MoleGames.getMoleGames().getServer().getPacketHandler().molePlacedPacket(netMole));
