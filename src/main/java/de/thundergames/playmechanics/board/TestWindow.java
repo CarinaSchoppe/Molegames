@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 20.12.21, 16:43 by Carina Latest changes made by Carina on 20.12.21, 16:18 All contents of "TestWindow" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 20.12.21, 16:51 by Carina Latest changes made by Carina on 20.12.21, 16:50 All contents of "TestWindow" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -50,8 +50,8 @@ public class TestWindow extends Application {
     gameHandler.start(borderPane);
     // Add resize event listener
     ChangeListener<Number> resizeObserver =
-        (obs, newValue, oldValue) ->
-            gameHandler.getBoard().onResize(borderPane.getWidth(), borderPane.getHeight());
+      (obs, newValue, oldValue) ->
+        gameHandler.getBoard().onResize(borderPane.getWidth(), borderPane.getHeight());
     borderPane.widthProperty().addListener(resizeObserver);
     borderPane.heightProperty().addListener(resizeObserver);
     // Add board to center of borderPane
@@ -71,12 +71,12 @@ public class TestWindow extends Application {
    * @use generates random moles
    */
   public ArrayList<MoleModel> generateRandomMoles(
-      final int numMoles, final int minId, final int maxId) {
+    final int numMoles, final int minId, final int maxId) {
     var moles = new ArrayList<MoleModel>();
     var randomIntsArray =
-        IntStream.generate(() -> new Random().nextInt(maxId - minId + 1) + minId)
-            .limit(numMoles)
-            .toArray();
+      IntStream.generate(() -> new Random().nextInt(maxId - minId + 1) + minId)
+        .limit(numMoles)
+        .toArray();
     for (var id : randomIntsArray) {
       moles.add(new MoleModel(id, 40));
     }

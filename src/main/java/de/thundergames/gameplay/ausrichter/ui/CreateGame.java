@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 20.12.21, 16:43 by Carina Latest changes made by Carina on 20.12.21, 16:43 All contents of "CreateGame" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 20.12.21, 16:51 by Carina Latest changes made by Carina on 20.12.21, 16:50 All contents of "CreateGame" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -28,19 +28,6 @@ import java.util.ResourceBundle;
 
 public class CreateGame extends Application {
 
-  @FXML
-  void addItemButtonEvent(ActionEvent event) {
-    if (!drawCardValue.getText().isEmpty() || !drawCardValue.getText().equals("")) {
-      drawCardValuesList.add(Integer.valueOf(drawCardValue.getText()));
-    }
-    if (drawCardValues.getText().equals("") || drawCardValues.getText().equals(null)) {
-      drawCardValues.setText(drawCardValue.getText());
-    } else {
-      drawCardValues.setText(drawCardValues.getText() + "\n" + drawCardValue.getText());
-    }
-    drawCardValue.clear();
-  }
-
   private final ArrayList<Integer> drawCardValuesList = new ArrayList<>();
   @FXML
   private ResourceBundle resources;
@@ -48,27 +35,8 @@ public class CreateGame extends Application {
   private URL location;
   @FXML
   private Button addItem;
-
-  private void clearAllComponents() {
-    drawCardValuesList.clear();
-    drawCardValues.clear();
-    drawCardValue.clear();
-    playerAmount.clear();
-    molesAmount.clear();
-    thinkTime.clear();
-    visualEffects.clear();
-    radius.clear();
-  }
-
   @FXML
   private Button back;
-
-  @FXML
-  void removeAllButtonEvent(ActionEvent event) {
-    drawCardValues.clear();
-    drawCardValuesList.clear();
-  }
-
   @FXML
   private Button configureFloors;
   @FXML
@@ -97,6 +65,36 @@ public class CreateGame extends Application {
   private CheckBox pullDiscsOrdered;
   @FXML
   private TextField visualEffects;
+
+  @FXML
+  void addItemButtonEvent(ActionEvent event) {
+    if (!drawCardValue.getText().isEmpty() || !drawCardValue.getText().equals("")) {
+      drawCardValuesList.add(Integer.valueOf(drawCardValue.getText()));
+    }
+    if (drawCardValues.getText().equals("") || drawCardValues.getText().equals(null)) {
+      drawCardValues.setText(drawCardValue.getText());
+    } else {
+      drawCardValues.setText(drawCardValues.getText() + "\n" + drawCardValue.getText());
+    }
+    drawCardValue.clear();
+  }
+
+  private void clearAllComponents() {
+    drawCardValuesList.clear();
+    drawCardValues.clear();
+    drawCardValue.clear();
+    playerAmount.clear();
+    molesAmount.clear();
+    thinkTime.clear();
+    visualEffects.clear();
+    radius.clear();
+  }
+
+  @FXML
+  void removeAllButtonEvent(ActionEvent event) {
+    drawCardValues.clear();
+    drawCardValuesList.clear();
+  }
 
   @FXML
   void backButtonEvent(ActionEvent event) throws Exception {

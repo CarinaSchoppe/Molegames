@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 20.12.21, 16:43 by Carina Latest changes made by Carina on 20.12.21, 16:18 All contents of "PlayerMenu" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 20.12.21, 16:51 by Carina Latest changes made by Carina on 20.12.21, 16:50 All contents of "PlayerMenu" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -30,7 +30,8 @@ import java.util.ResourceBundle;
 public class PlayerMenu implements Initializable {
 
   private static Client CLIENT;
-  @FXML private Text PlayerName;
+  @FXML
+  private Text PlayerName;
 
   /**
    * Create the Scene for PlayerMenu
@@ -52,7 +53,7 @@ public class PlayerMenu implements Initializable {
   /**
    * Is called when the object is initialized
    *
-   * @param location of base class Initialize
+   * @param location  of base class Initialize
    * @param resources of base class Initialize
    */
   @Override

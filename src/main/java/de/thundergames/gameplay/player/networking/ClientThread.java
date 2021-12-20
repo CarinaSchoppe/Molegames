@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 20.12.21, 16:43 by Carina Latest changes made by Carina on 20.12.21, 16:18 All contents of "ClientThread" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 20.12.21, 16:51 by Carina Latest changes made by Carina on 20.12.21, 16:50 All contents of "ClientThread" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -25,7 +25,7 @@ public class ClientThread extends NetworkThread {
   protected Client client;
 
   public ClientThread(@NotNull final Socket socket, final int id, @NotNull final Client client)
-      throws IOException {
+    throws IOException {
     super(socket, id);
     this.client = client;
   }
@@ -33,7 +33,7 @@ public class ClientThread extends NetworkThread {
   /**
    * @author Carina
    * @use disconnects the ClientThread from the System and will run the shutdown-logic of the
-   *     playerSystem
+   * playerSystem
    */
   @Override
   public void disconnect() {
