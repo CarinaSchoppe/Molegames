@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-
 <!--
   ~ Copyright Notice for SwtPra10
   ~ Copyright (c) at ThunderGames | SwtPra10 2021
-  ~ File created on 21.12.21, 15:22 by Carina Latest changes made by Carina on 21.12.21, 15:21 All contents of "ConfigLoader.fxml" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+  ~ File created on 21.12.21, 16:39 by Carina Latest changes made by Carina on 21.12.21, 16:37 All contents of "ConfigLoader.fxml" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
   ~ at ThunderGames | SwtPra10. All rights reserved
   ~ Any type of duplication, distribution, rental, sale, award,
   ~ Public accessibility or other use
@@ -24,11 +23,12 @@
                 <Image url="@../pictures/Load-Config.png"/>
             </image>
         </ImageView>
-        <Button fx:id="load" layoutX="319.0" layoutY="645.0" mnemonicParsing="false" onAction="#onLoad" prefHeight="54.0" prefWidth="196.0" style="-fx-background-color: transparent;"/>
-        <Text fill="WHITE" layoutX="253.0" layoutY="391.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Configuration geladen!" wrappingWidth="340.02734375">
+        <Button fx:id="load" layoutX="182.0" layoutY="643.0" mnemonicParsing="false" onAction="#onLoad" prefHeight="54.0" prefWidth="196.0" style="-fx-background-color: transparent;"/>
+        <Text fill="WHITE" layoutX="260.0" layoutY="383.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Configuration geladen!" wrappingWidth="333.02734375">
             <font>
                 <Font size="51.0"/>
             </font>
         </Text>
+        <Button fx:id="save" layoutX="474.0" layoutY="643.0" mnemonicParsing="false" onAction="#onSave" prefHeight="54.0" prefWidth="196.0" style="-fx-background-color: transparent;"/>
     </children>
 </AnchorPane>

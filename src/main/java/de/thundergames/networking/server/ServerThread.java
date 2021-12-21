@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 21.12.21, 15:22 by Carina Latest changes made by Carina on 21.12.21, 15:21 All contents of "ServerThread" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 21.12.21, 16:39 by Carina Latest changes made by Carina on 21.12.21, 16:37 All contents of "ServerThread" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -27,14 +27,16 @@ public class ServerThread extends NetworkThread {
   private Player networkPlayer;
   private String clientName;
   private Player player;
+  private Server server;
 
   /**
    * @param socket the server Socket
    * @param id     Serverthread id
    * @author Carina
    */
-  public ServerThread(@NotNull final Socket socket, final int id) throws IOException {
+  public ServerThread(@NotNull final Socket socket, final int id, @NotNull final Server server) throws IOException {
     super(socket, id);
+    this.server = server;
   }
 
   /**
@@ -51,6 +53,8 @@ public class ServerThread extends NetworkThread {
           .removePlayerFromGame(player.getGame().getClientPlayersMap().get(this));
       }
     }
+    server.getLobbyThreads().remove(this);
+    server.getPlayingThreads().remove(this);
     MoleGames.getMoleGames().getServer().getConnectionNames().remove(this.getClientName());
     MoleGames.getMoleGames().getServer().getClientThreads().remove(this);
     MoleGames.getMoleGames().getServer().getThreadIDs().remove(getThreadID());

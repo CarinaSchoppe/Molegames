@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 21.12.21, 15:22 by Carina Latest changes made by Carina on 21.12.21, 15:21 All contents of "Player" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 21.12.21, 16:39 by Carina Latest changes made by Carina on 21.12.21, 16:37 All contents of "Player" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -31,7 +31,6 @@ import java.util.Timer;
 public class Player {
 
   private final String name;
-  private final int clientID;
   private final transient HashSet<Mole> moles = new HashSet<>();
   private final transient NetworkThread serverClient;
   private final transient ArrayList<Integer> cards = new ArrayList<>();
@@ -53,7 +52,6 @@ public class Player {
   public Player(@NotNull final ServerThread client) {
     this.serverClient = client;
     this.name = (client.getClientName());
-    this.clientID = client.getThreadID();
   }
 
   /**
@@ -66,12 +64,11 @@ public class Player {
   public Player(@NotNull final Client client) {
     this.serverClient = client.getClientThread();
     this.name = (client.getName());
-    this.clientID = client.getClientThread().getThreadID();
   }
 
   @Override
   public String toString() {
-    return "Playermodel with the name: " + name + " and clientID: " + clientID + "";
+    return "Playermodel with the name: " + name + " and clientID: " + getServerClient().getThreadID() + "";
   }
 
   /**
@@ -81,7 +78,7 @@ public class Player {
    */
   public Player create(@NotNull final Game game) {
     this.game = game;
-    game.getScore().getPoints().put(this.getClientID(), 0);
+    game.getScore().getPoints().put(this.getServerClient().getThreadID(), 0);
     cards.addAll(game.getSettings().getPullDiscs());
     this.playerUtil = new PlayerUtil(this);
     return this;
@@ -111,7 +108,7 @@ public class Player {
       for (var m : moles) {
         if (m.getField().getX() == x_start
           && m.getField().getY() == y_start
-          && m.getPlayer().getClientID() == getClientID()) {
+          && m.getPlayer().getServerClient().getThreadID() == getServerClient().getThreadID()) {
           mole = m;
           break;
         }
@@ -220,9 +217,9 @@ public class Player {
           + " size: "
           + (moles.size() >= game.getSettings().getNumberOfMoles())
           + "this: "
-          + this.getClientID()
+          + this.getServerClient().getThreadID()
           + " current: "
-          + game.getCurrentPlayer().getClientID());
+          + game.getCurrentPlayer().getServerClient().getThreadID());
       return;
     }
     if (game.getMap().getFieldMap().get(List.of(x, y)).isOccupied()

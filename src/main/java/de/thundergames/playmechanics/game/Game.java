@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 21.12.21, 15:22 by Carina Latest changes made by Carina on 21.12.21, 15:21 All contents of "Game" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 21.12.21, 16:39 by Carina Latest changes made by Carina on 21.12.21, 16:37 All contents of "Game" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -102,7 +102,7 @@ public class Game {
     gameState.setPullDiscsOrdered(settings.isPullDiscsOrdered());
     var mappe = new HashMap<Integer, ArrayList<Integer>>();
     for (var players : players) {
-      mappe.put(players.getClientID(), players.getCards());
+      mappe.put(players.getServerClient().getThreadID(), players.getCards());
     }
     gameState.setPullDiscs(mappe);
     gameState.setStatus(currentGameState.getName());
@@ -159,7 +159,7 @@ public class Game {
       gameUtil.nextPlayer();
       System.out.println(
         "Current player is: "
-          + currentPlayer.getClientID()
+          + currentPlayer.getServerClient().getThreadID()
           + " name: "
           + currentPlayer.getName());
       MoleGames.getMoleGames()
@@ -177,12 +177,6 @@ public class Game {
    */
   public void endGame() {
     if (currentGameState != GameStates.NOT_STARTED && currentGameState != GameStates.OVER) {
-      setFinishDateTime(Instant.now().getEpochSecond());
-      currentGameState = GameStates.OVER;
-      updateGameState();
-      for (var observer : MoleGames.getMoleGames().getServer().getObserver()) {
-        MoleGames.getMoleGames().getServer().getPacketHandler().overviewPacket(observer);
-      }
       if (!getScore().getPoints().isEmpty()) {
         var playerIDs = new ArrayList<>(getScore().getPoints().keySet());
         var max = Collections.max(getScore().getPoints().values());
@@ -196,10 +190,10 @@ public class Game {
           (o1, o2) ->
             getScore()
               .getPoints()
-              .get(o2.getClientID())
-              .compareTo(getScore().getPoints().get(o1.getClientID())));
+              .get(o2.getServerClient().getThreadID())
+              .compareTo(getScore().getPoints().get(o1.getServerClient().getThreadID())));
         for (var player : getScore().getPlayers()) {
-          if (getScore().getPoints().get(player.getClientID()) == max) {
+          if (getScore().getPoints().get(player.getServerClient().getThreadID()) == max) {
             getScore().getWinners().add(player);
           }
         }
@@ -214,8 +208,17 @@ public class Game {
               "Score of player: "
                 + player.getName()
                 + " is: "
-                + getScore().getPoints().get(player.getClientID()));
+                + getScore().getPoints().get(player.getServerClient().getThreadID()));
           }
+        }
+        setFinishDateTime(Instant.now().getEpochSecond());
+        currentGameState = GameStates.OVER;
+        for (var player : getPlayers()) {
+          removePlayerFromGame(player);
+        }
+        updateGameState();
+        for (var observer : MoleGames.getMoleGames().getServer().getObserver()) {
+          MoleGames.getMoleGames().getServer().getPacketHandler().overviewPacket(observer);
         }
         MoleGames.getMoleGames().getServer().getPacketHandler().gameOverPacket(this);
       }
@@ -300,6 +303,8 @@ public class Game {
         .getClientGames()
         .put((ServerThread) player.getServerClient(), this);
       spectators.add(player);
+      ((ServerThread) player.getServerClient()).getServer().getPlayingThreads().add((ServerThread) player.getServerClient());
+      ((ServerThread) player.getServerClient()).getServer().getLobbyThreads().remove((ServerThread) player.getServerClient());
     } else {
       throw new NotAllowedError("Game is over cant be joined anymore!");
     }
@@ -316,8 +321,14 @@ public class Game {
    * @see Player
    */
   public void removePlayerFromGame(@NotNull final Player player) {
+    ((ServerThread) player.getServerClient()).getServer().getPlayingThreads().remove((ServerThread) player.getServerClient());
+    ((ServerThread) player.getServerClient()).getServer().getLobbyThreads().add((ServerThread) player.getServerClient());
     if (player == null) {
       return;
+    }
+    if (player.getGame().getCurrentGameState() != GameStates.NOT_STARTED) {
+      player.getGame().getScore().getPlayers().remove(player);
+      player.getGame().getScore().getPoints().remove(player.getServerClient().getThreadID());
     }
     if (activePlayers.contains(player)) {
       if (currentGameState != GameStates.NOT_STARTED && !currentGameState.equals(GameStates.OVER)) {

@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 21.12.21, 15:22 by Carina Latest changes made by Carina on 21.12.21, 15:21 All contents of "ClientPacketHandler" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 21.12.21, 16:39 by Carina Latest changes made by Carina on 21.12.21, 16:37 All contents of "ClientPacketHandler" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -319,7 +319,7 @@ public class ClientPacketHandler {
     client.getMap().build(client.getGameState());
     if (!client.getGameState().getPlacedMoles().isEmpty()) {
       for (var moles : client.getGameState().getPlacedMoles()) {
-        if (moles.getPlayer().getClientID() == client.getClientThread().getThreadID()) {
+        if (moles.getPlayer().getServerClient().getThreadID() == client.getClientThread().getThreadID()) {
           client.getMoles().add(moles);
         }
       }
@@ -395,7 +395,7 @@ public class ClientPacketHandler {
    */
   protected void handlePlayersTurnPacket() {
     var player = new Gson().fromJson(packet.getValues().get("player").getAsString(), Player.class);
-    if (player.getClientID() == client.getClientThread().getThreadID()) {
+    if (player.getServerClient().getThreadID() == client.getClientThread().getThreadID()) {
       if (client.isDebug()) System.out.println("Client is now on the turn!");
       client.setDraw(true);
       if (!timerRunning) {
@@ -418,7 +418,7 @@ public class ClientPacketHandler {
       if (client.isDebug())
         System.out.println(
           "Client: the player with the id: "
-            + player.getClientID()
+            + player.getServerClient().getThreadID()
             + " and name: "
             + player.getName()
             + " is now on the turn!");
@@ -470,7 +470,7 @@ public class ClientPacketHandler {
    */
   protected void handlePlayerPlacesMolePacket() {
     var player = new Gson().fromJson(packet.getValues().get("player").getAsString(), Player.class);
-    if (player.getClientID() == client.getClientThread().getThreadID()) {
+    if (player.getServerClient().getThreadID() == client.getClientThread().getThreadID()) {
       if (client.isDebug()) {
         System.out.println("Client is now on to place a mole!");
       }
@@ -544,8 +544,8 @@ public class ClientPacketHandler {
         (o1, o2) ->
           score
             .getPoints()
-            .get(o2.getClientID())
-            .compareTo(score.getPoints().get(o1.getClientID())));
+            .get(o2.getServerClient().getThreadID())
+            .compareTo(score.getPoints().get(o1.getServerClient().getThreadID())));
     }
     if (client.isDebug()) {
       System.out.println(
@@ -558,7 +558,7 @@ public class ClientPacketHandler {
           "Client: player with the name: "
             + player.getName()
             + " has points: "
-            + score.getPoints().get(player.getClientID()));
+            + score.getPoints().get(player.getServerClient().getThreadID()));
       }
     }
     try {
@@ -685,7 +685,7 @@ public class ClientPacketHandler {
   protected void handlePlayerJoinedPacket() {
     var player = new Gson().fromJson(packet.getValues().get("player").getAsString(), Player.class);
     if (client.isDebug()) {
-      if (player.getClientID() != client.getClientThread().getThreadID()) {
+      if (player.getServerClient().getThreadID() != client.getClientThread().getThreadID()) {
         System.out.println(
           "The player: " + player.getName() + " has joined the Game " + client.getGameID() + ".");
       }

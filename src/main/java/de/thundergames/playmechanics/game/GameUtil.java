@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 21.12.21, 15:22 by Carina Latest changes made by Carina on 21.12.21, 15:21 All contents of "GameUtil" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 21.12.21, 16:39 by Carina Latest changes made by Carina on 21.12.21, 16:37 All contents of "GameUtil" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -236,8 +236,8 @@ public class GameUtil {
             game.getScore()
               .getPoints()
               .put(
-                player.getClientID(),
-                game.getScore().getPoints().get(player.getClientID())
+                player.getServerClient().getThreadID(),
+                game.getScore().getPoints().get(player.getServerClient().getThreadID())
                   + game.getMap().getPoints());
           }
         }
@@ -249,7 +249,7 @@ public class GameUtil {
           "the player with the name: "
             + player.getName()
             + " got: "
-            + game.getScore().getPoints().get(player.getClientID())
+            + game.getScore().getPoints().get(player.getServerClient().getThreadID())
             + " points!");
       }
     }
