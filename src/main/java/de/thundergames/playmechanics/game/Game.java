@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 20.12.21, 16:43 by Carina Latest changes made by Carina on 20.12.21, 16:38 All contents of "Game" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 21.12.21, 11:26 by Carina Latest changes made by Carina on 21.12.21, 11:21 All contents of "Game" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -180,8 +180,8 @@ public class Game {
       setFinishDateTime(Instant.now().getEpochSecond());
       currentGameState = GameStates.OVER;
       updateGameState();
-      for (var client : MoleGames.getMoleGames().getServer().getObserver()) {
-        MoleGames.getMoleGames().getServer().getPacketHandler().overviewPacket(client);
+      for (var observer : MoleGames.getMoleGames().getServer().getObserver()) {
+        MoleGames.getMoleGames().getServer().getPacketHandler().overviewPacket(observer);
       }
       if (!getScore().getPoints().isEmpty()) {
         var playerIDs = new ArrayList<>(getScore().getPoints().keySet());
@@ -259,6 +259,10 @@ public class Game {
     if (currentGameState == GameStates.PAUSED) {
       MoleGames.getMoleGames().getServer().getPacketHandler().gameContinuedPacket(this);
       currentGameState = GameStates.STARTED;
+      updateGameState();
+      for (var observer : MoleGames.getMoleGames().getServer().getObserver()) {
+        MoleGames.getMoleGames().getServer().getPacketHandler().overviewPacket(observer);
+      }
       if (!activePlayers.isEmpty()) {
         gameUtil.nextPlayer();
       }
@@ -281,15 +285,15 @@ public class Game {
       players.add(player);
       activePlayers.add(player);
       getScore().getPlayers().add(player);
-      setCurrentPlayerCount(clientPlayersMap.size());
+      setCurrentPlayerCount(players.size());
       MoleGames.getMoleGames()
         .getGameHandler()
         .getClientGames()
         .put((ServerThread) player.getServerClient(), this);
       updateGameState();
-      if (MainGUI.getGUI() == null) {
+      if (MainGUI.getGUI() != null) {
+        MainGUI.getGUI().updateTable();
       }
-      MainGUI.getGUI().updateTable();
     } else if (spectator) {
       MoleGames.getMoleGames()
         .getGameHandler()
@@ -339,7 +343,7 @@ public class Game {
           .setMole(null);
       }
       player.getMoles().clear();
-      clientPlayersMap.remove(player);
+      clientPlayersMap.remove(player.getServerClient());
       players.remove(player);
       activePlayers.remove(player);
       player.getMoles().clear();

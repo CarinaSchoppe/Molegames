@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 20.12.21, 16:43 by Carina Latest changes made by Carina on 20.12.21, 16:43 All contents of "MainGUI" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 21.12.21, 11:26 by Carina Latest changes made by Carina on 21.12.21, 09:38 All contents of "MainGUI" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -30,56 +30,18 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import lombok.Getter;
-import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/**
+ * @author Carina, Jana, Eva
+ * @use the main gui of the "ausrichter"
+ */
 @Getter
-@Setter
 public class MainGUI extends Application implements Initializable {
-
-  private static MainGUI GUI;
-  @FXML
-  private ResourceBundle resources;
-  @FXML
-  private URL location;
-  @FXML
-  private Button breakButton;
-  @FXML
-  private Button continueButton;
-  @FXML
-  private Button createGame;
-  @FXML
-  private Button createTournament;
-  @FXML
-  private Button editGame;
-  @FXML
-  private Button end;
-  @FXML
-  private TableColumn<Game, Integer> gameID;
-  @FXML
-  private TableColumn<Game, Integer> gamePlayerCount;
-  @FXML
-  private TableColumn<Game, String> gameState;
-  @FXML
-  private TableView<Game> gameTable;
-  @FXML
-  private Button startGame;
-  @FXML
-  private TableColumn<Tournament, Integer> tournamentID;
-  @FXML
-  private TableColumn<Tournament, Integer> tournamentPlayerCount;
-  @FXML
-  private TableColumn<Tournament, String> tournamentState;
-  @FXML
-  private TableView<Tournament> tournamentTable;
-
-  public static MainGUI getGUI() {
-    return GUI;
-  }
 
   public static void create(@NotNull final Server server, @NotNull final String... args) {
     MoleGames.getMoleGames().setAusrichterClient(new AusrichterClient(server));
@@ -225,5 +187,46 @@ public class MainGUI extends Application implements Initializable {
   public void initialize(URL location, ResourceBundle resources) {
     GUI = this;
     initialize();
+  }
+
+  private static MainGUI GUI;
+  @FXML
+  private ResourceBundle resources;
+  @FXML
+  private URL location;
+  @FXML
+  private Button breakButton;
+  @FXML
+  private Button continueButton;
+  @FXML
+  private Button createGame;
+  @FXML
+  private Button createTournament;
+  @FXML
+  private Button editGame;
+
+  @FXML
+  private Button end;
+  @FXML
+  private TableColumn<Game, Integer> gameID;
+  @FXML
+  private TableColumn<Game, Integer> gamePlayerCount;
+  @FXML
+  private TableColumn<Game, String> gameState;
+  @FXML
+  private TableView<Game> gameTable;
+  @FXML
+  private Button startGame;
+  @FXML
+  private TableColumn<Tournament, Integer> tournamentID;
+  @FXML
+  private TableColumn<Tournament, Integer> tournamentPlayerCount;
+  @FXML
+  private TableColumn<Tournament, String> tournamentState;
+  @FXML
+  private TableView<Tournament> tournamentTable;
+
+  public static MainGUI getGUI() {
+    return GUI;
   }
 }

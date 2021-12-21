@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 20.12.21, 16:51 by Carina Latest changes made by Carina on 20.12.21, 16:50 All contents of "AusrichterClient" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 21.12.21, 11:26 by Carina Latest changes made by Carina on 21.12.21, 11:26 All contents of "AusrichterClient" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -13,7 +13,6 @@ package de.thundergames.gameplay.ausrichter;
 import de.thundergames.MoleGames;
 import de.thundergames.networking.server.Server;
 import de.thundergames.playmechanics.game.Game;
-import de.thundergames.playmechanics.game.GameStates;
 import de.thundergames.playmechanics.map.Field;
 import de.thundergames.playmechanics.map.Map;
 import lombok.Data;
@@ -65,12 +64,6 @@ public class AusrichterClient {
       .getFloors()
       .add(floor2);
     MoleGames.getMoleGames().getGameHandler().getIDGames().get(id + 1).updateGameState();
-    try {
-      Thread.sleep((long) (WAIT_TIME * 1000));
-    } catch (InterruptedException e) {
-      e.printStackTrace();
-    }
-    MoleGames.getMoleGames().getGameHandler().getIDGames().get(id).startGame(GameStates.STARTED);
   }
 
   public Server getServer() {
