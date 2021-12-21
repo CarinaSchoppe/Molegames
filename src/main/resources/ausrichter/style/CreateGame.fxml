@@ -3,7 +3,7 @@
 <!--
   ~ Copyright Notice for SwtPra10
   ~ Copyright (c) at ThunderGames | SwtPra10 2021
-  ~ File created on 21.12.21, 11:26 by Carina Latest changes made by Carina on 21.12.21, 11:26 All contents of "CreateGame.fxml" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+  ~ File created on 21.12.21, 13:57 by Carina Latest changes made by Carina on 21.12.21, 13:56 All contents of "CreateGame.fxml" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
   ~ at ThunderGames | SwtPra10. All rights reserved
   ~ Any type of duplication, distribution, rental, sale, award,
   ~ Public accessibility or other use
@@ -22,45 +22,45 @@
                 <Image url="@../pictures/CreateGame-Ausrichter.png"/>
             </image>
         </ImageView>
-        <Button fx:id="addItem" ellipsisString="" layoutX="387.0" layoutY="593.0" mnemonicParsing="false" onAction="#addItemButtonEvent" prefHeight="28.0" prefWidth="44.0" style="-fx-background-color: transparent;"/>
-        <Button fx:id="removeAll" ellipsisString="" layoutX="465.0" layoutY="595.0" mnemonicParsing="false" onAction="#removeAllButtonEvent" prefHeight="25.0" prefWidth="44.0" style="-fx-background-color: transparent;"/>
+        <Button fx:id="addItem" ellipsisString="" layoutX="378.0" layoutY="592.0" mnemonicParsing="false" onAction="#addItemButtonEvent" prefHeight="28.0" prefWidth="44.0" style="-fx-background-color: transparent;"/>
+        <Button fx:id="removeAll" ellipsisString="" layoutX="456.0" layoutY="593.0" mnemonicParsing="false" onAction="#removeAllButtonEvent" prefHeight="25.0" prefWidth="44.0" style="-fx-background-color: transparent;"/>
         <Button fx:id="configureHoles" ellipsisString="" layoutX="151.0" layoutY="778.0" mnemonicParsing="false" onAction="#onConfigureHoles" prefHeight="34.0" prefWidth="226.0" style="-fx-background-color: transparent;"/>
         <Button fx:id="loadConfig" ellipsisString="" layoutX="91.0" layoutY="956.0" mnemonicParsing="false" onAction="#loadConfigButtonEvent" prefHeight="28.0" prefWidth="163.0" style="-fx-background-color: transparent;"/>
         <Button fx:id="createGame" ellipsisString="" layoutX="294.0" layoutY="954.0" mnemonicParsing="false" onAction="#createGameButtonEvent" prefHeight="28.0" prefWidth="163.0" style="-fx-background-color: transparent;"/>
-        <Button fx:id="back" layoutX="110.0" layoutY="42.0" mnemonicParsing="false" onAction="#backButtonEvent" prefHeight="28.0" prefWidth="44.0" style="-fx-background-color: transparent;"/>
+        <Button fx:id="back" layoutX="107.0" layoutY="32.0" mnemonicParsing="false" onAction="#backButtonEvent" prefHeight="28.0" prefWidth="44.0" style="-fx-background-color: transparent;"/>
         <CheckBox fx:id="pullDiscsOrdered" layoutX="493.0" layoutY="510.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="44.0" style="-fx-background-color: transparent; -fx-background-image: transparent; -fx-border-color: transparent;"/>
-        <ChoiceBox fx:id="movePenalty" layoutX="315.0" layoutY="227.0" prefHeight="34.0" prefWidth="289.0" style="-fx-background-color: transparent; -fx-border-color: transparent;"/>
+        <ChoiceBox fx:id="movePenalty" layoutX="310.0" layoutY="221.0" prefHeight="34.0" prefWidth="289.0" style="-fx-background-color: transparent; -fx-border-color: transparent;"/>
         <TextArea fx:id="drawCardValues" editable="false" layoutX="150.0" layoutY="645.0" prefHeight="111.0" prefWidth="361.0" style="-fx-background-color: transparent; -fx-border-color: transparent;">
             <font>
                 <Font size="20.0"/>
             </font>
         </TextArea>
-        <TextField fx:id="molesAmount" layoutX="146.0" layoutY="227.0" prefHeight="34.0" prefWidth="140.0" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-text-fill: white;">
+        <TextField fx:id="molesAmount" layoutX="142.0" layoutY="220.0" prefHeight="34.0" prefWidth="140.0" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-text-fill: white;">
             <font>
                 <Font size="16.0"/>
             </font>
         </TextField>
-        <TextField fx:id="thinkTime" layoutX="146.0" layoutY="307.0" prefHeight="28.0" prefWidth="108.0" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-text-fill: white;">
+        <TextField fx:id="thinkTime" layoutX="146.0" layoutY="301.0" prefHeight="28.0" prefWidth="108.0" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-text-fill: white;">
             <font>
                 <Font size="16.0"/>
             </font>
         </TextField>
-        <TextField fx:id="visualEffects" layoutX="327.0" layoutY="307.0" prefHeight="28.0" prefWidth="226.0" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-text-fill: white;">
+        <TextField fx:id="visualEffects" layoutX="322.0" layoutY="301.0" prefHeight="28.0" prefWidth="226.0" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-text-fill: white;">
             <font>
                 <Font size="16.0"/>
             </font>
         </TextField>
-        <TextField fx:id="radius" layoutX="146.0" layoutY="517.0" prefHeight="34.0" prefWidth="108.0" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-text-fill: white;">
+        <TextField fx:id="radius" layoutX="136.0" layoutY="511.0" prefHeight="34.0" prefWidth="108.0" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-text-fill: white;">
             <font>
                 <Font size="16.0"/>
             </font>
         </TextField>
-        <TextField fx:id="playerAmount" layoutX="326.0" layoutY="516.0" prefHeight="34.0" prefWidth="121.0" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-text-fill: white;">
+        <TextField fx:id="playerAmount" layoutX="316.0" layoutY="511.0" prefHeight="34.0" prefWidth="121.0" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-text-fill: white;">
             <font>
                 <Font size="16.0"/>
             </font>
         </TextField>
-        <TextField fx:id="drawCardValue" layoutX="151.0" layoutY="594.0" prefHeight="27.0" prefWidth="179.0" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-text-fill: white;">
+        <TextField fx:id="drawCardValue" layoutX="146.0" layoutY="585.0" prefHeight="27.0" prefWidth="179.0" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-text-fill: white;">
             <font>
                 <Font size="16.0"/>
             </font>

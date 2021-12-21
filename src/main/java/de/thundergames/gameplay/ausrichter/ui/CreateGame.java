@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 21.12.21, 11:26 by Carina Latest changes made by Carina on 21.12.21, 11:26 All contents of "CreateGame" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 21.12.21, 13:57 by Carina Latest changes made by Carina on 21.12.21, 13:55 All contents of "CreateGame" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -11,6 +11,9 @@
 package de.thundergames.gameplay.ausrichter.ui;
 
 import de.thundergames.MoleGames;
+import de.thundergames.gameplay.ausrichter.ui.floorui.DrawAgainConfiguration;
+import de.thundergames.gameplay.ausrichter.ui.floorui.Floor;
+import de.thundergames.gameplay.ausrichter.ui.floorui.HolesConfiguration;
 import de.thundergames.playmechanics.map.Field;
 import de.thundergames.playmechanics.map.Map;
 import de.thundergames.playmechanics.util.Punishments;
@@ -27,7 +30,7 @@ import javafx.stage.Stage;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.IOException;
+import javax.swing.*;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -36,7 +39,24 @@ import java.util.ResourceBundle;
 @Getter
 public class CreateGame extends Application implements Initializable {
 
-  private final ArrayList<Integer> drawCardValuesList = new ArrayList<>();
+  private static final ArrayList<Integer> drawCardValuesList = new ArrayList<>();
+  //Liste von Floor welche DrawAgain<Field> und Hole<Field> enthält
+  private static final ArrayList<Floor> floors = new ArrayList<>();
+  private static CreateGame createGameInstance;
+  private static String molesAmountPrev;
+  private static String playerAmountPrev;
+  private static String punishmentPrev;
+  private static String radiusPrev;
+  private static String thinkTimePrev;
+  private static boolean pullDiscsOrderedPrev;
+  private static String visualEffectsPrev;
+  @FXML
+  private Button configureDrawAgain;
+  @FXML
+  private Button configureHoles;
+  private Map map;
+  @FXML
+  private ChoiceBox<Punishments> movePenalty;
   @FXML
   private ResourceBundle resources;
   @FXML
@@ -70,6 +90,14 @@ public class CreateGame extends Application implements Initializable {
   @FXML
   private TextField visualEffects;
 
+  public static CreateGame getCreateGameInstance() {
+    return createGameInstance;
+  }
+
+  public static ArrayList<Floor> getFloors() {
+    return floors;
+  }
+
   @FXML
   void addItemButtonEvent(ActionEvent event) {
     if (!drawCardValue.getText().isEmpty() || !drawCardValue.getText().equals("")) {
@@ -94,25 +122,10 @@ public class CreateGame extends Application implements Initializable {
     radius.clear();
   }
 
-  private static final ArrayList<ArrayList<HashSet<Field>>> floors = new ArrayList<>();
-  private static CreateGame createGameInstance;
-
   @FXML
   void removeAllButtonEvent(ActionEvent event) {
     drawCardValues.clear();
     drawCardValuesList.clear();
-  }
-
-  @FXML
-  private Button configureDrawAgain;
-  @FXML
-  private Button configureHoles;
-  private Map map;
-  @FXML
-  private ChoiceBox<Punishments> movePenalty;
-
-  public static ArrayList<ArrayList<HashSet<Field>>> getFloors() {
-    return floors;
   }
 
   public void start(@NotNull final Stage primaryStage) throws Exception {
@@ -123,17 +136,56 @@ public class CreateGame extends Application implements Initializable {
     primaryStage.setResizable(false);
     primaryStage.setScene(new Scene(root));
     primaryStage.show();
+    loadPrevSettings();
   }
 
   @FXML
   void backButtonEvent(ActionEvent event) throws Exception {
     var primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+    punishmentPrev = null;
+    playerAmountPrev = null;
+    molesAmountPrev = null;
+    thinkTimePrev = null;
+    visualEffectsPrev = null;
+    radiusPrev = null;
+    drawCardValuesList.clear();
     MoleGames.getMoleGames().getGui().start(primaryStage);
     MoleGames.getMoleGames().getGui().updateTable();
   }
 
   @FXML
-  void createGameButtonEvent(ActionEvent event) {
+  void createGameButtonEvent(ActionEvent event) throws Exception {
+    var drawAgains = new HashSet<Field>();
+    var holes = new HashSet<Field>();
+    var floorMap = new ArrayList<Map>();
+    for (var floor : floors) {
+      for (var fields : floor.getDrawAgain()) {
+        var field = new Field(fields.getXPosition(), fields.getYPosition());
+        drawAgains.add(field);
+      }
+      for (var fields : floor.getHoles()) {
+        var field = new Field(fields.getXPosition(), fields.getYPosition());
+        holes.add(field);
+      }
+      var newFloor = new Map(drawAgains, holes, floor.getPoints());
+      floorMap.add(newFloor);
+    }
+    if (drawAgains.isEmpty() || holes.isEmpty() || floors.isEmpty()) {
+      JOptionPane.showMessageDialog(null, "Du musst erst das Spiel voll konfigurieren!", "Fehler!", JOptionPane.ERROR_MESSAGE);
+      return;
+    }
+    var id = MoleGames.getMoleGames().getGameHandler().getGames().size();
+    if (!isLegalConfiguration()) {
+      JOptionPane.showMessageDialog(null, "Das Spiel ist nicht richtig konfiguriert!", "Fehler!", JOptionPane.ERROR_MESSAGE);
+      return;
+    }
+    MoleGames.getMoleGames().getGameHandler().createNewGame(id);
+    var game = MoleGames.getMoleGames().getGameHandler().getIDGames().get(id);
+    game.getSettings().getFloors().addAll(floorMap);
+    MoleGames.getMoleGames().getGameHandler().getIDGames().get(id).updateGameState();
+    floors.clear();
+    var primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+    MoleGames.getMoleGames().getGui().start(primaryStage);
   }
 
   @FXML
@@ -143,12 +195,14 @@ public class CreateGame extends Application implements Initializable {
   @FXML
   void onConfigureDrawAgain(ActionEvent event) throws Exception {
     var primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+    savePrevSettings();
     new DrawAgainConfiguration().start(primaryStage);
   }
 
   @FXML
-  void onConfigureHoles(ActionEvent event) throws IOException {
+  void onConfigureHoles(ActionEvent event) throws Exception {
     var primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+    savePrevSettings();
     new HolesConfiguration().start(primaryStage);
   }
 
@@ -156,12 +210,40 @@ public class CreateGame extends Application implements Initializable {
    * @author Carina
    * @use checks if a configuration was legal or not
    */
-  private void isLegalConfiguration() {
+  private boolean isLegalConfiguration() {
     //TODO: implement
+    return true;
   }
 
   public void loadPrevSettings() {
-    //TODO: implement
+    molesAmount.setText(molesAmountPrev);
+    playerAmount.setText(playerAmountPrev);
+    radius.setText(radiusPrev);
+    thinkTime.setText(thinkTimePrev);
+    visualEffects.setText(visualEffectsPrev);
+    pullDiscsOrdered.setSelected(pullDiscsOrderedPrev);
+    for (var value : drawCardValuesList) {
+      if (drawCardValues.getText().equals("") || drawCardValues.getText().equals(null)) {
+        drawCardValues.setText(value.toString());
+      } else {
+        drawCardValues.setText(drawCardValues.getText() + "\n" + value.toString());
+      }
+    }
+    if (punishmentPrev != null)
+      movePenalty.setValue(Punishments.valueOf(punishmentPrev));
+  }
+
+  private void savePrevSettings() {
+    try {
+      molesAmountPrev = molesAmount.getText();
+      playerAmountPrev = playerAmount.getText();
+      radiusPrev = radius.getText();
+      thinkTimePrev = thinkTime.getText();
+      visualEffectsPrev = visualEffects.getText();
+      pullDiscsOrderedPrev = pullDiscsOrdered.isSelected();
+      punishmentPrev = movePenalty.getSelectionModel().getSelectedItem().toString();
+    } catch (Exception e) {
+    }
   }
 
   @FXML

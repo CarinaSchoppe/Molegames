@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 21.12.21, 11:26 by Carina Latest changes made by Carina on 21.12.21, 09:38 All contents of "MainGUI" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 21.12.21, 13:57 by Carina Latest changes made by Carina on 21.12.21, 13:55 All contents of "MainGUI" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -43,11 +43,51 @@ import java.util.ResourceBundle;
 @Getter
 public class MainGUI extends Application implements Initializable {
 
+  private static MainGUI GUI;
+  @FXML
+  private ResourceBundle resources;
+  @FXML
+  private URL location;
+  @FXML
+  private Button breakButton;
+  @FXML
+  private Button continueButton;
+  @FXML
+  private Button createGame;
+  @FXML
+  private Button createTournament;
+  @FXML
+  private Button editGame;
+  @FXML
+  private Button end;
+  @FXML
+  private TableColumn<Game, Integer> gameID;
+  @FXML
+  private TableColumn<Game, Integer> gamePlayerCount;
+  @FXML
+  private TableColumn<Game, String> gameState;
+  @FXML
+  private TableView<Game> gameTable;
+  @FXML
+  private Button startGame;
+  @FXML
+  private TableColumn<Tournament, Integer> tournamentID;
+  @FXML
+  private TableColumn<Tournament, Integer> tournamentPlayerCount;
+  @FXML
+  private TableColumn<Tournament, String> tournamentState;
+  @FXML
+  private TableView<Tournament> tournamentTable;
+
   public static void create(@NotNull final Server server, @NotNull final String... args) {
     MoleGames.getMoleGames().setAusrichterClient(new AusrichterClient(server));
     new Thread(() -> launch(args)).start();
-    MoleGames.getMoleGames().getAusrichterClient().testTournament(1);
-    MoleGames.getMoleGames().getAusrichterClient().testGame(1);
+    MoleGames.getMoleGames().getAusrichterClient().testTournament(0);
+    MoleGames.getMoleGames().getAusrichterClient().testGame(0);
+  }
+
+  public static MainGUI getGUI() {
+    return GUI;
   }
 
   @FXML
@@ -187,46 +227,5 @@ public class MainGUI extends Application implements Initializable {
   public void initialize(URL location, ResourceBundle resources) {
     GUI = this;
     initialize();
-  }
-
-  private static MainGUI GUI;
-  @FXML
-  private ResourceBundle resources;
-  @FXML
-  private URL location;
-  @FXML
-  private Button breakButton;
-  @FXML
-  private Button continueButton;
-  @FXML
-  private Button createGame;
-  @FXML
-  private Button createTournament;
-  @FXML
-  private Button editGame;
-
-  @FXML
-  private Button end;
-  @FXML
-  private TableColumn<Game, Integer> gameID;
-  @FXML
-  private TableColumn<Game, Integer> gamePlayerCount;
-  @FXML
-  private TableColumn<Game, String> gameState;
-  @FXML
-  private TableView<Game> gameTable;
-  @FXML
-  private Button startGame;
-  @FXML
-  private TableColumn<Tournament, Integer> tournamentID;
-  @FXML
-  private TableColumn<Tournament, Integer> tournamentPlayerCount;
-  @FXML
-  private TableColumn<Tournament, String> tournamentState;
-  @FXML
-  private TableView<Tournament> tournamentTable;
-
-  public static MainGUI getGUI() {
-    return GUI;
   }
 }

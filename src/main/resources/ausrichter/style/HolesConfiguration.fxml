@@ -3,7 +3,7 @@
 <!--
   ~ Copyright Notice for SwtPra10
   ~ Copyright (c) at ThunderGames | SwtPra10 2021
-  ~ File created on 21.12.21, 13:57 by Carina Latest changes made by Carina on 21.12.21, 13:56 All contents of "DrawAgainConfiguration.fxml" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+  ~ File created on 21.12.21, 13:57 by Carina Latest changes made by Carina on 21.12.21, 13:56 All contents of "HolesConfiguration.fxml" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
   ~ at ThunderGames | SwtPra10. All rights reserved
   ~ Any type of duplication, distribution, rental, sale, award,
   ~ Public accessibility or other use
@@ -19,7 +19,7 @@
     <children>
         <ImageView fitHeight="720.0" fitWidth="766.0" pickOnBounds="true" preserveRatio="true">
             <image>
-                <Image url="@../pictures/Draw-Again-Config.png"/>
+                <Image url="@../pictures/Holes-Config.png"/>
             </image>
         </ImageView>
         <Button fx:id="back" layoutX="64.0" layoutY="46.0" mnemonicParsing="false" onAction="#onBack" prefHeight="45.0" prefWidth="44.0" style="-fx-background-color: transparent;"/>
@@ -35,17 +35,17 @@
                 <Font size="20.0"/>
             </font>
         </TextField>
-        <TableView fx:id="floorTable" layoutX="62.0" layoutY="198.0" prefHeight="168.0" prefWidth="531.0" stylesheets="@css/MainGUI.css">
+        <TableView fx:id="floorTable" layoutX="62.0" layoutY="198.0" prefHeight="168.0" prefWidth="533.0" stylesheets="@css/MainGUI.css">
             <columns>
-                <TableColumn fx:id="floorNumber" prefWidth="135.0" reorderable="false" resizable="false" sortable="false" style="fx-font-size: 10;" text="Ebenen Nummer"/>
-                <TableColumn fx:id="amountHoles" prefWidth="129.6666717529297" reorderable="false" resizable="false" sortable="false" style="fx-font-size: 10;" text="Anzahl Löcher"/>
-                <TableColumn fx:id="amountDrawAgain" prefWidth="122.3333740234375" reorderable="false" resizable="false" sortable="false" style="fx-font-size: 10;" text="Anzahl Zieh-Erneut"/>
-                <TableColumn fx:id="points" prefWidth="140.33340454101562" text="Punkte"/>
+                <TableColumn fx:id="floorNumber" prefWidth="110.00006103515625" reorderable="false" resizable="false" sortable="false" style="fx-font-size: 10;" text="Ebenen Nummer"/>
+                <TableColumn fx:id="amountHoles" prefWidth="140.0" reorderable="false" resizable="false" sortable="false" style="fx-font-size: 10;" text="Anzahl Löcher"/>
+                <TableColumn fx:id="amountDrawAgain" prefWidth="149.0" reorderable="false" resizable="false" sortable="false" style="fx-font-size: 10;" text="Anzahl Zieh-Erneut"/>
+                <TableColumn fx:id="points" prefWidth="128.33340454101562" text="Punkte"/>
             </columns>
         </TableView>
-        <TableView fx:id="drawAgainTable" layoutX="58.0" layoutY="483.0" prefHeight="169.0" prefWidth="536.0" stylesheets="@css/MainGUI.css">
+        <TableView fx:id="holesTable" layoutX="58.0" layoutY="483.0" prefHeight="169.0" prefWidth="536.0" stylesheets="@css/MainGUI.css">
             <columns>
-                <TableColumn fx:id="drawAgainNumber" prefWidth="182.33337783813477" reorderable="false" resizable="false" sortable="false" style="fx-font-size: 10;" text="Zieh-Erneut Nummer"/>
+                <TableColumn fx:id="holesNumber" prefWidth="182.33337783813477" reorderable="false" resizable="false" sortable="false" style="fx-font-size: 10;" text="Loch Nummer"/>
                 <TableColumn prefWidth="180.3333282470703" reorderable="false" resizable="false" sortable="false" style="fx-font-size: 10;" text="X-Position" fx:id="xPosition"/>
                 <TableColumn fx:id="yPosition" prefWidth="174.66668701171875" reorderable="false" resizable="false" sortable="false" style="fx-font-size: 10;" text="Y-Position"/>
             </columns>
