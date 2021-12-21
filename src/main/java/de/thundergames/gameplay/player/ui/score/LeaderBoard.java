@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 21.12.21, 16:39 by Carina Latest changes made by Carina on 21.12.21, 16:37 All contents of "LeaderBoard" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 21.12.21, 18:49 by Carina Latest changes made by Carina on 21.12.21, 18:47 All contents of "LeaderBoard" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -80,10 +80,10 @@ public class LeaderBoard extends Application implements Initializable {
     var leaderlist = new ArrayList<PlayerResult>();
     var thisPlace = 1;
     for (var player : score.getPlayers()) {
-      System.out.println("points: " + score.getPoints().get(player.getServerClient().getThreadID()));
+      System.out.println("points: " + score.getPoints().get(player.getClientID()));
       leaderlist.add(
         new PlayerResult(
-          player.getName(), score.getPoints().get(player.getServerClient().getThreadID()), thisPlace));
+          player.getName(), score.getPoints().get(player.getClientID()), thisPlace));
       thisPlace++;
     }
     scoreTable.getItems().addAll(leaderlist);

@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 21.12.21, 16:50 by Carina Latest changes made by Carina on 21.12.21, 16:46 All contents of "ClientPacketHandler" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 21.12.21, 18:49 by Carina Latest changes made by Carina on 21.12.21, 18:46 All contents of "ClientPacketHandler" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -418,7 +418,7 @@ public class ClientPacketHandler {
       if (client.isDebug())
         System.out.println(
           "Client: the player with the id: "
-            + player.getServerClient().getThreadID()
+            + player.getClientID()
             + " and name: "
             + player.getName()
             + " is now on the turn!");
@@ -544,8 +544,8 @@ public class ClientPacketHandler {
         (o1, o2) ->
           score
             .getPoints()
-            .get(o2.getServerClient().getThreadID())
-            .compareTo(score.getPoints().get(o1.getServerClient().getThreadID())));
+            .get(o2.getClientID())
+            .compareTo(score.getPoints().get(o1.getClientID())));
     }
     if (client.isDebug()) {
       System.out.println(
@@ -558,7 +558,7 @@ public class ClientPacketHandler {
           "Client: player with the name: "
             + player.getName()
             + " has points: "
-            + score.getPoints().get(player.getServerClient().getThreadID()));
+            + score.getPoints().get(player.getClientID()));
       }
     }
     try {

@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 21.12.21, 16:50 by Carina Latest changes made by Carina on 21.12.21, 16:50 All contents of "Game" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 21.12.21, 18:49 by Carina Latest changes made by Carina on 21.12.21, 18:39 All contents of "Game" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -213,14 +213,14 @@ public class Game {
         }
         setFinishDateTime(Instant.now().getEpochSecond());
         currentGameState = GameStates.OVER;
-        for (var player : getPlayers()) {
+        MoleGames.getMoleGames().getServer().getPacketHandler().gameOverPacket(this);
+        for (var player : new ArrayList<>(players)) {
           removePlayerFromGame(player);
         }
         updateGameState();
         for (var observer : MoleGames.getMoleGames().getServer().getObserver()) {
           MoleGames.getMoleGames().getServer().getPacketHandler().overviewPacket(observer);
         }
-        MoleGames.getMoleGames().getServer().getPacketHandler().gameOverPacket(this);
       }
       MainGUI.getGUI().updateTable();
     }
@@ -321,12 +321,12 @@ public class Game {
    * @see Player
    */
   public void removePlayerFromGame(@NotNull final Player player) {
+    if (player == null) {
+      return;
+    }
     if (player.getServerClient() != null) {
       ((ServerThread) player.getServerClient()).getServer().getPlayingThreads().remove((ServerThread) player.getServerClient());
       ((ServerThread) player.getServerClient()).getServer().getLobbyThreads().add((ServerThread) player.getServerClient());
-    }
-    if (player == null) {
-      return;
     }
     if (player.getGame().getCurrentGameState() != GameStates.NOT_STARTED) {
       player.getGame().getScore().getPlayers().remove(player);
