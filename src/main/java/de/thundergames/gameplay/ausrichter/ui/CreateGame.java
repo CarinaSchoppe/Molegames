@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 21.12.21, 15:22 by Carina Latest changes made by Carina on 21.12.21, 15:21 All contents of "CreateGame" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 21.12.21, 15:27 by Carina Latest changes made by Carina on 21.12.21, 15:27 All contents of "CreateGame" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -114,6 +114,10 @@ public class CreateGame extends Application implements Initializable {
     drawCardValue.clear();
   }
 
+  /**
+   * @author Carina, Jana, Eva
+   * @use clears all components of the CreateGame
+   */
   private void clearAllComponents() {
     drawCardValuesList.clear();
     drawCardValues.clear();
@@ -156,6 +160,12 @@ public class CreateGame extends Application implements Initializable {
     MoleGames.getMoleGames().getGui().updateTable();
   }
 
+  /**
+   * @param event
+   * @throws Exception
+   * @author Carina, Jana, Eva
+   * @use creates a new game with the settings from the user
+   */
   @FXML
   void createGameButtonEvent(ActionEvent event) throws Exception {
     var drawAgains = new HashSet<Field>();
@@ -260,6 +270,10 @@ public class CreateGame extends Application implements Initializable {
     return true;
   }
 
+  /**
+   * @author Carina, Jana, Eva
+   * @use loads prev configs.
+   */
   public void loadPrevSettings() {
     molesAmount.setText(molesAmountPrev);
     playerAmount.setText(playerAmountPrev);
@@ -278,6 +292,10 @@ public class CreateGame extends Application implements Initializable {
       movePenalty.setValue(Punishments.valueOf(punishmentPrev));
   }
 
+  /**
+   * @author Carina, Jana, Eva
+   * @use saves prev configs.
+   */
   private void savePrevSettings() {
     molesAmountPrev = molesAmount.getText();
     playerAmountPrev = playerAmount.getText();
