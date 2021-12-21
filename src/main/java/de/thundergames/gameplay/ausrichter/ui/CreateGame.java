@@ -277,6 +277,7 @@ public class CreateGame extends Application implements Initializable {
           return false;
         }
       }
+      prev = null;
       for (var draw : drawDouble) {
         if (prev == null) {
           prev = draw;
