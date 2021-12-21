@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 21.12.21, 15:27 by Carina Latest changes made by Carina on 21.12.21, 15:27 All contents of "CreateGame" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 21.12.21, 15:28 by Carina Latest changes made by Carina on 21.12.21, 15:28 All contents of "CreateGame" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -11,10 +11,10 @@
 package de.thundergames.gameplay.ausrichter.ui;
 
 import de.thundergames.MoleGames;
-import de.thundergames.gameplay.ausrichter.ui.floorui.DrawAgainConfiguration;
-import de.thundergames.gameplay.ausrichter.ui.floorui.Floor;
-import de.thundergames.gameplay.ausrichter.ui.floorui.Hole;
-import de.thundergames.gameplay.ausrichter.ui.floorui.HolesConfiguration;
+import de.thundergames.gameplay.ausrichter.ui.floor.DrawAgainConfiguration;
+import de.thundergames.gameplay.ausrichter.ui.floor.Floor;
+import de.thundergames.gameplay.ausrichter.ui.floor.Hole;
+import de.thundergames.gameplay.ausrichter.ui.floor.HolesConfiguration;
 import de.thundergames.playmechanics.game.Game;
 import de.thundergames.playmechanics.map.Field;
 import de.thundergames.playmechanics.map.Map;
