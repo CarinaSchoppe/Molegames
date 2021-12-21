@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 21.12.21, 13:57 by Carina Latest changes made by Carina on 21.12.21, 13:55 All contents of "CreateGame" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 21.12.21, 14:35 by Carina Latest changes made by Carina on 21.12.21, 14:35 All contents of "CreateGame" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -100,10 +100,10 @@ public class CreateGame extends Application implements Initializable {
 
   @FXML
   void addItemButtonEvent(ActionEvent event) {
-    if (!drawCardValue.getText().isEmpty() || !drawCardValue.getText().equals("")) {
+    if (drawCardValue.getText() != null && !"".equalsIgnoreCase(drawCardValue.getText())) {
       drawCardValuesList.add(Integer.valueOf(drawCardValue.getText()));
     }
-    if (drawCardValues.getText().equals("") || drawCardValues.getText().equals(null)) {
+    if (drawCardValues.getText() == null || "".equalsIgnoreCase(drawCardValues.getText())) {
       drawCardValues.setText(drawCardValue.getText());
     } else {
       drawCardValues.setText(drawCardValues.getText() + "\n" + drawCardValue.getText());
@@ -182,6 +182,17 @@ public class CreateGame extends Application implements Initializable {
     MoleGames.getMoleGames().getGameHandler().createNewGame(id);
     var game = MoleGames.getMoleGames().getGameHandler().getIDGames().get(id);
     game.getSettings().getFloors().addAll(floorMap);
+    game.getSettings().setMaxPlayers(playerAmount.getText() != null ? Integer.valueOf(playerAmount.getText()) : 4);
+    game.getSettings().setRadius(radius.getText() != null ? Integer.valueOf(radius.getText()) : 8);
+    game.getSettings().setNumberOfMoles(molesAmount.getText() != null ? Integer.valueOf(molesAmount.getText()) : 4);
+    game.getSettings().setPullDiscsOrdered(pullDiscsOrdered.isSelected());
+    game.getSettings().setTurnTime(thinkTime.getText() != null ? Integer.valueOf(thinkTime.getText()) * 1000 : 15000);
+    if (!drawCardValuesList.isEmpty()) {
+      game.getSettings().getPullDiscs().clear();
+      game.getSettings().getPullDiscs().addAll(drawCardValuesList);
+    }
+    game.getSettings().setVisualizationTime(visualEffects.getText() != null ? Integer.valueOf(visualEffects.getText()) * 1000 : 5000);
+    game.getSettings().setMovePenalty(movePenalty.getSelectionModel().getSelectedItem() != null ? movePenalty.getSelectionModel().getSelectedItem().getName() : Punishments.NOTHING.getName());
     MoleGames.getMoleGames().getGameHandler().getIDGames().get(id).updateGameState();
     floors.clear();
     var primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -190,6 +201,7 @@ public class CreateGame extends Application implements Initializable {
 
   @FXML
   void loadConfigButtonEvent(ActionEvent event) {
+    //TODO: load config from file
   }
 
   @FXML
@@ -223,7 +235,7 @@ public class CreateGame extends Application implements Initializable {
     visualEffects.setText(visualEffectsPrev);
     pullDiscsOrdered.setSelected(pullDiscsOrderedPrev);
     for (var value : drawCardValuesList) {
-      if (drawCardValues.getText().equals("") || drawCardValues.getText().equals(null)) {
+      if (drawCardValues.getText() == null || "".equalsIgnoreCase(drawCardValues.getText())) {
         drawCardValues.setText(value.toString());
       } else {
         drawCardValues.setText(drawCardValues.getText() + "\n" + value.toString());
@@ -234,13 +246,13 @@ public class CreateGame extends Application implements Initializable {
   }
 
   private void savePrevSettings() {
+    molesAmountPrev = molesAmount.getText();
+    playerAmountPrev = playerAmount.getText();
+    radiusPrev = radius.getText();
+    thinkTimePrev = thinkTime.getText();
+    visualEffectsPrev = visualEffects.getText();
+    pullDiscsOrderedPrev = pullDiscsOrdered.isSelected();
     try {
-      molesAmountPrev = molesAmount.getText();
-      playerAmountPrev = playerAmount.getText();
-      radiusPrev = radius.getText();
-      thinkTimePrev = thinkTime.getText();
-      visualEffectsPrev = visualEffects.getText();
-      pullDiscsOrderedPrev = pullDiscsOrdered.isSelected();
       punishmentPrev = movePenalty.getSelectionModel().getSelectedItem().toString();
     } catch (Exception e) {
     }

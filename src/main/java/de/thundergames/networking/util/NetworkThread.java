@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 21.12.21, 13:57 by Carina Latest changes made by Carina on 21.12.21, 13:55 All contents of "NetworkThread" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 21.12.21, 14:35 by Carina Latest changes made by Carina on 21.12.21, 14:35 All contents of "NetworkThread" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -117,7 +117,11 @@ public abstract class NetworkThread extends Thread {
       if (!(exe instanceof SocketException)) exe.printStackTrace();
     } finally {
       if (socket.isConnected()) {
-        disconnect();
+        try {
+          disconnect();
+        } catch (IOException e) {
+          e.printStackTrace();
+        }
       }
       return;
     }
@@ -206,7 +210,7 @@ public abstract class NetworkThread extends Thread {
    * @author Carina
    * @use the basic logic of how a NetworkThread will disconnect
    */
-  public abstract void disconnect();
+  public abstract void disconnect() throws IOException;
 
   public void endConnection() {
     run = false;

@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 21.12.21, 13:57 by Carina Latest changes made by Carina on 21.12.21, 13:55 All contents of "DrawAgainConfiguration" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 21.12.21, 14:35 by Carina Latest changes made by Carina on 21.12.21, 14:35 All contents of "DrawAgainConfiguration" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -79,12 +79,11 @@ public class DrawAgainConfiguration implements Initializable {
 
   @FXML
   void onAdd(ActionEvent event) {
-    if ((!x.getText().equalsIgnoreCase("") || !x.getText().equalsIgnoreCase(null)) && (y.getText().equalsIgnoreCase("") || y.getText().equalsIgnoreCase(null))) {
+    if (!"".equalsIgnoreCase(x.getText()) && x.getText() != null && ("".equalsIgnoreCase(y.getText()) || y.getText() == null)) {
       var floor = new Floor(Integer.parseInt(x.getText()));
       CreateGame.getFloors().add(floor);
       updateTable();
-      return;
-    } else if ((!x.getText().equalsIgnoreCase("") || !x.getText().equalsIgnoreCase(null)) && (!y.getText().equalsIgnoreCase("") || !y.getText().equalsIgnoreCase(null)) && floorTable.getSelectionModel().getSelectedItem() != null) {
+    } else if (!"".equalsIgnoreCase(x.getText()) && x.getText() != null && !"".equalsIgnoreCase(y.getText()) && y.getText() != null && floorTable.getSelectionModel().getSelectedItem() != null) {
       var floor = floorTable.getSelectionModel().getSelectedItem();
       var drawAgain = new DrawAgain(floor, Integer.parseInt(x.getText()), Integer.parseInt(y.getText()));
       floor.getDrawAgain().add(drawAgain);
@@ -93,6 +92,8 @@ public class DrawAgainConfiguration implements Initializable {
     } else {
       JOptionPane.showMessageDialog(null, "Please select a floor");
     }
+    x.setText(null);
+    y.setText(null);
   }
 
   @FXML

@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 21.12.21, 13:57 by Carina Latest changes made by Carina on 21.12.21, 13:55 All contents of "ServerThread" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 21.12.21, 14:35 by Carina Latest changes made by Carina on 21.12.21, 14:35 All contents of "ServerThread" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -42,27 +42,23 @@ public class ServerThread extends NetworkThread {
    * @use disconnects the serverThread and removes it from the lists and maps
    */
   @Override
-  public void disconnect() {
-    try {
-      getPlayer().getGame().getGameUtil().nextPlayer();
-      if (getPlayer() != null) {
-        if (getPlayer().getGame() != null) {
-          getPlayer()
-            .getGame()
-            .removePlayerFromGame(player.getGame().getClientPlayersMap().get(this));
-        }
+  public void disconnect() throws IOException {
+    if (getPlayer() != null) {
+      if (getPlayer().getGame() != null) {
+        getPlayer().getGame().getGameUtil().nextPlayer();
+        getPlayer()
+          .getGame()
+          .removePlayerFromGame(player.getGame().getClientPlayersMap().get(this));
       }
-      MoleGames.getMoleGames().getServer().getConnectionNames().remove(this.getClientName());
-      MoleGames.getMoleGames().getServer().getClientThreads().remove(this);
-      MoleGames.getMoleGames().getServer().getThreadIDs().remove(getThreadID());
-      socket.close();
-      if (MoleGames.getMoleGames().getServer().isDebug()) {
-        System.out.println("Disconnecting " + this.getClientName());
-      }
-      MainGUI.getGUI().updateTable();
-    } catch (IOException e) {
-      e.printStackTrace();
     }
+    MoleGames.getMoleGames().getServer().getConnectionNames().remove(this.getClientName());
+    MoleGames.getMoleGames().getServer().getClientThreads().remove(this);
+    MoleGames.getMoleGames().getServer().getThreadIDs().remove(getThreadID());
+    socket.close();
+    if (MoleGames.getMoleGames().getServer().isDebug()) {
+      System.out.println("Disconnecting " + this.getClientName());
+    }
+    MainGUI.getGUI().updateTable();
   }
 
   public Player getPlayer() {
