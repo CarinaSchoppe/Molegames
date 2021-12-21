@@ -120,7 +120,7 @@ public class GameSelection implements Initializable {
     GAME_SELECTION = this;
     CLIENT = Client.getClientInstance();
     // show username at scene
-    PlayerName.setText("Spieler: " + CLIENT.name);
+    playerName.setText("Spieler: " + CLIENT.name);
     // set value for each row
     gameID.setCellValueFactory(new PropertyValueFactory<>("HashtagWithGameID"));
     gamePlayerCount.setCellValueFactory(new PropertyValueFactory<>("CurrentPlayerCount_MaxCount"));

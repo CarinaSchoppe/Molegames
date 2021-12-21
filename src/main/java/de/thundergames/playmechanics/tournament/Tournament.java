@@ -1,8 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 18.12.21, 16:37 by Carina Latest changes made by Carina on 18.12.21, 16:35
- * All contents of "Tournament" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 21.12.21, 16:39 by Carina Latest changes made by Carina on 21.12.21, 16:37 All contents of "Tournament" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -13,6 +12,7 @@ package de.thundergames.playmechanics.tournament;
 
 import de.thundergames.MoleGames;
 import de.thundergames.filehandling.Score;
+import de.thundergames.gameplay.ausrichter.ui.MainGUI;
 import de.thundergames.networking.server.ServerThread;
 import de.thundergames.playmechanics.game.Game;
 import lombok.Getter;
@@ -20,6 +20,7 @@ import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashSet;
+import java.util.Objects;
 
 @Getter
 @Setter
@@ -47,6 +48,7 @@ public class Tournament {
     MoleGames.getMoleGames().getGameHandler().getClientTournaments().put(client, this);
     updateTournamentState();
     playerCount++;
+    MainGUI.getGUI().updateTable();
   }
 
   /**
@@ -86,8 +88,25 @@ public class Tournament {
     }
   }
 
-  /** @return tournamentID with a hashtag in front of it */
+  /**
+   * @return tournamentID with a hashtag in front of it
+   */
   public String getHashtagWithTournamentID() {
     return "#" + tournamentID;
   }
+
+  /**
+   * @return current player count and the maximum player count with a slash between both
+   */
+  public String getCurrentPlayerCount_MaxCount() {
+    return players.size() + "/ XX";
+  }
+
+  /**
+   * @return current player count and the maximum player count with a slash between both
+   */
+  public String getStatusForTableView() {
+    return Objects.equals(status, TournamentStatus.NOT_STARTED) ? "OPEN" : status.getStatus();
+  }
+  // endregion
 }
