@@ -11,6 +11,7 @@
 package de.thundergames.gameplay.player.board;
 
 import de.thundergames.playmechanics.map.Field;
+import de.thundergames.playmechanics.map.Map;
 import javafx.geometry.Point2D;
 import javafx.scene.Group;
 import javafx.scene.image.Image;
@@ -29,6 +30,7 @@ public class Board extends Group {
   // TODO:: make a partial type for nodes that decouples logic from UI
   private final HashSet<Node> nodes;
   private final ArrayList<Edge> edges;
+  //private final Map map;
   private HashMap<List<Integer>, NodeType> nodesType;
   private ArrayList<PlayerModel> players;
   private double width;
@@ -113,16 +115,36 @@ public class Board extends Group {
    * @use generates the nodes
    */
   public void generateNodes() {
+
+   // var fieldMap = map.getFieldMap();
+   // var maxNumberOfNodes = 2 * this.radius + 1;
+
+  //  for (Field node: fieldMap.values()) {
+  //      var row = node.getY();
+  //      var numberOfNodes = (int)fieldMap.values().stream().filter( field -> field.getX() == node.getX()).count();
+  //      var nodesPositions = getNodesPosition(numberOfNodes, maxNumberOfNodes, row);
+//
+  //      var nodeType = this.nodesType.get(List.of(node.getX(),node.getY())) != null
+  //      ? this.nodesType.get(List.of(node.getX(),node.getY()))
+  //      : NodeType.DEFAULT;
+  //    this.nodes.add(new Node(nodesPositions[j].getX(), nodesPositions[j].getY(), nodeType, i + 1,new Field(i,j)));
+  //  }
+
+
+
     var numberOfGridRows = this.radius * 2 + 1;
     var startId = 1;
     for (var i = 0; i < numberOfGridRows; i++) {
       var numberOfGridCols = i <= this.radius ? this.radius + i + 1 : this.radius + numberOfGridRows - i;
       var nodesPositions = getNodesPosition(numberOfGridCols, numberOfGridRows, i);
+      var shift = i > this.radius ? numberOfGridRows-numberOfGridCols : 0;
       for (var j = 0; j < numberOfGridCols; j++) {
         var nodeType = this.nodesType.get(List.of(i,j)) != null
           ? this.nodesType.get(List.of(i,j))
           : NodeType.DEFAULT;
-        this.nodes.add(new Node(startId + j, nodesPositions[j].getX(), nodesPositions[j].getY(), nodeType, i + 1,new Field(i,j)));
+
+        this.nodes.add(new Node(startId + j, nodesPositions[j].getX(), nodesPositions[j].getY(), nodeType, i + 1,new Field(i,j + shift)));
+
       }
       startId += numberOfGridCols;
     }
@@ -189,17 +211,19 @@ public class Board extends Group {
     });
     // display moles
     this.generateMoles();
+    var test = this.players;
     this.players.forEach(player -> this.getChildren().addAll(player.getMoles()));
     // display markers
-    //this.players.forEach(player -> this.getChildren().add(player.getMarker()));
+    this.players.forEach(PlayerModel::updateMarker);
+    this.players.forEach(player -> this.getChildren().addAll((player.getMarkers())));
   }
+
   private Node getNodeByField(final Field field) {
       for (var node : nodes) {
         if (node.getField().getX() == field.getX() && node.getField().getY() == field.getY()) {
           return node;
         }
       }
-
     return null;
   }
 }

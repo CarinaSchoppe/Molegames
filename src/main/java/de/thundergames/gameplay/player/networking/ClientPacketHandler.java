@@ -14,6 +14,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import de.thundergames.filehandling.Score;
 import de.thundergames.gameplay.player.Client;
+import de.thundergames.gameplay.player.board.GameBoard;
 import de.thundergames.gameplay.player.ui.gameselection.GameSelection;
 import de.thundergames.gameplay.player.ui.gameselection.LobbyObserverGame;
 import de.thundergames.gameplay.player.ui.score.LeaderBoard;
@@ -234,9 +235,11 @@ public class ClientPacketHandler {
 
   /**
    * @author Carina
-   * @use is called everytime a map gets updated TODO: implement this
+   * @use is called everytime a map gets updated
    */
   public void updateMap() {
+    var gameBoard = GameBoard.getObserver();
+    if (gameBoard != null) gameBoard.updateGameBoard();
   }
 
   /**

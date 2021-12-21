@@ -11,6 +11,9 @@
 package de.thundergames.gameplay.player.board;
 
 import de.thundergames.gameplay.player.Client;
+import de.thundergames.gameplay.player.ui.gameselection.GameSelection;
+import de.thundergames.gameplay.player.ui.gameselection.LobbyObserverGame;
+import de.thundergames.playmechanics.game.GameState;
 import de.thundergames.playmechanics.map.Field;
 import de.thundergames.playmechanics.util.Mole;
 import de.thundergames.playmechanics.util.Player;
@@ -33,9 +36,17 @@ import java.util.stream.IntStream;
 public class GameBoard implements Initializable {
 
   private static Client CLIENT;
-  private static GameBoard GAME_BOARD;
+  private static GameBoard OBSERVER;
 
-  static int BOARD_RADIUS = 3;
+  private int BOARD_RADIUS;
+
+  private Stage primaryStage;
+  private BorderPane borderPane;
+  private GameHandler gameHandler;
+
+  public static GameBoard getObserver() {
+    return OBSERVER;
+  }
 
   /**
    * @param primaryStage
@@ -43,63 +54,36 @@ public class GameBoard implements Initializable {
    * @use starts the stage
    */
   public void create(Stage primaryStage) {
-    GAME_BOARD = this;
+    OBSERVER = this;
     CLIENT = Client.getClientInstance();
+    this.primaryStage = primaryStage;
+    borderPane = new BorderPane();
 
+    // get gameState
     var gameState = CLIENT.getGameState();
     if (gameState== null) return;
 
-    var borderPane = new BorderPane();
-
-
+    // get radius
     BOARD_RADIUS = gameState.getRadius();
 
-    var players = gameState.getActivePlayers();
-    ArrayList<PlayerModel> playerModels = new ArrayList<>();
-    Random rn = new Random();
-    for (var player:players) {
+    //get current player
+    var currentPlayerId = gameState.getCurrentPlayer()== null  ? -1 : gameState.getCurrentPlayer().getClientID();
 
-      var test = new HashSet<Mole>();
-      test.add(new Mole(player,new Field(1,3)));
-      player.setMoles(test);
-
-      playerModels.add(new PlayerModel(player));
-    }
-
-
-
-    //Convert list of holes and drawAgainFields to list of object nodeType
-    HashMap<List<Integer>, NodeType> nodes = new HashMap<>();
-    gameState.getFloor().getHoles().forEach(field -> nodes.put(List.of(field.getX(),field.getY()), NodeType.HOLE));
-    gameState.getFloor().getDrawAgainFields().forEach(field -> nodes.put(List.of(field.getX(),field.getY()), NodeType.DRAW_AGAIN));
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    // create list of playerModels for ui
+   ArrayList<Player> players = gameState.getActivePlayers();
+   ArrayList<Mole> placedMoles = gameState.getPlacedMoles();
+    var playerModelList = mapPlayersToPlayerModels(players,placedMoles,currentPlayerId);
 
     // Set custom cursor
     var cursor = new Image(Utils.getSprite("game/cursor.png"));
     borderPane.setCursor(new ImageCursor(cursor,
       cursor.getWidth() / 2,
       cursor.getHeight() / 2));
-    var maxPossibleID = 3 * (int) Math.pow(BOARD_RADIUS, 2) + 3 * BOARD_RADIUS + 1;
-    // Create a game handler and add random players to it
 
-    var gameHandler = new GameHandler(playerModels, BOARD_RADIUS, nodes);
-    gameHandler.start(borderPane);
+    // Create a game handler and add random players to it
+    gameHandler = new GameHandler(playerModelList, BOARD_RADIUS, updateFloor(gameState),borderPane);
+    gameHandler.start(playerModelList);
+
     // Add resize event listener
     ChangeListener<Number> resizeObserver = (obs, newValue, oldValue) -> gameHandler.getBoard().onResize(borderPane.getWidth(), borderPane.getHeight());
     borderPane.widthProperty().addListener(resizeObserver);
@@ -116,4 +100,56 @@ public class GameBoard implements Initializable {
   @Override
   public void initialize(URL location, ResourceBundle resources) {
   }
+
+  public ArrayList<PlayerModel> mapPlayersToPlayerModels(ArrayList<Player> players,ArrayList<Mole>placedMoles,Integer currentPlayerId)
+  {
+    ArrayList<PlayerModel> playerModelList = new ArrayList<>();
+    for (var player:players) {
+      ArrayList<MoleModel> moleModelList = new ArrayList<>();
+      for (var mole : placedMoles)
+      {
+        if(player.getClientID() == mole.getPlayer().getClientID())
+        {
+          moleModelList.add(new MoleModel(player.getClientID(),mole));
+        }
+      }
+      playerModelList.add(new PlayerModel(player,moleModelList,player.getClientID() == currentPlayerId));
+    }
+    return playerModelList;
+  }
+
+
+  public void updateGameBoard()
+  {
+    //TODO: Daten bei Änderung von Map entnehmen x_alt + y_alt zu x_neu + y_neu
+
+    //get gameState
+    var gameState = CLIENT.getGameState();
+    if (gameState== null) return;
+
+    //get current player
+    var currentPlayerId = gameState.getCurrentPlayer()== null  ? -1 : gameState.getCurrentPlayer().getClientID();
+
+    // create list of playerModels for ui
+    ArrayList<Player> players = gameState.getActivePlayers();
+    ArrayList<Mole> placedMoles = gameState.getPlacedMoles();
+    var playerModelList = mapPlayersToPlayerModels(players,placedMoles,currentPlayerId);
+    gameHandler.update(playerModelList);
+
+    //Update floor if radius changed
+    HashMap<List<Integer>, NodeType> nodes = new HashMap<>();
+    if (BOARD_RADIUS != gameState.getRadius()) {
+      BOARD_RADIUS = gameState.getRadius();
+      nodes = updateFloor(gameState);
+    }
+  }
+
+  public HashMap<List<Integer>, NodeType> updateFloor(GameState gameState)
+  {
+    HashMap<List<Integer>, NodeType> nodes = new HashMap<>();
+    gameState.getFloor().getHoles().forEach(field -> nodes.put(List.of(field.getX(),field.getY()), NodeType.HOLE));
+    gameState.getFloor().getDrawAgainFields().forEach(field -> nodes.put(List.of(field.getX(),field.getY()), NodeType.DRAW_AGAIN));
+    return nodes;
+  }
+
 }

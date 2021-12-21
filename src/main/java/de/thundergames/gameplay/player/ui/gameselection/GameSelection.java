@@ -42,7 +42,7 @@ public class GameSelection implements Initializable {
   private static Client CLIENT;
   private static GameSelection GAME_SELECTION;
   @FXML
-  private Text PlayerName;
+  private Text playerName;
   @FXML
   private TableView<Game> gameTable;
   @FXML
