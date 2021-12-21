@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 21.12.21, 16:39 by Carina Latest changes made by Carina on 21.12.21, 16:37 All contents of "HolesConfiguration" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 21.12.21, 16:50 by Carina Latest changes made by Carina on 21.12.21, 16:49 All contents of "HolesConfiguration" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -81,21 +81,25 @@ public class HolesConfiguration implements Initializable {
 
   @FXML
   void onAdd(ActionEvent event) {
-    if (!"".equalsIgnoreCase(x.getText()) && x.getText() != null && ("".equalsIgnoreCase(y.getText()) || y.getText() == null)) {
-      var floor = new Floor(Integer.parseInt(x.getText()));
-      CreateGame.getFloors().add(floor);
-      updateTable();
-    } else if (!"".equalsIgnoreCase(x.getText()) && x.getText() != null && !"".equalsIgnoreCase(y.getText()) && y.getText() != null && floorTable.getSelectionModel().getSelectedItem() != null) {
-      var floor = floorTable.getSelectionModel().getSelectedItem();
-      var hole = new Hole(floor, Integer.parseInt(x.getText()), Integer.parseInt(y.getText()));
-      floor.getHoles().add(hole);
-      updateHolesTable();
-      updateTable();
-    } else {
-      JOptionPane.showMessageDialog(null, "Please select a floor");
+    try {
+      if (!"".equalsIgnoreCase(x.getText()) && x.getText() != null && ("".equalsIgnoreCase(y.getText()) || y.getText() == null)) {
+        var floor = new Floor(Integer.parseInt(x.getText()));
+        CreateGame.getFloors().add(floor);
+        updateTable();
+      } else if (!"".equalsIgnoreCase(x.getText()) && x.getText() != null && !"".equalsIgnoreCase(y.getText()) && y.getText() != null && floorTable.getSelectionModel().getSelectedItem() != null) {
+        var floor = floorTable.getSelectionModel().getSelectedItem();
+        var hole = new Hole(floor, Integer.parseInt(x.getText()), Integer.parseInt(y.getText()));
+        floor.getHoles().add(hole);
+        updateHolesTable();
+        updateTable();
+      } else {
+        JOptionPane.showMessageDialog(null, "Please select a floor");
+      }
+      x.setText(null);
+      y.setText(null);
+    } catch (NumberFormatException exe) {
+      JOptionPane.showMessageDialog(null, "Du musst eine Zahl eingeben!", "Eingabe!", JOptionPane.ERROR_MESSAGE);
     }
-    x.setText(null);
-    y.setText(null);
   }
 
   @FXML

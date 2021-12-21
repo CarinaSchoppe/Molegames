@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 21.12.21, 16:39 by Carina Latest changes made by Carina on 21.12.21, 16:37 All contents of "Player" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 21.12.21, 16:50 by Carina Latest changes made by Carina on 21.12.21, 16:47 All contents of "Player" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -31,6 +31,7 @@ import java.util.Timer;
 public class Player {
 
   private final String name;
+  private final int clientID;
   private final transient HashSet<Mole> moles = new HashSet<>();
   private final transient NetworkThread serverClient;
   private final transient ArrayList<Integer> cards = new ArrayList<>();
@@ -52,6 +53,7 @@ public class Player {
   public Player(@NotNull final ServerThread client) {
     this.serverClient = client;
     this.name = (client.getClientName());
+    this.clientID = client.getThreadID();
   }
 
   /**
@@ -64,11 +66,12 @@ public class Player {
   public Player(@NotNull final Client client) {
     this.serverClient = client.getClientThread();
     this.name = (client.getName());
+    this.clientID = client.getClientThread().getThreadID();
   }
 
   @Override
   public String toString() {
-    return "Playermodel with the name: " + name + " and clientID: " + getServerClient().getThreadID() + "";
+    return "Playermodel with the name: " + name + " and clientID: " + getClientID() + "";
   }
 
   /**
