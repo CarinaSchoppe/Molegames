@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 21.12.21, 15:53 by Carina Latest changes made by Carina on 21.12.21, 15:53 All contents of "CreateGame" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 21.12.21, 15:54 by Carina Latest changes made by Carina on 21.12.21, 15:54 All contents of "CreateGame" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -235,7 +235,6 @@ public class CreateGame extends Application implements Initializable {
   private boolean isLegalConfiguration(final int radius) {
     var holeDouble = new ArrayList<Hole>();
     var drawDouble = new ArrayList<DrawAgain>();
-    //checks if a hole is under an other hole
     var holes = new ArrayList<Hole>();
     var game = new Game(1);
     game.setRadius(radius);
