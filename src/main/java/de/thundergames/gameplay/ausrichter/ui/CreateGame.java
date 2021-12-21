@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 21.12.21, 14:35 by Carina Latest changes made by Carina on 21.12.21, 14:35 All contents of "CreateGame" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 21.12.21, 15:22 by Carina Latest changes made by Carina on 21.12.21, 15:21 All contents of "CreateGame" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -13,7 +13,9 @@ package de.thundergames.gameplay.ausrichter.ui;
 import de.thundergames.MoleGames;
 import de.thundergames.gameplay.ausrichter.ui.floorui.DrawAgainConfiguration;
 import de.thundergames.gameplay.ausrichter.ui.floorui.Floor;
+import de.thundergames.gameplay.ausrichter.ui.floorui.Hole;
 import de.thundergames.gameplay.ausrichter.ui.floorui.HolesConfiguration;
+import de.thundergames.playmechanics.game.Game;
 import de.thundergames.playmechanics.map.Field;
 import de.thundergames.playmechanics.map.Map;
 import de.thundergames.playmechanics.util.Punishments;
@@ -34,6 +36,7 @@ import javax.swing.*;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.ResourceBundle;
 
 @Getter
@@ -175,23 +178,23 @@ public class CreateGame extends Application implements Initializable {
       return;
     }
     var id = MoleGames.getMoleGames().getGameHandler().getGames().size();
-    if (!isLegalConfiguration()) {
+    if (!isLegalConfiguration((radius.getText() != null && "".equalsIgnoreCase(radius.getText())) ? Integer.valueOf(radius.getText()) : 8)) {
       JOptionPane.showMessageDialog(null, "Das Spiel ist nicht richtig konfiguriert!", "Fehler!", JOptionPane.ERROR_MESSAGE);
       return;
     }
     MoleGames.getMoleGames().getGameHandler().createNewGame(id);
     var game = MoleGames.getMoleGames().getGameHandler().getIDGames().get(id);
     game.getSettings().getFloors().addAll(floorMap);
-    game.getSettings().setMaxPlayers(playerAmount.getText() != null ? Integer.valueOf(playerAmount.getText()) : 4);
-    game.getSettings().setRadius(radius.getText() != null ? Integer.valueOf(radius.getText()) : 8);
-    game.getSettings().setNumberOfMoles(molesAmount.getText() != null ? Integer.valueOf(molesAmount.getText()) : 4);
+    game.getSettings().setMaxPlayers((playerAmount.getText() != null && "".equalsIgnoreCase(playerAmount.getText())) ? Integer.valueOf(playerAmount.getText()) : 5);
+    game.getSettings().setRadius((radius.getText() != null && "".equalsIgnoreCase(radius.getText())) ? Integer.valueOf(radius.getText()) : 8);
+    game.getSettings().setNumberOfMoles((molesAmount.getText() != null && "".equalsIgnoreCase(molesAmount.getText())) ? Integer.valueOf(molesAmount.getText()) : 4);
     game.getSettings().setPullDiscsOrdered(pullDiscsOrdered.isSelected());
-    game.getSettings().setTurnTime(thinkTime.getText() != null ? Integer.valueOf(thinkTime.getText()) * 1000 : 15000);
+    game.getSettings().setTurnTime((thinkTime.getText() != null && "".equalsIgnoreCase(thinkTime.getText())) ? Integer.valueOf(thinkTime.getText()) * 1000 : 15000);
     if (!drawCardValuesList.isEmpty()) {
       game.getSettings().getPullDiscs().clear();
       game.getSettings().getPullDiscs().addAll(drawCardValuesList);
     }
-    game.getSettings().setVisualizationTime(visualEffects.getText() != null ? Integer.valueOf(visualEffects.getText()) * 1000 : 5000);
+    game.getSettings().setVisualizationTime((visualEffects.getText() != null && "".equalsIgnoreCase(visualEffects.getText())) ? Integer.valueOf(visualEffects.getText()) * 1000 : 5000);
     game.getSettings().setMovePenalty(movePenalty.getSelectionModel().getSelectedItem() != null ? movePenalty.getSelectionModel().getSelectedItem().getName() : Punishments.NOTHING.getName());
     MoleGames.getMoleGames().getGameHandler().getIDGames().get(id).updateGameState();
     floors.clear();
@@ -222,8 +225,38 @@ public class CreateGame extends Application implements Initializable {
    * @author Carina
    * @use checks if a configuration was legal or not
    */
-  private boolean isLegalConfiguration() {
-    //TODO: implement
+  private boolean isLegalConfiguration(final int radius) {
+    //checks if a hole is under an other hole
+    var holes = new ArrayList<Hole>();
+    var game = new Game(1);
+    game.setRadius(radius);
+    var map = new Map(game, new HashSet<>(), new HashSet<>(), 1);
+    map.build(game);
+    for (var floor : floors) {
+      for (var field : floor.getDrawAgain()) {
+        if (!map.getFieldMap().containsKey(List.of(field.getXPosition(), field.getYPosition()))) {
+          return false;
+        }
+      }
+      for (var hole : floor.getHoles()) {
+        if (!map.getFieldMap().containsKey(List.of(hole.getXPosition(), hole.getYPosition()))) {
+          return false;
+        }
+      }
+      if (holes.isEmpty()) {
+        holes.addAll(floor.getHoles());
+      } else {
+        for (var hole : floor.getHoles()) {
+          for (var holeCheck : holes) {
+            if (hole.getXPosition() == holeCheck.getXPosition() && hole.getYPosition() == holeCheck.getYPosition()) {
+              return false;
+            }
+          }
+        }
+        holes.clear();
+        holes.addAll(floor.getHoles());
+      }
+    }
     return true;
   }
 

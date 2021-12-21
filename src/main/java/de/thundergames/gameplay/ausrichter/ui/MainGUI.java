@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 21.12.21, 14:35 by Carina Latest changes made by Carina on 21.12.21, 14:35 All contents of "MainGUI" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 21.12.21, 15:22 by Carina Latest changes made by Carina on 21.12.21, 15:21 All contents of "MainGUI" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -141,7 +141,7 @@ public class MainGUI extends Application implements Initializable {
     if (selectedItem == null) {
       JOptionPane.showMessageDialog(null, "Es wurde kein Spiel selektiert!", "Spiel auswählen!", JOptionPane.ERROR_MESSAGE);
     } else {
-      if (MoleGames.getMoleGames().getGameHandler().getIDGames().get(selectedItem.getGameID()).getCurrentGameState() == GameStates.NOT_STARTED) {
+      if (MoleGames.getMoleGames().getGameHandler().getIDGames().get(selectedItem.getGameID()).getCurrentGameState() == GameStates.NOT_STARTED && !MoleGames.getMoleGames().getGameHandler().getIDGames().get(selectedItem.getGameID()).getActivePlayers().isEmpty()) {
         MoleGames.getMoleGames().getGameHandler().getIDGames().get(selectedItem.getGameID()).startGame(GameStates.STARTED);
         JOptionPane.showMessageDialog(null, "Spiel wurde erfolgreich gestartet!", "Erfolg!", JOptionPane.ERROR_MESSAGE);
       } else {

@@ -3,7 +3,7 @@
 <!--
   ~ Copyright Notice for SwtPra10
   ~ Copyright (c) at ThunderGames | SwtPra10 2021
-  ~ File created on 21.12.21, 14:35 by Carina Latest changes made by Carina on 21.12.21, 14:35 All contents of "HolesConfiguration.fxml" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+  ~ File created on 21.12.21, 15:22 by Carina Latest changes made by Carina on 21.12.21, 15:22 All contents of "HolesConfiguration.fxml" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
   ~ at ThunderGames | SwtPra10. All rights reserved
   ~ Any type of duplication, distribution, rental, sale, award,
   ~ Public accessibility or other use
@@ -25,12 +25,12 @@
         <Button fx:id="back" layoutX="64.0" layoutY="46.0" mnemonicParsing="false" onAction="#onBack" prefHeight="45.0" prefWidth="44.0" style="-fx-background-color: transparent;"/>
         <Button fx:id="add" layoutX="674.0" layoutY="501.0" mnemonicParsing="false" onAction="#onAdd" prefHeight="45.0" prefWidth="44.0" style="-fx-background-color: transparent;"/>
         <Button fx:id="remove" layoutX="674.0" layoutY="582.0" mnemonicParsing="false" onAction="#onRemove" prefHeight="45.0" prefWidth="44.0" style="-fx-background-color: transparent;"/>
-        <TextField layoutX="674.0" layoutY="215.0" prefHeight="47.0" prefWidth="44.0" promptText="X" style="-fx-background-color: transparemnt;" fx:id="x">
+        <TextField layoutX="674.0" layoutY="215.0" prefHeight="47.0" prefWidth="44.0" promptText="X" style="-fx-background-color: transparemnt; -fx-text-fill: white;" fx:id="x">
             <font>
                 <Font size="20.0"/>
             </font>
         </TextField>
-        <TextField fx:id="y" layoutX="674.0" layoutY="296.0" prefHeight="47.0" prefWidth="44.0" promptText="Y" style="-fx-background-color: transparemnt;">
+        <TextField fx:id="y" layoutX="674.0" layoutY="296.0" prefHeight="47.0" prefWidth="44.0" promptText="Y" style="-fx-background-color: transparemnt; -fx-text-fill: white;">
             <font>
                 <Font size="20.0"/>
             </font>
