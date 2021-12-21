@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 21.12.21, 15:28 by Carina Latest changes made by Carina on 21.12.21, 15:28 All contents of "CreateGame" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 21.12.21, 15:53 by Carina Latest changes made by Carina on 21.12.21, 15:53 All contents of "CreateGame" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -11,10 +11,7 @@
 package de.thundergames.gameplay.ausrichter.ui;
 
 import de.thundergames.MoleGames;
-import de.thundergames.gameplay.ausrichter.ui.floor.DrawAgainConfiguration;
-import de.thundergames.gameplay.ausrichter.ui.floor.Floor;
-import de.thundergames.gameplay.ausrichter.ui.floor.Hole;
-import de.thundergames.gameplay.ausrichter.ui.floor.HolesConfiguration;
+import de.thundergames.gameplay.ausrichter.ui.floor.*;
 import de.thundergames.playmechanics.game.Game;
 import de.thundergames.playmechanics.map.Field;
 import de.thundergames.playmechanics.map.Map;
@@ -236,6 +233,8 @@ public class CreateGame extends Application implements Initializable {
    * @use checks if a configuration was legal or not
    */
   private boolean isLegalConfiguration(final int radius) {
+    var holeDouble = new ArrayList<Hole>();
+    var drawDouble = new ArrayList<DrawAgain>();
     //checks if a hole is under an other hole
     var holes = new ArrayList<Hole>();
     var game = new Game(1);
@@ -244,11 +243,13 @@ public class CreateGame extends Application implements Initializable {
     map.build(game);
     for (var floor : floors) {
       for (var field : floor.getDrawAgain()) {
+        drawDouble.add(field);
         if (!map.getFieldMap().containsKey(List.of(field.getXPosition(), field.getYPosition()))) {
           return false;
         }
       }
       for (var hole : floor.getHoles()) {
+        holeDouble.add(hole);
         if (!map.getFieldMap().containsKey(List.of(hole.getXPosition(), hole.getYPosition()))) {
           return false;
         }
@@ -265,6 +266,25 @@ public class CreateGame extends Application implements Initializable {
         }
         holes.clear();
         holes.addAll(floor.getHoles());
+      }
+    }
+    Object prev = null;
+    for (var hole : holeDouble) {
+      if (prev == null) {
+        prev = hole;
+      } else {
+        if (hole.getXPosition() == ((Hole) prev).getXPosition() && hole.getYPosition() == ((Hole) prev).getYPosition()) {
+          return false;
+        }
+      }
+      for (var draw : drawDouble) {
+        if (prev == null) {
+          prev = draw;
+        } else {
+          if (draw.getXPosition() == ((DrawAgain) prev).getXPosition() && draw.getYPosition() == ((DrawAgain) prev).getYPosition()) {
+            return false;
+          }
+        }
       }
     }
     return true;
