@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 21.12.21, 16:50 by Carina Latest changes made by Carina on 21.12.21, 16:47 All contents of "Player" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 22.12.21, 13:46 by Carina Latest changes made by Carina on 22.12.21, 13:46 All contents of "Player" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -285,5 +285,9 @@ public class Player {
             + game.getSettings().getNumberOfMoles()
             + ")\n\n");
     }
+  }
+
+  public boolean isSpectator() {
+    return game.getSpectators().contains(this);
   }
 }
