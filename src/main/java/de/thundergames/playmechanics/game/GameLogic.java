@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 21.12.21, 16:39 by Carina Latest changes made by Carina on 21.12.21, 16:37 All contents of "GameLogic" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 22.12.21, 14:02 by Carina Latest changes made by Carina on 22.12.21, 14:02 All contents of "GameLogic" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -162,18 +162,6 @@ public class GameLogic {
    * performen
    */
   public void performPunishment(@NotNull final Player player, @NotNull final Punishments reason) {
-    if (player.getGame().getSettings().getPunishment().equals(Punishments.POINTS)) {
-      player
-        .getGame()
-        .getScore()
-        .getPoints()
-        .put(
-          player.getServerClient().getThreadID(),
-          player.getGame().getScore().getPoints().get(player.getServerClient().getThreadID())
-            - player.getGame().getDeductedPoints());
-    } else if (player.getGame().getSettings().getPunishment().equals(Punishments.KICK)) {
-      player.getGame().removePlayerFromGame(player);
-    }
     MoleGames.getMoleGames()
       .getServer()
       .sendToAllGameClients(
@@ -186,5 +174,17 @@ public class GameLogic {
             player.getGame().getDeductedPoints(),
             player.getGame().getSettings().getPunishment(),
             reason.getName()));
+    if (player.getGame().getSettings().getPunishment().equals(Punishments.POINTS)) {
+      player
+        .getGame()
+        .getScore()
+        .getPoints()
+        .put(
+          player.getServerClient().getThreadID(),
+          player.getGame().getScore().getPoints().get(player.getServerClient().getThreadID())
+            - player.getGame().getDeductedPoints());
+    } else if (player.getGame().getSettings().getPunishment().equals(Punishments.KICK)) {
+      player.getGame().removePlayerFromGame(player);
+    }
   }
 }
