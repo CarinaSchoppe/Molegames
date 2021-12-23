@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 21.12.21, 16:50 by Carina Latest changes made by Carina on 21.12.21, 16:50 All contents of "PacketHandler" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 23.12.21, 12:08 by Carina Latest changes made by Carina on 23.12.21, 12:08 All contents of "PacketHandler" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -14,6 +14,7 @@ import com.google.gson.JsonObject;
 import de.thundergames.MoleGames;
 import de.thundergames.filehandling.Score;
 import de.thundergames.gameplay.ausrichter.ui.MainGUI;
+import de.thundergames.gameplay.ausrichter.ui.PlayerManagement;
 import de.thundergames.gameplay.player.Client;
 import de.thundergames.networking.util.Packet;
 import de.thundergames.networking.util.Packets;
@@ -566,10 +567,10 @@ public class PacketHandler {
    * @see Client
    * @see Player
    */
-  private void handlePlayerLeavePacket(@NotNull final ServerThread client) {
+  public void handlePlayerLeavePacket(@NotNull final ServerThread client) {
     removeFromGames(client);
     overviewPacket(client);
-    client.setPlayer(null);
+    client.setPlayer(new Player(client));
     MainGUI.getGUI().updateTable();
   }
 
@@ -610,12 +611,14 @@ public class PacketHandler {
     client.getServer().getPlayingThreads().remove(client);
     client.getServer().getLobbyThreads().add(client);
     if (MoleGames.getMoleGames().getServer().isDebug()) {
-      if (client.getPlayer().getGame() == null) {
-        System.out.println(
-          "Client with id: "
-            + client.getThreadID()
-            + " tried to leave a game but was not part of one!");
-        return;
+      if (client.getPlayer() != null) {
+        if (client.getPlayer().getGame() == null) {
+          System.out.println(
+            "Client with id: "
+              + client.getThreadID()
+              + " tried to leave a game but was not part of one!");
+          return;
+        }
       } else {
         return;
       }
@@ -623,11 +626,16 @@ public class PacketHandler {
     if (client.getPlayer().getGame().getCurrentPlayer() != null) {
       client.getPlayer().getGame().getCurrentPlayer().getTimer().cancel();
     }
-    client.getPlayer().getGame().removePlayerFromGame(client.getPlayer());
     client.getPlayer().getGame().getActivePlayers().remove(client.getPlayer());
     client.getPlayer().getGame().getPlayers().remove(client.getPlayer());
     client.getPlayer().getGame().getSpectators().remove(client.getPlayer());
+    client.getPlayer().getGame().removePlayerFromGame(client.getPlayer());
     MoleGames.getMoleGames().getGameHandler().getClientGames().remove(client);
+    System.out.println("Client with id: " + client.getThreadID() + " left the game!");
+    client.setPlayer(new Player(client));
+    if (MainGUI.getGUI() != null) {
+      MainGUI.getGUI().updateTable();
+    }
   }
 
   /**
@@ -690,14 +698,18 @@ public class PacketHandler {
         }
       }
     }
-    if (MoleGames.getMoleGames().getServer().isDebug())
+    if (MoleGames.getMoleGames().getServer().isDebug()) {
       System.out.println(
         "Client with id "
           + client.getThreadID()
           + " got the name "
           + client.getClientName()
           + " and logged in!");
+    }
     client.setPlayer(new Player(client));
+    if (PlayerManagement.getPlayerManagement() != null) {
+      PlayerManagement.getPlayerManagement().updateTable();
+    }
   }
 
   /**
@@ -787,7 +799,7 @@ public class PacketHandler {
    * @see Player
    * @see Client
    */
-  private boolean handleJoinPacket(@NotNull final ServerThread client, @NotNull final Packet packet)
+  public boolean handleJoinPacket(@NotNull final ServerThread client, @NotNull final Packet packet)
     throws NotAllowedError {
     if (MoleGames.getMoleGames()
       .getGameHandler()
@@ -873,7 +885,9 @@ public class PacketHandler {
     json.addProperty("gameState", new Gson().toJson(client.getPlayer().getGame().getGameState()));
     object.add("value", json);
     client.sendPacket(new Packet(object));
-    playerJoinedPacket(client);
+    if (client.getPlayer().getGame().getActivePlayers().contains(client.getPlayer())) {
+      playerJoinedPacket(client);
+    }
   }
 
   /**

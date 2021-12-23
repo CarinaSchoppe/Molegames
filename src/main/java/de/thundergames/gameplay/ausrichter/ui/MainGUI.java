@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 21.12.21, 16:39 by Carina Latest changes made by Carina on 21.12.21, 16:37 All contents of "MainGUI" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 23.12.21, 12:08 by Carina Latest changes made by Carina on 23.12.21, 11:54 All contents of "MainGUI" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -33,6 +33,7 @@ import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -82,8 +83,8 @@ public class MainGUI extends Application implements Initializable {
   public static void create(@NotNull final Server server, @NotNull final String... args) {
     MoleGames.getMoleGames().setAusrichterClient(new AusrichterClient(server));
     new Thread(() -> launch(args)).start();
-    //   MoleGames.getMoleGames().getAusrichterClient().testTournament(0);
-    // MoleGames.getMoleGames().getAusrichterClient().testGame(0);
+    MoleGames.getMoleGames().getAusrichterClient().testTournament(0);
+    MoleGames.getMoleGames().getAusrichterClient().testGame(0);
   }
 
   public static MainGUI getGUI() {
@@ -145,13 +146,24 @@ public class MainGUI extends Application implements Initializable {
         MoleGames.getMoleGames().getGameHandler().getIDGames().get(selectedItem.getGameID()).startGame(GameStates.STARTED);
         JOptionPane.showMessageDialog(null, "Spiel wurde erfolgreich gestartet!", "Erfolg!", JOptionPane.ERROR_MESSAGE);
       } else {
-        JOptionPane.showMessageDialog(null, "Das Spiel ist bereits am laufen!", "Spiel Gamestate!", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(null, "Das Spiel ist kann nicht gestartet werden!");
       }
     }
   }
 
   @FXML
   void onCreateGame(ActionEvent event) throws Exception {
+    if (CreateGame.getCreateGameInstance() != null) {
+      CreateGame.setPunishmentPrev(null);
+      CreateGame.setVisualEffectsPrev(null);
+      CreateGame.setThinkTimePrev(null);
+      CreateGame.getFloors().clear();
+      CreateGame.setPullDiscsOrderedPrev(false);
+      CreateGame.setRadiusPrev(null);
+      CreateGame.getDrawCardValuesList().clear();
+      CreateGame.setMaxPlayersPrev(null);
+      CreateGame.setMolesAmountPrev(null);
+    }
     var primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
     new CreateGame().start(primaryStage);
   }
@@ -162,8 +174,13 @@ public class MainGUI extends Application implements Initializable {
   }
 
   @FXML
-  void onEditGame(ActionEvent event) {
-    //TODO: create and start mechanics on editing a game to add and remove players
+  void onEditGame(ActionEvent event) throws IOException {
+    if (gameTable.getSelectionModel().getSelectedItem() != null) {
+      var selectedItem = gameTable.getSelectionModel().getSelectedItem();
+      var game = MoleGames.getMoleGames().getGameHandler().getIDGames().get(selectedItem.getGameID());
+      var primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+      new PlayerManagement(game).start(primaryStage);
+    }
   }
 
   @FXML
@@ -192,7 +209,6 @@ public class MainGUI extends Application implements Initializable {
     primaryStage.setTitle("Maulwurf Company");
     primaryStage.setResizable(false);
     primaryStage.setScene(new Scene(root));
-    primaryStage.show();
     initialize();
     primaryStage.show();
   }

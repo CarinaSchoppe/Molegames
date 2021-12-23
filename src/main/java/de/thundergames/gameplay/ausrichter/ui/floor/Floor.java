@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 21.12.21, 16:39 by Carina Latest changes made by Carina on 21.12.21, 16:37 All contents of "Floor" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 23.12.21, 11:37 by Carina Latest changes made by Carina on 23.12.21, 10:42 All contents of "Floor" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -19,7 +19,7 @@ import java.util.ArrayList;
 public class Floor {
 
   private final ArrayList<Hole> holes = new ArrayList<>();
-  private final ArrayList<DrawAgain> drawAgain = new ArrayList<>();
+  private final ArrayList<DrawAgain> drawAgainFields = new ArrayList<>();
   private final int points;
 
   public String getPointsString() {
@@ -30,8 +30,8 @@ public class Floor {
     return Integer.toString(holes.size());
   }
 
-  public String drawAgainAmountString() {
-    return Integer.toString(drawAgain.size());
+  public String drawAgainFieldsAmountString() {
+    return Integer.toString(drawAgainFields.size());
   }
 
   public String floorNumberString() {

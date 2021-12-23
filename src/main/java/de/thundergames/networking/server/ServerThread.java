@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 21.12.21, 16:39 by Carina Latest changes made by Carina on 21.12.21, 16:37 All contents of "ServerThread" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 23.12.21, 12:08 by Carina Latest changes made by Carina on 23.12.21, 12:07 All contents of "ServerThread" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -11,6 +11,7 @@ package de.thundergames.networking.server;
 
 import de.thundergames.MoleGames;
 import de.thundergames.gameplay.ausrichter.ui.MainGUI;
+import de.thundergames.gameplay.ausrichter.ui.PlayerManagement;
 import de.thundergames.networking.util.NetworkThread;
 import de.thundergames.playmechanics.util.Player;
 import lombok.Getter;
@@ -63,6 +64,9 @@ public class ServerThread extends NetworkThread {
       System.out.println("Disconnecting " + this.getClientName());
     }
     MainGUI.getGUI().updateTable();
+    if (PlayerManagement.getPlayerManagement() != null) {
+      PlayerManagement.getPlayerManagement().updateTable();
+    }
   }
 
   public Player getPlayer() {

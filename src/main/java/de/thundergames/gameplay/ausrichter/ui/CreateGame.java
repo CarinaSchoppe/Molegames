@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 21.12.21, 19:06 by Carina Latest changes made by Carina on 21.12.21, 19:05 All contents of "CreateGame" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 23.12.21, 12:08 by Carina Latest changes made by Carina on 23.12.21, 11:43 All contents of "CreateGame" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -39,17 +39,17 @@ import java.util.ResourceBundle;
 @Getter
 public class CreateGame extends Application implements Initializable {
 
-  private static final ArrayList<Integer> drawCardValuesList = new ArrayList<>();
   //Liste von Floor welche DrawAgain<Field> und Hole<Field> enthält
-  private static final ArrayList<Floor> floors = new ArrayList<>();
+  private static ArrayList<Floor> floors = new ArrayList<>();
   private static CreateGame createGameInstance;
   private static String molesAmountPrev;
-  private static String playerAmountPrev;
+  private static String maxPlayersPrev;
   private static String punishmentPrev;
   private static String radiusPrev;
   private static String thinkTimePrev;
   private static boolean pullDiscsOrderedPrev;
   private static String visualEffectsPrev;
+  private static ArrayList<Integer> drawCardValuesList = new ArrayList<>();
   @FXML
   private Button configureDrawAgain;
   @FXML
@@ -90,12 +90,84 @@ public class CreateGame extends Application implements Initializable {
   @FXML
   private TextField visualEffects;
 
+  public static String getMolesAmountPrev() {
+    return molesAmountPrev;
+  }
+
+  public static void setMolesAmountPrev(String molesAmountPrev) {
+    CreateGame.molesAmountPrev = molesAmountPrev;
+  }
+
+  public static ArrayList<Floor> getLevel() {
+    return floors;
+  }
+
+  public static String getMaxPlayersPrev() {
+    return maxPlayersPrev;
+  }
+
+  public static void setMaxPlayersPrev(String maxPlayersPrev) {
+    CreateGame.maxPlayersPrev = maxPlayersPrev;
+  }
+
+  public static String getPunishmentPrev() {
+    return punishmentPrev;
+  }
+
+  public static void setPunishmentPrev(String punishmentPrev) {
+    CreateGame.punishmentPrev = punishmentPrev;
+  }
+
+  public static String getRadiusPrev() {
+    return radiusPrev;
+  }
+
+  public static void setRadiusPrev(String radiusPrev) {
+    CreateGame.radiusPrev = radiusPrev;
+  }
+
+  public static String getThinkTimePrev() {
+    return thinkTimePrev;
+  }
+
+  public static void setThinkTimePrev(String thinkTimePrev) {
+    CreateGame.thinkTimePrev = thinkTimePrev;
+  }
+
+  public static boolean isPullDiscsOrderedPrev() {
+    return pullDiscsOrderedPrev;
+  }
+
+  public static void setPullDiscsOrderedPrev(boolean pullDiscsOrderedPrev) {
+    CreateGame.pullDiscsOrderedPrev = pullDiscsOrderedPrev;
+  }
+
+  public static String getVisualEffectsPrev() {
+    return visualEffectsPrev;
+  }
+
+  public static void setVisualEffectsPrev(String visualEffectsPrev) {
+    CreateGame.visualEffectsPrev = visualEffectsPrev;
+  }
+
+  public static ArrayList<Integer> getDrawCardValuesList() {
+    return drawCardValuesList;
+  }
+
+  public static void setDrawCardValuesList(ArrayList<Integer> drawCardValuesList) {
+    CreateGame.drawCardValuesList = drawCardValuesList;
+  }
+
   public static CreateGame getCreateGameInstance() {
     return createGameInstance;
   }
 
   public static ArrayList<Floor> getFloors() {
     return floors;
+  }
+
+  public static void setFloors(ArrayList<Floor> floors) {
+    CreateGame.floors = floors;
   }
 
   @FXML
@@ -144,15 +216,44 @@ public class CreateGame extends Application implements Initializable {
   }
 
   @FXML
+  void initialize() {
+    assert addItem != null : "fx:id=\"addItem\" was not injected: check your FXML file 'CreateGame.fxml'.";
+    assert back != null : "fx:id=\"back\" was not injected: check your FXML file 'CreateGame.fxml'.";
+    assert configureDrawAgain != null : "fx:id=\"configureDrawAgain\" was not injected: check your FXML file 'CreateGame.fxml'.";
+    assert configureHoles != null : "fx:id=\"configureHoles\" was not injected: check your FXML file 'CreateGame.fxml'.";
+    assert createGame != null : "fx:id=\"createGame\" was not injected: check your FXML file 'CreateGame.fxml'.";
+    assert drawCardValue != null : "fx:id=\"drawCardValue\" was not injected: check your FXML file 'CreateGame.fxml'.";
+    assert drawCardValues != null : "fx:id=\"drawCardValues\" was not injected: check your FXML file 'CreateGame.fxml'.";
+    assert loadConfig != null : "fx:id=\"loadConfig\" was not injected: check your FXML file 'CreateGame.fxml'.";
+    assert molesAmount != null : "fx:id=\"molesAmount\" was not injected: check your FXML file 'CreateGame.fxml'.";
+    assert movePenalty != null : "fx:id=\"movePenalty\" was not injected: check your FXML file 'CreateGame.fxml'.";
+    assert playerAmount != null : "fx:id=\"playerAmount\" was not injected: check your FXML file 'CreateGame.fxml'.";
+    assert pullDiscsOrdered != null : "fx:id=\"pullDiscsOrdered\" was not injected: check your FXML file 'CreateGame.fxml'.";
+    assert radius != null : "fx:id=\"radius\" was not injected: check your FXML file 'CreateGame.fxml'.";
+    assert removeAll != null : "fx:id=\"removeAll\" was not injected: check your FXML file 'CreateGame.fxml'.";
+    assert thinkTime != null : "fx:id=\"thinkTime\" was not injected: check your FXML file 'CreateGame.fxml'.";
+    assert visualEffects != null : "fx:id=\"visualEffects\" was not injected: check your FXML file 'CreateGame.fxml'.";
+    movePenalty.getItems().addAll(Punishments.values());
+  }
+
+  @Override
+  public void initialize(URL location, ResourceBundle resources) {
+    createGameInstance = this;
+    initialize();
+  }
+
+  @FXML
   void backButtonEvent(ActionEvent event) throws Exception {
     var primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
     punishmentPrev = null;
-    playerAmountPrev = null;
+    maxPlayersPrev = null;
     molesAmountPrev = null;
     thinkTimePrev = null;
     visualEffectsPrev = null;
     radiusPrev = null;
     drawCardValuesList.clear();
+    floors.clear();
+    savePrevSettings();
     MoleGames.getMoleGames().getGui().start(primaryStage);
     MoleGames.getMoleGames().getGui().updateTable();
   }
@@ -169,7 +270,7 @@ public class CreateGame extends Application implements Initializable {
     var holes = new HashSet<Field>();
     var floorMap = new ArrayList<Map>();
     for (var floor : floors) {
-      for (var fields : floor.getDrawAgain()) {
+      for (var fields : floor.getDrawAgainFields()) {
         var field = new Field(fields.getXPosition(), fields.getYPosition());
         drawAgains.add(field);
       }
@@ -192,16 +293,16 @@ public class CreateGame extends Application implements Initializable {
     MoleGames.getMoleGames().getGameHandler().createNewGame(id);
     var game = MoleGames.getMoleGames().getGameHandler().getIDGames().get(id);
     game.getSettings().getFloors().addAll(floorMap);
-    game.getSettings().setMaxPlayers((playerAmount.getText() != null && "".equalsIgnoreCase(playerAmount.getText())) ? Integer.valueOf(playerAmount.getText()) : 5);
-    game.getSettings().setRadius((radius.getText() != null && "".equalsIgnoreCase(radius.getText())) ? Integer.valueOf(radius.getText()) : 8);
-    game.getSettings().setNumberOfMoles((molesAmount.getText() != null && "".equalsIgnoreCase(molesAmount.getText())) ? Integer.valueOf(molesAmount.getText()) : 4);
+    game.getSettings().setMaxPlayers((playerAmount.getText() != null && !"".equalsIgnoreCase(playerAmount.getText())) ? Integer.valueOf(playerAmount.getText()) : 4);
+    game.getSettings().setRadius((radius.getText() != null && "".equalsIgnoreCase(radius.getText())) ? Integer.valueOf(radius.getText()) : 6);
+    game.getSettings().setNumberOfMoles((molesAmount.getText() != null && !"".equalsIgnoreCase(molesAmount.getText())) ? Integer.valueOf(molesAmount.getText()) : 4);
     game.getSettings().setPullDiscsOrdered(pullDiscsOrdered.isSelected());
-    game.getSettings().setTurnTime((thinkTime.getText() != null && "".equalsIgnoreCase(thinkTime.getText())) ? Integer.valueOf(thinkTime.getText()) * 1000 : 15000);
+    game.getSettings().setTurnTime((thinkTime.getText() != null && !"".equalsIgnoreCase(thinkTime.getText())) ? Integer.valueOf(thinkTime.getText()) * 1000 : 15000);
     if (!drawCardValuesList.isEmpty()) {
       game.getSettings().getPullDiscs().clear();
       game.getSettings().getPullDiscs().addAll(drawCardValuesList);
     }
-    game.getSettings().setVisualizationTime((visualEffects.getText() != null && "".equalsIgnoreCase(visualEffects.getText())) ? Integer.valueOf(visualEffects.getText()) * 1000 : 5000);
+    game.getSettings().setVisualizationTime((visualEffects.getText() != null && !"".equalsIgnoreCase(visualEffects.getText())) ? Integer.valueOf(visualEffects.getText()) * 1000 : 5000);
     game.getSettings().setMovePenalty(movePenalty.getSelectionModel().getSelectedItem() != null ? movePenalty.getSelectionModel().getSelectedItem().getName() : Punishments.NOTHING.getName());
     MoleGames.getMoleGames().getGameHandler().getIDGames().get(id).updateGameState();
     floors.clear();
@@ -213,21 +314,23 @@ public class CreateGame extends Application implements Initializable {
   }
 
   @FXML
-  void loadConfigButtonEvent(ActionEvent event) {
-    //TODO: load config from file
+  void loadConfigButtonEvent(ActionEvent event) throws Exception {
+    savePrevSettings();
+    var primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+    new SettingsImport().start(primaryStage);
   }
 
   @FXML
   void onConfigureDrawAgain(ActionEvent event) throws Exception {
-    var primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
     savePrevSettings();
+    var primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
     new DrawAgainConfiguration().start(primaryStage);
   }
 
   @FXML
   void onConfigureHoles(ActionEvent event) throws Exception {
-    var primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
     savePrevSettings();
+    var primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
     new HolesConfiguration().start(primaryStage);
   }
 
@@ -244,7 +347,7 @@ public class CreateGame extends Application implements Initializable {
     var map = new Map(game, new HashSet<>(), new HashSet<>(), 1);
     map.build(game);
     for (var floor : floors) {
-      for (var field : floor.getDrawAgain()) {
+      for (var field : floor.getDrawAgainFields()) {
         drawDouble.add(field);
         if (!map.getFieldMap().containsKey(List.of(field.getXPosition(), field.getYPosition()))) {
           return false;
@@ -279,16 +382,6 @@ public class CreateGame extends Application implements Initializable {
           return false;
         }
       }
-      prev = null;
-      for (var draw : drawDouble) {
-        if (prev == null) {
-          prev = draw;
-        } else {
-          if (draw.getXPosition() == ((DrawAgain) prev).getXPosition() && draw.getYPosition() == ((DrawAgain) prev).getYPosition()) {
-            return false;
-          }
-        }
-      }
     }
     return true;
   }
@@ -299,7 +392,7 @@ public class CreateGame extends Application implements Initializable {
    */
   public void loadPrevSettings() {
     molesAmount.setText(molesAmountPrev);
-    playerAmount.setText(playerAmountPrev);
+    playerAmount.setText(maxPlayersPrev);
     radius.setText(radiusPrev);
     thinkTime.setText(thinkTimePrev);
     visualEffects.setText(visualEffectsPrev);
@@ -311,8 +404,9 @@ public class CreateGame extends Application implements Initializable {
         drawCardValues.setText(drawCardValues.getText() + "\n" + value.toString());
       }
     }
-    if (punishmentPrev != null)
+    if (punishmentPrev != null) {
       movePenalty.setValue(Punishments.valueOf(punishmentPrev));
+    }
   }
 
   /**
@@ -321,41 +415,14 @@ public class CreateGame extends Application implements Initializable {
    */
   private void savePrevSettings() {
     molesAmountPrev = molesAmount.getText();
-    playerAmountPrev = playerAmount.getText();
+    maxPlayersPrev = playerAmount.getText();
     radiusPrev = radius.getText();
     thinkTimePrev = thinkTime.getText();
     visualEffectsPrev = visualEffects.getText();
     pullDiscsOrderedPrev = pullDiscsOrdered.isSelected();
     try {
-      punishmentPrev = movePenalty.getSelectionModel().getSelectedItem().toString();
+      punishmentPrev = movePenalty.getSelectionModel().getSelectedItem().getName();
     } catch (Exception e) {
     }
-  }
-
-  @FXML
-  void initialize() {
-    assert addItem != null : "fx:id=\"addItem\" was not injected: check your FXML file 'CreateGame.fxml'.";
-    assert back != null : "fx:id=\"back\" was not injected: check your FXML file 'CreateGame.fxml'.";
-    assert configureDrawAgain != null : "fx:id=\"configureDrawAgain\" was not injected: check your FXML file 'CreateGame.fxml'.";
-    assert configureHoles != null : "fx:id=\"configureHoles\" was not injected: check your FXML file 'CreateGame.fxml'.";
-    assert createGame != null : "fx:id=\"createGame\" was not injected: check your FXML file 'CreateGame.fxml'.";
-    assert drawCardValue != null : "fx:id=\"drawCardValue\" was not injected: check your FXML file 'CreateGame.fxml'.";
-    assert drawCardValues != null : "fx:id=\"drawCardValues\" was not injected: check your FXML file 'CreateGame.fxml'.";
-    assert loadConfig != null : "fx:id=\"loadConfig\" was not injected: check your FXML file 'CreateGame.fxml'.";
-    assert molesAmount != null : "fx:id=\"molesAmount\" was not injected: check your FXML file 'CreateGame.fxml'.";
-    assert movePenalty != null : "fx:id=\"movePenalty\" was not injected: check your FXML file 'CreateGame.fxml'.";
-    assert playerAmount != null : "fx:id=\"playerAmount\" was not injected: check your FXML file 'CreateGame.fxml'.";
-    assert pullDiscsOrdered != null : "fx:id=\"pullDiscsOrdered\" was not injected: check your FXML file 'CreateGame.fxml'.";
-    assert radius != null : "fx:id=\"radius\" was not injected: check your FXML file 'CreateGame.fxml'.";
-    assert removeAll != null : "fx:id=\"removeAll\" was not injected: check your FXML file 'CreateGame.fxml'.";
-    assert thinkTime != null : "fx:id=\"thinkTime\" was not injected: check your FXML file 'CreateGame.fxml'.";
-    assert visualEffects != null : "fx:id=\"visualEffects\" was not injected: check your FXML file 'CreateGame.fxml'.";
-    movePenalty.getItems().addAll(Punishments.values());
-  }
-
-  @Override
-  public void initialize(URL location, ResourceBundle resources) {
-    createGameInstance = this;
-    initialize();
   }
 }
