@@ -1,8 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 18.12.21, 16:37 by Carina Latest changes made by Carina on 18.12.21, 16:35
- * All contents of "GameConfiguration" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 23.12.21, 11:37 by Carina Latest changes made by Carina on 23.12.21, 11:37 All contents of "GameConfiguration" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -11,7 +10,7 @@
 package de.thundergames.filehandling;
 
 import com.google.gson.Gson;
-import de.thundergames.playmechanics.util.Settings;
+import com.google.gson.JsonObject;
 import lombok.Data;
 import org.jetbrains.annotations.NotNull;
 
@@ -29,7 +28,7 @@ public class GameConfiguration {
    * @throws IOException
    * @author Carina
    * @use call the method add the settings to the json object and than pass that to create a new
-   *     file that will be saved
+   * file that will be saved
    * @see de.thundergames.playmechanics.util.Settings
    */
   public void saveSettings(@NotNull final String config) throws IOException {
@@ -39,6 +38,7 @@ public class GameConfiguration {
     writer.write(config);
     writer.flush();
     writer.close();
+    System.out.println("Config saved");
   }
 
   /**
@@ -48,7 +48,7 @@ public class GameConfiguration {
    * @autor Carina
    * @use pass in the settings file and done
    */
-  public Settings loadConfiguration(@NotNull final File file) throws IOException {
-    return new Gson().fromJson(new String(Files.readAllBytes(file.toPath())), Settings.class);
+  public JsonObject loadConfiguration(@NotNull final File file) throws IOException {
+    return new Gson().fromJson(new String(Files.readAllBytes(file.toPath())), JsonObject.class);
   }
 }

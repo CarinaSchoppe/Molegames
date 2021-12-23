@@ -1,8 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 18.12.21, 16:37 by Carina Latest changes made by Carina on 18.12.21, 16:35
- * All contents of "Game" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 23.12.21, 12:42 by Carina Latest changes made by Carina on 23.12.21, 12:38 All contents of "Game" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -13,6 +12,8 @@ package de.thundergames.playmechanics.game;
 import com.google.gson.annotations.SerializedName;
 import de.thundergames.MoleGames;
 import de.thundergames.filehandling.Score;
+import de.thundergames.gameplay.ausrichter.ui.MainGUI;
+import de.thundergames.gameplay.ausrichter.ui.PlayerManagement;
 import de.thundergames.networking.server.ServerThread;
 import de.thundergames.networking.util.exceptions.NotAllowedError;
 import de.thundergames.playmechanics.map.Map;
@@ -102,18 +103,18 @@ public class Game {
     gameState.setPullDiscsOrdered(settings.isPullDiscsOrdered());
     var mappe = new HashMap<Integer, ArrayList<Integer>>();
     for (var players : players) {
-      mappe.put(players.getClientID(), players.getCards());
+      mappe.put(players.getServerClient().getThreadID(), players.getCards());
     }
     gameState.setPullDiscs(mappe);
     gameState.setStatus(currentGameState.getName());
     gameState.setVisualizationTime(settings.getVisualizationTime());
     gameState.setScore(getScore());
     map =
-        new Map(
-            this,
-            gameState.getFloor().getHoles(),
-            gameState.getFloor().getDrawAgainFields(),
-            gameState.getFloor().getPoints());
+      new Map(
+        this,
+        gameState.getFloor().getHoles(),
+        gameState.getFloor().getDrawAgainFields(),
+        gameState.getFloor().getPoints());
     map.build(this);
     map.changeFieldParams(gameState);
   }
@@ -158,15 +159,16 @@ public class Game {
       }
       gameUtil.nextPlayer();
       System.out.println(
-          "Current player is: "
-              + currentPlayer.getClientID()
-              + " name: "
-              + currentPlayer.getName());
+        "Current player is: "
+          + currentPlayer.getServerClient().getThreadID()
+          + " name: "
+          + currentPlayer.getName());
       MoleGames.getMoleGames()
-          .getServer()
-          .sendToAllGameClients(
-              this,
-              MoleGames.getMoleGames().getServer().getPacketHandler().gameStartedPacket(gameState));
+        .getServer()
+        .sendToAllGameClients(
+          this,
+          MoleGames.getMoleGames().getServer().getPacketHandler().gameStartedPacket(gameState));
+      MainGUI.getGUI().updateTable();
     }
   }
 
@@ -175,47 +177,57 @@ public class Game {
    * @use handles when a game ends
    */
   public void endGame() {
-    setFinishDateTime(Instant.now().getEpochSecond());
-    currentGameState = GameStates.OVER;
-    updateGameState();
-    for (var client : MoleGames.getMoleGames().getServer().getObserver()) {
-      MoleGames.getMoleGames().getServer().getPacketHandler().overviewPacket(client);
-    }
-    if (!getScore().getPoints().isEmpty()) {
-      var playerIDs = new ArrayList<>(getScore().getPoints().keySet());
-      var max = Collections.max(getScore().getPoints().values());
-      for (var playerID : playerIDs) {
-        players.add(
+    if (currentGameState != GameStates.NOT_STARTED && currentGameState != GameStates.OVER) {
+      if (!getScore().getPoints().isEmpty()) {
+        var playerIDs = new ArrayList<>(getScore().getPoints().keySet());
+        var max = Collections.max(getScore().getPoints().values());
+        for (var playerID : playerIDs) {
+          players.add(
             MoleGames.getMoleGames().getServer().getConnectionIDs().get(playerID).getPlayer());
-      }
-      // Sorting the players ascending on their points
-      Collections.sort(
+        }
+        Collections.sort(
           getScore().getPlayers(),
           (o1, o2) ->
-              getScore()
-                  .getPoints()
-                  .get(o2.getClientID())
-                  .compareTo(getScore().getPoints().get(o1.getClientID())));
-      for (var player : getScore().getPlayers()) {
-        if (getScore().getPoints().get(player.getClientID()) == max) {
-          getScore().getWinners().add(player);
-        }
-      }
-      if (MoleGames.getMoleGames().getServer().isDebug()) {
-        System.out.println(
-            "Server: game with id: "
-                + getGameID()
-                + " has ended! Winners are: "
-                + getScore().getWinners());
+            getScore()
+              .getPoints()
+              .get(o2.getServerClient().getThreadID())
+              .compareTo(getScore().getPoints().get(o1.getServerClient().getThreadID())));
         for (var player : getScore().getPlayers()) {
+          if (getScore().getPoints().get(player.getServerClient().getThreadID()) == max) {
+            getScore().getWinners().add(player);
+          }
+        }
+        if (MoleGames.getMoleGames().getServer().isDebug()) {
           System.out.println(
+            "Server: game with id: "
+              + getGameID()
+              + " has ended! Winners are: "
+              + getScore().getWinners());
+          for (var player : getScore().getPlayers()) {
+            System.out.println(
               "Score of player: "
-                  + player.getName()
-                  + " is: "
-                  + getScore().getPoints().get(player.getClientID()));
+                + player.getName()
+                + " is: "
+                + getScore().getPoints().get(player.getServerClient().getThreadID()));
+          }
+        }
+        setFinishDateTime(Instant.now().getEpochSecond());
+        currentGameState = GameStates.OVER;
+        MoleGames.getMoleGames().getServer().getPacketHandler().gameOverPacket(this);
+        for (var player : new ArrayList<>(players)) {
+          removePlayerFromGame(player);
+        }
+        for (var player : new ArrayList<>(spectators)) {
+          removePlayerFromGame(player);
+        }
+        updateGameState();
+        for (var observer : MoleGames.getMoleGames().getServer().getObserver()) {
+          MoleGames.getMoleGames().getServer().getPacketHandler().overviewPacket(observer);
         }
       }
-      MoleGames.getMoleGames().getServer().getPacketHandler().gameOverPacket(this);
+      if (MainGUI.getGUI() != null) {
+        MainGUI.getGUI().updateTable();
+      }
     }
   }
 
@@ -224,8 +236,11 @@ public class Game {
    * @use forces the game to end
    */
   public void forceGameEnd() {
-    MoleGames.getMoleGames().getServer().getPacketHandler().gameCanceledPacket(this);
-    endGame();
+    if (currentGameState != GameStates.NOT_STARTED && currentGameState != GameStates.OVER) {
+      MoleGames.getMoleGames().getServer().getPacketHandler().gameCanceledPacket(this);
+      endGame();
+      MainGUI.getGUI().updateTable();
+    }
   }
 
   /**
@@ -233,11 +248,15 @@ public class Game {
    * @use pauses the game if needed
    */
   public void pauseGame() {
-    MoleGames.getMoleGames().getServer().getPacketHandler().gamePausedPacket(this);
-    currentGameState = GameStates.PAUSED;
-    updateGameState();
-    for (var observer : MoleGames.getMoleGames().getServer().getObserver())
-      MoleGames.getMoleGames().getServer().getPacketHandler().overviewPacket(observer);
+    if (currentGameState == GameStates.STARTED) {
+      MoleGames.getMoleGames().getServer().getPacketHandler().gamePausedPacket(this);
+      currentGameState = GameStates.PAUSED;
+      updateGameState();
+      for (var observer : MoleGames.getMoleGames().getServer().getObserver()) {
+        MoleGames.getMoleGames().getServer().getPacketHandler().overviewPacket(observer);
+      }
+      MainGUI.getGUI().updateTable();
+    }
   }
 
   /**
@@ -245,18 +264,27 @@ public class Game {
    * @use resumes the game
    */
   public void resumeGame() {
-    MoleGames.getMoleGames().getServer().getPacketHandler().gameContinuedPacket(this);
-    setCurrentGameState(GameStates.STARTED);
-    gameUtil.nextPlayer();
+    if (currentGameState == GameStates.PAUSED) {
+      MoleGames.getMoleGames().getServer().getPacketHandler().gameContinuedPacket(this);
+      currentGameState = GameStates.STARTED;
+      updateGameState();
+      for (var observer : MoleGames.getMoleGames().getServer().getObserver()) {
+        MoleGames.getMoleGames().getServer().getPacketHandler().overviewPacket(observer);
+      }
+      if (!activePlayers.isEmpty()) {
+        gameUtil.nextPlayer();
+      }
+    }
+    MainGUI.getGUI().updateTable();
   }
 
   /**
-   * @param client the playerServerThread that joins the game
+   * @param client    the playerServerThread that joins the game
    * @param spectator if its a spectator or player that has joined
    * @author Carina
    */
   public void joinGame(@NotNull final ServerThread client, final boolean spectator)
-      throws NotAllowedError {
+    throws NotAllowedError {
     var player = new Player(client).create(this);
     client.setPlayer(player);
     MoleGames.getMoleGames().getServer().getPacketHandler().assignToGamePacket(client, getGameID());
@@ -265,20 +293,28 @@ public class Game {
       players.add(player);
       activePlayers.add(player);
       getScore().getPlayers().add(player);
-      setCurrentPlayerCount(clientPlayersMap.size());
+      setCurrentPlayerCount(players.size());
       MoleGames.getMoleGames()
-          .getGameHandler()
-          .getClientGames()
-          .put((ServerThread) player.getServerClient(), this);
+        .getGameHandler()
+        .getClientGames()
+        .put((ServerThread) player.getServerClient(), this);
       updateGameState();
+      if (MainGUI.getGUI() != null) {
+        MainGUI.getGUI().updateTable();
+      }
     } else if (spectator) {
       MoleGames.getMoleGames()
-          .getGameHandler()
-          .getClientGames()
-          .put((ServerThread) player.getServerClient(), this);
+        .getGameHandler()
+        .getClientGames()
+        .put((ServerThread) player.getServerClient(), this);
       spectators.add(player);
     } else {
       throw new NotAllowedError("Game is over cant be joined anymore!");
+    }
+    ((ServerThread) player.getServerClient()).getServer().getPlayingThreads().add((ServerThread) player.getServerClient());
+    ((ServerThread) player.getServerClient()).getServer().getLobbyThreads().remove((ServerThread) player.getServerClient());
+    if (PlayerManagement.getPlayerManagement() != null) {
+      PlayerManagement.getPlayerManagement().updateTable();
     }
   }
 
@@ -296,51 +332,70 @@ public class Game {
     if (player == null) {
       return;
     }
+    if (player.getServerClient() != null) {
+      MoleGames.getMoleGames().getServer().getPlayingThreads().remove((ServerThread) player.getServerClient());
+      MoleGames.getMoleGames().getServer().getLobbyThreads().add((ServerThread) player.getServerClient());
+    }
+    if (currentGameState == GameStates.NOT_STARTED) {
+      score.getPlayers().remove(player);
+      score.getPoints().remove(player.getServerClient().getThreadID());
+    }
+    if (currentGameState != GameStates.NOT_STARTED && !currentGameState.equals(GameStates.OVER)) {
+      if (!clientPlayersMap.containsKey(player)) {
+        eliminatedPlayers.add(player);
+      }
+    }
     if (activePlayers.contains(player)) {
-      if (currentGameState != GameStates.NOT_STARTED && !currentGameState.equals(GameStates.OVER)) {
-        if (!clientPlayersMap.containsKey(player)) {
-          eliminatedPlayers.add(player);
-        }
-      }
-      player.getGame().getClientPlayersMap().get(player.getServerClient()).getTimer().cancel();
-      player.getGame().getClientPlayersMap().get(player.getServerClient()).setHasMoved(true);
-      player.getGame().getClientPlayersMap().get(player.getServerClient()).setTimerIsRunning(false);
-      for (var moles : player.getMoles()) {
-        player
-            .getGame()
-            .getMap()
-            .getFieldMap()
-            .get(List.of(moles.getField().getX(), moles.getField().getY()))
-            .setOccupied(false);
-        player
-            .getGame()
-            .getMap()
-            .getFieldMap()
-            .get(List.of(moles.getField().getX(), moles.getField().getY()))
-            .setMole(null);
-      }
-      player.getMoles().clear();
-      clientPlayersMap.remove(player);
-      players.remove(player);
-      activePlayers.remove(player);
-      player.getMoles().clear();
-      MoleGames.getMoleGames().getGameHandler().getClientGames().remove(player.getServerClient());
-      setCurrentPlayerCount(players.size());
-      updateGameState();
+      clientPlayersMap.get(player.getServerClient()).getTimer().cancel();
+      clientPlayersMap.get(player.getServerClient()).setHasMoved(true);
+      clientPlayersMap.get(player.getServerClient()).setTimerIsRunning(false);
+    }
+    for (var moles : player.getMoles()) {
+      map
+        .getFieldMap()
+        .get(List.of(moles.getField().getX(), moles.getField().getY()))
+        .setOccupied(false);
+      map
+        .getFieldMap()
+        .get(List.of(moles.getField().getX(), moles.getField().getY()))
+        .setMole(null);
+    }
+    player.getMoles().clear();
+    clientPlayersMap.remove(player.getServerClient());
+    players.remove(player);
+    activePlayers.remove(player);
+    player.getMoles().clear();
+    MoleGames.getMoleGames().getGameHandler().getClientGames().remove(player.getServerClient());
+    setCurrentPlayerCount(players.size());
+    if (currentGameState == GameStates.NOT_STARTED || currentGameState == GameStates.OVER) {
+      ((ServerThread) player.getServerClient()).setPlayer(new Player((ServerThread) player.getServerClient()));
+    }
+    updateGameState();
+    if (PlayerManagement.getPlayerManagement() != null) {
+      PlayerManagement.getPlayerManagement().updateTable();
+    }
+    if (MainGUI.getGUI() != null) {
+      MainGUI.getGUI().updateTable();
     }
   }
 
-  /** @return gameID with a hashtag in front of it */
+  /**
+   * @return gameID with a hashtag in front of it
+   */
   public String getHashtagWithGameID() {
     return "#" + gameID;
   }
 
-  /** @return current player count and the maximum player count with a slash between both */
+  /**
+   * @return current player count and the maximum player count with a slash between both
+   */
   public String getCurrentPlayerCount_MaxCount() {
     return currentPlayerCount + "/" + maxPlayerCount;
   }
 
-  /** @return current player count and the maximum player count with a slash between both */
+  /**
+   * @return current player count and the maximum player count with a slash between both
+   */
   public String getStatusForTableView() {
     return Objects.equals(status, GameStates.NOT_STARTED.toString()) ? "OPEN" : status;
   }

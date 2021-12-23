@@ -1,8 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 18.12.21, 16:37 by Carina Latest changes made by Carina on 18.12.21, 16:35
- * All contents of "Map" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 21.12.21, 16:39 by Carina Latest changes made by Carina on 21.12.21, 16:37 All contents of "Map" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -37,10 +36,10 @@ public class Map {
    * @use creates a new Map object with the given radius
    */
   public Map(
-      @NotNull final Game game,
-      @NotNull final HashSet<Field> holes,
-      @NotNull final HashSet<Field> drawAgainFields,
-      final int points) {
+    @NotNull final Game game,
+    @NotNull final HashSet<Field> holes,
+    @NotNull final HashSet<Field> drawAgainFields,
+    final int points) {
     this.holes = holes;
     this.drawAgainFields = drawAgainFields;
     this.points = points;
@@ -55,9 +54,9 @@ public class Map {
    * @use creates a new Map object with the given radius
    */
   public Map(
-      @NotNull final HashSet<Field> holes,
-      @NotNull final HashSet<Field> drawAgainFields,
-      final int points) {
+    @NotNull final HashSet<Field> holes,
+    @NotNull final HashSet<Field> drawAgainFields,
+    final int points) {
     this.holes = holes;
     this.drawAgainFields = drawAgainFields;
     this.points = points;
@@ -115,8 +114,8 @@ public class Map {
       if (getFieldMap().containsKey(List.of(mole.getField().getX(), mole.getField().getY()))) {
         getFieldMap().get(List.of(mole.getField().getX(), mole.getField().getY())).setMole(mole);
         getFieldMap()
-            .get(List.of(mole.getField().getX(), mole.getField().getY()))
-            .setOccupied(true);
+          .get(List.of(mole.getField().getX(), mole.getField().getY()))
+          .setOccupied(true);
       }
     }
   }
@@ -127,12 +126,12 @@ public class Map {
    */
   public void printMap() {
     var fields =
-        new ArrayList<>(fieldMap.values())
-            .stream()
-                .sorted(
-                    Comparator.comparing(de.thundergames.playmechanics.map.Field::getY)
-                        .thenComparing(de.thundergames.playmechanics.map.Field::getX))
-                .collect(Collectors.toList());
+      new ArrayList<>(fieldMap.values())
+        .stream()
+        .sorted(
+          Comparator.comparing(de.thundergames.playmechanics.map.Field::getY)
+            .thenComparing(de.thundergames.playmechanics.map.Field::getX))
+        .collect(Collectors.toList());
     var row = 0;
     for (var field : fields) {
       if (field.getY() != row) {
@@ -140,17 +139,17 @@ public class Map {
         System.out.println();
       }
       System.out.print(
-          "Field X: "
-              + field.getX()
-              + ", Y: "
-              + field.getY()
-              + " occupied: "
-              + field.isOccupied()
-              + ", hole: "
-              + field.isHole()
-              + ", drawAgainField: "
-              + field.isDrawAgainField()
-              + "    ");
+        "Field X: "
+          + field.getX()
+          + ", Y: "
+          + field.getY()
+          + " occupied: "
+          + field.isOccupied()
+          + ", hole: "
+          + field.isHole()
+          + ", drawAgainField: "
+          + field.isDrawAgainField()
+          + "    ");
     }
     System.out.println();
   }

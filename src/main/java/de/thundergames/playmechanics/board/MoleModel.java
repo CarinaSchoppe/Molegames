@@ -1,8 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 18.12.21, 16:37 by Carina Latest changes made by Carina on 18.12.21, 16:35
- * All contents of "MoleModel" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 21.12.21, 16:39 by Carina Latest changes made by Carina on 21.12.21, 16:37 All contents of "MoleModel" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -30,7 +29,7 @@ public class MoleModel extends Button {
    * @author Issam, Dila, Alp
    */
   public MoleModel(
-      final int id, final double x, final double y, final int size, final boolean isActive) {
+    final int id, final double x, final double y, final int size, final boolean isActive) {
     super();
     this.id = id;
     this.size = size;
@@ -89,12 +88,12 @@ public class MoleModel extends Button {
     this.setMinSize(this.size, this.size);
     // Add sprite as a background
     var backgroundImage =
-        new BackgroundImage(
-            new Image(Utils.getSprite("mole/mole.png"), this.size, this.size, false, true),
-            BackgroundRepeat.NO_REPEAT,
-            BackgroundRepeat.NO_REPEAT,
-            BackgroundPosition.CENTER,
-            BackgroundSize.DEFAULT);
+      new BackgroundImage(
+        new Image(Utils.getSprite("mole/mole.png"), this.size, this.size, false, true),
+        BackgroundRepeat.NO_REPEAT,
+        BackgroundRepeat.NO_REPEAT,
+        BackgroundPosition.CENTER,
+        BackgroundSize.DEFAULT);
     this.setBackground(new Background(backgroundImage));
   }
 

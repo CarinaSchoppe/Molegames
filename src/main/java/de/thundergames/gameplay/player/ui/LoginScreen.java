@@ -1,8 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 18.12.21, 16:37 by Carina Latest changes made by Carina on 18.12.21, 16:35
- * All contents of "LoginScreen" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 21.12.21, 16:39 by Carina Latest changes made by Carina on 21.12.21, 16:37 All contents of "LoginScreen" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -28,11 +27,16 @@ import java.util.ResourceBundle;
 public class LoginScreen extends Application {
 
   private final boolean loggedIn = false;
-  @FXML private ResourceBundle resources;
-  @FXML private TextField ip;
-  @FXML private Button login;
-  @FXML private TextField name;
-  @FXML private TextField port;
+  @FXML
+  private ResourceBundle resources;
+  @FXML
+  private TextField ip;
+  @FXML
+  private Button login;
+  @FXML
+  private TextField name;
+  @FXML
+  private TextField port;
 
   public static void create(final String... args) {
     launch(args);
@@ -74,7 +78,7 @@ public class LoginScreen extends Application {
       new PlayerMenu().create(event);
     } else {
       JOptionPane.showMessageDialog(
-          null, errorMessage, "Falscher Feldinhalt", JOptionPane.ERROR_MESSAGE);
+        null, errorMessage, "Falscher Feldinhalt", JOptionPane.ERROR_MESSAGE);
     }
   }
 
@@ -82,11 +86,11 @@ public class LoginScreen extends Application {
   void initialize() {
     assert ip != null : "fx:id=\"ip\" was not injected: check your FXML file 'LoginScreen.fxml'.";
     assert login != null
-        : "fx:id=\"login\" was not injected: check your FXML file 'LoginScreen.fxml'.";
+      : "fx:id=\"login\" was not injected: check your FXML file 'LoginScreen.fxml'.";
     assert name != null
-        : "fx:id=\"name\" was not injected: check your FXML file 'LoginScreen.fxml'.";
+      : "fx:id=\"name\" was not injected: check your FXML file 'LoginScreen.fxml'.";
     assert port != null
-        : "fx:id=\"port\" was not injected: check your FXML file 'LoginScreen.fxml'.";
+      : "fx:id=\"port\" was not injected: check your FXML file 'LoginScreen.fxml'.";
   }
 
   @Override

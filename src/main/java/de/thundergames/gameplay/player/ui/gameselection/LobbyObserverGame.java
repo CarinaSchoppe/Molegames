@@ -1,8 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 18.12.21, 16:37 by Carina Latest changes made by Carina on 18.12.21, 16:35
- * All contents of "LobbyObserverGame" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 21.12.21, 16:39 by Carina Latest changes made by Carina on 21.12.21, 16:37 All contents of "LobbyObserverGame" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -30,11 +29,15 @@ import java.util.ResourceBundle;
 
 public class LobbyObserverGame implements Initializable {
 
-  @FXML private static Client CLIENT;
+  @FXML
+  private static Client CLIENT;
   private static LobbyObserverGame OBSERVER;
-  @FXML private Text PlayerName;
-  @FXML private Text PlayerJoined;
-  @FXML private Text JoinedSuccessfully;
+  @FXML
+  private Text PlayerName;
+  @FXML
+  private Text PlayerJoined;
+  @FXML
+  private Text JoinedSuccessfully;
 
   private Stage primaryStage;
 
@@ -62,13 +65,13 @@ public class LobbyObserverGame implements Initializable {
     // set event for back button
     var btnBack = (Button) (primaryStage.getScene().lookup("#backToGameSelection"));
     btnBack.setOnAction(
-        e -> {
-          try {
-            onBackClick(e);
-          } catch (IOException ex) {
-            ex.printStackTrace();
-          }
-        });
+      e -> {
+        try {
+          onBackClick(e);
+        } catch (IOException ex) {
+          ex.printStackTrace();
+        }
+      });
     // endregion
   }
 
@@ -80,8 +83,8 @@ public class LobbyObserverGame implements Initializable {
   /**
    * @author Nick
    * @use processes the click on the back button, loads previous scene GameSelection and informs
-   *     server player has left via leaveGame Packet (method inspired by "onSignOutClick()" -> see
-   *     GameSelection)
+   * server player has left via leaveGame Packet (method inspired by "onSignOutClick()" -> see
+   * GameSelection)
    */
   @FXML
   void onBackClick(ActionEvent event) throws IOException {
@@ -103,8 +106,8 @@ public class LobbyObserverGame implements Initializable {
   /**
    * @author Nick
    * @use Changes the opacity of a text field with the content "Ein weiterer Spieler ist
-   *     beigetreten" thus making it visible for 3 seconds when another player has joined
-   *     respectively when the client has received playerJoined packet.
+   * beigetreten" thus making it visible for 3 seconds when another player has joined
+   * respectively when the client has received playerJoined packet.
    */
   public void showNewPlayer() {
     PlayerJoined.setOpacity(1.0);
@@ -119,8 +122,8 @@ public class LobbyObserverGame implements Initializable {
   /**
    * @author Nick
    * @use Changes the opacity of a text field with the content "Beitritt zum Spiel war erfolgreich!
-   *     Bitte warten." thus making it visible for 5 seconds when the client has received
-   *     AssignToGame packet.
+   * Bitte warten." thus making it visible for 5 seconds when the client has received
+   * AssignToGame packet.
    */
   public void showJoiningSuccessfully() {
     JoinedSuccessfully.setOpacity(1.0);
@@ -138,8 +141,8 @@ public class LobbyObserverGame implements Initializable {
    */
   public void spectateGame() {
     Platform.runLater(
-        () -> {
-          new TestWindow().start(primaryStage);
-        });
+      () -> {
+        new TestWindow().start(primaryStage);
+      });
   }
 }
