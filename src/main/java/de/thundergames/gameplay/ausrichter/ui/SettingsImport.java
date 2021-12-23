@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 23.12.21, 16:29 by Carina Latest changes made by Carina on 23.12.21, 16:29 All contents of "SettingsImport" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 23.12.21, 17:29 by Carina Latest changes made by Carina on 23.12.21, 17:27 All contents of "SettingsImport" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -134,7 +134,7 @@ public class SettingsImport {
     json.addProperty("pullDiscsOrdered", CreateGame.isPullDiscsOrderedPrev());
     json.addProperty("pullDiscs", new Gson().toJson(CreateGame.getDrawCardValuesList()));
     json.addProperty("turnTime", CreateGame.getThinkTimePrev() != null ? Integer.parseInt(CreateGame.getThinkTimePrev()) : 10);
-    json.addProperty("visualisationTime", CreateGame.getPunishmentPrev() != null ? Integer.parseInt(CreateGame.getVisualEffectsPrev()) : 10);
+    json.addProperty("visualisationTime", CreateGame.getVisualEffectsPrev() != null ? Integer.parseInt(CreateGame.getVisualEffectsPrev()) : 10);
     json.addProperty("movePenalty", CreateGame.getPunishmentPrev() != null ? CreateGame.getPunishmentPrev() : "NOTHING");
     //TODO: grafik und system implementieren  json.addProperty("deductedPoints", Integer.parseInt(CreateGame.getCreateGameInstance().getDeductedPoints()));
     new GameConfiguration().saveSettings(json.toString());
