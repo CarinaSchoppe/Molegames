@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 21.12.21, 16:50 by Carina Latest changes made by Carina on 21.12.21, 16:49 All contents of "HolesConfiguration" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 23.12.21, 11:37 by Carina Latest changes made by Carina on 23.12.21, 11:15 All contents of "HolesConfiguration" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -93,7 +93,7 @@ public class HolesConfiguration implements Initializable {
         updateHolesTable();
         updateTable();
       } else {
-        JOptionPane.showMessageDialog(null, "Please select a floor");
+        JOptionPane.showMessageDialog(null, "Wähle eine Ebene aus!");
       }
       x.setText(null);
       y.setText(null);
@@ -138,7 +138,7 @@ public class HolesConfiguration implements Initializable {
   @Override
   public void initialize(URL location, ResourceBundle resources) {
     config = this;
-    amountDrawAgain.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().drawAgainAmountString()));
+    amountDrawAgain.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().drawAgainFieldsAmountString()));
     amountHoles.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().holeAmountString()));
     floorNumber.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().floorNumberString()));
     holesNumber.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getHoleValueString()));

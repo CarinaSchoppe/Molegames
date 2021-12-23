@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 21.12.21, 16:50 by Carina Latest changes made by Carina on 21.12.21, 16:49 All contents of "DrawAgainConfiguration" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 23.12.21, 11:37 by Carina Latest changes made by Carina on 23.12.21, 11:15 All contents of "DrawAgainConfiguration" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -87,11 +87,11 @@ public class DrawAgainConfiguration implements Initializable {
       } else if (!"".equalsIgnoreCase(x.getText()) && x.getText() != null && !"".equalsIgnoreCase(y.getText()) && y.getText() != null && floorTable.getSelectionModel().getSelectedItem() != null) {
         var floor = floorTable.getSelectionModel().getSelectedItem();
         var drawAgain = new DrawAgain(floor, Integer.parseInt(x.getText()), Integer.parseInt(y.getText()));
-        floor.getDrawAgain().add(drawAgain);
+        floor.getDrawAgainFields().add(drawAgain);
         updateDragAgainTable();
         updateTable();
       } else {
-        JOptionPane.showMessageDialog(null, "Please select a floor");
+        JOptionPane.showMessageDialog(null, "Wähle eine Ebene aus!");
       }
       x.setText(null);
       y.setText(null);
@@ -113,7 +113,7 @@ public class DrawAgainConfiguration implements Initializable {
       updateTable();
     } else if (drawAgainTable.getSelectionModel().getSelectedItem() != null) {
       var floor = floorTable.getSelectionModel().getSelectedItem();
-      floor.getDrawAgain().remove(drawAgainTable.getSelectionModel().getSelectedItem());
+      floor.getDrawAgainFields().remove(drawAgainTable.getSelectionModel().getSelectedItem());
       updateTable();
       floorTable.getSelectionModel().select(null);
     } else {
@@ -130,7 +130,7 @@ public class DrawAgainConfiguration implements Initializable {
   public void updateDragAgainTable() {
     drawAgainTable.getItems().clear();
     var selectedItem = floorTable.getSelectionModel().getSelectedItem();
-    drawAgainTable.getItems().addAll(selectedItem.getDrawAgain());
+    drawAgainTable.getItems().addAll(selectedItem.getDrawAgainFields());
   }
 
   @FXML
@@ -162,7 +162,7 @@ public class DrawAgainConfiguration implements Initializable {
   @Override
   public void initialize(URL location, ResourceBundle resources) {
     config = this;
-    amountDrawAgain.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().drawAgainAmountString()));
+    amountDrawAgain.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().drawAgainFieldsAmountString()));
     amountHoles.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().holeAmountString()));
     floorNumber.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().floorNumberString()));
     drawAgainNumber.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getDrawAgainValueString()));
