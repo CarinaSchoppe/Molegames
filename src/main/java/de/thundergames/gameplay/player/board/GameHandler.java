@@ -14,12 +14,16 @@ import de.thundergames.playmechanics.util.Player;
 import javafx.application.Platform;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
+import lombok.Getter;
+import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+@Getter
+@Setter
 public class GameHandler {
   final public static long DEFAULT_TIMEOUT = 10000; // 10 seconds
   private ArrayList<PlayerModel> players;
@@ -29,6 +33,7 @@ public class GameHandler {
   private HashMap<List<Integer>, NodeType> nodeTypes;
   private Board board;
   private BorderPane container;
+  private String background;
 
   /**
    * @param players
@@ -45,6 +50,7 @@ public class GameHandler {
     this.boardRadius = boardRadius;
     this.nodeTypes = new HashMap<>(nodeTypes);
     this.container = container;
+    this.background = "background/ground.png";
   }
 
   /**
@@ -65,7 +71,7 @@ public class GameHandler {
    */
   public void start(ArrayList<PlayerModel> players) {
     this.board = new Board(this.boardRadius, container.getWidth(), container.getHeight(),nodeTypes,players);
-    this.board.setContainerBackground(container, "background/ground.png"); // TODO: change depending on level
+    this.board.setContainerBackground(container, background);
     this.board.render();
     this.activePlayer.setItMyTurn(true);
   }

@@ -11,13 +11,9 @@
 package de.thundergames.gameplay.player.board;
 
 import de.thundergames.gameplay.player.Client;
-import de.thundergames.gameplay.player.ui.gameselection.GameSelection;
-import de.thundergames.gameplay.player.ui.gameselection.LobbyObserverGame;
 import de.thundergames.playmechanics.game.GameState;
-import de.thundergames.playmechanics.map.Field;
 import de.thundergames.playmechanics.util.Mole;
 import de.thundergames.playmechanics.util.Player;
-import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.fxml.Initializable;
 import javafx.scene.ImageCursor;
@@ -25,13 +21,9 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-import org.jetbrains.annotations.NotNull;
 
-import java.lang.reflect.Array;
 import java.net.URL;
 import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 public class GameBoard implements Initializable {
 
@@ -48,6 +40,10 @@ public class GameBoard implements Initializable {
     return OBSERVER;
   }
 
+  private GameState gameState;
+
+  private ArrayList<Player> players;
+
   /**
    * @param primaryStage
    * @author Alp, Dila, Issam
@@ -60,7 +56,7 @@ public class GameBoard implements Initializable {
     borderPane = new BorderPane();
 
     // get gameState
-    var gameState = CLIENT.getGameState();
+    gameState = CLIENT.getGameState();
     if (gameState== null) return;
 
     // get radius
@@ -70,7 +66,7 @@ public class GameBoard implements Initializable {
     var currentPlayerId = gameState.getCurrentPlayer()== null  ? -1 : gameState.getCurrentPlayer().getClientID();
 
     // create list of playerModels for ui
-   ArrayList<Player> players = gameState.getActivePlayers();
+   players = gameState.getActivePlayers();
    ArrayList<Mole> placedMoles = gameState.getPlacedMoles();
     var playerModelList = mapPlayersToPlayerModels(players,placedMoles,currentPlayerId);
 
@@ -121,27 +117,47 @@ public class GameBoard implements Initializable {
 
   public void updateGameBoard()
   {
-    //TODO: Daten bei Änderung von Map entnehmen x_alt + y_alt zu x_neu + y_neu
+    var loadedGameState = CLIENT.getGameState();
 
-    //get gameState
-    var gameState = CLIENT.getGameState();
-    if (gameState== null) return;
+    if (gameState != loadedGameState)
+    {
+      //Update board if count of holes changed
+      if (gameState.getFloor().getHoles().size() != loadedGameState.getFloor().getHoles().size())
+      {
+        HashMap<List<Integer>, NodeType> nodes;
+          nodes = updateFloor(loadedGameState);
+          gameHandler.setNodeTypes(nodes);
+          ArrayList<String> backgroundList = new ArrayList<>( List.of("background/ug_1.png","background/ug_2.png","background/ug_3.png"));
+          backgroundList.remove(gameHandler.getBackground());
+          gameHandler.setBackground(backgroundList.get(new Random().nextInt(backgroundList.size()-1)));
+      }
+      gameState=loadedGameState;
+
+      // get active players of gameState
+      players = gameState.getActivePlayers();
+    }
 
     //get current player
-    var currentPlayerId = gameState.getCurrentPlayer()== null  ? -1 : gameState.getCurrentPlayer().getClientID();
+    var currentPlayerId = CLIENT.getCurrentPlayer()== null  ? -1 : CLIENT.getCurrentPlayer().getClientID();
 
-    // create list of playerModels for ui
-    ArrayList<Player> players = gameState.getActivePlayers();
-    ArrayList<Mole> placedMoles = gameState.getPlacedMoles();
+    //get moles
+    var fieldMap = CLIENT.getMap().getFieldMap();
+    ArrayList<Mole> placedMoles = new ArrayList<>();
+    for (var field :fieldMap.values())
+    {
+      var currentMole = field.getMole();
+      if (currentMole != null) {
+        if (currentMole.getField().getX()!=field.getX() || currentMole.getField().getY()!=field.getY())
+        {
+          currentMole.setField(field);
+          System.out.println(currentMole.getField().getX() + " " + currentMole.getField().getY() + "/ " + field.getX() + " " +  field.getY());
+        }
+        placedMoles.add(currentMole);
+      }
+    }
+
     var playerModelList = mapPlayersToPlayerModels(players,placedMoles,currentPlayerId);
     gameHandler.update(playerModelList);
-
-    //Update floor if radius changed
-    HashMap<List<Integer>, NodeType> nodes = new HashMap<>();
-    if (BOARD_RADIUS != gameState.getRadius()) {
-      BOARD_RADIUS = gameState.getRadius();
-      nodes = updateFloor(gameState);
-    }
   }
 
   public HashMap<List<Integer>, NodeType> updateFloor(GameState gameState)
@@ -151,5 +167,4 @@ public class GameBoard implements Initializable {
     gameState.getFloor().getDrawAgainFields().forEach(field -> nodes.put(List.of(field.getX(),field.getY()), NodeType.DRAW_AGAIN));
     return nodes;
   }
-
 }

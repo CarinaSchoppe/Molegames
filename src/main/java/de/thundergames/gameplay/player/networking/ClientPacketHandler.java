@@ -409,6 +409,7 @@ public class ClientPacketHandler {
    */
   protected void handlePlayerPlacesMolePacket() {
     var player = new Gson().fromJson(packet.getValues().get("player").getAsString(), Player.class);
+    client.setCurrentPlayer(player);
     if (player.getClientID() == client.getClientThread().getThreadID()) {
       if (client.isDebug()) {
         System.out.println("Client is now on to place a mole!");
@@ -431,6 +432,7 @@ public class ClientPacketHandler {
     } else {
       if (client.isDebug()) System.out.println("The Client " + new Gson().fromJson(packet.getValues().get("player").getAsString(), Player.class).getName() + " needs to place a mole till: " + packet.getValues().get("until").getAsInt());
     }
+    updateMap();
   }
 
   /**
