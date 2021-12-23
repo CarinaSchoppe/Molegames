@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 21.12.21, 18:49 by Carina Latest changes made by Carina on 21.12.21, 18:47 All contents of "LeaderBoard" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 23.12.21, 15:07 by Carina Latest changes made by Carina on 23.12.21, 15:07 All contents of "LeaderBoard" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -53,7 +53,10 @@ public class LeaderBoard extends Application implements Initializable {
    */
   public void create(@NotNull final Score score) {
     Client.getClientInstance().getGameState().setScore(score);
-    launch();
+    try {
+      launch();
+    } catch (Exception e) {
+    }
   }
 
   @FXML

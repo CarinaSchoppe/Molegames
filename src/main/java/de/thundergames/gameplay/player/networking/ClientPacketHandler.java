@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 23.12.21, 12:08 by Carina Latest changes made by Carina on 23.12.21, 11:55 All contents of "ClientPacketHandler" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 23.12.21, 15:07 by Carina Latest changes made by Carina on 23.12.21, 15:05 All contents of "ClientPacketHandler" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -13,6 +13,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import de.thundergames.filehandling.Score;
+import de.thundergames.gameplay.ai.AI;
 import de.thundergames.gameplay.player.Client;
 import de.thundergames.gameplay.player.ui.gameselection.GameSelection;
 import de.thundergames.gameplay.player.ui.gameselection.LobbyObserverGame;
@@ -475,7 +476,9 @@ public class ClientPacketHandler {
       }
     }
     try {
-      new LeaderBoard().create(score);
+      new Thread(() -> {
+        new LeaderBoard().create(score);
+      }).start();
     } catch (IllegalStateException e) {
     }
     updateTableView();
@@ -609,6 +612,10 @@ public class ClientPacketHandler {
    * @use handles the welcomeGamePacket from the server
    */
   protected void handleWelcomeGamePacket() {
+    if (client instanceof AI) {
+      ((AI) client).setPlacedMolesAmount(0);
+      ((AI) client).setPlacedMoles(false);
+    }
     handleFloor();
   }
 
