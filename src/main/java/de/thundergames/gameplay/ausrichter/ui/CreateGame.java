@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 23.12.21, 16:29 by Carina Latest changes made by Carina on 23.12.21, 16:29 All contents of "CreateGame" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 23.12.21, 17:40 by Carina Latest changes made by Carina on 23.12.21, 17:39 All contents of "CreateGame" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -289,7 +289,7 @@ public class CreateGame extends Application implements Initializable {
       return;
     }
     var id = MoleGames.getMoleGames().getGameHandler().getGames().size();
-    if (!isLegalConfiguration((radius.getText() != null && "".equalsIgnoreCase(radius.getText())) ? Integer.valueOf(radius.getText()) : 8)) {
+    if (!isLegalConfiguration((radius.getText() != null && !"".equalsIgnoreCase(radius.getText())) ? Integer.valueOf(radius.getText()) : 8)) {
       JOptionPane.showMessageDialog(null, "Das Spiel ist nicht richtig konfiguriert!", "Fehler!", JOptionPane.ERROR_MESSAGE);
       return;
     }
@@ -297,7 +297,7 @@ public class CreateGame extends Application implements Initializable {
     var game = MoleGames.getMoleGames().getGameHandler().getIDGames().get(id);
     game.getSettings().getFloors().addAll(floorMap);
     game.getSettings().setMaxPlayers((playerAmount.getText() != null && !"".equalsIgnoreCase(playerAmount.getText())) ? Integer.valueOf(playerAmount.getText()) : 4);
-    game.getSettings().setRadius((radius.getText() != null && "".equalsIgnoreCase(radius.getText())) ? Integer.valueOf(radius.getText()) : 6);
+    game.getSettings().setRadius((radius.getText() != null && !"".equalsIgnoreCase(radius.getText())) ? Integer.valueOf(radius.getText()) : 6);
     game.getSettings().setNumberOfMoles((molesAmount.getText() != null && !"".equalsIgnoreCase(molesAmount.getText())) ? Integer.valueOf(molesAmount.getText()) : 4);
     game.getSettings().setPullDiscsOrdered(pullDiscsOrdered.isSelected());
     game.getSettings().setTurnTime((thinkTime.getText() != null && !"".equalsIgnoreCase(thinkTime.getText())) ? Integer.valueOf(thinkTime.getText()) * 1000 : 15000);
@@ -342,6 +342,7 @@ public class CreateGame extends Application implements Initializable {
    * @use checks if a configuration was legal or not
    */
   private boolean isLegalConfiguration(final int radius) {
+    System.out.println("Testing conig with radius: " + radius);
     var holeDouble = new ArrayList<Hole>();
     var drawDouble = new ArrayList<DrawAgain>();
     var holes = new ArrayList<Hole>();
