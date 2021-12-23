@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 21.12.21, 16:39 by Carina Latest changes made by Carina on 21.12.21, 16:37 All contents of "AI" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 23.12.21, 16:55 by Carina Latest changes made by Carina on 23.12.21, 16:55 All contents of "AI" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -28,7 +28,7 @@ public class AI extends Client {
   private int card;
   private boolean placedMoles = false;
   private int placedMolesAmount = 0;
-  private int sleepingTime = 0;
+  private int sleepingTime = 1;
 
   /**
    * @param ip

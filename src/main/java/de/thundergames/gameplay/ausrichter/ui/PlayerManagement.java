@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 23.12.21, 16:29 by Carina Latest changes made by Carina on 23.12.21, 16:29 All contents of "PlayerManagement" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 23.12.21, 16:55 by Carina Latest changes made by Carina on 23.12.21, 16:55 All contents of "PlayerManagement" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -89,18 +89,22 @@ public class PlayerManagement implements Initializable {
         JOptionPane.showMessageDialog(null, "Der Spieler ist bereits in einem Spiel!", "Fehler!", JOptionPane.ERROR_MESSAGE);
         return;
       }
-      var object = new JsonObject();
-      var json = new JsonObject();
-      json.addProperty("gameID", game.getGameID());
-      json.addProperty("participant", !spectator.isSelected());
-      object.addProperty("type", Packets.JOINGAME.getPacketType());
-      object.add("value", json);
-      var packet = new Packet(object);
-      if (MoleGames.getMoleGames().getServer().getPacketHandler().handleJoinPacket(selectedPlayer, packet)) {
-        MoleGames.getMoleGames().getServer().getPacketHandler().welcomeGamePacket(selectedPlayer);
-        updateTable();
+      if (game.getPlayers().size() + 1 <= game.getSettings().getMaxPlayers()) {
+        var object = new JsonObject();
+        var json = new JsonObject();
+        json.addProperty("gameID", game.getGameID());
+        json.addProperty("participant", !spectator.isSelected());
+        object.addProperty("type", Packets.JOINGAME.getPacketType());
+        object.add("value", json);
+        var packet = new Packet(object);
+        if (MoleGames.getMoleGames().getServer().getPacketHandler().handleJoinPacket(selectedPlayer, packet)) {
+          MoleGames.getMoleGames().getServer().getPacketHandler().welcomeGamePacket(selectedPlayer);
+          updateTable();
+        } else {
+          JOptionPane.showMessageDialog(null, "Du musst einen Spieler auswählen!", "Auswählen!", JOptionPane.ERROR_MESSAGE);
+        }
       } else {
-        JOptionPane.showMessageDialog(null, "Du musst einen Spieler auswählen!", "Auswählen!", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(null, "Das Spiel ist bereits voll!", "Fehler!", JOptionPane.ERROR_MESSAGE);
       }
     } else {
       JOptionPane.showMessageDialog(null, "Du musst einen Spieler auswählen!", "Auswählen!", JOptionPane.ERROR_MESSAGE);
