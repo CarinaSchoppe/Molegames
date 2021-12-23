@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 23.12.21, 15:07 by Carina Latest changes made by Carina on 23.12.21, 13:04 All contents of "AusrichterClient" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 23.12.21, 16:29 by Carina Latest changes made by Carina on 23.12.21, 16:29 All contents of "AusrichterClient" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -19,6 +19,10 @@ import lombok.Data;
 
 import java.util.HashSet;
 import java.util.List;
+
+/**
+ * @author Carina, Eva, Jana, Marc
+ */
 
 @Data
 public class AusrichterClient {
