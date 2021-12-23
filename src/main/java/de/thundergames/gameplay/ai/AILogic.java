@@ -1,7 +1,8 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 23.12.21, 12:08 by Carina Latest changes made by Carina on 23.12.21, 11:57 All contents of "AILogic" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 23.12.21, 14:57 by Carina Latest changes made by Carina on 23.12.21, 14:16
+ * All contents of "AILogic" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -277,9 +278,11 @@ public class AILogic {
    * placed
    */
   public void handleAction(@NotNull final AI ai) {
+    System.out.println("test");
     if (ai.isDraw()) {
       ai.setDraw(false);
       if (ai.getPlacedMolesAmount() >= ai.getGameState().getMoles() || ai.isPlacedMoles()) {
+        System.out.println("error11111");
         ai.setPlacedMoles(true);
         var pullDisc = ai.getPullDiscs().get(0);
         ai.setCard(pullDisc);
@@ -287,6 +290,7 @@ public class AILogic {
         ai.getPullDiscs().add(pullDisc);
         moveMole(ai);
       } else {
+        System.out.println("hier 1");
         placeMole(ai);
         ai.setPlacedMolesAmount(ai.getPlacedMolesAmount() + 1);
       }
@@ -362,6 +366,7 @@ public class AILogic {
    * @use placed a mole at a random position
    */
   public void placeMole(@NotNull final AI ai) {
+
     var random = new Random();
     var fields = new ArrayList<>(ai.getMap().getFieldMap().values());
     Field field;
@@ -373,6 +378,7 @@ public class AILogic {
         fields.remove(field);
       }
     }
+    System.out.println("geschafft");
     if (ai.isDebug())
       System.out.println("AI: has placed a mole on: [" + field.getX() + "," + field.getY() + "]");
     ai.getAIPacketHandler().placeMolePacket(field);
