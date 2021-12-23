@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 23.12.21, 11:37 by Carina Latest changes made by Carina on 23.12.21, 11:37 All contents of "SettingsImport" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 23.12.21, 12:08 by Carina Latest changes made by Carina on 23.12.21, 11:39 All contents of "SettingsImport" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -98,14 +98,10 @@ public class SettingsImport {
 
   @FXML
   void onLoad(ActionEvent event) throws Exception {
-    System.out.println(object.toString());
-    //new Gson().fromJson(packet.getValues().get("games").getAsString(), new TypeToken<ArrayList<Game>>() {      }.getType())
     CreateGame.setDrawCardValuesList(new Gson().fromJson(object.get("pullDiscs").getAsString(), new TypeToken<ArrayList<Integer>>() {
     }.getType()));
     CreateGame.setFloors(new Gson().fromJson(object.get("levels").getAsString(), new TypeToken<ArrayList<Floor>>() {
     }.getType()));
-    System.out.println(CreateGame.getFloors().get(0).getHoles().size());
-    System.out.println(CreateGame.getFloors().get(0).getDrawAgainFields().size());
     CreateGame.setMaxPlayersPrev(new Gson().fromJson(object.get("maxPlayers").getAsString(), String.class));
     CreateGame.setRadiusPrev(new Gson().fromJson(object.get("radius").getAsString(), String.class));
     CreateGame.setMolesAmountPrev(new Gson().fromJson(object.get("numberOfMoles").getAsString(), String.class));

@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 22.12.21, 13:46 by Carina Latest changes made by Carina on 22.12.21, 13:11 All contents of "Game" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 23.12.21, 12:08 by Carina Latest changes made by Carina on 23.12.21, 12:06 All contents of "Game" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -309,7 +309,9 @@ public class Game {
     }
     ((ServerThread) player.getServerClient()).getServer().getPlayingThreads().add((ServerThread) player.getServerClient());
     ((ServerThread) player.getServerClient()).getServer().getLobbyThreads().remove((ServerThread) player.getServerClient());
-    PlayerManagement.getPlayerManagement().updateTable();
+    if (PlayerManagement.getPlayerManagement() != null) {
+      PlayerManagement.getPlayerManagement().updateTable();
+    }
   }
 
   /**
@@ -327,12 +329,12 @@ public class Game {
       return;
     }
     if (player.getServerClient() != null) {
-      ((ServerThread) player.getServerClient()).getServer().getPlayingThreads().remove((ServerThread) player.getServerClient());
-      ((ServerThread) player.getServerClient()).getServer().getLobbyThreads().add((ServerThread) player.getServerClient());
+      MoleGames.getMoleGames().getServer().getPlayingThreads().remove((ServerThread) player.getServerClient());
+      MoleGames.getMoleGames().getServer().getLobbyThreads().add((ServerThread) player.getServerClient());
     }
-    if (player.getGame().getCurrentGameState() != GameStates.NOT_STARTED) {
-      player.getGame().getScore().getPlayers().remove(player);
-      player.getGame().getScore().getPoints().remove(player.getServerClient().getThreadID());
+    if (currentGameState == GameStates.NOT_STARTED) {
+      score.getPlayers().remove(player);
+      score.getPoints().remove(player.getServerClient().getThreadID());
     }
     if (activePlayers.contains(player)) {
       if (currentGameState != GameStates.NOT_STARTED && !currentGameState.equals(GameStates.OVER)) {
@@ -340,19 +342,15 @@ public class Game {
           eliminatedPlayers.add(player);
         }
       }
-      player.getGame().getClientPlayersMap().get(player.getServerClient()).getTimer().cancel();
-      player.getGame().getClientPlayersMap().get(player.getServerClient()).setHasMoved(true);
-      player.getGame().getClientPlayersMap().get(player.getServerClient()).setTimerIsRunning(false);
+      clientPlayersMap.get(player.getServerClient()).getTimer().cancel();
+      clientPlayersMap.get(player.getServerClient()).setHasMoved(true);
+      clientPlayersMap.get(player.getServerClient()).setTimerIsRunning(false);
       for (var moles : player.getMoles()) {
-        player
-          .getGame()
-          .getMap()
+        map
           .getFieldMap()
           .get(List.of(moles.getField().getX(), moles.getField().getY()))
           .setOccupied(false);
-        player
-          .getGame()
-          .getMap()
+        map
           .getFieldMap()
           .get(List.of(moles.getField().getX(), moles.getField().getY()))
           .setMole(null);
@@ -366,7 +364,9 @@ public class Game {
       setCurrentPlayerCount(players.size());
       updateGameState();
     }
-    PlayerManagement.getPlayerManagement().updateTable();
+    if (PlayerManagement.getPlayerManagement() != null) {
+      PlayerManagement.getPlayerManagement().updateTable();
+    }
   }
 
   /**

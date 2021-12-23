@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 23.12.21, 11:37 by Carina Latest changes made by Carina on 23.12.21, 11:37 All contents of "MainGUI" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 23.12.21, 12:08 by Carina Latest changes made by Carina on 23.12.21, 11:54 All contents of "MainGUI" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -146,7 +146,7 @@ public class MainGUI extends Application implements Initializable {
         MoleGames.getMoleGames().getGameHandler().getIDGames().get(selectedItem.getGameID()).startGame(GameStates.STARTED);
         JOptionPane.showMessageDialog(null, "Spiel wurde erfolgreich gestartet!", "Erfolg!", JOptionPane.ERROR_MESSAGE);
       } else {
-        JOptionPane.showMessageDialog(null, "Das Spiel ist bereits am laufen!", "Spiel Gamestate!", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(null, "Das Spiel ist kann nicht gestartet werden!");
       }
     }
   }

@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 22.12.21, 13:46 by Carina Latest changes made by Carina on 22.12.21, 13:41 All contents of "PacketHandler" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 23.12.21, 12:08 by Carina Latest changes made by Carina on 23.12.21, 12:08 All contents of "PacketHandler" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -626,12 +626,16 @@ public class PacketHandler {
     if (client.getPlayer().getGame().getCurrentPlayer() != null) {
       client.getPlayer().getGame().getCurrentPlayer().getTimer().cancel();
     }
-    client.getPlayer().getGame().removePlayerFromGame(client.getPlayer());
     client.getPlayer().getGame().getActivePlayers().remove(client.getPlayer());
     client.getPlayer().getGame().getPlayers().remove(client.getPlayer());
     client.getPlayer().getGame().getSpectators().remove(client.getPlayer());
+    client.getPlayer().getGame().removePlayerFromGame(client.getPlayer());
     MoleGames.getMoleGames().getGameHandler().getClientGames().remove(client);
     System.out.println("Client with id: " + client.getThreadID() + " left the game!");
+    client.setPlayer(new Player(client));
+    if (MainGUI.getGUI() != null) {
+      MainGUI.getGUI().updateTable();
+    }
   }
 
   /**
@@ -881,7 +885,9 @@ public class PacketHandler {
     json.addProperty("gameState", new Gson().toJson(client.getPlayer().getGame().getGameState()));
     object.add("value", json);
     client.sendPacket(new Packet(object));
-    playerJoinedPacket(client);
+    if (client.getPlayer().getGame().getActivePlayers().contains(client.getPlayer())) {
+      playerJoinedPacket(client);
+    }
   }
 
   /**
