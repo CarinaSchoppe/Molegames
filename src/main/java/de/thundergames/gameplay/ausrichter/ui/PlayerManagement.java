@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 22.12.21, 13:46 by Carina Latest changes made by Carina on 22.12.21, 13:46 All contents of "PlayerManagement" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 23.12.21, 12:28 by Carina Latest changes made by Carina on 23.12.21, 12:27 All contents of "PlayerManagement" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -82,6 +82,10 @@ public class PlayerManagement implements Initializable {
   void onAdd(ActionEvent event) throws NotAllowedError {
     var selectedPlayer = aviablePlayersTable.getSelectionModel().getSelectedItem();
     if (selectedPlayer != null) {
+      if (selectedPlayer.getPlayer().getGame() != null) {
+        JOptionPane.showMessageDialog(null, "Der Spieler ist bereits in einem Spiel!", "Fehler!", JOptionPane.ERROR_MESSAGE);
+        return;
+      }
       var object = new JsonObject();
       var json = new JsonObject();
       json.addProperty("gameID", game.getGameID());
@@ -111,6 +115,10 @@ public class PlayerManagement implements Initializable {
   void onRemove(ActionEvent event) {
     var selectedPlayer = playerTable.getSelectionModel().getSelectedItem();
     if (selectedPlayer != null) {
+      if (selectedPlayer.getGame() == null) {
+        JOptionPane.showMessageDialog(null, "Der Spieler ist nicht in einem Spiel!", "Fehler!", JOptionPane.ERROR_MESSAGE);
+        return;
+      }
       MoleGames.getMoleGames().getServer().getPacketHandler().handlePlayerLeavePacket((ServerThread) selectedPlayer.getServerClient());
       updateTable();
     } else {
