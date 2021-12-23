@@ -4,13 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ff900dce-44c6-46d1-95d2-1cdab3649f79" name="Changes" comment="hotfix">
+    <list default="true" id="f18eac6c-ae98-43b9-a0b5-25bc4cae4e45" name="Changes" comment="hotfixes">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config1.json" beforeDir="false" afterPath="$PROJECT_DIR$/configurations/config1.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/gameplay/ai/AILogic.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/thundergames/gameplay/ai/AILogic.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/gameplay/ai/networking/AIPacketHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/thundergames/gameplay/ai/networking/AIPacketHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/gameplay/player/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/thundergames/gameplay/player/Client.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/gameplay/player/networking/ClientPacketHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/thundergames/gameplay/player/networking/ClientPacketHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/gameplay/ai/AI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/thundergames/gameplay/ai/AI.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -154,7 +150,7 @@
     </key>
   </component>
   <component name="RunManager" selected="Application.AI">
-    <configuration name="AI" type="Application" factoryName="Application">
+    <configuration name="AI" type="Application" factoryName="Application" singleton="false">
       <option name="MAIN_CLASS_NAME" value="de.thundergames.MoleGames" />
       <module name="SwtPra10.main" />
       <option name="PROGRAM_PARAMETERS" value="-a 127.0.0.1 5000 0" />
@@ -331,7 +327,7 @@
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="ff900dce-44c6-46d1-95d2-1cdab3649f79" name="Changes" comment="" />
+      <changelist id="f18eac6c-ae98-43b9-a0b5-25bc4cae4e45" name="Changes" comment="hotfixes" />
       <created>1635672817592</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
@@ -399,6 +395,7 @@
       <workItem from="1638013708345" duration="13000" />
       <workItem from="1639841349051" duration="455000" />
       <workItem from="1640264115702" duration="2678000" />
+      <workItem from="1640273120781" duration="4556000" />
     </task>
     <task id="LOCAL-00001" summary="added the Punishments Enum for the possible Punishments when a Player does a not allowed move.&#10;@Carina">
       <created>1635673650207</created>
@@ -505,7 +502,70 @@
       <option name="project" value="LOCAL" />
       <updated>1639841467302</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="hotfixes">
+      <created>1640268669017</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1640268669017</updated>
+    </task>
+    <task id="LOCAL-00017" summary="hotfixes">
+      <created>1640273369158</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1640273369158</updated>
+    </task>
+    <task id="LOCAL-00018" summary="hotfixes">
+      <created>1640274321844</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1640274321844</updated>
+    </task>
+    <task id="LOCAL-00019" summary="hotfixes">
+      <created>1640274399878</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1640274399878</updated>
+    </task>
+    <task id="LOCAL-00020" summary="hotfixes">
+      <created>1640274961768</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1640274961768</updated>
+    </task>
+    <task id="LOCAL-00021" summary="hotfixes">
+      <created>1640275741834</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1640275741834</updated>
+    </task>
+    <task id="LOCAL-00022" summary="hotfixes">
+      <created>1640276189860</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1640276189860</updated>
+    </task>
+    <task id="LOCAL-00023" summary="hotfixes">
+      <created>1640276999524</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1640276999524</updated>
+    </task>
+    <task id="LOCAL-00024" summary="hotfixes">
+      <created>1640277642816</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1640277642816</updated>
+    </task>
+    <option name="localTasksCounter" value="25" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -538,7 +598,8 @@
     <MESSAGE value="commenting stuff fixing AI and made it smarter" />
     <MESSAGE value="local push" />
     <MESSAGE value="updated some more stuff and sout" />
-    <option name="LAST_COMMIT_MESSAGE" value="updated some more stuff and sout" />
+    <MESSAGE value="hotfixes" />
+    <option name="LAST_COMMIT_MESSAGE" value="hotfixes" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />
