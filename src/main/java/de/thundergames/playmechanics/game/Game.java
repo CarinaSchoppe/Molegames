@@ -185,15 +185,16 @@ public class Game {
           players.add(
               MoleGames.getMoleGames().getServer().getConnectionIDs().get(playerID).getPlayer());
         }
-        Collections.sort(
-            getScore().getPlayers(),
-            (o1, o2) ->
-                getScore()
-                    .getPoints()
-                    .get(o2.getServerClient().getThreadID())
-                    .compareTo(getScore().getPoints().get(o1.getServerClient().getThreadID())));
+        getScore()
+            .getPlayers()
+            .sort(
+                (o1, o2) ->
+                    getScore()
+                        .getPoints()
+                        .get(o2.getServerClient().getThreadID())
+                        .compareTo(getScore().getPoints().get(o1.getServerClient().getThreadID())));
         for (var player : getScore().getPlayers()) {
-          if (getScore().getPoints().get(player.getServerClient().getThreadID()) == max) {
+          if (getScore().getPoints().get(player.getServerClient().getThreadID()).equals(max)) {
             getScore().getWinners().add(player);
           }
         }
@@ -335,9 +336,6 @@ public class Game {
    * @see Player
    */
   public void removePlayerFromGame(@NotNull final Player player) {
-    if (player == null) {
-      return;
-    }
     if (player.getServerClient() != null) {
       MoleGames.getMoleGames()
           .getServer()
@@ -353,7 +351,7 @@ public class Game {
       score.getPoints().remove(player.getServerClient().getThreadID());
     }
     if (currentGameState != GameStates.NOT_STARTED && !currentGameState.equals(GameStates.OVER)) {
-      if (!clientPlayersMap.containsKey(player)) {
+      if (!clientPlayersMap.containsKey(player.getServerClient())) {
         eliminatedPlayers.add(player);
       }
     }

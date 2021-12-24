@@ -90,11 +90,17 @@ class GameUtilTest {
   }
 
   @Test
-  void nextPlayer() {}
+  void nextPlayer() {
+    // TODO: Implement
+  }
 
   @Test
-  void nextFloor() {}
+  void nextFloor() {
+    // TODO: Implement
+  }
 
   @Test
-  void givePoints() {}
+  void givePoints() {
+    // TODO: Implement
+  }
 }

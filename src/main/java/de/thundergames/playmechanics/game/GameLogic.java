@@ -33,10 +33,7 @@ public class GameLogic {
    *     move.
    */
   public static boolean wasLegalMove(
-      @NotNull final int[] start,
-      @NotNull final int[] stop,
-      final int moveCounter,
-      @NotNull final Map map) {
+      final int[] start, final int[] stop, final int moveCounter, @NotNull final Map map) {
     if (map.getFieldMap().containsKey(List.of(start[0], start[1]))
         && map.getFieldMap().containsKey(List.of(stop[0], stop[1]))
         && start != stop) {

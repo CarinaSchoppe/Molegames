@@ -58,7 +58,6 @@ public class Server extends Network {
    * @see NetworkThread as the Network for the instance of the ServerThread
    * @see ServerThread as an instance that will be created here
    */
-  @Override
   public void create() {
     new Thread(
             () -> {

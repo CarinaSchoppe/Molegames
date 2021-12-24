@@ -533,7 +533,7 @@ public class PacketHandler {
    * @author Carina
    * @use sends the gameHistory of the game to the client
    */
-  public void gameHistoryPacket(@NotNull final ServerThread client, @NotNull final int gameID) {
+  public void gameHistoryPacket(@NotNull final ServerThread client, final int gameID) {
     var json = new JsonObject();
     json.addProperty("type", Packets.GAMEHISTORYRESPONE.getPacketType());
     var object = new JsonObject();
@@ -771,13 +771,7 @@ public class PacketHandler {
         "tournaments",
         new Gson().toJson(MoleGames.getMoleGames().getGameHandler().getTournaments()));
     object.add("value", json);
-    if (client == null) {
-      for (var clients : MoleGames.getMoleGames().getServer().getObserver()) {
-        clients.sendPacket(new Packet(object));
-      }
-    } else {
-      client.sendPacket(new Packet(object));
-    }
+    client.sendPacket(new Packet(object));
   }
 
   /**
@@ -824,7 +818,7 @@ public class PacketHandler {
               .get(packet.getValues().get("gameID").getAsInt());
       if (connectType) {
         if (client.getPlayer().getGame() != null) {
-          if (client.getPlayer().getGame().getPlayers().contains(client)) {
+          if (client.getPlayer().getGame().getPlayers().contains(client.getPlayer())) {
             System.out.println("Client " + client.getClientName() + " is already in a game!");
             return false;
           }
@@ -837,7 +831,7 @@ public class PacketHandler {
         }
       } else {
         if (client.getPlayer().getGame() != null) {
-          if (client.getPlayer().getGame().getSpectators().contains(client)) {
+          if (client.getPlayer().getGame().getSpectators().contains(client.getPlayer())) {
             return false;
           }
         }

@@ -42,7 +42,6 @@ public class AI extends Client {
     this.gameID = gameID;
   }
 
-  @Override
   public void create() {
     CLIENT = this;
     clientPacketHandler = new AIPacketHandler(this);

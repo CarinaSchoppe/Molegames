@@ -52,7 +52,7 @@ public class LeaderBoard extends Application implements Initializable {
     Client.getClientInstance().getGameState().setScore(score);
     try {
       launch();
-    } catch (Exception e) {
+    } catch (Exception ignored) {
     }
   }
 

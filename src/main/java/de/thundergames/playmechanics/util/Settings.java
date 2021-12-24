@@ -51,28 +51,6 @@ public class Settings {
     this.gameConfiguration = new GameConfiguration();
   }
 
-  /**
-   * @param newConfig the jsonObject that will update the configuration send by the AusrichterClient
-   * @author Carina
-   * @use pass in the new configuration from the AusrichterClient and it will automaticly update
-   *     every single setting that was included in the jsonObject
-   * @use this method is called in the AusrichterClient to the Server
-   * @use updates the map and the Game directly
-   */
-  public void updateConfiuration(@NotNull final Settings newConfig) {
-    setMaxPlayers(newConfig.getMaxPlayers());
-    setRadius(newConfig.getRadius());
-    setNumberOfMoles(newConfig.getNumberOfMoles());
-    setFloors(newConfig.getFloors());
-    setPullDiscsOrdered(newConfig.isPullDiscsOrdered());
-    getPullDiscs().clear();
-    getPullDiscs().addAll(newConfig.getPullDiscs());
-    setTurnTime(newConfig.getTurnTime());
-    setVisualizationTime(newConfig.getVisualizationTime());
-    setMovePenalty(newConfig.getMovePenalty());
-    game.updateGameState();
-  }
-
   public Punishments getPunishment() {
     return Punishments.getByName(getMovePenalty());
   }

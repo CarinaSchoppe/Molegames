@@ -65,7 +65,7 @@ public class MoleGames {
           MOLE_GAMES.gameHandler = new MultiGameHandler();
           MOLE_GAMES.server.create();
           MOLE_GAMES.gui = new MainGUI();
-          MainGUI.create(MOLE_GAMES.server, args);
+          MainGUI.create(MOLE_GAMES.server);
           break;
         case "-a":
         case "a":

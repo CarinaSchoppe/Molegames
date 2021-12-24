@@ -64,11 +64,11 @@ public class MainGUI extends Application implements Initializable {
   @FXML private TableColumn<Tournament, String> tournamentState;
   @FXML private TableView<Tournament> tournamentTable;
 
-  public static void create(@NotNull final Server server, @NotNull final String... args) {
+  public static void create(@NotNull final Server server) {
     MoleGames.getMoleGames().setAusrichterClient(new AusrichterClient(server));
-    new Thread(() -> launch(args)).start();
-    // MoleGames.getMoleGames().getAusrichterClient().testTournament(0);
-    // MoleGames.getMoleGames().getAusrichterClient().testGame(0);
+    new Thread(() -> launch()).start();
+    /* MoleGames.getMoleGames().getAusrichterClient().testTournament(0);
+    MoleGames.getMoleGames().getAusrichterClient().testGame(0); */
   }
 
   public static MainGUI getGUI() {

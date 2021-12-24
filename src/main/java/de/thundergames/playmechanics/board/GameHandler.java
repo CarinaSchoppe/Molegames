@@ -21,7 +21,6 @@ public class GameHandler {
   public static final long DEFAULT_TIMEOUT = 10000; // 10 seconds
   private final ArrayList<PlayerModel> players;
   private final PlayerModel activePlayer;
-  private final long timeout;
   private final int boardRadius;
   private ArrayList<NodeType> nodeTypes;
   private Board board;
@@ -41,7 +40,6 @@ public class GameHandler {
       final long timeout) {
     this.players = players;
     this.activePlayer = players.get(0);
-    this.timeout = timeout;
     this.boardRadius = boardRadius;
     this.nodeTypes = new ArrayList<>(nodeTypes);
   }

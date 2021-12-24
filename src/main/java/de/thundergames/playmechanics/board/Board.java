@@ -32,7 +32,7 @@ public class Board extends Group {
   private final ArrayList<Edge> edges;
   private ArrayList<NodeType> nodesType;
   private ArrayList<PlayerModel> players;
-  EventHandler<MouseEvent> nodeClickEventHandler =
+  final EventHandler<MouseEvent> nodeClickEventHandler =
       e -> {
         if (e.getTarget() instanceof Node) {
           this.players.forEach(player -> player.notifyNodeClick(((Node) e.getTarget())));
@@ -193,9 +193,10 @@ public class Board extends Group {
   public void generateMoles() {
     // Moles need to be set on each state mutation and should have the same id as the corresponding
     // node
-    for (var p : this.players) {
-      for (var mole : p.getMoles()) {
+    for (var player : this.players) {
+      for (var mole : player.getMoles()) {
         var correspondingNode = getNodeById(mole.getMoleId());
+        assert correspondingNode != null;
         mole.setLayoutX(correspondingNode.getCenterX() - mole.getSize() / 2);
         mole.setLayoutY(correspondingNode.getCenterY() - mole.getSize() / 2);
         mole.render();
@@ -227,14 +228,8 @@ public class Board extends Group {
     this.generateNodes();
     this.generateEdges();
     // display edges and nodes
-    this.edges.forEach(
-        edge -> {
-          this.getChildren().add(edge);
-        });
-    this.nodes.forEach(
-        node -> {
-          this.getChildren().add(node);
-        });
+    this.edges.forEach(edge -> this.getChildren().add(edge));
+    this.nodes.forEach(node -> this.getChildren().add(node));
     // display moles
     this.generateMoles();
     this.players.forEach(player -> this.getChildren().addAll(player.getMoles()));
@@ -261,7 +256,7 @@ public class Board extends Group {
 
   public List<Integer> getOccupiedNodes() {
     return this.players.stream()
-        .map(player -> player.getOccupiedIDs())
+        .map(PlayerModel::getOccupiedIDs)
         .flatMap(List::stream)
         .collect(Collectors.toList());
   }

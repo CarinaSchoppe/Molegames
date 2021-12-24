@@ -27,7 +27,6 @@ import java.util.ResourceBundle;
 
 public class LoginScreen extends Application {
 
-  private final boolean loggedIn = false;
   @FXML private ResourceBundle resources;
   @FXML private TextField ip;
   @FXML private Button login;

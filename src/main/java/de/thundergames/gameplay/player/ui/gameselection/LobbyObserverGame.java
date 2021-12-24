@@ -137,9 +137,6 @@ public class LobbyObserverGame implements Initializable {
    * @use Create scene and spectate the game
    */
   public void spectateGame() {
-    Platform.runLater(
-        () -> {
-          new TestWindow().start(primaryStage);
-        });
+    Platform.runLater(() -> new TestWindow().start(primaryStage));
   }
 }

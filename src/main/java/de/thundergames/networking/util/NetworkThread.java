@@ -123,7 +123,6 @@ public abstract class NetworkThread extends Thread {
           e.printStackTrace();
         }
       }
-      return;
     }
   }
 

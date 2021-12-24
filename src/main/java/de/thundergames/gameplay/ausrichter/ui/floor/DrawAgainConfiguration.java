@@ -33,7 +33,6 @@ import java.util.ResourceBundle;
 
 public class DrawAgainConfiguration implements Initializable {
 
-  private static DrawAgainConfiguration config;
   @FXML private ResourceBundle resources;
   @FXML private URL location;
   @FXML private Button add;
@@ -176,7 +175,7 @@ public class DrawAgainConfiguration implements Initializable {
 
   @Override
   public void initialize(URL location, ResourceBundle resources) {
-    config = this;
+    DrawAgainConfiguration config = this;
     amountDrawAgain.setCellValueFactory(
         data -> new SimpleStringProperty(data.getValue().drawAgainFieldsAmountString()));
     amountHoles.setCellValueFactory(

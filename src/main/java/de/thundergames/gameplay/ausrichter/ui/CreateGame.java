@@ -12,7 +12,10 @@
 package de.thundergames.gameplay.ausrichter.ui;
 
 import de.thundergames.MoleGames;
-import de.thundergames.gameplay.ausrichter.ui.floor.*;
+import de.thundergames.gameplay.ausrichter.ui.floor.DrawAgainConfiguration;
+import de.thundergames.gameplay.ausrichter.ui.floor.Floor;
+import de.thundergames.gameplay.ausrichter.ui.floor.Hole;
+import de.thundergames.gameplay.ausrichter.ui.floor.HolesConfiguration;
 import de.thundergames.playmechanics.game.Game;
 import de.thundergames.playmechanics.map.Field;
 import de.thundergames.playmechanics.map.Map;
@@ -291,9 +294,9 @@ public class CreateGame extends Application implements Initializable {
     var id = MoleGames.getMoleGames().getGameHandler().getGames().size();
     if (!isLegalConfiguration(
         (radius.getText() != null && !"".equalsIgnoreCase(radius.getText()))
-            ? Integer.valueOf(radius.getText())
+            ? Integer.parseInt(radius.getText())
             : 8,
-        molesAmount.getText() != null ? Integer.valueOf(molesAmount.getText()) : 4)) {
+        molesAmount.getText() != null ? Integer.parseInt(molesAmount.getText()) : 4)) {
       JOptionPane.showMessageDialog(
           null, "Das Spiel ist nicht richtig konfiguriert!", "Fehler!", JOptionPane.ERROR_MESSAGE);
       return;
@@ -304,23 +307,23 @@ public class CreateGame extends Application implements Initializable {
     game.getSettings()
         .setMaxPlayers(
             (playerAmount.getText() != null && !"".equalsIgnoreCase(playerAmount.getText()))
-                ? Integer.valueOf(playerAmount.getText())
+                ? Integer.parseInt(playerAmount.getText())
                 : 4);
     game.getSettings()
         .setRadius(
             (radius.getText() != null && !"".equalsIgnoreCase(radius.getText()))
-                ? Integer.valueOf(radius.getText())
+                ? Integer.parseInt(radius.getText())
                 : 6);
     game.getSettings()
         .setNumberOfMoles(
             (molesAmount.getText() != null && !"".equalsIgnoreCase(molesAmount.getText()))
-                ? Integer.valueOf(molesAmount.getText())
+                ? Integer.parseInt(molesAmount.getText())
                 : 4);
     game.getSettings().setPullDiscsOrdered(pullDiscsOrdered.isSelected());
     game.getSettings()
         .setTurnTime(
             (thinkTime.getText() != null && !"".equalsIgnoreCase(thinkTime.getText()))
-                ? Integer.valueOf(thinkTime.getText()) * 1000
+                ? Integer.parseInt(thinkTime.getText()) * 1000L
                 : 15000);
     if (!drawCardValuesList.isEmpty()) {
       game.getSettings().getPullDiscs().clear();
@@ -329,7 +332,7 @@ public class CreateGame extends Application implements Initializable {
     game.getSettings()
         .setVisualizationTime(
             (visualEffects.getText() != null && !"".equalsIgnoreCase(visualEffects.getText()))
-                ? Integer.valueOf(visualEffects.getText()) * 1000
+                ? Integer.parseInt(visualEffects.getText()) * 1000
                 : 5000);
     game.getSettings()
         .setMovePenalty(
@@ -373,7 +376,6 @@ public class CreateGame extends Application implements Initializable {
   private boolean isLegalConfiguration(final int radius, int numberOfMoles) {
     System.out.println("Testing conig with radius: " + radius);
     var holeDouble = new ArrayList<Hole>();
-    var drawDouble = new ArrayList<DrawAgain>();
     var holes = new ArrayList<Hole>();
     var game = new Game(1);
     game.setRadius(radius);
@@ -383,7 +385,6 @@ public class CreateGame extends Application implements Initializable {
       // check for the amount of holes
 
       for (var field : floor.getDrawAgainFields()) {
-        drawDouble.add(field);
         if (!map.getFieldMap().containsKey(List.of(field.getXPosition(), field.getYPosition()))) {
           return false;
         }
@@ -413,13 +414,13 @@ public class CreateGame extends Application implements Initializable {
         holes.addAll(floor.getHoles());
       }
     }
-    Object prev = null;
+    Hole prev = null;
     for (var hole : holeDouble) {
       if (prev == null) {
         prev = hole;
       } else {
-        if (hole.getXPosition() == ((Hole) prev).getXPosition()
-            && hole.getYPosition() == ((Hole) prev).getYPosition()) {
+        if (hole.getXPosition() == prev.getXPosition()
+            && hole.getYPosition() == prev.getYPosition()) {
           return false;
         }
       }
@@ -463,7 +464,7 @@ public class CreateGame extends Application implements Initializable {
     pullDiscsOrderedPrev = pullDiscsOrdered.isSelected();
     try {
       punishmentPrev = movePenalty.getSelectionModel().getSelectedItem().getName();
-    } catch (Exception e) {
+    } catch (Exception ignored) {
     }
   }
 }

@@ -130,6 +130,7 @@ public class Player {
                   .getPacketHandler()
                   .moleMovedPacket(
                       new Field(x_start, y_start), new Field(x_end, y_end), cardValue));
+      assert mole != null;
       mole.setField(game.getMap().getFieldMap().get(List.of(x_end, y_end)));
       game.getMap().getFieldMap().get(List.of(x_start, y_start)).setOccupied(false);
       game.getMap().getFieldMap().get(List.of(x_end, y_end)).setOccupied(true);

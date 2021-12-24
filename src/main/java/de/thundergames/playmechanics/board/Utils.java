@@ -13,8 +13,10 @@ package de.thundergames.playmechanics.board;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Objects;
+
 public class Utils {
   public static String getSprite(@NotNull final String spriteName) {
-    return Utils.class.getResource("/sprites/" + spriteName).toString();
+    return Objects.requireNonNull(Utils.class.getResource("/sprites/" + spriteName)).toString();
   }
 }

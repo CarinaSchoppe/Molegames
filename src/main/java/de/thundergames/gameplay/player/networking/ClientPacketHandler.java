@@ -34,7 +34,10 @@ import de.thundergames.playmechanics.util.Player;
 import lombok.Data;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 @Data
 public class ClientPacketHandler {
@@ -430,8 +433,7 @@ public class ClientPacketHandler {
    * @author Carina
    * @use sends the movement of a mole to the server
    */
-  public void makeMovePacket(
-      @NotNull final int[] start, @NotNull final int[] end, final int pullDisc) {
+  public void makeMovePacket(final int[] start, final int[] end, final int pullDisc) {
     var object = new JsonObject();
     var json = new JsonObject();
     json.addProperty("from", new Gson().toJson(new Field(start[0], start[1])));
@@ -534,17 +536,6 @@ public class ClientPacketHandler {
    */
   protected void handleGameOverPacket() {
     var score = new Gson().fromJson(packet.getValues().get("result").getAsString(), Score.class);
-    if (!score.getPoints().isEmpty()) {
-      var players = new ArrayList<>(score.getPlayers());
-      // sort the players by score
-      Collections.sort(
-          players,
-          (o1, o2) ->
-              score
-                  .getPoints()
-                  .get(o2.getClientID())
-                  .compareTo(score.getPoints().get(o1.getClientID())));
-    }
     if (client.isDebug()) {
       System.out.println(
           "Client: game with id: "
@@ -561,7 +552,7 @@ public class ClientPacketHandler {
     }
     try {
       new Thread(() -> new LeaderBoard().create(score)).start();
-    } catch (IllegalStateException e) {
+    } catch (IllegalStateException ignored) {
     }
     updateTableView();
   }
@@ -789,7 +780,7 @@ public class ClientPacketHandler {
    * @see de.thundergames.playmechanics.game.Game
    * @see de.thundergames.playmechanics.util.Player
    */
-  public void joinGamePacket(@NotNull final int gameID, final boolean player) {
+  public void joinGamePacket(final int gameID, final boolean player) {
     var object = new JsonObject();
     var json = new JsonObject();
     json.addProperty("gameID", gameID);

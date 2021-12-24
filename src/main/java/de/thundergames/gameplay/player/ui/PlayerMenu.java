@@ -26,6 +26,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class PlayerMenu implements Initializable {
@@ -41,7 +42,9 @@ public class PlayerMenu implements Initializable {
    */
   public void create(ActionEvent event) throws IOException {
     var primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-    Parent root = FXMLLoader.load(getClass().getResource("/player/style/PlayerMenu.fxml"));
+    Parent root =
+        FXMLLoader.load(
+            Objects.requireNonNull(getClass().getResource("/player/style/PlayerMenu.fxml")));
     primaryStage.setTitle("Maulwurf Company");
     primaryStage.setResizable(false);
     primaryStage.setScene(new Scene(root));
@@ -76,7 +79,9 @@ public class PlayerMenu implements Initializable {
     CLIENT.getClientPacketHandler().logoutPacket();
     // create LoginScreen scene
     var primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-    Parent root = FXMLLoader.load(getClass().getResource("/player/style/LoginScreen.fxml"));
+    Parent root =
+        FXMLLoader.load(
+            Objects.requireNonNull(getClass().getResource("/player/style/LoginScreen.fxml")));
     primaryStage.setResizable(false);
     primaryStage.setScene(new Scene(root));
     primaryStage.show();

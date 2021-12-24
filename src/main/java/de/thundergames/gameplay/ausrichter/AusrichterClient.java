@@ -68,10 +68,6 @@ public class AusrichterClient {
     MoleGames.getMoleGames().getGameHandler().getIDGames().get(id + 1).updateGameState();
   }
 
-  public Server getServer() {
-    return server;
-  }
-
   public void testTournament(final int id) {
     MoleGames.getMoleGames().getGameHandler().createNewTournament(id);
     MoleGames.getMoleGames()

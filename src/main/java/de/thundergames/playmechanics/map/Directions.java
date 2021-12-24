@@ -24,13 +24,5 @@ public enum Directions {
   DOWN_LEFT(6),
   DOWN_RIGHT(7);
 
-  private final int value;
-
-  Directions(final int value) {
-    this.value = value;
-  }
-
-  public int getValue() {
-    return value;
-  }
+  Directions(final int value) {}
 }

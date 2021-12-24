@@ -71,10 +71,7 @@ public class PlayerModel {
   }
 
   public void attachMolesClickEvent() {
-    this.moles.forEach(
-        mole -> {
-          mole.setOnAction(event -> setActiveMole(mole));
-        });
+    this.moles.forEach(mole -> mole.setOnAction(event -> setActiveMole(mole)));
   }
 
   public int getID() {
@@ -105,6 +102,6 @@ public class PlayerModel {
   }
 
   public List<Integer> getOccupiedIDs() {
-    return this.moles.stream().map(mole -> mole.getMoleId()).collect(Collectors.toList());
+    return this.moles.stream().map(MoleModel::getMoleId).collect(Collectors.toList());
   }
 }

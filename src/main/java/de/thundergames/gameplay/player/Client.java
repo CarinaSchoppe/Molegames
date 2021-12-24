@@ -79,7 +79,6 @@ public class Client extends Network {
    *     create the Constructor and call the create object to create the sockets and stream
    * @see Client
    */
-  @Override
   public void create() {
     CLIENT = this;
     clientPacketHandler = new ClientPacketHandler(this);

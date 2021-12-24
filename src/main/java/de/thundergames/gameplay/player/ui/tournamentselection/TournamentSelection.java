@@ -81,14 +81,7 @@ public class TournamentSelection implements Initializable {
         });
     // set event for spectate game
     var btnSpectateGame = (Button) (primaryStage.getScene().lookup("#spectateGame"));
-    btnSpectateGame.setOnAction(
-        e -> {
-          try {
-            spectateGame(e);
-          } catch (IOException ex) {
-            ex.printStackTrace();
-          }
-        });
+    btnSpectateGame.setOnAction(this::spectateGame);
     // endregion
   }
 
@@ -144,10 +137,9 @@ public class TournamentSelection implements Initializable {
    * spectate the tournament, else join the spectator lobby.
    *
    * @param event event from the current scene to build next scene on same object
-   * @throws IOException error at creating the scene
    */
   @FXML
-  public void spectateGame(ActionEvent event) throws IOException {
+  public void spectateGame(ActionEvent event) {
     var selectedItem = gameTable.getSelectionModel().getSelectedItem();
     // If no item of tableview is selected.
     if (selectedItem == null) {

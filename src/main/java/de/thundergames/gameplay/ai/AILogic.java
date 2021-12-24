@@ -122,7 +122,7 @@ public class AILogic {
               return Directions.DOWN;
             }
           }
-        } catch (@NotNull final Exception e) {
+        } catch (@NotNull final Exception ignored) {
         }
       } else if (direction == Directions.UP) {
         try {
@@ -138,7 +138,7 @@ public class AILogic {
               return Directions.UP;
             }
           }
-        } catch (@NotNull final Exception e) {
+        } catch (@NotNull final Exception ignored) {
         }
       } else if (direction == Directions.LEFT) {
         try {
@@ -154,7 +154,7 @@ public class AILogic {
               return Directions.LEFT;
             }
           }
-        } catch (@NotNull final Exception e) {
+        } catch (@NotNull final Exception ignored) {
         }
       } else if (direction == RIGHT) {
         try {
@@ -170,7 +170,7 @@ public class AILogic {
               return Directions.RIGHT;
             }
           }
-        } catch (@NotNull final Exception e) {
+        } catch (@NotNull final Exception ignored) {
         }
       } else if (direction == DOWN_LEFT) {
         try {
@@ -186,7 +186,7 @@ public class AILogic {
               return Directions.DOWN_LEFT;
             }
           }
-        } catch (@NotNull final Exception e) {
+        } catch (@NotNull final Exception ignored) {
         }
       } else if (direction == Directions.DOWN_RIGHT) {
         try {
@@ -202,7 +202,7 @@ public class AILogic {
               return Directions.DOWN_RIGHT;
             }
           }
-        } catch (@NotNull final Exception e) {
+        } catch (@NotNull final Exception ignored) {
         }
       } else if (direction == Directions.UP_LEFT) {
         try {
@@ -218,7 +218,7 @@ public class AILogic {
               return Directions.UP_LEFT;
             }
           }
-        } catch (@NotNull final Exception e) {
+        } catch (@NotNull final Exception ignored) {
         }
       } else if (direction == Directions.UP_RIGHT) {
         try {
@@ -234,7 +234,7 @@ public class AILogic {
               return Directions.UP_RIGHT;
             }
           }
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         }
       }
     }
@@ -329,34 +329,17 @@ public class AILogic {
    *     a random mole checks if it can be moved and than moves it in the allowed direction by the
    *     value of the drawCard
    */
-  public boolean moveMole(@NotNull final AI ai) {
+  public void moveMole(@NotNull final AI ai) {
     var openMoles = new ArrayList<>(ai.getMoles());
     var holeMoles = new ArrayList<>(ai.getMoles());
     for (var hole : ai.getGameState().getFloor().getHoles()) {
-      for (var mole : new ArrayList<>(openMoles)) {
-        if (hole.getX() == mole.getField().getX() && hole.getY() == mole.getField().getY()) {
-          openMoles.remove(mole);
-        }
-      }
+      openMoles.removeIf(
+          mole -> hole.getX() == mole.getField().getX() && hole.getY() == mole.getField().getY());
     }
     holeMoles.removeAll(openMoles);
-    if (!move(ai, openMoles)) move(ai, holeMoles);
-    return false;
-  }
-
-  /**
-   * @param field that will be checked with the mole
-   * @param mole that will be checked with the field
-   * @return the distance between the mole and the field in form of X and Y
-   * @author Carina
-   * @use input the parameter and than returns the distance between the mole and the field
-   */
-  public List<Integer> getDistance(@NotNull final Field field, @NotNull final Mole mole) {
-    var x = mole.getField().getX();
-    var y = mole.getField().getY();
-    var distanceX = Math.abs(field.getX() - x);
-    var distanceY = Math.abs(field.getY() - y);
-    return List.of(distanceX, distanceY);
+    if (!move(ai, openMoles)) {
+      move(ai, holeMoles);
+    }
   }
 
   /**

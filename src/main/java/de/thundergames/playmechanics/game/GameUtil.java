@@ -35,6 +35,7 @@ public class GameUtil {
         for (var mole : player.getMoles()) {
           if (hole.getX() == mole.getField().getX() && hole.getY() == mole.getField().getY()) {
             inHole = true;
+            break;
           }
         }
       }
@@ -136,15 +137,14 @@ public class GameUtil {
               if (moles.getField().getX() == hole.getX()
                   && moles.getField().getY() == hole.getY()) {
                 inHole = true;
+                break;
               }
             }
-            if (inHole == false) {
+            if (!inHole) {
               maySkip = false;
               break;
             }
           }
-        } else {
-          maySkip = true;
         }
         MoleGames.getMoleGames()
             .getServer()

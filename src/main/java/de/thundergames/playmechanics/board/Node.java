@@ -16,7 +16,7 @@ import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Arrays;
+import java.util.Objects;
 
 enum NodeType {
   HOLE {
@@ -101,7 +101,8 @@ public class Node extends Circle {
   }
 
   public boolean isNodeOccupied(int[] ocuppieNodeIds) {
-    return Arrays.asList(ocuppieNodeIds).contains(this.id);
+    // TODO: cant check int[] equals int
+    return Objects.equals(ocuppieNodeIds, this.id);
   }
 
   @Override
