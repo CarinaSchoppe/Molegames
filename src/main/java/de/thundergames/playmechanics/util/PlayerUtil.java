@@ -38,7 +38,7 @@ public class PlayerUtil {
    * @use startes the time a player got for its move
    * @see Settings
    */
-  public void startThinkTimer() {
+  public synchronized void startThinkTimer() {
     player.setStartRemainingTime(System.currentTimeMillis());
     player.setHasMoved(false);
     player.setTimerIsRunning(true);

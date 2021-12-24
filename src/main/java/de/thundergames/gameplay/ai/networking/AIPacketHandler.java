@@ -70,6 +70,8 @@ public class AIPacketHandler extends ClientPacketHandler {
       ai.getMap().build(ai.getGameState());
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.MOLEMOVED.getPacketType())) {
       handleMoleMovedPacket();
+    } else if (packet.getPacketType().equalsIgnoreCase(Packets.ASSIGNTOGAME.getPacketType())) {
+      handleAssignedToGamePacket();
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.PLAYERJOINED.getPacketType())) {
       handlePlayerJoinedPacket();
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.PLAYERSTURN.getPacketType())) {

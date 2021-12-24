@@ -176,7 +176,7 @@ public class Game {
    * @author Carina
    * @use handles when a game ends
    */
-  public void endGame() {
+  public synchronized void endGame() {
     if (currentGameState != GameStates.NOT_STARTED && currentGameState != GameStates.OVER) {
       if (!getScore().getPoints().isEmpty()) {
         var playerIDs = new ArrayList<>(getScore().getPoints().keySet());
@@ -200,7 +200,7 @@ public class Game {
         }
         if (MoleGames.getMoleGames().getServer().isDebug()) {
           System.out.println(
-              "Server: game with id: "
+              "Server: game with the id: "
                   + getGameID()
                   + " has ended! Winners are: "
                   + getScore().getWinners());
@@ -288,7 +288,6 @@ public class Game {
       throws NotAllowedError {
     var player = new Player(client).create(this);
     client.setPlayer(player);
-    MoleGames.getMoleGames().getServer().getPacketHandler().assignToGamePacket(client, getGameID());
     if (getCurrentGameState().equals(GameStates.NOT_STARTED) && !spectator) {
       clientPlayersMap.put(client, player);
       players.add(player);

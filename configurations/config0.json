@@ -1,0 +1,11 @@
+{
+  "maxPlayers": 10,
+  "radius": 40,
+  "numberOfMoles": 15,
+  "levels": "[{\"holes\":[{\"x\":10,\"y\":29},{\"x\":10,\"y\":32},{\"x\":31,\"y\":10},{\"x\":10,\"y\":10},{\"x\":20,\"y\":10},{\"x\":30,\"y\":10},{\"x\":1,\"y\":11},{\"x\":12,\"y\":2}],\"drawAgainFields\":[{\"x\":1,\"y\":1}],\"points\":1},{\"holes\":[{\"x\":13,\"y\":2},{\"x\":1,\"y\":0},{\"x\":13,\"y\":2},{\"x\":11,\"y\":0},{\"x\":13,\"y\":2},{\"x\":22,\"y\":29}],\"drawAgainFields\":[{\"x\":1,\"y\":1}],\"points\":10},{\"holes\":[{\"x\":5,\"y\":4}],\"drawAgainFields\":[{\"x\":1,\"y\":1}],\"points\":50}]",
+  "pullDiscsOrdered": false,
+  "pullDiscs": "[]",
+  "turnTime": 5,
+  "visualisationTime": 10,
+  "movePenalty": "NOTHING"
+}

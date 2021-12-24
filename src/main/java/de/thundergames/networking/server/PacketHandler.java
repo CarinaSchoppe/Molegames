@@ -825,6 +825,10 @@ public class PacketHandler {
         }
         if (game.getCurrentGameState() == GameStates.NOT_STARTED) {
           if (game.getPlayers().size() < game.getSettings().getMaxPlayers()) {
+            MoleGames.getMoleGames()
+                .getServer()
+                .getPacketHandler()
+                .assignToGamePacket(client, game.getGameID());
             game.joinGame(client, false);
             return true;
           }

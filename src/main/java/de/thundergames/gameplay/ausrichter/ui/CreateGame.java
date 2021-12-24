@@ -374,7 +374,11 @@ public class CreateGame extends Application implements Initializable {
    * @use checks if a configuration was legal or not
    */
   private boolean isLegalConfiguration(final int radius, int numberOfMoles) {
-    System.out.println("Testing conig with radius: " + radius);
+    System.out.println(
+        "Testing the configuration with a radius of: "
+            + radius
+            + " and a mole amount of: "
+            + numberOfMoles);
     var holeDouble = new ArrayList<Hole>();
     var holes = new ArrayList<Hole>();
     var game = new Game(1);

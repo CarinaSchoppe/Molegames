@@ -99,6 +99,8 @@ public class Server extends Network {
       for (var clients : game.getPlayers()) {
         clients.getServerClient().sendPacket(packet);
       }
+    }
+    if (!game.getSpectators().isEmpty()) {
       for (var clients : game.getSpectators()) {
         clients.getServerClient().sendPacket(packet);
       }

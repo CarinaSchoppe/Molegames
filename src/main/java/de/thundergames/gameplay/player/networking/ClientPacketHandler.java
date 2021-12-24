@@ -538,7 +538,7 @@ public class ClientPacketHandler {
     var score = new Gson().fromJson(packet.getValues().get("result").getAsString(), Score.class);
     if (client.isDebug()) {
       System.out.println(
-          "Client: game with id: "
+          "Client: game with the id: "
               + client.getGameID()
               + " has ended! Winners are: "
               + score.getWinners());
@@ -766,7 +766,7 @@ public class ClientPacketHandler {
   protected void handleAssignedToGamePacket() {
     if (client.isDebug())
       System.out.println(
-          "Client joined game with id: " + packet.getValues().get("gameID").getAsInt());
+          "Client joined game with the id: " + packet.getValues().get("gameID").getAsInt());
     client.setGameID(packet.getValues().get("gameID").getAsInt());
     showPlayerJoinedGameLobby();
     updateTableView();
