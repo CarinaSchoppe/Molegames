@@ -893,6 +893,7 @@ public class PacketHandler {
     object.addProperty("type", Packets.WELCOMEGAME.getPacketType());
     var json = new JsonObject();
     json.addProperty("gameState", new Gson().toJson(client.getPlayer().getGame().getGameState()));
+
     object.add("value", json);
     client.sendPacket(new Packet(object));
     if (client.getPlayer().getGame().getActivePlayers().contains(client.getPlayer())) {

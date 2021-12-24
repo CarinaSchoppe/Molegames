@@ -85,6 +85,7 @@ public class Map {
         var field = new Field(x, y);
         field.setOccupied(false);
         field.setHole(false);
+        field.setDrawAgainField(false);
         field.setMap(this);
         fieldMap.put(java.util.List.of(x, y), field);
       }
@@ -95,6 +96,7 @@ public class Map {
         var field = new Field(x, y);
         field.setOccupied(false);
         field.setHole(false);
+        field.setDrawAgainField(false);
         field.setMap(this);
         fieldMap.put(java.util.List.of(x, y), field);
       }
@@ -116,12 +118,8 @@ public class Map {
         getFieldMap().get(List.of(field.getX(), field.getY())).setDrawAgainField(true);
     }
     for (var mole : gameState.getPlacedMoles()) {
-      if (getFieldMap().containsKey(List.of(mole.getField().getX(), mole.getField().getY()))) {
-        getFieldMap().get(List.of(mole.getField().getX(), mole.getField().getY())).setMole(mole);
-        getFieldMap()
-            .get(List.of(mole.getField().getX(), mole.getField().getY()))
-            .setOccupied(true);
-      }
+      getFieldMap().get(List.of(mole.getField().getX(), mole.getField().getY())).setMole(mole);
+      getFieldMap().get(List.of(mole.getField().getX(), mole.getField().getY())).setOccupied(true);
     }
   }
 

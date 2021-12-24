@@ -268,10 +268,11 @@ public class CreateGame extends Application implements Initializable {
    */
   @FXML
   void createGameButtonEvent(ActionEvent event) throws Exception {
-    var drawAgains = new HashSet<Field>();
-    var holes = new HashSet<Field>();
+
     var floorMap = new ArrayList<Map>();
     for (var floor : floors) {
+      var drawAgains = new HashSet<Field>();
+      var holes = new HashSet<Field>();
       for (var fields : floor.getDrawAgainFields()) {
         var field = new Field(fields.getXPosition(), fields.getYPosition());
         field.setOccupied(false);
@@ -284,17 +285,18 @@ public class CreateGame extends Application implements Initializable {
         field.setHole(false);
         holes.add(field);
       }
-      var newFloor = new Map(drawAgains, holes, floor.getPoints());
+      var newFloor = new Map(holes, drawAgains, floor.getPoints());
       floorMap.add(newFloor);
+      if (drawAgains.isEmpty() || holes.isEmpty() || floors.isEmpty()) {
+        JOptionPane.showMessageDialog(
+            null,
+            "Du musst erst das Spiel voll konfigurieren!",
+            "Fehler!",
+            JOptionPane.ERROR_MESSAGE);
+        return;
+      }
     }
-    if (drawAgains.isEmpty() || holes.isEmpty() || floors.isEmpty()) {
-      JOptionPane.showMessageDialog(
-          null,
-          "Du musst erst das Spiel voll konfigurieren!",
-          "Fehler!",
-          JOptionPane.ERROR_MESSAGE);
-      return;
-    }
+
     var id = MoleGames.getMoleGames().getGameHandler().getGames().size();
     if (!isLegalConfiguration(
         (radius.getText() != null && !"".equalsIgnoreCase(radius.getText()))

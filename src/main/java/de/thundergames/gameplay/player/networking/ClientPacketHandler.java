@@ -304,6 +304,7 @@ public class ClientPacketHandler {
     client.getMoles().clear();
     client.setGameState(
         new Gson().fromJson(packet.getValues().get("gameState").getAsString(), GameState.class));
+
     if (client.getGameState().getPullDiscs().containsKey(client.getClientThread().getThreadID())) {
       client
           .getPullDiscs()

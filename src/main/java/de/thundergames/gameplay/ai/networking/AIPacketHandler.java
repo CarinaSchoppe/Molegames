@@ -16,7 +16,6 @@ import de.thundergames.gameplay.player.Client;
 import de.thundergames.gameplay.player.networking.ClientPacketHandler;
 import de.thundergames.networking.util.Packet;
 import de.thundergames.networking.util.Packets;
-import de.thundergames.playmechanics.map.Map;
 import de.thundergames.playmechanics.util.Player;
 import lombok.Getter;
 import lombok.Setter;
@@ -46,28 +45,10 @@ public class AIPacketHandler extends ClientPacketHandler {
       ai.setPlayer(new Player(ai));
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.WELCOMEGAME.getPacketType())) {
       handleWelcomeGamePacket();
-      ai.setMap(
-          new Map(
-              ai.getGameState().getFloor().getHoles(),
-              ai.getGameState().getFloor().getDrawAgainFields(),
-              ai.getGameState().getFloor().getPoints()));
-      ai.getMap().build(ai.getGameState());
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.NEXTLEVEL.getPacketType())) {
-      handleNextFloorPacket(); /*
-                               ai.setMap(
-                                   new Map(
-                                       ai.getGameState().getFloor().getHoles(),
-                                       ai.getGameState().getFloor().getDrawAgainFields(),
-                                       ai.getGameState().getFloor().getPoints()));
-                               ai.getMap().build(ai.getGameState());*/
+      handleNextFloorPacket();
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.MOLEPLACED.getPacketType())) {
       handleMolePlacedPacket();
-      ai.setMap(
-          new Map(
-              ai.getGameState().getFloor().getHoles(),
-              ai.getGameState().getFloor().getDrawAgainFields(),
-              ai.getGameState().getFloor().getPoints()));
-      ai.getMap().build(ai.getGameState());
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.MOLEMOVED.getPacketType())) {
       handleMoleMovedPacket();
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.ASSIGNTOGAME.getPacketType())) {
