@@ -50,15 +50,16 @@ public class PlayerUtil {
               @Override
               public void run() {
                 if (!player.isHasMoved()) {
+                  if (MoleGames.getMoleGames().getServer().isDebug()) {
+                    System.out.println(
+                        "Client " + player.getServerClient().getThreadID() + " ran out of time");
+                  }
                   MoleGames.getMoleGames()
                       .getGameHandler()
                       .getGameLogic()
                       .performPunishment(player, Punishments.NOMOVE);
                   player.setHasMoved(true);
                   player.setTimerIsRunning(false);
-                  if (MoleGames.getMoleGames().getServer().isDebug())
-                    System.out.println(
-                        "Client " + player.getServerClient().getThreadID() + " ran out of time");
                   player.getGame().getGameUtil().nextPlayer();
                   player.getTimer().cancel();
                 }

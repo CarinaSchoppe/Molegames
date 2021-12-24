@@ -200,7 +200,7 @@ public class Game {
         }
         if (MoleGames.getMoleGames().getServer().isDebug()) {
           System.out.println(
-              "Server: game with the id: "
+              "Server: the game with the id: "
                   + getGameID()
                   + " has ended! Winners are: "
                   + getScore().getWinners());
@@ -238,6 +238,7 @@ public class Game {
    */
   public void forceGameEnd() {
     if (currentGameState != GameStates.NOT_STARTED && currentGameState != GameStates.OVER) {
+      System.out.println("The game with the ID" + getGameID() + " has been force ended!");
       MoleGames.getMoleGames().getServer().getPacketHandler().gameCanceledPacket(this);
       endGame();
       MainGUI.getGUI().updateTable();

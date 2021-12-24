@@ -257,9 +257,15 @@ public class ClientPacketHandler {
     var to = new Gson().fromJson(packet.getValues().get("to").getAsString(), Field.class);
     client.getMap().getFieldMap().get(List.of(from.getX(), from.getY())).setOccupied(false);
     client.getMap().getFieldMap().get(List.of(to.getX(), to.getY())).setOccupied(true);
-    client.getMap().getFieldMap().get(List.of(from.getX(), from.getY())).setMole(null);
     var moleObject = client.getMap().getFieldMap().get(List.of(from.getX(), from.getY())).getMole();
+
     client.getMap().getFieldMap().get(List.of(to.getX(), to.getY())).setMole(moleObject);
+    client.getMap().getFieldMap().get(List.of(from.getX(), from.getY())).setMole(null);
+
+    if (moleObject == null) {
+      System.out.println("mole is null");
+      System.exit(9);
+    }
     for (var mole : client.getMoles()) {
       if (mole.getField().getX() == from.getX() && mole.getField().getY() == from.getY()) {
         mole.setField(to);
@@ -319,10 +325,19 @@ public class ClientPacketHandler {
     client.getMap().build(client.getGameState());
     if (!client.getGameState().getPlacedMoles().isEmpty()) {
       for (var moles : client.getGameState().getPlacedMoles()) {
+        System.out.println("ejfessf");
+        System.out.println(
+            moles.getPlayer().getClientID()
+                + " the id of the player own id:"
+                + client.getClientThread().getThreadID());
         if (moles.getPlayer().getClientID() == client.getClientThread().getThreadID()) {
+          System.out.println("Soa1");
           client.getMoles().add(moles);
         }
       }
+    } else {
+      System.out.println("MOLESSSSSSSXxxxx");
+      System.out.println(packet.getValues().toString());
     }
     updateMap();
     if (client.isDebug()) {
@@ -385,6 +400,10 @@ public class ClientPacketHandler {
         .getFieldMap()
         .get(List.of(mole.getField().getX(), mole.getField().getY()))
         .setMole(mole);
+    if (mole == null) {
+      System.out.println("mole is null");
+      System.exit(9);
+    }
     client.getGameState().getPlacedMoles().add(mole);
     updateMap();
   }

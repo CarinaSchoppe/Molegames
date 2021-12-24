@@ -17,6 +17,7 @@ import lombok.Data;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 
 @Data
 public class GameUtil {
@@ -30,7 +31,7 @@ public class GameUtil {
    */
   public boolean allHolesFilled() {
     for (var hole : game.getMap().getHoles()) {
-      if (!hole.isOccupied()) {
+      if (!game.getMap().getFieldMap().get(List.of(hole.getX(), hole.getY())).isOccupied()) {
         return false;
       }
     }
@@ -61,7 +62,9 @@ public class GameUtil {
    * @use sets the next player in the game if all moles are in holes the player is not on turn
    */
   public void nextPlayer() {
-    if (game.getActivePlayers().isEmpty()) game.forceGameEnd();
+    if (game.getActivePlayers().isEmpty()) {
+      game.forceGameEnd();
+    }
     if (game.getCurrentGameState() == GameStates.OVER
         || game.getCurrentGameState() == GameStates.PAUSED) {
       return;
@@ -103,6 +106,7 @@ public class GameUtil {
         System.out.println(
             "all player moles are in holes! for player: " + game.getCurrentPlayer().getName());
       }
+
       MoleGames.getMoleGames()
           .getServer()
           .sendToAllGameClients(
@@ -119,6 +123,7 @@ public class GameUtil {
     } else {
       if (game.getCurrentPlayer().getMoles().size() < game.getSettings().getNumberOfMoles()
           && game.getGameState().getCurrentFloorID() == 0) {
+
         MoleGames.getMoleGames()
             .getServer()
             .sendToAllGameClients(
@@ -149,10 +154,14 @@ public class GameUtil {
    */
   public void nextFloor() {
     if (game.getSettings().getFloors().size() > game.getGameState().getCurrentFloorID() + 1) {
+
       var eliminated = new ArrayList<>(game.getActivePlayers());
       for (var player : game.getActivePlayers()) {
         for (var mole : player.getMoles()) {
-          if (mole.getField().isHole()) {
+          if (game.getMap()
+              .getFieldMap()
+              .get(List.of(mole.getField().getX(), mole.getField().getY()))
+              .isHole()) {
             eliminated.remove(player);
             if (MoleGames.getMoleGames().getServer().isDebug()) {
               System.out.println(
@@ -166,20 +175,23 @@ public class GameUtil {
       }
 
       for (var player : eliminated) {
+        System.out.println("Player: " + player + " is eliminated!");
         game.removePlayerFromGame(player);
       }
-      game.getActivePlayers().removeAll(eliminated);
       game.getEliminatedPlayers().addAll(eliminated);
       for (var player : game.getActivePlayers()) {
-        player.getMoles().clear();
         for (var mole : new HashSet<>(player.getMoles())) {
-          if (!mole.getField().isHole()) {
+          if (!game.getMap()
+              .getFieldMap()
+              .get(List.of(mole.getField().getX(), mole.getField().getY()))
+              .isHole()) {
             player.getMoles().remove(mole);
           }
         }
       }
       game.getGameUtil()
-          .givePoints(); // Giving the points to the players who are in the next level or just won
+          .givePoints(
+              false); // Giving the points to the players who are in the next level or just won
       game.getGameState().setCurrentFloorID(game.getGameState().getCurrentFloorID() + 1);
       game.updateGameState();
       MoleGames.getMoleGames()
@@ -193,7 +205,8 @@ public class GameUtil {
       nextPlayer();
     } else {
       game.getGameUtil()
-          .givePoints(); // Giving the points to the players who are in the next level or just won
+          .givePoints(
+              true); // Giving the points to the players who are in the next level or just won
       MoleGames.getMoleGames().getGameHandler().getGameLogic().checkWinning(game);
       game.setCurrentGameState(GameStates.OVER);
     }
@@ -205,14 +218,14 @@ public class GameUtil {
    * @sse PlayerModel
    * @see de.thundergames.filehandling.Score
    */
-  public void givePoints() {
+  public void givePoints(final boolean lastFloor) {
     for (var player : game.getActivePlayers()) {
       game.getScore()
           .getPoints()
           .put(
-              player.getServerClient().getThreadID(),
-              game.getScore().getPoints().get(player.getServerClient().getThreadID())
-                  + game.getMap().getPoints() * player.getMoles().size());
+              player.getClientID(),
+              game.getScore().getPoints().get(player.getClientID())
+                  + game.getMap().getPoints() * (lastFloor ? 1 : player.getMoles().size()));
     }
     if (MoleGames.getMoleGames().getServer().isDebug()) {
       for (var player : game.getActivePlayers()) {

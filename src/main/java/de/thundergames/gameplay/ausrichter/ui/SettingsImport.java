@@ -41,17 +41,14 @@ import java.util.ResourceBundle;
 public class SettingsImport {
 
   private static JsonObject object;
+
   @FXML private ResourceBundle resources;
   @FXML private AnchorPane pane;
   @FXML private URL location;
-
   @FXML private Text displayText;
-
   @FXML private Button back;
   @FXML private Button load;
-
   @FXML private Button save;
-
   @FXML private ImageView window;
 
   /**
@@ -72,7 +69,7 @@ public class SettingsImport {
   }
 
   @FXML
-  void onDragDropped(DragEvent event) throws IOException {
+  void onDragDropped(@NotNull DragEvent event) throws IOException {
     var board = event.getDragboard();
     if (board.hasFiles()) {
       displayText.setText(board.getFiles().get(0).getName());
@@ -81,7 +78,7 @@ public class SettingsImport {
   }
 
   @FXML
-  void onDragOver(DragEvent event) {
+  void onDragOver(@NotNull DragEvent event) {
     if (event.getGestureSource() != event.getSource() && event.getDragboard().hasFiles()) {
       event.acceptTransferModes(TransferMode.COPY_OR_MOVE);
     }
@@ -90,37 +87,42 @@ public class SettingsImport {
 
   @FXML
   void onLoad(ActionEvent event) throws Exception {
-    CreateGame.setDrawCardValuesList(
-        new Gson()
-            .fromJson(
-                object.get("pullDiscs").getAsString(),
-                new TypeToken<ArrayList<Integer>>() {}.getType()));
-    CreateGame.setFloors(
-        new Gson()
-            .fromJson(
-                object.get("levels").getAsString(),
-                new TypeToken<ArrayList<Floor>>() {}.getType()));
-    CreateGame.setMaxPlayersPrev(
-        new Gson().fromJson(object.get("maxPlayers").getAsString(), String.class));
-    CreateGame.setRadiusPrev(new Gson().fromJson(object.get("radius").getAsString(), String.class));
-    CreateGame.setMolesAmountPrev(
-        new Gson().fromJson(object.get("numberOfMoles").getAsString(), String.class));
-    CreateGame.setPullDiscsOrderedPrev(
-        new Gson().fromJson(object.get("pullDiscsOrdered").getAsString(), Boolean.class));
-    CreateGame.setThinkTimePrev(
-        new Gson().fromJson(object.get("turnTime").getAsString(), String.class));
-    CreateGame.setVisualEffectsPrev(
-        new Gson().fromJson(object.get("visualisationTime").getAsString(), String.class));
-    CreateGame.setPunishmentPrev(
-        new Gson().fromJson(object.get("movePenalty").getAsString(), String.class));
-    JOptionPane.showMessageDialog(null, "Configuration geladen!");
-    var primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-    CreateGame.getCreateGameInstance().start(primaryStage);
-    object = null;
+    if (object != null) {
+      CreateGame.setDrawCardValuesList(
+          new Gson()
+              .fromJson(
+                  object.get("pullDiscs").getAsString(),
+                  new TypeToken<ArrayList<Integer>>() {}.getType()));
+      CreateGame.setFloors(
+          new Gson()
+              .fromJson(
+                  object.get("levels").getAsString(),
+                  new TypeToken<ArrayList<Floor>>() {}.getType()));
+      CreateGame.setMaxPlayersPrev(
+          new Gson().fromJson(object.get("maxPlayers").getAsString(), String.class));
+      CreateGame.setRadiusPrev(
+          new Gson().fromJson(object.get("radius").getAsString(), String.class));
+      CreateGame.setMolesAmountPrev(
+          new Gson().fromJson(object.get("numberOfMoles").getAsString(), String.class));
+      CreateGame.setPullDiscsOrderedPrev(
+          new Gson().fromJson(object.get("pullDiscsOrdered").getAsString(), Boolean.class));
+      CreateGame.setThinkTimePrev(
+          new Gson().fromJson(object.get("turnTime").getAsString(), String.class));
+      CreateGame.setVisualEffectsPrev(
+          new Gson().fromJson(object.get("visualisationTime").getAsString(), String.class));
+      CreateGame.setPunishmentPrev(
+          new Gson().fromJson(object.get("movePenalty").getAsString(), String.class));
+      JOptionPane.showMessageDialog(null, "Configuration geladen!");
+      var primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+      CreateGame.getCreateGameInstance().start(primaryStage);
+      object = null;
+    } else {
+      JOptionPane.showMessageDialog(null, "Keine Konfiguration geladen!");
+    }
   }
 
   @FXML
-  void onBack(ActionEvent event) throws Exception {
+  void onBack(@NotNull ActionEvent event) throws Exception {
     var primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
     CreateGame.getCreateGameInstance().start(primaryStage);
   }
