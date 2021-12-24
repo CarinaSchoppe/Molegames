@@ -69,13 +69,13 @@ public class MoleGames {
           break;
         case "-a":
         case "a":
-          if (args.length == 3) {
+          if (args.length == 4) {
             MoleGames.getMoleGames().ai =
                 new AI(
                     Objects.requireNonNull(args[1]),
                     Integer.parseInt(Objects.requireNonNull(args[2])),
                     Integer.parseInt(Objects.requireNonNull(args[3])));
-          } else if (args.length == 2) {
+          } else if (args.length == 3) {
             MoleGames.getMoleGames().ai =
                 new AI(
                     Objects.requireNonNull(args[1]),
