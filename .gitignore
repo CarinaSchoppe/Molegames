@@ -1,19 +1,11 @@
 /.idea
 /build
-build.*
-/build.*
-!/.idea.copyright
 .gradle
 !gradle.wrapper.properties
-**/build/
 # Ignore Gradle GUI config
 gradle-app.setting
 # Avoid ignoring Gradle wrapper jar file (.jar files are usually ignored)
-!gradle-wrapper.jar
 # Cache of project
 .gradletasknamecache
 bin
 .vscode
-assets/Stundenzettel/*
-!assets/Stundenzettel/*.tex
-!assets/Stundenzettel/*.pdf
