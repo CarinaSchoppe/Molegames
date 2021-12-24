@@ -23,7 +23,7 @@ import java.net.Socket;
 @Setter
 public class AI extends Client {
 
-  private final int gameID;
+  private int gameID = -1;
   private AILogic logic;
   private int card;
   private boolean placedMoles = false;
@@ -40,6 +40,16 @@ public class AI extends Client {
   public AI(@NotNull final String ip, final int port, final int gameID) {
     super(port, ip, "AI");
     this.gameID = gameID;
+  }
+
+  /**
+   * @param ip
+   * @param port
+   * @author Carina
+   * @use creates the AI instance needed to run the AI
+   */
+  public AI(@NotNull final String ip, final int port) {
+    super(port, ip, "AI");
   }
 
   public void create() {
@@ -60,7 +70,9 @@ public class AI extends Client {
       clientThread = new AIClientThread(socket, 0, this);
       clientThread.start();
       clientPacketHandler.loginPacket(getName());
-      clientPacketHandler.joinGamePacket(gameID, true);
+      if (gameID != -1) {
+        clientPacketHandler.joinGamePacket(gameID, true);
+      }
     } catch (IOException exception) {
       if (isDebug()) System.out.println("Is the server running?!");
     }
