@@ -42,6 +42,7 @@ public class GameLogic {
           || Math.abs(stop[0] - start[0]) == Math.abs(stop[1] - start[1])
               && Math.abs(start[1] - stop[1]) == moveCounter) {
         if (map.getFieldMap().get(List.of(stop[0], stop[1])).isOccupied()) {
+          System.out.println("Field is occupied!");
           return false;
         }
         if (stop[0] - start[0] == 0) {
@@ -124,6 +125,7 @@ public class GameLogic {
         return true;
       }
     }
+    System.out.println("Not doing a move. Start  = Stop");
     return false;
   }
 

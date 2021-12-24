@@ -257,13 +257,12 @@ public class ClientPacketHandler {
     var to = new Gson().fromJson(packet.getValues().get("to").getAsString(), Field.class);
     client.getMap().getFieldMap().get(List.of(from.getX(), from.getY())).setOccupied(false);
     client.getMap().getFieldMap().get(List.of(to.getX(), to.getY())).setOccupied(true);
-    var mole = client.getMap().getFieldMap().get(List.of(from.getX(), from.getY())).getMole();
     client.getMap().getFieldMap().get(List.of(from.getX(), from.getY())).setMole(null);
-    client.getMap().getFieldMap().get(List.of(to.getX(), to.getY())).setMole(mole);
-    for (var m : client.getMoles()) {
-      if (m.getField().getX() == from.getX() && m.getField().getY() == from.getY()) {
-        client.getMoles().remove(m);
-        client.getMoles().add(new Mole(client.getPlayer(), to));
+    var moleObject = client.getMap().getFieldMap().get(List.of(from.getX(), from.getY())).getMole();
+    client.getMap().getFieldMap().get(List.of(to.getX(), to.getY())).setMole(moleObject);
+    for (var mole : client.getMoles()) {
+      if (mole.getField().getX() == from.getX() && mole.getField().getY() == from.getY()) {
+        mole.setField(to);
         break;
       }
     }

@@ -383,12 +383,16 @@ public class AILogic {
    */
   public List<Object> isHoleCloseToMole(@NotNull final AI ai) {
     for (var mole : ai.getMoles()) {
-      for (var hole : ai.getGameState().getFloor().getHoles()) {
-        if ((hole.getX() == mole.getField().getX() + ai.getCard()
-                || hole.getX() == mole.getField().getX() - ai.getCard())
-            && (hole.getY() == mole.getField().getY() + ai.getCard()
-                || hole.getY() == mole.getField().getY() - ai.getCard())) {
-          return List.of(mole, hole.getX(), hole.getY());
+      for (var hole : ai.getMap().getHoles()) {
+        if (!hole.isOccupied()) {
+          if ((hole.getX() == mole.getField().getX() + ai.getCard()
+                  || hole.getX() == mole.getField().getX() - ai.getCard())
+              && (hole.getY() == mole.getField().getY() + ai.getCard()
+                  || hole.getY() == mole.getField().getY() - ai.getCard())) {
+            return List.of(mole, hole.getX(), hole.getY());
+          }
+        } else {
+          System.out.println("AI: hole is occupied");
         }
       }
     }

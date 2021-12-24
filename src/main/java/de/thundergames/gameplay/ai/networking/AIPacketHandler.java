@@ -53,13 +53,13 @@ public class AIPacketHandler extends ClientPacketHandler {
               ai.getGameState().getFloor().getPoints()));
       ai.getMap().build(ai.getGameState());
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.NEXTLEVEL.getPacketType())) {
-      handleNextFloorPacket();
-      ai.setMap(
-          new Map(
-              ai.getGameState().getFloor().getHoles(),
-              ai.getGameState().getFloor().getDrawAgainFields(),
-              ai.getGameState().getFloor().getPoints()));
-      ai.getMap().build(ai.getGameState());
+      handleNextFloorPacket(); /*
+                               ai.setMap(
+                                   new Map(
+                                       ai.getGameState().getFloor().getHoles(),
+                                       ai.getGameState().getFloor().getDrawAgainFields(),
+                                       ai.getGameState().getFloor().getPoints()));
+                               ai.getMap().build(ai.getGameState());*/
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.MOLEPLACED.getPacketType())) {
       handleMolePlacedPacket();
       ai.setMap(

@@ -391,7 +391,11 @@ public class CreateGame extends Application implements Initializable {
     map.build(game);
     for (var floor : floors) {
       // check for the amount of holes
-
+      if (floors.size() > floors.indexOf(floor) + 1) {
+        if (floor.getHoles().size() < floors.get(floors.indexOf(floor) + 1).getHoles().size()) {
+          return false;
+        }
+      }
       for (var field : floor.getDrawAgainFields()) {
         if (!map.getFieldMap().containsKey(List.of(field.getXPosition(), field.getYPosition()))) {
           return false;
