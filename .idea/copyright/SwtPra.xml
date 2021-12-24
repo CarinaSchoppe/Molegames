@@ -1,6 +1,0 @@
-<component name="CopyrightManager">
-  <copyright>
-    <option name="notice" value="Copyright Notice for &amp;#36;project.name                                            &#10;Copyright (c)&amp;#36;originalComment.match(&quot;Copyright \(c\) (\d+)&quot;, 1, &quot;-&quot;) at ThunderGames | SwtPra10 &amp;#36;today.year                              &#10;File created on &amp;#36;today by &amp;#36;username Latest changes made by &amp;#36;username on &amp;#36;file.lastModified&#10;All contents of &quot;&amp;#36;file.className&quot; are protected by copyright. The copyright law, unless expressly indicated otherwise, is  &#10;at ThunderGames | SwtPra10. All rights reserved                         &#10;Any type of duplication, distribution, rental, sale, award,  &#10;Public accessibility or other use                            &#10;requires the express written consent of ThunderGames | SwtPra10." />
-    <option name="myName" value="SwtPra" />
-  </copyright>
-</component>
