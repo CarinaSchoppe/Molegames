@@ -293,12 +293,12 @@ public class Game {
       players.add(player);
       activePlayers.add(player);
       getScore().getPlayers().add(player);
-      setCurrentPlayerCount(players.size());
       MoleGames.getMoleGames()
           .getGameHandler()
           .getClientGames()
           .put((ServerThread) player.getServerClient(), this);
       updateGameState();
+      setCurrentPlayerCount(players.size());
       if (MainGUI.getGUI() != null) {
         MainGUI.getGUI().updateTable();
       }
