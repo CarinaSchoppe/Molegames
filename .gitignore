@@ -1,7 +1,7 @@
 /.idea
 .idea/workspace.xml
 /build
-.gradle
+/.gradle
 !gradle.wrapper.properties
 # Ignore Gradle GUI config
 gradle-app.setting

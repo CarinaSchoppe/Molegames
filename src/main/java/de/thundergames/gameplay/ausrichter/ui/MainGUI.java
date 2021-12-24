@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 24.12.21, 12:18 by Carina Latest changes made by Carina on 24.12.21, 12:16
+ * File created on 24.12.21, 12:26 by Carina Latest changes made by Carina on 24.12.21, 12:20
  * All contents of "MainGUI" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
@@ -260,7 +260,7 @@ public class MainGUI extends Application implements Initializable {
     loader.setController(this);
     Parent root = loader.load();
     primaryStage.setTitle("Maulwurf Company");
-    primaryStage.setResizable(true);
+    primaryStage.setResizable(false);
     primaryStage.setScene(new Scene(root));
     initialize();
     primaryStage.show();
