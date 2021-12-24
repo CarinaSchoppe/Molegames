@@ -18,8 +18,8 @@ public class Field {
   private final int x;
   private final int y;
   private transient boolean drawAgainField = false;
-  private transient boolean occupied;
-  private transient boolean hole;
+  private transient boolean occupied = false;
+  private transient boolean hole = false;
   private transient Map map;
   private transient Mole mole;
 }

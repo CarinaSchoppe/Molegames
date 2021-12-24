@@ -274,10 +274,14 @@ public class CreateGame extends Application implements Initializable {
     for (var floor : floors) {
       for (var fields : floor.getDrawAgainFields()) {
         var field = new Field(fields.getXPosition(), fields.getYPosition());
+        field.setOccupied(false);
+        field.setHole(false);
         drawAgains.add(field);
       }
       for (var fields : floor.getHoles()) {
         var field = new Field(fields.getXPosition(), fields.getYPosition());
+        field.setOccupied(false);
+        field.setHole(false);
         holes.add(field);
       }
       var newFloor = new Map(drawAgains, holes, floor.getPoints());

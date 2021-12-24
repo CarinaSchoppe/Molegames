@@ -83,6 +83,8 @@ public class Map {
     for (var y = 0; y <= radius; y++) {
       for (var x = 0; x <= radius + y; x++) {
         var field = new Field(x, y);
+        field.setOccupied(false);
+        field.setHole(false);
         field.setMap(this);
         fieldMap.put(java.util.List.of(x, y), field);
       }
@@ -91,6 +93,8 @@ public class Map {
     for (var y = radius + 1; y <= radius * 2; y++) {
       for (var x = y - radius; x <= radius * 2; x++) {
         var field = new Field(x, y);
+        field.setOccupied(false);
+        field.setHole(false);
         field.setMap(this);
         fieldMap.put(java.util.List.of(x, y), field);
       }

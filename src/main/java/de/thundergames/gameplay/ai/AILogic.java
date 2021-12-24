@@ -37,12 +37,10 @@ public class AILogic {
    * @use is called to make a move!
    */
   public boolean makeMove(@NotNull Mole mole, @NotNull final Directions direction) {
-    var x = 0;
-    var y = 0;
     if (isHoleCloseToMole(ai) != null) {
       mole = (Mole) isHoleCloseToMole(ai).get(0);
-      x = (int) isHoleCloseToMole(ai).get(1);
-      y = (int) isHoleCloseToMole(ai).get(2);
+      var x = (int) isHoleCloseToMole(ai).get(1);
+      var y = (int) isHoleCloseToMole(ai).get(2);
       if (ai.isDebug())
         System.out.println(
             "AI: there is a hole close to a mole within the drawcard. Hole: " + x + "," + y);
@@ -56,6 +54,18 @@ public class AILogic {
                 new int[] {mole.getField().getX(), mole.getField().getY()},
                 new int[] {x, y},
                 ai.getCard());
+        if (ai.isDebug()) {
+          System.out.println(
+              "AI: moving from: ["
+                  + mole.getField().getX()
+                  + ","
+                  + mole.getField().getY()
+                  + "] to ["
+                  + x
+                  + ","
+                  + y
+                  + "]");
+        }
         return true;
       } else {
         if (ai.isDebug()) {
@@ -69,9 +79,6 @@ public class AILogic {
         endField,
         ai.getCard(),
         ai.getMap())) {
-      ai.getAIPacketHandler()
-          .makeMovePacket(
-              new int[] {mole.getField().getX(), mole.getField().getY()}, endField, ai.getCard());
       if (ai.isDebug()) {
         System.out.println(
             "AI: moving from: ["
@@ -79,11 +86,15 @@ public class AILogic {
                 + ","
                 + mole.getField().getY()
                 + "] to ["
-                + x
+                + endField[0]
                 + ","
-                + y
+                + endField[1]
                 + "]");
       }
+      ai.getAIPacketHandler()
+          .makeMovePacket(
+              new int[] {mole.getField().getX(), mole.getField().getY()}, endField, ai.getCard());
+
       return true;
     }
     return false;
@@ -372,14 +383,12 @@ public class AILogic {
    */
   public List<Object> isHoleCloseToMole(@NotNull final AI ai) {
     for (var mole : ai.getMoles()) {
-      if (mole.getPlayer().getClientID() == ai.getClientThread().getThreadID()) {
-        for (var hole : ai.getGameState().getFloor().getHoles()) {
-          if ((hole.getX() == mole.getField().getX() + ai.getCard()
-                  || hole.getX() == mole.getField().getX() - ai.getCard())
-              && (hole.getY() == mole.getField().getY() + ai.getCard()
-                  || hole.getY() == mole.getField().getY() - ai.getCard())) {
-            return List.of(mole, hole.getX(), hole.getY());
-          }
+      for (var hole : ai.getGameState().getFloor().getHoles()) {
+        if ((hole.getX() == mole.getField().getX() + ai.getCard()
+                || hole.getX() == mole.getField().getX() - ai.getCard())
+            && (hole.getY() == mole.getField().getY() + ai.getCard()
+                || hole.getY() == mole.getField().getY() - ai.getCard())) {
+          return List.of(mole, hole.getX(), hole.getY());
         }
       }
     }

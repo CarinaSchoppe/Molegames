@@ -43,10 +43,14 @@ public class GameUtil {
    * @use checks if all moles of a player are in a hole
    */
   public boolean allPlayerMolesInHoles() {
-    var moleInHoles = 0;
+    if (game.getCurrentPlayer().getMoles().isEmpty()) {
+      return false;
+    }
     for (var moles : game.getCurrentPlayer().getMoles()) {
       if (!moles.getField().isHole()) {
         return false;
+      } else {
+        System.out.println("field: " + moles.getField().getX() + " " + moles.getField().getY());
       }
     }
     return true;
@@ -95,10 +99,10 @@ public class GameUtil {
       return;
     }
     if (allPlayerMolesInHoles()) {
-      if (MoleGames.getMoleGames().getServer().isDebug())
+      if (MoleGames.getMoleGames().getServer().isDebug()) {
         System.out.println(
-            "all player moles are in holes! for playerID: "
-                + game.getCurrentPlayer().getServerClient().getThreadID());
+            "all player moles are in holes! for player: " + game.getCurrentPlayer().getName());
+      }
       MoleGames.getMoleGames()
           .getServer()
           .sendToAllGameClients(
@@ -107,7 +111,11 @@ public class GameUtil {
                   .getServer()
                   .getPacketHandler()
                   .playerSkippedPacket(game.getCurrentPlayer()));
-      nextPlayer();
+      if (game.getActivePlayers().size() == 1) {
+        nextFloor();
+      } else {
+        nextPlayer();
+      }
     } else {
       if (game.getCurrentPlayer().getMoles().size() < game.getSettings().getNumberOfMoles()
           && game.getGameState().getCurrentFloorID() == 0) {
