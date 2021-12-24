@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~ Copyright Notice for SwtPra10
+  ~ Copyright (c) at ThunderGames | SwtPra10 2021
+  ~ File created on 22.12.21, 13:46 by Carina Latest changes made by Carina on 22.12.21, 13:46 All contents of "PlayerManagement.fxml" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+  ~ at ThunderGames | SwtPra10. All rights reserved
+  ~ Any type of duplication, distribution, rental, sale, award,
+  ~ Public accessibility or other use
+  ~ requires the express written consent of ThunderGames | SwtPra10.
+  -->
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="834.0" prefWidth="1098.0" xmlns="http://javafx.com/javafx/17">
+    <children>
+        <ImageView fitHeight="836.0" fitWidth="1100.0" layoutX="-1.0" layoutY="-1.0" pickOnBounds="true">
+            <image>
+                <Image url="@../pictures/Player-Management.png"/>
+            </image>
+        </ImageView>
+        <Button fx:id="add" layoutX="306.0" layoutY="452.0" mnemonicParsing="false" onAction="#onAdd" prefHeight="58.0" prefWidth="194.0" style="-fx-background-color: transparent;"/>
+        <Button fx:id="remove" layoutX="686.0" layoutY="458.0" mnemonicParsing="false" onAction="#onRemove" prefHeight="49.0" prefWidth="168.0" style="-fx-background-color: transparent;"/>
+        <TableView fx:id="playerTable" layoutX="90.0" layoutY="227.0" prefHeight="196.0" prefWidth="874.0" stylesheets="@css/MainGUI.css">
+            <columns>
+                <TableColumn fx:id="playerNumber" prefWidth="201.6666717529297" text="Spieler Nummer"/>
+                <TableColumn fx:id="playerName" prefWidth="435.3333282470703" text="Spieler Name"/>
+                <TableColumn fx:id="playerStatus" prefWidth="236.0" text="Spieler Status"/>
+            </columns>
+        </TableView>
+        <TableView fx:id="aviablePlayersTable" layoutX="100.0" layoutY="568.0" prefHeight="190.0" prefWidth="874.0" stylesheets="@css/MainGUI.css">
+            <columns>
+                <TableColumn fx:id="playerNumberSelection" prefWidth="201.6666717529297" text="Spieler Nummer"/>
+                <TableColumn fx:id="playerNameSelection" prefWidth="671.0" text="Spieler Name"/>
+            </columns>
+        </TableView>
+        <Button fx:id="back" layoutX="88.0" layoutY="49.0" mnemonicParsing="false" onAction="#onBack" prefHeight="56.0" prefWidth="70.0" style="-fx-background-color: transparent;"/>
+        <CheckBox fx:id="spectator" layoutX="578.0" layoutY="473.0" mnemonicParsing="false" prefHeight="19.0" prefWidth="18.0"/>
+    </children>
+</AnchorPane>

@@ -5,12 +5,259 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ff900dce-44c6-46d1-95d2-1cdab3649f79" name="Changes" comment="hotfix">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config1.json" beforeDir="false" afterPath="$PROJECT_DIR$/configurations/config1.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/gameplay/ai/AILogic.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/thundergames/gameplay/ai/AILogic.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/gameplay/ai/networking/AIPacketHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/thundergames/gameplay/ai/networking/AIPacketHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/gameplay/player/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/thundergames/gameplay/player/Client.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/gameplay/player/networking/ClientPacketHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/thundergames/gameplay/player/networking/ClientPacketHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitlab-ci.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ReadMe" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/Angebot Thunder Games.docx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/Angebot Thunder Games.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/LaTeX &amp; Git.pptx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/Stundenzettel/Woche-01.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/Stundenzettel/Woche-01.tex" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/Stundenzettel/Woche-02.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/Stundenzettel/Woche-02.tex" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/Stundenzettel/Woche-03.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/Stundenzettel/Woche-03.tex" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/Stundenzettel/Woche-04.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/Stundenzettel/Woche-04.tex" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/Stundenzettel/Woche-05.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/Stundenzettel/Woche-05.tex" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/Stundenzettel/Woche-06.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/Stundenzettel/Woche-06.tex" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/Stundenzettel/Woche-07.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/Stundenzettel/Woche-07.tex" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/copyright.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/logo-s.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/logo.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/configurations/config1.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gradlew" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gradlew.bat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/settings.gradle" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/MoleGames.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/filehandling/GameConfiguration.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/filehandling/Score.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/gameplay/ai/AI.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/gameplay/ai/AILogic.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/gameplay/ai/networking/AIClientThread.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/gameplay/ai/networking/AIPacketHandler.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/gameplay/ausrichter/AusrichterClient.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/gameplay/ausrichter/ui/CreateGame.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/gameplay/ausrichter/ui/MainGUI.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/gameplay/ausrichter/ui/PlayerManagement.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/gameplay/ausrichter/ui/SettingsImport.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/gameplay/ausrichter/ui/floor/DrawAgain.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/gameplay/ausrichter/ui/floor/DrawAgainConfiguration.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/gameplay/ausrichter/ui/floor/Floor.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/gameplay/ausrichter/ui/floor/Hole.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/gameplay/ausrichter/ui/floor/HolesConfiguration.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/gameplay/player/Client.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/gameplay/player/networking/ClientPacketHandler.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/gameplay/player/networking/ClientThread.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/gameplay/player/ui/LoginScreen.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/gameplay/player/ui/PlayerMenu.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/gameplay/player/ui/gameselection/GameSelection.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/gameplay/player/ui/gameselection/LobbyObserverGame.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/gameplay/player/ui/score/LeaderBoard.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/gameplay/player/ui/score/PlayerResult.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/gameplay/player/ui/tournamentselection/LobbyObserverTournament.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/gameplay/player/ui/tournamentselection/TournamentSelection.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/gameplay/util/SceneController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/networking/server/PacketHandler.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/networking/server/Server.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/networking/server/ServerThread.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/networking/util/Network.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/networking/util/NetworkMessage.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/networking/util/NetworkThread.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/networking/util/Packet.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/networking/util/Packets.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/networking/util/exceptions/BadArgumentsError.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/networking/util/exceptions/BadMessageError.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/networking/util/exceptions/InvalidMoveError.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/networking/util/exceptions/NotAllowedError.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/networking/util/exceptions/NotFoundError.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/networking/util/exceptions/UndefinedError.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/playmechanics/board/Board.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/playmechanics/board/Edge.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/playmechanics/board/GameHandler.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/playmechanics/board/Marker.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/playmechanics/board/MoleModel.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/playmechanics/board/Node.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/playmechanics/board/PlayerModel.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/playmechanics/board/TestWindow.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/playmechanics/board/Utils.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/playmechanics/game/Game.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/playmechanics/game/GameLogic.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/playmechanics/game/GameState.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/playmechanics/game/GameStates.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/playmechanics/game/GameUtil.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/playmechanics/map/Directions.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/playmechanics/map/Field.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/playmechanics/map/Map.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/playmechanics/tournament/Tournament.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/playmechanics/tournament/TournamentState.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/playmechanics/tournament/TournamentStatus.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/playmechanics/util/Mole.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/playmechanics/util/MultiGameHandler.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/playmechanics/util/Player.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/playmechanics/util/PlayerUtil.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/playmechanics/util/Punishments.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/thundergames/playmechanics/util/Settings.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/ausrichter/pictures/CreateGame-Ausrichter.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/ausrichter/pictures/Draw-Again-Config.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/ausrichter/pictures/Holes-Config.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/ausrichter/pictures/Load-Config.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/ausrichter/pictures/Management-Ausrichter.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/ausrichter/pictures/Player-Management.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/ausrichter/style/ConfigLoader.fxml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/ausrichter/style/CreateGame.fxml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/ausrichter/style/DrawAgainConfiguration.fxml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/ausrichter/style/HolesConfiguration.fxml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/ausrichter/style/Main.fxml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/ausrichter/style/PlayerManagement.fxml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/ausrichter/style/css/MainGUI.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/player/pictures/GameSelection.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/player/pictures/Lobby-Observer.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/player/pictures/Login-Player.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/player/pictures/PlayerMenu.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/player/pictures/TournamentSelection.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/player/pictures/leaderboard/Board.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/player/pictures/leaderboard/Button.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/player/pictures/leaderboard/Frame 5.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/player/pictures/leaderboard/View.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/player/pictures/leaderboard/header.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/player/pictures/leaderboard/placementLabel.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/player/style/GameSelection.fxml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/player/style/LeaderBoard.fxml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/player/style/LobbyObserverGame.fxml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/player/style/LobbyObserverTournament.fxml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/player/style/LoginScreen.fxml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/player/style/PlayerMenu.fxml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/player/style/TournamentSelection.fxml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/player/style/css/LeaderBoardStyle.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/player/style/css/TableViewStyle.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/sprites/.gitkeep" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/sprites/background/final.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/sprites/background/final.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/sprites/background/ground.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/sprites/background/ground.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/sprites/background/ug_1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/sprites/background/ug_1.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/sprites/background/ug_2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/sprites/background/ug_2.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/sprites/background/ug_3.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/sprites/background/ug_3.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/sprites/game/blue1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/sprites/game/blue1.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/sprites/game/blue2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/sprites/game/blue2.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/sprites/game/blue3.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/sprites/game/blue3.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/sprites/game/blue4.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/sprites/game/blue4.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/sprites/game/blue_closed.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/sprites/game/blue_closed.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/sprites/game/cursor.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/sprites/game/green1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/sprites/game/green1.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/sprites/game/green2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/sprites/game/green2.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/sprites/game/green3.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/sprites/game/green3.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/sprites/game/green4.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/sprites/game/green4.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/sprites/game/green_closed.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/sprites/game/green_closed.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/sprites/game/highlight.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/sprites/game/highlight.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/sprites/game/hole.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/sprites/game/hole.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/sprites/game/marker.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/sprites/game/node.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/sprites/game/path_field.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/sprites/game/path_field_hover.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/sprites/game/path_north.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/sprites/game/path_north.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/sprites/game/path_northeast.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/sprites/game/path_northeast.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/sprites/game/path_northwest.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/sprites/game/path_northwest.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/sprites/game/path_south.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/sprites/game/path_south.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/sprites/game/path_southeast.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/sprites/game/path_southeast.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/sprites/game/path_southwest.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/sprites/game/path_southwest.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/sprites/game/red1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/sprites/game/red1.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/sprites/game/red2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/sprites/game/red2.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/sprites/game/red3.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/sprites/game/red3.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/sprites/game/red4.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/sprites/game/red_closed.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/sprites/game/red_closed.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/sprites/game/replay.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/sprites/game/replay2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/sprites/game/selected.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/sprites/game/selected.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/sprites/game/yellow1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/sprites/game/yellow1.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/sprites/game/yellow2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/sprites/game/yellow2.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/sprites/game/yellow3.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/sprites/game/yellow3.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/sprites/game/yellow4.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/sprites/game/yellow4.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/sprites/game/yellow_closed.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/sprites/game/yellow_closed.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/sprites/mole/mole.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/sprites/mole/mole.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/sprites/mole/mole_b.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/sprites/mole/mole_b.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/sprites/mole/mole_blue.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/sprites/mole/mole_blue.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/sprites/mole/mole_blue_b.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/sprites/mole/mole_blue_b.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/sprites/mole/mole_blue_dl.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/sprites/mole/mole_blue_dl.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/sprites/mole/mole_blue_dr.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/sprites/mole/mole_blue_dr.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/sprites/mole/mole_dl.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/sprites/mole/mole_dl.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/sprites/mole/mole_dr.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/sprites/mole/mole_dr.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/sprites/mole/mole_green.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/sprites/mole/mole_green.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/sprites/mole/mole_green_b.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/sprites/mole/mole_green_b.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/sprites/mole/mole_green_dl.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/sprites/mole/mole_green_dl.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/sprites/mole/mole_green_dr.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/sprites/mole/mole_green_dr.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/sprites/mole/mole_yellow.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/sprites/mole/mole_yellow.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/sprites/mole/mole_yellow_b.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/sprites/mole/mole_yellow_b.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/sprites/mole/mole_yellow_dl.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/sprites/mole/mole_yellow_dl.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/sprites/mole/mole_yellow_dr.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/sprites/mole/mole_yellow_dr.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/sprites/prop/dead_maul.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/sprites/prop/dead_maul.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/sprites/prop/rock1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/sprites/prop/rock1.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/sprites/prop/rock2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/sprites/prop/rock2.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/sprites/prop/stump.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/sprites/prop/worm.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/sprites/prop/worm.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/de/thundergames/playmechanics/game/GameLogicTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/de/thundergames/playmechanics/game/GameUtilTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/de/thundergames/playmechanics/map/MapTest.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -138,6 +385,7 @@
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="nodejs_package_manager_path" value="npm" />
     <property name="project.structure.last.edited" value="SDKs" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
@@ -398,7 +646,8 @@
       <workItem from="1638013554495" duration="111000" />
       <workItem from="1638013708345" duration="13000" />
       <workItem from="1639841349051" duration="455000" />
-      <workItem from="1640264115702" duration="2678000" />
+      <workItem from="1640264115702" duration="3042000" />
+      <workItem from="1640339476664" duration="259000" />
     </task>
     <task id="LOCAL-00001" summary="added the Punishments Enum for the possible Punishments when a Player does a not allowed move.&#10;@Carina">
       <created>1635673650207</created>
@@ -505,7 +754,14 @@
       <option name="project" value="LOCAL" />
       <updated>1639841467302</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="hotfix">
+      <created>1640267852133</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1640267852133</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -538,7 +794,8 @@
     <MESSAGE value="commenting stuff fixing AI and made it smarter" />
     <MESSAGE value="local push" />
     <MESSAGE value="updated some more stuff and sout" />
-    <option name="LAST_COMMIT_MESSAGE" value="updated some more stuff and sout" />
+    <MESSAGE value="hotfix" />
+    <option name="LAST_COMMIT_MESSAGE" value="hotfix" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />

@@ -1,0 +1,29 @@
+<changelist name="Uncommitted_changes_before_Update_at_23_12_2021_13_19_[Changes]" date="1640261992351" recycled="false" toDelete="true">
+  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_23_12_2021_13_19_[Changes]/shelved.patch" />
+  <option name="DESCRIPTION" value="Uncommitted changes before Update at 23.12.2021 13:19 [Changes]" />
+  <binary>
+    <option name="BEFORE_PATH" />
+    <option name="AFTER_PATH" value="src/main/resources/ausrichter/pictures/Load-Config.png" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_23_12_2021_13_19_[Changes]/Load-Config.png" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="src/main/resources/ausrichter/pictures/Management-Ausrichter.png" />
+    <option name="AFTER_PATH" value="src/main/resources/ausrichter/pictures/Management-Ausrichter.png" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_23_12_2021_13_19_[Changes]/Management-Ausrichter.png" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" />
+    <option name="AFTER_PATH" value="src/main/resources/ausrichter/pictures/Draw-Again-Config.png" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_23_12_2021_13_19_[Changes]/Draw-Again-Config.png" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" />
+    <option name="AFTER_PATH" value="src/main/resources/ausrichter/pictures/Player-Management.png" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_23_12_2021_13_19_[Changes]/Player-Management.png" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" />
+    <option name="AFTER_PATH" value="src/main/resources/ausrichter/pictures/Holes-Config.png" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_23_12_2021_13_19_[Changes]/Holes-Config.png" />
+  </binary>
+</changelist>

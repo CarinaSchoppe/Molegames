@@ -1,9 +1,11 @@
-.idea
+/.idea
+/build
+build.*
+/build.*
 !/.idea.copyright
 .gradle
 !gradle.wrapper.properties
 **/build/
-!src/**/build/
 # Ignore Gradle GUI config
 gradle-app.setting
 # Avoid ignoring Gradle wrapper jar file (.jar files are usually ignored)
