@@ -1,7 +1,8 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 23.12.21, 17:16 by Carina Latest changes made by Carina on 23.12.21, 17:10 All contents of "AIPacketHandler" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 24.12.21, 12:18 by Carina Latest changes made by Carina on 24.12.21, 12:16
+ * All contents of "AIPacketHandler" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -30,7 +31,7 @@ public class AIPacketHandler extends ClientPacketHandler {
   }
 
   /**
-   * @param ai     the instance of the AI
+   * @param ai the instance of the AI
    * @param packet the packet recieved
    * @author Carina
    * @use the logic for the AI to decide what to do depending on the packet recieved
@@ -46,26 +47,26 @@ public class AIPacketHandler extends ClientPacketHandler {
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.WELCOMEGAME.getPacketType())) {
       handleWelcomeGamePacket();
       ai.setMap(
-        new Map(
-          ai.getGameState().getFloor().getHoles(),
-          ai.getGameState().getFloor().getDrawAgainFields(),
-          ai.getGameState().getFloor().getPoints()));
+          new Map(
+              ai.getGameState().getFloor().getHoles(),
+              ai.getGameState().getFloor().getDrawAgainFields(),
+              ai.getGameState().getFloor().getPoints()));
       ai.getMap().build(ai.getGameState());
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.NEXTLEVEL.getPacketType())) {
       handleNextFloorPacket();
       ai.setMap(
-        new Map(
-          ai.getGameState().getFloor().getHoles(),
-          ai.getGameState().getFloor().getDrawAgainFields(),
-          ai.getGameState().getFloor().getPoints()));
+          new Map(
+              ai.getGameState().getFloor().getHoles(),
+              ai.getGameState().getFloor().getDrawAgainFields(),
+              ai.getGameState().getFloor().getPoints()));
       ai.getMap().build(ai.getGameState());
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.MOLEPLACED.getPacketType())) {
       handleMolePlacedPacket();
       ai.setMap(
-        new Map(
-          ai.getGameState().getFloor().getHoles(),
-          ai.getGameState().getFloor().getDrawAgainFields(),
-          ai.getGameState().getFloor().getPoints()));
+          new Map(
+              ai.getGameState().getFloor().getHoles(),
+              ai.getGameState().getFloor().getDrawAgainFields(),
+              ai.getGameState().getFloor().getPoints()));
       ai.getMap().build(ai.getGameState());
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.MOLEMOVED.getPacketType())) {
       handleMoleMovedPacket();
@@ -78,7 +79,7 @@ public class AIPacketHandler extends ClientPacketHandler {
       handlePlayerPlacesMolePacket();
       timerRelatedController(ai);
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.GAMEOVER.getPacketType())
-      || packet.getPacketType().equalsIgnoreCase(Packets.GAMECANCELED.getPacketType())) {
+        || packet.getPacketType().equalsIgnoreCase(Packets.GAMECANCELED.getPacketType())) {
       handleGameOverPacket();
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.MESSAGE.getPacketType())) {
       if (packet.getValues() != null) {

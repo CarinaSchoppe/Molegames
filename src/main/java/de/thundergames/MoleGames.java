@@ -1,7 +1,8 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 21.12.21, 16:39 by Carina Latest changes made by Carina on 21.12.21, 16:37 All contents of "MoleGames" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 24.12.21, 12:18 by Carina Latest changes made by Carina on 24.12.21, 12:16
+ * All contents of "MoleGames" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -69,7 +70,11 @@ public class MoleGames {
         case "-a":
         case "a":
           assert args[3] != null;
-          MoleGames.getMoleGames().ai = new AI(Objects.requireNonNull(args[1]), Integer.parseInt(Objects.requireNonNull(args[2])), Integer.parseInt(Objects.requireNonNull(args[3])));
+          MoleGames.getMoleGames().ai =
+              new AI(
+                  Objects.requireNonNull(args[1]),
+                  Integer.parseInt(Objects.requireNonNull(args[2])),
+                  Integer.parseInt(Objects.requireNonNull(args[3])));
           MoleGames.getMoleGames().ai.create();
       }
     }

@@ -1,7 +1,8 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 23.12.21, 12:08 by Carina Latest changes made by Carina on 23.12.21, 11:41 All contents of "Hole" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 24.12.21, 12:18 by Carina Latest changes made by Carina on 24.12.21, 12:16
+ * All contents of "Hole" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -18,9 +19,11 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class Hole {
-  private transient final Floor floor;
+  private final transient Floor floor;
+
   @SerializedName(value = "x")
   private int xPosition;
+
   @SerializedName(value = "y")
   private int yPosition;
 

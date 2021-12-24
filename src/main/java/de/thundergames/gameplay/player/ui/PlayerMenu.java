@@ -1,7 +1,8 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 21.12.21, 16:39 by Carina Latest changes made by Carina on 21.12.21, 16:37 All contents of "PlayerMenu" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 24.12.21, 12:18 by Carina Latest changes made by Carina on 24.12.21, 12:16
+ * All contents of "PlayerMenu" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -30,8 +31,7 @@ import java.util.ResourceBundle;
 public class PlayerMenu implements Initializable {
 
   private static Client CLIENT;
-  @FXML
-  private Text PlayerName;
+  @FXML private Text PlayerName;
 
   /**
    * Create the Scene for PlayerMenu
@@ -43,7 +43,7 @@ public class PlayerMenu implements Initializable {
     var primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
     Parent root = FXMLLoader.load(getClass().getResource("/player/style/PlayerMenu.fxml"));
     primaryStage.setTitle("Maulwurf Company");
-    primaryStage.setResizable(false);
+    primaryStage.setResizable(true);
     primaryStage.setScene(new Scene(root));
     primaryStage.show();
     primaryStage.setOnCloseRequest(ev -> logout(primaryStage));
@@ -53,7 +53,7 @@ public class PlayerMenu implements Initializable {
   /**
    * Is called when the object is initialized
    *
-   * @param location  of base class Initialize
+   * @param location of base class Initialize
    * @param resources of base class Initialize
    */
   @Override
@@ -77,7 +77,7 @@ public class PlayerMenu implements Initializable {
     // create LoginScreen scene
     var primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
     Parent root = FXMLLoader.load(getClass().getResource("/player/style/LoginScreen.fxml"));
-    primaryStage.setResizable(false);
+    primaryStage.setResizable(true);
     primaryStage.setScene(new Scene(root));
     primaryStage.show();
   }

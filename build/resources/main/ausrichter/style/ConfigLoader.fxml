@@ -3,7 +3,7 @@
 <!--
   ~ Copyright Notice for SwtPra10
   ~ Copyright (c) at ThunderGames | SwtPra10 2021
-  ~ File created on 23.12.21, 11:37 by Carina Latest changes made by Carina on 23.12.21, 11:37 All contents of "ConfigLoader.fxml" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+  ~ File created on 23.12.21, 16:45 by Carina Latest changes made by Carina on 23.12.21, 16:45 All contents of "ConfigLoader.fxml" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
   ~ at ThunderGames | SwtPra10. All rights reserved
   ~ Any type of duplication, distribution, rental, sale, award,
   ~ Public accessibility or other use
@@ -24,7 +24,7 @@
             </image>
         </ImageView>
         <Button fx:id="load" layoutX="182.0" layoutY="643.0" mnemonicParsing="false" onAction="#onLoad" prefHeight="54.0" prefWidth="196.0" style="-fx-background-color: transparent;"/>
-        <Text fx:id="displayText" fill="WHITE" layoutX="260.0" layoutY="383.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Configuration geladen!" wrappingWidth="333.02734375">
+        <Text fx:id="displayText" fill="WHITE" layoutX="256.0" layoutY="318.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Configuration per Drag-Drop" wrappingWidth="356.02734375">
             <font>
                 <Font size="51.0"/>
             </font>

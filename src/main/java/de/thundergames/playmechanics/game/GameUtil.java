@@ -1,7 +1,8 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 21.12.21, 16:39 by Carina Latest changes made by Carina on 21.12.21, 16:37 All contents of "GameUtil" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 24.12.21, 12:18 by Carina Latest changes made by Carina on 24.12.21, 12:16
+ * All contents of "GameUtil" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -59,7 +60,7 @@ public class GameUtil {
       }
     }
     return moleInHoles == game.getCurrentPlayer().getMoles().size()
-      && game.getCurrentPlayer().getMoles().size() == game.getSettings().getNumberOfMoles();
+        && game.getCurrentPlayer().getMoles().size() == game.getSettings().getNumberOfMoles();
   }
 
   /**
@@ -69,63 +70,63 @@ public class GameUtil {
   public void nextPlayer() {
     if (game.getActivePlayers().isEmpty()) game.forceGameEnd();
     if (game.getCurrentGameState() == GameStates.OVER
-      || game.getCurrentGameState() == GameStates.PAUSED) {
+        || game.getCurrentGameState() == GameStates.PAUSED) {
       return;
     }
     // setting the new current player and if current can draw again or not
     if (game.getActivePlayers().size() - 1
-      >= game.getActivePlayers().indexOf(game.getCurrentPlayer()) + 1) {
+        >= game.getActivePlayers().indexOf(game.getCurrentPlayer()) + 1) {
       if (game.getCurrentPlayer() != null) {
         if (!game.getCurrentPlayer().isDrawAgain()) {
           game.setCurrentPlayer(
-            game.getActivePlayers()
-              .get(game.getActivePlayers().indexOf(game.getCurrentPlayer()) + 1));
+              game.getActivePlayers()
+                  .get(game.getActivePlayers().indexOf(game.getCurrentPlayer()) + 1));
         } else {
           game.getCurrentPlayer().setDrawAgain(false);
           System.out.println("Player can draw again");
         }
       } else {
         game.setCurrentPlayer(
-          game.getActivePlayers()
-            .get(game.getActivePlayers().indexOf(game.getCurrentPlayer()) + 1));
+            game.getActivePlayers()
+                .get(game.getActivePlayers().indexOf(game.getCurrentPlayer()) + 1));
         game.getGameState().setCurrentPlayer(game.getCurrentPlayer());
       }
     } else if (!game.getActivePlayers().isEmpty()) {
       game.setCurrentPlayer(
-        game.getClientPlayersMap().get(game.getActivePlayers().get(0).getServerClient()));
+          game.getClientPlayersMap().get(game.getActivePlayers().get(0).getServerClient()));
     }
     if (allHolesFilled()) {
       if (MoleGames.getMoleGames().getServer().isDebug())
         System.out.println(
-          "Server: All holes are filled going to next Floor or check the winning!");
+            "Server: All holes are filled going to next Floor or check the winning!");
       nextFloor();
       return;
     }
     if (allPlayerMolesInHoles()) {
       if (MoleGames.getMoleGames().getServer().isDebug())
         System.out.println(
-          "all player moles are in holes! for playerID: "
-            + game.getCurrentPlayer().getServerClient().getThreadID());
+            "all player moles are in holes! for playerID: "
+                + game.getCurrentPlayer().getServerClient().getThreadID());
       MoleGames.getMoleGames()
-        .getServer()
-        .sendToAllGameClients(
-          game,
-          MoleGames.getMoleGames()
-            .getServer()
-            .getPacketHandler()
-            .playerSkippedPacket(game.getCurrentPlayer()));
+          .getServer()
+          .sendToAllGameClients(
+              game,
+              MoleGames.getMoleGames()
+                  .getServer()
+                  .getPacketHandler()
+                  .playerSkippedPacket(game.getCurrentPlayer()));
       nextPlayer();
     } else {
       if (game.getCurrentPlayer().getMoles().size() < game.getSettings().getNumberOfMoles()
-        && game.getCurrentFloorID() == 0) {
+          && game.getGameState().getCurrentFloorID() == 0) {
         MoleGames.getMoleGames()
-          .getServer()
-          .sendToAllGameClients(
-            game,
-            MoleGames.getMoleGames()
-              .getServer()
-              .getPacketHandler()
-              .playerPlacesMolePacket(game.getCurrentPlayer()));
+            .getServer()
+            .sendToAllGameClients(
+                game,
+                MoleGames.getMoleGames()
+                    .getServer()
+                    .getPacketHandler()
+                    .playerPlacesMolePacket(game.getCurrentPlayer()));
       } else {
         var maySkip = true;
         if (!game.getCurrentPlayer().getMoles().isEmpty()) {
@@ -133,7 +134,7 @@ public class GameUtil {
             var inHole = false;
             for (var hole : game.getMap().getHoles()) {
               if (moles.getField().getX() == hole.getX()
-                && moles.getField().getY() == hole.getY()) {
+                  && moles.getField().getY() == hole.getY()) {
                 inHole = true;
               }
             }
@@ -146,14 +147,14 @@ public class GameUtil {
           maySkip = true;
         }
         MoleGames.getMoleGames()
-          .getServer()
-          .sendToAllGameClients(
-            game,
-            MoleGames.getMoleGames()
-              .getServer()
-              .getPacketHandler()
-              .playersTurnPacket(
-                (ServerThread) game.getCurrentPlayer().getServerClient(), maySkip));
+            .getServer()
+            .sendToAllGameClients(
+                game,
+                MoleGames.getMoleGames()
+                    .getServer()
+                    .getPacketHandler()
+                    .playersTurnPacket(
+                        (ServerThread) game.getCurrentPlayer().getServerClient(), maySkip));
       }
       game.getCurrentPlayer().getPlayerUtil().startThinkTimer();
     }
@@ -164,7 +165,7 @@ public class GameUtil {
    * @use goes to the next Floor it it exists bekommt
    */
   public void nextFloor() {
-    if (game.getSettings().getFloors().size() > game.getCurrentFloorID() + 1) {
+    if (game.getSettings().getFloors().size() > game.getGameState().getCurrentFloorID() + 1) {
       var eliminated = new ArrayList<>(game.getPlayers());
       for (var hole : game.getGameState().getFloor().getHoles()) {
         for (var player : game.getPlayers()) {
@@ -174,9 +175,9 @@ public class GameUtil {
                 eliminated.remove(player);
                 if (MoleGames.getMoleGames().getServer().isDebug())
                   System.out.println(
-                    "Server: player with id "
-                      + player.getServerClient().getThreadID()
-                      + " is in next level!");
+                      "Server: player with id "
+                          + player.getServerClient().getThreadID()
+                          + " is in next level!");
                 break;
               }
             }
@@ -202,21 +203,21 @@ public class GameUtil {
         }
       }
       game.getGameUtil()
-        .givePoints(); // Giving the points to the players who are in the next level or just won
-      game.setCurrentFloorID(game.getCurrentFloorID() + 1);
+          .givePoints(); // Giving the points to the players who are in the next level or just won
+      game.getGameState().setCurrentFloorID(game.getGameState().getCurrentFloorID() + 1);
       game.updateGameState();
       MoleGames.getMoleGames()
-        .getServer()
-        .sendToAllGameClients(
-          game,
-          MoleGames.getMoleGames()
-            .getServer()
-            .getPacketHandler()
-            .nextFloorPacket(game.getGameState(), eliminated));
+          .getServer()
+          .sendToAllGameClients(
+              game,
+              MoleGames.getMoleGames()
+                  .getServer()
+                  .getPacketHandler()
+                  .nextFloorPacket(game.getGameState(), eliminated));
       nextPlayer();
     } else {
       game.getGameUtil()
-        .givePoints(); // Giving the points to the players who are in the next level or just won
+          .givePoints(); // Giving the points to the players who are in the next level or just won
       MoleGames.getMoleGames().getGameHandler().getGameLogic().checkWinning(game);
       game.setCurrentGameState(GameStates.OVER);
     }
@@ -234,11 +235,11 @@ public class GameUtil {
         for (var mole : player.getMoles()) {
           if (mole.getField().getX() == holes.getX() && mole.getField().getY() == holes.getY()) {
             game.getScore()
-              .getPoints()
-              .put(
-                player.getServerClient().getThreadID(),
-                game.getScore().getPoints().get(player.getServerClient().getThreadID())
-                  + game.getMap().getPoints());
+                .getPoints()
+                .put(
+                    player.getServerClient().getThreadID(),
+                    game.getScore().getPoints().get(player.getServerClient().getThreadID())
+                        + game.getMap().getPoints());
           }
         }
       }
@@ -246,11 +247,11 @@ public class GameUtil {
     if (MoleGames.getMoleGames().getServer().isDebug()) {
       for (var player : game.getActivePlayers()) {
         System.out.println(
-          "the player with the name: "
-            + player.getName()
-            + " got: "
-            + game.getScore().getPoints().get(player.getServerClient().getThreadID())
-            + " points!");
+            "the player with the name: "
+                + player.getName()
+                + " got: "
+                + game.getScore().getPoints().get(player.getServerClient().getThreadID())
+                + " points!");
       }
     }
   }
