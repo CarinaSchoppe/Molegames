@@ -308,6 +308,7 @@ public class ClientPacketHandler {
    */
   protected void handleFloor() {
     client.getMoles().clear();
+    System.out.println(packet.getValues().toString());
     client.setGameState(
         new Gson().fromJson(packet.getValues().get("gameState").getAsString(), GameState.class));
 
@@ -325,19 +326,14 @@ public class ClientPacketHandler {
     client.getMap().build(client.getGameState());
     if (!client.getGameState().getPlacedMoles().isEmpty()) {
       for (var moles : client.getGameState().getPlacedMoles()) {
-        System.out.println("ejfessf");
         System.out.println(
             moles.getPlayer().getClientID()
                 + " the id of the player own id:"
                 + client.getClientThread().getThreadID());
         if (moles.getPlayer().getClientID() == client.getClientThread().getThreadID()) {
-          System.out.println("Soa1");
           client.getMoles().add(moles);
         }
       }
-    } else {
-      System.out.println("MOLESSSSSSSXxxxx");
-      System.out.println(packet.getValues().toString());
     }
     updateMap();
     if (client.isDebug()) {

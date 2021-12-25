@@ -130,35 +130,36 @@ public class Player {
                   .getPacketHandler()
                   .moleMovedPacket(
                       new Field(x_start, y_start), new Field(x_end, y_end), cardValue));
-      assert mole != null;
-      mole.setField(game.getMap().getFieldMap().get(List.of(x_end, y_end)));
-      game.getMap().getFieldMap().get(List.of(x_start, y_start)).setOccupied(false);
-      game.getMap().getFieldMap().get(List.of(x_end, y_end)).setOccupied(true);
-      game.getMap().getFieldMap().get(List.of(x_end, y_end)).setMole(mole);
-      game.getMap().getFieldMap().get(List.of(x_start, y_start)).setMole(null);
-      for (var m : moles) {
-        if (m.getField().getX() == x_start && m.getField().getY() == y_start) {
-          moles.remove(m);
-          moles.add(mole);
+      if (mole != null) {
+        mole.setField(game.getMap().getFieldMap().get(List.of(x_end, y_end)));
+        game.getMap().getFieldMap().get(List.of(x_start, y_start)).setOccupied(false);
+        game.getMap().getFieldMap().get(List.of(x_end, y_end)).setOccupied(true);
+        game.getMap().getFieldMap().get(List.of(x_end, y_end)).setMole(mole);
+        game.getMap().getFieldMap().get(List.of(x_start, y_start)).setMole(null);
+        for (var m : moles) {
+          if (m.getField().getX() == x_start && m.getField().getY() == y_start) {
+            moles.remove(m);
+            moles.add(mole);
+          }
         }
-      }
-      mole.setField(new Field(x_end, y_end));
-      if (MoleGames.getMoleGames().getServer().isDebug()) {
-        System.out.println(
-            "Playermodel with id: "
-                + serverClient.getThreadID()
-                + " has moved his mole from: x="
-                + x_start
-                + " y="
-                + y_start
-                + " to x="
-                + x_end
-                + " y="
-                + y_end
-                + " with a card="
-                + cardValue
-                + "."
-                + "\n\n");
+        mole.setField(new Field(x_end, y_end));
+        if (MoleGames.getMoleGames().getServer().isDebug()) {
+          System.out.println(
+              "Playermodel with id: "
+                  + serverClient.getThreadID()
+                  + " has moved his mole from: x="
+                  + x_start
+                  + " y="
+                  + y_start
+                  + " to x="
+                  + x_end
+                  + " y="
+                  + y_end
+                  + " with a card="
+                  + cardValue
+                  + "."
+                  + "\n\n");
+        }
       }
       if (game.getMap().getFieldMap().get(List.of(x_end, y_end)).isDrawAgainField()) {
         setDrawAgain(true);

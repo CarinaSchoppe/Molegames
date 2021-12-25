@@ -67,9 +67,11 @@ public class MainGUI extends Application implements Initializable {
   public static void create(@NotNull final Server server) {
     MoleGames.getMoleGames().setAusrichterClient(new AusrichterClient(server));
     new Thread(() -> launch()).start();
-    /* MoleGames.getMoleGames().getAusrichterClient().testTournament(0);
-    MoleGames.getMoleGames().getAusrichterClient().testGame(0); */
+    MoleGames.getMoleGames().getAusrichterClient().testTournament(0);
+    // MoleGames.getMoleGames().getAusrichterClient().testGame(0);
   }
+
+  // TODO: macht nichts bis zum ablaufen der Zeit
 
   public static MainGUI getGUI() {
     return GUI;
