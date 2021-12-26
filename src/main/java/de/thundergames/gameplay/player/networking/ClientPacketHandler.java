@@ -252,7 +252,8 @@ public class ClientPacketHandler {
               + " from "
               + packet.getValues().get("from").getAsString()
               + " to "
-              + packet.getValues().get("to").getAsString());
+              + packet.getValues().get("to").getAsString()
+              + "\n");
     var from = new Gson().fromJson(packet.getValues().get("from").getAsString(), Field.class);
     var to = new Gson().fromJson(packet.getValues().get("to").getAsString(), Field.class);
     client.getMap().getFieldMap().get(List.of(from.getX(), from.getY())).setOccupied(false);
@@ -326,10 +327,6 @@ public class ClientPacketHandler {
     client.getMap().build(client.getGameState());
     if (!client.getGameState().getPlacedMoles().isEmpty()) {
       for (var moles : client.getGameState().getPlacedMoles()) {
-        System.out.println(
-            moles.getPlayer().getClientID()
-                + " the id of the player own id:"
-                + client.getClientThread().getThreadID());
         if (moles.getPlayer().getClientID() == client.getClientThread().getThreadID()) {
           client.getMoles().add(moles);
         }

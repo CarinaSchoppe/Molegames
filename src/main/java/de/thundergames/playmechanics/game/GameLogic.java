@@ -35,98 +35,122 @@ public class GameLogic {
   public static boolean wasLegalMove(
       final int[] start, final int[] stop, final int moveCounter, @NotNull final Map map) {
     if (map.getFieldMap().containsKey(List.of(start[0], start[1]))
-        && map.getFieldMap().containsKey(List.of(stop[0], stop[1]))
-        && start != stop) {
-      if (stop[0] - start[0] == 0 && Math.abs(stop[1] - start[1]) == moveCounter
-          || start[1] - stop[1] == 0 && Math.abs(stop[0] - start[0]) == moveCounter
-          || Math.abs(stop[0] - start[0]) == Math.abs(stop[1] - start[1])
-              && Math.abs(start[1] - stop[1]) == moveCounter) {
-        if (map.getFieldMap().get(List.of(stop[0], stop[1])).isOccupied()) {
-          System.out.println("Field is occupied!");
+        && map.getFieldMap().containsKey(List.of(stop[0], stop[1]))) {
+      if (List.of(stop) != List.of(start) && moveCounter > 0) {
+        if (stop[0] - start[0] == 0 && Math.abs(stop[1] - start[1]) == moveCounter
+            || start[1] - stop[1] == 0 && Math.abs(stop[0] - start[0]) == moveCounter
+            || Math.abs(stop[0] - start[0]) == moveCounter
+                && Math.abs(start[1] - stop[1]) == moveCounter
+                && moveCounter > 0) {
+          if (map.getFieldMap().get(List.of(stop[0], stop[1])).isOccupied()) {
+            System.out.println("Field is occupied!");
+            return false;
+          }
+          if (stop[0] - start[0] == 0) {
+            for (var i = 1; i < moveCounter; i++) {
+              if (stop[1] - start[1] > 0) {
+                var field = map.getFieldMap().get(List.of(stop[0], start[1] + i));
+                if (field.isOccupied()) {
+                  if (field.getY() == start[1] + i && field.getX() == start[0]) {
+                    System.out.println("occupied field: " + field.getX() + " " + field.getY());
+                    return false;
+                  }
+                }
+              } else if (stop[1] - start[1] < 0) {
+                var field = map.getFieldMap().get(List.of(start[0], start[1] - i));
+                if (field.isOccupied()) {
+                  if (field.getY() == start[1] - i && field.getX() == start[0]) {
+                    System.out.println("occupied field: " + field.getX() + " " + field.getY());
+                    return false;
+                  }
+                }
+              }
+            }
+          } else if (stop[1] - start[1] == 0) {
+            for (var i = 1; i < moveCounter; i++) {
+              if (stop[0] - start[0] > 0) {
+                var field = map.getFieldMap().get(List.of(start[0] + i, start[1]));
+                if (field.isOccupied()) {
+                  if (field.getX() == start[0] + i && field.getY() == start[1]) {
+                    System.out.println("occupied field: " + field.getX() + " " + field.getY());
+                    return false;
+                  }
+                }
+              } else if (stop[0] - start[0] < 0) {
+                var field = map.getFieldMap().get(List.of(start[0] - i, start[1]));
+                if (field.isOccupied()) {
+                  if (field.getX() == start[0] - i && field.getY() == start[1]) {
+                    System.out.println("occupied field: " + field.getX() + " " + field.getY());
+                    return false;
+                  }
+                }
+              }
+            }
+          } else if (Math.abs(stop[0] - start[0]) == Math.abs(stop[1] - start[1])) {
+            for (var i = 1; i < moveCounter; i++) {
+              if (stop[0] - start[0] > 0 && stop[1] - start[1] > 0) {
+                var field = map.getFieldMap().get(List.of(start[0] + i, start[1] + i));
+                if (field.isOccupied()) {
+                  if (field.getX() == start[0] + i && field.getY() == start[1] + i) {
+                    System.out.println("occupied field: " + field.getX() + " " + field.getY());
+                    return false;
+                  }
+                }
+              } else if (stop[0] - start[0] < 0 && stop[1] - start[1] > 0) {
+                var field = map.getFieldMap().get(List.of(start[0] - i, start[1] + i));
+                if (field.isOccupied()) {
+                  if (field.getX() == start[0] - i && field.getY() == start[1] + i) {
+                    System.out.println("occupied field: " + field.getX() + " " + field.getY());
+                    return false;
+                  }
+                }
+              } else if (stop[0] - start[0] > 0 && stop[1] - start[1] < 0) {
+                var field = map.getFieldMap().get(List.of(start[0] + i, start[1] - i));
+                if (field.isOccupied()) {
+                  if (field.getX() == start[0] + i && field.getY() == start[1] - i) {
+                    System.out.println("occupied field: " + field.getX() + " " + field.getY());
+                    return false;
+                  }
+                }
+              } else if (stop[0] - start[0] < 0 && stop[1] - start[1] < 0) {
+                var field = map.getFieldMap().get(List.of(start[0] - i, start[1] - i));
+                if (field.isOccupied()) {
+                  if (field.getX() == start[0] - i && field.getY() == start[1] - i) {
+                    System.out.println("occupied field: " + field.getX() + " " + field.getY());
+                    return false;
+                  }
+                }
+              }
+            }
+          }
+          return true;
+        } else {
+          System.out.println("ERROR 6");
           return false;
         }
-        if (stop[0] - start[0] == 0) {
-          for (var i = 1; i < moveCounter; i++) {
-            if (stop[1] - start[1] > 0) {
-              var field = map.getFieldMap().get(List.of(stop[0], start[1] + i));
-              if (field.isOccupied()) {
-                if (field.getY() == start[1] + i && field.getX() == start[0]) {
-                  System.out.println("occupied field: " + field.getX() + " " + field.getY());
-                  return false;
-                }
-              }
-            } else if (stop[1] - start[1] < 0) {
-              var field = map.getFieldMap().get(List.of(start[0], start[1] - i));
-              if (field.isOccupied()) {
-                if (field.getY() == start[1] - i && field.getX() == start[0]) {
-                  System.out.println("occupied field: " + field.getX() + " " + field.getY());
-                  return false;
-                }
-              }
-            }
-          }
-        } else if (stop[1] - start[1] == 0) {
-          for (var i = 1; i < moveCounter; i++) {
-            if (stop[0] - start[0] > 0) {
-              var field = map.getFieldMap().get(List.of(start[0] + i, start[1]));
-              if (field.isOccupied()) {
-                if (field.getX() == start[0] + i && field.getY() == start[1]) {
-                  System.out.println("occupied field: " + field.getX() + " " + field.getY());
-                  return false;
-                }
-              }
-            } else if (stop[0] - start[0] < 0) {
-              var field = map.getFieldMap().get(List.of(start[0] - i, start[1]));
-              if (field.isOccupied()) {
-                if (field.getX() == start[0] - i && field.getY() == start[1]) {
-                  System.out.println("occupied field: " + field.getX() + " " + field.getY());
-                  return false;
-                }
-              }
-            }
-          }
-        } else if (Math.abs(stop[0] - start[0]) == Math.abs(stop[1] - start[1])) {
-          for (var i = 1; i < moveCounter; i++) {
-            if (stop[0] - start[0] > 0 && stop[1] - start[1] > 0) {
-              var field = map.getFieldMap().get(List.of(start[0] + i, start[1] + i));
-              if (field.isOccupied()) {
-                if (field.getX() == start[0] + i && field.getY() == start[1] + i) {
-                  System.out.println("occupied field: " + field.getX() + " " + field.getY());
-                  return false;
-                }
-              }
-            } else if (stop[0] - start[0] < 0 && stop[1] - start[1] > 0) {
-              var field = map.getFieldMap().get(List.of(start[0] - i, start[1] + i));
-              if (field.isOccupied()) {
-                if (field.getX() == start[0] - i && field.getY() == start[1] + i) {
-                  System.out.println("occupied field: " + field.getX() + " " + field.getY());
-                  return false;
-                }
-              }
-            } else if (stop[0] - start[0] > 0 && stop[1] - start[1] < 0) {
-              var field = map.getFieldMap().get(List.of(start[0] + i, start[1] - i));
-              if (field.isOccupied()) {
-                if (field.getX() == start[0] + i && field.getY() == start[1] - i) {
-                  System.out.println("occupied field: " + field.getX() + " " + field.getY());
-                  return false;
-                }
-              }
-            } else if (stop[0] - start[0] < 0 && stop[1] - start[1] < 0) {
-              var field = map.getFieldMap().get(List.of(start[0] - i, start[1] - i));
-              if (field.isOccupied()) {
-                if (field.getX() == start[0] - i && field.getY() == start[1] - i) {
-                  System.out.println("occupied field: " + field.getX() + " " + field.getY());
-                  return false;
-                }
-              }
-            }
-          }
-        }
-        return true;
+      } else {
+        System.out.println(
+            "Not doing a move. Start  = Stop: ["
+                + start[0]
+                + "|"
+                + start[1]
+                + "] ["
+                + stop[0]
+                + "|"
+                + stop[1]
+                + "]"
+                + "  moveCounter: "
+                + moveCounter
+                + " start-stop: "
+                + (stop[0] - start[0])
+                + "|"
+                + (stop[1] - start[1]));
+        return false;
       }
+    } else {
+      System.out.println("ERROR 71");
+      return false;
     }
-    System.out.println("Not doing a move. Start  = Stop");
-    return false;
   }
 
   /**
@@ -162,6 +186,14 @@ public class GameLogic {
    *     performen
    */
   public void performPunishment(@NotNull final Player player, @NotNull final Punishments reason) {
+    var punishment = player.getGame().getSettings().getPunishment();
+    System.out.println(
+        "Performing punishment: "
+            + punishment.getName()
+            + " for the player: "
+            + player.getName()
+            + " and the reason: "
+            + reason.getName());
     MoleGames.getMoleGames()
         .getServer()
         .sendToAllGameClients(
@@ -170,11 +202,8 @@ public class GameLogic {
                 .getServer()
                 .getPacketHandler()
                 .movePenaltyNotification(
-                    player,
-                    player.getGame().getDeductedPoints(),
-                    player.getGame().getSettings().getPunishment(),
-                    reason.getName()));
-    if (player.getGame().getSettings().getPunishment().equals(Punishments.POINTS)) {
+                    player, player.getGame().getDeductedPoints(), punishment, reason.getName()));
+    if (punishment == Punishments.POINTS) {
       player
           .getGame()
           .getScore()
@@ -183,7 +212,7 @@ public class GameLogic {
               player.getServerClient().getThreadID(),
               player.getGame().getScore().getPoints().get(player.getServerClient().getThreadID())
                   - player.getGame().getDeductedPoints());
-    } else if (player.getGame().getSettings().getPunishment().equals(Punishments.KICK)) {
+    } else if (punishment == Punishments.KICK) {
       player.getGame().removePlayerFromGame(player);
     }
   }

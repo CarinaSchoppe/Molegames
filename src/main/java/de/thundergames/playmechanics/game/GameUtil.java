@@ -29,7 +29,7 @@ public class GameUtil {
    * @author Carina
    * @use checks if all holes are filled with moles
    */
-  public boolean allHolesFilled() {
+  public synchronized boolean allHolesFilled() {
     for (var hole : game.getMap().getHoles()) {
       if (!game.getMap().getFieldMap().get(List.of(hole.getX(), hole.getY())).isOccupied()) {
         return false;
@@ -43,15 +43,17 @@ public class GameUtil {
    * @author Carina
    * @use checks if all moles of a player are in a hole
    */
-  public boolean allPlayerMolesInHoles() {
+  public synchronized boolean allPlayerMolesInHoles() {
     if (game.getCurrentPlayer().getMoles().isEmpty()) {
       return false;
     }
     for (var moles : game.getCurrentPlayer().getMoles()) {
-      if (!moles.getField().isHole()) {
+      if (!game.getMap()
+          .getFieldMap()
+          .get(List.of(moles.getField().getX(), moles.getField().getY()))
+          .isHole()) {
         return false;
       } else {
-        System.out.println("field: " + moles.getField().getX() + " " + moles.getField().getY());
       }
     }
     return true;
@@ -61,7 +63,7 @@ public class GameUtil {
    * @author Carina
    * @use sets the next player in the game if all moles are in holes the player is not on turn
    */
-  public void nextPlayer() {
+  public synchronized void nextPlayer() {
     if (game.getActivePlayers().isEmpty()) {
       game.forceGameEnd();
     }
@@ -79,8 +81,17 @@ public class GameUtil {
                   .get(game.getActivePlayers().indexOf(game.getCurrentPlayer()) + 1));
 
         } else {
-          game.getCurrentPlayer().setDrawAgain(false);
-          System.out.println("Server: Player can draw again!");
+          if (game.getActivePlayers().contains(game.getCurrentPlayer())) {
+            game.getCurrentPlayer().setDrawAgain(false);
+            System.out.println(
+                "Server: Player with the name: "
+                    + game.getCurrentPlayer().getName()
+                    + "can draw again!");
+
+          } else {
+            nextPlayer();
+            return;
+          }
         }
       } else {
         game.setCurrentPlayer(
@@ -121,6 +132,7 @@ public class GameUtil {
         nextPlayer();
       }
     } else {
+
       if (game.getCurrentPlayer().getMoles().size() < game.getSettings().getNumberOfMoles()
           && game.getGameState().getCurrentFloorID() == 0) {
 
@@ -152,7 +164,7 @@ public class GameUtil {
    * @author Carina
    * @use goes to the next Floor it it exists bekommt
    */
-  public void nextFloor() {
+  public synchronized void nextFloor() {
     if (game.getSettings().getFloors().size() > game.getGameState().getCurrentFloorID() + 1) {
 
       var eliminated = new ArrayList<>(game.getActivePlayers());
@@ -220,19 +232,21 @@ public class GameUtil {
    */
   public void givePoints(final boolean lastFloor) {
     for (var player : game.getActivePlayers()) {
-      game.getScore()
-          .getPoints()
-          .put(
-              player.getClientID(),
-              game.getScore().getPoints().get(player.getClientID())
-                  + game.getMap().getPoints() * (lastFloor ? 1 : player.getMoles().size()));
-    }
-    if (MoleGames.getMoleGames().getServer().isDebug()) {
-      for (var player : game.getActivePlayers()) {
+      if (!player.getMoles().isEmpty()) {
+        game.getScore()
+            .getPoints()
+            .put(
+                player.getClientID(),
+                game.getScore().getPoints().get(player.getClientID())
+                    + game.getMap().getPoints() * (lastFloor ? 1 : player.getMoles().size()));
+      }
+      if (MoleGames.getMoleGames().getServer().isDebug()) {
         System.out.println(
             "the player with the name: "
                 + player.getName()
                 + " got: "
+                + game.getMap().getPoints() * (lastFloor ? 1 : player.getMoles().size())
+                + "points and now has "
                 + game.getScore().getPoints().get(player.getServerClient().getThreadID())
                 + " points!");
       }

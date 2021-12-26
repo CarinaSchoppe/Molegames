@@ -40,7 +40,6 @@ public class Player {
   private transient Timer timer = new Timer();
   private transient long startRemainingTime;
   private transient boolean timerIsRunning = false;
-  private transient boolean hasMoved = false;
   private transient PlayerUtil playerUtil;
   private transient boolean drawAgain = false;
 
@@ -101,9 +100,12 @@ public class Player {
    * @see Field
    * @see GameLogic
    */
-  public void moveMole(
+  public synchronized void moveMole(
       final int x_start, final int y_start, final int x_end, final int y_end, final int cardValue) {
-    if (!game.getCurrentPlayer().equals(this) || hasMoved) {
+    if (!game.getCurrentPlayer().equals(this)) {
+      System.out.println(
+          "current" + game.getCurrentPlayer().getName() + "who moved: " + this.getName());
+      System.out.println("ERROR1");
       return;
     }
     if (GameLogic.wasLegalMove(
@@ -158,14 +160,17 @@ public class Player {
                   + " with a card="
                   + cardValue
                   + "."
-                  + "\n\n");
+                  + "\n");
         }
+      } else {
+        System.out.println("ERROR3 " + this.name);
       }
       if (game.getMap().getFieldMap().get(List.of(x_end, y_end)).isDrawAgainField()) {
         setDrawAgain(true);
       }
       playerUtil.handleTurnAfterAction();
     } else {
+      System.out.println("ERROR2");
       MoleGames.getMoleGames()
           .getGameHandler()
           .getGameLogic()
@@ -202,14 +207,11 @@ public class Player {
    * @see Player
    * @see Field
    */
-  public void placeMole(final int x, final int y) {
+  public synchronized void placeMole(final int x, final int y) {
     if (!game.getCurrentPlayer().equals(this)
-        || hasMoved
         || moles.size() >= game.getSettings().getNumberOfMoles()) {
       System.out.println(
-          "Has moved: "
-              + hasMoved
-              + " size: "
+          " Size: "
               + (moles.size() >= game.getSettings().getNumberOfMoles())
               + "this: "
               + this.getServerClient().getThreadID()
@@ -263,7 +265,7 @@ public class Player {
                 + getMoles().size()
                 + "/"
                 + game.getSettings().getNumberOfMoles()
-                + ")\n\n");
+                + ")\n");
     }
   }
 

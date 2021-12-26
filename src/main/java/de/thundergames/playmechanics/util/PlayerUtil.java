@@ -11,11 +11,7 @@
 
 package de.thundergames.playmechanics.util;
 
-import de.thundergames.MoleGames;
 import lombok.Data;
-
-import java.util.Timer;
-import java.util.TimerTask;
 
 @Data
 public class PlayerUtil {
@@ -40,16 +36,16 @@ public class PlayerUtil {
    */
   public synchronized void startThinkTimer() {
     player.setStartRemainingTime(System.currentTimeMillis());
-    player.setHasMoved(false);
     player.setTimerIsRunning(true);
+    /*TODO:
     player.setTimer(new Timer());
-    player
-        .getTimer()
-        .schedule(
-            new TimerTask() {
-              @Override
-              public void run() {
-                if (!player.isHasMoved()) {
+    try {
+      player
+          .getTimer()
+          .schedule(
+              new TimerTask() {
+                @Override
+                public void run() {
                   if (MoleGames.getMoleGames().getServer().isDebug()) {
                     System.out.println(
                         "Client " + player.getServerClient().getThreadID() + " ran out of time");
@@ -58,18 +54,18 @@ public class PlayerUtil {
                       .getGameHandler()
                       .getGameLogic()
                       .performPunishment(player, Punishments.NOMOVE);
-                  player.setHasMoved(true);
                   player.setTimerIsRunning(false);
                   player.getGame().getGameUtil().nextPlayer();
                   player.getTimer().cancel();
                 }
-              }
-            },
-            player.getGame().getSettings().getTurnTime());
+              },
+              player.getGame().getSettings().getTurnTime());
+    } catch (Exception e) {
+      e.printStackTrace();
+    }*/
   }
 
   public void handleTurnAfterAction() {
-    player.setHasMoved(true);
     if (player.isTimerIsRunning()) {
       player.getTimer().cancel();
       player.getGame().getGameUtil().nextPlayer();
