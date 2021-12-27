@@ -11,7 +11,11 @@
 
 package de.thundergames.playmechanics.util;
 
+import de.thundergames.MoleGames;
 import lombok.Data;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 @Data
 public class PlayerUtil {
@@ -37,32 +41,38 @@ public class PlayerUtil {
   public synchronized void startThinkTimer() {
     player.setStartRemainingTime(System.currentTimeMillis());
     player.setTimerIsRunning(true);
-    /*TODO:
+    player.getTimer().cancel();
     player.setTimer(new Timer());
     try {
-      player
-          .getTimer()
-          .schedule(
-              new TimerTask() {
-                @Override
-                public void run() {
-                  if (MoleGames.getMoleGames().getServer().isDebug()) {
-                    System.out.println(
-                        "Client " + player.getServerClient().getThreadID() + " ran out of time");
+      if (player.getGame().getCurrentPlayer().equals(player)) {
+        player
+            .getTimer()
+            .schedule(
+                new TimerTask() {
+                  @Override
+                  public void run() {
+                    if (player.getGame().getCurrentPlayer().equals(player)) {
+                      if (MoleGames.getMoleGames().getServer().isDebug()) {
+                        System.out.println(
+                            "Client "
+                                + player.getServerClient().getThreadID()
+                                + " ran out of time");
+                      }
+                      MoleGames.getMoleGames()
+                          .getGameHandler()
+                          .getGameLogic()
+                          .performPunishment(player, Punishments.NOMOVE);
+                      player.setTimerIsRunning(false);
+                      player.getGame().getGameUtil().nextPlayer();
+                      player.getTimer().cancel();
+                    }
                   }
-                  MoleGames.getMoleGames()
-                      .getGameHandler()
-                      .getGameLogic()
-                      .performPunishment(player, Punishments.NOMOVE);
-                  player.setTimerIsRunning(false);
-                  player.getGame().getGameUtil().nextPlayer();
-                  player.getTimer().cancel();
-                }
-              },
-              player.getGame().getSettings().getTurnTime());
+                },
+                player.getGame().getSettings().getTurnTime());
+      }
     } catch (Exception e) {
       e.printStackTrace();
-    }*/
+    }
   }
 
   public void handleTurnAfterAction() {

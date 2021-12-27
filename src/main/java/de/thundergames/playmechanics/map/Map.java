@@ -82,25 +82,24 @@ public class Map {
     fieldMap.clear();
     for (var y = 0; y <= radius; y++) {
       for (var x = 0; x <= radius + y; x++) {
-        var field = new Field(x, y);
-        field.setOccupied(false);
-        field.setHole(false);
-        field.setDrawAgainField(false);
-        field.setMap(this);
-        fieldMap.put(java.util.List.of(x, y), field);
+        fieldCreator(y, x);
       }
     }
     // 1 under mid: left to bottom right
     for (var y = radius + 1; y <= radius * 2; y++) {
       for (var x = y - radius; x <= radius * 2; x++) {
-        var field = new Field(x, y);
-        field.setOccupied(false);
-        field.setHole(false);
-        field.setDrawAgainField(false);
-        field.setMap(this);
-        fieldMap.put(java.util.List.of(x, y), field);
+        fieldCreator(y, x);
       }
     }
+  }
+
+  private void fieldCreator(int y, int x) {
+    var field = new Field(x, y);
+    field.setOccupied(false);
+    field.setHole(false);
+    field.setDrawAgainField(false);
+    field.setMap(this);
+    fieldMap.put(List.of(x, y), field);
   }
 
   /**
@@ -109,11 +108,11 @@ public class Map {
    * @use sets the properties on the field if its occupied, a hole, a draw again field etc.
    */
   public void changeFieldParams(@NotNull final GameState gameState) {
-    for (var field : gameState.getFloor().getHoles()) {
+    for (var field : holes) {
       if (getFieldMap().containsKey(List.of(field.getX(), field.getY())))
         getFieldMap().get(List.of(field.getX(), field.getY())).setHole(true);
     }
-    for (var field : gameState.getFloor().getDrawAgainFields()) {
+    for (var field : drawAgainFields) {
       if (getFieldMap().containsKey(List.of(field.getX(), field.getY())))
         getFieldMap().get(List.of(field.getX(), field.getY())).setDrawAgainField(true);
     }

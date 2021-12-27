@@ -22,6 +22,7 @@ import org.mockito.Mock;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -33,29 +34,32 @@ class GameUtilTest {
   private final HashSet<Mole> moles = new HashSet<>();
   private final HashSet<Field> holes = new HashSet<>();
   private GameUtil gameUtil;
+  private Game game;
 
   @Mock private Player playerMock = mock(Player.class);
 
-  @Mock private Game gameMock = mock(Game.class);
-
   @BeforeEach
   void setUp() {
-    var map = new Map(gameMock, holes, holes, 1);
-    map.createMap(5);
-    gameMock.setMap(map);
+    game = new Game(1);
+    game.setRadius(5);
+    holes.add(new Field(1, 1));
+    holes.add(new Field(1, 2));
+    var map = new Map(game, holes, holes, 1);
+    var gameState = new GameState();
+    gameState.setRadius(5);
+    gameState.setFloor(map);
+    map.build(gameState);
+    game.setMap(map);
     var field = new Field(0, 1);
     var mole = new Mole(playerMock, field);
     moles.add(mole);
     when(playerMock.getMoles()).thenReturn(moles);
     var players = new ArrayList<Player>();
     players.add(playerMock);
-    when(gameMock.getMap()).thenReturn(map);
-    when(gameMock.getPlayers()).thenReturn(players);
+    // when(game.getMap()).thenReturn(map);
+    // when(game.getPlayers()).thenReturn(players);
     holes.add(new Field(1, 1));
-    var nextFloor = new Map(holes, holes, 1);
-    var gameState = new GameState();
-    gameState.setFloor(nextFloor);
-    gameUtil = new GameUtil(gameMock);
+    gameUtil = new GameUtil(game);
   }
 
   @Test
@@ -63,22 +67,28 @@ class GameUtilTest {
     assertFalse(gameUtil.allHolesFilled());
     var field = new Field(1, 1);
     var mole = new Mole(playerMock, field);
+    var mole2 = new Mole(playerMock, field);
     moles.add(mole);
-    // TODO: hier aktuallisieren da das so nicht funktioniert
-    // assertTrue(gameUtil.allHolesFilled());
+    game.getMap().getFieldMap().get(List.of(1, 1)).setOccupied(true);
+    game.getMap().getFieldMap().get(List.of(1, 2)).setOccupied(true);
+    game.getMap().getFieldMap().get(List.of(1, 1)).setMole(mole);
+    game.getMap().getFieldMap().get(List.of(1, 2)).setMole(mole2);
+    assertTrue(gameUtil.allHolesFilled());
   }
 
   @Test
   void allPlayerMolesInHoles() {
-    var settings = new Settings(gameMock);
+    var settings = new Settings(game);
     settings.setNumberOfMoles(2);
-    when(gameMock.getSettings()).thenReturn(settings);
-    when(gameMock.getCurrentPlayer()).thenReturn(playerMock);
+    game.setCurrentPlayer(playerMock);
     assertFalse(gameUtil.allPlayerMolesInHoles());
-    holes.add(new Field(0, 1));
     var field = new Field(1, 1);
     var mole = new Mole(playerMock, field);
     moles.add(mole);
+    playerMock.getMoles().clear();
+    playerMock.getMoles().add(mole);
+    game.getMap().getFieldMap().get(List.of(1, 1)).setOccupied(true);
+    game.getMap().getFieldMap().get(List.of(1, 1)).setMole(mole);
     assertTrue(gameUtil.allPlayerMolesInHoles());
   }
 

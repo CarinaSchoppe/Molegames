@@ -20,7 +20,6 @@ import lombok.Data;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -115,20 +114,11 @@ public class AILogic {
       throws NullPointerException {
     var directionsList = new ArrayList<Directions>();
     while (true) {
-      Directions direction =
-          (Directions)
-              Arrays.stream(Directions.values())
-                  .toArray()[
-                  new Random().nextInt(Arrays.stream(Directions.values()).toArray().length)];
-      if (directionsList.containsAll(List.of(Directions.values()))) {
-        directionsList.clear();
+      Directions direction = directionsList.get(new Random().nextInt(directionsList.size()));
+      if (directionsList.isEmpty()) {
         return null;
       }
-      if (directionsList.contains(direction)) {
-        continue;
-      }
-      directionsList.add(direction);
-
+      directionsList.remove(direction);
       var endfield = endField(ai, mole, direction);
       if (direction == Directions.DOWN) {
         try {
