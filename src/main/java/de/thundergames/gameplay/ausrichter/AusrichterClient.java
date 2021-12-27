@@ -50,7 +50,7 @@ public class AusrichterClient {
         .add(floor2);
     MoleGames.getMoleGames().getGameHandler().getIDGames().get(id).updateGameState();
     // next game
-    /*    MoleGames.getMoleGames().getGameHandler().createNewGame(id + 1);
+    MoleGames.getMoleGames().getGameHandler().createNewGame(id + 1);
     MoleGames.getMoleGames()
         .getGameHandler()
         .getIDGames()
@@ -65,7 +65,7 @@ public class AusrichterClient {
         .getSettings()
         .getFloors()
         .add(floor2);
-    MoleGames.getMoleGames().getGameHandler().getIDGames().get(id + 1).updateGameState();*/
+    MoleGames.getMoleGames().getGameHandler().getIDGames().get(id + 1).updateGameState();
   }
 
   public void testTournament(final int id) {

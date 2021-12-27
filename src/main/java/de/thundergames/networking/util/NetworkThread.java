@@ -25,6 +25,7 @@ import java.io.*;
 import java.net.Socket;
 import java.net.SocketException;
 import java.nio.charset.StandardCharsets;
+import java.util.HashSet;
 
 @Getter
 public abstract class NetworkThread extends Thread {
@@ -149,10 +150,8 @@ public abstract class NetworkThread extends Thread {
                       object.add("value", json);
                       sendPacket(new Packet(object));
                     } else {
-                      for (var iterator =
-                              MoleGames.getMoleGames().getServer().getClientThreads().iterator();
-                          iterator.hasNext(); ) {
-                        ServerThread clientSocket = iterator.next();
+                      for (ServerThread clientSocket :
+                          new HashSet<>(MoleGames.getMoleGames().getServer().getClientThreads())) {
                         object.addProperty("type", Packets.MESSAGE.getPacketType());
                         var json = new JsonObject();
                         json.addProperty("message", message);

@@ -20,7 +20,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
@@ -54,8 +53,6 @@ class GameUtilTest {
     var mole = new Mole(playerMock, field);
     moles.add(mole);
     when(playerMock.getMoles()).thenReturn(moles);
-    var players = new ArrayList<Player>();
-    players.add(playerMock);
     holes.add(new Field(1, 1));
     gameUtil = new GameUtil(game);
   }

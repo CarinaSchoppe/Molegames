@@ -107,7 +107,7 @@ public class AILogic {
    */
   public Directions isMoveable(@NotNull final AI ai, @NotNull final Mole mole)
       throws NullPointerException {
-    var directionsList = new ArrayList<Directions>(List.of(Directions.values()));
+    var directionsList = new ArrayList<>(List.of(Directions.values()));
     while (true) {
       if (directionsList.isEmpty()) {
         System.out.println("NO DIRECTIONS FOUND");

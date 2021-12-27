@@ -99,7 +99,8 @@ public class GameUtil {
       }
     } else if (!game.getActivePlayers().isEmpty()) {
       game.setCurrentPlayer(
-          game.getClientPlayersMap().get(game.getActivePlayers().get(0).getServerClient()));
+          game.getClientPlayersMap()
+              .get((ServerThread) game.getActivePlayers().get(0).getServerClient()));
     }
     game.getGameState().setCurrentPlayer(game.getCurrentPlayer());
 

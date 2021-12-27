@@ -29,8 +29,10 @@ dependencies {
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
 }
 
-setTargetCompatibility(JavaVersion.VERSION_11)
-setSourceCompatibility(JavaVersion.VERSION_11)
+compileJava {
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
+}
 
 javafx {
     version = '11'
@@ -40,7 +42,6 @@ application {
     mainClass = 'de.thundergames.MoleGames'
 }
 
-mainClassName = 'de.thundergames.MoleGames'
 test {
     useJUnitPlatform()
 }
