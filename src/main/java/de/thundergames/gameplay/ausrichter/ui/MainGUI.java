@@ -237,6 +237,8 @@ public class MainGUI extends Application implements Initializable {
   @FXML
   void onCreateTournament(ActionEvent event) {
     // TODO: create and start mechanics on creating a tournament
+    JOptionPane.showMessageDialog(
+        null, "Noch nicht eingebaut!", "Fehler!", JOptionPane.ERROR_MESSAGE);
   }
 
   @FXML
@@ -258,6 +260,8 @@ public class MainGUI extends Application implements Initializable {
   @FXML
   void onEditTournament(ActionEvent event) {
     // TODO: create and start mechanics on editing a tournament to add and remove players
+    JOptionPane.showMessageDialog(
+        null, "Noch nicht eingebaut!", "Fehler!", JOptionPane.ERROR_MESSAGE);
   }
 
   public void updateTable() {
