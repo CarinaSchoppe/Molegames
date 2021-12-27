@@ -299,7 +299,7 @@ public class CreateGame extends Application implements Initializable {
 
     var id = MoleGames.getMoleGames().getGameHandler().getGames().size();
     if (!isLegalConfiguration(
-        (radius.getText() != null && !"".equalsIgnoreCase(radius.getText()))
+        radius.getText() != null && !"".equalsIgnoreCase(radius.getText())
             ? Integer.parseInt(radius.getText())
             : 8,
         molesAmount.getText() != null ? Integer.parseInt(molesAmount.getText()) : 4)) {
@@ -438,6 +438,9 @@ public class CreateGame extends Application implements Initializable {
           return false;
         }
       }
+    }
+    if (floors.size() < 1) {
+      return false;
     }
     return floors.get(floors.size() - 1).getHoles().size() >= 1;
   }

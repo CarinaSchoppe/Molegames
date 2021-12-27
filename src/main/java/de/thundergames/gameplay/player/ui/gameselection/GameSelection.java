@@ -159,7 +159,7 @@ public class GameSelection implements Initializable {
     // If no item of tableview is selected.
     if (selectedItem == null) {
       JOptionPane.showMessageDialog(
-          null, "Es wurde kein Spiel selektiert!", "Spiel beobachten", JOptionPane.ERROR_MESSAGE);
+          null, "Es wurde kein Spiel ausgewählt!", "Spiel beobachten", JOptionPane.ERROR_MESSAGE);
       return;
     }
     // Send Packet to spectate game to get GameState

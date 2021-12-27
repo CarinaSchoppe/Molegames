@@ -2,7 +2,7 @@
   "maxPlayers": 10,
   "radius": 50,
   "numberOfMoles": 15,
-  "levels": "[{\"holes\":[{\"x\":39,\"y\":10}, {\"x\":20,\"y\":20},{\"x\":0,\"y\":15}],\"drawAgainFields\":[{\"x\":2,\"y\":2}],\"points\":1},{\"holes\":[{\"x\":29,\"y\":39}],\"drawAgainFields\":[{\"x\":0,\"y\":1}],\"points\":10},{\"holes\":[{\"x\":5,\"y\":4}],\"drawAgainFields\":[{\"x\":3,\"y\":1}],\"points\":50}]",
+  "levels": "[{\"holes\":[{\"x\":39,\"y\":10}, {\"x\":20,\"y\":20},{\"x\":0,\"y\":15}],\"drawAgainFields\":[{\"x\":2,\"y\":2}],\"points\":1},{\"holes\":[{\"x\":29,\"y\":39},{\"x\":2,\"y\":2}],\"drawAgainFields\":[{\"x\":0,\"y\":1}],\"points\":10},{\"holes\":[{\"x\":5,\"y\":4}],\"drawAgainFields\":[{\"x\":3,\"y\":1}],\"points\":50}]",
   "pullDiscsOrdered": false,
   "pullDiscs": "[6,3,2,1,6,4,2,5,7,5,4,3,6,3,9,6,4,3]",
   "turnTime": 30,

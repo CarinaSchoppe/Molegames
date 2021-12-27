@@ -145,7 +145,7 @@ public class TournamentSelection implements Initializable {
     if (selectedItem == null) {
       JOptionPane.showMessageDialog(
           null,
-          "Es wurde kein Turnier selektiert!",
+          "Es wurde kein Turnier ausgewählt!",
           "Turnier beobachten",
           JOptionPane.ERROR_MESSAGE);
       return;
