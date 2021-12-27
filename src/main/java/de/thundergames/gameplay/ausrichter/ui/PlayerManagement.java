@@ -168,11 +168,15 @@ public class PlayerManagement implements Initializable {
   }
 
   public void updateTable() {
+    var aviablePlayersSelection = aviablePlayersTable.getSelectionModel().getSelectedItem();
+    var playerSelection = playerTable.getSelectionModel().getSelectedItem();
     aviablePlayersTable.getItems().clear();
     playerTable.getItems().clear();
     aviablePlayersTable.getItems().addAll(MoleGames.getMoleGames().getServer().getLobbyThreads());
     playerTable.getItems().addAll(this.game.getPlayers());
     playerTable.getItems().addAll(this.game.getSpectators());
+    playerTable.getSelectionModel().select(playerSelection);
+    aviablePlayersTable.getSelectionModel().select(aviablePlayersSelection);
   }
 
   public void start(@NotNull final Stage stage) throws IOException {

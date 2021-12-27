@@ -49,6 +49,7 @@ public class AILogic {
           new int[] {x, y},
           ai.getCard(),
           ai.getMap())) {
+        System.out.println("TEST");
         ai.getAIPacketHandler()
             .makeMovePacket(
                 new int[] {mole.getField().getX(), mole.getField().getY()},
@@ -112,144 +113,120 @@ public class AILogic {
       @NotNull final List<Integer> field,
       @NotNull final Mole mole)
       throws NullPointerException {
-    for (var directions : Directions.values()) {
+    var directionsList = new ArrayList<Directions>();
+    while (true) {
       Directions direction =
           (Directions)
               Arrays.stream(Directions.values())
                   .toArray()[
                   new Random().nextInt(Arrays.stream(Directions.values()).toArray().length)];
+      if (directionsList.containsAll(List.of(Directions.values()))) {
+        directionsList.clear();
+        return null;
+      }
+      if (directionsList.contains(direction)) {
+        continue;
+      }
+      directionsList.add(direction);
+
       var endfield = endField(ai, mole, direction);
       if (direction == Directions.DOWN) {
         try {
-          if (!(ai.getMap()
-              .getFieldMap()
-              .get(List.of(field.get(0), field.get(1) - cardValue))
-              .isOccupied())) {
-            if (GameLogic.wasLegalMove(
-                new int[] {mole.getField().getX(), mole.getField().getY()},
-                endfield,
-                ai.getCard(),
-                ai.getMap())) {
-              return Directions.DOWN;
-            }
+          if (GameLogic.wasLegalMove(
+              new int[] {mole.getField().getX(), mole.getField().getY()},
+              endfield,
+              ai.getCard(),
+              ai.getMap())) {
+            return Directions.DOWN;
           }
         } catch (@NotNull final Exception ignored) {
         }
       } else if (direction == Directions.UP) {
         try {
-          if (!(ai.getMap()
-              .getFieldMap()
-              .get(List.of(field.get(0), field.get(1) + cardValue))
-              .isOccupied())) {
-            if (GameLogic.wasLegalMove(
-                new int[] {mole.getField().getX(), mole.getField().getY()},
-                endfield,
-                ai.getCard(),
-                ai.getMap())) {
-              return Directions.UP;
-            }
+
+          if (GameLogic.wasLegalMove(
+              new int[] {mole.getField().getX(), mole.getField().getY()},
+              endfield,
+              ai.getCard(),
+              ai.getMap())) {
+            return Directions.UP;
           }
         } catch (@NotNull final Exception ignored) {
         }
       } else if (direction == Directions.LEFT) {
         try {
-          if (!(ai.getMap()
-              .getFieldMap()
-              .get(List.of(field.get(0) - cardValue, field.get(1)))
-              .isOccupied())) {
-            if (GameLogic.wasLegalMove(
-                new int[] {mole.getField().getX(), mole.getField().getY()},
-                endfield,
-                ai.getCard(),
-                ai.getMap())) {
-              return Directions.LEFT;
-            }
+
+          if (GameLogic.wasLegalMove(
+              new int[] {mole.getField().getX(), mole.getField().getY()},
+              endfield,
+              ai.getCard(),
+              ai.getMap())) {
+            return Directions.LEFT;
           }
         } catch (@NotNull final Exception ignored) {
         }
       } else if (direction == RIGHT) {
         try {
-          if (!(ai.getMap()
-              .getFieldMap()
-              .get(List.of(field.get(0) + cardValue, field.get(1)))
-              .isOccupied())) {
-            if (GameLogic.wasLegalMove(
-                new int[] {mole.getField().getX(), mole.getField().getY()},
-                endfield,
-                ai.getCard(),
-                ai.getMap())) {
-              return Directions.RIGHT;
-            }
+
+          if (GameLogic.wasLegalMove(
+              new int[] {mole.getField().getX(), mole.getField().getY()},
+              endfield,
+              ai.getCard(),
+              ai.getMap())) {
+            return Directions.RIGHT;
           }
         } catch (@NotNull final Exception ignored) {
         }
       } else if (direction == DOWN_LEFT) {
         try {
-          if (!(ai.getMap()
-              .getFieldMap()
-              .get(List.of(field.get(0) - cardValue, field.get(1) - cardValue))
-              .isOccupied())) {
-            if (GameLogic.wasLegalMove(
-                new int[] {mole.getField().getX(), mole.getField().getY()},
-                endfield,
-                ai.getCard(),
-                ai.getMap())) {
-              return Directions.DOWN_LEFT;
-            }
+
+          if (GameLogic.wasLegalMove(
+              new int[] {mole.getField().getX(), mole.getField().getY()},
+              endfield,
+              ai.getCard(),
+              ai.getMap())) {
+            return Directions.DOWN_LEFT;
           }
         } catch (@NotNull final Exception ignored) {
         }
       } else if (direction == Directions.DOWN_RIGHT) {
         try {
-          if (!(ai.getMap()
-              .getFieldMap()
-              .get(List.of(field.get(0) + cardValue, field.get(1) - cardValue))
-              .isOccupied())) {
-            if (GameLogic.wasLegalMove(
-                new int[] {mole.getField().getX(), mole.getField().getY()},
-                endfield,
-                ai.getCard(),
-                ai.getMap())) {
-              return Directions.DOWN_RIGHT;
-            }
+
+          if (GameLogic.wasLegalMove(
+              new int[] {mole.getField().getX(), mole.getField().getY()},
+              endfield,
+              ai.getCard(),
+              ai.getMap())) {
+            return Directions.DOWN_RIGHT;
           }
         } catch (@NotNull final Exception ignored) {
         }
       } else if (direction == Directions.UP_LEFT) {
         try {
-          if (!(ai.getMap()
-              .getFieldMap()
-              .get(List.of(field.get(0) - cardValue, field.get(1) + cardValue))
-              .isOccupied())) {
-            if (GameLogic.wasLegalMove(
-                new int[] {mole.getField().getX(), mole.getField().getY()},
-                endfield,
-                ai.getCard(),
-                ai.getMap())) {
-              return Directions.UP_LEFT;
-            }
+
+          if (GameLogic.wasLegalMove(
+              new int[] {mole.getField().getX(), mole.getField().getY()},
+              endfield,
+              ai.getCard(),
+              ai.getMap())) {
+            return Directions.UP_LEFT;
           }
         } catch (@NotNull final Exception ignored) {
         }
       } else if (direction == Directions.UP_RIGHT) {
         try {
-          if (!(ai.getMap()
-              .getFieldMap()
-              .get(List.of(field.get(0) + cardValue, field.get(1) + cardValue))
-              .isOccupied())) {
-            if (GameLogic.wasLegalMove(
-                new int[] {mole.getField().getX(), mole.getField().getY()},
-                endfield,
-                ai.getCard(),
-                ai.getMap())) {
-              return Directions.UP_RIGHT;
-            }
+
+          if (GameLogic.wasLegalMove(
+              new int[] {mole.getField().getX(), mole.getField().getY()},
+              endfield,
+              ai.getCard(),
+              ai.getMap())) {
+            return Directions.UP_RIGHT;
           }
         } catch (Exception ignored) {
         }
       }
     }
-    return null;
   }
 
   public int[] endField(
@@ -316,19 +293,24 @@ public class AILogic {
    */
   private boolean move(@NotNull final AI ai, @NotNull final ArrayList<Mole> moles) {
     var random = new Random();
+    Directions direction = null;
     for (var ignored : moles) {
       var mole = moles.get(random.nextInt(moles.size()));
       if (mole == null) {
         continue;
       }
-      var direction =
+      direction =
           isMoveable(
               ai, ai.getCard(), List.of(mole.getField().getX(), mole.getField().getY()), mole);
+
       if (direction != null) {
         if (makeMove(mole, direction)) {
           return true;
         }
       }
+    }
+    if (direction == null) {
+      System.out.println("NO MOVE POSSIBLE");
     }
     return false;
   }
@@ -391,10 +373,6 @@ public class AILogic {
                   || hole.getY() == mole.getField().getY() - ai.getCard())) {
             return List.of(mole, hole.getX(), hole.getY());
           }
-        } else {
-          // System.out.println("AI: hole is occupied mole: " +
-          // ai.getMap().getFieldMap().get(List.of(hole.getX(), hole.getY())).getMole() + "!");
-          return null;
         }
       }
     }

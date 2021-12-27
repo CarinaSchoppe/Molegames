@@ -50,10 +50,10 @@ public class ServerThread extends NetworkThread {
   public void disconnect() throws IOException {
     if (getPlayer() != null) {
       if (getPlayer().getGame() != null) {
-        getPlayer().getGame().getGameUtil().nextPlayer();
         getPlayer()
             .getGame()
             .removePlayerFromGame(player.getGame().getClientPlayersMap().get(this));
+        getPlayer().getGame().getGameUtil().nextPlayer();
       }
     }
     server.getLobbyThreads().remove(this);

@@ -40,8 +40,7 @@ public class GameLogic {
         if (stop[0] - start[0] == 0 && Math.abs(stop[1] - start[1]) == moveCounter
             || start[1] - stop[1] == 0 && Math.abs(stop[0] - start[0]) == moveCounter
             || Math.abs(stop[0] - start[0]) == moveCounter
-                && Math.abs(start[1] - stop[1]) == moveCounter
-                && moveCounter > 0) {
+                && Math.abs(start[1] - stop[1]) == moveCounter) {
           if (map.getFieldMap().get(List.of(stop[0], stop[1])).isOccupied()) {
             System.out.println("Field is occupied!");
             return false;

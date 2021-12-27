@@ -53,7 +53,6 @@ public class GameUtil {
           .get(List.of(moles.getField().getX(), moles.getField().getY()))
           .isHole()) {
         return false;
-      } else {
       }
     }
     return true;
@@ -104,6 +103,10 @@ public class GameUtil {
     }
     game.getGameState().setCurrentPlayer(game.getCurrentPlayer());
 
+    if (!game.getActivePlayers().contains(game.getCurrentPlayer())) {
+      nextPlayer();
+      return;
+    }
     // selection of the new next player is done
     if (allHolesFilled()) {
       if (MoleGames.getMoleGames().getServer().isDebug())

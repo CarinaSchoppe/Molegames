@@ -393,10 +393,6 @@ public class ClientPacketHandler {
         .getFieldMap()
         .get(List.of(mole.getField().getX(), mole.getField().getY()))
         .setMole(mole);
-    if (mole == null) {
-      System.out.println("mole is null");
-      System.exit(9);
-    }
     client.getGameState().getPlacedMoles().add(mole);
     updateMap();
   }

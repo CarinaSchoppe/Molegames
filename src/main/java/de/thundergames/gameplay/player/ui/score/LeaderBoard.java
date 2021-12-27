@@ -80,7 +80,6 @@ public class LeaderBoard extends Application implements Initializable {
     var leaderlist = new ArrayList<PlayerResult>();
     var thisPlace = 1;
     for (var player : score.getPlayers()) {
-      System.out.println("points: " + score.getPoints().get(player.getClientID()));
       leaderlist.add(
           new PlayerResult(
               player.getName(), score.getPoints().get(player.getClientID()), thisPlace));

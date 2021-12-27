@@ -66,7 +66,7 @@ public class MainGUI extends Application implements Initializable {
 
   public static void create(@NotNull final Server server) {
     MoleGames.getMoleGames().setAusrichterClient(new AusrichterClient(server));
-    new Thread(() -> launch()).start();
+    new Thread(Application::launch).start();
     MoleGames.getMoleGames().getAusrichterClient().testTournament(0);
     // MoleGames.getMoleGames().getAusrichterClient().testGame(0);
   }
@@ -244,10 +244,14 @@ public class MainGUI extends Application implements Initializable {
   }
 
   public void updateTable() {
+    var tournamentSelection = tournamentTable.getSelectionModel().getSelectedItem();
+    var gameSelection = gameTable.getSelectionModel().getSelectedItem();
     gameTable.getItems().clear();
     tournamentTable.getItems().clear();
     gameTable.getItems().addAll(MoleGames.getMoleGames().getGameHandler().getGames());
     tournamentTable.getItems().addAll(MoleGames.getMoleGames().getGameHandler().getTournaments());
+    gameTable.getSelectionModel().select(gameSelection);
+    tournamentTable.getSelectionModel().select(tournamentSelection);
   }
 
   /**
