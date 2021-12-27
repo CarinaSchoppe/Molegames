@@ -32,7 +32,7 @@ public class GameLogic {
    * @premisse the startpoint and endpoint must be in the playingfield and the player was allowed to
    *     move.
    */
-  public static boolean wasLegalMove(
+  public static synchronized boolean wasLegalMove(
       final int[] start, final int[] stop, final int moveCounter, @NotNull final Map map) {
     if (map.getFieldMap().containsKey(List.of(start[0], start[1]))
         && map.getFieldMap().containsKey(List.of(stop[0], stop[1]))) {
@@ -124,7 +124,6 @@ public class GameLogic {
           }
           return true;
         } else {
-          System.out.println("ERROR 6");
           return false;
         }
       } else {
@@ -147,7 +146,6 @@ public class GameLogic {
         return false;
       }
     } else {
-      System.out.println("ERROR 71");
       return false;
     }
   }
