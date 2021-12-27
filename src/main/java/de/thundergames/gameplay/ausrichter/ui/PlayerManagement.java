@@ -18,6 +18,7 @@ import de.thundergames.networking.util.Packet;
 import de.thundergames.networking.util.Packets;
 import de.thundergames.networking.util.exceptions.NotAllowedError;
 import de.thundergames.playmechanics.game.Game;
+import de.thundergames.playmechanics.game.GameStates;
 import de.thundergames.playmechanics.util.Player;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
@@ -76,6 +77,18 @@ public class PlayerManagement implements Initializable {
             null, "Der Spieler ist bereits in einem Spiel!", "Fehler!", JOptionPane.ERROR_MESSAGE);
         return;
       }
+      if (game.getCurrentGameState() == GameStates.OVER) {
+        JOptionPane.showMessageDialog(
+            null, "Das Spiel ist bereits vorbei!", "Fehler!", JOptionPane.ERROR_MESSAGE);
+        return;
+      } else if (game.getCurrentGameState() == GameStates.NOT_STARTED && !spectator.isSelected()) {
+        JOptionPane.showMessageDialog(
+            null,
+            "Der Spieler kann keinem laufenden Spiel als Spieler beitreten nur als Beobachter!",
+            "Fehler!",
+            JOptionPane.ERROR_MESSAGE);
+        return;
+      }
       if (game.getPlayers().size() + 1 <= game.getSettings().getMaxPlayers()) {
         var object = new JsonObject();
         var json = new JsonObject();
@@ -92,7 +105,10 @@ public class PlayerManagement implements Initializable {
           updateTable();
         } else {
           JOptionPane.showMessageDialog(
-              null, "Du musst einen Spieler auswählen!", "Auswählen!", JOptionPane.ERROR_MESSAGE);
+              null,
+              "Das hinzufuegen des Spielers hat nicht geklappt.",
+              "Fehler!",
+              JOptionPane.ERROR_MESSAGE);
         }
       } else {
         JOptionPane.showMessageDialog(
@@ -100,7 +116,7 @@ public class PlayerManagement implements Initializable {
       }
     } else {
       JOptionPane.showMessageDialog(
-          null, "Du musst einen Spieler auswählen!", "Auswählen!", JOptionPane.ERROR_MESSAGE);
+          null, "Du musst einen Spieler auswaehlen!", "Auswaehlen!", JOptionPane.ERROR_MESSAGE);
     }
   }
 
@@ -127,7 +143,7 @@ public class PlayerManagement implements Initializable {
       updateTable();
     } else {
       JOptionPane.showMessageDialog(
-          null, "Du musst einen Spieler auswählen!", "Auswählen!", JOptionPane.ERROR_MESSAGE);
+          null, "Du musst einen Spieler auswaehlen!", "Auswaehlen!", JOptionPane.ERROR_MESSAGE);
     }
   }
 

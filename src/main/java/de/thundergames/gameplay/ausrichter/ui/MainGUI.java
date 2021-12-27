@@ -82,7 +82,7 @@ public class MainGUI extends Application implements Initializable {
     var selectedItem = gameTable.getSelectionModel().getSelectedItem();
     if (selectedItem == null) {
       JOptionPane.showMessageDialog(
-          null, "Es wurde kein Spiel ausgewählt!", "Spiel auswählen!", JOptionPane.ERROR_MESSAGE);
+          null, "Es wurde kein Spiel ausgewaehlt!", "Spiel auswaehlen!", JOptionPane.ERROR_MESSAGE);
     } else {
       if (MoleGames.getMoleGames()
               .getGameHandler()
@@ -97,6 +97,8 @@ public class MainGUI extends Application implements Initializable {
             .pauseGame();
         JOptionPane.showMessageDialog(
             null, "Spiel wurde erfolgreich pausiert!", "Erfolg!", JOptionPane.ERROR_MESSAGE);
+        tournamentTable.getSelectionModel().clearSelection();
+        gameTable.getSelectionModel().clearSelection();
       } else {
         JOptionPane.showMessageDialog(
             null,
@@ -112,7 +114,7 @@ public class MainGUI extends Application implements Initializable {
     var selectedItem = gameTable.getSelectionModel().getSelectedItem();
     if (selectedItem == null) {
       JOptionPane.showMessageDialog(
-          null, "Es wurde kein Spiel ausgewählt!", "Spiel auswählen!", JOptionPane.ERROR_MESSAGE);
+          null, "Es wurde kein Spiel ausgewaehlt!", "Spiel auswaehlen!", JOptionPane.ERROR_MESSAGE);
     } else {
       if (MoleGames.getMoleGames()
               .getGameHandler()
@@ -125,8 +127,10 @@ public class MainGUI extends Application implements Initializable {
             .getIDGames()
             .get(selectedItem.getGameID())
             .resumeGame();
+        tournamentTable.getSelectionModel().clearSelection();
+        gameTable.getSelectionModel().clearSelection();
         JOptionPane.showMessageDialog(
-            null, "Spiel wurde erfolgreich weitergeführt!", "Erfolg!", JOptionPane.PLAIN_MESSAGE);
+            null, "Spiel wurde erfolgreich weitergefuehrt!", "Erfolg!", JOptionPane.PLAIN_MESSAGE);
       } else {
         JOptionPane.showMessageDialog(
             null,
@@ -142,7 +146,7 @@ public class MainGUI extends Application implements Initializable {
     var selectedItem = gameTable.getSelectionModel().getSelectedItem();
     if (selectedItem == null) {
       JOptionPane.showMessageDialog(
-          null, "Es wurde kein Spiel ausgewählt!", "Spiel auswählen!", JOptionPane.ERROR_MESSAGE);
+          null, "Es wurde kein Spiel ausgewaehlt!", "Spiel auswaehlen!", JOptionPane.ERROR_MESSAGE);
     } else {
       if (MoleGames.getMoleGames()
                   .getGameHandler()
@@ -161,6 +165,8 @@ public class MainGUI extends Application implements Initializable {
             .getIDGames()
             .get(selectedItem.getGameID())
             .forceGameEnd();
+        tournamentTable.getSelectionModel().clearSelection();
+        gameTable.getSelectionModel().clearSelection();
         JOptionPane.showMessageDialog(
             null, "Spiel wurde erfolgreich beendet!", "Erfolg!", JOptionPane.PLAIN_MESSAGE);
       } else {
@@ -178,7 +184,7 @@ public class MainGUI extends Application implements Initializable {
     var selectedItem = gameTable.getSelectionModel().getSelectedItem();
     if (selectedItem == null) {
       JOptionPane.showMessageDialog(
-          null, "Es wurde kein Spiel ausgewählt!", "Spiel auswählen!", JOptionPane.ERROR_MESSAGE);
+          null, "Es wurde kein Spiel ausgewaehlt!", "Spiel auswaehlen!", JOptionPane.ERROR_MESSAGE);
     } else {
       if (MoleGames.getMoleGames()
                   .getGameHandler()
@@ -197,10 +203,16 @@ public class MainGUI extends Application implements Initializable {
             .getIDGames()
             .get(selectedItem.getGameID())
             .startGame(GameStates.STARTED);
+        tournamentTable.getSelectionModel().clearSelection();
+        gameTable.getSelectionModel().clearSelection();
         JOptionPane.showMessageDialog(
             null, "Spiel wurde erfolgreich gestartet!", "Erfolg!", JOptionPane.PLAIN_MESSAGE);
       } else {
-        JOptionPane.showMessageDialog(null, "Das Spiel ist kann nicht gestartet werden!");
+        JOptionPane.showMessageDialog(
+            null,
+            "Das Spiel ist kann nicht gestartet werden!",
+            "Fehler",
+            JOptionPane.PLAIN_MESSAGE);
       }
     }
   }
@@ -234,7 +246,12 @@ public class MainGUI extends Application implements Initializable {
       var game =
           MoleGames.getMoleGames().getGameHandler().getIDGames().get(selectedItem.getGameID());
       var primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+      tournamentTable.getSelectionModel().clearSelection();
+      gameTable.getSelectionModel().clearSelection();
       new PlayerManagement(game).start(primaryStage);
+    } else {
+      JOptionPane.showMessageDialog(
+          null, "Das Spiel du musst ein Spiel auswaehlen!", "Fehler", JOptionPane.PLAIN_MESSAGE);
     }
   }
 

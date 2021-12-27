@@ -84,7 +84,7 @@ public class DrawAgainConfiguration implements Initializable {
         updateDragAgainTable();
         updateTable();
       } else {
-        JOptionPane.showMessageDialog(null, "Wähle eine Ebene aus!");
+        JOptionPane.showMessageDialog(null, "Waehle eine Ebene aus!");
       }
       x.setText(null);
       y.setText(null);
@@ -113,7 +113,7 @@ public class DrawAgainConfiguration implements Initializable {
       floorTable.getSelectionModel().select(null);
     } else {
       JOptionPane.showMessageDialog(
-          null, "Du musst eine Spalte auswählen!", "Auswählen!", JOptionPane.ERROR_MESSAGE);
+          null, "Du musst eine Spalte auswaehlen!", "Auswaehlen!", JOptionPane.ERROR_MESSAGE);
     }
   }
 
