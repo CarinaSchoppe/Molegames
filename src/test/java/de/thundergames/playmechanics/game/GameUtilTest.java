@@ -56,8 +56,6 @@ class GameUtilTest {
     when(playerMock.getMoles()).thenReturn(moles);
     var players = new ArrayList<Player>();
     players.add(playerMock);
-    // when(game.getMap()).thenReturn(map);
-    // when(game.getPlayers()).thenReturn(players);
     holes.add(new Field(1, 1));
     gameUtil = new GameUtil(game);
   }

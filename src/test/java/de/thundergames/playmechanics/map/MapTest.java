@@ -219,22 +219,21 @@ class MapTest {
   @Test
   void changeFieldParams() {
     game.setRadius(5);
-    var map = new Map(game, new HashSet<>(), new HashSet<>(), 1);
+    var holes = new HashSet<Field>();
+    var drawAgainFields = new HashSet<Field>();
+    holes.add(new Field(1, 1));
+    drawAgainFields.add(new Field(0, 0));
+    var map = new Map(game, holes, drawAgainFields, 1);
     map.build(game);
     assertFalse(map.getFieldMap().get(List.of(1, 3)).isOccupied());
     assertFalse(map.getFieldMap().get(List.of(1, 3)).isHole());
     assertFalse(map.getFieldMap().get(List.of(1, 3)).isDrawAgainField());
     var fieldMole = map.getFieldMap().get(List.of(1, 3));
-    var fieldHole = map.getFieldMap().get(List.of(1, 1));
-    var fieldDrawAgain = map.getFieldMap().get(List.of(0, 0));
     var mole = new Mole(playerMock, fieldMole);
     fieldMole.setMole(mole);
+    fieldMole.setOccupied(true);
     var moles = new ArrayList<Mole>();
-    var holes = new HashSet<Field>();
-    var drawAgainFields = new HashSet<Field>();
     moles.add(mole);
-    holes.add(fieldHole);
-    drawAgainFields.add(fieldDrawAgain);
     var floor = new Map(holes, drawAgainFields, 1);
     var gameState = new GameState();
     gameState.setPlacedMoles(moles);
