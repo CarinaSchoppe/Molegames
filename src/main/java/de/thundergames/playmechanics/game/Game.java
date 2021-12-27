@@ -336,60 +336,62 @@ public class Game {
    * @see Player
    */
   public void removePlayerFromGame(@NotNull final Player player) {
-    if (player.getServerClient() != null) {
-      MoleGames.getMoleGames()
-          .getServer()
-          .getPlayingThreads()
-          .remove((ServerThread) player.getServerClient());
-      MoleGames.getMoleGames()
-          .getServer()
-          .getLobbyThreads()
-          .add((ServerThread) player.getServerClient());
-    }
-    if (currentGameState == GameStates.NOT_STARTED) {
-      score.getPlayers().remove(player);
-      score.getPoints().remove(player.getServerClient().getThreadID());
-    }
-    if (currentGameState != GameStates.NOT_STARTED && !currentGameState.equals(GameStates.OVER)) {
-      if (!clientPlayersMap.containsKey(player.getServerClient())) {
-        eliminatedPlayers.add(player);
+    if (player != null) {
+      if (player.getServerClient() != null) {
+        MoleGames.getMoleGames()
+            .getServer()
+            .getPlayingThreads()
+            .remove((ServerThread) player.getServerClient());
+        MoleGames.getMoleGames()
+            .getServer()
+            .getLobbyThreads()
+            .add((ServerThread) player.getServerClient());
       }
-    }
-    if (activePlayers.contains(player)) {
-      clientPlayersMap.get(player.getServerClient()).getTimer().cancel();
-      clientPlayersMap.get(player.getServerClient()).setTimerIsRunning(false);
-      for (var moles : player.getMoles()) {
-        map.getFieldMap()
-            .get(List.of(moles.getField().getX(), moles.getField().getY()))
-            .setOccupied(false);
-        map.getFieldMap()
-            .get(List.of(moles.getField().getX(), moles.getField().getY()))
-            .setMole(null);
+      if (currentGameState == GameStates.NOT_STARTED) {
+        score.getPlayers().remove(player);
+        score.getPoints().remove(player.getServerClient().getThreadID());
       }
-    }
-    player.getMoles().clear();
-    clientPlayersMap.remove(player.getServerClient());
-    if (currentGameState == GameStates.NOT_STARTED || currentGameState == GameStates.OVER) {
-      players.remove(player);
-    }
-    spectators.remove(player);
-    activePlayers.remove(player);
-    player.getMoles().clear();
-    MoleGames.getMoleGames().getGameHandler().getClientGames().remove(player.getServerClient());
-    setCurrentPlayerCount(players.size());
-    if (currentGameState == GameStates.NOT_STARTED || currentGameState == GameStates.OVER) {
-      ((ServerThread) player.getServerClient())
-          .setPlayer(new Player((ServerThread) player.getServerClient()));
-    }
-    updateGameState();
-    if (PlayerManagement.getPlayerManagement() != null) {
-      PlayerManagement.getPlayerManagement().updateTable();
-    }
-    if (MainGUI.getGUI() != null) {
-      MainGUI.getGUI().updateTable();
-    }
-    if (activePlayers.isEmpty()) {
-      endGame();
+      if (currentGameState != GameStates.NOT_STARTED && !currentGameState.equals(GameStates.OVER)) {
+        if (!clientPlayersMap.containsKey(player.getServerClient())) {
+          eliminatedPlayers.add(player);
+        }
+      }
+      if (activePlayers.contains(player)) {
+        clientPlayersMap.get(player.getServerClient()).getTimer().cancel();
+        clientPlayersMap.get(player.getServerClient()).setTimerIsRunning(false);
+        for (var moles : player.getMoles()) {
+          map.getFieldMap()
+              .get(List.of(moles.getField().getX(), moles.getField().getY()))
+              .setOccupied(false);
+          map.getFieldMap()
+              .get(List.of(moles.getField().getX(), moles.getField().getY()))
+              .setMole(null);
+        }
+      }
+      player.getMoles().clear();
+      clientPlayersMap.remove(player.getServerClient());
+      if (currentGameState == GameStates.NOT_STARTED || currentGameState == GameStates.OVER) {
+        players.remove(player);
+      }
+      spectators.remove(player);
+      activePlayers.remove(player);
+      player.getMoles().clear();
+      MoleGames.getMoleGames().getGameHandler().getClientGames().remove(player.getServerClient());
+      setCurrentPlayerCount(players.size());
+      if (currentGameState == GameStates.NOT_STARTED || currentGameState == GameStates.OVER) {
+        ((ServerThread) player.getServerClient())
+            .setPlayer(new Player((ServerThread) player.getServerClient()));
+      }
+      updateGameState();
+      if (PlayerManagement.getPlayerManagement() != null) {
+        PlayerManagement.getPlayerManagement().updateTable();
+      }
+      if (MainGUI.getGUI() != null) {
+        MainGUI.getGUI().updateTable();
+      }
+      if (activePlayers.isEmpty()) {
+        endGame();
+      }
     }
   }
 

@@ -124,6 +124,7 @@ public class GameLogic {
           }
           return true;
         } else {
+          System.out.println("Not doing a possible move!");
           return false;
         }
       } else {
@@ -146,6 +147,7 @@ public class GameLogic {
         return false;
       }
     } else {
+      System.out.println("Field does not exist!");
       return false;
     }
   }

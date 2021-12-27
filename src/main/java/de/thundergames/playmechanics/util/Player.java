@@ -105,7 +105,6 @@ public class Player {
     if (!game.getCurrentPlayer().equals(this)) {
       System.out.println(
           "current" + game.getCurrentPlayer().getName() + "who moved: " + this.getName());
-      System.out.println("ERROR1");
       return;
     }
     if (GameLogic.wasLegalMove(
@@ -162,15 +161,12 @@ public class Player {
                   + "."
                   + "\n");
         }
-      } else {
-        System.out.println("ERROR3 " + this.name);
       }
       if (game.getMap().getFieldMap().get(List.of(x_end, y_end)).isDrawAgainField()) {
         setDrawAgain(true);
       }
       playerUtil.handleTurnAfterAction();
     } else {
-      System.out.println("ERROR2");
       MoleGames.getMoleGames()
           .getGameHandler()
           .getGameLogic()

@@ -48,7 +48,6 @@ public class AILogic {
           new int[] {x, y},
           ai.getCard(),
           ai.getMap())) {
-        System.out.println("TEST");
         ai.getAIPacketHandler()
             .makeMovePacket(
                 new int[] {mole.getField().getX(), mole.getField().getY()},
@@ -106,18 +105,15 @@ public class AILogic {
    * @see Player
    * @see de.thundergames.gameplay.ai.AI
    */
-  public Directions isMoveable(
-      @NotNull final AI ai,
-      final int cardValue,
-      @NotNull final List<Integer> field,
-      @NotNull final Mole mole)
+  public Directions isMoveable(@NotNull final AI ai, @NotNull final Mole mole)
       throws NullPointerException {
-    var directionsList = new ArrayList<Directions>();
+    var directionsList = new ArrayList<Directions>(List.of(Directions.values()));
     while (true) {
-      Directions direction = directionsList.get(new Random().nextInt(directionsList.size()));
       if (directionsList.isEmpty()) {
+        System.out.println("NO DIRECTIONS FOUND");
         return null;
       }
+      var direction = directionsList.get(new Random().nextInt(directionsList.size()));
       directionsList.remove(direction);
       var endfield = endField(ai, mole, direction);
       if (direction == Directions.DOWN) {
@@ -133,7 +129,6 @@ public class AILogic {
         }
       } else if (direction == Directions.UP) {
         try {
-
           if (GameLogic.wasLegalMove(
               new int[] {mole.getField().getX(), mole.getField().getY()},
               endfield,
@@ -289,9 +284,7 @@ public class AILogic {
       if (mole == null) {
         continue;
       }
-      direction =
-          isMoveable(
-              ai, ai.getCard(), List.of(mole.getField().getX(), mole.getField().getY()), mole);
+      direction = isMoveable(ai, mole);
 
       if (direction != null) {
         if (makeMove(mole, direction)) {
@@ -300,7 +293,7 @@ public class AILogic {
       }
     }
     if (direction == null) {
-      System.out.println("NO MOVE POSSIBLE");
+      System.out.println("AI: No move possible!");
     }
     return false;
   }
