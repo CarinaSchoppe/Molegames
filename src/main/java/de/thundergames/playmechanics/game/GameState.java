@@ -20,14 +20,15 @@ import lombok.Data;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 
 @Data
 public class GameState {
 
-  private ArrayList<Player> activePlayers = new ArrayList<>();
+  private HashSet<Player> activePlayers = new HashSet<>();
   private Player currentPlayer;
   private int remainingTime;
-  private ArrayList<Mole> placedMoles = new ArrayList<>();
+  private HashSet<Mole> placedMoles = new HashSet<>();
   private int moles;
   private int radius;
 

@@ -621,18 +621,12 @@ public class PacketHandler {
   private void removeFromGames(@NotNull final ServerThread client) {
     client.getServer().getPlayingThreads().remove(client);
     client.getServer().getLobbyThreads().add(client);
-    if (MoleGames.getMoleGames().getServer().isDebug()) {
-      if (client.getPlayer() != null) {
-        if (client.getPlayer().getGame() == null) {
-          System.out.println(
-              "Client with id: "
-                  + client.getThreadID()
-                  + " tried to leave a game but was not part of one!");
-          return;
-        }
-      } else {
+    if (client.getPlayer() != null) {
+      if (client.getPlayer().getGame() == null) {
         return;
       }
+    } else {
+      return;
     }
     if (client.getPlayer().getGame().getCurrentPlayer() != null) {
       client.getPlayer().getGame().getCurrentPlayer().getTimer().cancel();

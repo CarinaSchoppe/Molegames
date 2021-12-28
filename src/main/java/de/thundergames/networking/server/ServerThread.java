@@ -14,6 +14,7 @@ import de.thundergames.MoleGames;
 import de.thundergames.gameplay.ausrichter.ui.MainGUI;
 import de.thundergames.gameplay.ausrichter.ui.PlayerManagement;
 import de.thundergames.networking.util.NetworkThread;
+import de.thundergames.playmechanics.game.GameStates;
 import de.thundergames.playmechanics.util.Player;
 import lombok.Getter;
 import lombok.Setter;
@@ -48,12 +49,16 @@ public class ServerThread extends NetworkThread {
    */
   @Override
   public void disconnect() throws IOException {
-    if (getPlayer() != null) {
-      if (getPlayer().getGame() != null) {
+    if (player != null) {
+      if (player.getGame() != null) {
+        var game = player.getGame();
         getPlayer()
             .getGame()
             .removePlayerFromGame(player.getGame().getClientPlayersMap().get(this));
-        getPlayer().getGame().getGameUtil().nextPlayer();
+        if (game.getCurrentGameState() != GameStates.NOT_STARTED
+            && game.getCurrentGameState() != GameStates.OVER) {
+          game.getGameUtil().nextPlayer();
+        }
       }
     }
     server.getLobbyThreads().remove(this);

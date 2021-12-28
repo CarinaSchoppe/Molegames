@@ -34,8 +34,8 @@ public class Game {
   private final int gameID;
   private final HashSet<Player> eliminatedPlayers = new HashSet<>();
   private final transient HashMap<ServerThread, Player> clientPlayersMap = new HashMap<>();
-  private final transient ArrayList<Player> players = new ArrayList<>();
-  private final transient ArrayList<Player> spectators = new ArrayList<>();
+  private final transient HashSet<Player> players = new HashSet<>();
+  private final transient HashSet<Player> spectators = new HashSet<>();
   private final transient HashMap<Player, Mole> moleMap = new HashMap<>();
   private final transient GameState gameState = new GameState();
   private final transient ArrayList<Player> activePlayers = new ArrayList<>();
@@ -88,9 +88,9 @@ public class Game {
    */
   public void updateGameState() {
     updateNetworkGame();
-    gameState.setActivePlayers(new ArrayList<>(players));
+    gameState.setActivePlayers(new HashSet<>(players));
     gameState.setCurrentPlayer(currentPlayer);
-    var moles = new ArrayList<Mole>();
+    var moles = new HashSet<Mole>();
     for (var players : activePlayers) {
       moles.addAll(players.getMoles());
     }
@@ -185,7 +185,7 @@ public class Game {
           players.add(
               MoleGames.getMoleGames().getServer().getConnectionIDs().get(playerID).getPlayer());
         }
-        getScore()
+        score
             .getPlayers()
             .sort(
                 (o1, o2) ->
@@ -193,7 +193,7 @@ public class Game {
                         .getPoints()
                         .get(o2.getServerClient().getThreadID())
                         .compareTo(getScore().getPoints().get(o1.getServerClient().getThreadID())));
-        for (var player : getScore().getPlayers()) {
+        for (var player : score.getPlayers()) {
           if (getScore().getPoints().get(player.getServerClient().getThreadID()).equals(max)) {
             getScore().getWinners().add(player);
           }
@@ -204,7 +204,7 @@ public class Game {
                   + getGameID()
                   + " has ended! Winners are: "
                   + getScore().getWinners());
-          for (var player : getScore().getPlayers()) {
+          for (var player : score.getPlayers()) {
             System.out.println(
                 "Score of player: "
                     + player.getName()
@@ -215,10 +215,10 @@ public class Game {
         setFinishDateTime(Instant.now().getEpochSecond());
         currentGameState = GameStates.OVER;
         MoleGames.getMoleGames().getServer().getPacketHandler().gameOverPacket(this);
-        for (var player : new ArrayList<>(players)) {
+        for (var player : new HashSet<>(players)) {
           removePlayerFromGame(player);
         }
-        for (var player : new ArrayList<>(spectators)) {
+        for (var player : new HashSet<>(spectators)) {
           removePlayerFromGame(player);
         }
         updateGameState();
@@ -292,8 +292,12 @@ public class Game {
     if (getCurrentGameState().equals(GameStates.NOT_STARTED) && !spectator) {
       clientPlayersMap.put(client, player);
       players.add(player);
-      activePlayers.add(player);
-      getScore().getPlayers().add(player);
+      if (!activePlayers.contains(player)) {
+        activePlayers.add(player);
+      }
+      if (!score.getPlayers().contains(player)) {
+        score.getPlayers().add(player);
+      }
       MoleGames.getMoleGames()
           .getGameHandler()
           .getClientGames()

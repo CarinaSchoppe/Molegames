@@ -96,13 +96,13 @@ public class Server extends Network {
    */
   public void sendToAllGameClients(@NotNull final Game game, @NotNull final Packet packet) {
     if (!game.getPlayers().isEmpty()) {
-      for (var clients : game.getPlayers()) {
+      for (var clients : new HashSet<>(game.getPlayers())) {
         clients.getServerClient().sendPacket(packet);
       }
     }
     if (!game.getSpectators().isEmpty()) {
-      for (var clients : game.getSpectators()) {
-        clients.getServerClient().sendPacket(packet);
+      for (var spectators : new HashSet<>(game.getSpectators())) {
+        spectators.getServerClient().sendPacket(packet);
       }
     }
   }
@@ -116,12 +116,12 @@ public class Server extends Network {
       @NotNull final Tournament tournament, @NotNull final Packet packet) {
     try {
       if (!tournament.getPlayers().isEmpty()) {
-        for (var clients : tournament.getPlayers()) {
+        for (var clients : new HashSet<>(tournament.getPlayers())) {
           clients.sendPacket(packet);
         }
       }
       if (!tournament.getSpectators().isEmpty()) {
-        for (var clients : tournament.getSpectators()) {
+        for (var clients : new HashSet<>(tournament.getSpectators())) {
           clients.sendPacket(packet);
         }
       }
