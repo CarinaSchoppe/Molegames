@@ -18,7 +18,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
@@ -54,7 +53,7 @@ class GameLogicTest {
     var fieldDrawAgain = map.getFieldMap().get(List.of(0, 0));
     var mole = new Mole(playerMock, fieldMole);
     fieldMole.setMole(mole);
-    var moles = new ArrayList<Mole>();
+    var moles = new HashSet<Mole>();
     var holes = new HashSet<Field>();
     var drawAgainFields = new HashSet<Field>();
     moles.add(mole);

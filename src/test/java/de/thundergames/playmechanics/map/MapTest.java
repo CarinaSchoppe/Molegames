@@ -19,7 +19,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
@@ -232,7 +231,7 @@ class MapTest {
     var mole = new Mole(playerMock, fieldMole);
     fieldMole.setMole(mole);
     fieldMole.setOccupied(true);
-    var moles = new ArrayList<Mole>();
+    var moles = new HashSet<Mole>();
     moles.add(mole);
     var floor = new Map(holes, drawAgainFields, 1);
     var gameState = new GameState();
