@@ -115,6 +115,7 @@ public class Player {
             && m.getField().getY() == y_start
             && m.getPlayer().getServerClient().getThreadID() == getServerClient().getThreadID()) {
           mole = m;
+          moles.remove(m);
           break;
         }
       }
@@ -137,13 +138,7 @@ public class Player {
         game.getMap().getFieldMap().get(List.of(x_end, y_end)).setOccupied(true);
         game.getMap().getFieldMap().get(List.of(x_end, y_end)).setMole(mole);
         game.getMap().getFieldMap().get(List.of(x_start, y_start)).setMole(null);
-        for (var m : moles) {
-          if (m.getField().getX() == x_start && m.getField().getY() == y_start) {
-            moles.remove(m);
-            moles.add(mole);
-          }
-        }
-        mole.setField(new Field(x_end, y_end));
+        moles.add(mole);
         if (MoleGames.getMoleGames().getServer().isDebug()) {
           System.out.println(
               "Playermodel with id: "
@@ -187,7 +182,7 @@ public class Player {
                 + y_end
                 + "] with a card of "
                 + cardValue
-                + "\n\n");
+                + "\n");
       }
       timer.cancel();
       game.getGameUtil().nextPlayer();
@@ -235,19 +230,15 @@ public class Player {
       timer.cancel();
       game.getGameUtil().nextPlayer();
     } else {
-      var mole = new Mole(this, new Field(x, y));
+      var mole = new Mole(this, game.getMap().getFieldMap().get(List.of(x, y)));
       moles.add(mole);
       game.getMoleMap().put(this, mole);
       game.getMap().getFieldMap().get(List.of(x, y)).setOccupied(true);
       game.getMap().getFieldMap().get(List.of(x, y)).setMole(mole);
-      var field = new Field(mole.getField().getX(), mole.getField().getY());
-      var player = new Player((ServerThread) getServerClient());
-      var netMole = new Mole(player, field);
       MoleGames.getMoleGames()
           .getServer()
           .sendToAllGameClients(
-              game,
-              MoleGames.getMoleGames().getServer().getPacketHandler().molePlacedPacket(netMole));
+              game, MoleGames.getMoleGames().getServer().getPacketHandler().molePlacedPacket(mole));
       playerUtil.handleTurnAfterAction();
       if (MoleGames.getMoleGames().getServer().isDebug())
         System.out.println(

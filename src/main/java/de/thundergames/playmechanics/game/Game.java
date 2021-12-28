@@ -391,7 +391,7 @@ public class Game {
     if (MainGUI.getGUI() != null) {
       MainGUI.getGUI().updateTable();
     }
-    if (activePlayers.isEmpty()) {
+    if (activePlayers.isEmpty() && currentGameState != GameStates.OVER) {
       endGame();
     }
   }
