@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~ Copyright Notice for SwtPra10
+  ~ Copyright (c) at ThunderGames | SwtPra10 2021
+  ~ File created on 23.12.21, 16:45 by Carina Latest changes made by Carina on 23.12.21, 16:45 All contents of "DrawAgainConfiguration.fxml" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+  ~ at ThunderGames | SwtPra10. All rights reserved
+  ~ Any type of duplication, distribution, rental, sale, award,
+  ~ Public accessibility or other use
+  ~ requires the express written consent of ThunderGames | SwtPra10.
+  -->
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="761.0" xmlns="http://javafx.com/javafx/17">
+    <children>
+        <ImageView fitHeight="720.0" fitWidth="766.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../pictures/Draw-Again-Config.png"/>
+            </image>
+        </ImageView>
+        <Button fx:id="back" layoutX="64.0" layoutY="46.0" mnemonicParsing="false" onAction="#onBack" prefHeight="45.0" prefWidth="44.0" style="-fx-background-color: transparent;"/>
+        <Button fx:id="add" layoutX="674.0" layoutY="501.0" mnemonicParsing="false" onAction="#onAdd" prefHeight="45.0" prefWidth="44.0" style="-fx-background-color: transparent;"/>
+        <Button fx:id="remove" layoutX="674.0" layoutY="582.0" mnemonicParsing="false" onAction="#onRemove" prefHeight="45.0" prefWidth="44.0" style="-fx-background-color: transparent;"/>
+        <TextField layoutX="674.0" layoutY="215.0" prefHeight="47.0" prefWidth="44.0" promptText="X" style="-fx-background-color: transparemnt; -fx-text-fill: white;" fx:id="x">
+            <font>
+                <Font size="20.0"/>
+            </font>
+        </TextField>
+        <TextField fx:id="y" layoutX="674.0" layoutY="296.0" prefHeight="47.0" prefWidth="44.0" promptText="Y" style="-fx-background-color: transparemnt; -fx-text-fill: white;">
+            <font>
+                <Font size="20.0"/>
+            </font>
+        </TextField>
+        <TableView fx:id="floorTable" layoutX="63.0" layoutY="199.0" prefHeight="167.0" prefWidth="528.0" stylesheets="@css/MainGUI.css">
+            <columns>
+                <TableColumn fx:id="floorNumber" prefWidth="135.0" reorderable="false" resizable="false" sortable="false" style="fx-font-size: 10;" text="Ebenen Nummer"/>
+                <TableColumn fx:id="amountHoles" prefWidth="129.6666717529297" reorderable="false" resizable="false" sortable="false" style="fx-font-size: 10;" text="Anzahl Löcher"/>
+                <TableColumn fx:id="amountDrawAgain" prefWidth="122.3333740234375" reorderable="false" resizable="false" sortable="false" style="fx-font-size: 10;" text="Anzahl Zieh-Erneut"/>
+                <TableColumn fx:id="points" prefWidth="140.33340454101562" text="Punkte"/>
+            </columns>
+        </TableView>
+        <TableView fx:id="drawAgainTable" layoutX="67.0" layoutY="491.0" prefHeight="161.0" prefWidth="528.0" stylesheets="@css/MainGUI.css">
+            <columns>
+                <TableColumn fx:id="drawAgainNumber" prefWidth="182.33337783813477" reorderable="false" resizable="false" sortable="false" style="fx-font-size: 10;" text="Zieh-Erneut Nummer"/>
+                <TableColumn prefWidth="180.3333282470703" reorderable="false" resizable="false" sortable="false" style="fx-font-size: 10;" text="X-Position" fx:id="xPosition"/>
+                <TableColumn fx:id="yPosition" prefWidth="162.99993896484375" reorderable="false" resizable="false" sortable="false" style="fx-font-size: 10;" text="Y-Position"/>
+            </columns>
+        </TableView>
+    </children>
+</AnchorPane>

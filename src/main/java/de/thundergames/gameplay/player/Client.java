@@ -1,7 +1,8 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 15.12.21, 19:20 by Carina Latest changes made by Carina on 15.12.21, 19:19 All contents of "Client" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 24.12.21, 12:18 by Carina Latest changes made by Carina on 24.12.21, 12:16
+ * All contents of "Client" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -42,6 +43,7 @@ public class Client extends Network {
   private GameState gameState;
   private long remainingTime;
   private Map map;
+  private Player currentPlayer;
   private Player player;
   private boolean isDraw = false;
   private int gameID;
@@ -60,7 +62,6 @@ public class Client extends Network {
 
   public static void main(String[] args) {
     var client = new Client(5000, "localhost", "Carina");
-    client.create();
     client.clientPacketHandler.joinGamePacket(0, true);
   }
 
@@ -75,10 +76,9 @@ public class Client extends Network {
   /**
    * @author Carina
    * @use Due to a bug where we are getting the constructor which is not contructed at the time we
-   * create the Constructor and call the create object to create the sockets and stream
+   *     create the Constructor and call the create object to create the sockets and stream
    * @see Client
    */
-  @Override
   public void create() {
     CLIENT = this;
     clientPacketHandler = new ClientPacketHandler(this);
@@ -97,8 +97,7 @@ public class Client extends Network {
       clientThread.start();
       clientPacketHandler.loginPacket(name);
     } catch (IOException exception) {
-      if (isDebug())
-        System.out.println("Is the server running?!");
+      if (isDebug()) System.out.println("Is the server running?!");
     }
   }
 }

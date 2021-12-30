@@ -1,7 +1,8 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 15.12.21, 19:20 by Carina Latest changes made by Carina on 15.12.21, 19:19 All contents of "GameState" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 24.12.21, 12:18 by Carina Latest changes made by Carina on 24.12.21, 12:16
+ * All contents of "GameState" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -19,18 +20,24 @@ import lombok.Data;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 
 @Data
 public class GameState {
 
-  private ArrayList<Player> activePlayers = new ArrayList<>();
+  private HashSet<Player> activePlayers = new HashSet<>();
   private Player currentPlayer;
   private int remainingTime;
-  private ArrayList<Mole> placedMoles = new ArrayList<>();
+  private HashSet<Mole> placedMoles = new HashSet<>();
   private int moles;
   private int radius;
+
+  @SerializedName(value = "levelNumber")
+  private int currentFloorID = 0;
+
   @SerializedName(value = "level")
   private Map floor;
+
   private boolean pullDiscsOrdered;
   private HashMap<Integer, ArrayList<Integer>> pullDiscs = new HashMap<>();
   private long visualizationTime = 10000;

@@ -1,16 +1,16 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 15.12.21, 19:20 by Carina Latest changes made by Carina on 15.12.21, 19:19 All contents of "GameHandler" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 24.12.21, 12:18 by Carina Latest changes made by Carina on 24.12.21, 12:16
+ * All contents of "GameHandler" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
  * requires the express written consent of ThunderGames | SwtPra10.
  */
 
-package de.thundergames.gameplay.player.board;
+package de.thundergames.playmechanics.board;
 
-import de.thundergames.playmechanics.util.Player;
 import javafx.scene.layout.Pane;
 import org.jetbrains.annotations.NotNull;
 
@@ -18,10 +18,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GameHandler {
-  final public static long DEFAULT_TIMEOUT = 10000; // 10 seconds
+  public static final long DEFAULT_TIMEOUT = 10000; // 10 seconds
   private final ArrayList<PlayerModel> players;
   private final PlayerModel activePlayer;
-  private final long timeout;
   private final int boardRadius;
   private ArrayList<NodeType> nodeTypes;
   private Board board;
@@ -34,10 +33,13 @@ public class GameHandler {
    * @author Alp, Dila, Issam
    * @use constructor
    */
-  public GameHandler(@NotNull final ArrayList<PlayerModel> players, final int boardRadius, @NotNull final List<NodeType> nodeTypes, final long timeout) {
+  public GameHandler(
+      @NotNull final ArrayList<PlayerModel> players,
+      final int boardRadius,
+      @NotNull final List<NodeType> nodeTypes,
+      final long timeout) {
     this.players = players;
     this.activePlayer = players.get(0);
-    this.timeout = timeout;
     this.boardRadius = boardRadius;
     this.nodeTypes = new ArrayList<>(nodeTypes);
   }
@@ -49,7 +51,10 @@ public class GameHandler {
    * @author Alp, Dila, Issam
    * @use constructor
    */
-  public GameHandler(@NotNull final ArrayList<Player> players, final int boardRadius, @NotNull final List<NodeType> nodeTypes) {
+  public GameHandler(
+      @NotNull final ArrayList<PlayerModel> players,
+      final int boardRadius,
+      @NotNull final List<NodeType> nodeTypes) {
     this(players, boardRadius, nodeTypes, DEFAULT_TIMEOUT);
   }
 
@@ -60,7 +65,8 @@ public class GameHandler {
    */
   public void start(@NotNull final Pane container) {
     this.board = new Board(this.boardRadius, container.getWidth(), container.getHeight());
-    this.board.setContainerBackground(container, "background/ground.png"); // TODO: change depending on level
+    this.board.setContainerBackground(
+        container, "background/ground.png"); // TODO: change depending on level
     this.board.setPlayers(this.players);
     this.board.setNodeTypes(this.nodeTypes);
     this.board.render();

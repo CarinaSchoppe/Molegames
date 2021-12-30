@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 15.12.21, 19:23 by Carina Latest changes made by Carina on 15.12.21, 19:22 All contents of "AI" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 23.12.21, 17:46 by Carina Latest changes made by Carina on 23.12.21, 17:41 All contents of "AI" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -23,12 +23,12 @@ import java.net.Socket;
 @Setter
 public class AI extends Client {
 
-  private final int gameID;
+  private int gameID = -1;
   private AILogic logic;
   private int card;
   private boolean placedMoles = false;
   private int placedMolesAmount = 0;
-  private int sleepingTime = 0;
+  private double sleepingTime = 0;
 
   /**
    * @param ip
@@ -42,7 +42,16 @@ public class AI extends Client {
     this.gameID = gameID;
   }
 
-  @Override
+  /**
+   * @param ip
+   * @param port
+   * @author Carina
+   * @use creates the AI instance needed to run the AI
+   */
+  public AI(@NotNull final String ip, final int port) {
+    super(port, ip, "AI");
+  }
+
   public void create() {
     CLIENT = this;
     clientPacketHandler = new AIPacketHandler(this);
@@ -61,10 +70,11 @@ public class AI extends Client {
       clientThread = new AIClientThread(socket, 0, this);
       clientThread.start();
       clientPacketHandler.loginPacket(getName());
-      clientPacketHandler.joinGamePacket(gameID, true);
+      if (gameID != -1) {
+        clientPacketHandler.joinGamePacket(gameID, true);
+      }
     } catch (IOException exception) {
-      if (isDebug())
-        System.out.println("Is the server running?!");
+      if (isDebug()) System.out.println("Is the server running?!");
     }
   }
 

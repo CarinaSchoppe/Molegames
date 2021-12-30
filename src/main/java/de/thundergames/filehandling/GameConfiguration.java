@@ -1,7 +1,8 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 15.12.21, 19:20 by Carina Latest changes made by Carina on 15.12.21, 19:19 All contents of "GameConfiguration" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 24.12.21, 12:18 by Carina Latest changes made by Carina on 24.12.21, 12:16
+ * All contents of "GameConfiguration" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -10,7 +11,7 @@
 package de.thundergames.filehandling;
 
 import com.google.gson.Gson;
-import de.thundergames.playmechanics.util.Settings;
+import com.google.gson.JsonObject;
 import lombok.Data;
 import org.jetbrains.annotations.NotNull;
 
@@ -27,7 +28,8 @@ public class GameConfiguration {
    * @param config the settings to save
    * @throws IOException
    * @author Carina
-   * @use call the method add the settings to the json object and than pass that to create a new file that will be saved
+   * @use call the method add the settings to the json object and than pass that to create a new
+   *     file that will be saved
    * @see de.thundergames.playmechanics.util.Settings
    */
   public void saveSettings(@NotNull final String config) throws IOException {
@@ -37,6 +39,7 @@ public class GameConfiguration {
     writer.write(config);
     writer.flush();
     writer.close();
+    System.out.println("Config saved");
   }
 
   /**
@@ -46,7 +49,7 @@ public class GameConfiguration {
    * @autor Carina
    * @use pass in the settings file and done
    */
-  public Settings loadConfiguration(@NotNull final File file) throws IOException {
-    return new Gson().fromJson(new String(Files.readAllBytes(file.toPath())), Settings.class);
+  public JsonObject loadConfiguration(@NotNull final File file) throws IOException {
+    return new Gson().fromJson(new String(Files.readAllBytes(file.toPath())), JsonObject.class);
   }
 }

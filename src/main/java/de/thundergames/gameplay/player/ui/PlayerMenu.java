@@ -1,7 +1,8 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 16.12.21, 16:15 by Carina Latest changes made by Carina on 16.12.21, 15:51 All contents of "PlayerMenu" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 24.12.21, 12:26 by Carina Latest changes made by Carina on 24.12.21, 12:22
+ * All contents of "PlayerMenu" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -25,13 +26,13 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class PlayerMenu implements Initializable {
 
   private static Client CLIENT;
-  @FXML
-  private Text PlayerName;
+  @FXML private Text PlayerName;
 
   /**
    * Create the Scene for PlayerMenu
@@ -41,7 +42,9 @@ public class PlayerMenu implements Initializable {
    */
   public void create(ActionEvent event) throws IOException {
     var primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-    Parent root = FXMLLoader.load(getClass().getResource("/player/style/PlayerMenu.fxml"));
+    Parent root =
+        FXMLLoader.load(
+            Objects.requireNonNull(getClass().getResource("/player/style/PlayerMenu.fxml")));
     primaryStage.setTitle("Maulwurf Company");
     primaryStage.setResizable(false);
     primaryStage.setScene(new Scene(root));
@@ -53,14 +56,14 @@ public class PlayerMenu implements Initializable {
   /**
    * Is called when the object is initialized
    *
-   * @param location  of base class Initialize
+   * @param location of base class Initialize
    * @param resources of base class Initialize
    */
   @Override
   public void initialize(URL location, ResourceBundle resources) {
-    //set client
+    // set client
     CLIENT = Client.getClientInstance();
-    //show username at scene
+    // show username at scene
     PlayerName.setText("Spieler: " + CLIENT.name);
   }
 
@@ -72,11 +75,13 @@ public class PlayerMenu implements Initializable {
    */
   @FXML
   void onSignOutClick(ActionEvent event) throws Exception {
-    //logout for user
+    // logout for user
     CLIENT.getClientPacketHandler().logoutPacket();
-    //create LoginScreen scene
+    // create LoginScreen scene
     var primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-    Parent root = FXMLLoader.load(getClass().getResource("/player/style/LoginScreen.fxml"));
+    Parent root =
+        FXMLLoader.load(
+            Objects.requireNonNull(getClass().getResource("/player/style/LoginScreen.fxml")));
     primaryStage.setResizable(false);
     primaryStage.setScene(new Scene(root));
     primaryStage.show();
@@ -90,14 +95,13 @@ public class PlayerMenu implements Initializable {
    */
   @FXML
   public void onGameClick(ActionEvent event) throws IOException {
-    //TODO: soll nochmal senden problem: client.getClientThread ist null,
+    // TODO: soll nochmal senden problem: client.getClientThread ist null,
     // client.getClientPacketHandler().getOverviewPacket(client);
     new GameSelection().create(event);
   }
 
   /**
-   * Is called when the close button is clicked.
-   * Logout user.
+   * Is called when the close button is clicked. Logout user.
    *
    * @param stage current stage
    */
