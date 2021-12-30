@@ -1,19 +1,21 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 24.12.21, 12:18 by Carina Latest changes made by Carina on 24.12.21, 12:16
- * All contents of "NodeType" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 15.12.21, 19:20 by Carina Latest changes made by Carina on 15.12.21, 19:19 All contents of "NodeType" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
  * requires the express written consent of ThunderGames | SwtPra10.
  */
 
-package de.thundergames.playmechanics.board;
+package de.thundergames.gameplay.player.board;
 
+import de.thundergames.playmechanics.map.Field;
 import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
+import lombok.Getter;
+import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 
 enum NodeType {
@@ -42,69 +44,29 @@ enum NodeType {
   public abstract void styleNode(Node n);
 }
 
+@Getter
+@Setter
 public class Node extends Circle {
-  public static final int DEFAULT_RADIUS = 15;
-  private final int id;
+  public final static int DEFAULT_RADIUS = 15;
+  private final int nodeId;
   private final int row;
-  private int radius;
-  private boolean isOccupied;
+  private Field field;
+  private int nodeRadius;
 
-  public Node(
-      final int id,
-      final double x,
-      final double y,
-      final int radius,
-      @NotNull final NodeType nodeType,
-      final int row,
-      final boolean isOccupied) {
+  public Node(final int id, final double x, final double y, final int radius, @NotNull final NodeType nodeType, final int row, Field field) {
     super(x, y, radius);
-    this.id = id;
+    this.nodeId = id;
     this.row = row;
     nodeType.styleNode(this);
-    this.isOccupied = isOccupied;
+    this.field = field;
   }
 
-  public Node(
-      final int id,
-      final double x,
-      final double y,
-      @NotNull final NodeType nodeType,
-      final int row,
-      final boolean isOccupied) {
-    this(id, x, y, DEFAULT_RADIUS, nodeType, row, false);
-  }
-
-  public Node(final int id, final double x, final double y, final int radius) {
-    this(id, x, y, radius, NodeType.DEFAULT, 0, false);
-  }
-
-  public Node(final int id, final double x, final double y) {
-    this(id, x, y, DEFAULT_RADIUS, NodeType.DEFAULT, 0, false);
-  }
-
-  public int getNodeId() {
-    return this.id;
-  }
-
-  public int getRow() {
-    return this.row;
-  }
-
-  public boolean getIsOccupied() {
-    return this.isOccupied;
-  }
-
-  public void setIsOccupied(boolean isOccupied) {
-    this.isOccupied = isOccupied;
-  }
-
-  public boolean isNodeOccupied(int[] ocuppieNodeIds) {
-    // TODO: cant check int[] equals int
-    return false;
+  public Node(final int id, final double x, final double y, @NotNull final NodeType nodeType, final int row, Field field) {
+    this(id, x, y, DEFAULT_RADIUS, nodeType, row, field);
   }
 
   @Override
   public String toString() {
-    return "(id: " + id + ", x: " + this.getCenterX() + ", y: " + this.getCenterY() + ")";
+    return "(id: " + nodeId + ", x: " + this.getCenterX() + ", y: " + this.getCenterY() + ")";
   }
 }

@@ -1,29 +1,39 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 24.12.21, 12:18 by Carina Latest changes made by Carina on 24.12.21, 12:16
- * All contents of "GameHandler" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 15.12.21, 19:20 by Carina Latest changes made by Carina on 15.12.21, 19:19 All contents of "GameHandler" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
  * requires the express written consent of ThunderGames | SwtPra10.
  */
 
-package de.thundergames.playmechanics.board;
+package de.thundergames.gameplay.player.board;
 
+import de.thundergames.playmechanics.util.Player;
+import javafx.application.Platform;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
+import lombok.Getter;
+import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
+@Getter
+@Setter
 public class GameHandler {
-  public static final long DEFAULT_TIMEOUT = 10000; // 10 seconds
-  private final ArrayList<PlayerModel> players;
+  final public static long DEFAULT_TIMEOUT = 10000; // 10 seconds
+  private ArrayList<PlayerModel> players;
   private final PlayerModel activePlayer;
+  private final long timeout;
   private final int boardRadius;
-  private ArrayList<NodeType> nodeTypes;
+  private HashMap<List<Integer>, NodeType> nodeTypes;
   private Board board;
+  private BorderPane container;
+  private String background;
 
   /**
    * @param players
@@ -33,15 +43,14 @@ public class GameHandler {
    * @author Alp, Dila, Issam
    * @use constructor
    */
-  public GameHandler(
-      @NotNull final ArrayList<PlayerModel> players,
-      final int boardRadius,
-      @NotNull final List<NodeType> nodeTypes,
-      final long timeout) {
+  public GameHandler(@NotNull final ArrayList<PlayerModel> players, final int boardRadius, @NotNull final HashMap<List<Integer>, NodeType> nodeTypes, final long timeout, BorderPane container) {
     this.players = players;
     this.activePlayer = players.get(0);
+    this.timeout = timeout;
     this.boardRadius = boardRadius;
-    this.nodeTypes = new ArrayList<>(nodeTypes);
+    this.nodeTypes = new HashMap<>(nodeTypes);
+    this.container = container;
+    this.background = "background/ground.png";
   }
 
   /**
@@ -51,11 +60,8 @@ public class GameHandler {
    * @author Alp, Dila, Issam
    * @use constructor
    */
-  public GameHandler(
-      @NotNull final ArrayList<PlayerModel> players,
-      final int boardRadius,
-      @NotNull final List<NodeType> nodeTypes) {
-    this(players, boardRadius, nodeTypes, DEFAULT_TIMEOUT);
+  public GameHandler(@NotNull final ArrayList<PlayerModel> players, final int boardRadius, @NotNull final HashMap<List<Integer>, NodeType> nodeTypes, BorderPane container) {
+    this(players, boardRadius, nodeTypes, DEFAULT_TIMEOUT, container);
   }
 
   /**
@@ -63,25 +69,24 @@ public class GameHandler {
    * @author Alp, Dila, Issam
    * @use starts the pane
    */
-  public void start(@NotNull final Pane container) {
-    this.board = new Board(this.boardRadius, container.getWidth(), container.getHeight());
-    this.board.setContainerBackground(
-        container, "background/ground.png"); // TODO: change depending on level
-    this.board.setPlayers(this.players);
-    this.board.setNodeTypes(this.nodeTypes);
+  public void start(ArrayList<PlayerModel> players) {
+    this.board = new Board(this.boardRadius, container.getWidth(), container.getHeight(),nodeTypes,players);
+    this.board.setContainerBackground(container, background);
     this.board.render();
     this.activePlayer.setItMyTurn(true);
   }
 
-  public void loop() {
-    // TODO: Implement game loop logic with timeout
+  public void update(ArrayList<PlayerModel> players) {
+    this.players = players;
+    Platform.runLater(() -> {
+      start(players);
+      this.container.getChildren().clear();
+      //this.container.getChildren().add(board);
+      this.container.setCenter(this.board);
+    });
   }
 
   public Board getBoard() {
     return this.board;
-  }
-
-  public void setNodeTypes(List<NodeType> nodeTypes) {
-    this.nodeTypes = new ArrayList<>(nodeTypes);
   }
 }

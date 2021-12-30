@@ -1,112 +1,170 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 24.12.21, 12:18 by Carina Latest changes made by Carina on 24.12.21, 12:16
- * All contents of "TestWindow" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 15.12.21, 19:20 by Carina Latest changes made by Carina on 15.12.21, 19:19 All contents of "TestWindow" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
  * requires the express written consent of ThunderGames | SwtPra10.
  */
 
-package de.thundergames.playmechanics.board;
+package de.thundergames.gameplay.player.board;
 
-import javafx.application.Application;
+import de.thundergames.gameplay.player.Client;
+import de.thundergames.playmechanics.game.GameState;
+import de.thundergames.playmechanics.util.Mole;
+import de.thundergames.playmechanics.util.Player;
 import javafx.beans.value.ChangeListener;
+import javafx.fxml.Initializable;
 import javafx.scene.ImageCursor;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.Random;
-import java.util.stream.IntStream;
+import java.net.URL;
+import java.util.*;
 
-public class TestWindow extends Application {
+public class GameBoard implements Initializable {
 
-  static final int BOARD_RADIUS = 3;
+  private static Client CLIENT;
+  private static GameBoard OBSERVER;
 
-  public static void main(String[] args) {
-    launch(args);
+  private int BOARD_RADIUS;
+
+  private Stage primaryStage;
+  private BorderPane borderPane;
+  private GameHandler gameHandler;
+
+  public static GameBoard getObserver() {
+    return OBSERVER;
   }
+
+  private GameState gameState;
+
+  private ArrayList<Player> players;
 
   /**
    * @param primaryStage
    * @author Alp, Dila, Issam
    * @use starts the stage
    */
-  @Override
-  public void start(@NotNull final Stage primaryStage) {
-    var borderPane = new BorderPane();
+  public void create(Stage primaryStage) {
+    OBSERVER = this;
+    CLIENT = Client.getClientInstance();
+    this.primaryStage = primaryStage;
+    borderPane = new BorderPane();
+
+    // get gameState
+    gameState = CLIENT.getGameState();
+    if (gameState== null) return;
+
+    // get radius
+    BOARD_RADIUS = gameState.getRadius();
+
+    //get current player
+    var currentPlayerId = gameState.getCurrentPlayer()== null  ? -1 : gameState.getCurrentPlayer().getClientID();
+
+    // create list of playerModels for ui
+   players = gameState.getActivePlayers();
+   ArrayList<Mole> placedMoles = gameState.getPlacedMoles();
+    var playerModelList = mapPlayersToPlayerModels(players,placedMoles,currentPlayerId);
+
     // Set custom cursor
     var cursor = new Image(Utils.getSprite("game/cursor.png"));
-    borderPane.setCursor(new ImageCursor(cursor, cursor.getWidth() / 2, cursor.getHeight() / 2));
-    var maxPossibleID = 3 * (int) Math.pow(BOARD_RADIUS, 2) + 3 * BOARD_RADIUS + 1;
+    borderPane.setCursor(new ImageCursor(cursor,
+      cursor.getWidth() / 2,
+      cursor.getHeight() / 2));
+
     // Create a game handler and add random players to it
-    var nodeTypes = generateRandomNodeTypes(50);
-    var players = generateThreePlayers();
-    var gameHandler = new GameHandler(players, BOARD_RADIUS, nodeTypes);
-    gameHandler.start(borderPane);
+    gameHandler = new GameHandler(playerModelList, BOARD_RADIUS, updateFloor(gameState),borderPane);
+    gameHandler.start(playerModelList);
+
     // Add resize event listener
-    ChangeListener<Number> resizeObserver =
-        (obs, newValue, oldValue) ->
-            gameHandler.getBoard().onResize(borderPane.getWidth(), borderPane.getHeight());
+    ChangeListener<Number> resizeObserver = (obs, newValue, oldValue) -> gameHandler.getBoard().onResize(borderPane.getWidth(), borderPane.getHeight());
     borderPane.widthProperty().addListener(resizeObserver);
     borderPane.heightProperty().addListener(resizeObserver);
     // Add board to center of borderPane
     borderPane.setCenter(gameHandler.getBoard());
     var s = new Scene(borderPane);
     primaryStage.setScene(s);
+    primaryStage.setResizable(true);
     primaryStage.setMaximized(true);
     primaryStage.show();
   }
 
-  /**
-   * @param numMoles
-   * @param minId
-   * @param maxId
-   * @return the moles
-   * @author Issam, Dila, Alp
-   * @use generates random moles
-   */
-  public ArrayList<MoleModel> generateRandomMoles(
-      final int numMoles, final int minId, final int maxId) {
-    var moles = new ArrayList<MoleModel>();
-    var randomIntsArray =
-        IntStream.generate(() -> new Random().nextInt(maxId - minId + 1) + minId)
-            .limit(numMoles)
-            .toArray();
-    for (var id : randomIntsArray) {
-      moles.add(new MoleModel(id, 40));
+  @Override
+  public void initialize(URL location, ResourceBundle resources) {
+  }
+
+  public ArrayList<PlayerModel> mapPlayersToPlayerModels(ArrayList<Player> players,ArrayList<Mole>placedMoles,Integer currentPlayerId)
+  {
+    ArrayList<PlayerModel> playerModelList = new ArrayList<>();
+    for (var player:players) {
+      ArrayList<MoleModel> moleModelList = new ArrayList<>();
+      for (var mole : placedMoles)
+      {
+        if(player.getClientID() == mole.getPlayer().getClientID())
+        {
+          moleModelList.add(new MoleModel(player.getClientID(),mole));
+        }
+      }
+      playerModelList.add(new PlayerModel(player,moleModelList,player.getClientID() == currentPlayerId));
     }
-    return moles;
+    return playerModelList;
   }
 
-  public ArrayList<PlayerModel> generateThreePlayers() {
-    var players = new ArrayList<PlayerModel>();
-    players.add(new PlayerModel(1, generateRandomMoles(3, 1, 7)));
-    players.add(new PlayerModel(2, generateRandomMoles(3, 8, 13)));
-    players.add(new PlayerModel(3, generateRandomMoles(3, 14, 19)));
-    return players;
-  }
 
-  /**
-   * @param size
-   * @return the nodes
-   * @author Issam, Dila, Alp
-   * @use generates random node types
-   */
-  public ArrayList<NodeType> generateRandomNodeTypes(final int size) {
-    var nodeTypes = new ArrayList<NodeType>();
-    for (var i = 1; i <= size; i++) {
-      nodeTypes.add(randomValueFromArray(NodeType.values()));
+  public void updateGameBoard()
+  {
+    var loadedGameState = CLIENT.getGameState();
+
+    if (gameState != loadedGameState)
+    {
+      //Update board if count of holes changed
+      if (gameState.getFloor().getHoles().size() != loadedGameState.getFloor().getHoles().size())
+      {
+        HashMap<List<Integer>, NodeType> nodes;
+          nodes = updateFloor(loadedGameState);
+          gameHandler.setNodeTypes(nodes);
+          ArrayList<String> backgroundList = new ArrayList<>( List.of("background/ug_1.png","background/ug_2.png","background/ug_3.png"));
+          backgroundList.remove(gameHandler.getBackground());
+          gameHandler.setBackground(backgroundList.get(new Random().nextInt(backgroundList.size()-1)));
+      }
+      gameState=loadedGameState;
+
+      // get active players of gameState
+      players = gameState.getActivePlayers();
     }
-    return nodeTypes;
+
+    //get current player
+    var currentPlayerId = CLIENT.getCurrentPlayer()== null  ? -1 : CLIENT.getCurrentPlayer().getClientID();
+
+    //get moles
+    var fieldMap = CLIENT.getMap().getFieldMap();
+    ArrayList<Mole> placedMoles = new ArrayList<>();
+    for (var field :fieldMap.values())
+    {
+      var currentMole = field.getMole();
+      if (currentMole != null) {
+        if (currentMole.getField().getX()!=field.getX() || currentMole.getField().getY()!=field.getY())
+        {
+          currentMole.setField(field);
+          System.out.println(currentMole.getField().getX() + " " + currentMole.getField().getY() + "/ " + field.getX() + " " +  field.getY());
+        }
+        placedMoles.add(currentMole);
+      }
+    }
+
+    var playerModelList = mapPlayersToPlayerModels(players,placedMoles,currentPlayerId);
+    gameHandler.update(playerModelList);
   }
 
-  <T> T randomValueFromArray(@NotNull final T[] values) {
-    return values[new Random().nextInt(values.length)];
+  public HashMap<List<Integer>, NodeType> updateFloor(GameState gameState)
+  {
+    HashMap<List<Integer>, NodeType> nodes = new HashMap<>();
+    gameState.getFloor().getHoles().forEach(field -> nodes.put(List.of(field.getX(),field.getY()), NodeType.HOLE));
+    gameState.getFloor().getDrawAgainFields().forEach(field -> nodes.put(List.of(field.getX(),field.getY()), NodeType.DRAW_AGAIN));
+    return nodes;
   }
 }

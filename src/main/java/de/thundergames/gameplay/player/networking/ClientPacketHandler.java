@@ -16,6 +16,7 @@ import com.google.gson.reflect.TypeToken;
 import de.thundergames.filehandling.Score;
 import de.thundergames.gameplay.ai.AI;
 import de.thundergames.gameplay.player.Client;
+import de.thundergames.gameplay.player.board.GameBoard;
 import de.thundergames.gameplay.player.ui.gameselection.GameSelection;
 import de.thundergames.gameplay.player.ui.gameselection.LobbyObserverGame;
 import de.thundergames.gameplay.player.ui.score.LeaderBoard;
@@ -237,9 +238,12 @@ public class ClientPacketHandler {
 
   /**
    * @author Carina
-   * @use is called everytime a map gets updated TODO: implement this
+   * @use is called everytime a map gets updated
    */
-  public void updateMap() {}
+  public void updateMap() {
+    var gameBoard = GameBoard.getObserver();
+    if (gameBoard != null) gameBoard.updateGameBoard();
+  }
 
   /**
    * @author Carina
@@ -478,6 +482,7 @@ public class ClientPacketHandler {
    */
   protected void handlePlayerPlacesMolePacket() {
     var player = new Gson().fromJson(packet.getValues().get("player").getAsString(), Player.class);
+    client.setCurrentPlayer(player);
     if (player.getClientID() == client.getClientThread().getThreadID()) {
       if (client.isDebug()) {
         System.out.println("Client is now on to place a mole!");
@@ -509,6 +514,7 @@ public class ClientPacketHandler {
                 + " needs to place a mole till: "
                 + packet.getValues().get("until").getAsInt());
     }
+    updateMap();
   }
 
   /**

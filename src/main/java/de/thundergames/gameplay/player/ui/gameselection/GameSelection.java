@@ -1,8 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 24.12.21, 12:26 by Carina Latest changes made by Carina on 24.12.21, 12:22
- * All contents of "GameSelection" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 21.12.21, 16:39 by Carina Latest changes made by Carina on 21.12.21, 16:37 All contents of "GameSelection" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -12,9 +11,9 @@
 package de.thundergames.gameplay.player.ui.gameselection;
 
 import de.thundergames.gameplay.player.Client;
+import de.thundergames.gameplay.player.board.GameBoard;
 import de.thundergames.gameplay.player.ui.PlayerMenu;
 import de.thundergames.gameplay.util.SceneController;
-import de.thundergames.playmechanics.board.TestWindow;
 import de.thundergames.playmechanics.game.Game;
 import de.thundergames.playmechanics.game.GameState;
 import de.thundergames.playmechanics.game.GameStates;
@@ -203,6 +202,6 @@ public class GameSelection implements Initializable {
   /** Load scene of game */
   private void spectateGame(GameState gameState) {
     primaryStage.close();
-    new TestWindow().start(primaryStage);
+    new GameBoard().create(primaryStage);
   }
 }
