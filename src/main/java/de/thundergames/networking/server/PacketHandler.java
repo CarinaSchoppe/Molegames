@@ -504,7 +504,7 @@ public class PacketHandler {
    */
   private void sendToUsersOnListTimeLeft(Game game, @NotNull final ServerThread client) {
     if (client.getPlayer().getServerClient().equals(client)) {
-      var remainingTime = game.getSettings().getTurnTime() - (System.currentTimeMillis());
+      var remainingTime = game.getSettings().getTurnTime() + System.currentTimeMillis();
       var object = new JsonObject();
       object.addProperty("type", Packets.REMAININGTIME.getPacketType());
       var json = new JsonObject();
