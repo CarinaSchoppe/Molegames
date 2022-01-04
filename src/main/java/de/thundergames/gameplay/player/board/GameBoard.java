@@ -12,14 +12,18 @@ package de.thundergames.gameplay.player.board;
 
 import de.thundergames.gameplay.player.Client;
 import de.thundergames.playmechanics.game.GameState;
+import de.thundergames.playmechanics.game.GameStates;
 import de.thundergames.playmechanics.util.Mole;
 import de.thundergames.playmechanics.util.Player;
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.ImageCursor;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.net.URL;
@@ -44,12 +48,13 @@ public class GameBoard implements Initializable {
 
   private ArrayList<Player> players;
 
+  private static BoardCountDown COUNTDOWN;
   /**
    * @param primaryStage
    * @author Alp, Dila, Issam
    * @use starts the stage
    */
-  public void create(Stage primaryStage) {
+  public void create(Stage primaryStage) throws InterruptedException {
     OBSERVER = this;
     CLIENT = Client.getClientInstance();
     this.primaryStage = primaryStage;
@@ -58,6 +63,10 @@ public class GameBoard implements Initializable {
     // get gameState
     gameState = CLIENT.getGameState();
     if (gameState== null) return;
+
+    //start timer of gameBoard
+    COUNTDOWN = new BoardCountDown();
+    COUNTDOWN.setTimer(!Objects.equals(gameState.getStatus(), GameStates.PAUSED.toString()));
 
     // get radius
     BOARD_RADIUS = gameState.getRadius();
@@ -86,6 +95,7 @@ public class GameBoard implements Initializable {
     borderPane.heightProperty().addListener(resizeObserver);
     // Add board to center of borderPane
     borderPane.setCenter(gameHandler.getBoard());
+    CLIENT.getClientPacketHandler().getRemainingTimePacket();
     var s = new Scene(borderPane);
     primaryStage.setScene(s);
     primaryStage.setResizable(true);
@@ -158,6 +168,7 @@ public class GameBoard implements Initializable {
 
     var playerModelList = mapPlayersToPlayerModels(players,placedMoles,currentPlayerId);
     gameHandler.update(playerModelList);
+    CLIENT.getClientPacketHandler().getRemainingTimePacket();
   }
 
   public HashMap<List<Integer>, NodeType> updateFloor(GameState gameState)
@@ -166,5 +177,33 @@ public class GameBoard implements Initializable {
     gameState.getFloor().getHoles().forEach(field -> nodes.put(List.of(field.getX(),field.getY()), NodeType.HOLE));
     gameState.getFloor().getDrawAgainFields().forEach(field -> nodes.put(List.of(field.getX(),field.getY()), NodeType.DRAW_AGAIN));
     return nodes;
+  }
+
+  public void updateRemainingTime() {
+    Platform.runLater(() -> {
+      var remainingTime = CLIENT.getRemainingTime();
+      updateTime(remainingTime);
+      COUNTDOWN.setRemainingTime(remainingTime);
+    });
+  }
+
+  public void updateTime(long remainingTime)
+  {
+    Platform.runLater(() -> {
+      var txtRemainingTime = new Text(String.valueOf((remainingTime / 1000)));
+      var container = new BorderPane();
+      txtRemainingTime.setFont(new javafx.scene.text.Font("Chicle", 50));
+      container.setTop(txtRemainingTime);
+      BorderPane.setAlignment(txtRemainingTime, Pos.TOP_CENTER);
+      borderPane.setTop(container);
+    });
+  }
+
+  public void stopTimer() {
+    COUNTDOWN.stopTimer();
+  }
+
+  public void continueTimer(){
+    COUNTDOWN.continueTimer();
   }
 }

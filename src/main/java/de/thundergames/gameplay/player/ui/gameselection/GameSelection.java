@@ -208,7 +208,7 @@ public class GameSelection implements Initializable {
   /**
    * Load scene of game
    */
-  private void spectateGame() {
+  private void spectateGame() throws InterruptedException {
     new GameBoard().create(primaryStage);
   }
 }

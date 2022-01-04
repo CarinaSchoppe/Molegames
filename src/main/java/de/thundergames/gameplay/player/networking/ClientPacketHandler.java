@@ -440,8 +440,9 @@ public class ClientPacketHandler {
    * @use handles that the game of the client was paused
    * @see de.thundergames.playmechanics.game.Game
    */
-  protected void handleGamePausedPacket() {
+  protected void handleGamePausedPacket(){
     updateTableView();
+    pausedGameRemainingTime();
   }
 
   /**
@@ -460,6 +461,7 @@ public class ClientPacketHandler {
    */
   protected void handleGameContinuedPacket() {
     updateTableView();
+    continuedGameRemainingTime();
   }
 
   /**
@@ -508,6 +510,7 @@ public class ClientPacketHandler {
    */
   protected void handleRemainingTimePacket() {
     client.setRemainingTime(packet.getValues().get("timeLeft").getAsInt());
+    updateGameRemainingTime();
   }
 
   /**
@@ -740,5 +743,32 @@ public class ClientPacketHandler {
   private void showPlayerJoinedGameLobby() {
     var lobbyObserverGame = LobbyObserverGame.getObserver();
     if (lobbyObserverGame != null) lobbyObserverGame.showJoiningSuccessfully();
+  }
+
+  /**
+   * @author Marc
+   * @use update remaining time of game board
+   */
+  private void updateGameRemainingTime() {
+    var observerGameBoard = GameBoard.getObserver();
+    if (observerGameBoard != null) observerGameBoard.updateRemainingTime();
+  }
+
+  /**
+   * @author Marc
+   * @use paused remaining time of game board
+   */
+  private void pausedGameRemainingTime(){
+    var observerGameBoard = GameBoard.getObserver();
+    if (observerGameBoard != null) observerGameBoard.stopTimer();
+  }
+
+  /**
+   * @author Marc
+   * @use continued remaining time of game board
+   */
+  private void  continuedGameRemainingTime() {
+    var observerGameBoard = GameBoard.getObserver();
+    if (observerGameBoard != null) observerGameBoard.continueTimer();
   }
 }

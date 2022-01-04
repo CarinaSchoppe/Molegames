@@ -141,7 +141,11 @@ public class LobbyObserverGame implements Initializable {
    */
   public void spectateGame() {
     Platform.runLater(() -> {
-      new GameBoard().create(primaryStage);
+      try {
+        new GameBoard().create(primaryStage);
+      } catch (InterruptedException e) {
+        e.printStackTrace();
+      }
     });
   }
 }
