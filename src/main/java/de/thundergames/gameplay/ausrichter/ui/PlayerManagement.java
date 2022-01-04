@@ -81,7 +81,7 @@ public class PlayerManagement implements Initializable {
         JOptionPane.showMessageDialog(
             null, "Das Spiel ist bereits vorbei!", "Fehler!", JOptionPane.ERROR_MESSAGE);
         return;
-      } else if (game.getCurrentGameState() == GameStates.NOT_STARTED && !spectator.isSelected()) {
+      } else if (game.getCurrentGameState() != GameStates.NOT_STARTED && !spectator.isSelected()) {
         JOptionPane.showMessageDialog(
             null,
             "Der Spieler kann keinem laufenden Spiel als Spieler beitreten nur als Beobachter!",
