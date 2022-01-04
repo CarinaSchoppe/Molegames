@@ -500,7 +500,7 @@ public class PacketHandler {
    * @param game
    * @param client
    * @author Carina
-   * @use is send to the usersto tell them the time they got left
+   * @use is send to the users to tell them the time they got left
    */
   private void sendToUsersOnListTimeLeft(Game game, @NotNull final ServerThread client) {
     if (client.getPlayer().getServerClient().equals(client)) {
