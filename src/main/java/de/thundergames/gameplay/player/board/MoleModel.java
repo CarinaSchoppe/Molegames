@@ -11,6 +11,7 @@
 package de.thundergames.gameplay.player.board;
 
 import de.thundergames.playmechanics.util.Mole;
+import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -20,7 +21,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class MoleModel extends Button {
+public class MoleModel extends Group {
   private Mole mole;
   private final static int DEFAULT_SIZE = 48;
   private final int moleId;
