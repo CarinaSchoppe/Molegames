@@ -1,7 +1,8 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 22.12.21, 14:02 by Carina Latest changes made by Carina on 22.12.21, 14:00 All contents of "PlayerUtil" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 24.12.21, 12:18 by Carina Latest changes made by Carina on 24.12.21, 12:16
+ * All contents of "PlayerUtil" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -37,37 +38,44 @@ public class PlayerUtil {
    * @use startes the time a player got for its move
    * @see Settings
    */
-  public void startThinkTimer() {
+  public synchronized void startThinkTimer() {
     player.setStartRemainingTime(System.currentTimeMillis());
-    player.setHasMoved(false);
     player.setTimerIsRunning(true);
+    player.getTimer().cancel();
     player.setTimer(new Timer());
-    player
-      .getTimer()
-      .schedule(
-        new TimerTask() {
-          @Override
-          public void run() {
-            if (!player.isHasMoved()) {
-              MoleGames.getMoleGames()
-                .getGameHandler()
-                .getGameLogic()
-                .performPunishment(player, player.getGame().getSettings().getPunishment());
-              player.setHasMoved(true);
-              player.setTimerIsRunning(false);
-              if (MoleGames.getMoleGames().getServer().isDebug())
-                System.out.println(
-                  "Client " + player.getServerClient().getThreadID() + " ran out of time");
-              player.getGame().getGameUtil().nextPlayer();
-              player.getTimer().cancel();
-            }
-          }
-        },
-        player.getGame().getSettings().getTurnTime());
+    try {
+      if (player.getGame().getCurrentPlayer().equals(player)) {
+        player
+            .getTimer()
+            .schedule(
+                new TimerTask() {
+                  @Override
+                  public void run() {
+                    if (player.getGame().getCurrentPlayer().equals(player)) {
+                      if (MoleGames.getMoleGames().getServer().isDebug()) {
+                        System.out.println(
+                            "Client "
+                                + player.getServerClient().getThreadID()
+                                + " ran out of time");
+                      }
+                      MoleGames.getMoleGames()
+                          .getGameHandler()
+                          .getGameLogic()
+                          .performPunishment(player, Punishments.NOMOVE);
+                      player.setTimerIsRunning(false);
+                      player.getGame().getGameUtil().nextPlayer();
+                      player.getTimer().cancel();
+                    }
+                  }
+                },
+                player.getGame().getSettings().getTurnTime());
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
   }
 
   public void handleTurnAfterAction() {
-    player.setHasMoved(true);
     if (player.isTimerIsRunning()) {
       player.getTimer().cancel();
       player.getGame().getGameUtil().nextPlayer();

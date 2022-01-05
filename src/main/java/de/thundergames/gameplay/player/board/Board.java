@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 15.12.21, 19:20 by Carina Latest changes made by Carina on 15.12.21, 19:19 All contents of "Board" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 21.12.21, 16:39 by Carina Latest changes made by Carina on 21.12.21, 16:37 All contents of "Board" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -33,6 +33,13 @@ public class Board extends Group {
   //private final Map map;
   private HashMap<List<Integer>, NodeType> nodesType;
   private ArrayList<PlayerModel> players;
+  final EventHandler<MouseEvent> nodeClickEventHandler =
+      e -> {
+        if (e.getTarget() instanceof Node) {
+          this.players.forEach(player -> player.notifyNodeClick(((Node) e.getTarget())));
+          e.consume();
+        }
+      };
   private double width;
   private double height;
 
@@ -115,23 +122,6 @@ public class Board extends Group {
    * @use generates the nodes
    */
   public void generateNodes() {
-
-   // var fieldMap = map.getFieldMap();
-   // var maxNumberOfNodes = 2 * this.radius + 1;
-
-  //  for (Field node: fieldMap.values()) {
-  //      var row = node.getY();
-  //      var numberOfNodes = (int)fieldMap.values().stream().filter( field -> field.getX() == node.getX()).count();
-  //      var nodesPositions = getNodesPosition(numberOfNodes, maxNumberOfNodes, row);
-//
-  //      var nodeType = this.nodesType.get(List.of(node.getX(),node.getY())) != null
-  //      ? this.nodesType.get(List.of(node.getX(),node.getY()))
-  //      : NodeType.DEFAULT;
-  //    this.nodes.add(new Node(nodesPositions[j].getX(), nodesPositions[j].getY(), nodeType, i + 1,new Field(i,j)));
-  //  }
-
-
-
     var numberOfGridRows = this.radius * 2 + 1;
     var startId = 1;
     for (var i = 0; i < numberOfGridRows; i++) {

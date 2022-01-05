@@ -1,7 +1,8 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 21.12.21, 18:49 by Carina Latest changes made by Carina on 21.12.21, 18:47 All contents of "LeaderBoard" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 24.12.21, 12:26 by Carina Latest changes made by Carina on 24.12.21, 12:22
+ * All contents of "LeaderBoard" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -35,17 +36,13 @@ import java.util.ResourceBundle;
 
 public class LeaderBoard extends Application implements Initializable {
 
-  @FXML
-  private TableView<PlayerResult> scoreTable;
+  @FXML private TableView<PlayerResult> scoreTable;
 
-  @FXML
-  private TableColumn<PlayerResult, Integer> placement;
+  @FXML private TableColumn<PlayerResult, Integer> placement;
 
-  @FXML
-  private TableColumn<PlayerResult, String> name;
+  @FXML private TableColumn<PlayerResult, String> name;
 
-  @FXML
-  private TableColumn<PlayerResult, Integer> score;
+  @FXML private TableColumn<PlayerResult, Integer> score;
 
   /**
    * @author Carina, Lennart
@@ -53,7 +50,10 @@ public class LeaderBoard extends Application implements Initializable {
    */
   public void create(@NotNull final Score score) {
     Client.getClientInstance().getGameState().setScore(score);
-    launch();
+    try {
+      launch();
+    } catch (Exception ignored) {
+    }
   }
 
   @FXML
@@ -69,7 +69,7 @@ public class LeaderBoard extends Application implements Initializable {
   /**
    * @author Lennart, Carina
    * @use creates a leaderboard and filles it with the playerscores depending on the placement
-   * (points)
+   *     (points)
    * @see Score
    * @see Player
    */
@@ -80,10 +80,9 @@ public class LeaderBoard extends Application implements Initializable {
     var leaderlist = new ArrayList<PlayerResult>();
     var thisPlace = 1;
     for (var player : score.getPlayers()) {
-      System.out.println("points: " + score.getPoints().get(player.getClientID()));
       leaderlist.add(
-        new PlayerResult(
-          player.getName(), score.getPoints().get(player.getClientID()), thisPlace));
+          new PlayerResult(
+              player.getName(), score.getPoints().get(player.getClientID()), thisPlace));
       thisPlace++;
     }
     scoreTable.getItems().addAll(leaderlist);
@@ -130,12 +129,12 @@ public class LeaderBoard extends Application implements Initializable {
     // set event for backToMenu button
     var btnBack = (Button) (primaryStage.getScene().lookup("#btnToMenu"));
     btnBack.setOnAction(
-      e -> {
-        try {
-          backToMenu(e);
-        } catch (IOException ex) {
-          ex.printStackTrace();
-        }
-      });
+        e -> {
+          try {
+            backToMenu(e);
+          } catch (IOException ex) {
+            ex.printStackTrace();
+          }
+        });
   }
 }

@@ -1,0 +1,562 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="f18eac6c-ae98-43b9-a0b5-25bc4cae4e45" name="Changes" comment="hotfixes">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$">
+      <ProjectState />
+    </projectState>
+  </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <task path="$PROJECT_DIR$">
+          <activation />
+        </task>
+        <projects_view>
+          <tree_state>
+            <expand>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="SwtPra10" type="f1a62948:ProjectNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="SwtPra10" type="f1a62948:ProjectNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="SwtPra10" type="f1a62948:ProjectNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+                <item name="build" type="c8890929:TasksNode$1" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="SwtPra10" type="f1a62948:ProjectNode" />
+                <item name="Run Configurations" type="7b0102dc:RunConfigurationsNode" />
+              </path>
+            </expand>
+            <select />
+          </tree_state>
+        </projects_view>
+      </state>
+    </system>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Enum" />
+        <option value="module-info" />
+        <option value="JavaFXApplication" />
+        <option value="FxmlFile" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Rebase.Settings">
+    <option name="NEW_BASE" value="origin/main" />
+  </component>
+  <component name="Git.Settings">
+    <favorite-branches>
+      <branch-storage>
+        <map>
+          <entry type="LOCAL">
+            <value>
+              <list>
+                <branch-info repo="$PROJECT_DIR$" source="main" />
+              </list>
+            </value>
+          </entry>
+          <entry type="REMOTE">
+            <value>
+              <list>
+                <branch-info repo="$PROJECT_DIR$" source="origin/carina" />
+                <branch-info repo="$PROJECT_DIR$" source="origin/main" />
+                <branch-info repo="$PROJECT_DIR$" source="github/main" />
+              </list>
+            </value>
+          </entry>
+        </map>
+      </branch-storage>
+    </favorite-branches>
+    <option name="PREVIOUS_COMMIT_AUTHORS">
+      <list>
+        <option value="Carina Schoppe &lt;carina.schoppe2912@gmail.com&gt;" />
+      </list>
+    </option>
+    <option name="PUSH_AUTO_UPDATE" value="true" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedIndex" value="2" />
+  </component>
+  <component name="ProjectId" id="20GZJvr1FfNetu5d9L14fygpmuD" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <OptionsSetting value="false" id="Update" />
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SONARLINT_PRECOMMIT_ANALYSIS" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="extract.method.default.visibility" value="private" />
+    <property name="jdk.selected.JAVA_MODULE" value="16" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="project.structure.last.edited" value="SDKs" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.2" />
+    <property name="run.code.analysis.last.selected.profile" value="aDefault" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+  </component>
+  <component name="ReaderModeSettings">
+    <option name="showLigatures" value="false" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Carina\ProgrammingProjects\Swtpra10\configurations" />
+      <recent name="C:\Users\Carina\ProgrammingProjects\Swtpra10\src\main\java\de\thundergames\gameplay\gamemaster\ui" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Application.AI">
+    <configuration name="AI" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="de.thundergames.MoleGames" />
+      <module name="SwtPra10.main" />
+      <option name="PROGRAM_PARAMETERS" value="-a 127.0.0.1 5000 0" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="de.thundergames.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="MoleGames" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="de.thundergames.MoleGames" />
+      <module name="SwtPra10.main" />
+      <option name="PROGRAM_PARAMETERS" value="-s" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="de.thundergames.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Swtpra10 [build]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="build" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <method v="2" />
+    </configuration>
+    <configuration name="Swtpra10 [clean]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="clean" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <method v="2" />
+    </configuration>
+    <configuration name="Swtpra10 [init]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="init" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <method v="2" />
+    </configuration>
+    <configuration name="Swtpra10 [jar]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="jar" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <method v="2" />
+    </configuration>
+    <configuration name="swtpra10 [build]" type="GradleRunConfiguration" factoryName="Gradle">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="build" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <method v="2" />
+    </configuration>
+    <configuration name="swtpra10 [clean]" type="GradleRunConfiguration" factoryName="Gradle">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="clean" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Application.AI" />
+      <item itemvalue="Application.MoleGames" />
+      <item itemvalue="Gradle.swtpra10 [build]" />
+      <item itemvalue="Gradle.swtpra10 [clean]" />
+      <item itemvalue="Gradle.Swtpra10 [build]" />
+      <item itemvalue="Gradle.Swtpra10 [clean]" />
+      <item itemvalue="Gradle.Swtpra10 [init]" />
+      <item itemvalue="Gradle.Swtpra10 [jar]" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.MoleGames" />
+        <item itemvalue="Gradle.Swtpra10 [init]" />
+        <item itemvalue="Gradle.Swtpra10 [jar]" />
+        <item itemvalue="Gradle.Swtpra10 [clean]" />
+        <item itemvalue="Gradle.Swtpra10 [build]" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="f18eac6c-ae98-43b9-a0b5-25bc4cae4e45" name="Changes" comment="hotfixes" />
+      <created>1635672817592</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1635672817592</updated>
+      <workItem from="1635672819105" duration="862000" />
+      <workItem from="1636027750805" duration="1457000" />
+      <workItem from="1636029391927" duration="102000" />
+      <workItem from="1636029659118" duration="212000" />
+      <workItem from="1636037884689" duration="62000" />
+      <workItem from="1636037972780" duration="3056000" />
+      <workItem from="1636041090485" duration="136000" />
+      <workItem from="1636041855571" duration="204000" />
+      <workItem from="1636042119824" duration="385000" />
+      <workItem from="1636045229644" duration="1142000" />
+      <workItem from="1636048421754" duration="752000" />
+      <workItem from="1636111685272" duration="150000" />
+      <workItem from="1636111916107" duration="203000" />
+      <workItem from="1636112151204" duration="311000" />
+      <workItem from="1636112519390" duration="33000" />
+      <workItem from="1636113048351" duration="166000" />
+      <workItem from="1636184945279" duration="611000" />
+      <workItem from="1636188839319" duration="148000" />
+      <workItem from="1636190757085" duration="198000" />
+      <workItem from="1636191175832" duration="49000" />
+      <workItem from="1636191449216" duration="368000" />
+      <workItem from="1636191912157" duration="14000" />
+      <workItem from="1636300944961" duration="69000" />
+      <workItem from="1636301085862" duration="22000" />
+      <workItem from="1636301518486" duration="31000" />
+      <workItem from="1636301633874" duration="263000" />
+      <workItem from="1636301929766" duration="52000" />
+      <workItem from="1636301988311" duration="235000" />
+      <workItem from="1636637632832" duration="208000" />
+      <workItem from="1636637884576" duration="561000" />
+      <workItem from="1636643775526" duration="1482000" />
+      <workItem from="1636646022449" duration="1026000" />
+      <workItem from="1636647359126" duration="1785000" />
+      <workItem from="1636651417963" duration="536000" />
+      <workItem from="1636655625243" duration="422000" />
+      <workItem from="1636729176721" duration="168000" />
+      <workItem from="1636729430501" duration="532000" />
+      <workItem from="1636729997656" duration="541000" />
+      <workItem from="1636730636967" duration="401000" />
+      <workItem from="1636731107328" duration="123000" />
+      <workItem from="1636731472934" duration="135000" />
+      <workItem from="1636814046292" duration="3983000" />
+      <workItem from="1636818131565" duration="154000" />
+      <workItem from="1636879386393" duration="14149000" />
+      <workItem from="1636902983562" duration="595000" />
+      <workItem from="1636970865966" duration="163000" />
+      <workItem from="1636971062129" duration="237000" />
+      <workItem from="1637174250020" duration="255000" />
+      <workItem from="1637174575237" duration="1380000" />
+      <workItem from="1637176096033" duration="88000" />
+      <workItem from="1637222035746" duration="172000" />
+      <workItem from="1637222237702" duration="5693000" />
+      <workItem from="1637228168823" duration="426000" />
+      <workItem from="1637247609008" duration="309000" />
+      <workItem from="1637853158869" duration="186000" />
+      <workItem from="1637854244448" duration="98000" />
+      <workItem from="1637854365022" duration="191000" />
+      <workItem from="1637854584765" duration="1011000" />
+      <workItem from="1637855758171" duration="3481000" />
+      <workItem from="1638013554495" duration="111000" />
+      <workItem from="1638013708345" duration="13000" />
+      <workItem from="1639841349051" duration="455000" />
+      <workItem from="1640264115702" duration="2678000" />
+    </task>
+    <task id="LOCAL-00001" summary="added the Punishments Enum for the possible Punishments when a Player does a not allowed move.&#10;@Carina">
+      <created>1635673650207</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1635673650207</updated>
+    </task>
+    <task id="LOCAL-00002" summary="added annotations and docs for the methods weve gotten so far">
+      <created>1636040905015</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1636040905015</updated>
+    </task>
+    <task id="LOCAL-00003" summary="added annotations and docs for the methods weve gotten so far">
+      <created>1636045904600</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1636045904600</updated>
+    </task>
+    <task id="LOCAL-00004" summary="added annotations and docs for the methods weve gotten so far">
+      <created>1636655974141</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1636655974141</updated>
+    </task>
+    <task id="LOCAL-00005" summary="reformat with google code format">
+      <created>1636730517330</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1636730517330</updated>
+    </task>
+    <task id="LOCAL-00006" summary="reformat with google code format">
+      <created>1636731024903</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1636731024903</updated>
+    </task>
+    <task id="LOCAL-00007" summary="implemented a loginscreen for the player / client">
+      <created>1636818216779</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1636818216779</updated>
+    </task>
+    <task id="LOCAL-00008" summary="added some ui stuff">
+      <created>1636897868830</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1636897868831</updated>
+    </task>
+    <task id="LOCAL-00009" summary="added some ui stuff">
+      <created>1637174928356</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1637174928356</updated>
+    </task>
+    <task id="LOCAL-00010" summary="commenting stuff fixing AI and made it smarter">
+      <created>1637227984727</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1637227984727</updated>
+    </task>
+    <task id="LOCAL-00011" summary="commenting stuff fixing AI and made it smarter">
+      <created>1637228445745</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1637228445745</updated>
+    </task>
+    <task id="LOCAL-00012" summary="local push">
+      <created>1637853298192</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1637853298192</updated>
+    </task>
+    <task id="LOCAL-00013" summary="updated some more stuff and sout">
+      <created>1637856251055</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1637856251055</updated>
+    </task>
+    <task id="LOCAL-00014" summary="updated some more stuff and sout">
+      <created>1637858571814</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1637858571814</updated>
+    </task>
+    <task id="LOCAL-00015" summary="updated some more stuff and sout">
+      <created>1639841467302</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1639841467302</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="UpdateCopyrightCheckinHandler">
+    <option name="UPDATE_COPYRIGHT" value="true" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
+    <option name="CHECK_CODE_CLEANUP_BEFORE_PROJECT_COMMIT" value="true" />
+    <option name="CHECK_NEW_TODO" value="false" />
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+    <MESSAGE value="added the Punishments Enum for the possible Punishments when a Player does a not allowed move.&#10;@Carina" />
+    <MESSAGE value="added annotations and docs for the methods weve gotten so far" />
+    <MESSAGE value="reformat with google code format" />
+    <MESSAGE value="implemented a loginscreen for the player / client" />
+    <MESSAGE value="added some ui stuff" />
+    <MESSAGE value="commenting stuff fixing AI and made it smarter" />
+    <MESSAGE value="local push" />
+    <MESSAGE value="updated some more stuff and sout" />
+    <option name="LAST_COMMIT_MESSAGE" value="updated some more stuff and sout" />
+    <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
+    <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
+    <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/src/main/java/network/client/ClientPacketHandler.java</url>
+          <line>15</line>
+          <properties class="network.client.ClientPacketHandler">
+            <option name="EMULATED" value="true" />
+          </properties>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/swtpra10$Client.ic" NAME="Client Coverage Results" MODIFIED="1636048803714" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+  </component>
+</project>

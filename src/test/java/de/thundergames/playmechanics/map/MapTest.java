@@ -1,22 +1,15 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 21.12.21, 16:39 by Carina Latest changes made by Carina on 21.12.21, 16:37 All contents of "MapTest" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 24.12.21, 12:18 by Carina Latest changes made by Carina on 24.12.21, 12:16
+ * All contents of "MapTest" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
  * requires the express written consent of ThunderGames | SwtPra10.
  */
 
-package de.thundergames.playmechanics.map; /*
- * Copyright Notice for SwtPra10
- * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 14.12.21, 15:41 by Carina Latest changes made by Carina on 14.12.21, 15:41 All contents of "MapTest" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
- * at ThunderGames | SwtPra10. All rights reserved
- * Any type of duplication, distribution, rental, sale, award,
- * Public accessibility or other use
- * requires the express written consent of ThunderGames | SwtPra10.
- */
+package de.thundergames.playmechanics.map;
 
 import de.thundergames.playmechanics.game.Game;
 import de.thundergames.playmechanics.game.GameState;
@@ -26,7 +19,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
@@ -38,8 +30,7 @@ class MapTest {
 
   private Game game;
 
-  @Mock
-  private Player playerMock = mock(Player.class);
+  @Mock private Player playerMock = mock(Player.class);
 
   @BeforeEach
   void setUp() {
@@ -227,22 +218,21 @@ class MapTest {
   @Test
   void changeFieldParams() {
     game.setRadius(5);
-    var map = new Map(game, new HashSet<>(), new HashSet<>(), 1);
+    var holes = new HashSet<Field>();
+    var drawAgainFields = new HashSet<Field>();
+    holes.add(new Field(1, 1));
+    drawAgainFields.add(new Field(0, 0));
+    var map = new Map(game, holes, drawAgainFields, 1);
     map.build(game);
     assertFalse(map.getFieldMap().get(List.of(1, 3)).isOccupied());
     assertFalse(map.getFieldMap().get(List.of(1, 3)).isHole());
     assertFalse(map.getFieldMap().get(List.of(1, 3)).isDrawAgainField());
     var fieldMole = map.getFieldMap().get(List.of(1, 3));
-    var fieldHole = map.getFieldMap().get(List.of(1, 1));
-    var fieldDrawAgain = map.getFieldMap().get(List.of(0, 0));
     var mole = new Mole(playerMock, fieldMole);
     fieldMole.setMole(mole);
-    var moles = new ArrayList<Mole>();
-    var holes = new HashSet<Field>();
-    var drawAgainFields = new HashSet<Field>();
+    fieldMole.setOccupied(true);
+    var moles = new HashSet<Mole>();
     moles.add(mole);
-    holes.add(fieldHole);
-    drawAgainFields.add(fieldDrawAgain);
     var floor = new Map(holes, drawAgainFields, 1);
     var gameState = new GameState();
     gameState.setPlacedMoles(moles);

@@ -1,7 +1,8 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 23.12.21, 12:08 by Carina Latest changes made by Carina on 23.12.21, 12:07 All contents of "ServerThread" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 24.12.21, 12:18 by Carina Latest changes made by Carina on 24.12.21, 12:16
+ * All contents of "ServerThread" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -13,6 +14,7 @@ import de.thundergames.MoleGames;
 import de.thundergames.gameplay.ausrichter.ui.MainGUI;
 import de.thundergames.gameplay.ausrichter.ui.PlayerManagement;
 import de.thundergames.networking.util.NetworkThread;
+import de.thundergames.playmechanics.game.GameStates;
 import de.thundergames.playmechanics.util.Player;
 import lombok.Getter;
 import lombok.Setter;
@@ -32,10 +34,11 @@ public class ServerThread extends NetworkThread {
 
   /**
    * @param socket the server Socket
-   * @param id     Serverthread id
+   * @param id Serverthread id
    * @author Carina
    */
-  public ServerThread(@NotNull final Socket socket, final int id, @NotNull final Server server) throws IOException {
+  public ServerThread(@NotNull final Socket socket, final int id, @NotNull final Server server)
+      throws IOException {
     super(socket, id);
     this.server = server;
   }
@@ -46,12 +49,16 @@ public class ServerThread extends NetworkThread {
    */
   @Override
   public void disconnect() throws IOException {
-    if (getPlayer() != null) {
-      if (getPlayer().getGame() != null) {
-        getPlayer().getGame().getGameUtil().nextPlayer();
+    if (player != null) {
+      if (player.getGame() != null) {
+        var game = player.getGame();
         getPlayer()
-          .getGame()
-          .removePlayerFromGame(player.getGame().getClientPlayersMap().get(this));
+            .getGame()
+            .removePlayerFromGame(player.getGame().getClientPlayersMap().get(this));
+        if (game.getCurrentGameState() != GameStates.NOT_STARTED
+            && game.getCurrentGameState() != GameStates.OVER) {
+          game.getGameUtil().nextPlayer();
+        }
       }
     }
     server.getLobbyThreads().remove(this);
@@ -63,7 +70,9 @@ public class ServerThread extends NetworkThread {
     if (MoleGames.getMoleGames().getServer().isDebug()) {
       System.out.println("Disconnecting " + this.getClientName());
     }
-    MainGUI.getGUI().updateTable();
+    if (MainGUI.getGUI() != null) {
+      MainGUI.getGUI().updateTable();
+    }
     if (PlayerManagement.getPlayerManagement() != null) {
       PlayerManagement.getPlayerManagement().updateTable();
     }
