@@ -13,6 +13,7 @@ package de.thundergames.gameplay.player.board;
 import de.thundergames.playmechanics.util.Mole;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -24,6 +25,7 @@ public class MoleModel extends Button {
   private final static int DEFAULT_SIZE = 48;
   private final int moleId;
   private final int size;
+  private final String moleColor;
 
   /**
    * @param id
@@ -34,10 +36,11 @@ public class MoleModel extends Button {
    * @use constructor
    * @author Issam, Dila, Alp
    */
-  public MoleModel(final int id, final double x, final double y, final int size, final boolean isActive) {
+  public MoleModel(final int id, final double x, final double y, final int size, final boolean isActive, String moleColor) {
     super();
     this.moleId = id;
     this.size = size;
+    this.moleColor = moleColor;
   }
 
   /**
@@ -49,22 +52,22 @@ public class MoleModel extends Button {
    * @use Constructor
    */
   public MoleModel(final int id, final double x, final double y, final boolean isActive,Mole mole) {
-    this(id, x, y, DEFAULT_SIZE, isActive);
+    this(id, x, y, DEFAULT_SIZE, isActive, "red");
 
   }
 
   public MoleModel(final int id, final double x, final double y,Mole mole) {
-    this(id, x, y, DEFAULT_SIZE, false);
+    this(id, x, y, DEFAULT_SIZE, false, "red");
     this.mole = mole;
   }
 
   public MoleModel(final int id, final int size,Mole mole) {
-    this(id, 0, 0, size, false);
+    this(id, 0, 0, size, false, "red");
 
   }
 
   public MoleModel(final int id,Mole mole) {
-    this(id, 0, 0, DEFAULT_SIZE, false);
+    this(id, 0, 0, DEFAULT_SIZE, false, "red");
     this.mole = mole;
   }
 
@@ -94,14 +97,9 @@ public class MoleModel extends Button {
    */
   private void addStyles() {
     // Set size
-    this.setMinSize(this.size, this.size);
-    // Add sprite as a background
-    var backgroundImage = new BackgroundImage(new Image(Utils.getSprite("mole/mole.png"), this.size, this.size, false, true),
-      BackgroundRepeat.NO_REPEAT,
-      BackgroundRepeat.NO_REPEAT,
-      BackgroundPosition.CENTER,
-      BackgroundSize.DEFAULT);
-    this.setBackground(new Background(backgroundImage));
+    ImageView mole = new ImageView(new Image(Utils.getSprite("mole/mole.png"), this.size, this.size, false, true));
+    this.getChildren().add(mole);
+    this.getChildren().add(MoleHat.getHat(this.moleColor, 8, 0 , 1));
   }
 
   /**
