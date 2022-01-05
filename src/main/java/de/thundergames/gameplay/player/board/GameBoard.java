@@ -118,7 +118,7 @@ public class GameBoard implements Initializable {
       {
         if(player.getClientID() == mole.getPlayer().getClientID())
         {
-          moleModelList.add(new MoleModel(player.getClientID(),mole));
+          moleModelList.add(new MoleModel(player.getClientID(),mole, playersColors[player.getClientID()]));
         }
       }
       playerModelList.add(new PlayerModel(player,moleModelList,player.getClientID() == currentPlayerId, playersColors[player.getClientID()]));
