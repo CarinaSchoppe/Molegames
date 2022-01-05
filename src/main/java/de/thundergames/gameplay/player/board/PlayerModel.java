@@ -52,7 +52,7 @@ public class PlayerModel{
     for (var mole : this.moles)
     {
       var marker = new Marker();
-      marker.setLayoutX(mole.getLayoutX() + 16);
+      marker.setLayoutX(mole.getLayoutX() + 8);
       marker.setLayoutY(mole.getLayoutY() - 16);
       marker.setOpacity(this.isItMyTurn ? 1 : 0);
       this.markers.add(marker);

@@ -23,7 +23,7 @@ import lombok.Setter;
 @Setter
 public class MoleModel extends Group {
   private Mole mole;
-  private final static int DEFAULT_SIZE = 48;
+  private final static int DEFAULT_SIZE = 32;
   private final int moleId;
   private final int size;
   private final String moleColor;
@@ -67,8 +67,8 @@ public class MoleModel extends Group {
 
   }
 
-  public MoleModel(final int id,Mole mole) {
-    this(id, 0, 0, DEFAULT_SIZE, false, "red");
+  public MoleModel(final int id,Mole mole, String moleColor) {
+    this(id, 0, 0, DEFAULT_SIZE, false, moleColor);
     this.mole = mole;
   }
 
@@ -100,7 +100,7 @@ public class MoleModel extends Group {
     // Set size
     ImageView mole = new ImageView(new Image(Utils.getSprite("mole/mole.png"), this.size, this.size, false, true));
     this.getChildren().add(mole);
-    this.getChildren().add(MoleHat.getHat(this.moleColor, 8, 0 , 1));
+    this.getChildren().add(MoleHat.getHat(this.moleColor, 8, 0, 1));
   }
 
   /**
