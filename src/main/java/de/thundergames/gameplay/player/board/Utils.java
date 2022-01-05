@@ -16,4 +16,8 @@ public class Utils {
   public static String getSprite(@NotNull final String spriteName) {
     return Utils.class.getResource("/sprites/" + spriteName).toString();
   }
+
+  public static String getRandomHSLAColor() {
+    return "hsla(" + Math.random() * 360 + ", 100%, 50%, 1)";
+  }
 }
