@@ -125,13 +125,13 @@ public class GameBoard implements Initializable {
   public void initialize(URL location, ResourceBundle resources) {
   }
 
-  public ArrayList<PlayerModel> mapPlayersToPlayerModels(HashSet<Player> players, HashSet<Mole> placedMoles, Integer currentPlayerId) {
+  public ArrayList<PlayerModel> mapPlayersToPlayerModels(HashSet<Player> players, HashSet<Mole> placedMoles, Integer currentPlayerId,String[] playersColors) {
     ArrayList<PlayerModel> playerModelList = new ArrayList<>();
     for (var player : players) {
       ArrayList<MoleModel> moleModelList = new ArrayList<>();
       for (var mole : placedMoles) {
         if (player.getClientID() == mole.getPlayer().getClientID()) {
-          moleModelList.add(new MoleModel(player.getClientID(), mole));
+          moleModelList.add(new MoleModel(player.getClientID(),mole, playersColors[player.getClientID()]));
         }
       }
       playerModelList.add(new PlayerModel(player,moleModelList,player.getClientID() == currentPlayerId, playersColors[player.getClientID()]));
@@ -182,7 +182,7 @@ public class GameBoard implements Initializable {
     }
 
 
-    playerModelList = mapPlayersToPlayerModels(players, placedMoles, currentPlayerId);
+    playerModelList = mapPlayersToPlayerModels(players, placedMoles, currentPlayerId,playersColors);
     gameHandler.update(playerModelList);
     CLIENT.getClientPacketHandler().getRemainingTimePacket();
 
