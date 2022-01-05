@@ -32,13 +32,15 @@ public class PlayerModel{
   private boolean isItMyTurn;
   private Player player;
   private ArrayList<Marker> markers;
+  private final String playerColor;
 
 
-  public PlayerModel(Player player, ArrayList<MoleModel> moles,boolean isItMyTurn) {
+  public PlayerModel(Player player, ArrayList<MoleModel> moles,boolean isItMyTurn, String playerColor) {
     this.player=player;
     this.moles=moles;
     this.isItMyTurn = isItMyTurn;
     this.markers=new ArrayList<>();
+    this.playerColor = playerColor;
   }
 
   /**

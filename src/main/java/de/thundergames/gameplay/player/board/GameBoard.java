@@ -39,6 +39,7 @@ public class GameBoard implements Initializable {
   private Stage primaryStage;
   private BorderPane borderPane;
   private GameHandler gameHandler;
+  private static String[] playersColors;
 
   public static GameBoard getObserver() {
     return OBSERVER;
@@ -76,8 +77,9 @@ public class GameBoard implements Initializable {
 
     // create list of playerModels for ui
    players = gameState.getActivePlayers();
+   playersColors = players.stream().map(player -> Utils.getRandomHSLAColor()).toArray(String[]::new);
    ArrayList<Mole> placedMoles = gameState.getPlacedMoles();
-    var playerModelList = mapPlayersToPlayerModels(players,placedMoles,currentPlayerId);
+    var playerModelList = mapPlayersToPlayerModels(players,placedMoles,currentPlayerId, playersColors);
 
     // Set custom cursor
     var cursor = new Image(Utils.getSprite("game/cursor.png"));
@@ -107,7 +109,7 @@ public class GameBoard implements Initializable {
   public void initialize(URL location, ResourceBundle resources) {
   }
 
-  public ArrayList<PlayerModel> mapPlayersToPlayerModels(ArrayList<Player> players,ArrayList<Mole>placedMoles,Integer currentPlayerId)
+  public ArrayList<PlayerModel> mapPlayersToPlayerModels(ArrayList<Player> players,ArrayList<Mole>placedMoles,Integer currentPlayerId, String[] playersColors)
   {
     ArrayList<PlayerModel> playerModelList = new ArrayList<>();
     for (var player:players) {
@@ -119,7 +121,7 @@ public class GameBoard implements Initializable {
           moleModelList.add(new MoleModel(player.getClientID(),mole));
         }
       }
-      playerModelList.add(new PlayerModel(player,moleModelList,player.getClientID() == currentPlayerId));
+      playerModelList.add(new PlayerModel(player,moleModelList,player.getClientID() == currentPlayerId, playersColors[player.getClientID()]));
     }
     return playerModelList;
   }
@@ -166,7 +168,7 @@ public class GameBoard implements Initializable {
       }
     }
 
-    var playerModelList = mapPlayersToPlayerModels(players,placedMoles,currentPlayerId);
+    var playerModelList = mapPlayersToPlayerModels(players,placedMoles,currentPlayerId, playersColors);
     gameHandler.update(playerModelList);
     CLIENT.getClientPacketHandler().getRemainingTimePacket();
   }
