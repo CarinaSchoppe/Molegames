@@ -47,7 +47,7 @@ enum NodeType {
 @Getter
 @Setter
 public class Node extends Circle {
-  public final static int DEFAULT_RADIUS = 15;
+  public final static int DEFAULT_RADIUS = 20;
   private final int nodeId;
   private final int row;
   private Field field;
