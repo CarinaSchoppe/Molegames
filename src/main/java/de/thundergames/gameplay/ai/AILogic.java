@@ -346,7 +346,7 @@ public class AILogic {
    * @use checks if a hole is close to a mole with the exact range of the card returns the mole ID
    *     and the x and y cordinates of the hole if the mole is close to a hole
    */
-  public List<Object> isHoleCloseToMole(@NotNull final AI ai) {
+  public ArrayList<Object> isHoleCloseToMole(@NotNull final AI ai) {
     for (var mole : ai.getMoles()) {
       for (var hole : ai.getMap().getHoles()) {
         if (!ai.getMap().getFieldMap().get(List.of(hole.getX(), hole.getY())).isOccupied()) {
@@ -354,7 +354,7 @@ public class AILogic {
                   || hole.getX() == mole.getField().getX() - ai.getCard())
               && (hole.getY() == mole.getField().getY() + ai.getCard()
                   || hole.getY() == mole.getField().getY() - ai.getCard())) {
-            return List.of(mole, hole.getX(), hole.getY());
+            return (ArrayList<Object>) List.of(mole, hole.getX(), hole.getY());
           }
         }
       }
