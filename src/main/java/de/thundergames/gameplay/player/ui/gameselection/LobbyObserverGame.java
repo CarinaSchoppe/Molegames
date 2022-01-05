@@ -13,27 +13,56 @@ package de.thundergames.gameplay.player.ui.gameselection;
 import de.thundergames.gameplay.player.Client;
 import de.thundergames.gameplay.player.board.GameBoard;
 import de.thundergames.gameplay.util.SceneController;
+import de.thundergames.playmechanics.game.Game;
+import de.thundergames.playmechanics.util.Player;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.HashSet;
 import java.util.ResourceBundle;
 
 public class LobbyObserverGame implements Initializable {
 
-  @FXML private static Client CLIENT;
+  @FXML
+  private static Client CLIENT;
   private static LobbyObserverGame OBSERVER;
-  @FXML private Text PlayerName;
-  @FXML private Text PlayerJoined;
-  @FXML private Text JoinedSuccessfully;
+  @FXML
+  private Text PlayerName;
+  @FXML
+  private Text PlayerJoined;
+  @FXML
+  private Text JoinedSuccessfully;
+  @FXML
+  private Text PlayerSize;
+  @FXML
+  private TableView<SettingsTable> settingsTable;
+  @FXML
+  private TableColumn<SettingsTable, String> settingName;
+  @FXML
+  private TableColumn<SettingsTable, String> settingValue;
+
+  @FXML
+  private TableView<Player> playerTable;
+  @FXML
+  private TableColumn<Player, String> playerTableName;
+
+  private Game game;
+
+  private HashSet<Player> playerList;
 
   private Stage primaryStage;
 
@@ -73,7 +102,19 @@ public class LobbyObserverGame implements Initializable {
 
   @Override
   public void initialize(URL location, ResourceBundle resources) {
+    playerTableName.setCellValueFactory(new PropertyValueFactory<>("name"));
+    settingName.setCellValueFactory(new PropertyValueFactory<>("setting"));
+    settingValue.setCellValueFactory(new PropertyValueFactory<>("value"));
     PlayerName.setText("Spieler: " + CLIENT.name);
+    for (var game : CLIENT.getGames()) {
+      if (game.getGameID() == CLIENT.getGameID()) {
+        this.game = game;
+        break;
+      }
+    }
+    updateNumberOfPlayers();
+    updatePlayerTable();
+    updateSettingsTable();
   }
 
   /**
@@ -106,6 +147,8 @@ public class LobbyObserverGame implements Initializable {
    *     respectively when the client has received playerJoined packet.
    */
   public void showNewPlayer() {
+    updateNumberOfPlayers();
+    updatePlayerTable();
     PlayerJoined.setOpacity(1.0);
     try {
       Thread.sleep(3000);
@@ -115,11 +158,36 @@ public class LobbyObserverGame implements Initializable {
     PlayerJoined.setOpacity(0.0);
   }
 
+  public void updateNumberOfPlayers() {
+    var numberOfPlayers = CLIENT.getGameState().getActivePlayers().size();
+    PlayerSize.setText(numberOfPlayers + "/" + game.getMaxPlayerCount());
+  }
+
+  public void updatePlayerTable() {
+    playerList = CLIENT.getGameState().getActivePlayers();
+    ObservableList<Player> players = FXCollections.observableArrayList();
+    for (var player : playerList) {
+      players.add(player);
+    }
+    if (!players.isEmpty()) {
+      playerTable.setItems(players);
+    }
+  }
+
+  public void updateSettingsTable() {
+    ObservableList<SettingsTable> settingsData = FXCollections.observableArrayList();
+    settingsData.add(new SettingsTable("Radius", Integer.toString(this.game.getRadius())));
+    settingsData.add(new SettingsTable("Zug Zeit", Long.toString(this.game.getTurnTime())));
+    settingsData.add(new SettingsTable("Bestrafung", this.game.getMovePenalty()));
+    settingsData.add(new SettingsTable("Karten", this.game.getPullDiscs().toString()));
+    settingsTable.setItems(settingsData);
+  }
+
   /**
    * @author Nick
    * @use Changes the opacity of a text field with the content "Beitritt zum Spiel war erfolgreich!
-   *     Bitte warten." thus making it visible for 5 seconds when the client has received
-   *     AssignToGame packet.
+   * Bitte warten." thus making it visible for 5 seconds when the client has received
+   * AssignToGame packet.
    */
   public void showJoiningSuccessfully() {
     JoinedSuccessfully.setOpacity(1.0);
