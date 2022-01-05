@@ -10,10 +10,8 @@
 
 package de.thundergames.gameplay.player.board;
 
-import de.thundergames.playmechanics.util.Player;
 import javafx.application.Platform;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
 import lombok.Getter;
 import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
@@ -33,6 +31,7 @@ public class GameHandler {
   private HashMap<List<Integer>, NodeType> nodeTypes;
   private Board board;
   private BorderPane container;
+  private BorderPane rootContainer;
   private String background;
 
   /**
@@ -43,13 +42,14 @@ public class GameHandler {
    * @author Alp, Dila, Issam
    * @use constructor
    */
-  public GameHandler(@NotNull final ArrayList<PlayerModel> players, final int boardRadius, @NotNull final HashMap<List<Integer>, NodeType> nodeTypes, final long timeout, BorderPane container) {
+  public GameHandler(@NotNull final ArrayList<PlayerModel> players, final int boardRadius, @NotNull final HashMap<List<Integer>, NodeType> nodeTypes, final long timeout, BorderPane container, BorderPane rootContainer) {
     this.players = players;
     this.activePlayer = players.get(0);
     this.timeout = timeout;
     this.boardRadius = boardRadius;
     this.nodeTypes = new HashMap<>(nodeTypes);
     this.container = container;
+    this.rootContainer = rootContainer;
     this.background = "background/ground.png";
   }
 
@@ -60,8 +60,8 @@ public class GameHandler {
    * @author Alp, Dila, Issam
    * @use constructor
    */
-  public GameHandler(@NotNull final ArrayList<PlayerModel> players, final int boardRadius, @NotNull final HashMap<List<Integer>, NodeType> nodeTypes, BorderPane container) {
-    this(players, boardRadius, nodeTypes, DEFAULT_TIMEOUT, container);
+  public GameHandler(@NotNull final ArrayList<PlayerModel> players, final int boardRadius, @NotNull final HashMap<List<Integer>, NodeType> nodeTypes, BorderPane container, BorderPane rootContainer) {
+    this(players, boardRadius, nodeTypes, DEFAULT_TIMEOUT, container, rootContainer);
   }
 
   /**
@@ -70,8 +70,8 @@ public class GameHandler {
    * @use starts the pane
    */
   public void start(ArrayList<PlayerModel> players) {
-    this.board = new Board(this.boardRadius, container.getWidth(), container.getHeight(),nodeTypes,players);
-    this.board.setContainerBackground(container, background);
+    this.board = new Board(this.boardRadius, container.getWidth(), container.getHeight(), nodeTypes, players);
+    this.board.setContainerBackground(rootContainer, background);
     this.board.render();
     this.activePlayer.setItMyTurn(true);
   }

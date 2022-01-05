@@ -11,7 +11,6 @@
 package de.thundergames.gameplay.player.board;
 
 import de.thundergames.playmechanics.map.Field;
-import de.thundergames.playmechanics.map.Map;
 import javafx.geometry.Point2D;
 import javafx.scene.Group;
 import javafx.scene.image.Image;
@@ -31,15 +30,8 @@ public class Board extends Group {
   private final HashSet<Node> nodes;
   private final ArrayList<Edge> edges;
   //private final Map map;
-  private HashMap<List<Integer>, NodeType> nodesType;
-  private ArrayList<PlayerModel> players;
-  final EventHandler<MouseEvent> nodeClickEventHandler =
-      e -> {
-        if (e.getTarget() instanceof Node) {
-          this.players.forEach(player -> player.notifyNodeClick(((Node) e.getTarget())));
-          e.consume();
-        }
-      };
+  private final HashMap<List<Integer>, NodeType> nodesType;
+  private final ArrayList<PlayerModel> players;
   private double width;
   private double height;
 

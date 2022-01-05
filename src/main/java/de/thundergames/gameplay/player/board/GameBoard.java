@@ -22,6 +22,7 @@ import javafx.geometry.Pos;
 import javafx.scene.ImageCursor;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -38,6 +39,7 @@ public class GameBoard implements Initializable {
 
   private Stage primaryStage;
   private BorderPane borderPane;
+  private BorderPane countDownPane;
   private GameHandler gameHandler;
   private static String[] playersColors;
 
@@ -47,7 +49,7 @@ public class GameBoard implements Initializable {
 
   private GameState gameState;
 
-  private ArrayList<Player> players;
+  private HashSet<Player> players;
 
   private static BoardCountDown COUNTDOWN;
   /**
@@ -60,15 +62,14 @@ public class GameBoard implements Initializable {
     CLIENT = Client.getClientInstance();
     this.primaryStage = primaryStage;
     borderPane = new BorderPane();
-
+    countDownPane = new BorderPane();
+    countDownPane.setMinHeight(50);
     // get gameState
     gameState = CLIENT.getGameState();
-    if (gameState== null) return;
-
+    if (gameState == null) return;
     //start timer of gameBoard
     COUNTDOWN = new BoardCountDown();
     COUNTDOWN.setTimer(!Objects.equals(gameState.getStatus(), GameStates.PAUSED.toString()));
-
     // get radius
     BOARD_RADIUS = gameState.getRadius();
 
@@ -77,20 +78,20 @@ public class GameBoard implements Initializable {
 
     // create list of playerModels for ui
    players = gameState.getActivePlayers();
-   playersColors = players.stream().map(player -> Utils.getRandomHSLAColor()).toArray(String[]::new);
-   ArrayList<Mole> placedMoles = gameState.getPlacedMoles();
-    var playerModelList = mapPlayersToPlayerModels(players,placedMoles,currentPlayerId, playersColors);
-
+    playersColors = players.stream().map(player -> Utils.getRandomHSLAColor()).toArray(String[]::new);
+    HashSet<Mole> placedMoles = gameState.getPlacedMoles();
+    var playerModelList = mapPlayersToPlayerModels(players, placedMoles, currentPlayerId, playersColors);
     // Set custom cursor
     var cursor = new Image(Utils.getSprite("game/cursor.png"));
     borderPane.setCursor(new ImageCursor(cursor,
       cursor.getWidth() / 2,
       cursor.getHeight() / 2));
-
+    var rootPane = new BorderPane();
+    rootPane.setTop(countDownPane);
+    rootPane.setCenter(borderPane);
     // Create a game handler and add random players to it
-    gameHandler = new GameHandler(playerModelList, BOARD_RADIUS, updateFloor(gameState),borderPane);
+    gameHandler = new GameHandler(playerModelList, BOARD_RADIUS, updateFloor(gameState), borderPane, rootPane);
     gameHandler.start(playerModelList);
-
     // Add resize event listener
     ChangeListener<Number> resizeObserver = (obs, newValue, oldValue) -> gameHandler.getBoard().onResize(borderPane.getWidth(), borderPane.getHeight());
     borderPane.widthProperty().addListener(resizeObserver);
@@ -98,7 +99,7 @@ public class GameBoard implements Initializable {
     // Add board to center of borderPane
     borderPane.setCenter(gameHandler.getBoard());
     CLIENT.getClientPacketHandler().getRemainingTimePacket();
-    var s = new Scene(borderPane);
+    var s = new Scene(rootPane);
     primaryStage.setScene(s);
     primaryStage.setResizable(true);
     primaryStage.setMaximized(true);
@@ -109,16 +110,13 @@ public class GameBoard implements Initializable {
   public void initialize(URL location, ResourceBundle resources) {
   }
 
-  public ArrayList<PlayerModel> mapPlayersToPlayerModels(ArrayList<Player> players,ArrayList<Mole>placedMoles,Integer currentPlayerId, String[] playersColors)
-  {
+  public ArrayList<PlayerModel> mapPlayersToPlayerModels(HashSet<Player> players, HashSet<Mole> placedMoles, Integer currentPlayerId, String[] playersColors) {
     ArrayList<PlayerModel> playerModelList = new ArrayList<>();
-    for (var player:players) {
+    for (var player : players) {
       ArrayList<MoleModel> moleModelList = new ArrayList<>();
-      for (var mole : placedMoles)
-      {
-        if(player.getClientID() == mole.getPlayer().getClientID())
-        {
-          moleModelList.add(new MoleModel(player.getClientID(),mole, playersColors[player.getClientID()]));
+      for (var mole : placedMoles) {
+        if (player.getClientID() == mole.getPlayer().getClientID()) {
+          moleModelList.add(new MoleModel(player.getClientID(), mole, playersColors[player.getClientID()]));
         }
       }
       playerModelList.add(new PlayerModel(player,moleModelList,player.getClientID() == currentPlayerId, playersColors[player.getClientID()]));
@@ -154,7 +152,7 @@ public class GameBoard implements Initializable {
 
     //get moles
     var fieldMap = CLIENT.getMap().getFieldMap();
-    ArrayList<Mole> placedMoles = new ArrayList<>();
+    HashSet<Mole> placedMoles = new HashSet<>();
     for (var field :fieldMap.values())
     {
       var currentMole = field.getMole();
@@ -183,9 +181,11 @@ public class GameBoard implements Initializable {
 
   public void updateRemainingTime() {
     Platform.runLater(() -> {
-      var remainingTime = CLIENT.getRemainingTime();
-      updateTime(remainingTime);
-      COUNTDOWN.setRemainingTime(remainingTime);
+      long remainingTime = CLIENT.getRemainingTime();
+      var sys = System.currentTimeMillis();
+      long time = remainingTime - sys;
+      updateTime(time);
+      COUNTDOWN.setRemainingTime(time);
     });
   }
 
@@ -193,11 +193,11 @@ public class GameBoard implements Initializable {
   {
     Platform.runLater(() -> {
       var txtRemainingTime = new Text(String.valueOf((remainingTime / 1000)));
-      var container = new BorderPane();
+      var container = new AnchorPane();
       txtRemainingTime.setFont(new javafx.scene.text.Font("Chicle", 50));
-      container.setTop(txtRemainingTime);
+      container.getChildren().add(txtRemainingTime);
+      countDownPane.setTop(txtRemainingTime);
       BorderPane.setAlignment(txtRemainingTime, Pos.TOP_CENTER);
-      borderPane.setTop(container);
     });
   }
 

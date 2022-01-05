@@ -593,7 +593,7 @@ public class ClientPacketHandler {
    * @use handles the remaining Time of the client for a turn
    */
   protected void handleRemainingTimePacket() {
-    client.setRemainingTime(packet.getValues().get("timeLeft").getAsInt());
+    client.setRemainingTime(packet.getValues().get("timeLeft").getAsLong());
     updateGameRemainingTime();
   }
 
