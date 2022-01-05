@@ -1,7 +1,8 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 21.12.21, 16:39 by Carina Latest changes made by Carina on 21.12.21, 16:37 All contents of "Tournament" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 24.12.21, 12:18 by Carina Latest changes made by Carina on 24.12.21, 12:16
+ * All contents of "Tournament" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -88,23 +89,17 @@ public class Tournament {
     }
   }
 
-  /**
-   * @return tournamentID with a hashtag in front of it
-   */
+  /** @return tournamentID with a hashtag in front of it */
   public String getHashtagWithTournamentID() {
     return "#" + tournamentID;
   }
 
-  /**
-   * @return current player count and the maximum player count with a slash between both
-   */
+  /** @return current player count and the maximum player count with a slash between both */
   public String getCurrentPlayerCount_MaxCount() {
     return players.size() + "/ XX";
   }
 
-  /**
-   * @return current player count and the maximum player count with a slash between both
-   */
+  /** @return current player count and the maximum player count with a slash between both */
   public String getStatusForTableView() {
     return Objects.equals(status, TournamentStatus.NOT_STARTED) ? "OPEN" : status.getStatus();
   }

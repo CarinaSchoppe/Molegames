@@ -9,7 +9,6 @@
  */
 package de.thundergames.networking.util;
 
-import de.thundergames.gameplay.player.Client;
 import lombok.Data;
 
 import java.net.Socket;
@@ -21,12 +20,4 @@ public abstract class Network {
   protected final String ip;
   protected Socket socket;
   private boolean debug = true;
-
-  /**
-   * @author Carina
-   * @use the abstract logic of creating the sockets and threads for the server communicationlogic
-   * @see de.thundergames.networking.server.Server
-   * @see Client
-   */
-  protected abstract void create();
 }

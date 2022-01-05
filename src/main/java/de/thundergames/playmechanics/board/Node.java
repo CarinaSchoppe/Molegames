@@ -1,7 +1,8 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 21.12.21, 16:39 by Carina Latest changes made by Carina on 21.12.21, 16:37 All contents of "NodeType" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 24.12.21, 12:18 by Carina Latest changes made by Carina on 24.12.21, 12:16
+ * All contents of "NodeType" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -14,8 +15,6 @@ import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.Arrays;
 
 enum NodeType {
   HOLE {
@@ -51,13 +50,13 @@ public class Node extends Circle {
   private boolean isOccupied;
 
   public Node(
-    final int id,
-    final double x,
-    final double y,
-    final int radius,
-    @NotNull final NodeType nodeType,
-    final int row,
-    final boolean isOccupied) {
+      final int id,
+      final double x,
+      final double y,
+      final int radius,
+      @NotNull final NodeType nodeType,
+      final int row,
+      final boolean isOccupied) {
     super(x, y, radius);
     this.id = id;
     this.row = row;
@@ -66,12 +65,12 @@ public class Node extends Circle {
   }
 
   public Node(
-    final int id,
-    final double x,
-    final double y,
-    @NotNull final NodeType nodeType,
-    final int row,
-    final boolean isOccupied) {
+      final int id,
+      final double x,
+      final double y,
+      @NotNull final NodeType nodeType,
+      final int row,
+      final boolean isOccupied) {
     this(id, x, y, DEFAULT_RADIUS, nodeType, row, false);
   }
 
@@ -100,7 +99,8 @@ public class Node extends Circle {
   }
 
   public boolean isNodeOccupied(int[] ocuppieNodeIds) {
-    return Arrays.asList(ocuppieNodeIds).contains(this.id);
+    // TODO: cant check int[] equals int
+    return false;
   }
 
   @Override
