@@ -36,6 +36,7 @@ import javafx.stage.Stage;
 
 import java.net.URL;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class GameBoard implements Initializable {
 
@@ -48,7 +49,7 @@ public class GameBoard implements Initializable {
   private BorderPane borderPane;
   private BorderPane countDownPane;
   private GameHandler gameHandler;
-  private static String[] playersColors;
+  private static Map<Integer, String> playersColors;
 
   public static GameBoard getObserver() {
     return OBSERVER;
@@ -64,6 +65,7 @@ public class GameBoard implements Initializable {
   private ArrayList<PlayerModel> playerModelList;
 
   private static BoardCountDown COUNTDOWN;
+
   /**
    * @param primaryStage
    * @author Alp, Dila, Issam
@@ -125,16 +127,16 @@ public class GameBoard implements Initializable {
   public void initialize(URL location, ResourceBundle resources) {
   }
 
-  public ArrayList<PlayerModel> mapPlayersToPlayerModels(HashSet<Player> players, HashSet<Mole> placedMoles, Integer currentPlayerId,String[] playersColors) {
+  public ArrayList<PlayerModel> mapPlayersToPlayerModels(HashSet<Player> players, HashSet<Mole> placedMoles, Integer currentPlayerId, Map<Integer, String> playersColors) {
     ArrayList<PlayerModel> playerModelList = new ArrayList<>();
     for (var player : players) {
       ArrayList<MoleModel> moleModelList = new ArrayList<>();
       for (var mole : placedMoles) {
         if (player.getClientID() == mole.getPlayer().getClientID()) {
-          moleModelList.add(new MoleModel(player.getClientID(),mole, playersColors[player.getClientID()]));
+          moleModelList.add(new MoleModel(player.getClientID(),mole, playersColors.get(player.getClientID())));
         }
       }
-      playerModelList.add(new PlayerModel(player,moleModelList,player.getClientID() == currentPlayerId, playersColors[player.getClientID()]));
+      playerModelList.add(new PlayerModel(player,moleModelList,player.getClientID() == currentPlayerId, playersColors.get(player.getClientID())));
     }
     return playerModelList;
   }
