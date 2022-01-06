@@ -47,8 +47,6 @@ public class LobbyObserverGame implements Initializable {
   @FXML
   private Text JoinedSuccessfully;
   @FXML
-  private Text PlayerSize;
-  @FXML
   private TableView<SettingsTable> settingsTable;
   @FXML
   private TableColumn<SettingsTable, String> settingName;
@@ -63,6 +61,8 @@ public class LobbyObserverGame implements Initializable {
   private Game game;
 
   private HashSet<Player> playerList;
+
+  private ObservableList<SettingsTable> settingsData;
 
   private Stage primaryStage;
 
@@ -102,7 +102,7 @@ public class LobbyObserverGame implements Initializable {
 
   @Override
   public void initialize(URL location, ResourceBundle resources) {
-    playerTableName.setCellValueFactory(new PropertyValueFactory<>("name"));
+    playerTableName.setCellValueFactory(new PropertyValueFactory<>("PlayerIdAndName"));
     settingName.setCellValueFactory(new PropertyValueFactory<>("setting"));
     settingValue.setCellValueFactory(new PropertyValueFactory<>("value"));
     PlayerName.setText("Spieler: " + CLIENT.name);
@@ -112,7 +112,7 @@ public class LobbyObserverGame implements Initializable {
         break;
       }
     }
-    updateNumberOfPlayers();
+    settingsData = FXCollections.observableArrayList();
     updatePlayerTable();
     updateSettingsTable();
   }
@@ -141,10 +141,10 @@ public class LobbyObserverGame implements Initializable {
   }
 
   /**
-   * @author Nick
+   * @author Nick, Philipp
    * @use Changes the opacity of a text field with the content "Ein weiterer Spieler ist
-   *     beigetreten" thus making it visible for 3 seconds when another player has joined
-   *     respectively when the client has received playerJoined packet.
+   * beigetreten" thus making it visible for 3 seconds when another player has joined
+   * respectively when the client has received playerJoined packet.
    */
   public void showNewPlayer() {
     updateNumberOfPlayers();
@@ -158,28 +158,57 @@ public class LobbyObserverGame implements Initializable {
     PlayerJoined.setOpacity(0.0);
   }
 
+  /**
+   * @author Philipp
+   * @use Refreshes the table view, if the number of players in the room changes
+   */
   public void updateNumberOfPlayers() {
-    var numberOfPlayers = CLIENT.getGameState().getActivePlayers().size();
-    PlayerSize.setText(numberOfPlayers + "/" + game.getMaxPlayerCount());
+    settingsData.get(0).setValue(getNumberOfPlayers());
+    settingsTable.refresh();
   }
 
+  /**
+   * @return Returns a string consisting of the currently connected number of players and the max player
+   * count of the room
+   * @author Philipp
+   */
+  public String getNumberOfPlayers() {
+    var numberOfPlayers = CLIENT.getGameState().getActivePlayers().size();
+    return numberOfPlayers + "/" + game.getMaxPlayerCount();
+  }
+
+  /**
+   * @author Philipp
+   * @use Writes the playing Client names to a table view to display it in the GUI
+   */
   public void updatePlayerTable() {
     playerList = CLIENT.getGameState().getActivePlayers();
+    System.out.println(CLIENT.getGameState().getActivePlayers());
     ObservableList<Player> players = FXCollections.observableArrayList();
     for (var player : playerList) {
       players.add(player);
     }
     if (!players.isEmpty()) {
       playerTable.setItems(players);
+    } else {
+      playerTable.getItems().clear();
     }
   }
 
+  /**
+   * @author Philipp
+   * @use Writes the game settings to a table view to display it in the GUI
+   */
   public void updateSettingsTable() {
-    ObservableList<SettingsTable> settingsData = FXCollections.observableArrayList();
+    settingsData.add(new SettingsTable("Spieler", getNumberOfPlayers()));
     settingsData.add(new SettingsTable("Radius", Integer.toString(this.game.getRadius())));
-    settingsData.add(new SettingsTable("Zug Zeit", Long.toString(this.game.getTurnTime())));
-    settingsData.add(new SettingsTable("Bestrafung", this.game.getMovePenalty()));
+    settingsData.add(new SettingsTable("Maulwurfanzahl", Integer.toString(this.game.getMoleCount())));
+    settingsData.add(new SettingsTable("Level", Integer.toString(this.game.getLevelCount())));
+    settingsData.add(new SettingsTable("Karten geordnet", Boolean.toString(this.game.isPullDiscsOrdered())));
     settingsData.add(new SettingsTable("Karten", this.game.getPullDiscs().toString()));
+    settingsData.add(new SettingsTable("Zug Zeit", Long.toString(this.game.getTurnTime())));
+    settingsData.add(new SettingsTable("Visualisierungszeit", Long.toString(this.game.getVisualizationTime())));
+    settingsData.add(new SettingsTable("Bestrafung", this.game.getMovePenalty()));
     settingsTable.setItems(settingsData);
   }
 

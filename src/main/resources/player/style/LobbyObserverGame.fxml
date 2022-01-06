@@ -17,7 +17,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.*?>
 <VBox xmlns:fx="http://javafx.com/fxml/1" maxHeight="856.0" maxWidth="900.0" minHeight="856.0" minWidth="900.0"
-      prefHeight="856.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/17">
+      prefHeight="856.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/11">
     <AnchorPane>
         <ImageView>
             <Image url="@../pictures/Lobby-Observer.png"/>
@@ -28,38 +28,34 @@
                 <Font name="Arial Black" size="24.0"/>
             </font>
         </Text>
-        <Text id="PlayerJoined" fx:id="PlayerJoined" fill="WHITE" layoutX="232.0" layoutY="374.0" opacity="0.0"
+        <Text id="PlayerJoined" fx:id="PlayerJoined" fill="WHITE" layoutX="20.0" layoutY="787.0" opacity="0.0"
               strokeType="OUTSIDE" strokeWidth="0.0" text="Ein weiterer Spieler ist beigetreten" textAlignment="CENTER"
-              wrappingWidth="448.9830722808838">
+              wrappingWidth="614.9830722808838">
             <font>
-                <Font name="Arial Black" size="50.0"/>
+                <Font size="36.0"/>
             </font>
         </Text>
-        <Text id="JoinedSuccessfully" fx:id="JoinedSuccessfully" fill="#15ff00" layoutX="65.0" layoutY="226.0"
+        <Text id="JoinedSuccessfully" fx:id="JoinedSuccessfully" fill="#15ff00" layoutX="20.0" layoutY="236.0"
               opacity="0.0" strokeType="OUTSIDE" strokeWidth="0.0"
               text="Beitritt zum Spiel war erfolgreich! Bitte warten." textAlignment="CENTER"
-              wrappingWidth="770.9830722808838">
+              wrappingWidth="859.9830722808838">
             <font>
                 <Font name="Arial Black" size="50.0"/>
-            </font>
-        </Text>
-        <Text id="PlayerSize" fx:id="PlayerSize" fill="WHITE" layoutX="674.0" layoutY="113.0" strokeType="OUTSIDE"
-              strokeWidth="0.0" wrappingWidth="188.7294921875">
-            <font>
-                <Font size="50.0"/>
             </font>
         </Text>
         <Button fx:id="backToGameSelection" layoutX="674.0" layoutY="779.0" mnemonicParsing="false" opacity="0.0"
                 prefHeight="59.0" prefWidth="206.0" text="Zurück"/>
-        <TableView fx:id="settingsTable" layoutX="615.0" layoutY="190.0" prefHeight="490.0" prefWidth="265.0">
+        <TableView fx:id="settingsTable" layoutX="335.0" layoutY="190.0" prefHeight="520.0" prefWidth="545.0"
+                   stylesheets="@css/LeaderBoardStyle.css">
             <columns>
-                <TableColumn fx:id="settingName" prefWidth="118.0" text="Einstellung"/>
-                <TableColumn fx:id="settingValue" prefWidth="146.0" text="Wert"/>
+                <TableColumn fx:id="settingName" prefWidth="276.0" text="Einstellung"/>
+                <TableColumn fx:id="settingValue" prefWidth="268.0" text="Wert"/>
             </columns>
         </TableView>
-        <TableView fx:id="playerTable" layoutX="20.0" layoutY="196.0" prefHeight="490.0" prefWidth="200.0">
+        <TableView fx:id="playerTable" layoutX="20.0" layoutY="190.0" prefHeight="520.0" prefWidth="292.0"
+                   stylesheets="@css/LeaderBoardStyle.css">
             <columns>
-                <TableColumn fx:id="playerTableName" prefWidth="199.0" text="Spieler"/>
+                <TableColumn fx:id="playerTableName" prefWidth="291.0" text="Spieler"/>
             </columns>
         </TableView>
     </AnchorPane>
