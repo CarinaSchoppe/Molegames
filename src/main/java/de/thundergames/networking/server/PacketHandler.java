@@ -54,7 +54,7 @@ public class PacketHandler {
           System.out.println(
               "Client with the name \""
                   + client.getClientName()
-                  + "\" sended: "
+                  + "\" sent: "
                   + packet.getValues().get("message").getAsString());
         }
       }
