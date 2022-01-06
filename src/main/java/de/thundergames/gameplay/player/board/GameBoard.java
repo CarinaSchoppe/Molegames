@@ -31,7 +31,9 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.paint.Paint;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
 
 import java.net.URL;
@@ -48,6 +50,8 @@ public class GameBoard implements Initializable {
   private Stage primaryStage;
   private BorderPane borderPane;
   private BorderPane countDownPane;
+  private BorderPane turnPane;
+  private BorderPane scorePane;
   private GameHandler gameHandler;
   private static Map<Integer, String> playersColors;
 
@@ -78,6 +82,12 @@ public class GameBoard implements Initializable {
     borderPane = new BorderPane();
     countDownPane = new BorderPane();
     countDownPane.setMinHeight(50);
+
+    turnPane = new BorderPane();
+    turnPane.setMinHeight(50);
+
+    scorePane = new BorderPane();
+    scorePane.setMinWidth(50);
     // get gameState
     gameState = CLIENT.getGameState();
     if (gameState == null) return;
@@ -88,21 +98,23 @@ public class GameBoard implements Initializable {
     BOARD_RADIUS = gameState.getRadius();
 
     //get current player
-    var currentPlayerId = gameState.getCurrentPlayer()== null  ? -1 : gameState.getCurrentPlayer().getClientID();
+    var currentPlayerId = gameState.getCurrentPlayer() == null ? -1 : gameState.getCurrentPlayer().getClientID();
 
     // create list of playerModels for ui
-   players = gameState.getActivePlayers();
-    playersColors = players.stream().map(player -> Utils.getRandomHSLAColor()).toArray(String[]::new);
+    players = gameState.getActivePlayers();
+    playersColors = players.stream().collect(Collectors.toMap(Player::getClientID, player -> Utils.getRandomHSLAColor()));
     HashSet<Mole> placedMoles = gameState.getPlacedMoles();
     var playerModelList = mapPlayersToPlayerModels(players, placedMoles, currentPlayerId, playersColors);
     // Set custom cursor
     var cursor = new Image(Utils.getSprite("game/cursor.png"));
     borderPane.setCursor(new ImageCursor(cursor,
-      cursor.getWidth() / 2,
-      cursor.getHeight() / 2));
+            cursor.getWidth() / 2,
+            cursor.getHeight() / 2));
     var rootPane = new BorderPane();
     rootPane.setTop(countDownPane);
     rootPane.setCenter(borderPane);
+    rootPane.setBottom(turnPane);
+    rootPane.setRight(scorePane);
     // Create a game handler and add random players to it
     gameHandler = new GameHandler(playerModelList, BOARD_RADIUS, updateFloor(gameState), borderPane, rootPane);
     gameHandler.start(playerModelList);
@@ -184,12 +196,12 @@ public class GameBoard implements Initializable {
     }
 
 
-    playerModelList = mapPlayersToPlayerModels(players, placedMoles, currentPlayerId,playersColors);
+    playerModelList = mapPlayersToPlayerModels(players, placedMoles, currentPlayerId, playersColors);
     gameHandler.update(playerModelList);
     CLIENT.getClientPacketHandler().getRemainingTimePacket();
 
-    if (!currentPlayerName.equals("")) {
-      playerTurnInformation(currentPlayerName);
+    if (currentPlayerId != -1) {
+      playerTurnInformation(currentPlayerId, currentPlayerName);
     }
     updatePlayerList();
   }
@@ -220,7 +232,7 @@ public class GameBoard implements Initializable {
       if (gameState != newGameState) {
         gameState = newGameState;
       }
-      System.out.println(gameState.getScore());
+
       if (score != gameState.getScore() && !gameState.getScore().getPlayers().isEmpty()) {
         score = gameState.getScore();
         var thisPlace = 1;
@@ -240,21 +252,34 @@ public class GameBoard implements Initializable {
       playerListTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
       //playerListTable.setStyle("-fx-background-color: -fx-table-cell-border-color, rgba(65, 23, 167, 1);");
       playerListTable.prefHeightProperty().bind(primaryStage.heightProperty());
-      var container = new BorderPane();
-      container.setRight(playerListTable);
+      var container = new AnchorPane();
+      container.getChildren().add(playerListTable);
+      scorePane.setRight(playerListTable);
       BorderPane.setAlignment(playerListTable, Pos.CENTER_RIGHT);
-      borderPane.setRight(container);
     });
   }
 
-  public void playerTurnInformation(String playerName) {
+  public void playerTurnInformation(Integer playerId, String playerName) {
     Platform.runLater(() -> {
-      var notification = new Text("Spieler " + playerName + " ist jetzt an der Reihe.");
-      var container = new BorderPane();
-      notification.setId("text");
-      container.setTop(notification);
-      BorderPane.setAlignment(notification, Pos.BOTTOM_CENTER);
-      borderPane.setBottom(container);
+      var playerString = Integer.toString(playerId);
+      if (!playerName.equals("")) {
+        playerString = playerString + "/" + playerName;
+      }
+      var playerText = new Text(playerString);
+      var beginning = new Text("Spieler ");
+      var end = new Text(" ist jetzt an der Reihe.");
+      var container = new AnchorPane();
+      var defTextColor = "#ffffff";
+      beginning.setId("text");
+      beginning.setFill(Paint.valueOf(defTextColor));
+      end.setId("text");
+      end.setFill(Paint.valueOf(defTextColor));
+      playerText.setId("text");
+      playerText.setFill(Paint.valueOf(playersColors.get(playerId)));
+      TextFlow textFlow = new TextFlow(beginning, playerText, end);
+      container.getChildren().add(textFlow);
+      turnPane.setBottom(textFlow);
+      BorderPane.setAlignment(textFlow, Pos.BOTTOM_CENTER);
     });
   }
 
