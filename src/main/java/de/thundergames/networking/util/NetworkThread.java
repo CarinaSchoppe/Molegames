@@ -87,20 +87,20 @@ public abstract class NetworkThread extends Thread {
                 if (MoleGames.getMoleGames().getServer().isDebug()) {
                   System.out.println(
                       "Client with id: "
-                          + this.threadID
-                          + " sended: type: "
-                          + packet.getPacketType()
-                          + " contents: "
-                          + packet.getValues().toString());
+                              + this.threadID
+                              + " sent: type: "
+                              + packet.getPacketType()
+                              + " contents: "
+                              + packet.getValues().toString());
                 }
               } else if (this instanceof ServerThread
                   && !packet.getPacketType().equals(Packets.MESSAGE.getPacketType())) {
                 if (MoleGames.getMoleGames().getServer().isDebug()) {
                   System.out.println(
-                      "Client with id: "
-                          + this.threadID
-                          + " sended: type: "
-                          + packet.getPacketType());
+                          "Client with id: "
+                                  + this.threadID
+                                  + " sent: type: "
+                                  + packet.getPacketType());
                 }
               }
               readStringPacketInput(packet, this);

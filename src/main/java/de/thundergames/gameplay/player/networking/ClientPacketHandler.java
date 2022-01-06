@@ -61,7 +61,7 @@ public class ClientPacketHandler {
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.MESSAGE.getPacketType())) {
       if (packet.getValues() != null) {
         if (client.isDebug() && packet.getValues().get("message") != null)
-          System.out.println("Server sended: " + packet.getValues().get("message").getAsString());
+          System.out.println("Server sent: " + packet.getValues().get("message").getAsString());
       }
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.ASSIGNTOGAME.getPacketType())) {
       handleAssignedToGamePacket();
