@@ -99,7 +99,7 @@ public class GameBoard implements Initializable {
 
     //get current player
     var currentPlayerId = gameState.getCurrentPlayer() == null ? -1 : gameState.getCurrentPlayer().getClientID();
-
+    var currentPlayerName = CLIENT.getCurrentPlayer() == null ? "" : CLIENT.getCurrentPlayer().getName();
     // create list of playerModels for ui
     players = gameState.getActivePlayers();
     playersColors = players.stream().collect(Collectors.toMap(Player::getClientID, player -> Utils.getRandomHSLAColor()));
@@ -126,6 +126,9 @@ public class GameBoard implements Initializable {
     borderPane.setCenter(gameHandler.getBoard());
     CLIENT.getClientPacketHandler().getRemainingTimePacket();
     updatePlayerList();
+    if (currentPlayerId != -1) {
+      playerTurnInformation(currentPlayerId, currentPlayerName);
+    }
     var s = new Scene(rootPane);
     s.getStylesheets().add("/player/style/css/GameBoard.css");
 
@@ -250,12 +253,8 @@ public class GameBoard implements Initializable {
       playerListTable.setItems(resultList);
       playerListTable.getColumns().addAll(placeColumn, nameColumn, pointsColumn);
       playerListTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-      //playerListTable.setStyle("-fx-background-color: -fx-table-cell-border-color, rgba(65, 23, 167, 1);");
       playerListTable.prefHeightProperty().bind(primaryStage.heightProperty());
-      var container = new AnchorPane();
-      container.getChildren().add(playerListTable);
-      scorePane.setRight(playerListTable);
-      BorderPane.setAlignment(playerListTable, Pos.CENTER_RIGHT);
+      scorePane.setCenter(playerListTable);
     });
   }
 
@@ -268,7 +267,6 @@ public class GameBoard implements Initializable {
       var playerText = new Text(playerString);
       var beginning = new Text("Spieler ");
       var end = new Text(" ist jetzt an der Reihe.");
-      var container = new AnchorPane();
       var defTextColor = "#ffffff";
       beginning.setId("text");
       beginning.setFill(Paint.valueOf(defTextColor));
@@ -277,9 +275,8 @@ public class GameBoard implements Initializable {
       playerText.setId("text");
       playerText.setFill(Paint.valueOf(playersColors.get(playerId)));
       TextFlow textFlow = new TextFlow(beginning, playerText, end);
-      container.getChildren().add(textFlow);
-      turnPane.setBottom(textFlow);
-      BorderPane.setAlignment(textFlow, Pos.BOTTOM_CENTER);
+      textFlow.setMaxWidth(turnPane.getWidth() / 2);
+      turnPane.setCenter(textFlow);
     });
   }
 
