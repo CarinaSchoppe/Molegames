@@ -21,9 +21,13 @@
         <ImageView fitHeight="550.0" fitWidth="700.0" pickOnBounds="true">
             <Image url="@../pictures/Login-Player.png"/>
         </ImageView>
-        <Button fx:id="login" layoutX="97.0" layoutY="440.0" mnemonicParsing="false" onAction="#onLoginButtonClick" prefHeight="40.0" prefWidth="161.0" style="-fx-background-color: transparent;"/>
-        <TextField fx:id="port" layoutX="155.0" layoutY="338.0" prefHeight="25.0" prefWidth="185.0" promptText="Port" style="-fx-background-color: transparent; -fx-text-fill: white;"/>
-        <TextField fx:id="name" layoutX="155.0" layoutY="234.0" prefHeight="34.0" prefWidth="185.0" promptText="Username" style="-fx-background-color: transparent; -fx-text-fill: white;"/>
-        <TextField fx:id="ip" layoutX="410.0" layoutY="239.0" prefHeight="25.0" prefWidth="194.0" promptText="IP-Adress" style="-fx-background-color: transparent; -fx-text-fill: white;"/>
+        <Button fx:id="login" layoutX="97.0" layoutY="440.0" mnemonicParsing="false" onAction="#onLoginButtonClick"
+                prefHeight="40.0" prefWidth="161.0" style="-fx-background-color: transparent;"/>
+        <TextField fx:id="port" layoutX="155.0" layoutY="338.0" prefHeight="25.0" prefWidth="185.0" promptText="Port"
+                   style="-fx-background-color: transparent; -fx-text-fill: white;"/>
+        <TextField fx:id="name" layoutX="155.0" layoutY="234.0" prefHeight="34.0" prefWidth="185.0"
+                   promptText="Username" style="-fx-background-color: transparent; -fx-text-fill: white;"/>
+        <TextField fx:id="ip" layoutX="410.0" layoutY="239.0" prefHeight="25.0" prefWidth="194.0"
+                   promptText="IP-Adresse" style="-fx-background-color: transparent; -fx-text-fill: white;"/>
     </AnchorPane>
 </VBox>
