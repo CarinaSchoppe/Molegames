@@ -12,6 +12,7 @@
 package de.thundergames.gameplay.ausrichter.ui.floor;
 
 import de.thundergames.gameplay.ausrichter.ui.CreateGame;
+import de.thundergames.playmechanics.util.Dialog;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -28,7 +29,6 @@ import javafx.stage.Stage;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 
-import javax.swing.*;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -91,13 +91,12 @@ public class HolesConfiguration implements Initializable {
         updateHolesTable();
         updateTable();
       } else {
-        JOptionPane.showMessageDialog(null, "Waehle eine Ebene aus!");
+        Dialog.show("Wähle eine Ebene aus!", "Ebeneauswahl!", Dialog.DialogType.WARNING);
       }
       x.setText(null);
       y.setText(null);
     } catch (NumberFormatException exe) {
-      JOptionPane.showMessageDialog(
-          null, "Du musst eine Zahl eingeben!", "Eingabe!", JOptionPane.ERROR_MESSAGE);
+        Dialog.show( "Du musst eine Zahl eingeben!", "Eingabe!", Dialog.DialogType.ERROR);
     }
   }
 
@@ -124,8 +123,7 @@ public class HolesConfiguration implements Initializable {
       updateTable();
       floorTable.getSelectionModel().select(null);
     } else {
-      JOptionPane.showMessageDialog(
-          null, "Du musst eine Spalte auswaehlen!", "Auswaehlen!", JOptionPane.ERROR_MESSAGE);
+      Dialog.show( "Du musst eine Spalte auswaehlen!", "Auswählen!", Dialog.DialogType.ERROR);
     }
   }
 

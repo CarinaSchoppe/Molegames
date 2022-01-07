@@ -19,6 +19,7 @@ import de.thundergames.gameplay.ausrichter.ui.floor.HolesConfiguration;
 import de.thundergames.playmechanics.game.Game;
 import de.thundergames.playmechanics.map.Field;
 import de.thundergames.playmechanics.map.Map;
+import de.thundergames.playmechanics.util.Dialog;
 import de.thundergames.playmechanics.util.Punishments;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -33,7 +34,6 @@ import javafx.stage.Stage;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 
-import javax.swing.*;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -288,11 +288,7 @@ public class CreateGame extends Application implements Initializable {
       var newFloor = new Map(holes, drawAgains, floor.getPoints());
       floorMap.add(newFloor);
       if (drawAgains.isEmpty() || holes.isEmpty() || floors.isEmpty()) {
-        JOptionPane.showMessageDialog(
-            null,
-            "Du musst erst das Spiel voll konfigurieren!",
-            "Fehler!",
-            JOptionPane.ERROR_MESSAGE);
+        Dialog.show("Du musst erst das Spiel voll konfigurieren!","Fehler!", Dialog.DialogType.ERROR);
         return;
       }
     }
@@ -303,8 +299,7 @@ public class CreateGame extends Application implements Initializable {
             ? Integer.parseInt(radius.getText())
             : 8,
         molesAmount.getText() != null ? Integer.parseInt(molesAmount.getText()) : 4)) {
-      JOptionPane.showMessageDialog(
-          null, "Das Spiel ist nicht richtig konfiguriert!", "Fehler!", JOptionPane.ERROR_MESSAGE);
+      Dialog.show("Das Spiel ist nicht richtig konfiguriert!", "Fehler!", Dialog.DialogType.ERROR);
       return;
     }
     MoleGames.getMoleGames().getGameHandler().createNewGame(id);

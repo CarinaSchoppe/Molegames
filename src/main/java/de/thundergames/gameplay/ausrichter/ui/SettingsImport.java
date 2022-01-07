@@ -16,6 +16,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import de.thundergames.filehandling.GameConfiguration;
 import de.thundergames.gameplay.ausrichter.ui.floor.Floor;
+import de.thundergames.playmechanics.util.Dialog;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -31,7 +32,6 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import org.jetbrains.annotations.NotNull;
 
-import javax.swing.*;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -112,12 +112,12 @@ public class SettingsImport {
           new Gson().fromJson(object.get("visualisationTime").getAsString(), String.class));
       CreateGame.setPunishmentPrev(
           new Gson().fromJson(object.get("movePenalty").getAsString(), String.class));
-      JOptionPane.showMessageDialog(null, "Configuration geladen!");
+      Dialog.show("Configuration geladen!", "Settings", Dialog.DialogType.INFO);
       var primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
       CreateGame.getCreateGameInstance().start(primaryStage);
       object = null;
     } else {
-      JOptionPane.showMessageDialog(null, "Keine Konfiguration geladen!");
+      Dialog.show("Keine Konfiguration geladen!", "Settings", Dialog.DialogType.ERROR);
     }
   }
 
@@ -162,7 +162,7 @@ public class SettingsImport {
     // TODO: grafik und system implementieren  json.addProperty("deductedPoints",
     // Integer.parseInt(CreateGame.getCreateGameInstance().getDeductedPoints()));
     new GameConfiguration().saveSettings(json.toString());
-    JOptionPane.showMessageDialog(null, "Konfiguration gespeichert!");
+    Dialog.show("Konfiguration gespeichert!", "Settings", Dialog.DialogType.INFO);
   }
 
   @FXML

@@ -17,6 +17,7 @@ import de.thundergames.gameplay.util.SceneController;
 import de.thundergames.playmechanics.game.Game;
 import de.thundergames.playmechanics.game.GameState;
 import de.thundergames.playmechanics.game.GameStates;
+import de.thundergames.playmechanics.util.Dialog;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -31,7 +32,6 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import org.jetbrains.annotations.NotNull;
 
-import javax.swing.*;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Objects;
@@ -157,8 +157,7 @@ public class GameSelection implements Initializable {
     var selectedItem = gameTable.getSelectionModel().getSelectedItem();
     // If no item of tableview is selected.
     if (selectedItem == null) {
-      JOptionPane.showMessageDialog(
-          null, "Es wurde kein Spiel ausgewaehlt!", "Spiel beobachten", JOptionPane.ERROR_MESSAGE);
+      Dialog.show("Es wurde kein Spiel ausgewählt!", "Spiel beobachten", Dialog.DialogType.ERROR);
       return;
     }
     // Send Packet to spectate game to get GameState

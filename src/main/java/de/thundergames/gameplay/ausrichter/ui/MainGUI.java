@@ -17,6 +17,7 @@ import de.thundergames.networking.server.Server;
 import de.thundergames.playmechanics.game.Game;
 import de.thundergames.playmechanics.game.GameStates;
 import de.thundergames.playmechanics.tournament.Tournament;
+import de.thundergames.playmechanics.util.Dialog;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -33,7 +34,6 @@ import javafx.stage.Stage;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 
-import javax.swing.*;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -81,8 +81,7 @@ public class MainGUI extends Application implements Initializable {
   void onBreak(ActionEvent event) {
     var selectedItem = gameTable.getSelectionModel().getSelectedItem();
     if (selectedItem == null) {
-      JOptionPane.showMessageDialog(
-          null, "Es wurde kein Spiel ausgewaehlt!", "Spiel auswaehlen!", JOptionPane.ERROR_MESSAGE);
+      Dialog.show("Es wurde kein Spiel ausgewaehlt!", "Spiel auswaehlen!", Dialog.DialogType.ERROR);
     } else {
       if (MoleGames.getMoleGames()
               .getGameHandler()
@@ -95,16 +94,11 @@ public class MainGUI extends Application implements Initializable {
             .getIDGames()
             .get(selectedItem.getGameID())
             .pauseGame();
-        JOptionPane.showMessageDialog(
-            null, "Spiel wurde erfolgreich pausiert!", "Erfolg!", JOptionPane.ERROR_MESSAGE);
+        Dialog.show("Spiel wurde erfolgreich pausiert!", "Erfolg!", Dialog.DialogType.INFO);
         tournamentTable.getSelectionModel().clearSelection();
         gameTable.getSelectionModel().clearSelection();
       } else {
-        JOptionPane.showMessageDialog(
-            null,
-            "Das Spiel ist nicht im Started GameState!",
-            "Spiel Gamestate!",
-            JOptionPane.ERROR_MESSAGE);
+        Dialog.show("Das Spiel ist nicht im Started GameState!", "Spiel Gamestate!", Dialog.DialogType.ERROR);
       }
     }
   }
@@ -113,8 +107,7 @@ public class MainGUI extends Application implements Initializable {
   void onContinue(ActionEvent event) {
     var selectedItem = gameTable.getSelectionModel().getSelectedItem();
     if (selectedItem == null) {
-      JOptionPane.showMessageDialog(
-          null, "Es wurde kein Spiel ausgewaehlt!", "Spiel auswaehlen!", JOptionPane.ERROR_MESSAGE);
+      Dialog.show("Es wurde kein Spiel ausgewaehlt!", "Spiel auswaehlen!", Dialog.DialogType.ERROR);
     } else {
       if (MoleGames.getMoleGames()
               .getGameHandler()
@@ -129,14 +122,9 @@ public class MainGUI extends Application implements Initializable {
             .resumeGame();
         tournamentTable.getSelectionModel().clearSelection();
         gameTable.getSelectionModel().clearSelection();
-        JOptionPane.showMessageDialog(
-            null, "Spiel wurde erfolgreich weitergefuehrt!", "Erfolg!", JOptionPane.PLAIN_MESSAGE);
+        Dialog.show("Spiel wurde erfolgreich weitergefuehrt!", "Erfolg!", Dialog.DialogType.INFO);
       } else {
-        JOptionPane.showMessageDialog(
-            null,
-            "Das Spiel ist nicht im Paused GameState!",
-            "Spiel Gamestate!",
-            JOptionPane.ERROR_MESSAGE);
+        Dialog.show("Das Spiel ist nicht im Paused GameState!", "Spiel Gamestate!", Dialog.DialogType.ERROR);
       }
     }
   }
@@ -145,8 +133,7 @@ public class MainGUI extends Application implements Initializable {
   void onEnd(ActionEvent event) {
     var selectedItem = gameTable.getSelectionModel().getSelectedItem();
     if (selectedItem == null) {
-      JOptionPane.showMessageDialog(
-          null, "Es wurde kein Spiel ausgewaehlt!", "Spiel auswaehlen!", JOptionPane.ERROR_MESSAGE);
+      Dialog.show("Es wurde kein Spiel ausgewaehlt!", "Spiel auswaehlen!", Dialog.DialogType.ERROR);
     } else {
       if (MoleGames.getMoleGames()
                   .getGameHandler()
@@ -167,14 +154,9 @@ public class MainGUI extends Application implements Initializable {
             .forceGameEnd();
         tournamentTable.getSelectionModel().clearSelection();
         gameTable.getSelectionModel().clearSelection();
-        JOptionPane.showMessageDialog(
-            null, "Spiel wurde erfolgreich beendet!", "Erfolg!", JOptionPane.PLAIN_MESSAGE);
+        Dialog.show("Spiel wurde erfolgreich beendet!", "Erfolg!", Dialog.DialogType.ERROR);
       } else {
-        JOptionPane.showMessageDialog(
-            null,
-            "Das Spiel ist nicht irgendwie am laufen!",
-            "Spiel Gamestate!",
-            JOptionPane.ERROR_MESSAGE);
+        Dialog.show("Das Spiel ist nicht irgendwie am laufen!", "Spiel Gamestate!", Dialog.DialogType.ERROR);
       }
     }
   }
@@ -183,8 +165,7 @@ public class MainGUI extends Application implements Initializable {
   void onStartGame(ActionEvent event) {
     var selectedItem = gameTable.getSelectionModel().getSelectedItem();
     if (selectedItem == null) {
-      JOptionPane.showMessageDialog(
-          null, "Es wurde kein Spiel ausgewaehlt!", "Spiel auswaehlen!", JOptionPane.ERROR_MESSAGE);
+      Dialog.show("Es wurde kein Spiel ausgewaehlt!", "Spiel auswaehlen!", Dialog.DialogType.WARNING);
     } else {
       if (MoleGames.getMoleGames()
                   .getGameHandler()
@@ -205,14 +186,9 @@ public class MainGUI extends Application implements Initializable {
             .startGame(GameStates.STARTED);
         tournamentTable.getSelectionModel().clearSelection();
         gameTable.getSelectionModel().clearSelection();
-        JOptionPane.showMessageDialog(
-            null, "Spiel wurde erfolgreich gestartet!", "Erfolg!", JOptionPane.PLAIN_MESSAGE);
+        Dialog.show("Spiel wurde erfolgreich gestartet!", "Erfolg!", Dialog.DialogType.INFO);
       } else {
-        JOptionPane.showMessageDialog(
-            null,
-            "Das Spiel ist kann nicht gestartet werden!",
-            "Fehler",
-            JOptionPane.PLAIN_MESSAGE);
+        Dialog.show("Das Spiel ist kann nicht gestartet werden!", "Fehler", Dialog.DialogType.ERROR);
       }
     }
   }
@@ -237,8 +213,7 @@ public class MainGUI extends Application implements Initializable {
   @FXML
   void onCreateTournament(ActionEvent event) {
     // TODO: create and start mechanics on creating a tournament
-    JOptionPane.showMessageDialog(
-        null, "Noch nicht eingebaut!", "Fehler!", JOptionPane.ERROR_MESSAGE);
+    Dialog.show("Noch nicht eingebaut!", "Fehler", Dialog.DialogType.ERROR);
   }
 
   @FXML
@@ -252,16 +227,14 @@ public class MainGUI extends Application implements Initializable {
       gameTable.getSelectionModel().clearSelection();
       new PlayerManagement(game).start(primaryStage);
     } else {
-      JOptionPane.showMessageDialog(
-          null, "Das Spiel du musst ein Spiel auswaehlen!", "Fehler", JOptionPane.PLAIN_MESSAGE);
+      Dialog.show("Du musst ein Spiel auswählen!", "Fehler", Dialog.DialogType.ERROR);
     }
   }
 
   @FXML
   void onEditTournament(ActionEvent event) {
     // TODO: create and start mechanics on editing a tournament to add and remove players
-    JOptionPane.showMessageDialog(
-        null, "Noch nicht eingebaut!", "Fehler!", JOptionPane.ERROR_MESSAGE);
+    Dialog.show("Noch nicht eingebaut!", "Fehler!", Dialog.DialogType.ERROR);
   }
 
   public void updateTable() {

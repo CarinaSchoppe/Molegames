@@ -18,6 +18,7 @@ import de.thundergames.gameplay.util.SceneController;
 import de.thundergames.playmechanics.game.GameState;
 import de.thundergames.playmechanics.game.GameStates;
 import de.thundergames.playmechanics.tournament.Tournament;
+import de.thundergames.playmechanics.util.Dialog;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -31,7 +32,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-import javax.swing.*;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Objects;
@@ -143,11 +143,7 @@ public class TournamentSelection implements Initializable {
     var selectedItem = gameTable.getSelectionModel().getSelectedItem();
     // If no item of tableview is selected.
     if (selectedItem == null) {
-      JOptionPane.showMessageDialog(
-          null,
-          "Es wurde kein Turnier ausgewaehlt!",
-          "Turnier beobachten",
-          JOptionPane.ERROR_MESSAGE);
+      Dialog.show("Es wurde kein Turnier ausgewählt!","Turnier beobachten", Dialog.DialogType.ERROR);
       return;
     }
     // Send Packet to spectate tournament to get GameState
