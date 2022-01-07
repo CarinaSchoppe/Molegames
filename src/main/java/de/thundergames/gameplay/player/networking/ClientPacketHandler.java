@@ -16,6 +16,7 @@ import com.google.gson.reflect.TypeToken;
 import de.thundergames.filehandling.Score;
 import de.thundergames.gameplay.ai.AI;
 import de.thundergames.gameplay.player.Client;
+import de.thundergames.gameplay.player.board.GameBoard;
 import de.thundergames.gameplay.player.ui.gameselection.GameSelection;
 import de.thundergames.gameplay.player.ui.gameselection.LobbyObserverGame;
 import de.thundergames.gameplay.player.ui.score.LeaderBoard;
@@ -61,7 +62,7 @@ public class ClientPacketHandler {
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.MESSAGE.getPacketType())) {
       if (packet.getValues() != null) {
         if (client.isDebug() && packet.getValues().get("message") != null)
-          System.out.println("Server sended: " + packet.getValues().get("message").getAsString());
+          System.out.println("Server sent: " + packet.getValues().get("message").getAsString());
       }
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.ASSIGNTOGAME.getPacketType())) {
       handleAssignedToGamePacket();
@@ -239,7 +240,10 @@ public class ClientPacketHandler {
    * @author Carina
    * @use is called everytime a map gets updated TODO: implement this
    */
-  public void updateMap() {}
+  public void updateMap() {
+    var gameBoard = GameBoard.getObserver();
+    if (gameBoard != null) gameBoard.updateGameBoard();
+  }
 
   /**
    * @author Carina
@@ -509,6 +513,7 @@ public class ClientPacketHandler {
                 + " needs to place a mole till: "
                 + packet.getValues().get("until").getAsInt());
     }
+    updateMap();
   }
 
   /**
@@ -518,6 +523,7 @@ public class ClientPacketHandler {
    */
   protected void handleGamePausedPacket() {
     updateTableView();
+    pausedGameRemainingTime();
   }
 
   /**
@@ -536,6 +542,7 @@ public class ClientPacketHandler {
    */
   protected void handleGameContinuedPacket() {
     updateTableView();
+    continuedGameRemainingTime();
   }
 
   /**
@@ -586,7 +593,8 @@ public class ClientPacketHandler {
    * @use handles the remaining Time of the client for a turn
    */
   protected void handleRemainingTimePacket() {
-    client.setRemainingTime(packet.getValues().get("timeLeft").getAsInt());
+    client.setRemainingTime(packet.getValues().get("timeLeft").getAsLong());
+    updateGameRemainingTime();
   }
 
   /**
@@ -838,5 +846,32 @@ public class ClientPacketHandler {
   private void showPlayerJoinedGameLobby() {
     var lobbyObserverGame = LobbyObserverGame.getObserver();
     if (lobbyObserverGame != null) lobbyObserverGame.showJoiningSuccessfully();
+  }
+
+  /**
+   * @author Marc
+   * @use update remaining time of game board
+   */
+  private void updateGameRemainingTime() {
+    var observerGameBoard = GameBoard.getObserver();
+    if (observerGameBoard != null) observerGameBoard.updateRemainingTime();
+  }
+
+  /**
+   * @author Marc
+   * @use paused remaining time of game board
+   */
+  private void pausedGameRemainingTime() {
+    var observerGameBoard = GameBoard.getObserver();
+    if (observerGameBoard != null) observerGameBoard.stopTimer();
+  }
+
+  /**
+   * @author Marc
+   * @use continued remaining time of game board
+   */
+  private void continuedGameRemainingTime() {
+    var observerGameBoard = GameBoard.getObserver();
+    if (observerGameBoard != null) observerGameBoard.continueTimer();
   }
 }
