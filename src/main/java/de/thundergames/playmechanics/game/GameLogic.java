@@ -21,26 +21,26 @@ import java.util.List;
 public class GameLogic {
 
   /**
-   * @param start the startpoint in form of x and y
-   * @param stop the endpoint where the player wants to go in form of x and y
+   * @param start       the startpoint in form of x and y
+   * @param stop        the endpoint where the player wants to go in form of x and y
    * @param moveCounter the amounts of fields the player can move
-   * @param map of the de.thundergames.game and of the player
+   * @param map         of the de.thundergames.game and of the player
    * @return if the move is valid it will return true
    * @author Carina
    * @use add the parameters and it will return if the move was valid with true or invalid with
-   *     false
+   * false
    * @premisse the startpoint and endpoint must be in the playingfield and the player was allowed to
-   *     move.
+   * move.
    */
   public static synchronized boolean wasLegalMove(
-      final int[] start, final int[] stop, final int moveCounter, @NotNull final Map map) {
+    final int[] start, final int[] stop, final int moveCounter, @NotNull final Map map) {
     if (map.getFieldMap().containsKey(List.of(start[0], start[1]))
-        && map.getFieldMap().containsKey(List.of(stop[0], stop[1]))) {
+      && map.getFieldMap().containsKey(List.of(stop[0], stop[1]))) {
       if (List.of(stop) != List.of(start) && moveCounter > 0) {
         if (stop[0] - start[0] == 0 && Math.abs(stop[1] - start[1]) == moveCounter
-            || start[1] - stop[1] == 0 && Math.abs(stop[0] - start[0]) == moveCounter
-            || Math.abs(stop[0] - start[0]) == moveCounter
-                && Math.abs(start[1] - stop[1]) == moveCounter) {
+          || start[1] - stop[1] == 0 && Math.abs(stop[0] - start[0]) == moveCounter
+          || Math.abs(stop[0] - start[0]) == moveCounter
+          && Math.abs(start[1] - stop[1]) == moveCounter) {
           if (map.getFieldMap().get(List.of(stop[0], stop[1])).isOccupied()) {
             System.out.println("Field is occupied!");
             return false;
@@ -129,21 +129,21 @@ public class GameLogic {
         }
       } else {
         System.out.println(
-            "Not doing a move. Start  = Stop: ["
-                + start[0]
-                + "|"
-                + start[1]
-                + "] ["
-                + stop[0]
-                + "|"
-                + stop[1]
-                + "]"
-                + "  moveCounter: "
-                + moveCounter
-                + " start-stop: "
-                + (stop[0] - start[0])
-                + "|"
-                + (stop[1] - start[1]));
+          "Not doing a move. Start  = Stop: ["
+            + start[0]
+            + "|"
+            + start[1]
+            + "] ["
+            + stop[0]
+            + "|"
+            + stop[1]
+            + "]"
+            + "  moveCounter: "
+            + moveCounter
+            + " start-stop: "
+            + (stop[0] - start[0])
+            + "|"
+            + (stop[1] - start[1]));
         return false;
       }
     } else {
@@ -182,36 +182,37 @@ public class GameLogic {
    * @param player
    * @author Carina
    * @use handles the punishment / performs it to the player doing an invalid move punishments
-   *     performen
+   * performen
    */
   public void performPunishment(@NotNull final Player player, @NotNull final Punishments reason) {
     var punishment = player.getGame().getSettings().getPunishment();
     System.out.println(
-        "Performing punishment: "
-            + punishment.getName()
-            + " for the player: "
-            + player.getName()
-            + " and the reason: "
-            + reason.getName());
+      "Performing punishment: "
+        + punishment.getName()
+        + " for the player: "
+        + player.getName()
+        + " and the reason: "
+        + reason.getName());
     MoleGames.getMoleGames()
-        .getServer()
-        .sendToAllGameClients(
-            player.getGame(),
-            MoleGames.getMoleGames()
-                .getServer()
-                .getPacketHandler()
-                .movePenaltyNotification(
-                    player, player.getGame().getDeductedPoints(), punishment, reason.getName()));
+      .getServer()
+      .sendToAllGameClients(
+        player.getGame(),
+        MoleGames.getMoleGames()
+          .getServer()
+          .getPacketHandler()
+          .movePenaltyNotification(
+            player, player.getGame().getDeductedPoints(), punishment, reason.getName()));
     if (punishment == Punishments.POINTS) {
       player
-          .getGame()
-          .getScore()
-          .getPoints()
-          .put(
-              player.getServerClient().getThreadID(),
-              player.getGame().getScore().getPoints().get(player.getServerClient().getThreadID())
-                  - player.getGame().getDeductedPoints());
+        .getGame()
+        .getScore()
+        .getPoints()
+        .put(
+          player.getServerClient().getThreadID(),
+          player.getGame().getScore().getPoints().get(player.getServerClient().getThreadID())
+            - player.getGame().getDeductedPoints());
     } else if (punishment == Punishments.KICK) {
+      MoleGames.getMoleGames().getServer().getPacketHandler().playerKickedPacket(player, player.getGame());
       player.getGame().removePlayerFromGame(player);
     }
   }

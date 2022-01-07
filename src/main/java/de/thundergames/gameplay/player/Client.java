@@ -33,7 +33,7 @@ import java.util.HashSet;
 public class Client extends Network {
 
   protected static Client CLIENT;
-  public final String name;
+  private final String name;
   private final HashSet<Game> games = new HashSet<>();
   private final HashSet<Tournament> tournaments = new HashSet<>();
   private final ArrayList<Integer> pullDiscs = new ArrayList<>();
@@ -69,10 +69,6 @@ public class Client extends Network {
     return CLIENT;
   }
 
-  public String getName() {
-    return name;
-  }
-
   /**
    * @author Carina
    * @use Due to a bug where we are getting the constructor which is not contructed at the time we
@@ -95,7 +91,6 @@ public class Client extends Network {
       socket = new Socket(ip, port);
       clientThread = new ClientThread(socket, 0, this);
       clientThread.start();
-      clientPacketHandler.loginPacket(name);
     } catch (IOException exception) {
       if (isDebug()) System.out.println("Is the server running?!");
     }
