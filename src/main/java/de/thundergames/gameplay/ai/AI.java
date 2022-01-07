@@ -69,10 +69,7 @@ public class AI extends Client {
       socket = new Socket(ip, port);
       clientThread = new AIClientThread(socket, 0, this);
       clientThread.start();
-      clientPacketHandler.loginPacket(getName());
-      if (gameID != -1) {
-        clientPacketHandler.joinGamePacket(gameID, true);
-      }
+
     } catch (IOException exception) {
       if (isDebug()) System.out.println("Is the server running?!");
     }

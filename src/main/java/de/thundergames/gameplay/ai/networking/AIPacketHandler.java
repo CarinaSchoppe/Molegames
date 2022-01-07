@@ -43,6 +43,10 @@ public class AIPacketHandler extends ClientPacketHandler {
       }
       ai.getClientThread().setThreadID(packet.getValues().get("clientID").getAsInt());
       ai.setPlayer(new Player(ai));
+      loginPacket(ai.getName());
+      if (ai.getGameID() != -1) {
+        joinGamePacket(ai.getGameID(), true);
+      }
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.WELCOMEGAME.getPacketType())) {
       handleWelcomeGamePacket();
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.NEXTLEVEL.getPacketType())) {
