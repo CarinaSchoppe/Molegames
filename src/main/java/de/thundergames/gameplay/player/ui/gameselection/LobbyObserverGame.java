@@ -1,8 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 24.12.21, 12:26 by Carina Latest changes made by Carina on 24.12.21, 12:22
- * All contents of "LobbyObserverGame" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 21.12.21, 16:39 by Carina Latest changes made by Carina on 21.12.21, 16:37 All contents of "LobbyObserverGame" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -12,29 +11,58 @@
 package de.thundergames.gameplay.player.ui.gameselection;
 
 import de.thundergames.gameplay.player.Client;
+import de.thundergames.gameplay.player.board.GameBoard;
 import de.thundergames.gameplay.util.SceneController;
-import de.thundergames.playmechanics.board.TestWindow;
+import de.thundergames.playmechanics.game.Game;
+import de.thundergames.playmechanics.util.Player;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.HashSet;
 import java.util.ResourceBundle;
 
 public class LobbyObserverGame implements Initializable {
 
-  @FXML private static Client CLIENT;
+  @FXML
+  private static Client CLIENT;
   private static LobbyObserverGame OBSERVER;
-  @FXML private Text PlayerName;
-  @FXML private Text PlayerJoined;
-  @FXML private Text JoinedSuccessfully;
+  @FXML
+  private Text PlayerName;
+  @FXML
+  private Text PlayerJoined;
+  @FXML
+  private Text JoinedSuccessfully;
+  @FXML
+  private TableView<SettingsTable> settingsTable;
+  @FXML
+  private TableColumn<SettingsTable, String> settingName;
+  @FXML
+  private TableColumn<SettingsTable, String> settingValue;
+
+  @FXML
+  private TableView<Player> playerTable;
+  @FXML
+  private TableColumn<Player, String> playerTableName;
+
+  private Game game;
+
+  private HashSet<Player> playerList;
+
+  private ObservableList<SettingsTable> settingsData;
 
   private Stage primaryStage;
 
@@ -74,7 +102,19 @@ public class LobbyObserverGame implements Initializable {
 
   @Override
   public void initialize(URL location, ResourceBundle resources) {
+    playerTableName.setCellValueFactory(new PropertyValueFactory<>("PlayerIdAndName"));
+    settingName.setCellValueFactory(new PropertyValueFactory<>("setting"));
+    settingValue.setCellValueFactory(new PropertyValueFactory<>("value"));
     PlayerName.setText("Spieler: " + CLIENT.name);
+    for (var game : CLIENT.getGames()) {
+      if (game.getGameID() == CLIENT.getGameID()) {
+        this.game = game;
+        break;
+      }
+    }
+    settingsData = FXCollections.observableArrayList();
+    updatePlayerTable();
+    updateSettingsTable();
   }
 
   /**
@@ -101,12 +141,14 @@ public class LobbyObserverGame implements Initializable {
   }
 
   /**
-   * @author Nick
+   * @author Nick, Philipp
    * @use Changes the opacity of a text field with the content "Ein weiterer Spieler ist
-   *     beigetreten" thus making it visible for 3 seconds when another player has joined
-   *     respectively when the client has received playerJoined packet.
+   * beigetreten" thus making it visible for 3 seconds when another player has joined
+   * respectively when the client has received playerJoined packet.
    */
   public void showNewPlayer() {
+    updateNumberOfPlayers();
+    updatePlayerTable();
     PlayerJoined.setOpacity(1.0);
     try {
       Thread.sleep(3000);
@@ -117,10 +159,63 @@ public class LobbyObserverGame implements Initializable {
   }
 
   /**
+   * @author Philipp
+   * @use Refreshes the table view, if the number of players in the room changes
+   */
+  public void updateNumberOfPlayers() {
+    settingsData.get(0).setValue(getNumberOfPlayers());
+    settingsTable.refresh();
+  }
+
+  /**
+   * @return Returns a string consisting of the currently connected number of players and the max player
+   * count of the room
+   * @author Philipp
+   */
+  public String getNumberOfPlayers() {
+    var numberOfPlayers = CLIENT.getGameState().getActivePlayers().size();
+    return numberOfPlayers + "/" + game.getMaxPlayerCount();
+  }
+
+  /**
+   * @author Philipp
+   * @use Writes the playing Client names to a table view to display it in the GUI
+   */
+  public void updatePlayerTable() {
+    playerList = CLIENT.getGameState().getActivePlayers();
+    ObservableList<Player> players = FXCollections.observableArrayList();
+    for (var player : playerList) {
+      players.add(player);
+    }
+    if (!players.isEmpty()) {
+      playerTable.setItems(players);
+    } else {
+      playerTable.getItems().clear();
+    }
+  }
+
+  /**
+   * @author Philipp
+   * @use Writes the game settings to a table view to display it in the GUI
+   */
+  public void updateSettingsTable() {
+    settingsData.add(new SettingsTable("Spieler", getNumberOfPlayers()));
+    settingsData.add(new SettingsTable("Radius", Integer.toString(this.game.getRadius())));
+    settingsData.add(new SettingsTable("Maulwurfanzahl", Integer.toString(this.game.getMoleCount())));
+    settingsData.add(new SettingsTable("Level", Integer.toString(this.game.getLevelCount())));
+    settingsData.add(new SettingsTable("Karten geordnet", Boolean.toString(this.game.isPullDiscsOrdered())));
+    settingsData.add(new SettingsTable("Karten", this.game.getPullDiscs().toString()));
+    settingsData.add(new SettingsTable("Zug Zeit", Long.toString(this.game.getTurnTime())));
+    settingsData.add(new SettingsTable("Visualisierungszeit", Long.toString(this.game.getVisualizationTime())));
+    settingsData.add(new SettingsTable("Bestrafung", this.game.getMovePenalty()));
+    settingsTable.setItems(settingsData);
+  }
+
+  /**
    * @author Nick
    * @use Changes the opacity of a text field with the content "Beitritt zum Spiel war erfolgreich!
-   *     Bitte warten." thus making it visible for 5 seconds when the client has received
-   *     AssignToGame packet.
+   * Bitte warten." thus making it visible for 5 seconds when the client has received
+   * AssignToGame packet.
    */
   public void showJoiningSuccessfully() {
     JoinedSuccessfully.setOpacity(1.0);
@@ -137,6 +232,12 @@ public class LobbyObserverGame implements Initializable {
    * @use Create scene and spectate the game
    */
   public void spectateGame() {
-    Platform.runLater(() -> new TestWindow().start(primaryStage));
+    Platform.runLater(() -> {
+      try {
+        new GameBoard().create(primaryStage);
+      } catch (InterruptedException e) {
+        e.printStackTrace();
+      }
+    });
   }
 }

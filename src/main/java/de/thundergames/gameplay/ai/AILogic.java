@@ -1,7 +1,8 @@
 /*
  * Copyright Notice for SwtPra10
- * Copyright (c) at ThunderGames | SwtPra10 2022
- * File created on 05.01.22, 19:07 by Carina Latest changes made by Carina on 05.01.22, 19:07 All contents of "AILogic" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * Copyright (c) at ThunderGames | SwtPra10 2021
+ * File created on 24.12.21, 12:18 by Carina Latest changes made by Carina on 24.12.21, 12:16
+ * All contents of "AILogic" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -343,7 +344,7 @@ public class AILogic {
    * @param ai instance
    * @author Carina
    * @use checks if a hole is close to a mole with the exact range of the card returns the mole ID
-   *     and the x and y cordinates of the hole if the mole is close to a hole
+   * and the x and y cordinates of the hole if the mole is close to a hole
    */
   public ArrayList<Object> isHoleCloseToMole(@NotNull final AI ai) {
     for (var mole : ai.getMoles()) {

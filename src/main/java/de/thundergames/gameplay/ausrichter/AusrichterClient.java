@@ -30,10 +30,12 @@ public class AusrichterClient {
 
   public void testGame(final int id) {
     MoleGames.getMoleGames().getGameHandler().createNewGame(id);
-    var set1new = new HashSet<>(List.of(new Field(8, 11), new Field(2, 6)));
-    var set2new = new HashSet<>(List.of(new Field(0, 0)));
-    var floor1 = new Map(set1new, set1new, 5);
-    var floor2 = new Map(set2new, set2new, 10);
+    var set1Holes = new HashSet<>(List.of(new Field(1, 2), new Field(0, 0)));
+    var set2Holes = new HashSet<>(List.of(new Field(3, 0)));
+    var set1DrawAgain = new HashSet<>(List.of(new Field(2, 2), new Field(1, 0)));
+    var set2DrawAgain = new HashSet<>(List.of(new Field(2, 0)));
+    var floor1 = new Map(set1Holes, set1DrawAgain, 5);
+    var floor2 = new Map(set2Holes, set2DrawAgain, 10);
     MoleGames.getMoleGames()
         .getGameHandler()
         .getIDGames()

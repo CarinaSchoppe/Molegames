@@ -10,3 +10,6 @@ gradle-app.setting
 .gradletasknamecache
 bin
 .vscode
+assets/Stundenzettel/*
+!assets/Stundenzettel/*.tex
+!assets/Stundenzettel/*.pdf

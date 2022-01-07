@@ -68,7 +68,7 @@ public class AIPacketHandler extends ClientPacketHandler {
       if (packet.getValues() != null) {
         if (packet.getValues().get("message") != null) {
           if (ai.isDebug())
-            System.out.println("Server sended: " + packet.getValues().get("message").getAsString());
+            System.out.println("Server sent: " + packet.getValues().get("message").getAsString());
         }
       }
     }

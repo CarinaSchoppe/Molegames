@@ -21,4 +21,5 @@ import lombok.Setter;
 public class Mole {
   private final Player player;
   private Field field;
+
 }

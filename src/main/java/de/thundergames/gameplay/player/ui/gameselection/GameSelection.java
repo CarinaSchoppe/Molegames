@@ -1,8 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 24.12.21, 12:26 by Carina Latest changes made by Carina on 24.12.21, 12:22
- * All contents of "GameSelection" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 21.12.21, 16:39 by Carina Latest changes made by Carina on 21.12.21, 16:37 All contents of "GameSelection" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -12,9 +11,9 @@
 package de.thundergames.gameplay.player.ui.gameselection;
 
 import de.thundergames.gameplay.player.Client;
+import de.thundergames.gameplay.player.board.GameBoard;
 import de.thundergames.gameplay.player.ui.PlayerMenu;
 import de.thundergames.gameplay.util.SceneController;
-import de.thundergames.playmechanics.board.TestWindow;
 import de.thundergames.playmechanics.game.Game;
 import de.thundergames.playmechanics.game.GameState;
 import de.thundergames.playmechanics.game.GameStates;
@@ -176,7 +175,7 @@ public class GameSelection implements Initializable {
       }
     }
     // Get GameState
-    // GameState currentGameState = client.getGameState();
+    //GameState currentGameState = client.getGameState();
     if (Client.getClientInstance().isDebug()) {
       if (currentGameState == null) {
         System.out.println("GameState is null!");
@@ -184,8 +183,8 @@ public class GameSelection implements Initializable {
       }
     }
     if (Objects.equals(currentGameState.getStatus(), GameStates.STARTED.toString())
-        || Objects.equals(currentGameState.getStatus(), GameStates.PAUSED.toString())) {
-      spectateGame(currentGameState);
+      || Objects.equals(currentGameState.getStatus(), GameStates.PAUSED.toString())) {
+      spectateGame();
     } else if (Objects.equals(currentGameState.getStatus(), GameStates.NOT_STARTED.toString())) {
       new LobbyObserverGame().create(primaryStage);
     } else if (Objects.equals(currentGameState.getStatus(), GameStates.OVER.toString())) {
@@ -193,16 +192,19 @@ public class GameSelection implements Initializable {
     }
   }
 
-  /** Load scene of scoreboard */
+  /**
+   * Load scene of scoreboard
+   */
   private void loadScoreboard() {
     CLIENT.getClientPacketHandler().getScorePacket();
     var gameScore = CLIENT.getGameState().getScore();
     // Todo:Open scene of ScoreBoard with gameScore and check if it is even possible to do so
   }
 
-  /** Load scene of game */
-  private void spectateGame(GameState gameState) {
-    primaryStage.close();
-    new TestWindow().start(primaryStage);
+  /**
+   * Load scene of game
+   */
+  private void spectateGame() throws InterruptedException {
+    new GameBoard().create(primaryStage);
   }
 }

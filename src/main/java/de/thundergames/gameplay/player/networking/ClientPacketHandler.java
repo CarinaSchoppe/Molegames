@@ -78,8 +78,8 @@ public class ClientPacketHandler {
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.SCORENOTIFICATION.getPacketType())) {
       handleScoreNotificationPacket();
     } else if (packet
-      .getPacketType()
-      .equalsIgnoreCase(Packets.GAMEHISTORYRESPONE.getPacketType())) {
+        .getPacketType()
+        .equalsIgnoreCase(Packets.GAMEHISTORYRESPONE.getPacketType())) {
       handleGameHistoryResponsePacket();
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.REMAININGTIME.getPacketType())) {
       handleRemainingTimePacket();
@@ -100,8 +100,8 @@ public class ClientPacketHandler {
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.MOLEPLACED.getPacketType())) {
       handleMolePlacedPacket();
     } else if (packet
-      .getPacketType()
-      .equalsIgnoreCase(Packets.MOVEPENALTYNOTIFICATION.getPacketType())) {
+        .getPacketType()
+        .equalsIgnoreCase(Packets.MOVEPENALTYNOTIFICATION.getPacketType())) {
       handleMovePentaltyNotificationPacket();
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.PLAYERSKIPPED.getPacketType())) {
       handlePlayerSkippedPacket();
@@ -112,28 +112,28 @@ public class ClientPacketHandler {
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.MOLEMOVED.getPacketType())) {
       handleMoleMovedPacket();
     } else if (packet
-      .getPacketType()
-      .equalsIgnoreCase(Packets.TOURNAMENTSTATERESPONSE.getPacketType())) {
+        .getPacketType()
+        .equalsIgnoreCase(Packets.TOURNAMENTSTATERESPONSE.getPacketType())) {
       handleTournamentStateResponePacket();
     } else if (packet
-      .getPacketType()
-      .equalsIgnoreCase(Packets.TOURNAMENTPLAYERJOINED.getPacketType())) {
+        .getPacketType()
+        .equalsIgnoreCase(Packets.TOURNAMENTPLAYERJOINED.getPacketType())) {
       handleTournamentPlayerJoinedPacket();
     } else if (packet
-      .getPacketType()
-      .equalsIgnoreCase(Packets.TOURNAMENTPLAYERJOINED.getPacketType())) {
+        .getPacketType()
+        .equalsIgnoreCase(Packets.TOURNAMENTPLAYERJOINED.getPacketType())) {
       handleTournamentPlayerLeftPacket();
     } else if (packet
-      .getPacketType()
-      .equalsIgnoreCase(Packets.TOURNAMENTPLAYERKICKED.getPacketType())) {
+        .getPacketType()
+        .equalsIgnoreCase(Packets.TOURNAMENTPLAYERKICKED.getPacketType())) {
       handleTournamentPlayerKickedPacket();
     } else if (packet
-      .getPacketType()
-      .equalsIgnoreCase(Packets.TOURNAMENTPLAYERINGAME.getPacketType())) {
+        .getPacketType()
+        .equalsIgnoreCase(Packets.TOURNAMENTPLAYERINGAME.getPacketType())) {
       handleTournamentPlayerInGamePacket();
     } else if (packet
-      .getPacketType()
-      .equalsIgnoreCase(Packets.TOURNAMENTGAMESOVERVIEW.getPacketType())) {
+        .getPacketType()
+        .equalsIgnoreCase(Packets.TOURNAMENTGAMESOVERVIEW.getPacketType())) {
       handleTournamentGamesOverviewPacket();
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.TOURNAMENTOVER.getPacketType())) {
       handleTournamentOverPacket();
@@ -172,13 +172,12 @@ public class ClientPacketHandler {
    */
   protected void handleTournamentGamesOverviewPacket() {
     client
-      .getTournaments()
-      .addAll(
-        new Gson()
-          .fromJson(
-            packet.getValues().get("games").getAsString(),
-            new TypeToken<ArrayList<Game>>() {
-            }.getType()));
+        .getTournaments()
+        .addAll(
+            new Gson()
+                .fromJson(
+                    packet.getValues().get("games").getAsString(),
+                    new TypeToken<ArrayList<Game>>() {}.getType()));
     updateTableView();
   }
 
@@ -186,8 +185,7 @@ public class ClientPacketHandler {
    * @author Carina
    * @use handles that a player is in game in the tournament
    */
-  protected void handleTournamentPlayerInGamePacket() {
-  }
+  protected void handleTournamentPlayerInGamePacket() {}
 
   /**
    * @author Carina
@@ -241,8 +239,7 @@ public class ClientPacketHandler {
    * @author Carina
    * @use is called everytime a map gets updated TODO: implement this
    */
-  public void updateMap() {
-  }
+  public void updateMap() {}
 
   /**
    * @author Carina
@@ -251,19 +248,21 @@ public class ClientPacketHandler {
   protected void handleMoleMovedPacket() {
     if (client.isDebug())
       System.out.println(
-        "A mole has been moved"
-          + " from "
-          + packet.getValues().get("from").getAsString()
-          + " to "
-          + packet.getValues().get("to").getAsString()
-          + "\n");
+          "A mole has been moved"
+              + " from "
+              + packet.getValues().get("from").getAsString()
+              + " to "
+              + packet.getValues().get("to").getAsString()
+              + "\n");
     var from = new Gson().fromJson(packet.getValues().get("from").getAsString(), Field.class);
     var to = new Gson().fromJson(packet.getValues().get("to").getAsString(), Field.class);
     client.getMap().getFieldMap().get(List.of(from.getX(), from.getY())).setOccupied(false);
     client.getMap().getFieldMap().get(List.of(to.getX(), to.getY())).setOccupied(true);
     var moleObject = client.getMap().getFieldMap().get(List.of(from.getX(), from.getY())).getMole();
+
     client.getMap().getFieldMap().get(List.of(to.getX(), to.getY())).setMole(moleObject);
     client.getMap().getFieldMap().get(List.of(from.getX(), from.getY())).setMole(null);
+
     if (moleObject == null) {
       System.out.println("mole is null");
       System.exit(9);
@@ -281,8 +280,7 @@ public class ClientPacketHandler {
    * @author Carina
    * @use handles the tournament score send by the server
    */
-  protected void handleTournamentScorePacket() {
-  }
+  protected void handleTournamentScorePacket() {}
 
   /**
    * @author Carina
@@ -291,12 +289,11 @@ public class ClientPacketHandler {
   protected void handleNextFloorPacket() {
     if (client.isDebug()) System.out.println("Client got the new level!");
     var players =
-      new ArrayList<Player>(
-        new Gson()
-          .fromJson(
-            packet.getValues().get("eliminatedPlayers").getAsString(),
-            new TypeToken<ArrayList<Player>>() {
-            }.getType()));
+        new ArrayList<Player>(
+            new Gson()
+                .fromJson(
+                    packet.getValues().get("eliminatedPlayers").getAsString(),
+                    new TypeToken<ArrayList<Player>>() {}.getType()));
     if (client.isDebug()) {
       System.out.println("Players that are out: ");
       for (Player player : players) {
@@ -314,18 +311,19 @@ public class ClientPacketHandler {
     client.getMoles().clear();
     System.out.println(packet.getValues().toString());
     client.setGameState(
-      new Gson().fromJson(packet.getValues().get("gameState").getAsString(), GameState.class));
+        new Gson().fromJson(packet.getValues().get("gameState").getAsString(), GameState.class));
+
     if (client.getGameState().getPullDiscs().containsKey(client.getClientThread().getThreadID())) {
       client
-        .getPullDiscs()
-        .addAll(client.getGameState().getPullDiscs().get(client.getClientThread().getThreadID()));
+          .getPullDiscs()
+          .addAll(client.getGameState().getPullDiscs().get(client.getClientThread().getThreadID()));
     }
     // Muss gemacht werden damit der code sicher arbeitet
     client.setMap(
-      new Map(
-        client.getGameState().getFloor().getHoles(),
-        client.getGameState().getFloor().getDrawAgainFields(),
-        client.getGameState().getFloor().getPoints()));
+        new Map(
+            client.getGameState().getFloor().getHoles(),
+            client.getGameState().getFloor().getDrawAgainFields(),
+            client.getGameState().getFloor().getPoints()));
     client.getMap().build(client.getGameState());
     if (!client.getGameState().getPlacedMoles().isEmpty()) {
       for (var moles : client.getGameState().getPlacedMoles()) {
@@ -371,12 +369,12 @@ public class ClientPacketHandler {
   protected void handleMovePentaltyNotificationPacket() {
     if (client.isDebug())
       System.out.println(
-        "The client "
-          + new Gson()
-          .fromJson(packet.getValues().get("player").getAsString(), Player.class)
-          .getName()
-          + " got a move penalty for the reason"
-          + packet.getValues().get("reason").getAsString());
+          "The client "
+              + new Gson()
+                  .fromJson(packet.getValues().get("player").getAsString(), Player.class)
+                  .getName()
+              + " got a move penalty for the reason"
+              + packet.getValues().get("reason").getAsString());
   }
 
   /**
@@ -386,15 +384,15 @@ public class ClientPacketHandler {
   protected void handleMolePlacedPacket() {
     var mole = new Gson().fromJson(packet.getValues().get("mole").getAsString(), Mole.class);
     client
-      .getMap()
-      .getFieldMap()
-      .get(List.of(mole.getField().getX(), mole.getField().getY()))
-      .setOccupied(true);
+        .getMap()
+        .getFieldMap()
+        .get(List.of(mole.getField().getX(), mole.getField().getY()))
+        .setOccupied(true);
     client
-      .getMap()
-      .getFieldMap()
-      .get(List.of(mole.getField().getX(), mole.getField().getY()))
-      .setMole(mole);
+        .getMap()
+        .getFieldMap()
+        .get(List.of(mole.getField().getX(), mole.getField().getY()))
+        .setMole(mole);
     client.getGameState().getPlacedMoles().add(mole);
     updateMap();
   }
@@ -413,26 +411,26 @@ public class ClientPacketHandler {
         timerRunning = true;
         timer = new Timer();
         timer.schedule(
-          new TimerTask() {
-            @Override
-            public void run() {
-              if (client.isDraw()) {
-                client.setDraw(false);
-                timerRunning = false;
-                if (client.isDebug()) System.out.println("You ran out of time!");
+            new TimerTask() {
+              @Override
+              public void run() {
+                if (client.isDraw()) {
+                  client.setDraw(false);
+                  timerRunning = false;
+                  if (client.isDebug()) System.out.println("You ran out of time!");
+                }
               }
-            }
-          },
-          packet.getValues().get("until").getAsLong() - System.currentTimeMillis());
+            },
+            packet.getValues().get("until").getAsLong() - System.currentTimeMillis());
       }
     } else {
       if (client.isDebug())
         System.out.println(
-          "Client: the player with the id: "
-            + player.getClientID()
-            + " and name: "
-            + player.getName()
-            + " is now on the turn!");
+            "Client: the player with the id: "
+                + player.getClientID()
+                + " and name: "
+                + player.getName()
+                + " is now on the turn!");
     }
   }
 
@@ -489,27 +487,27 @@ public class ClientPacketHandler {
         timerRunning = true;
         timer = new Timer();
         timer.schedule(
-          new TimerTask() {
-            @Override
-            public void run() {
-              if (client.isDraw()) {
-                client.setDraw(false);
-                timerRunning = false;
-                if (client.isDebug()) System.out.println("You ran out of time!");
+            new TimerTask() {
+              @Override
+              public void run() {
+                if (client.isDraw()) {
+                  client.setDraw(false);
+                  timerRunning = false;
+                  if (client.isDebug()) System.out.println("You ran out of time!");
+                }
               }
-            }
-          },
-          20000);
+            },
+            20000);
       }
     } else {
       if (client.isDebug())
         System.out.println(
-          "The Client "
-            + new Gson()
-            .fromJson(packet.getValues().get("player").getAsString(), Player.class)
-            .getName()
-            + " needs to place a mole till: "
-            + packet.getValues().get("until").getAsInt());
+            "The Client "
+                + new Gson()
+                    .fromJson(packet.getValues().get("player").getAsString(), Player.class)
+                    .getName()
+                + " needs to place a mole till: "
+                + packet.getValues().get("until").getAsInt());
     }
   }
 
@@ -548,16 +546,16 @@ public class ClientPacketHandler {
     var score = new Gson().fromJson(packet.getValues().get("result").getAsString(), Score.class);
     if (client.isDebug()) {
       System.out.println(
-        "Client: game with the id: "
-          + client.getGameID()
-          + " has ended! Winners are: "
-          + score.getWinners());
+          "Client: game with the id: "
+              + client.getGameID()
+              + " has ended! Winners are: "
+              + score.getWinners());
       for (var player : score.getPlayers()) {
         System.out.println(
-          "Client: player with the name: "
-            + player.getName()
-            + " has points: "
-            + score.getPoints().get(player.getClientID()));
+            "Client: player with the name: "
+                + player.getName()
+                + " has points: "
+                + score.getPoints().get(player.getClientID()));
       }
     }
     try {
@@ -595,8 +593,7 @@ public class ClientPacketHandler {
    * @author Carina
    * @use handles the historyResponsePacket from the server
    */
-  protected void handleGameHistoryResponsePacket() {
-  }
+  protected void handleGameHistoryResponsePacket() {}
 
   /**
    * @author Carina
@@ -604,8 +601,8 @@ public class ClientPacketHandler {
    */
   protected void handleScoreNotificationPacket() {
     client
-      .getGameState()
-      .setScore(new Gson().fromJson(packet.getValues().get("score").getAsString(), Score.class));
+        .getGameState()
+        .setScore(new Gson().fromJson(packet.getValues().get("score").getAsString(), Score.class));
   }
 
   /**
@@ -684,7 +681,7 @@ public class ClientPacketHandler {
     if (client.isDebug()) {
       if (player.getClientID() != client.getClientThread().getThreadID()) {
         System.out.println(
-          "The player: " + player.getName() + " has joined the Game " + client.getGameID() + ".");
+            "The player: " + player.getName() + " has joined the Game " + client.getGameID() + ".");
       }
     }
     client.getGameState().getActivePlayers().add(player);
@@ -715,9 +712,8 @@ public class ClientPacketHandler {
       System.exit(3);
     }
     client.getClientThread().setThreadID(packet.getValues().get("clientID").getAsInt());
-    if (client.isDebug()) System.out.println("Client connected successfully to the Server!");
+    if (client.isDebug()) System.out.println("Client connected sucessfully to the Server!");
     client.setPlayer(new Player(client));
-    loginPacket(client.getName());
   }
 
   /**
@@ -755,21 +751,19 @@ public class ClientPacketHandler {
     client.getGames().clear();
     client.getTournaments().clear();
     client
-      .getGames()
-      .addAll(
-        new Gson()
-          .fromJson(
-            packet.getValues().get("games").getAsString(),
-            new TypeToken<ArrayList<Game>>() {
-            }.getType()));
+        .getGames()
+        .addAll(
+            new Gson()
+                .fromJson(
+                    packet.getValues().get("games").getAsString(),
+                    new TypeToken<ArrayList<Game>>() {}.getType()));
     client
-      .getTournaments()
-      .addAll(
-        new Gson()
-          .fromJson(
-            packet.getValues().get("tournaments").getAsString(),
-            new TypeToken<ArrayList<Tournament>>() {
-            }.getType()));
+        .getTournaments()
+        .addAll(
+            new Gson()
+                .fromJson(
+                    packet.getValues().get("tournaments").getAsString(),
+                    new TypeToken<ArrayList<Tournament>>() {}.getType()));
     updateTableView();
   }
 
@@ -780,7 +774,7 @@ public class ClientPacketHandler {
   protected void handleAssignedToGamePacket() {
     if (client.isDebug())
       System.out.println(
-        "Client joined game with the id: " + packet.getValues().get("gameID").getAsInt());
+          "Client joined game with the id: " + packet.getValues().get("gameID").getAsInt());
     client.setGameID(packet.getValues().get("gameID").getAsInt());
     showPlayerJoinedGameLobby();
     updateTableView();

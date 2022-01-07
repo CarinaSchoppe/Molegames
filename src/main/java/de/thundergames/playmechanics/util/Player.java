@@ -245,15 +245,19 @@ public class Player {
             "Playermodel with id: "
                 + serverClient.getThreadID()
                 + " has placed his mole on x="
-                + x
-                + " y="
-                + y
-                + ". ("
-                + getMoles().size()
-                + "/"
-                + game.getSettings().getNumberOfMoles()
-                + ")\n");
+                    + x
+                    + " y="
+                    + y
+                    + ". ("
+                    + getMoles().size()
+                    + "/"
+                    + game.getSettings().getNumberOfMoles()
+                    + ")\n");
     }
+  }
+
+  public String getPlayerIdAndName() {
+    return clientID + "/" + name;
   }
 
   public boolean isSpectator() {
