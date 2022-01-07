@@ -28,11 +28,11 @@
                 <Font name="Arial Black" size="24.0"/>
             </font>
         </Text>
-        <Text id="PlayerJoined" fx:id="PlayerJoined" fill="WHITE" layoutX="20.0" layoutY="787.0" opacity="0.0"
+        <Text id="PlayerJoined" fx:id="PlayerJoined" fill="WHITE" layoutX="20.0" layoutY="820.0" opacity="0.0"
               strokeType="OUTSIDE" strokeWidth="0.0" text="Ein weiterer Spieler ist beigetreten" textAlignment="CENTER"
-              wrappingWidth="614.9830722808838">
+              wrappingWidth="631.9830722808838">
             <font>
-                <Font size="36.0"/>
+                <Font size="35.0"/>
             </font>
         </Text>
         <Text id="JoinedSuccessfully" fx:id="JoinedSuccessfully" fill="#15ff00" layoutX="20.0" layoutY="236.0"
@@ -45,14 +45,14 @@
         </Text>
         <Button fx:id="backToGameSelection" layoutX="674.0" layoutY="779.0" mnemonicParsing="false" opacity="0.0"
                 prefHeight="59.0" prefWidth="206.0" text="Zurück"/>
-        <TableView fx:id="settingsTable" layoutX="335.0" layoutY="190.0" prefHeight="520.0" prefWidth="545.0"
+        <TableView fx:id="settingsTable" layoutX="335.0" layoutY="190.0" prefHeight="577.0" prefWidth="545.0"
                    stylesheets="@css/LeaderBoardStyle.css">
             <columns>
                 <TableColumn fx:id="settingName" prefWidth="276.0" text="Einstellung"/>
                 <TableColumn fx:id="settingValue" prefWidth="268.0" text="Wert"/>
             </columns>
         </TableView>
-        <TableView fx:id="playerTable" layoutX="20.0" layoutY="190.0" prefHeight="520.0" prefWidth="292.0"
+        <TableView fx:id="playerTable" layoutX="20.0" layoutY="190.0" prefHeight="577.0" prefWidth="292.0"
                    stylesheets="@css/LeaderBoardStyle.css">
             <columns>
                 <TableColumn fx:id="playerTableName" prefWidth="291.0" text="Spieler"/>

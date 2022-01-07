@@ -183,7 +183,6 @@ public class LobbyObserverGame implements Initializable {
    */
   public void updatePlayerTable() {
     playerList = CLIENT.getGameState().getActivePlayers();
-    System.out.println(CLIENT.getGameState().getActivePlayers());
     ObservableList<Player> players = FXCollections.observableArrayList();
     for (var player : playerList) {
       players.add(player);
