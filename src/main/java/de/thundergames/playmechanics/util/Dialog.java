@@ -28,14 +28,11 @@ public class Dialog {
     }
 
     public static void show(String message, String title, DialogType dialogType) {
-        Alert alert = new Alert(dialogType.toAlertType(), utf8SafeString(message));
-        alert.setTitle(utf8SafeString(title));
-        alert.setHeaderText(utf8SafeString(title));
+        Alert alert = new Alert(dialogType.toAlertType(), message);
+        alert.setTitle(title);
+        alert.setHeaderText(title);
         alert.showAndWait();
     }
 
 
-    private static String utf8SafeString(String string) {
-        return new String(string.getBytes(StandardCharsets.UTF_8), StandardCharsets.UTF_8);
-    }
 }
