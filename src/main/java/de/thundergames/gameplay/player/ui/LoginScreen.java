@@ -27,11 +27,18 @@ import java.util.ResourceBundle;
 
 public class LoginScreen extends Application {
 
-  @FXML private ResourceBundle resources;
-  @FXML private TextField ip;
-  @FXML private Button login;
-  @FXML private TextField name;
-  @FXML private TextField port;
+  @FXML
+  private ResourceBundle resources;
+  @FXML
+  private TextField ip;
+  @FXML
+  private Button login;
+  @FXML
+  private TextField name;
+  @FXML
+  private TextField port;
+
+  private Client client;
 
   public static void create(final String... args) {
     launch(args);
@@ -68,10 +75,17 @@ public class LoginScreen extends Application {
     }
     if (errorMessage.equals("")) {
       System.out.println("IP: " + ip + " Port: " + port + " Name: " + name);
-      var client = new Client(Integer.parseInt(port), ip, name);
+      client = new Client(Integer.parseInt(port), ip, name);
       client.create();
-      new PlayerMenu().create(event);
+      if (client.isConnected()) {
+        new PlayerMenu().create(event);
+      } else {
+        //TODO: Kein java swing!
+        JOptionPane.showMessageDialog(
+                null, "Konnte mich nicht mit dem Server verbinden.", "Verbindungsfehler", JOptionPane.ERROR_MESSAGE);
+      }
     } else {
+      //TODO: Kein java swing!
       JOptionPane.showMessageDialog(
           null, errorMessage, "Falscher Feldinhalt", JOptionPane.ERROR_MESSAGE);
     }
