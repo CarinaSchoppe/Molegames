@@ -97,6 +97,37 @@ public class PacketHandler {
   }
 
   /**
+   * @param client
+   * @param game
+   * @author Carina
+   * @use sends the playerKicked packet to the game clients
+   */
+  public void playerKickedPacket(@NotNull final Player client, @NotNull final Game game) {
+    var json = new JsonObject();
+    var object = new JsonObject();
+    object.addProperty("type", Packets.PLAYERKICKED.getPacketType());
+    json.addProperty("player", new Gson().toJson(client));
+    object.add("value", json);
+    var packet = new Packet(object);
+    MoleGames.getMoleGames().getServer().sendToAllGameClients(game, packet);
+  }
+
+  /**
+   * @param client
+   * @param game
+   * @author Carina
+   * @use sends the playerLeft packet to the game clients
+   */
+  public void playerLeftPacket(@NotNull final Player client, @NotNull final Game game) {
+    var json = new JsonObject();
+    var object = new JsonObject();
+    object.addProperty("type", Packets.PLAYERLEFT.getPacketType());
+    json.addProperty("player", new Gson().toJson(client));
+    object.add("value", json);
+    var packet = new Packet(object);
+    MoleGames.getMoleGames().getServer().sendToAllGameClients(game, packet);
+  }
+  /**
    * @return the packet itself
    * @author Carina
    * @use send to the clients that the tournament is over

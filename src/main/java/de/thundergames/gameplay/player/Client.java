@@ -47,6 +47,7 @@ public class Client extends Network {
   private Player player;
   private boolean isDraw = false;
   private int gameID;
+  private boolean connected = false;
 
   /**
    * @param port
@@ -76,7 +77,7 @@ public class Client extends Network {
   /**
    * @author Carina
    * @use Due to a bug where we are getting the constructor which is not contructed at the time we
-   *     create the Constructor and call the create object to create the sockets and stream
+   * create the Constructor and call the create object to create the sockets and stream
    * @see Client
    */
   public void create() {
@@ -93,6 +94,7 @@ public class Client extends Network {
   public void connect() {
     try {
       socket = new Socket(ip, port);
+      connected = true;
       clientThread = new ClientThread(socket, 0, this);
       clientThread.start();
       clientPacketHandler.loginPacket(name);
