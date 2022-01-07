@@ -47,6 +47,7 @@ public class Client extends Network {
   private Player player;
   private boolean isDraw = false;
   private int gameID;
+  private boolean isConnected = false;
 
   /**
    * @param port
@@ -96,8 +97,10 @@ public class Client extends Network {
       clientThread = new ClientThread(socket, 0, this);
       clientThread.start();
       clientPacketHandler.loginPacket(name);
+      isConnected = true;
     } catch (IOException exception) {
       if (isDebug()) System.out.println("Is the server running?!");
+      isConnected = false;
     }
   }
 }
