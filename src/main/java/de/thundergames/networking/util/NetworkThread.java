@@ -74,11 +74,12 @@ public abstract class NetworkThread extends Thread {
     try {
       while (run) {
         if (socket.isConnected()) {
-          var message = reader.readLine();
-          if (message != null) {
-            var object = new Gson().fromJson(message, JsonObject.class);
+          var inputString = reader.readLine();
+          if (inputString != null) {
+            var object = new Gson().fromJson(inputString, JsonObject.class);
             if (object.get("type") != null) {
               packet = new Packet(object.get("type").getAsString(), object);
+              System.out.println(inputString);
             }
             if (this.packet != null) {
               if (this instanceof ServerThread
