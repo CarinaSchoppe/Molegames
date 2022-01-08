@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2022
- * File created on 08.01.22, 10:59 by Carina Latest changes made by Carina on 08.01.22, 10:52 All contents of "AIPacketHandler" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 08.01.22, 11:15 by Carina Latest changes made by Carina on 08.01.22, 11:09 All contents of "AIPacketHandler" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -32,7 +32,7 @@ public class AIPacketHandler extends ClientPacketHandler {
    * @param ai     the instance of the AI
    * @param packet the packet received
    * @author Carina
-   * @use the logic for the AI to decide what to do depending on the packet recieved
+   * @use the logic for the AI to decide what to do depending on the packet received
    */
   public void handlePacket(@NotNull final AI ai, @NotNull final Packet packet) {
     this.packet = packet;

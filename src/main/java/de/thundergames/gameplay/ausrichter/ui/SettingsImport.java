@@ -1,8 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
- * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 24.12.21, 12:26 by Carina Latest changes made by Carina on 24.12.21, 12:22
- * All contents of "SettingsImport" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * Copyright (c) at ThunderGames | SwtPra10 2022
+ * File created on 08.01.22, 11:15 by Carina Latest changes made by Carina on 08.01.22, 11:12 All contents of "SettingsImport" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -13,6 +12,7 @@ package de.thundergames.gameplay.ausrichter.ui;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
 import de.thundergames.filehandling.GameConfiguration;
 import de.thundergames.gameplay.ausrichter.ui.floor.Floor;
@@ -37,19 +37,29 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-/** @author Carina, Eva, Jana */
+/**
+ * @author Carina, Eva, Jana
+ */
 public class SettingsImport {
 
   private static JsonObject object;
 
-  @FXML private ResourceBundle resources;
-  @FXML private AnchorPane pane;
-  @FXML private URL location;
-  @FXML private Text displayText;
-  @FXML private Button back;
-  @FXML private Button load;
-  @FXML private Button save;
-  @FXML private ImageView window;
+  @FXML
+  private ResourceBundle resources;
+  @FXML
+  private AnchorPane pane;
+  @FXML
+  private URL location;
+  @FXML
+  private Text displayText;
+  @FXML
+  private Button back;
+  @FXML
+  private Button load;
+  @FXML
+  private Button save;
+  @FXML
+  private ImageView window;
 
   /**
    * @param primaryStage
@@ -89,29 +99,31 @@ public class SettingsImport {
   void onLoad(ActionEvent event) throws Exception {
     if (object != null) {
       CreateGame.setDrawCardValuesList(
-          new Gson()
-              .fromJson(
-                  object.get("pullDiscs").getAsString(),
-                  new TypeToken<ArrayList<Integer>>() {}.getType()));
+        new Gson()
+          .fromJson(
+            object.get("pullDiscs"),
+            new TypeToken<ArrayList<Integer>>() {
+            }.getType()));
       CreateGame.setFloors(
-          new Gson()
-              .fromJson(
-                  object.get("levels").getAsString(),
-                  new TypeToken<ArrayList<Floor>>() {}.getType()));
+        new Gson()
+          .fromJson(
+            object.get("levels"),
+            new TypeToken<ArrayList<Floor>>() {
+            }.getType()));
       CreateGame.setMaxPlayersPrev(
-          new Gson().fromJson(object.get("maxPlayers").getAsString(), String.class));
+        new Gson().fromJson(object.get("maxPlayers"), String.class));
       CreateGame.setRadiusPrev(
-          new Gson().fromJson(object.get("radius").getAsString(), String.class));
+        new Gson().fromJson(object.get("radius"), String.class));
       CreateGame.setMolesAmountPrev(
-          new Gson().fromJson(object.get("numberOfMoles").getAsString(), String.class));
+        new Gson().fromJson(object.get("numberOfMoles"), String.class));
       CreateGame.setPullDiscsOrderedPrev(
-          new Gson().fromJson(object.get("pullDiscsOrdered").getAsString(), Boolean.class));
+        new Gson().fromJson(object.get("pullDiscsOrdered"), Boolean.class));
       CreateGame.setThinkTimePrev(
-          new Gson().fromJson(object.get("turnTime").getAsString(), String.class));
+        new Gson().fromJson(object.get("turnTime"), String.class));
       CreateGame.setVisualEffectsPrev(
-          new Gson().fromJson(object.get("visualisationTime").getAsString(), String.class));
+        new Gson().fromJson(object.get("visualisationTime"), String.class));
       CreateGame.setPunishmentPrev(
-          new Gson().fromJson(object.get("movePenalty").getAsString(), String.class));
+        new Gson().fromJson(object.get("movePenalty"), String.class));
       JOptionPane.showMessageDialog(null, "Configuration geladen!");
       var primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
       CreateGame.getCreateGameInstance().start(primaryStage);
@@ -131,34 +143,34 @@ public class SettingsImport {
   void onSave(ActionEvent event) throws IOException {
     var json = new JsonObject();
     json.addProperty(
-        "maxPlayers",
-        CreateGame.getMaxPlayersPrev() != null
-            ? Integer.parseInt(CreateGame.getMaxPlayersPrev())
-            : 5);
+      "maxPlayers",
+      CreateGame.getMaxPlayersPrev() != null
+        ? Integer.parseInt(CreateGame.getMaxPlayersPrev())
+        : 5);
     json.addProperty(
-        "radius",
-        CreateGame.getRadiusPrev() != null ? Integer.parseInt(CreateGame.getRadiusPrev()) : 8);
+      "radius",
+      CreateGame.getRadiusPrev() != null ? Integer.parseInt(CreateGame.getRadiusPrev()) : 8);
     json.addProperty(
-        "numberOfMoles",
-        CreateGame.getMolesAmountPrev() != null
-            ? Integer.parseInt(CreateGame.getMolesAmountPrev())
-            : 4);
-    json.addProperty("levels", new Gson().toJson(CreateGame.getLevel()));
+      "numberOfMoles",
+      CreateGame.getMolesAmountPrev() != null
+        ? Integer.parseInt(CreateGame.getMolesAmountPrev())
+        : 4);
+    json.add("levels", JsonParser.parseString(new Gson().toJson(CreateGame.getLevel())));
     json.addProperty("pullDiscsOrdered", CreateGame.isPullDiscsOrderedPrev());
-    json.addProperty("pullDiscs", new Gson().toJson(CreateGame.getDrawCardValuesList()));
+    json.add("pullDiscs", JsonParser.parseString(new Gson().toJson(CreateGame.getDrawCardValuesList())));
     json.addProperty(
-        "turnTime",
-        CreateGame.getThinkTimePrev() != null
-            ? Integer.parseInt(CreateGame.getThinkTimePrev())
-            : 10);
+      "turnTime",
+      CreateGame.getThinkTimePrev() != null
+        ? Integer.parseInt(CreateGame.getThinkTimePrev())
+        : 10);
     json.addProperty(
-        "visualisationTime",
-        CreateGame.getVisualEffectsPrev() != null
-            ? Integer.parseInt(CreateGame.getVisualEffectsPrev())
-            : 10);
+      "visualisationTime",
+      CreateGame.getVisualEffectsPrev() != null
+        ? Integer.parseInt(CreateGame.getVisualEffectsPrev())
+        : 10);
     json.addProperty(
-        "movePenalty",
-        CreateGame.getPunishmentPrev() != null ? CreateGame.getPunishmentPrev() : "NOTHING");
+      "movePenalty",
+      CreateGame.getPunishmentPrev() != null ? CreateGame.getPunishmentPrev() : "NOTHING");
     // TODO: grafik und system implementieren  json.addProperty("deductedPoints",
     // Integer.parseInt(CreateGame.getCreateGameInstance().getDeductedPoints()));
     new GameConfiguration().saveSettings(json.toString());
@@ -168,16 +180,16 @@ public class SettingsImport {
   @FXML
   void initialize() {
     assert back != null
-        : "fx:id=\"back\" was not injected: check your FXML file 'ConfigLoader.fxml'.";
+      : "fx:id=\"back\" was not injected: check your FXML file 'ConfigLoader.fxml'.";
     assert displayText != null
-        : "fx:id=\"displayText\" was not injected: check your FXML file 'ConfigLoader.fxml'.";
+      : "fx:id=\"displayText\" was not injected: check your FXML file 'ConfigLoader.fxml'.";
     assert load != null
-        : "fx:id=\"load\" was not injected: check your FXML file 'ConfigLoader.fxml'.";
+      : "fx:id=\"load\" was not injected: check your FXML file 'ConfigLoader.fxml'.";
     assert pane != null
-        : "fx:id=\"pane\" was not injected: check your FXML file 'ConfigLoader.fxml'.";
+      : "fx:id=\"pane\" was not injected: check your FXML file 'ConfigLoader.fxml'.";
     assert save != null
-        : "fx:id=\"save\" was not injected: check your FXML file 'ConfigLoader.fxml'.";
+      : "fx:id=\"save\" was not injected: check your FXML file 'ConfigLoader.fxml'.";
     assert window != null
-        : "fx:id=\"window\" was not injected: check your FXML file 'ConfigLoader.fxml'.";
+      : "fx:id=\"window\" was not injected: check your FXML file 'ConfigLoader.fxml'.";
   }
 }
