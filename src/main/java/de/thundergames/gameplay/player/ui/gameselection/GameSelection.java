@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
- * Copyright (c) at ThunderGames | SwtPra10 2022
- * File created on 08.01.22, 10:59 by Carina Latest changes made by Carina on 08.01.22, 10:52 All contents of "GameSelection" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * Copyright (c) at ThunderGames | SwtPra10 2021
+ * File created on 21.12.21, 16:39 by Carina Latest changes made by Carina on 21.12.21, 16:37 All contents of "GameSelection" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -17,6 +17,7 @@ import de.thundergames.gameplay.util.SceneController;
 import de.thundergames.playmechanics.game.Game;
 import de.thundergames.playmechanics.game.GameState;
 import de.thundergames.playmechanics.game.GameStates;
+import de.thundergames.playmechanics.util.Dialog;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -31,7 +32,6 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import org.jetbrains.annotations.NotNull;
 
-import javax.swing.*;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Objects;
@@ -41,16 +41,11 @@ public class GameSelection implements Initializable {
 
   private static Client CLIENT;
   private static GameSelection GAME_SELECTION;
-  @FXML
-  private Text playerName;
-  @FXML
-  private TableView<Game> gameTable;
-  @FXML
-  private TableColumn<Game, Integer> gameID;
-  @FXML
-  private TableColumn<Game, String> gamePlayerCount;
-  @FXML
-  private TableColumn<Game, String> gameState;
+  @FXML private Text playerName;
+  @FXML private TableView<Game> gameTable;
+  @FXML private TableColumn<Game, Integer> gameID;
+  @FXML private TableColumn<Game, String> gamePlayerCount;
+  @FXML private TableColumn<Game, String> gameState;
   private Stage primaryStage;
 
   public static GameSelection getGameSelection() {
@@ -58,7 +53,7 @@ public class GameSelection implements Initializable {
   }
 
   /**
-   * @param event event from the current scene to build this scene on same object
+   * @param event event from Fthe current scene to build this scene on same object
    * @throws IOException error creating the scene GameSelection
    * @author Marc
    * @use Create the Scene for GameSelection
@@ -79,23 +74,23 @@ public class GameSelection implements Initializable {
     // set event for back button
     var btnBack = (Button) (primaryStage.getScene().lookup("#backToMenu"));
     btnBack.setOnAction(
-      e -> {
-        try {
-          backToMenu(e);
-        } catch (IOException ex) {
-          ex.printStackTrace();
-        }
-      });
+        e -> {
+          try {
+            backToMenu(e);
+          } catch (IOException ex) {
+            ex.printStackTrace();
+          }
+        });
     // set event for spectate game
     var btnSpectateGame = (Button) (primaryStage.getScene().lookup("#spectateGame"));
     btnSpectateGame.setOnAction(
-      e -> {
-        try {
-          spectateGame(e);
-        } catch (IOException | InterruptedException ex) {
-          ex.printStackTrace();
-        }
-      });
+        e -> {
+          try {
+            spectateGame(e);
+          } catch (IOException | InterruptedException ex) {
+            ex.printStackTrace();
+          }
+        });
     // endregion
   }
 
@@ -110,7 +105,7 @@ public class GameSelection implements Initializable {
   }
 
   /**
-   * @param location  of base class Initialize
+   * @param location of base class Initialize
    * @param resources of base class Initialize
    * @author Marc
    * @use Is called when the object is initialized
@@ -155,15 +150,14 @@ public class GameSelection implements Initializable {
    * @throws IOException error at creating the scene
    * @author Marc
    * @use Observe the game. If game is already started, spectate the game, else join the spectator
-   * lobby.
+   *     lobby.
    */
   @FXML
   void spectateGame(ActionEvent event) throws IOException, InterruptedException {
     var selectedItem = gameTable.getSelectionModel().getSelectedItem();
     // If no item of tableview is selected.
     if (selectedItem == null) {
-      JOptionPane.showMessageDialog(
-        null, "Es wurde kein Spiel ausgewaehlt!", "Spiel beobachten", JOptionPane.ERROR_MESSAGE);
+      Dialog.show("Es wurde kein Spiel ausgewählt!", "Spiel beobachten", Dialog.DialogType.ERROR);
       return;
     }
     // Send Packet to spectate game to get GameState

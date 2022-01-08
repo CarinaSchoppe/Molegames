@@ -1,7 +1,8 @@
 /*
  * Copyright Notice for SwtPra10
- * Copyright (c) at ThunderGames | SwtPra10 2022
- * File created on 08.01.22, 10:59 by Carina Latest changes made by Carina on 08.01.22, 10:35 All contents of "LoginScreen" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * Copyright (c) at ThunderGames | SwtPra10 2021
+ * File created on 24.12.21, 12:26 by Carina Latest changes made by Carina on 24.12.21, 12:22
+ * All contents of "LoginScreen" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -10,6 +11,7 @@
 package de.thundergames.gameplay.player.ui;
 
 import de.thundergames.gameplay.player.Client;
+import de.thundergames.playmechanics.util.Dialog;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -20,7 +22,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-import javax.swing.*;
 import java.io.IOException;
 import java.util.ResourceBundle;
 
@@ -79,14 +80,10 @@ public class LoginScreen extends Application {
       if (client.isConnected()) {
         new PlayerMenu().create(event);
       } else {
-        //TODO: Kein java swing!
-        JOptionPane.showMessageDialog(
-          null, "Konnte mich nicht mit dem Server verbinden.", "Verbindungsfehler", JOptionPane.ERROR_MESSAGE);
+        Dialog.show("Könnte mich nicht mit dem Server verbinden.","Verbindungsfehler", Dialog.DialogType.ERROR );
       }
     } else {
-      //TODO: Kein java swing!
-      JOptionPane.showMessageDialog(
-        null, errorMessage, "Falscher Feldinhalt", JOptionPane.ERROR_MESSAGE);
+      Dialog.show(errorMessage,"Falscher Feldinhalt", Dialog.DialogType.ERROR );
     }
   }
 
@@ -94,11 +91,11 @@ public class LoginScreen extends Application {
   void initialize() {
     assert ip != null : "fx:id=\"ip\" was not injected: check your FXML file 'LoginScreen.fxml'.";
     assert login != null
-      : "fx:id=\"login\" was not injected: check your FXML file 'LoginScreen.fxml'.";
+        : "fx:id=\"login\" was not injected: check your FXML file 'LoginScreen.fxml'.";
     assert name != null
-      : "fx:id=\"name\" was not injected: check your FXML file 'LoginScreen.fxml'.";
+        : "fx:id=\"name\" was not injected: check your FXML file 'LoginScreen.fxml'.";
     assert port != null
-      : "fx:id=\"port\" was not injected: check your FXML file 'LoginScreen.fxml'.";
+        : "fx:id=\"port\" was not injected: check your FXML file 'LoginScreen.fxml'.";
   }
 
   @Override
