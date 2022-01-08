@@ -148,6 +148,7 @@ public class ClientPacketHandler {
   public void getOverviewPacket() {
     var object = new JsonObject();
     object.addProperty("type", Packets.GETOVERVIEW.getPacketType());
+    object.add("value", new JsonObject());
     client.getClientThread().sendPacket(new Packet(object));
   }
 
@@ -817,6 +818,7 @@ public class ClientPacketHandler {
   public void registerOverviewObserverPacket() {
     var object = new JsonObject();
     object.addProperty("type", Packets.REGISTEROBSERVER.getPacketType());
+    object.add("value", new JsonObject());
     client.getClientThread().sendPacket(new Packet(object));
   }
 
