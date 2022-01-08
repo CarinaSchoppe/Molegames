@@ -1,8 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
- * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 18.12.21, 16:37 by Carina Latest changes made by Carina on 18.12.21, 16:35
- * All contents of "PlayerModel" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * Copyright (c) at ThunderGames | SwtPra10 2022
+ * File created on 08.01.22, 10:59 by Carina Latest changes made by Carina on 08.01.22, 10:35 All contents of "PlayerModel" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -11,35 +10,28 @@
 
 package de.thundergames.gameplay.player.board;
 
-import de.thundergames.gameplay.player.Client;
-import de.thundergames.networking.server.ServerThread;
+import de.thundergames.playmechanics.util.Player;
 import lombok.Getter;
 import lombok.Setter;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-import de.thundergames.playmechanics.util.Player;
-
 
 @Getter
 @Setter
-public class PlayerModel{
+public class PlayerModel {
+  private final String playerColor;
   private int ID;
   private ArrayList<MoleModel> moles;
   private MoleModel activeMole;
   private boolean isItMyTurn;
   private Player player;
   private ArrayList<Marker> markers;
-  private final String playerColor;
 
-
-  public PlayerModel(Player player, ArrayList<MoleModel> moles,boolean isItMyTurn, String playerColor) {
-    this.player=player;
-    this.moles=moles;
+  public PlayerModel(Player player, ArrayList<MoleModel> moles, boolean isItMyTurn, String playerColor) {
+    this.player = player;
+    this.moles = moles;
     this.isItMyTurn = isItMyTurn;
-    this.markers=new ArrayList<>();
+    this.markers = new ArrayList<>();
     this.playerColor = playerColor;
   }
 
@@ -49,14 +41,12 @@ public class PlayerModel{
    */
   public void updateMarker() {
     markers.clear();
-    for (var mole : this.moles)
-    {
+    for (var mole : this.moles) {
       var marker = new Marker();
       marker.setLayoutX(mole.getLayoutX() + 8);
       marker.setLayoutY(mole.getLayoutY() - 16);
       marker.setOpacity(this.isItMyTurn ? 1 : 0);
       this.markers.add(marker);
-
     }
   }
 
@@ -67,5 +57,4 @@ public class PlayerModel{
   public void setItMyTurn(boolean isItMyTurn) {
     this.isItMyTurn = isItMyTurn;
   }
-
 }

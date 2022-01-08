@@ -1,8 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
- * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 24.12.21, 12:18 by Carina Latest changes made by Carina on 24.12.21, 12:16
- * All contents of "GameConfiguration" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * Copyright (c) at ThunderGames | SwtPra10 2022
+ * File created on 08.01.22, 10:59 by Carina Latest changes made by Carina on 08.01.22, 10:56 All contents of "GameConfiguration" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -28,8 +27,8 @@ public class GameConfiguration {
    * @param config the settings to save
    * @throws IOException
    * @author Carina
-   * @use call the method add the settings to the json object and than pass that to create a new
-   *     file that will be saved
+   * @use call the method add the settings to the json object and then pass that to create a new
+   * file that will be saved
    * @see de.thundergames.playmechanics.util.Settings
    */
   public void saveSettings(@NotNull final String config) throws IOException {

@@ -2,8 +2,8 @@
 
 <!--
   ~ Copyright Notice for SwtPra10
-  ~ Copyright (c) at ThunderGames | SwtPra10 2021
-  ~ File created on 22.12.21, 13:46 by Carina Latest changes made by Carina on 22.12.21, 13:46 All contents of "PlayerManagement.fxml" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+  ~ Copyright (c) at ThunderGames | SwtPra10 2022
+  ~ File created on 08.01.22, 10:59 by Carina Latest changes made by Carina on 08.01.22, 10:53 All contents of "PlayerManagement.fxml" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
   ~ at ThunderGames | SwtPra10. All rights reserved
   ~ Any type of duplication, distribution, rental, sale, award,
   ~ Public accessibility or other use
@@ -30,7 +30,7 @@
                 <TableColumn fx:id="playerStatus" prefWidth="236.0" text="Spieler Status"/>
             </columns>
         </TableView>
-        <TableView fx:id="aviablePlayersTable" layoutX="100.0" layoutY="568.0" prefHeight="190.0" prefWidth="874.0" stylesheets="@css/MainGUI.css">
+        <TableView fx:id="availablePlayersTable" layoutX="100.0" layoutY="568.0" prefHeight="190.0" prefWidth="874.0" stylesheets="@css/MainGUI.css">
             <columns>
                 <TableColumn fx:id="playerNumberSelection" prefWidth="201.6666717529297" text="Spieler Nummer"/>
                 <TableColumn fx:id="playerNameSelection" prefWidth="671.0" text="Spieler Name"/>

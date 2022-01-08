@@ -1,8 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
- * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 24.12.21, 12:26 by Carina Latest changes made by Carina on 24.12.21, 12:22
- * All contents of "PlayerMenu" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * Copyright (c) at ThunderGames | SwtPra10 2022
+ * File created on 08.01.22, 10:59 by Carina Latest changes made by Carina on 08.01.22, 10:35 All contents of "PlayerMenu" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -32,7 +31,8 @@ import java.util.ResourceBundle;
 public class PlayerMenu implements Initializable {
 
   private static Client CLIENT;
-  @FXML private Text PlayerName;
+  @FXML
+  private Text PlayerName;
 
   /**
    * Create the Scene for PlayerMenu
@@ -43,8 +43,8 @@ public class PlayerMenu implements Initializable {
   public void create(ActionEvent event) throws IOException {
     var primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
     Parent root =
-        FXMLLoader.load(
-            Objects.requireNonNull(getClass().getResource("/player/style/PlayerMenu.fxml")));
+      FXMLLoader.load(
+        Objects.requireNonNull(getClass().getResource("/player/style/PlayerMenu.fxml")));
     primaryStage.setTitle("Maulwurf Company");
     primaryStage.setResizable(false);
     primaryStage.setScene(new Scene(root));
@@ -56,7 +56,7 @@ public class PlayerMenu implements Initializable {
   /**
    * Is called when the object is initialized
    *
-   * @param location of base class Initialize
+   * @param location  of base class Initialize
    * @param resources of base class Initialize
    */
   @Override
@@ -80,8 +80,8 @@ public class PlayerMenu implements Initializable {
     // create LoginScreen scene
     var primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
     Parent root =
-        FXMLLoader.load(
-            Objects.requireNonNull(getClass().getResource("/player/style/LoginScreen.fxml")));
+      FXMLLoader.load(
+        Objects.requireNonNull(getClass().getResource("/player/style/LoginScreen.fxml")));
     primaryStage.setResizable(false);
     primaryStage.setScene(new Scene(root));
     primaryStage.show();

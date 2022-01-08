@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
- * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 21.12.21, 16:39 by Carina Latest changes made by Carina on 21.12.21, 16:37 All contents of "MoleModel" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * Copyright (c) at ThunderGames | SwtPra10 2022
+ * File created on 08.01.22, 10:59 by Carina Latest changes made by Carina on 08.01.22, 10:52 All contents of "MoleModel" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -12,21 +12,19 @@ package de.thundergames.gameplay.player.board;
 
 import de.thundergames.playmechanics.util.Mole;
 import javafx.scene.Group;
-import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.*;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
 public class MoleModel extends Group {
-  private Mole mole;
   private final static int DEFAULT_SIZE = 32;
   private final int moleId;
   private final int size;
   private final String moleColor;
+  private Mole mole;
 
   /**
    * @param id
@@ -52,22 +50,20 @@ public class MoleModel extends Group {
    * @author Issam, Alp, Dila
    * @use Constructor
    */
-  public MoleModel(final int id, final double x, final double y, final boolean isActive,Mole mole) {
+  public MoleModel(final int id, final double x, final double y, final boolean isActive, Mole mole) {
     this(id, x, y, DEFAULT_SIZE, isActive, "red");
-
   }
 
-  public MoleModel(final int id, final double x, final double y,Mole mole) {
+  public MoleModel(final int id, final double x, final double y, Mole mole) {
     this(id, x, y, DEFAULT_SIZE, false, "red");
     this.mole = mole;
   }
 
-  public MoleModel(final int id, final int size,Mole mole) {
+  public MoleModel(final int id, final int size, Mole mole) {
     this(id, 0, 0, size, false, "red");
-
   }
 
-  public MoleModel(final int id,Mole mole, String moleColor) {
+  public MoleModel(final int id, Mole mole, String moleColor) {
     this(id, 0, 0, DEFAULT_SIZE, false, moleColor);
     this.mole = mole;
   }
@@ -94,7 +90,7 @@ public class MoleModel extends Group {
 
   /**
    * @author Issam, Dila, Alp
-   * @use addeds style to the background
+   * @use adds style to the background
    */
   private void addStyles() {
     // Set size

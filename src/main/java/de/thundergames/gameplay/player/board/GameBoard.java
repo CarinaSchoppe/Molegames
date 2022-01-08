@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
- * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 15.12.21, 19:20 by Carina Latest changes made by Carina on 15.12.21, 19:19 All contents of "TestWindow" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * Copyright (c) at ThunderGames | SwtPra10 2022
+ * File created on 08.01.22, 10:59 by Carina Latest changes made by Carina on 08.01.22, 10:52 All contents of "GameBoard" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -44,21 +44,15 @@ public class GameBoard implements Initializable {
 
   private static Client CLIENT;
   private static GameBoard OBSERVER;
-
+  private static Map<Integer, String> playersColors;
+  private static BoardCountDown COUNTDOWN;
   private int BOARD_RADIUS;
-
   private Stage primaryStage;
   private BorderPane borderPane;
   private BorderPane countDownPane;
   private BorderPane turnPane;
   private BorderPane scorePane;
   private GameHandler gameHandler;
-  private static Map<Integer, String> playersColors;
-
-  public static GameBoard getObserver() {
-    return OBSERVER;
-  }
-
   private GameState gameState;
 
   private ObservableList<PlayerResult> resultList;
@@ -68,24 +62,24 @@ public class GameBoard implements Initializable {
   private HashSet<Player> players;
   private ArrayList<PlayerModel> playerModelList;
 
-  private static BoardCountDown COUNTDOWN;
+  public static GameBoard getObserver() {
+    return OBSERVER;
+  }
 
   /**
    * @param primaryStage
    * @author Alp, Dila, Issam
    * @use starts the stage
    */
-  public void create(Stage primaryStage) throws InterruptedException {
+  public void create(Stage primaryStage) {
     OBSERVER = this;
     CLIENT = Client.getClientInstance();
     this.primaryStage = primaryStage;
     borderPane = new BorderPane();
     countDownPane = new BorderPane();
     countDownPane.setMinHeight(50);
-
     turnPane = new BorderPane();
     turnPane.setMinHeight(50);
-
     scorePane = new BorderPane();
     scorePane.setMinWidth(50);
     // get gameState
@@ -96,7 +90,6 @@ public class GameBoard implements Initializable {
     COUNTDOWN.setTimer(!Objects.equals(gameState.getStatus(), GameStates.PAUSED.toString()));
     // get radius
     BOARD_RADIUS = gameState.getRadius();
-
     //get current player
     var currentPlayerId = gameState.getCurrentPlayer() == null ? -1 : gameState.getCurrentPlayer().getClientID();
     var currentPlayerName = CLIENT.getCurrentPlayer() == null ? "" : CLIENT.getCurrentPlayer().getName();
@@ -108,8 +101,8 @@ public class GameBoard implements Initializable {
     // Set custom cursor
     var cursor = new Image(Utils.getSprite("game/cursor.png"));
     borderPane.setCursor(new ImageCursor(cursor,
-            cursor.getWidth() / 2,
-            cursor.getHeight() / 2));
+      cursor.getWidth() / 2,
+      cursor.getHeight() / 2));
     var rootPane = new BorderPane();
     rootPane.setTop(countDownPane);
     rootPane.setCenter(borderPane);
@@ -131,7 +124,6 @@ public class GameBoard implements Initializable {
     }
     var s = new Scene(rootPane);
     s.getStylesheets().add("/player/style/css/GameBoard.css");
-
     primaryStage.setScene(s);
     primaryStage.setResizable(true);
     primaryStage.setMaximized(true);
@@ -148,46 +140,37 @@ public class GameBoard implements Initializable {
       ArrayList<MoleModel> moleModelList = new ArrayList<>();
       for (var mole : placedMoles) {
         if (player.getClientID() == mole.getPlayer().getClientID()) {
-          moleModelList.add(new MoleModel(player.getClientID(),mole, playersColors.get(player.getClientID())));
+          moleModelList.add(new MoleModel(player.getClientID(), mole, playersColors.get(player.getClientID())));
         }
       }
-      playerModelList.add(new PlayerModel(player,moleModelList,player.getClientID() == currentPlayerId, playersColors.get(player.getClientID())));
+      playerModelList.add(new PlayerModel(player, moleModelList, player.getClientID() == currentPlayerId, playersColors.get(player.getClientID())));
     }
     return playerModelList;
   }
 
-
-  public void updateGameBoard()
-  {
+  public void updateGameBoard() {
     var loadedGameState = CLIENT.getGameState();
-
-    if (gameState != loadedGameState)
-    {
+    if (gameState != loadedGameState) {
       //Update board if count of holes changed
-      if (gameState.getFloor().getHoles().size() != loadedGameState.getFloor().getHoles().size())
-      {
+      if (gameState.getFloor().getHoles().size() != loadedGameState.getFloor().getHoles().size()) {
         HashMap<List<Integer>, NodeType> nodes;
-          nodes = updateFloor(loadedGameState);
-          gameHandler.setNodeTypes(nodes);
-          ArrayList<String> backgroundList = new ArrayList<>( List.of("background/ug_1.png","background/ug_2.png","background/ug_3.png"));
-          backgroundList.remove(gameHandler.getBackground());
-          gameHandler.setBackground(backgroundList.get(new Random().nextInt(backgroundList.size()-1)));
+        nodes = updateFloor(loadedGameState);
+        gameHandler.setNodeTypes(nodes);
+        ArrayList<String> backgroundList = new ArrayList<>(List.of("background/ug_1.png", "background/ug_2.png", "background/ug_3.png"));
+        backgroundList.remove(gameHandler.getBackground());
+        gameHandler.setBackground(backgroundList.get(new Random().nextInt(backgroundList.size() - 1)));
       }
-      gameState=loadedGameState;
-
-
+      gameState = loadedGameState;
       // get active players of gameState
       players = gameState.getActivePlayers();
     }
-
     //get current player
     var currentPlayerId = CLIENT.getCurrentPlayer() == null ? -1 : CLIENT.getCurrentPlayer().getClientID();
     var currentPlayerName = CLIENT.getCurrentPlayer() == null ? "" : CLIENT.getCurrentPlayer().getName();
     //get moles
     var fieldMap = CLIENT.getMap().getFieldMap();
     HashSet<Mole> placedMoles = new HashSet<>();
-    for (var field :fieldMap.values())
-    {
+    for (var field : fieldMap.values()) {
       var currentMole = field.getMole();
       if (currentMole != null) {
         if (currentMole.getField().getX() != field.getX() || currentMole.getField().getY() != field.getY()) {
@@ -197,12 +180,9 @@ public class GameBoard implements Initializable {
         placedMoles.add(currentMole);
       }
     }
-
-
     playerModelList = mapPlayersToPlayerModels(players, placedMoles, currentPlayerId, playersColors);
     gameHandler.update(playerModelList);
     CLIENT.getClientPacketHandler().getRemainingTimePacket();
-
     if (currentPlayerId != -1) {
       playerTurnInformation(currentPlayerId, currentPlayerName);
     }
@@ -211,42 +191,36 @@ public class GameBoard implements Initializable {
 
   public void updatePlayerList() {
     Platform.runLater(() -> {
-      TableView<PlayerResult> playerListTable = new TableView<>();
+      var playerListTable = new TableView<PlayerResult>();
       playerListTable.setEditable(false);
-
-      TableColumn placeColumn = new TableColumn("Platz");
+      var placeColumn = new TableColumn("Platz");
       placeColumn.setMinWidth(10);
       placeColumn.setCellValueFactory(
-              new PropertyValueFactory<PlayerResult, Integer>("placement"));
-
-      TableColumn nameColumn = new TableColumn("Name");
+        new PropertyValueFactory<PlayerResult, Integer>("placement"));
+      var nameColumn = new TableColumn("Name");
       nameColumn.setMinWidth(30);
       nameColumn.setCellValueFactory(
-              new PropertyValueFactory<PlayerResult, String>("name"));
-
-      TableColumn pointsColumn = new TableColumn("Punkte");
+        new PropertyValueFactory<PlayerResult, String>("name"));
+      var pointsColumn = new TableColumn("Punkte");
       pointsColumn.setMinWidth(10);
       pointsColumn.setCellValueFactory(
-              new PropertyValueFactory<PlayerResult, Integer>("score"));
-
+        new PropertyValueFactory<PlayerResult, Integer>("score"));
       CLIENT.getClientPacketHandler().getScorePacket();
       ObservableList<PlayerResult> newResultList = FXCollections.observableArrayList();
       var newGameState = CLIENT.getGameState();
       if (gameState != newGameState) {
         gameState = newGameState;
       }
-
       if (score != gameState.getScore() && !gameState.getScore().getPlayers().isEmpty()) {
         score = gameState.getScore();
         var thisPlace = 1;
         for (var player : score.getPlayers()) {
           newResultList.add(
-                  new PlayerResult(
-                          player.getName(), score.getPoints().get(player.getClientID()), thisPlace));
+            new PlayerResult(
+              player.getName(), score.getPoints().get(player.getClientID()), thisPlace));
           thisPlace++;
         }
       }
-
       if (resultList != newResultList && !newResultList.isEmpty()) {
         resultList = newResultList;
       }
@@ -274,14 +248,14 @@ public class GameBoard implements Initializable {
       end.setFill(Paint.valueOf(defTextColor));
       playerText.setId("text");
       playerText.setFill(Paint.valueOf(playersColors.get(playerId)));
-      TextFlow textFlow = new TextFlow(beginning, playerText, end);
+      var textFlow = new TextFlow(beginning, playerText, end);
       textFlow.setMaxWidth(turnPane.getWidth() / 2);
       turnPane.setCenter(textFlow);
     });
   }
 
   public HashMap<List<Integer>, NodeType> updateFloor(GameState gameState) {
-    HashMap<List<Integer>, NodeType> nodes = new HashMap<>();
+    var nodes = new HashMap<List<Integer>, NodeType>();
     gameState.getFloor().getHoles().forEach(field -> nodes.put(List.of(field.getX(), field.getY()), NodeType.HOLE));
     gameState.getFloor().getDrawAgainFields().forEach(field -> nodes.put(List.of(field.getX(), field.getY()), NodeType.DRAW_AGAIN));
     return nodes;
@@ -297,8 +271,7 @@ public class GameBoard implements Initializable {
     });
   }
 
-  public void updateTime(long remainingTime)
-  {
+  public void updateTime(long remainingTime) {
     Platform.runLater(() -> {
       var txtRemainingTime = new Text(String.valueOf((remainingTime / 1000)));
       var container = new AnchorPane();
@@ -313,7 +286,7 @@ public class GameBoard implements Initializable {
     COUNTDOWN.stopTimer();
   }
 
-  public void continueTimer(){
+  public void continueTimer() {
     COUNTDOWN.continueTimer();
   }
 }

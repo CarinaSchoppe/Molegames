@@ -1,8 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
- * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 24.12.21, 12:18 by Carina Latest changes made by Carina on 24.12.21, 12:16
- * All contents of "GameLogic" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * Copyright (c) at ThunderGames | SwtPra10 2022
+ * File created on 08.01.22, 10:59 by Carina Latest changes made by Carina on 08.01.22, 10:56 All contents of "GameLogic" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -27,9 +26,9 @@ public class GameLogic {
    * @param map         of the de.thundergames.game and of the player
    * @return if the move is valid it will return true
    * @author Carina
-   * @use add the parameters and it will return if the move was valid with true or invalid with
+   * @use add the parameters, and it will return if the move was valid with true or invalid with
    * false
-   * @premisse the startpoint and endpoint must be in the playingfield and the player was allowed to
+   * @premisse the startpoint and endpoint must be in the playing field and the player was allowed to
    * move.
    */
   public static synchronized boolean wasLegalMove(
@@ -155,7 +154,7 @@ public class GameLogic {
   /**
    * @param game
    * @author Carina
-   * @use checks if a player has won when the player is the only one in a single hole foor
+   * @use checks if a player has won when the player is the only one in a single hole floor
    */
   public void checkWinning(@NotNull final Game game) {
     var hole = 0;

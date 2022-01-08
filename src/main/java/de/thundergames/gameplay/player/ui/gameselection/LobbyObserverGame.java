@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
- * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 21.12.21, 16:39 by Carina Latest changes made by Carina on 21.12.21, 16:37 All contents of "LobbyObserverGame" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * Copyright (c) at ThunderGames | SwtPra10 2022
+ * File created on 08.01.22, 10:59 by Carina Latest changes made by Carina on 08.01.22, 10:56 All contents of "LobbyObserverGame" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -90,13 +90,13 @@ public class LobbyObserverGame implements Initializable {
     // set event for back button
     var btnBack = (Button) (primaryStage.getScene().lookup("#backToGameSelection"));
     btnBack.setOnAction(
-        e -> {
-          try {
-            onBackClick(e);
-          } catch (IOException ex) {
-            ex.printStackTrace();
-          }
-        });
+      e -> {
+        try {
+          onBackClick(e);
+        } catch (IOException ex) {
+          ex.printStackTrace();
+        }
+      });
     // endregion
   }
 
@@ -120,8 +120,8 @@ public class LobbyObserverGame implements Initializable {
   /**
    * @author Nick
    * @use processes the click on the back button, loads previous scene GameSelection and informs
-   *     server player has left via leaveGame Packet (method inspired by "onSignOutClick()" -> see
-   *     GameSelection)
+   * server player has left via leaveGame Packet (method inspired by "onSignOutClick()" -> see
+   * GameSelection
    */
   @FXML
   void onBackClick(ActionEvent event) throws IOException {
@@ -184,9 +184,7 @@ public class LobbyObserverGame implements Initializable {
   public void updatePlayerTable() {
     playerList = CLIENT.getGameState().getActivePlayers();
     ObservableList<Player> players = FXCollections.observableArrayList();
-    for (var player : playerList) {
-      players.add(player);
-    }
+    players.addAll(playerList);
     if (!players.isEmpty()) {
       playerTable.setItems(players);
     } else {
@@ -232,12 +230,6 @@ public class LobbyObserverGame implements Initializable {
    * @use Create scene and spectate the game
    */
   public void spectateGame() {
-    Platform.runLater(() -> {
-      try {
-        new GameBoard().create(primaryStage);
-      } catch (InterruptedException e) {
-        e.printStackTrace();
-      }
-    });
+    Platform.runLater(() -> new GameBoard().create(primaryStage));
   }
 }

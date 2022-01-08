@@ -1,8 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
- * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 24.12.21, 12:18 by Carina Latest changes made by Carina on 24.12.21, 12:16
- * All contents of "ServerThread" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * Copyright (c) at ThunderGames | SwtPra10 2022
+ * File created on 08.01.22, 10:59 by Carina Latest changes made by Carina on 08.01.22, 10:35 All contents of "ServerThread" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -34,11 +33,11 @@ public class ServerThread extends NetworkThread {
 
   /**
    * @param socket the server Socket
-   * @param id Serverthread id
+   * @param id     Serverthread id
    * @author Carina
    */
   public ServerThread(@NotNull final Socket socket, final int id, @NotNull final Server server)
-      throws IOException {
+    throws IOException {
     super(socket, id);
     this.server = server;
   }
@@ -53,10 +52,10 @@ public class ServerThread extends NetworkThread {
       if (player.getGame() != null) {
         var game = player.getGame();
         getPlayer()
-            .getGame()
-            .removePlayerFromGame(player.getGame().getClientPlayersMap().get(this));
+          .getGame()
+          .removePlayerFromGame(player.getGame().getClientPlayersMap().get(this));
         if (game.getCurrentGameState() != GameStates.NOT_STARTED
-            && game.getCurrentGameState() != GameStates.OVER) {
+          && game.getCurrentGameState() != GameStates.OVER) {
           game.getGameUtil().nextPlayer();
         }
       }

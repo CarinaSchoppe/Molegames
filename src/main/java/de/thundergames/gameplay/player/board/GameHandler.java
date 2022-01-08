@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
- * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 15.12.21, 19:20 by Carina Latest changes made by Carina on 15.12.21, 19:19 All contents of "GameHandler" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * Copyright (c) at ThunderGames | SwtPra10 2022
+ * File created on 08.01.22, 10:59 by Carina Latest changes made by Carina on 08.01.22, 10:52 All contents of "GameHandler" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -24,10 +24,10 @@ import java.util.List;
 @Setter
 public class GameHandler {
   final public static long DEFAULT_TIMEOUT = 10000; // 10 seconds
-  private ArrayList<PlayerModel> players;
   private final PlayerModel activePlayer;
   private final long timeout;
   private final int boardRadius;
+  private ArrayList<PlayerModel> players;
   private HashMap<List<Integer>, NodeType> nodeTypes;
   private Board board;
   private BorderPane container;
@@ -65,7 +65,7 @@ public class GameHandler {
   }
 
   /**
-   * @param container
+   * @param players
    * @author Alp, Dila, Issam
    * @use starts the pane
    */
