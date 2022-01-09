@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2022
- * File created on 09.01.22, 16:05 by Carina Latest changes made by Carina on 09.01.22, 16:05 All contents of "GameHandler" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 09.01.22, 21:35 by Carina Latest changes made by Carina on 09.01.22, 21:35 All contents of "GameHandler" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -42,7 +42,7 @@ public class GameHandler {
    * @author Alp, Dila, Issam
    * @use constructor
    */
-  public GameHandler(@NotNull final ArrayList<PlayerModel> players, final int boardRadius, @NotNull final HashMap<List<Integer>, NodeType> nodeTypes, final long timeout, BorderPane container, BorderPane rootContainer) {
+  public GameHandler(@NotNull final ArrayList<PlayerModel> players, final int boardRadius, @NotNull final HashMap<List<Integer>, NodeType> nodeTypes, final long timeout, @NotNull final BorderPane container, @NotNull final BorderPane rootContainer) {
     this.players = players;
     this.activePlayer = players.get(0);
     this.timeout = timeout;
@@ -60,7 +60,7 @@ public class GameHandler {
    * @author Alp, Dila, Issam
    * @use constructor
    */
-  public GameHandler(@NotNull final ArrayList<PlayerModel> players, final int boardRadius, @NotNull final HashMap<List<Integer>, NodeType> nodeTypes, BorderPane container, BorderPane rootContainer) {
+  public GameHandler(@NotNull final ArrayList<PlayerModel> players, final int boardRadius, @NotNull final HashMap<List<Integer>, NodeType> nodeTypes, @NotNull final BorderPane container, @NotNull final BorderPane rootContainer) {
     this(players, boardRadius, nodeTypes, DEFAULT_TIMEOUT, container, rootContainer);
   }
 
@@ -69,14 +69,14 @@ public class GameHandler {
    * @author Alp, Dila, Issam
    * @use starts the pane
    */
-  public void start(ArrayList<PlayerModel> players) {
+  public void start(@NotNull final ArrayList<PlayerModel> players) {
     this.board = new Board(this.boardRadius, container.getWidth(), container.getHeight(), nodeTypes, players);
     this.board.setContainerBackground(rootContainer, background);
     this.board.render();
     this.activePlayer.setItMyTurn(true);
   }
 
-  public void update(ArrayList<PlayerModel> players) {
+  public void update(@NotNull final ArrayList<PlayerModel> players) {
     this.players = players;
     Platform.runLater(() -> {
       start(players);

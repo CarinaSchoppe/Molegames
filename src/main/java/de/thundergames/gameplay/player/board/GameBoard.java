@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2022
- * File created on 09.01.22, 20:07 by Carina Latest changes made by Carina on 09.01.22, 20:07 All contents of "GameBoard" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 09.01.22, 21:35 by Carina Latest changes made by Carina on 09.01.22, 21:35 All contents of "GameBoard" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -35,6 +35,7 @@ import javafx.scene.paint.Paint;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
+import org.jetbrains.annotations.NotNull;
 
 import java.net.URL;
 import java.util.*;
@@ -44,7 +45,7 @@ public class GameBoard implements Initializable {
 
   private static Client CLIENT;
   private static GameBoard OBSERVER;
-  private static Map<Integer, String> playersColors;
+  private static HashMap<Integer, String> playersColors;
   private static BoardCountDown COUNTDOWN;
   private int BOARD_RADIUS;
   private Stage primaryStage;
@@ -95,7 +96,7 @@ public class GameBoard implements Initializable {
     var currentPlayerName = CLIENT.getCurrentPlayer() == null ? "" : CLIENT.getCurrentPlayer().getName();
     // create list of playerModels for ui
     players = gameState.getActivePlayers();
-    playersColors = players.stream().collect(Collectors.toMap(Player::getClientID, player -> Utils.getRandomHSLAColor()));
+    playersColors = new HashMap<>(players.stream().collect(Collectors.toMap(Player::getClientID, player -> Utils.getRandomHSLAColor())));
     var placedMoles = gameState.getPlacedMoles();
     var playerModelList = mapPlayersToPlayerModels(players, placedMoles, currentPlayerId, playersColors);
     // Set custom cursor
@@ -134,7 +135,7 @@ public class GameBoard implements Initializable {
   public void initialize(URL location, ResourceBundle resources) {
   }
 
-  public ArrayList<PlayerModel> mapPlayersToPlayerModels(HashSet<Player> players, HashSet<Mole> placedMoles, Integer currentPlayerId, Map<Integer, String> playersColors) {
+  public ArrayList<PlayerModel> mapPlayersToPlayerModels(@NotNull final HashSet<Player> players, @NotNull final HashSet<Mole> placedMoles, final int currentPlayerId, @NotNull final HashMap<Integer, String> playersColors) {
     var playerModelList = new ArrayList<PlayerModel>();
     for (var player : players) {
       var moleModelList = new ArrayList<MoleModel>();
@@ -231,9 +232,9 @@ public class GameBoard implements Initializable {
     });
   }
 
-  public void playerTurnInformation(Integer playerId, String playerName) {
+  public void playerTurnInformation(final int playerID, @NotNull final String playerName) {
     Platform.runLater(() -> {
-      var playerString = Integer.toString(playerId);
+      var playerString = Integer.toString(playerID);
       if (!playerName.equals("")) {
         playerString = playerString + "/" + playerName;
       }
@@ -246,14 +247,14 @@ public class GameBoard implements Initializable {
       end.setId("text");
       end.setFill(Paint.valueOf(defTextColor));
       playerText.setId("text");
-      playerText.setFill(Paint.valueOf(playersColors.get(playerId)));
+      playerText.setFill(Paint.valueOf(playersColors.get(playerID)));
       var textFlow = new TextFlow(beginning, playerText, end);
       textFlow.setMaxWidth(turnPane.getWidth() / 2);
       turnPane.setCenter(textFlow);
     });
   }
 
-  public HashMap<List<Integer>, NodeType> updateFloor(GameState gameState) {
+  public HashMap<List<Integer>, NodeType> updateFloor(@NotNull final GameState gameState) {
     var nodes = new HashMap<List<Integer>, NodeType>();
     gameState.getFloor().getHoles().forEach(field -> nodes.put(List.of(field.getX(), field.getY()), NodeType.HOLE));
     gameState.getFloor().getDrawAgainFields().forEach(field -> nodes.put(List.of(field.getX(), field.getY()), NodeType.DRAW_AGAIN));
@@ -270,7 +271,7 @@ public class GameBoard implements Initializable {
     });
   }
 
-  public void updateTime(long remainingTime) {
+  public void updateTime(final long remainingTime) {
     Platform.runLater(() -> {
       var txtRemainingTime = new Text(String.valueOf((remainingTime / 1000)));
       var container = new AnchorPane();

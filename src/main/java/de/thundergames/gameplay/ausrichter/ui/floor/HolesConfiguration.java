@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2022
- * File created on 09.01.22, 20:02 by Carina Latest changes made by Carina on 09.01.22, 20:02 All contents of "HolesConfiguration" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 09.01.22, 21:35 by Carina Latest changes made by Carina on 09.01.22, 21:35 All contents of "HolesConfiguration" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -89,7 +89,7 @@ public class HolesConfiguration implements Initializable {
    * @use removes a new floor or field
    */
   @FXML
-  void onAdd(ActionEvent event) {
+  void onAdd(@NotNull final ActionEvent event) {
     try {
       if (!"".equalsIgnoreCase(x.getText())
         && x.getText() != null
@@ -118,7 +118,7 @@ public class HolesConfiguration implements Initializable {
   }
 
   @FXML
-  void onBack(ActionEvent event) throws Exception {
+  void onBack(@NotNull final ActionEvent event) throws Exception {
     var primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
     CreateGame.getCreateGameInstance().start(primaryStage);
   }
@@ -129,7 +129,7 @@ public class HolesConfiguration implements Initializable {
    * @use removes a new floor or field
    */
   @FXML
-  void onRemove(ActionEvent event) {
+  void onRemove(@NotNull final ActionEvent event) {
     if (floorTable.getSelectionModel().getSelectedItem() != null
       && holesTable.getSelectionModel().getSelectedItem() == null) {
       CreateGame.getFloors().remove(floorTable.getSelectionModel().getSelectedItem());
@@ -157,7 +157,7 @@ public class HolesConfiguration implements Initializable {
   }
 
   @Override
-  public void initialize(URL location, ResourceBundle resources) {
+  public void initialize(@NotNull final URL location, @NotNull final ResourceBundle resources) {
     config = this;
     amountDrawAgain.setCellValueFactory(
       data -> new SimpleStringProperty(data.getValue().drawAgainFieldsAmountString()));

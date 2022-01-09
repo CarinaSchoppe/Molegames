@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2022
- * File created on 09.01.22, 20:42 by Carina Latest changes made by Carina on 09.01.22, 20:20 All contents of "MoleHat" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 09.01.22, 21:35 by Carina Latest changes made by Carina on 09.01.22, 21:35 All contents of "MoleHat" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -13,6 +13,7 @@ package de.thundergames.gameplay.player.board;
 import javafx.scene.Group;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.SVGPath;
+import org.jetbrains.annotations.NotNull;
 
 public class MoleHat {
   /**
@@ -20,7 +21,7 @@ public class MoleHat {
    * @author Issam
    * @use creates a custom hat svg from paths for the mole
    */
-  public static Group getHat(String fill, final int x, final int y, final int scale) {
+  public static Group getHat(@NotNull final String fill, final int x, final int y, final int scale) {
     var g = new Group();
     var hat = new SVGPath();
     var tip = new SVGPath();

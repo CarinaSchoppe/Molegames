@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2022
- * File created on 09.01.22, 20:42 by Carina Latest changes made by Carina on 09.01.22, 20:20 All contents of "MoleModel" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 09.01.22, 21:35 by Carina Latest changes made by Carina on 09.01.22, 21:35 All contents of "MoleModel" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -16,6 +16,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import lombok.Getter;
 import lombok.Setter;
+import org.jetbrains.annotations.NotNull;
 
 @Getter
 @Setter
@@ -35,7 +36,7 @@ public class MoleModel extends Group {
    * @use constructor
    * @author Issam, Dila, Alp
    */
-  public MoleModel(final int id, final double x, final double y, final int size, final boolean isActive, String moleColor) {
+  public MoleModel(final int id, final double x, final double y, final int size, final boolean isActive, @NotNull final String moleColor) {
     super();
     this.moleId = id;
     this.size = size;

@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2022
- * File created on 09.01.22, 16:05 by Carina Latest changes made by Carina on 09.01.22, 16:05 All contents of "NodeType" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 09.01.22, 21:35 by Carina Latest changes made by Carina on 09.01.22, 21:35 All contents of "NodeType" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -53,7 +53,7 @@ public class Node extends Circle {
   private Field field;
   private int nodeRadius;
 
-  public Node(final int id, final double x, final double y, final int radius, @NotNull final NodeType nodeType, final int row, Field field) {
+  public Node(final int id, final double x, final double y, final int radius, @NotNull final NodeType nodeType, final int row, @NotNull final Field field) {
     super(x, y, radius);
     this.nodeId = id;
     this.row = row;
@@ -61,7 +61,7 @@ public class Node extends Circle {
     this.field = field;
   }
 
-  public Node(final int id, final double x, final double y, @NotNull final NodeType nodeType, final int row, Field field) {
+  public Node(final int id, final double x, final double y, @NotNull final NodeType nodeType, final int row, @NotNull final Field field) {
     this(id, x, y, DEFAULT_RADIUS, nodeType, row, field);
   }
 

@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2022
- * File created on 09.01.22, 20:07 by Carina Latest changes made by Carina on 09.01.22, 20:07 All contents of "Board" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 09.01.22, 21:35 by Carina Latest changes made by Carina on 09.01.22, 21:35 All contents of "Board" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -42,7 +42,7 @@ public class Board extends Group {
    * @author Issam, Alp, Dila
    * @use generate nodes and edges
    */
-  public Board(final int radius, final double width, final double height, HashMap<List<Integer>, NodeType> nodesType, ArrayList<PlayerModel> players) {
+  public Board(final int radius, final double width, final double height, @NotNull final HashMap<List<Integer>, NodeType> nodesType, @NotNull final ArrayList<PlayerModel> players) {
     super();
     this.radius = radius;
     this.width = width;
