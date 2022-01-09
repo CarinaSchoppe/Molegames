@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2022
- * File created on 09.01.22, 19:33 by Carina Latest changes made by Carina on 09.01.22, 19:33 All contents of "ClientPacketHandler" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 09.01.22, 19:37 by Carina Latest changes made by Carina on 09.01.22, 19:37 All contents of "ClientPacketHandler" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -410,6 +410,15 @@ public class ClientPacketHandler {
   protected void handlePlayersTurnPacket() {
     var player = new Gson().fromJson(packet.getValues().get("player"), Player.class);
     client.setCurrentPlayer(player);
+    if (client.isDebug()) {
+      System.out.println(
+        "The Client "
+          + new Gson()
+          .fromJson(packet.getValues().get("player"), Player.class)
+          .getName()
+          + " needs to move a mole within the next : "
+          + (packet.getValues().get("until").getAsLong() - System.currentTimeMillis()) + " seconds!");
+    }
     if (player.getClientID() == client.getClientThread().getThreadID()) {
       if (client.isDebug()) System.out.println("Client is now on the turn!");
       client.setDraw(true);
@@ -506,14 +515,15 @@ public class ClientPacketHandler {
           20000);
       }
     } else {
-      if (client.isDebug())
+      if (client.isDebug()) {
         System.out.println(
           "The Client "
             + new Gson()
             .fromJson(packet.getValues().get("player"), Player.class)
             .getName()
-            + " needs to place a mole till: "
-            + packet.getValues().get("until").getAsLong());
+            + " needs to place a mole within the next : "
+            + (packet.getValues().get("until").getAsLong() - System.currentTimeMillis()) + " seconds!");
+      }
     }
     updateMap();
   }
