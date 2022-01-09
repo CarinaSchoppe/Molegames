@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2022
- * File created on 08.01.22, 10:59 by Carina Latest changes made by Carina on 08.01.22, 10:52 All contents of "LeaderBoard" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 09.01.22, 21:08 by Carina Latest changes made by Carina on 09.01.22, 21:03 All contents of "LeaderBoard" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -79,16 +79,16 @@ public class LeaderBoard extends Application implements Initializable {
   void createLeaderboard() {
     var score = Client.getClientInstance().getGameState().getScore();
     // sort players in list by their points
-    // fill sorted players with their placement, name and points into leaderlist
-    var leaderlist = new ArrayList<PlayerResult>();
+    // fill sorted players with their placement, name and points into leaderList
+    var leaderList = new ArrayList<PlayerResult>();
     var thisPlace = 1;
     for (var player : score.getPlayers()) {
-      leaderlist.add(
+      leaderList.add(
         new PlayerResult(
           player.getName(), score.getPoints().get(player.getClientID()), thisPlace));
       thisPlace++;
     }
-    scoreTable.getItems().addAll(leaderlist);
+    scoreTable.getItems().addAll(leaderList);
   }
 
   /**
@@ -123,7 +123,7 @@ public class LeaderBoard extends Application implements Initializable {
     var loader = SceneController.loadFXML("/player/style/LeaderBoard.fxml");
     loader.setController(this);
     Parent root = loader.load();
-    primaryStage.setTitle("Maulwurf Company");
+    primaryStage.setTitle("Leader Board");
     primaryStage.setResizable(false);
     primaryStage.setScene(new Scene(root));
     primaryStage.show();

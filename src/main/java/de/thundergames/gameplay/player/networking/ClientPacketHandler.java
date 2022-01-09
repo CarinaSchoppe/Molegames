@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2022
- * File created on 09.01.22, 20:42 by Carina Latest changes made by Carina on 09.01.22, 20:20 All contents of "ClientPacketHandler" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 09.01.22, 21:08 by Carina Latest changes made by Carina on 09.01.22, 21:08 All contents of "ClientPacketHandler" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -253,7 +253,10 @@ public class ClientPacketHandler {
    * @use handles the movement of a mole send by the server from a client
    */
   protected void handleMoleMovedPacket() {
-    if (client.isDebug())
+    var from = new Gson().fromJson(packet.getValues().get("from"), Field.class);
+    var to = new Gson().fromJson(packet.getValues().get("to"), Field.class);
+    var moleObject = client.getMap().getFieldMap().get(List.of(from.getX(), from.getY())).getMole();
+    if (client.isDebug()) {
       System.out.println(
         "A mole has been moved"
           + " from "
@@ -261,11 +264,9 @@ public class ClientPacketHandler {
           + " to "
           + packet.getValues().get("to")
           + "\n");
-    var from = new Gson().fromJson(packet.getValues().get("from"), Field.class);
-    var to = new Gson().fromJson(packet.getValues().get("to"), Field.class);
+    }
     client.getMap().getFieldMap().get(List.of(from.getX(), from.getY())).setOccupied(false);
     client.getMap().getFieldMap().get(List.of(to.getX(), to.getY())).setOccupied(true);
-    var moleObject = client.getMap().getFieldMap().get(List.of(from.getX(), from.getY())).getMole();
     client.getMap().getFieldMap().get(List.of(to.getX(), to.getY())).setMole(moleObject);
     client.getMap().getFieldMap().get(List.of(from.getX(), from.getY())).setMole(null);
     if (moleObject == null) {
@@ -293,7 +294,9 @@ public class ClientPacketHandler {
    * @use handles when the client gets the new floor
    */
   protected void handleNextFloorPacket() {
-    if (client.isDebug()) System.out.println("Client got the new level!");
+    if (client.isDebug()) {
+      System.out.println("Client got the new level!");
+    }
     var players =
       new ArrayList<Player>(
         new Gson()
@@ -373,7 +376,7 @@ public class ClientPacketHandler {
    * @use handles if a client did an invalid handling with a punishment
    */
   protected void handleMovePentaltyNotificationPacket() {
-    if (client.isDebug())
+    if (client.isDebug()) {
       System.out.println(
         "The client "
           + new Gson()
@@ -381,6 +384,7 @@ public class ClientPacketHandler {
           .getName()
           + " got a move penalty for the reason"
           + packet.getValues().get("reason"));
+    }
   }
 
   /**
@@ -420,6 +424,12 @@ public class ClientPacketHandler {
           + (packet.getValues().get("until").getAsLong() - System.currentTimeMillis()) + " seconds!");
     }
     if (player.getClientID() == client.getClientThread().getThreadID()) {
+      client.getPullDiscs().clear();
+      client.getPullDiscs().addAll(new Gson()
+        .fromJson(
+          packet.getValues().get("pullDiscs"),
+          new TypeToken<ArrayList<Integer>>() {
+          }.getType()));
       if (client.isDebug()) System.out.println("Client is now on the turn!");
       client.setDraw(true);
       if (!timerRunning) {
@@ -439,13 +449,14 @@ public class ClientPacketHandler {
           packet.getValues().get("until").getAsLong() - System.currentTimeMillis());
       }
     } else {
-      if (client.isDebug())
+      if (client.isDebug()) {
         System.out.println(
           "Client: the player with the id: "
             + player.getClientID()
             + " and name: "
             + player.getName()
             + " is now on the turn!");
+      }
     }
   }
 
@@ -477,8 +488,8 @@ public class ClientPacketHandler {
    */
   public void placeMolePacket(@NotNull final Field field) {
     var object = new JsonObject();
-    object.addProperty("type", Packets.PLACEMOLE.getPacketType());
     var json = new JsonObject();
+    object.addProperty("type", Packets.PLACEMOLE.getPacketType());
     json.add("position", JsonParser.parseString(new Gson().toJson(field)));
     object.add("value", json);
     client.getMoles().add(new Mole(client.getPlayer(), field));
@@ -801,9 +812,10 @@ public class ClientPacketHandler {
    * @use handles the joining of a player into the game
    */
   protected void handleAssignedToGamePacket() {
-    if (client.isDebug())
+    if (client.isDebug()) {
       System.out.println(
         "Client joined game with the id: " + packet.getValues().get("gameID").getAsInt());
+    }
     client.setGameID(packet.getValues().get("gameID").getAsInt());
     showPlayerJoinedGameLobby();
     updateTableView();

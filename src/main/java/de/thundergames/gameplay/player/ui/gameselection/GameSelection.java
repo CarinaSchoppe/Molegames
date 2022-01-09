@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2022
- * File created on 08.01.22, 11:15 by Carina Latest changes made by Carina on 08.01.22, 11:14 All contents of "GameSelection" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 09.01.22, 21:08 by Carina Latest changes made by Carina on 09.01.22, 21:03 All contents of "GameSelection" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -68,8 +68,8 @@ public class GameSelection implements Initializable {
     // Set scene
     var loader = SceneController.loadFXML("/player/style/GameSelection.fxml");
     loader.setController(this);
-    Parent root = loader.load();
-    primaryStage.setTitle("Maulwurf Company");
+    var root = (Parent) loader.load();
+    primaryStage.setTitle("Spiele Auswahl");
     primaryStage.setResizable(false);
     primaryStage.setScene(new Scene(root));
     primaryStage.show();
@@ -169,7 +169,7 @@ public class GameSelection implements Initializable {
     CLIENT.getClientPacketHandler().joinGamePacket(selectedItem.getGameID(), false);
     boolean waiting = true;
     int counter = 0;
-    GameState currentGameState = null;
+    var currentGameState = (GameState) null;
     while (waiting) {
       Thread.sleep(1000);
       counter += 1;

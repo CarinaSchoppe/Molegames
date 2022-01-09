@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2022
- * File created on 09.01.22, 20:42 by Carina Latest changes made by Carina on 09.01.22, 20:42 All contents of "GameLogic" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 09.01.22, 21:08 by Carina Latest changes made by Carina on 09.01.22, 20:54 All contents of "GameLogic" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -88,28 +88,12 @@ public class GameLogic {
               }
             }
             //all diagonal movements
-          } else if (Math.abs(stop[0] - start[0]) == Math.abs(stop[1] - start[1])) {
+          } else if (Math.abs(stop[0] - start[0]) == Math.abs(stop[1] - start[1]) && Math.abs(stop[0] - start[0]) == moveCounter) {
             for (var i = 1; i < moveCounter; i++) {
               if (stop[0] - start[0] > 0 && stop[1] - start[1] > 0) {
                 var field = map.getFieldMap().get(List.of(start[0] + i, start[1] + i));
                 if (field.isOccupied()) {
                   if (field.getX() == start[0] + i && field.getY() == start[1] + i) {
-                    System.out.println("occupied field: " + field.getX() + " " + field.getY());
-                    return false;
-                  }
-                }
-              } else if (stop[0] - start[0] < 0 && stop[1] - start[1] > 0) {
-                var field = map.getFieldMap().get(List.of(start[0] - i, start[1] + i));
-                if (field.isOccupied()) {
-                  if (field.getX() == start[0] - i && field.getY() == start[1] + i) {
-                    System.out.println("occupied field: " + field.getX() + " " + field.getY());
-                    return false;
-                  }
-                }
-              } else if (stop[0] - start[0] > 0 && stop[1] - start[1] < 0) {
-                var field = map.getFieldMap().get(List.of(start[0] + i, start[1] - i));
-                if (field.isOccupied()) {
-                  if (field.getX() == start[0] + i && field.getY() == start[1] - i) {
                     System.out.println("occupied field: " + field.getX() + " " + field.getY());
                     return false;
                   }

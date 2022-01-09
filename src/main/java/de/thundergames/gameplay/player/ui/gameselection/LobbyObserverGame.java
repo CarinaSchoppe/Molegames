@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2022
- * File created on 08.01.22, 10:59 by Carina Latest changes made by Carina on 08.01.22, 10:56 All contents of "LobbyObserverGame" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 09.01.22, 21:08 by Carina Latest changes made by Carina on 09.01.22, 21:08 All contents of "LobbyObserverGame" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -80,7 +80,7 @@ public class LobbyObserverGame implements Initializable {
     this.primaryStage = primaryStage;
     var loader = SceneController.loadFXML("/player/style/LobbyObserverGame.fxml");
     loader.setController(this);
-    Parent root = loader.load();
+    var root = (Parent) loader.load();
     primaryStage.setTitle("Maulwurf Company");
     primaryStage.setResizable(false);
     primaryStage.setScene(new Scene(root));
