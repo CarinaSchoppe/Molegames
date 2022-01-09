@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2022
- * File created on 09.01.22, 20:07 by Carina Latest changes made by Carina on 09.01.22, 20:07 All contents of "Game" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 09.01.22, 20:13 by Carina Latest changes made by Carina on 09.01.22, 20:10 All contents of "Game" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -43,7 +43,7 @@ public class Game {
   private int levelCount;
   private int moleCount;
   private int radius;
-  private boolean pullDiscsOrdered;
+  private boolean pullDiscsOrdered = false;
   private ArrayList<Integer> pullDiscs = new ArrayList<>();
   private long turnTime;
   private long visualizationTime;
