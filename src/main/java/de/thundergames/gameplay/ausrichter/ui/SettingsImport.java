@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2022
- * File created on 09.01.22, 20:02 by Carina Latest changes made by Carina on 09.01.22, 19:54 All contents of "SettingsImport" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 09.01.22, 23:38 by Carina Latest changes made by Carina on 09.01.22, 23:05 All contents of "SettingsImport" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -173,7 +173,7 @@ public class SettingsImport {
       CreateGame.getPunishmentPrev() != null ? CreateGame.getPunishmentPrev() : "NOTHING");
     // TODO: grafik und system implementieren  json.addProperty("deductedPoints",
     // Integer.parseInt(CreateGame.getCreateGameInstance().getDeductedPoints()));
-    new GameConfiguration().saveSettings(json.toString());
+    new GameConfiguration().saveSettings(json);
     JOptionPane.showMessageDialog(null, "Konfiguration gespeichert!");
   }
 
