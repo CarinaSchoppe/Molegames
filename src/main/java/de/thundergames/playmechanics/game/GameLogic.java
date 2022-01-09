@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2022
- * File created on 09.01.22, 18:59 by Carina Latest changes made by Carina on 09.01.22, 18:59 All contents of "GameLogic" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 09.01.22, 20:42 by Carina Latest changes made by Carina on 09.01.22, 20:42 All contents of "GameLogic" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -36,14 +36,17 @@ public class GameLogic {
     if (map.getFieldMap().containsKey(List.of(start[0], start[1]))
       && map.getFieldMap().containsKey(List.of(stop[0], stop[1]))) {
       if (List.of(stop) != List.of(start) && moveCounter > 0) {
-        if (stop[0] - start[0] == 0 && Math.abs(stop[1] - start[1]) == moveCounter
-          || start[1] - stop[1] == 0 && Math.abs(stop[0] - start[0]) == moveCounter
-          || Math.abs(stop[0] - start[0]) == moveCounter
-          && Math.abs(start[1] - stop[1]) == moveCounter) {
+        if (stop[0] - start[0] == 0 && Math.abs(stop[1] - start[1]) == moveCounter //diagonal down left or top right
+          || start[1] - stop[1] == 0 && Math.abs(stop[0] - start[0]) == moveCounter //left or right
+          || stop[0] - start[0] == moveCounter
+          && stop[1] - start[1] == moveCounter ||
+          start[0] - stop[0] == moveCounter
+            && start[1] - stop[1] == moveCounter) {
           if (map.getFieldMap().get(List.of(stop[0], stop[1])).isOccupied()) {
             System.out.println("Field is occupied!");
             return false;
           }
+          //all straight movements
           if (stop[0] - start[0] == 0) {
             for (var i = 1; i < moveCounter; i++) {
               if (stop[1] - start[1] > 0) {
@@ -84,6 +87,7 @@ public class GameLogic {
                 }
               }
             }
+            //all diagonal movements
           } else if (Math.abs(stop[0] - start[0]) == Math.abs(stop[1] - start[1])) {
             for (var i = 1; i < moveCounter; i++) {
               if (stop[0] - start[0] > 0 && stop[1] - start[1] > 0) {
