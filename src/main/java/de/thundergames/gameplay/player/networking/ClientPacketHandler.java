@@ -277,6 +277,7 @@ public class ClientPacketHandler {
       }
     }
     updateMap();
+    checkForStopRemainingTime();
   }
 
   /**
@@ -355,6 +356,7 @@ public class ClientPacketHandler {
         System.out.println("The Playermodel " + player.getName() + " skipped his turn!");
       }
     }
+    checkForStopRemainingTime();
   }
 
   /**
@@ -378,6 +380,7 @@ public class ClientPacketHandler {
                   .getName()
               + " got a move penalty for the reason"
               + packet.getValues().get("reason").getAsString());
+    checkForStopRemainingTime();
   }
 
   /**
@@ -398,6 +401,7 @@ public class ClientPacketHandler {
         .setMole(mole);
     client.getGameState().getPlacedMoles().add(mole);
     updateMap();
+    checkForStopRemainingTime();
   }
 
   /**
@@ -435,6 +439,7 @@ public class ClientPacketHandler {
                 + player.getName()
                 + " is now on the turn!");
     }
+    checkForStopRemainingTime();
   }
 
   /**
@@ -863,7 +868,16 @@ public class ClientPacketHandler {
    */
   private void pausedGameRemainingTime(){
     var observerGameBoard = GameBoard.getObserver();
-    if (observerGameBoard != null) observerGameBoard.stopTimer();
+    if (observerGameBoard != null) observerGameBoard.stopCountAfterTurn();
+  }
+
+  /**
+   * @author Marc
+   * @use paused remaining time of game board
+   */
+  private void checkForStopRemainingTime(){
+    var observerGameBoard = GameBoard.getObserver();
+    if (observerGameBoard != null) observerGameBoard.checkForStopTimer();
   }
 
   /**

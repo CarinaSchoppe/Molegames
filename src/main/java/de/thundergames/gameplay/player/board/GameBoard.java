@@ -34,8 +34,10 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+import java.awt.*;
 import java.net.URL;
 import java.util.*;
+import java.util.List;
 
 public class GameBoard implements Initializable {
 
@@ -265,28 +267,36 @@ public class GameBoard implements Initializable {
 
   public void updateRemainingTime() {
     Platform.runLater(() -> {
-      long remainingTime = CLIENT.getRemainingTime();
-      var sys = System.currentTimeMillis();
-      long time = remainingTime - sys;
-      updateTime(time);
+      long time = CLIENT.getRemainingTime() - System.currentTimeMillis();
       COUNTDOWN.setRemainingTime(time);
+      updateTime(time,COUNTDOWN.getShowCount());
     });
   }
 
-  public void updateTime(long remainingTime)
+  public void updateTime(long remainingTime,boolean run)
   {
     Platform.runLater(() -> {
-      var txtRemainingTime = new Text(String.valueOf((remainingTime / 1000)));
+      float remainingTimeInSec =(float)remainingTime / (float)1000;
+      var roundUpTime = (int) Math.ceil(remainingTimeInSec);
+
+      Text txtRemainingTime = (run)
+        ? new Text(String.valueOf(roundUpTime))
+        : new Text("Das Spiel wurde pausiert!");
       var container = new AnchorPane();
-      txtRemainingTime.setFont(new javafx.scene.text.Font("Chicle", 50));
+      txtRemainingTime.setId("text");
+      //txtRemainingTime.setFont(new javafx.scene.text.Font("Chicle", 50));
       container.getChildren().add(txtRemainingTime);
       countDownPane.setTop(txtRemainingTime);
       BorderPane.setAlignment(txtRemainingTime, Pos.TOP_CENTER);
     });
   }
 
-  public void stopTimer() {
-    COUNTDOWN.stopTimer();
+  public void stopCountAfterTurn() {
+    COUNTDOWN.stopCountAfterTurn();
+  }
+
+  public void checkForStopTimer() {
+    COUNTDOWN.checkForStopTimer();
   }
 
   public void continueTimer(){

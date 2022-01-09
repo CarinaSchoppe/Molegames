@@ -6,34 +6,52 @@ import java.util.TimerTask;
 public class BoardCountDown {
 
   private long remainingTime;
-  private Boolean countTimer;
+  private Boolean showCount;
+  private Boolean stopCountAfterTurn;
 
   public void setRemainingTime(long remainingTime)
   {
     this.remainingTime = remainingTime;
+    this.stopCountAfterTurn=false;
   }
 
-  public void setTimer(boolean count)
+  public void setTimer(boolean run)
   {
-    this.countTimer = count;
+    this.showCount = run;
     Timer timer = new Timer();
     TimerTask task = new TimerTask() {
       @Override
       public void run() {
-        if (remainingTime > 0) {
-          GameBoard.getObserver().updateTime(remainingTime);
-          if (countTimer) remainingTime = remainingTime - 1000;
+        if (!showCount) {
+          GameBoard.getObserver().updateTime(remainingTime,false);
+        }
+        else if (remainingTime > 0)
+        {
+          GameBoard.getObserver().updateTime(remainingTime,true);
+          remainingTime = remainingTime - 1000;
         }
       }
     };
     timer.schedule(task, 0, 1000);
   }
 
-  public void stopTimer() {
-    countTimer=false;
+  public Boolean getShowCount() {
+    return showCount;
+  }
+
+  public void stopCountAfterTurn() {
+    stopCountAfterTurn=true;
   }
 
   public void continueTimer() {
-    countTimer=true;
+    showCount=true;
+  }
+
+  public void checkForStopTimer() {
+    if (stopCountAfterTurn)
+    {
+      stopCountAfterTurn=false;
+      showCount=false;
+    }
   }
 }
