@@ -1,12 +1,18 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2022
- * File created on 09.01.22, 12:04 by Carina Latest changes made by Carina on 09.01.22, 12:04 All contents of "PlayerManagement" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 08.01.22, 11:15 by Carina Latest changes made by Carina on 08.01.22, 11:12 All contents of "PlayerManagement" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
  * requires the express written consent of ThunderGames | SwtPra10.
- */hundergames.networking.server.ServerThread;
+ */
+
+package de.thundergames.gameplay.ausrichter.ui;
+
+import com.google.gson.JsonObject;
+import de.thundergames.MoleGames;
+import de.thundergames.networking.server.ServerThread;
 import de.thundergames.networking.util.Packet;
 import de.thundergames.networking.util.Packets;
 import de.thundergames.networking.util.exceptions.NotAllowedError;
@@ -206,7 +212,7 @@ public class PlayerManagement implements Initializable {
   public void start(@NotNull final Stage stage) throws IOException {
     var loader = new FXMLLoader(getClass().getResource("/ausrichter/style/PlayerManagement.fxml"));
     loader.setController(this);
-    var root = (Parent) loader.load();
+    Parent root = loader.load();
     stage.setTitle("Player Management");
     stage.setScene(new javafx.scene.Scene(root));
     initialize();

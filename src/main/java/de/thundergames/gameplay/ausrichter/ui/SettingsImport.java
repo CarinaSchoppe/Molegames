@@ -1,12 +1,18 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2022
- * File created on 09.01.22, 12:04 by Carina Latest changes made by Carina on 09.01.22, 12:04 All contents of "SettingsImport" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 08.01.22, 11:15 by Carina Latest changes made by Carina on 08.01.22, 11:12 All contents of "SettingsImport" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
  * requires the express written consent of ThunderGames | SwtPra10.
- */e.gson.JsonParser;
+ */
+
+package de.thundergames.gameplay.ausrichter.ui;
+
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
 import de.thundergames.filehandling.GameConfiguration;
 import de.thundergames.gameplay.ausrichter.ui.floor.Floor;
@@ -64,7 +70,7 @@ public class SettingsImport {
   public void start(@NotNull final Stage primaryStage) throws Exception {
     var loader = new FXMLLoader(getClass().getResource("/ausrichter/style/ConfigLoader.fxml"));
     loader.setController(this);
-    var root = (Parent) loader.load();
+    Parent root = loader.load();
     primaryStage.setTitle("Config Laden");
     primaryStage.setResizable(false);
     primaryStage.setScene(new Scene(root));

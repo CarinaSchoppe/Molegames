@@ -1,12 +1,17 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2022
- * File created on 09.01.22, 12:04 by Carina Latest changes made by Carina on 09.01.22, 12:04 All contents of "LeaderBoard" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 08.01.22, 10:59 by Carina Latest changes made by Carina on 08.01.22, 10:52 All contents of "LeaderBoard" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
  * requires the express written consent of ThunderGames | SwtPra10.
- */yer.Client;
+ */
+
+package de.thundergames.gameplay.player.ui.score;
+
+import de.thundergames.filehandling.Score;
+import de.thundergames.gameplay.player.Client;
 import de.thundergames.gameplay.player.ui.PlayerMenu;
 import de.thundergames.gameplay.util.SceneController;
 import de.thundergames.playmechanics.util.Player;
@@ -117,8 +122,8 @@ public class LeaderBoard extends Application implements Initializable {
   public void start(Stage primaryStage) throws Exception {
     var loader = SceneController.loadFXML("/player/style/LeaderBoard.fxml");
     loader.setController(this);
-    var root = (Parent) loader.load();
-    primaryStage.setTitle("Leaderboard");
+    Parent root = loader.load();
+    primaryStage.setTitle("Maulwurf Company");
     primaryStage.setResizable(false);
     primaryStage.setScene(new Scene(root));
     primaryStage.show();

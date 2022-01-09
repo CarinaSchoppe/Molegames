@@ -1,12 +1,17 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2022
- * File created on 09.01.22, 12:04 by Carina Latest changes made by Carina on 09.01.22, 12:04 All contents of "NetworkThread" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 09.01.22, 10:15 by Carina Latest changes made by Carina on 09.01.22, 10:15 All contents of "NetworkThread" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
  * requires the express written consent of ThunderGames | SwtPra10.
- */oleGames;
+ */
+package de.thundergames.networking.util;
+
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import de.thundergames.MoleGames;
 import de.thundergames.gameplay.ai.networking.AIClientThread;
 import de.thundergames.gameplay.player.networking.ClientThread;
 import de.thundergames.networking.server.ServerThread;
@@ -72,7 +77,7 @@ public abstract class NetworkThread extends Thread {
           var inputString = reader.readLine();
           if (inputString != null) {
             var object = new Gson().fromJson(inputString, JsonObject.class);
-            packet = new Packet(object);
+              packet = new Packet(object);
             if (this.packet != null) {
               if (this instanceof ServerThread
                 && !packet.getPacketType().equals(Packets.MESSAGE.getPacketType())
@@ -136,18 +141,17 @@ public abstract class NetworkThread extends Thread {
             try {
               var message = keyboardReader.readLine();
               var object = new JsonObject();
-              var json = (JsonObject) null;
               if (client) {
-                json = new JsonObject();
                 object.addProperty("type", Packets.MESSAGE.getPacketType());
+                var json = new JsonObject();
                 json.addProperty("message", message);
                 object.add("value", json);
                 sendPacket(new Packet(object));
               } else {
                 for (ServerThread clientSocket :
                   new HashSet<>(MoleGames.getMoleGames().getServer().getClientThreads())) {
-                  json = new JsonObject();
                   object.addProperty("type", Packets.MESSAGE.getPacketType());
+                  var json = new JsonObject();
                   json.addProperty("message", message);
                   object.add("value", json);
                   clientSocket.sendPacket(new Packet(object));

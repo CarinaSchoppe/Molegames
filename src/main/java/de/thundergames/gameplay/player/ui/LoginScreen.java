@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2022
- * File created on 09.01.22, 12:04 by Carina Latest changes made by Carina on 09.01.22, 12:04 All contents of "LoginScreen" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 08.01.22, 11:15 by Carina Latest changes made by Carina on 08.01.22, 11:14 All contents of "LoginScreen" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -51,7 +51,7 @@ public class LoginScreen extends Application {
     var ip = this.ip.getText();
     var port = this.port.getText();
     var name = this.name.getText();
-    var errorMessage = "";
+    String errorMessage = "";
     if (ip.equals("")) {
       errorMessage += "IP Feld muss ausgefuellt sein!\n";
     }
@@ -72,7 +72,7 @@ public class LoginScreen extends Application {
     }
     if (errorMessage.equals("")) {
       System.out.println("IP: " + ip + " Port: " + port + " Name: " + name);
-      var client = new Client(Integer.parseInt(port), ip, name);
+      Client client = new Client(Integer.parseInt(port), ip, name);
       client.create();
       if (client.isConnected()) {
         new PlayerMenu().create(event);
@@ -98,7 +98,7 @@ public class LoginScreen extends Application {
   @Override
   public void start(Stage primaryStage) throws Exception {
     var loader = new FXMLLoader(getClass().getResource("/player/style/LoginScreen.fxml"));
-    var root = (Parent) loader.load();
+    Parent root = loader.load();
     primaryStage.setResizable(false);
     primaryStage.setTitle("Maulwurf Company");
     primaryStage.setScene(new Scene(root));

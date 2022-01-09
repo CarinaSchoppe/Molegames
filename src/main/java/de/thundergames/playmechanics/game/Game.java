@@ -1,12 +1,17 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2022
- * File created on 09.01.22, 12:04 by Carina Latest changes made by Carina on 09.01.22, 12:04 All contents of "Game" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 08.01.22, 10:59 by Carina Latest changes made by Carina on 08.01.22, 10:56 All contents of "Game" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
  * requires the express written consent of ThunderGames | SwtPra10.
- */import de.thundergames.filehandling.Score;
+ */
+package de.thundergames.playmechanics.game;
+
+import com.google.gson.annotations.SerializedName;
+import de.thundergames.MoleGames;
+import de.thundergames.filehandling.Score;
 import de.thundergames.gameplay.ausrichter.ui.MainGUI;
 import de.thundergames.gameplay.ausrichter.ui.PlayerManagement;
 import de.thundergames.networking.server.ServerThread;
@@ -152,13 +157,11 @@ public class Game {
         System.out.println("Starting a game with the gameID: " + getGameID());
       }
       gameUtil.nextPlayer();
-      if (MoleGames.getMoleGames().getServer().isDebug()) {
-        System.out.println(
-          "Current player is: "
-            + currentPlayer.getServerClient().getThreadID()
-            + " name: "
-            + currentPlayer.getName());
-      }
+      System.out.println(
+        "Current player is: "
+          + currentPlayer.getServerClient().getThreadID()
+          + " name: "
+          + currentPlayer.getName());
       MoleGames.getMoleGames()
         .getServer()
         .sendToAllGameClients(
@@ -234,9 +237,7 @@ public class Game {
    */
   public void forceGameEnd() {
     if (currentGameState != GameStates.NOT_STARTED && currentGameState != GameStates.OVER) {
-      if (MoleGames.getMoleGames().getServer().isDebug()) {
-        System.out.println("The game with the ID" + getGameID() + " has been force ended!");
-      }
+      System.out.println("The game with the ID" + getGameID() + " has been force ended!");
       MoleGames.getMoleGames().getServer().getPacketHandler().gameCanceledPacket(this);
       endGame();
       MainGUI.getGUI().updateTable();

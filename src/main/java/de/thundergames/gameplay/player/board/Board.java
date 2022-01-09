@@ -1,12 +1,18 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2022
- * File created on 09.01.22, 12:04 by Carina Latest changes made by Carina on 09.01.22, 12:04 All contents of "Board" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 08.01.22, 10:59 by Carina Latest changes made by Carina on 08.01.22, 10:52 All contents of "Board" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
  * requires the express written consent of ThunderGames | SwtPra10.
- */mport javafx.scene.Group;
+ */
+
+package de.thundergames.gameplay.player.board;
+
+import de.thundergames.playmechanics.map.Field;
+import javafx.geometry.Point2D;
+import javafx.scene.Group;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import org.jetbrains.annotations.NotNull;
@@ -74,9 +80,9 @@ public class Board extends Group {
     }
     var possibleNeighbors = this.nodes.stream().filter(n -> possibleNeighborsIds.contains(n.getNodeId())).collect(Collectors.toList());
     // Filter out invalid neighbors
-    var isValidId = (Function<Node, Boolean>) (neighbor -> neighbor.getNodeId() > 0 && neighbor.getNodeId() <= maxPossibleId && neighbor.getNodeId() > nodeId);
-    var isNextEdge = (Function<Node, Boolean>) (neighbor -> (neighbor.getNodeId() == nodeId + 1 && neighbor.getRow() > nodeRow) || neighbor.getRow() - nodeRow > 1);
-    var isAdjacentSameRow = (Function<Node, Boolean>) (neighbor -> (neighbor.getNodeId() > nodeId + 1 && neighbor.getRow() == nodeRow));
+    Function<Node, Boolean> isValidId = neighbor -> neighbor.getNodeId() > 0 && neighbor.getNodeId() <= maxPossibleId && neighbor.getNodeId() > nodeId;
+    Function<Node, Boolean> isNextEdge = neighbor -> (neighbor.getNodeId() == nodeId + 1 && neighbor.getRow() > nodeRow) || neighbor.getRow() - nodeRow > 1;
+    Function<Node, Boolean> isAdjacentSameRow = neighbor -> (neighbor.getNodeId() > nodeId + 1 && neighbor.getRow() == nodeRow);
     return possibleNeighbors.stream().filter(neighbor -> isValidId.apply(neighbor) && !isNextEdge.apply(neighbor) && !isAdjacentSameRow.apply(neighbor)).distinct().collect(Collectors.toList());
   }
 
@@ -91,8 +97,8 @@ public class Board extends Group {
     // Determine margin between nodes
     var displayHeight = this.height;
     var maxAreaCoveredByNodes = maxNumberOfNodes * 15; //TODO: change constant to actual node radius
-    var verticalMargin = (displayHeight - maxAreaCoveredByNodes - 100) / maxNumberOfNodes;
-    var horizontalMargin = verticalMargin / 2;
+    double verticalMargin = (displayHeight - maxAreaCoveredByNodes - 100) / maxNumberOfNodes;
+    double horizontalMargin = verticalMargin / 2;
     var edgeMargins = maxNumberOfNodes - numberOfNodes;
     var points = new Point2D[numberOfNodes];
     var widthSoFar = edgeMargins * horizontalMargin;
