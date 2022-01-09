@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2022
- * File created on 09.01.22, 21:08 by Carina Latest changes made by Carina on 09.01.22, 20:54 All contents of "GameLogic" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 09.01.22, 21:21 by Carina Latest changes made by Carina on 09.01.22, 21:21 All contents of "GameLogic" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -173,13 +173,15 @@ public class GameLogic {
    */
   public void performPunishment(@NotNull final Player player, @NotNull final Punishments reason) {
     var punishment = player.getGame().getSettings().getPunishment();
-    System.out.println(
-      "Performing punishment: "
-        + punishment.getName()
-        + " for the player: "
-        + player.getName()
-        + " and the reason: "
-        + reason.getName());
+    if (MoleGames.getMoleGames().getServer().isDebug()) {
+      System.out.println(
+        "Performing punishment: "
+          + punishment.getName()
+          + " for the player: "
+          + player.getName()
+          + " and the reason: "
+          + reason.getName());
+    }
     MoleGames.getMoleGames()
       .getServer()
       .sendToAllGameClients(

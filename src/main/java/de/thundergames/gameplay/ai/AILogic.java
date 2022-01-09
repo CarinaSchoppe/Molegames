@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2022
- * File created on 09.01.22, 21:08 by Carina Latest changes made by Carina on 09.01.22, 21:06 All contents of "AILogic" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 09.01.22, 21:21 by Carina Latest changes made by Carina on 09.01.22, 21:21 All contents of "AILogic" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -22,7 +22,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import static de.thundergames.playmechanics.map.Directions.DOWN_LEFT;
 import static de.thundergames.playmechanics.map.Directions.RIGHT;
 
 @Data
@@ -159,17 +158,6 @@ public class AILogic {
           }
         } catch (@NotNull final Exception ignored) {
         }
-      } else if (direction == DOWN_LEFT) {
-        try {
-          if (GameLogic.wasLegalMove(
-            new int[]{mole.getPosition().getX(), mole.getPosition().getY()},
-            endField,
-            ai.getCard(),
-            ai.getMap())) {
-            return Directions.DOWN_LEFT;
-          }
-        } catch (@NotNull final Exception ignored) {
-        }
       } else if (direction == Directions.DOWN_RIGHT) {
         try {
           if (GameLogic.wasLegalMove(
@@ -191,17 +179,6 @@ public class AILogic {
             return Directions.UP_LEFT;
           }
         } catch (@NotNull final Exception ignored) {
-        }
-      } else if (direction == Directions.UP_RIGHT) {
-        try {
-          if (GameLogic.wasLegalMove(
-            new int[]{mole.getPosition().getX(), mole.getPosition().getY()},
-            endField,
-            ai.getCard(),
-            ai.getMap())) {
-            return Directions.UP_RIGHT;
-          }
-        } catch (Exception ignored) {
         }
       }
     }
@@ -226,15 +203,9 @@ public class AILogic {
     } else if (direction == Directions.UP_LEFT) {
       y = mole.getPosition().getY() + ai.getCard();
       x = mole.getPosition().getX() - ai.getCard();
-    } else if (direction == Directions.UP_RIGHT) {
-      y = mole.getPosition().getY() + ai.getCard();
-      x = mole.getPosition().getX() + ai.getCard();
     } else if (direction == Directions.DOWN_RIGHT) {
       y = mole.getPosition().getY() - ai.getCard();
       x = mole.getPosition().getX() + ai.getCard();
-    } else if (direction == Directions.DOWN_LEFT) {
-      y = mole.getPosition().getY() - ai.getCard();
-      x = mole.getPosition().getX() - ai.getCard();
     }
     return new int[]{x, y};
   }

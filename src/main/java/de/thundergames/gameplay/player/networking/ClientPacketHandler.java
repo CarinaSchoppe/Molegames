@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2022
- * File created on 09.01.22, 21:08 by Carina Latest changes made by Carina on 09.01.22, 21:08 All contents of "ClientPacketHandler" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 09.01.22, 21:21 by Carina Latest changes made by Carina on 09.01.22, 21:21 All contents of "ClientPacketHandler" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -61,8 +61,9 @@ public class ClientPacketHandler {
       client.getClientPacketHandler().getOverviewPacket();
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.MESSAGE.getPacketType())) {
       if (packet.getValues() != null) {
-        if (client.isDebug() && packet.getValues().get("message") != null)
+        if (client.isDebug() && packet.getValues().get("message") != null) {
           System.out.println("Server sent: " + packet.getValues().get("message"));
+        }
       }
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.ASSIGNEDTOGAME.getPacketType())) {
       handleAssignedToGamePacket();
@@ -270,7 +271,6 @@ public class ClientPacketHandler {
     client.getMap().getFieldMap().get(List.of(to.getX(), to.getY())).setMole(moleObject);
     client.getMap().getFieldMap().get(List.of(from.getX(), from.getY())).setMole(null);
     if (moleObject == null) {
-      System.out.println("mole is null");
       System.exit(9);
     }
     for (var mole : client.getMoles()) {
@@ -319,7 +319,6 @@ public class ClientPacketHandler {
    */
   protected void handleFloor() {
     client.getMoles().clear();
-    System.out.println(packet.getValues().toString());
     client.setGameState(
       new Gson().fromJson(packet.getValues().get("gameState"), GameState.class));
     if (client.getGameState().getPullDiscs().containsKey(client.getClientThread().getThreadID())) {
@@ -681,7 +680,9 @@ public class ClientPacketHandler {
    */
   protected void handlePlayerLeftPacket() {
     var player = new Gson().fromJson(packet.getValues().get("player"), Player.class);
-    if (client.isDebug()) System.out.println("A player has left the Game + " + player);
+    if (client.isDebug()) {
+      System.out.println("A player has left the Game + " + player);
+    }
     client.getGameState().getActivePlayers().remove(player);
     updateTableView();
   }
@@ -692,7 +693,9 @@ public class ClientPacketHandler {
    */
   protected void handlePlayerKickedFromGame() {
     var player = new Gson().fromJson(packet.getValues().get("player"), Player.class);
-    if (client.isDebug()) System.out.println("A player has left the Game + " + player);
+    if (client.isDebug()) {
+      System.out.println("A player has left the Game + " + player);
+    }
     client.getGameState().getActivePlayers().remove(player);
     updateTableView();
   }
@@ -706,7 +709,9 @@ public class ClientPacketHandler {
     object.addProperty("type", Packets.LEAVEGAME.getPacketType());
     object.add("value", new JsonObject());
     client.getClientThread().sendPacket(new Packet(object));
-    if (client.isDebug()) System.out.println("Client: left the game!");
+    if (client.isDebug()) {
+      System.out.println("Client: left the game!");
+    }
     updateTableView();
   }
 
@@ -718,8 +723,7 @@ public class ClientPacketHandler {
     var player = new Gson().fromJson(packet.getValues().get("player"), Player.class);
     if (client.isDebug()) {
       if (player.getClientID() != client.getClientThread().getThreadID()) {
-        System.out.println(
-          "The player: " + player.getName() + " has joined the Game " + client.getGameID() + ".");
+        System.out.println("The player: " + player.getName() + " has joined the Game " + client.getGameID() + ".");
       }
     }
     if (client.getGameState() != null) {
@@ -751,7 +755,9 @@ public class ClientPacketHandler {
       System.exit(3);
     }
     client.getClientThread().setThreadID(packet.getValues().get("clientID").getAsInt());
-    if (client.isDebug()) System.out.println("Client connected successfully to the Server!");
+    if (client.isDebug()) {
+      System.out.println("Client connected successfully to the Server!");
+    }
     client.setPlayer(new Player(client));
   }
 

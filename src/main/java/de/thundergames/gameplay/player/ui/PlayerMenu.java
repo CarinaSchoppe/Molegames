@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2022
- * File created on 08.01.22, 10:59 by Carina Latest changes made by Carina on 08.01.22, 10:35 All contents of "PlayerMenu" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 09.01.22, 21:21 by Carina Latest changes made by Carina on 09.01.22, 21:21 All contents of "PlayerMenu" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -42,7 +42,7 @@ public class PlayerMenu implements Initializable {
    */
   public void create(ActionEvent event) throws IOException {
     var primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-    Parent root =
+    var root = (Parent)
       FXMLLoader.load(
         Objects.requireNonNull(getClass().getResource("/player/style/PlayerMenu.fxml")));
     primaryStage.setTitle("Maulwurf Company");
@@ -79,7 +79,7 @@ public class PlayerMenu implements Initializable {
     CLIENT.getClientPacketHandler().logoutPacket();
     // create LoginScreen scene
     var primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-    Parent root =
+    var root = (Parent)
       FXMLLoader.load(
         Objects.requireNonNull(getClass().getResource("/player/style/LoginScreen.fxml")));
     primaryStage.setResizable(false);
