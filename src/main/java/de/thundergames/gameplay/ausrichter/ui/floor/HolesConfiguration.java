@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2022
- * File created on 08.01.22, 11:15 by Carina Latest changes made by Carina on 08.01.22, 11:12 All contents of "HolesConfiguration" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 09.01.22, 20:02 by Carina Latest changes made by Carina on 09.01.22, 20:02 All contents of "HolesConfiguration" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -75,7 +75,7 @@ public class HolesConfiguration implements Initializable {
     var loader =
       new FXMLLoader(getClass().getResource("/ausrichter/style/HolesConfiguration.fxml"));
     loader.setController(this);
-    Parent root = loader.load();
+    var root = (Parent) loader.load();
     primaryStage.setTitle("CreateGame");
     primaryStage.setResizable(false);
     primaryStage.setScene(new Scene(root));

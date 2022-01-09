@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2022
- * File created on 09.01.22, 19:37 by Carina Latest changes made by Carina on 09.01.22, 19:37 All contents of "ClientPacketHandler" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 09.01.22, 20:02 by Carina Latest changes made by Carina on 09.01.22, 19:59 All contents of "ClientPacketHandler" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -64,7 +64,7 @@ public class ClientPacketHandler {
         if (client.isDebug() && packet.getValues().get("message") != null)
           System.out.println("Server sent: " + packet.getValues().get("message"));
       }
-    } else if (packet.getPacketType().equalsIgnoreCase(Packets.ASSIGNTOGAME.getPacketType())) {
+    } else if (packet.getPacketType().equalsIgnoreCase(Packets.ASSIGNEDTOGAME.getPacketType())) {
       handleAssignedToGamePacket();
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.WELCOMEGAME.getPacketType())) {
       handleWelcomeGamePacket();
@@ -481,6 +481,7 @@ public class ClientPacketHandler {
     json.add("position", JsonParser.parseString(new Gson().toJson(field)));
     object.add("value", json);
     client.getMoles().add(new Mole(client.getPlayer(), field));
+    System.out.println(object);
     client.getClientThread().sendPacket(new Packet(object));
   }
 

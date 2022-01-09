@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2022
- * File created on 09.01.22, 16:05 by Carina Latest changes made by Carina on 09.01.22, 16:05 All contents of "Packets" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 09.01.22, 20:02 by Carina Latest changes made by Carina on 09.01.22, 20:02 All contents of "Packets" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -19,6 +19,7 @@ public enum Packets {
   GAMEPAUSED("gamePaused"),
   ENTERTOURNAMENT("enterTournament"),
   TOURNAMENTSTATERESPONSE("tournamentStateResponse"),
+  TOURNAMENTSTARTED("tournamentStarted"),
   TOURNAMENTPLAYERJOINED("tournamentPlayerJoined"),
   LEAVETOURNAMENT("leaveTournament"),
   TOURNAMENTPLAYERLEFT("tournamentPlayerLeft"),
@@ -43,7 +44,7 @@ public enum Packets {
   PLAYERKICKED("playerKicked"),
   PLAYERLEFT("playerLeft"),
   WELCOMEGAME("welcomeGame"),
-  ASSIGNTOGAME("assignedToGame"),
+  ASSIGNEDTOGAME("assignedToGame"),
   JOINGAME("joinGame"),
   LEAVEGAME("leaveGame"),
   LOGIN("login"),
@@ -51,16 +52,17 @@ public enum Packets {
   LOGOUT("logout"),
   GAMECONTINUED("gameContinued"),
   GAMECANCELED("gameCanceled"),
-  PLAYERPLACESMOLE("playerPlacedMole"),
+  PLAYERPLACESMOLE("playerPlacesMole"),
   PLACEMOLE("placeMole"),
   MOLEPLACED("molePlaced"),
-  PLAYERSTURN("playerTurn"),
+  PLAYERSTURN("playersTurn"),
   MAKEMOVE("makeMove"),
   MOLEMOVED("moleMoved"),
   MOVEPENALTYNOTIFICATION("movePenaltyNotification"),
   PLAYERSKIPPED("playerSkipped"),
   NEXTLEVEL("nextLevel"),
   GETOVERVIEW("getOverview"),
+  SKIPDRAWAGAIN("skipDrawAgain"),
   OVERVIEW("overview"),
   PLAYERJOINED("playerJoined");
 

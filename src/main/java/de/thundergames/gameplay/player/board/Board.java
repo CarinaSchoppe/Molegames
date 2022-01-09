@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2022
- * File created on 08.01.22, 10:59 by Carina Latest changes made by Carina on 08.01.22, 10:52 All contents of "Board" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 09.01.22, 20:02 by Carina Latest changes made by Carina on 09.01.22, 19:54 All contents of "Board" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -80,9 +80,9 @@ public class Board extends Group {
     }
     var possibleNeighbors = this.nodes.stream().filter(n -> possibleNeighborsIds.contains(n.getNodeId())).collect(Collectors.toList());
     // Filter out invalid neighbors
-    Function<Node, Boolean> isValidId = neighbor -> neighbor.getNodeId() > 0 && neighbor.getNodeId() <= maxPossibleId && neighbor.getNodeId() > nodeId;
-    Function<Node, Boolean> isNextEdge = neighbor -> (neighbor.getNodeId() == nodeId + 1 && neighbor.getRow() > nodeRow) || neighbor.getRow() - nodeRow > 1;
-    Function<Node, Boolean> isAdjacentSameRow = neighbor -> (neighbor.getNodeId() > nodeId + 1 && neighbor.getRow() == nodeRow);
+    var isValidId = (Function<Node, Boolean>) neighbor -> neighbor.getNodeId() > 0 && neighbor.getNodeId() <= maxPossibleId && neighbor.getNodeId() > nodeId;
+    var isNextEdge = (Function<Node, Boolean>) neighbor -> (neighbor.getNodeId() == nodeId + 1 && neighbor.getRow() > nodeRow) || neighbor.getRow() - nodeRow > 1;
+    var isAdjacentSameRow = (Function<Node, Boolean>) neighbor -> (neighbor.getNodeId() > nodeId + 1 && neighbor.getRow() == nodeRow);
     return possibleNeighbors.stream().filter(neighbor -> isValidId.apply(neighbor) && !isNextEdge.apply(neighbor) && !isAdjacentSameRow.apply(neighbor)).distinct().collect(Collectors.toList());
   }
 
