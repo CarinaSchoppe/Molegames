@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2022
- * File created on 08.01.22, 11:15 by Carina Latest changes made by Carina on 08.01.22, 11:12 All contents of "ClientPacketHandler" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 09.01.22, 10:15 by Carina Latest changes made by Carina on 09.01.22, 10:15 All contents of "ClientPacketHandler" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -148,6 +148,7 @@ public class ClientPacketHandler {
   public void getOverviewPacket() {
     var object = new JsonObject();
     object.addProperty("type", Packets.GETOVERVIEW.getPacketType());
+    object.add("value", new JsonObject());
     client.getClientThread().sendPacket(new Packet(object));
   }
 
@@ -622,6 +623,7 @@ public class ClientPacketHandler {
   public void getScorePacket() {
     var jsonObject = new JsonObject();
     jsonObject.addProperty("type", Packets.GETSCORE.getPacketType());
+    jsonObject.add("value", new JsonObject());
     client.getClientThread().sendPacket(new Packet(jsonObject));
   }
 
@@ -631,8 +633,8 @@ public class ClientPacketHandler {
    */
   public void getGameHistoryPacket(final int gameID) {
     var jsonObject = new JsonObject();
-    jsonObject.addProperty("type", Packets.GETGAMEHISTORY.getPacketType());
     var json = new JsonObject();
+    jsonObject.addProperty("type", Packets.GETGAMEHISTORY.getPacketType());
     json.addProperty("gameID", gameID);
     jsonObject.add("value", json);
     client.getClientThread().sendPacket(new Packet(jsonObject));
@@ -645,6 +647,7 @@ public class ClientPacketHandler {
   public void getRemainingTimePacket() {
     var jsonObject = new JsonObject();
     jsonObject.addProperty("type", Packets.GETREMAININGTIME.getPacketType());
+    jsonObject.add("value", new JsonObject());
     client.getClientThread().sendPacket(new Packet(jsonObject));
   }
 
@@ -677,6 +680,7 @@ public class ClientPacketHandler {
   public void leaveGamePacket() {
     var object = new JsonObject();
     object.addProperty("type", Packets.LEAVEGAME.getPacketType());
+    object.add("value", new JsonObject());
     client.getClientThread().sendPacket(new Packet(object));
     if (client.isDebug()) System.out.println("Client: left the game!");
     updateTableView();
@@ -746,9 +750,8 @@ public class ClientPacketHandler {
    */
   public void logoutPacket() {
     var object = new JsonObject();
-    var json = new JsonObject();
     object.addProperty("type", Packets.LOGOUT.getPacketType());
-    object.add("value", json);
+    object.add("value", new JsonObject());
     client.getClientThread().sendPacket(new Packet(object));
   }
 
@@ -817,6 +820,7 @@ public class ClientPacketHandler {
   public void registerOverviewObserverPacket() {
     var object = new JsonObject();
     object.addProperty("type", Packets.REGISTEROBSERVER.getPacketType());
+    object.add("value", new JsonObject());
     client.getClientThread().sendPacket(new Packet(object));
   }
 
@@ -827,6 +831,7 @@ public class ClientPacketHandler {
   public void unregisterOverviewObserverPacket() {
     var object = new JsonObject();
     object.addProperty("type", Packets.UNREGISTEROBSERVER.getPacketType());
+    object.add("value", new JsonObject());
     client.getClientThread().sendPacket(new Packet(object));
   }
 

@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2022
- * File created on 08.01.22, 10:59 by Carina Latest changes made by Carina on 08.01.22, 10:56 All contents of "Packet" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 09.01.22, 10:15 by Carina Latest changes made by Carina on 09.01.22, 10:15 All contents of "Packet" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -23,12 +23,6 @@ public class Packet {
   private final JsonObject jsonObject;
   private final String packetType;
   private final JsonObject values;
-
-  public Packet(@NotNull final String packetType, @NotNull final JsonObject jsonObject) {
-    this.jsonObject = jsonObject;
-    this.packetType = packetType;
-    this.values = jsonObject.getAsJsonObject("value");
-  }
 
   public Packet(@NotNull final JsonObject jsonObject) {
     this.jsonObject = jsonObject;
