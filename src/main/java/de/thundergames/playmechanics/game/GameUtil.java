@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2022
- * File created on 08.01.22, 10:59 by Carina Latest changes made by Carina on 08.01.22, 10:56 All contents of "GameUtil" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 09.01.22, 11:06 by Carina Latest changes made by Carina on 09.01.22, 11:01 All contents of "GameUtil" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -15,7 +15,6 @@ import de.thundergames.networking.server.ServerThread;
 import de.thundergames.playmechanics.util.Player;
 import lombok.Data;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
@@ -81,10 +80,12 @@ public class GameUtil {
         } else {
           if (game.getActivePlayers().contains(game.getCurrentPlayer())) {
             game.getCurrentPlayer().setDrawAgain(false);
-            System.out.println(
-              "Server: Player with the name: "
-                + game.getCurrentPlayer().getName()
-                + "can draw again!");
+            if (MoleGames.getMoleGames().getServer().isDebug()) {
+              System.out.println(
+                "Server: Player with the name: "
+                  + game.getCurrentPlayer().getName()
+                  + "can draw again!");
+            }
           } else {
             nextPlayer();
             return;
@@ -152,7 +153,7 @@ public class GameUtil {
               .getServer()
               .getPacketHandler()
               .playersTurnPacket(
-                (ServerThread) game.getCurrentPlayer().getServerClient(), maySkip));
+                game.getCurrentPlayer(), maySkip));
       }
       game.getCurrentPlayer().getPlayerUtil().startThinkTimer();
     }
@@ -164,7 +165,7 @@ public class GameUtil {
    */
   public synchronized void nextFloor() {
     if (game.getSettings().getFloors().size() > game.getGameState().getCurrentFloorID() + 1) {
-      ArrayList<Player> eliminated = eliminatedPlayerHandling();
+      var eliminated = eliminatedPlayerHandling();
       game.getGameUtil()
         .givePoints(
           false); // Giving the points to the players who are in the next level or just won
@@ -189,8 +190,8 @@ public class GameUtil {
     }
   }
 
-  private ArrayList<Player> eliminatedPlayerHandling() {
-    var eliminated = new ArrayList<>(game.getActivePlayers());
+  private HashSet<Player> eliminatedPlayerHandling() {
+    var eliminated = new HashSet<>(game.getActivePlayers());
     for (var player : game.getActivePlayers()) {
       for (var mole : player.getMoles()) {
         if (game.getMap()
@@ -209,7 +210,9 @@ public class GameUtil {
       }
     }
     for (var player : eliminated) {
-      System.out.println("Player: " + player + " is eliminated!");
+      if (MoleGames.getMoleGames().getServer().isDebug()) {
+        System.out.println("Player: " + player + " is eliminated!");
+      }
       game.removePlayerFromGame(player);
     }
     game.getEliminatedPlayers().addAll(eliminated);

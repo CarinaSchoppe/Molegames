@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2022
- * File created on 08.01.22, 11:15 by Carina Latest changes made by Carina on 08.01.22, 11:12 All contents of "Dialog" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 09.01.22, 11:06 by Carina Latest changes made by Carina on 09.01.22, 10:31 All contents of "Dialog" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -15,7 +15,7 @@ import javafx.scene.control.Alert.AlertType;
 
 public class Dialog {
   public static void show(String message, String title, DialogType dialogType) {
-    Alert alert = new Alert(dialogType.toAlertType(), message);
+    var alert = new Alert(dialogType.toAlertType(), message);
     alert.setTitle(title);
     alert.setHeaderText(title);
     alert.showAndWait();

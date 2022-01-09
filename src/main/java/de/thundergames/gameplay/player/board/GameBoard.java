@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2022
- * File created on 08.01.22, 10:59 by Carina Latest changes made by Carina on 08.01.22, 10:52 All contents of "GameBoard" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 09.01.22, 11:06 by Carina Latest changes made by Carina on 09.01.22, 10:59 All contents of "GameBoard" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -96,7 +96,7 @@ public class GameBoard implements Initializable {
     // create list of playerModels for ui
     players = gameState.getActivePlayers();
     playersColors = players.stream().collect(Collectors.toMap(Player::getClientID, player -> Utils.getRandomHSLAColor()));
-    HashSet<Mole> placedMoles = gameState.getPlacedMoles();
+    var placedMoles = gameState.getPlacedMoles();
     var playerModelList = mapPlayersToPlayerModels(players, placedMoles, currentPlayerId, playersColors);
     // Set custom cursor
     var cursor = new Image(Utils.getSprite("game/cursor.png"));
@@ -112,7 +112,7 @@ public class GameBoard implements Initializable {
     gameHandler = new GameHandler(playerModelList, BOARD_RADIUS, updateFloor(gameState), borderPane, rootPane);
     gameHandler.start(playerModelList);
     // Add resize event listener
-    ChangeListener<Number> resizeObserver = (obs, newValue, oldValue) -> gameHandler.getBoard().onResize(borderPane.getWidth(), borderPane.getHeight());
+    var resizeObserver = (ChangeListener<Number>) (obs, newValue, oldValue) -> gameHandler.getBoard().onResize(borderPane.getWidth(), borderPane.getHeight());
     borderPane.widthProperty().addListener(resizeObserver);
     borderPane.heightProperty().addListener(resizeObserver);
     // Add board to center of borderPane
@@ -135,9 +135,9 @@ public class GameBoard implements Initializable {
   }
 
   public ArrayList<PlayerModel> mapPlayersToPlayerModels(HashSet<Player> players, HashSet<Mole> placedMoles, Integer currentPlayerId, Map<Integer, String> playersColors) {
-    ArrayList<PlayerModel> playerModelList = new ArrayList<>();
+    var playerModelList = new ArrayList<PlayerModel>();
     for (var player : players) {
-      ArrayList<MoleModel> moleModelList = new ArrayList<>();
+      var moleModelList = new ArrayList<MoleModel>();
       for (var mole : placedMoles) {
         if (player.getClientID() == mole.getPlayer().getClientID()) {
           moleModelList.add(new MoleModel(player.getClientID(), mole, playersColors.get(player.getClientID())));
@@ -153,10 +153,9 @@ public class GameBoard implements Initializable {
     if (gameState != loadedGameState) {
       //Update board if count of holes changed
       if (gameState.getFloor().getHoles().size() != loadedGameState.getFloor().getHoles().size()) {
-        HashMap<List<Integer>, NodeType> nodes;
-        nodes = updateFloor(loadedGameState);
+        var nodes = updateFloor(loadedGameState);
         gameHandler.setNodeTypes(nodes);
-        ArrayList<String> backgroundList = new ArrayList<>(List.of("background/ug_1.png", "background/ug_2.png", "background/ug_3.png"));
+        var backgroundList = new ArrayList<>(List.of("background/ug_1.png", "background/ug_2.png", "background/ug_3.png"));
         backgroundList.remove(gameHandler.getBackground());
         gameHandler.setBackground(backgroundList.get(new Random().nextInt(backgroundList.size() - 1)));
       }
@@ -169,7 +168,7 @@ public class GameBoard implements Initializable {
     var currentPlayerName = CLIENT.getCurrentPlayer() == null ? "" : CLIENT.getCurrentPlayer().getName();
     //get moles
     var fieldMap = CLIENT.getMap().getFieldMap();
-    HashSet<Mole> placedMoles = new HashSet<>();
+    var placedMoles = new HashSet<Mole>();
     for (var field : fieldMap.values()) {
       var currentMole = field.getMole();
       if (currentMole != null) {
@@ -264,8 +263,7 @@ public class GameBoard implements Initializable {
   public void updateRemainingTime() {
     Platform.runLater(() -> {
       long remainingTime = CLIENT.getRemainingTime();
-      var sys = System.currentTimeMillis();
-      long time = remainingTime - sys;
+      long time = remainingTime - System.currentTimeMillis();
       updateTime(time);
       COUNTDOWN.setRemainingTime(time);
     });

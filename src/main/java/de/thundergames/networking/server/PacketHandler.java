@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2022
- * File created on 09.01.22, 10:15 by Carina Latest changes made by Carina on 09.01.22, 10:15 All contents of "PacketHandler" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 09.01.22, 11:06 by Carina Latest changes made by Carina on 09.01.22, 11:03 All contents of "PacketHandler" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -30,7 +30,7 @@ import de.thundergames.playmechanics.util.Player;
 import de.thundergames.playmechanics.util.Punishments;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 
 public class PacketHandler {
   /**
@@ -134,10 +134,10 @@ public class PacketHandler {
    * @use send to the clients that the tournament is over
    */
   public Packet tournamentOverPacket() {
-    var json = new JsonObject();
-    json.addProperty("type", Packets.TOURNAMENTOVER.getPacketType());
-    json.add("value", new JsonObject());
-    return new Packet(json);
+    var object = new JsonObject();
+    object.addProperty("type", Packets.TOURNAMENTOVER.getPacketType());
+    object.add("value", new JsonObject());
+    return new Packet(object);
   }
 
   /**
@@ -233,11 +233,10 @@ public class PacketHandler {
    * @use is the response to the getTournamentState packet
    */
   public void tournamentStateResponsePacket(@NotNull final ServerThread client) {
-    var tournament = MoleGames.getMoleGames().getGameHandler().getClientTournaments().get(client);
     var object = new JsonObject();
     var json = new JsonObject();
     object.addProperty("type", Packets.TOURNAMENTSTATERESPONSE.getPacketType());
-    json.add("tournamentState", JsonParser.parseString(new Gson().toJson(tournament.getTournamentState())));
+    json.add("tournamentState", JsonParser.parseString(new Gson().toJson(MoleGames.getMoleGames().getGameHandler().getClientTournaments().get(client).getTournamentState())));
     object.add("value", json);
     client.sendPacket(new Packet(object));
   }
@@ -265,7 +264,7 @@ public class PacketHandler {
    * @use sends the next floor (gameState) to the players
    */
   public Packet nextFloorPacket(
-    @NotNull final GameState gameState, @NotNull final ArrayList<Player> eliminatedPlayers) {
+    @NotNull final GameState gameState, @NotNull final HashSet<Player> eliminatedPlayers) {
     var object = new JsonObject();
     var json = new JsonObject();
     object.addProperty("type", Packets.NEXTLEVEL.getPacketType());
@@ -356,21 +355,20 @@ public class PacketHandler {
   }
 
   /**
-   * @param client
+   * @param player
    * @return the packet
    * @author Carina
    * @use sends to all clients whose players turn it is and with which cards they have
    */
-  public Packet playersTurnPacket(@NotNull final ServerThread client, final boolean maySkip) {
+  public Packet playersTurnPacket(@NotNull final Player player, final boolean maySkip) {
     var object = new JsonObject();
-    object.addProperty("type", Packets.PLAYERSTURN.getPacketType());
     var json = new JsonObject();
-    var millis = System.currentTimeMillis();
-    var until = millis + client.getPlayer().getGame().getTurnTime();
-    json.add("player", JsonParser.parseString(new Gson().toJson(client.getPlayer())));
+    object.addProperty("type", Packets.PLAYERSTURN.getPacketType());
+    var until = System.currentTimeMillis() + player.getGame().getTurnTime();
+    json.add("player", JsonParser.parseString(new Gson().toJson(player)));
     json.addProperty("maySkip", maySkip);
     json.addProperty("until", until);
-    json.add("pullDiscs", JsonParser.parseString(new Gson().toJson(client.getPlayer().getCards())));
+    json.add("pullDiscs", JsonParser.parseString(new Gson().toJson(player.getCards())));
     object.add("value", json);
     return new Packet(object);
   }
@@ -382,8 +380,8 @@ public class PacketHandler {
    */
   public Packet molePlacedPacket(@NotNull final Mole mole) {
     var object = new JsonObject();
-    object.addProperty("type", Packets.MOLEPLACED.getPacketType());
     var json = new JsonObject();
+    object.addProperty("type", Packets.MOLEPLACED.getPacketType());
     json.add("mole", JsonParser.parseString(new Gson().toJson(mole)));
     object.add("value", json);
     return new Packet(object);
@@ -419,8 +417,8 @@ public class PacketHandler {
    */
   public Packet gameStartedPacket(@NotNull final GameStates gameState) {
     var object = new JsonObject();
-    object.addProperty("type", Packets.GAMESTARTED.getPacketType());
     var json = new JsonObject();
+    object.addProperty("type", Packets.GAMESTARTED.getPacketType());
     json.addProperty("initialGameState", gameState.getName());
     object.add("value", json);
     return new Packet(object);
@@ -436,11 +434,12 @@ public class PacketHandler {
    */
   public Packet playerPlacesMolePacket(@NotNull final Player player) {
     var object = new JsonObject();
-    object.addProperty("type", Packets.PLAYERPLACESMOLE.getPacketType());
     var json = new JsonObject();
+    object.addProperty("type", Packets.PLAYERPLACESMOLE.getPacketType());
     json.add("player", JsonParser.parseString(new Gson().toJson(player)));
+    var until = System.currentTimeMillis() + player.getGame().getTurnTime();
     json.addProperty(
-      "until", System.currentTimeMillis() + player.getGame().getSettings().getTurnTime());
+      "until", until);
     object.add("value", json);
     return new Packet(object);
   }
@@ -454,8 +453,8 @@ public class PacketHandler {
    */
   public void gameCanceledPacket(@NotNull final Game game) {
     var object = new JsonObject();
-    object.addProperty("type", Packets.GAMECANCELED.getPacketType());
     var json = new JsonObject();
+    object.addProperty("type", Packets.GAMECANCELED.getPacketType());
     json.add("result", JsonParser.parseString(new Gson().toJson(game.getScore())));
     object.add("value", json);
     MoleGames.getMoleGames().getServer().sendToAllGameClients(game, new Packet(object));
@@ -470,8 +469,8 @@ public class PacketHandler {
    */
   public void gameOverPacket(@NotNull final Game game) {
     var object = new JsonObject();
-    object.addProperty("type", Packets.GAMEOVER.getPacketType());
     var json = new JsonObject();
+    object.addProperty("type", Packets.GAMEOVER.getPacketType());
     json.add("result", JsonParser.parseString(new Gson().toJson(game.getScore())));
     object.add("value", json);
     MoleGames.getMoleGames().getServer().sendToAllGameClients(game, new Packet(object));
@@ -535,10 +534,10 @@ public class PacketHandler {
    */
   private void sendToUsersOnListTimeLeft(Game game, @NotNull final ServerThread client) {
     if (client.getPlayer().getServerClient().equals(client)) {
-      var remainingTime = game.getSettings().getTurnTime() + System.currentTimeMillis();
+      var remainingTime = game.getSettings().getTurnTime() + client.getPlayer().getStartRemainingTime();
       var object = new JsonObject();
-      object.addProperty("type", Packets.REMAININGTIME.getPacketType());
       var json = new JsonObject();
+      object.addProperty("type", Packets.REMAININGTIME.getPacketType());
       json.addProperty("timeLeft", remainingTime);
       object.add("value", json);
       client.getPlayer().getServerClient().sendPacket(new Packet(object));
@@ -636,12 +635,12 @@ public class PacketHandler {
    * @use the score of the tournament is sent to the client
    */
   public void tournamentScore(@NotNull final ServerThread client, @NotNull final Score score) {
-    var json = new JsonObject();
-    json.addProperty("type", Packets.TOURNAMENTSCORE.getPacketType());
     var object = new JsonObject();
+    var json = new JsonObject();
+    object.addProperty("type", Packets.TOURNAMENTSCORE.getPacketType());
     json.add("score", JsonParser.parseString(new Gson().toJson(score)));
-    json.add("value", object);
-    client.sendPacket(new Packet(json));
+    object.add("value", json);
+    client.sendPacket(new Packet(object));
   }
 
   /**
@@ -667,7 +666,9 @@ public class PacketHandler {
     client.getPlayer().getGame().getSpectators().remove(client.getPlayer());
     client.getPlayer().getGame().removePlayerFromGame(client.getPlayer());
     MoleGames.getMoleGames().getGameHandler().getClientGames().remove(client);
-    System.out.println("Client with id: " + client.getThreadID() + " left the game!");
+    if (MoleGames.getMoleGames().getServer().isDebug()) {
+      System.out.println("Client with id: " + client.getThreadID() + " left the game!");
+    }
     client.setPlayer(new Player(client));
     if (MainGUI.getGUI() != null) {
       MainGUI.getGUI().updateTable();
@@ -682,8 +683,8 @@ public class PacketHandler {
    */
   public void welcomePacket(@NotNull final ServerThread client, final int threadID) {
     var object = new JsonObject();
-    object.addProperty("type", Packets.WELCOME.getPacketType());
     var json = new JsonObject();
+    object.addProperty("type", Packets.WELCOME.getPacketType());
     json.addProperty("clientID", threadID);
     json.addProperty("magic", "mole42");
     object.add("value", json);
@@ -697,7 +698,7 @@ public class PacketHandler {
    * @use handles the login packet from the client
    */
   private void handleLoginPacket(@NotNull final ServerThread client, @NotNull final Packet packet) {
-    String name;
+    var name = "";
     if (packet.getValues().get("name") == null) {
       name = "PlayerModel";
     } else {
@@ -757,8 +758,8 @@ public class PacketHandler {
    */
   public void assignToGamePacket(@NotNull final ServerThread client, final int gameID) {
     var object = new JsonObject();
-    object.addProperty("type", Packets.ASSIGNTOGAME.getPacketType());
     var json = new JsonObject();
+    object.addProperty("type", Packets.ASSIGNTOGAME.getPacketType());
     json.addProperty("gameID", gameID);
     object.add("value", json);
     client.sendPacket(new Packet(object));
@@ -772,8 +773,8 @@ public class PacketHandler {
    */
   private void scoreNotificationPacket(@NotNull final ServerThread client) {
     var object = new JsonObject();
-    object.addProperty("type", Packets.SCORENOTIFICATION.getPacketType());
     var json = new JsonObject();
+    object.addProperty("type", Packets.SCORENOTIFICATION.getPacketType());
     json.add("score", JsonParser.parseString(new Gson().toJson(client.getPlayer().getGame().getScore())));
     object.add("value", json);
     client.sendPacket(new Packet(object));
@@ -788,8 +789,8 @@ public class PacketHandler {
    */
   public void overviewPacket(@NotNull final ServerThread client) {
     var object = new JsonObject();
-    object.addProperty("type", Packets.OVERVIEW.getPacketType());
     var json = new JsonObject();
+    object.addProperty("type", Packets.OVERVIEW.getPacketType());
     json.add("games", JsonParser.parseString(new Gson().toJson(MoleGames.getMoleGames().getGameHandler().getGames())));
     json.add("tournaments", JsonParser.parseString(new Gson().toJson(MoleGames.getMoleGames().getGameHandler().getTournaments())));
     object.add("value", json);

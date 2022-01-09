@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2022
- * File created on 08.01.22, 10:59 by Carina Latest changes made by Carina on 08.01.22, 10:52 All contents of "Player" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 09.01.22, 11:06 by Carina Latest changes made by Carina on 09.01.22, 10:49 All contents of "Player" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -102,13 +102,11 @@ public class Player {
   public synchronized void moveMole(
     final int x_start, final int y_start, final int x_end, final int y_end, final int cardValue) {
     if (!game.getCurrentPlayer().equals(this)) {
-      System.out.println(
-        "current" + game.getCurrentPlayer().getName() + "who moved: " + this.getName());
       return;
     }
     if (GameLogic.wasLegalMove(
       new int[]{x_start, y_start}, new int[]{x_end, y_end}, cardValue, game.getMap())) {
-      Mole mole = null;
+      var mole = (Mole) null;
       for (var m : moles) {
         if (m.getField().getX() == x_start
           && m.getField().getY() == y_start

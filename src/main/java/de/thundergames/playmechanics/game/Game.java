@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2022
- * File created on 08.01.22, 10:59 by Carina Latest changes made by Carina on 08.01.22, 10:56 All contents of "Game" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 09.01.22, 11:06 by Carina Latest changes made by Carina on 09.01.22, 10:49 All contents of "Game" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -157,11 +157,13 @@ public class Game {
         System.out.println("Starting a game with the gameID: " + getGameID());
       }
       gameUtil.nextPlayer();
-      System.out.println(
-        "Current player is: "
-          + currentPlayer.getServerClient().getThreadID()
-          + " name: "
-          + currentPlayer.getName());
+      if (MoleGames.getMoleGames().getServer().isDebug()) {
+        System.out.println(
+          "Current player is: "
+            + currentPlayer.getServerClient().getThreadID()
+            + " name: "
+            + currentPlayer.getName());
+      }
       MoleGames.getMoleGames()
         .getServer()
         .sendToAllGameClients(
@@ -237,7 +239,9 @@ public class Game {
    */
   public void forceGameEnd() {
     if (currentGameState != GameStates.NOT_STARTED && currentGameState != GameStates.OVER) {
-      System.out.println("The game with the ID" + getGameID() + " has been force ended!");
+      if (MoleGames.getMoleGames().getServer().isDebug()) {
+        System.out.println("The game with the ID" + getGameID() + " has been force ended!");
+      }
       MoleGames.getMoleGames().getServer().getPacketHandler().gameCanceledPacket(this);
       endGame();
       MainGUI.getGUI().updateTable();

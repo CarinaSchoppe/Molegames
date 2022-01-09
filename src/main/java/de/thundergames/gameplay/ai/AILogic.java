@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2022
- * File created on 08.01.22, 10:59 by Carina Latest changes made by Carina on 08.01.22, 10:56 All contents of "AILogic" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 09.01.22, 11:06 by Carina Latest changes made by Carina on 09.01.22, 10:31 All contents of "AILogic" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -270,7 +270,7 @@ public class AILogic {
    */
   private boolean move(@NotNull final AI ai, @NotNull final ArrayList<Mole> moles) {
     var random = new Random();
-    Directions direction = null;
+    var direction = (Directions) null;
     for (var ignored : moles) {
       var mole = moles.get(random.nextInt(moles.size()));
       if (mole == null) {
@@ -317,7 +317,7 @@ public class AILogic {
   public void placeMole(@NotNull final AI ai) {
     var random = new Random();
     var fields = new ArrayList<>(ai.getMap().getFieldMap().values());
-    Field field;
+    var field = (Field) null;
     while (true) {
       field = fields.get(random.nextInt(fields.size()));
       if (!field.isOccupied() && !field.isHole()) {
