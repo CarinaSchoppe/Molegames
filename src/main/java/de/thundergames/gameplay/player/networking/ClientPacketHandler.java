@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2022
- * File created on 09.01.22, 21:45 by Carina Latest changes made by Carina on 09.01.22, 21:45 All contents of "ClientPacketHandler" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 09.01.22, 21:56 by Carina Latest changes made by Carina on 09.01.22, 21:56 All contents of "ClientPacketHandler" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -139,6 +139,18 @@ public class ClientPacketHandler {
       handleTournamentGamesOverviewPacket();
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.TOURNAMENTOVER.getPacketType())) {
       handleTournamentOverPacket();
+    } else {
+      for (var packets : Packets.values()) {
+        if (packets.getPacketType().equalsIgnoreCase(packet.getPacketType())) {
+          if (client.isDebug()) {
+            System.out.println("The packet: " + packet.getPacketType() + " is not handled by the AI");
+            return;
+          }
+        }
+      }
+      if (client.isDebug()) {
+        System.out.println("Packet not found: " + packet.getPacketType());
+      }
     }
   }
 
