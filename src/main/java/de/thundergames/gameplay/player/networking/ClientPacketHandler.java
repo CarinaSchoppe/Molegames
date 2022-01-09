@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2022
- * File created on 09.01.22, 19:32 by Carina Latest changes made by Carina on 09.01.22, 19:31 All contents of "ClientPacketHandler" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 09.01.22, 19:33 by Carina Latest changes made by Carina on 09.01.22, 19:33 All contents of "ClientPacketHandler" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -513,7 +513,7 @@ public class ClientPacketHandler {
             .fromJson(packet.getValues().get("player"), Player.class)
             .getName()
             + " needs to place a mole till: "
-            + packet.getValues().get("until").getAsInt());
+            + packet.getValues().get("until").getAsLong());
     }
     updateMap();
   }
