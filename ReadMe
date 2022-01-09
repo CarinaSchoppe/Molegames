@@ -10,7 +10,7 @@ All of this configuration should be build under Java 11.
 	
 	Config Name:		AI
 	Main Class:		de.thundergames.MoleGames
-	Program arguments:	"a" "127.0.0.1" "5000"  "1"
+	Program arguments:	"a" <ip> <port>  <gameID>
 	Info: Under "Modify options" select "Allow multiple instances.
 	
 	Config Name:		Player
