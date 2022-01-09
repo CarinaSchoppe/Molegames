@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2022
- * File created on 09.01.22, 20:02 by Carina Latest changes made by Carina on 09.01.22, 19:54 All contents of "Board" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 09.01.22, 20:07 by Carina Latest changes made by Carina on 09.01.22, 20:07 All contents of "Board" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -97,8 +97,8 @@ public class Board extends Group {
     // Determine margin between nodes
     var displayHeight = this.height;
     var maxAreaCoveredByNodes = maxNumberOfNodes * 15; //TODO: change constant to actual node radius
-    double verticalMargin = (displayHeight - maxAreaCoveredByNodes - 100) / maxNumberOfNodes;
-    double horizontalMargin = verticalMargin / 2;
+    var verticalMargin = (displayHeight - maxAreaCoveredByNodes - 100) / maxNumberOfNodes;
+    var horizontalMargin = verticalMargin / 2;
     var edgeMargins = maxNumberOfNodes - numberOfNodes;
     var points = new Point2D[numberOfNodes];
     var widthSoFar = edgeMargins * horizontalMargin;
@@ -151,7 +151,7 @@ public class Board extends Group {
     // Moles need to be set on each state mutation and should have the same id as the corresponding node
     for (var p : this.players) {
       for (var mole : p.getMoles()) {
-        var correspondingNode = getNodeByField(mole.getMole().getField());
+        var correspondingNode = getNodeByField(mole.getMole().getPosition());
         assert correspondingNode != null;
         mole.setLayoutX(correspondingNode.getCenterX() - mole.getSize() / 2);
         mole.setLayoutY(correspondingNode.getCenterY() - mole.getSize() / 2);
@@ -188,7 +188,6 @@ public class Board extends Group {
     this.nodes.forEach(node -> this.getChildren().add(node));
     // display moles
     this.generateMoles();
-    var test = this.players;
     this.players.forEach(player -> this.getChildren().addAll(player.getMoles()));
     // display markers
     this.players.forEach(PlayerModel::updateMarker);

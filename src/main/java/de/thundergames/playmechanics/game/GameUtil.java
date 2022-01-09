@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2022
- * File created on 09.01.22, 18:56 by Carina Latest changes made by Carina on 09.01.22, 18:56 All contents of "GameUtil" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 09.01.22, 20:07 by Carina Latest changes made by Carina on 09.01.22, 20:07 All contents of "GameUtil" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -50,7 +50,7 @@ public class GameUtil {
     for (var moles : game.getCurrentPlayer().getMoles()) {
       if (!game.getMap()
         .getFieldMap()
-        .get(List.of(moles.getField().getX(), moles.getField().getY()))
+        .get(List.of(moles.getPosition().getX(), moles.getPosition().getY()))
         .isHole()) {
         return false;
       }
@@ -195,7 +195,7 @@ public class GameUtil {
       for (var mole : player.getMoles()) {
         if (game.getMap()
           .getFieldMap()
-          .get(List.of(mole.getField().getX(), mole.getField().getY()))
+          .get(List.of(mole.getPosition().getX(), mole.getPosition().getY()))
           .isHole()) {
           eliminated.remove(player);
           if (MoleGames.getMoleGames().getServer().isDebug()) {
@@ -217,7 +217,7 @@ public class GameUtil {
       for (var mole : new HashSet<>(player.getMoles())) {
         if (!game.getMap()
           .getFieldMap()
-          .get(List.of(mole.getField().getX(), mole.getField().getY()))
+          .get(List.of(mole.getPosition().getX(), mole.getPosition().getY()))
           .isHole()) {
           player.getMoles().remove(mole);
         }

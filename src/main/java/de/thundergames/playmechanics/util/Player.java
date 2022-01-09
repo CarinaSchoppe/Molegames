@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2022
- * File created on 08.01.22, 10:59 by Carina Latest changes made by Carina on 08.01.22, 10:52 All contents of "Player" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 09.01.22, 20:07 by Carina Latest changes made by Carina on 09.01.22, 20:07 All contents of "Player" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -110,8 +110,8 @@ public class Player {
       new int[]{x_start, y_start}, new int[]{x_end, y_end}, cardValue, game.getMap())) {
       Mole mole = null;
       for (var m : moles) {
-        if (m.getField().getX() == x_start
-          && m.getField().getY() == y_start
+        if (m.getPosition().getX() == x_start
+          && m.getPosition().getY() == y_start
           && m.getPlayer().getServerClient().getThreadID() == getServerClient().getThreadID()) {
           mole = m;
           moles.remove(m);
@@ -132,7 +132,7 @@ public class Player {
             .moleMovedPacket(
               new Field(x_start, y_start), new Field(x_end, y_end), cardValue));
       if (mole != null) {
-        mole.setField(game.getMap().getFieldMap().get(List.of(x_end, y_end)));
+        mole.setPosition(game.getMap().getFieldMap().get(List.of(x_end, y_end)));
         game.getMap().getFieldMap().get(List.of(x_start, y_start)).setOccupied(false);
         game.getMap().getFieldMap().get(List.of(x_end, y_end)).setOccupied(true);
         game.getMap().getFieldMap().get(List.of(x_end, y_end)).setMole(mole);

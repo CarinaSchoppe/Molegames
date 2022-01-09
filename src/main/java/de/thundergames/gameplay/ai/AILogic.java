@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2022
- * File created on 09.01.22, 20:02 by Carina Latest changes made by Carina on 09.01.22, 19:49 All contents of "AILogic" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 09.01.22, 20:07 by Carina Latest changes made by Carina on 09.01.22, 20:07 All contents of "AILogic" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -44,21 +44,21 @@ public class AILogic {
           "AI: there is a hole close to a mole within the drawcard. Hole: " + x + "," + y);
       }
       if (GameLogic.wasLegalMove(
-        new int[]{mole.getField().getX(), mole.getField().getY()},
+        new int[]{mole.getPosition().getX(), mole.getPosition().getY()},
         new int[]{x, y},
         ai.getCard(),
         ai.getMap())) {
         ai.getAIPacketHandler()
           .makeMovePacket(
-            new int[]{mole.getField().getX(), mole.getField().getY()},
+            new int[]{mole.getPosition().getX(), mole.getPosition().getY()},
             new int[]{x, y},
             ai.getCard());
         if (ai.isDebug()) {
           System.out.println(
             "AI: moving from: ["
-              + mole.getField().getX()
+              + mole.getPosition().getX()
               + ","
-              + mole.getField().getY()
+              + mole.getPosition().getY()
               + "] to ["
               + x
               + ","
@@ -74,16 +74,16 @@ public class AILogic {
     }
     var endField = endField(ai, mole, direction);
     if (GameLogic.wasLegalMove(
-      new int[]{mole.getField().getX(), mole.getField().getY()},
+      new int[]{mole.getPosition().getX(), mole.getPosition().getY()},
       endField,
       ai.getCard(),
       ai.getMap())) {
       if (ai.isDebug()) {
         System.out.println(
           "AI: moving from: ["
-            + mole.getField().getX()
+            + mole.getPosition().getX()
             + ","
-            + mole.getField().getY()
+            + mole.getPosition().getY()
             + "] to ["
             + endField[0]
             + ","
@@ -92,7 +92,7 @@ public class AILogic {
       }
       ai.getAIPacketHandler()
         .makeMovePacket(
-          new int[]{mole.getField().getX(), mole.getField().getY()}, endField, ai.getCard());
+          new int[]{mole.getPosition().getX(), mole.getPosition().getY()}, endField, ai.getCard());
       return true;
     }
     return false;
@@ -118,7 +118,7 @@ public class AILogic {
       if (direction == Directions.DOWN) {
         try {
           if (GameLogic.wasLegalMove(
-            new int[]{mole.getField().getX(), mole.getField().getY()},
+            new int[]{mole.getPosition().getX(), mole.getPosition().getY()},
             endField,
             ai.getCard(),
             ai.getMap())) {
@@ -129,7 +129,7 @@ public class AILogic {
       } else if (direction == Directions.UP) {
         try {
           if (GameLogic.wasLegalMove(
-            new int[]{mole.getField().getX(), mole.getField().getY()},
+            new int[]{mole.getPosition().getX(), mole.getPosition().getY()},
             endField,
             ai.getCard(),
             ai.getMap())) {
@@ -140,7 +140,7 @@ public class AILogic {
       } else if (direction == Directions.LEFT) {
         try {
           if (GameLogic.wasLegalMove(
-            new int[]{mole.getField().getX(), mole.getField().getY()},
+            new int[]{mole.getPosition().getX(), mole.getPosition().getY()},
             endField,
             ai.getCard(),
             ai.getMap())) {
@@ -151,7 +151,7 @@ public class AILogic {
       } else if (direction == RIGHT) {
         try {
           if (GameLogic.wasLegalMove(
-            new int[]{mole.getField().getX(), mole.getField().getY()},
+            new int[]{mole.getPosition().getX(), mole.getPosition().getY()},
             endField,
             ai.getCard(),
             ai.getMap())) {
@@ -162,7 +162,7 @@ public class AILogic {
       } else if (direction == DOWN_LEFT) {
         try {
           if (GameLogic.wasLegalMove(
-            new int[]{mole.getField().getX(), mole.getField().getY()},
+            new int[]{mole.getPosition().getX(), mole.getPosition().getY()},
             endField,
             ai.getCard(),
             ai.getMap())) {
@@ -173,7 +173,7 @@ public class AILogic {
       } else if (direction == Directions.DOWN_RIGHT) {
         try {
           if (GameLogic.wasLegalMove(
-            new int[]{mole.getField().getX(), mole.getField().getY()},
+            new int[]{mole.getPosition().getX(), mole.getPosition().getY()},
             endField,
             ai.getCard(),
             ai.getMap())) {
@@ -184,7 +184,7 @@ public class AILogic {
       } else if (direction == Directions.UP_LEFT) {
         try {
           if (GameLogic.wasLegalMove(
-            new int[]{mole.getField().getX(), mole.getField().getY()},
+            new int[]{mole.getPosition().getX(), mole.getPosition().getY()},
             endField,
             ai.getCard(),
             ai.getMap())) {
@@ -195,7 +195,7 @@ public class AILogic {
       } else if (direction == Directions.UP_RIGHT) {
         try {
           if (GameLogic.wasLegalMove(
-            new int[]{mole.getField().getX(), mole.getField().getY()},
+            new int[]{mole.getPosition().getX(), mole.getPosition().getY()},
             endField,
             ai.getCard(),
             ai.getMap())) {
@@ -212,29 +212,29 @@ public class AILogic {
     var x = 0;
     var y = 0;
     if (direction == Directions.UP) {
-      y = mole.getField().getY() + ai.getCard();
-      x = mole.getField().getX();
+      y = mole.getPosition().getY() + ai.getCard();
+      x = mole.getPosition().getX();
     } else if (direction == Directions.DOWN) {
-      y = mole.getField().getY() - ai.getCard();
-      x = mole.getField().getX();
+      y = mole.getPosition().getY() - ai.getCard();
+      x = mole.getPosition().getX();
     } else if (direction == Directions.LEFT) {
-      y = mole.getField().getY();
-      x = mole.getField().getX() - ai.getCard();
+      y = mole.getPosition().getY();
+      x = mole.getPosition().getX() - ai.getCard();
     } else if (direction == Directions.RIGHT) {
-      y = mole.getField().getY();
-      x = mole.getField().getX() + ai.getCard();
+      y = mole.getPosition().getY();
+      x = mole.getPosition().getX() + ai.getCard();
     } else if (direction == Directions.UP_LEFT) {
-      y = mole.getField().getY() + ai.getCard();
-      x = mole.getField().getX() - ai.getCard();
+      y = mole.getPosition().getY() + ai.getCard();
+      x = mole.getPosition().getX() - ai.getCard();
     } else if (direction == Directions.UP_RIGHT) {
-      y = mole.getField().getY() + ai.getCard();
-      x = mole.getField().getX() + ai.getCard();
+      y = mole.getPosition().getY() + ai.getCard();
+      x = mole.getPosition().getX() + ai.getCard();
     } else if (direction == Directions.DOWN_RIGHT) {
-      y = mole.getField().getY() - ai.getCard();
-      x = mole.getField().getX() + ai.getCard();
+      y = mole.getPosition().getY() - ai.getCard();
+      x = mole.getPosition().getX() + ai.getCard();
     } else if (direction == Directions.DOWN_LEFT) {
-      y = mole.getField().getY() - ai.getCard();
-      x = mole.getField().getX() - ai.getCard();
+      y = mole.getPosition().getY() - ai.getCard();
+      x = mole.getPosition().getX() - ai.getCard();
     }
     return new int[]{x, y};
   }
@@ -302,7 +302,7 @@ public class AILogic {
     var holeMoles = new ArrayList<>(ai.getMoles());
     for (var hole : ai.getGameState().getFloor().getHoles()) {
       openMoles.removeIf(
-        mole -> hole.getX() == mole.getField().getX() && hole.getY() == mole.getField().getY());
+        mole -> hole.getX() == mole.getPosition().getX() && hole.getY() == mole.getPosition().getY());
     }
     holeMoles.removeAll(openMoles);
     if (!move(ai, openMoles)) {
@@ -343,10 +343,10 @@ public class AILogic {
     for (var mole : ai.getMoles()) {
       for (var hole : ai.getMap().getHoles()) {
         if (!ai.getMap().getFieldMap().get(List.of(hole.getX(), hole.getY())).isOccupied()) {
-          if ((hole.getX() == mole.getField().getX() + ai.getCard()
-            || hole.getX() == mole.getField().getX() - ai.getCard())
-            && (hole.getY() == mole.getField().getY() + ai.getCard()
-            || hole.getY() == mole.getField().getY() - ai.getCard())) {
+          if ((hole.getX() == mole.getPosition().getX() + ai.getCard()
+            || hole.getX() == mole.getPosition().getX() - ai.getCard())
+            && (hole.getY() == mole.getPosition().getY() + ai.getCard()
+            || hole.getY() == mole.getPosition().getY() - ai.getCard())) {
             return new ArrayList<>(List.of(mole, hole.getX(), hole.getY()));
           }
         }
