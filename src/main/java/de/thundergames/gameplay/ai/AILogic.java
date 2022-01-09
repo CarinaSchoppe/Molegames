@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2022
- * File created on 08.01.22, 10:59 by Carina Latest changes made by Carina on 08.01.22, 10:56 All contents of "AILogic" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 09.01.22, 18:59 by Carina Latest changes made by Carina on 09.01.22, 18:59 All contents of "AILogic" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -39,9 +39,10 @@ public class AILogic {
       mole = (Mole) isHoleCloseToMole(ai).get(0);
       var x = (int) isHoleCloseToMole(ai).get(1);
       var y = (int) isHoleCloseToMole(ai).get(2);
-      if (ai.isDebug())
+      if (ai.isDebug()) {
         System.out.println(
           "AI: there is a hole close to a mole within the drawcard. Hole: " + x + "," + y);
+      }
       if (GameLogic.wasLegalMove(
         new int[]{mole.getField().getX(), mole.getField().getY()},
         new int[]{x, y},
