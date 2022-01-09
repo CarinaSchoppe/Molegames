@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2022
- * File created on 09.01.22, 10:15 by Carina Latest changes made by Carina on 09.01.22, 10:15 All contents of "PacketHandler" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 09.01.22, 19:32 by Carina Latest changes made by Carina on 09.01.22, 19:31 All contents of "PacketHandler" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -417,11 +417,11 @@ public class PacketHandler {
    * @see Game
    * @see GameStates
    */
-  public Packet gameStartedPacket(@NotNull final GameStates gameState) {
+  public Packet gameStartedPacket(@NotNull final GameState gameState) {
     var object = new JsonObject();
-    object.addProperty("type", Packets.GAMESTARTED.getPacketType());
     var json = new JsonObject();
-    json.addProperty("initialGameState", gameState.getName());
+    object.addProperty("type", Packets.GAMESTARTED.getPacketType());
+    json.add("initialGameState", JsonParser.parseString(new Gson().toJson(gameState)));
     object.add("value", json);
     return new Packet(object);
   }
