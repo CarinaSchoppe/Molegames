@@ -3,17 +3,12 @@
 <!--
   ~ Copyright Notice for SwtPra10
   ~ Copyright (c) at ThunderGames | SwtPra10 2022
-  ~ File created on 08.01.22, 10:59 by Carina Latest changes made by Carina on 08.01.22, 10:53 All contents of "PlayerManagement.fxml" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+  ~ File created on 09.01.22, 12:04 by Carina Latest changes made by Carina on 09.01.22, 12:04 All contents of "PlayerManagement.fxml" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
   ~ at ThunderGames | SwtPra10. All rights reserved
   ~ Any type of duplication, distribution, rental, sale, award,
   ~ Public accessibility or other use
   ~ requires the express written consent of ThunderGames | SwtPra10.
-  -->
-
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
+  -->ne.layout.AnchorPane?>
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="834.0" prefWidth="1098.0" xmlns="http://javafx.com/javafx/17">
     <children>
         <ImageView fitHeight="836.0" fitWidth="1100.0" layoutX="-1.0" layoutY="-1.0" pickOnBounds="true">

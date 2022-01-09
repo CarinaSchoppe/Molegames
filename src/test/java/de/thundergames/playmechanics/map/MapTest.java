@@ -1,17 +1,12 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2022
- * File created on 08.01.22, 10:59 by Carina Latest changes made by Carina on 08.01.22, 10:35 All contents of "MapTest" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 09.01.22, 12:04 by Carina Latest changes made by Carina on 09.01.22, 12:04 All contents of "MapTest" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
  * requires the express written consent of ThunderGames | SwtPra10.
- */
-
-package de.thundergames.playmechanics.map;
-
-import de.thundergames.playmechanics.game.Game;
-import de.thundergames.playmechanics.game.GameState;
+ */game.GameState;
 import de.thundergames.playmechanics.util.Mole;
 import de.thundergames.playmechanics.util.Player;
 import org.junit.jupiter.api.BeforeEach;
