@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2022
- * File created on 09.01.22, 21:21 by Carina Latest changes made by Carina on 09.01.22, 21:18 All contents of "NetworkThread" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 09.01.22, 21:45 by Carina Latest changes made by Carina on 09.01.22, 21:45 All contents of "NetworkThread" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -78,31 +78,29 @@ public abstract class NetworkThread extends Thread {
           if (inputString != null) {
             var object = new Gson().fromJson(inputString, JsonObject.class);
             packet = new Packet(object);
-            if (this.packet != null) {
-              if (this instanceof ServerThread
-                && !packet.getPacketType().equals(Packets.MESSAGE.getPacketType())
-                && packet.getValues() != null) {
-                if (MoleGames.getMoleGames().getServer().isDebug()) {
-                  System.out.println(
-                    "Client with id: "
-                      + this.threadID
-                      + " sent: type: "
-                      + packet.getPacketType()
-                      + " contents: "
-                      + packet.getValues().toString());
-                }
-              } else if (this instanceof ServerThread
-                && !packet.getPacketType().equals(Packets.MESSAGE.getPacketType())) {
-                if (MoleGames.getMoleGames().getServer().isDebug()) {
-                  System.out.println(
-                    "Client with id: "
-                      + this.threadID
-                      + " sent: type: "
-                      + packet.getPacketType());
-                }
+            if (this instanceof ServerThread
+              && !packet.getPacketType().equals(Packets.MESSAGE.getPacketType())
+              && packet.getValues() != null) {
+              if (MoleGames.getMoleGames().getServer().isDebug()) {
+                System.out.println(
+                  "Client with id: "
+                    + this.threadID
+                    + " sent: type: "
+                    + packet.getPacketType()
+                    + " contents: "
+                    + packet.getValues().toString());
               }
-              readStringPacketInput(packet, this);
+            } else if (this instanceof ServerThread
+              && !packet.getPacketType().equals(Packets.MESSAGE.getPacketType())) {
+              if (MoleGames.getMoleGames().getServer().isDebug()) {
+                System.out.println(
+                  "Client with id: "
+                    + this.threadID
+                    + " sent: type: "
+                    + packet.getPacketType());
+              }
             }
+            readStringPacketInput(packet, this);
           } else {
             if (socket.isConnected()) disconnect();
             return;

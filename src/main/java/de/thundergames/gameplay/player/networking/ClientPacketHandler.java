@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2022
- * File created on 09.01.22, 21:21 by Carina Latest changes made by Carina on 09.01.22, 21:21 All contents of "ClientPacketHandler" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 09.01.22, 21:45 by Carina Latest changes made by Carina on 09.01.22, 21:45 All contents of "ClientPacketHandler" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -429,7 +429,9 @@ public class ClientPacketHandler {
           packet.getValues().get("pullDiscs"),
           new TypeToken<ArrayList<Integer>>() {
           }.getType()));
-      if (client.isDebug()) System.out.println("Client is now on the turn!");
+      if (client.isDebug()) {
+        System.out.println("Client is now on the turn!");
+      }
       client.setDraw(true);
       if (!timerRunning) {
         timerRunning = true;
@@ -441,7 +443,9 @@ public class ClientPacketHandler {
               if (client.isDraw()) {
                 client.setDraw(false);
                 timerRunning = false;
-                if (client.isDebug()) System.out.println("You ran out of time!");
+                if (client.isDebug()) {
+                  System.out.println("You ran out of time!");
+                }
               }
             }
           },
@@ -474,7 +478,6 @@ public class ClientPacketHandler {
     json.addProperty("pullDisc", pullDisc);
     object.add("value", json);
     object.addProperty("type", Packets.MAKEMOVE.getPacketType());
-    System.out.println("das objekt: " + object);
     client.getClientThread().sendPacket(new Packet(object));
   }
 
@@ -492,7 +495,6 @@ public class ClientPacketHandler {
     json.add("position", JsonParser.parseString(new Gson().toJson(field)));
     object.add("value", json);
     client.getMoles().add(new Mole(client.getPlayer(), field));
-    System.out.println(object);
     client.getClientThread().sendPacket(new Packet(object));
   }
 
@@ -520,7 +522,9 @@ public class ClientPacketHandler {
               if (client.isDraw()) {
                 client.setDraw(false);
                 timerRunning = false;
-                if (client.isDebug()) System.out.println("You ran out of time!");
+                if (client.isDebug()) {
+                  System.out.println("You ran out of time!");
+                }
               }
             }
           },

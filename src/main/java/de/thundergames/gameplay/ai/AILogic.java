@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2022
- * File created on 09.01.22, 21:21 by Carina Latest changes made by Carina on 09.01.22, 21:21 All contents of "AILogic" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 09.01.22, 21:45 by Carina Latest changes made by Carina on 09.01.22, 21:39 All contents of "AILogic" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -108,7 +108,7 @@ public class AILogic {
     var directionsList = new ArrayList<>(List.of(Directions.values()));
     while (true) {
       if (directionsList.isEmpty()) {
-        System.out.println("NO DIRECTIONS FOUND");
+        System.out.println("No possible directions found!");
         return null;
       }
       var direction = directionsList.get(new Random().nextInt(directionsList.size()));
