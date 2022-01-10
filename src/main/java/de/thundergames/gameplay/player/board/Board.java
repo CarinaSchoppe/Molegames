@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2022
- * File created on 09.01.22, 21:35 by Carina Latest changes made by Carina on 09.01.22, 21:35 All contents of "Board" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 10.01.22, 22:08 by Carina Latest changes made by Carina on 10.01.22, 22:08 All contents of "Board" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -67,23 +67,23 @@ public class Board extends Group {
    * @author Issam, Alp, Dila
    */
   public List<Node> getNodeNeighbors(@NotNull final Node node) {
-    var nodeId = node.getNodeId();
+    var nodeID = node.getNodeID();
     var nodeRow = node.getRow();
     var rowOffset = nodeRow < this.radius + 1 ? this.radius + nodeRow : 3 * this.radius + 2 - nodeRow;
-    var maxPossibleId = 3 * (int) Math.pow(this.radius, 2) + 3 * this.radius + 1;
+    var maxPossibleID = 3 * (int) Math.pow(this.radius, 2) + 3 * this.radius + 1;
     // Get list of possible neighbors
-    var possibleNeighborsIds = new ArrayList<>(List.of(nodeId - 1, nodeId + 1, nodeId + rowOffset));
+    var possibleNeighborsIDs = new ArrayList<>(List.of(nodeID - 1, nodeID + 1, nodeID + rowOffset));
     if (nodeRow < this.radius + 1) {
-      possibleNeighborsIds.add(nodeId + rowOffset + 1);
+      possibleNeighborsIDs.add(nodeID + rowOffset + 1);
     } else {
-      possibleNeighborsIds.add(nodeId + rowOffset - 1);
+      possibleNeighborsIDs.add(nodeID + rowOffset - 1);
     }
-    var possibleNeighbors = this.nodes.stream().filter(n -> possibleNeighborsIds.contains(n.getNodeId())).collect(Collectors.toList());
+    var possibleNeighbors = this.nodes.stream().filter(n -> possibleNeighborsIDs.contains(n.getNodeID())).collect(Collectors.toList());
     // Filter out invalid neighbors
-    var isValidId = (Function<Node, Boolean>) neighbor -> neighbor.getNodeId() > 0 && neighbor.getNodeId() <= maxPossibleId && neighbor.getNodeId() > nodeId;
-    var isNextEdge = (Function<Node, Boolean>) neighbor -> (neighbor.getNodeId() == nodeId + 1 && neighbor.getRow() > nodeRow) || neighbor.getRow() - nodeRow > 1;
-    var isAdjacentSameRow = (Function<Node, Boolean>) neighbor -> (neighbor.getNodeId() > nodeId + 1 && neighbor.getRow() == nodeRow);
-    return possibleNeighbors.stream().filter(neighbor -> isValidId.apply(neighbor) && !isNextEdge.apply(neighbor) && !isAdjacentSameRow.apply(neighbor)).distinct().collect(Collectors.toList());
+    var isValidID = (Function<Node, Boolean>) neighbor -> neighbor.getNodeID() > 0 && neighbor.getNodeID() <= maxPossibleID && neighbor.getNodeID() > nodeID;
+    var isNextEdge = (Function<Node, Boolean>) neighbor -> (neighbor.getNodeID() == nodeID + 1 && neighbor.getRow() > nodeRow) || neighbor.getRow() - nodeRow > 1;
+    var isAdjacentSameRow = (Function<Node, Boolean>) neighbor -> (neighbor.getNodeID() > nodeID + 1 && neighbor.getRow() == nodeRow);
+    return possibleNeighbors.stream().filter(neighbor -> isValidID.apply(neighbor) && !isNextEdge.apply(neighbor) && !isAdjacentSameRow.apply(neighbor)).distinct().collect(Collectors.toList());
   }
 
   /**
@@ -115,7 +115,7 @@ public class Board extends Group {
    */
   public void generateNodes() {
     var numberOfGridRows = this.radius * 2 + 1;
-    var startId = 1;
+    var startID = 1;
     for (var i = 0; i < numberOfGridRows; i++) {
       var numberOfGridCols = i <= this.radius ? this.radius + i + 1 : this.radius + numberOfGridRows - i;
       var nodesPositions = getNodesPosition(numberOfGridCols, numberOfGridRows, i);
@@ -124,9 +124,9 @@ public class Board extends Group {
         var nodeType = this.nodesType.get(List.of(i, j)) != null
           ? this.nodesType.get(List.of(i, j))
           : NodeType.DEFAULT;
-        this.nodes.add(new Node(startId + j, nodesPositions[j].getX(), nodesPositions[j].getY(), nodeType, i + 1, new Field(i, j + shift)));
+        this.nodes.add(new Node(startID + j, nodesPositions[j].getX(), nodesPositions[j].getY(), nodeType, i + 1, new Field(i, j + shift)));
       }
-      startId += numberOfGridCols;
+      startID += numberOfGridCols;
     }
   }
 
@@ -203,18 +203,16 @@ public class Board extends Group {
     return null;
   }
 
-
-  public PlayerModel getCurrentPlayerModel(int currentPlayerId) {
-    return this.players.stream().filter(playerModel -> playerModel.getPlayer().getClientID() == currentPlayerId).findFirst().get();
+  public PlayerModel getCurrentPlayerModel(int currentPlayerID) {
+    return this.players.stream().filter(playerModel -> playerModel.getPlayer().getClientID() == currentPlayerID).findFirst().get();
   }
 
-  public void moveMole(Field from,Field to, int currentPlayerId){
-    var currentPlayerModel = getCurrentPlayerModel(currentPlayerId);
+  public void moveMole(Field from, Field to, int currentPlayerID) {
+    var currentPlayerModel = getCurrentPlayerModel(currentPlayerID);
     var moleToBeMoved = currentPlayerModel.getMoles().stream().filter(_mole -> _mole.hasSameField(from)).findFirst().get();
     var nodeTo = getNodeByField(to);
     currentPlayerModel.getMoles().remove(moleToBeMoved);
     this.getChildren().remove(moleToBeMoved);
-
     // Update mole
     moleToBeMoved.getMole().setPosition(to);
     moleToBeMoved.setLayoutX(nodeTo.getCenterX() - moleToBeMoved.getSize() / 2);
@@ -232,5 +230,4 @@ public class Board extends Group {
     mole.render();
     this.getChildren().add(mole);
   }
-
 }

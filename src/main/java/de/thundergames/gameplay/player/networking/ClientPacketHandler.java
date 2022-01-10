@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2022
- * File created on 09.01.22, 21:59 by Carina Latest changes made by Carina on 09.01.22, 21:58 All contents of "ClientPacketHandler" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 10.01.22, 22:08 by Carina Latest changes made by Carina on 10.01.22, 22:08 All contents of "ClientPacketHandler" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -35,7 +35,10 @@ import de.thundergames.playmechanics.util.Player;
 import lombok.Data;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 @Data
 public class ClientPacketHandler {
@@ -99,8 +102,8 @@ public class ClientPacketHandler {
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.MOLEPLACED.getPacketType())) {
       handleMolePlacedPacket();
     } else if (packet
-        .getPacketType()
-        .equalsIgnoreCase(Packets.MOVEPENALTYNOTIFICATION.getPacketType())) {
+      .getPacketType()
+      .equalsIgnoreCase(Packets.MOVEPENALTYNOTIFICATION.getPacketType())) {
       handleMovePenaltyNotificationPacket();
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.PLAYERSKIPPED.getPacketType())) {
       handlePlayerSkippedPacket();
@@ -264,9 +267,9 @@ public class ClientPacketHandler {
    * @author Carina
    * @use is called everytime a map gets updated TODO: implement this
    */
-  public void updateMoleMoved(Field from, Field to,Mole mole) {
+  public void updateMoleMoved(Field from, Field to, Mole mole) {
     var gameBoard = GameBoard.getObserver();
-    if (gameBoard != null) gameBoard.moveMole(from,to,mole.getPlayer().getClientID());
+    if (gameBoard != null) gameBoard.moveMole(from, to, mole.getPlayer().getClientID());
   }
 
   /**
@@ -277,8 +280,6 @@ public class ClientPacketHandler {
     var gameBoard = GameBoard.getObserver();
     if (gameBoard != null) gameBoard.placeMole(mole);
   }
-
-
 
   /**
    * @author Carina
@@ -310,7 +311,7 @@ public class ClientPacketHandler {
         break;
       }
     }
-    updateMoleMoved(from,to,moleObject);
+    updateMoleMoved(from, to, moleObject);
     checkForStopRemainingTime();
   }
 
@@ -411,19 +412,18 @@ public class ClientPacketHandler {
   protected void handleMovePenaltyNotificationPacket() {
     if (client.isDebug())
       System.out.println(
-          "The client "
-              + new Gson()
-                  .fromJson(packet.getValues().get("player").getAsString(), Player.class)
-                  .getName()
-              + " got a move penalty for the reason"
-              + packet.getValues().get("reason").getAsString());
-
+        "The client "
+          + new Gson()
+          .fromJson(packet.getValues().get("player").getAsString(), Player.class)
+          .getName()
+          + " got a move penalty for the reason"
+          + packet.getValues().get("reason").getAsString());
     var player = new Gson().fromJson(packet.getValues().get("player"), Player.class).getName();
     var penalty = packet.getValues().get("punishment").toString();
     var reason = packet.getValues().get("reason").toString();
     var deductedPoints = packet.getValues().get("deductedPoints").toString();
     checkForStopRemainingTime();
-    showPenalty(player,penalty,reason,deductedPoints);
+    showPenalty(player, penalty, reason, deductedPoints);
   }
 
   /**
@@ -958,7 +958,7 @@ public class ClientPacketHandler {
    * @author Marc
    * @use check for pause remaining time of game board
    */
-  private void checkForStopRemainingTime(){
+  private void checkForStopRemainingTime() {
     var observerGameBoard = GameBoard.getObserver();
     if (observerGameBoard != null) observerGameBoard.checkForStopTimer();
   }
@@ -976,7 +976,7 @@ public class ClientPacketHandler {
    * @author Marc
    * @use show info of invalid move or none move
    */
-  private void showPenalty(String player, String penalty,String reason,String deductedPoints){
+  private void showPenalty(String player, String penalty, String reason, String deductedPoints) {
     var observerGameBoard = GameBoard.getObserver();
     if (observerGameBoard != null) observerGameBoard.showPenalty(player, penalty, reason, deductedPoints);
   }

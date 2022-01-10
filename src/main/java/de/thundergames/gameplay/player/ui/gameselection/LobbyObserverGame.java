@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2022
- * File created on 09.01.22, 21:08 by Carina Latest changes made by Carina on 09.01.22, 21:08 All contents of "LobbyObserverGame" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 10.01.22, 22:08 by Carina Latest changes made by Carina on 10.01.22, 22:07 All contents of "LobbyObserverGame" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -60,7 +60,7 @@ public class LobbyObserverGame implements Initializable {
 
   private Game game;
 
-  private Integer gameId;
+  private Integer gameID;
 
   private HashSet<Player> playerList;
 
@@ -72,10 +72,10 @@ public class LobbyObserverGame implements Initializable {
     return OBSERVER;
   }
 
-  public void create(Stage event, Integer gameId) throws IOException {
+  public void create(Stage event, Integer gameID) throws IOException {
     CLIENT = Client.getClientInstance();
     OBSERVER = this;
-    this.gameId = gameId;
+    this.gameID = gameID;
     createScene(event);
   }
 
@@ -84,7 +84,7 @@ public class LobbyObserverGame implements Initializable {
     var loader = SceneController.loadFXML("/player/style/LobbyObserverGame.fxml");
     loader.setController(this);
     var root = (Parent) loader.load();
-    primaryStage.setTitle("Maulwurf Company");
+    primaryStage.setTitle("Lobby Observing");
     primaryStage.setResizable(false);
     primaryStage.setScene(new Scene(root));
     primaryStage.show();
@@ -105,7 +105,7 @@ public class LobbyObserverGame implements Initializable {
 
   @Override
   public void initialize(URL location, ResourceBundle resources) {
-    playerTableName.setCellValueFactory(new PropertyValueFactory<>("PlayerIdAndName"));
+    playerTableName.setCellValueFactory(new PropertyValueFactory<>("PlayerIDAndName"));
     settingName.setCellValueFactory(new PropertyValueFactory<>("setting"));
     settingValue.setCellValueFactory(new PropertyValueFactory<>("value"));
     PlayerName.setText("Spieler: " + CLIENT.name);
@@ -113,7 +113,7 @@ public class LobbyObserverGame implements Initializable {
     //System.out.println(CLIENT.getGames());
     for (var game : CLIENT.getGames()) {
       System.out.println(game);
-      if (game.getGameID() == this.gameId) {
+      if (game.getGameID() == this.gameID) {
         this.game = game;
         break;
       }

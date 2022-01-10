@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2022
- * File created on 09.01.22, 21:21 by Carina Latest changes made by Carina on 09.01.22, 21:18 All contents of "LobbyObserverTournament" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 10.01.22, 22:08 by Carina Latest changes made by Carina on 10.01.22, 22:07 All contents of "LobbyObserverTournament" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -38,15 +38,15 @@ public class LobbyObserverTournament implements Initializable {
   @FXML
   private Text JoinedSuccessfully;
 
-  private int selectedTournamentId;
+  private int selectedTournamentID;
 
   public static LobbyObserverTournament getObserver() {
     return OBSERVER;
   }
 
-  public void create(ActionEvent event, int tournamentId) throws IOException {
+  public void create(ActionEvent event, int tournamentID) throws IOException {
     CLIENT = Client.getClientInstance();
-    selectedTournamentId = tournamentId;
+    selectedTournamentID = tournamentID;
     OBSERVER = this;
     createScene(event);
   }
@@ -88,7 +88,7 @@ public class LobbyObserverTournament implements Initializable {
    */
   @FXML
   void onBackClick(ActionEvent event) throws IOException {
-    CLIENT.getClientPacketHandler().leaveTournament(selectedTournamentId);
+    CLIENT.getClientPacketHandler().leaveTournament(selectedTournamentID);
     new TournamentSelection().create(event);
   }
 

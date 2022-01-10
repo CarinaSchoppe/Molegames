@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2022
- * File created on 09.01.22, 21:35 by Carina Latest changes made by Carina on 09.01.22, 21:35 All contents of "GameBoard" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 10.01.22, 22:08 by Carina Latest changes made by Carina on 10.01.22, 22:08 All contents of "GameBoard" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -23,7 +23,6 @@ import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.ImageCursor;
 import javafx.scene.Scene;
@@ -42,10 +41,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 
-import java.awt.*;
-import java.net.URL;
 import java.util.*;
-import java.util.List;
 import java.util.stream.Collectors;
 
 @Getter
@@ -104,18 +100,18 @@ public class GameBoard {
     // get radius
     BOARD_RADIUS = gameState.getRadius();
     //get current player
-    var currentPlayerId = gameState.getCurrentPlayer() == null ? -1 : gameState.getCurrentPlayer().getClientID();
+    var currentPlayerID = gameState.getCurrentPlayer() == null ? -1 : gameState.getCurrentPlayer().getClientID();
     var currentPlayerName = CLIENT.getCurrentPlayer() == null ? "" : CLIENT.getCurrentPlayer().getName();
     // create list of playerModels for ui
     players = gameState.getActivePlayers();
     playersColors = new HashMap<>(players.stream().collect(Collectors.toMap(Player::getClientID, player -> Utils.getRandomHSLAColor())));
     var placedMoles = gameState.getPlacedMoles();
-    var playerModelList = mapPlayersToPlayerModels(players, placedMoles, currentPlayerId, playersColors);
+    var playerModelList = mapPlayersToPlayerModels(players, placedMoles, currentPlayerID, playersColors);
     // Set custom cursor
     var cursor = new Image(Utils.getSprite("game/cursor.png"));
     borderPane.setCursor(new ImageCursor(cursor,
-            cursor.getWidth() / 2,
-            cursor.getHeight() / 2));
+      cursor.getWidth() / 2,
+      cursor.getHeight() / 2));
     var rootPane = new BorderPane();
     rootPane.setTop(countDownPane);
     rootPane.setCenter(borderPane);
@@ -140,8 +136,8 @@ public class GameBoard {
     borderPane.setCenter(gameHandler.getBoard());
     CLIENT.getClientPacketHandler().getRemainingTimePacket();
     updatePlayerList();
-    if (currentPlayerId != -1) {
-      playerTurnInformation(currentPlayerId, currentPlayerName);
+    if (currentPlayerID != -1) {
+      playerTurnInformation(currentPlayerID, currentPlayerName);
     }
     var s = new Scene(rootPane);
     s.getStylesheets().add("/player/style/css/GameBoard.css");
@@ -151,7 +147,7 @@ public class GameBoard {
     primaryStage.show();
   }
 
-  public ArrayList<PlayerModel> mapPlayersToPlayerModels(@NotNull final HashSet<Player> players, @NotNull final HashSet<Mole> placedMoles, final int currentPlayerId, @NotNull final HashMap<Integer, String> playersColors) {
+  public ArrayList<PlayerModel> mapPlayersToPlayerModels(@NotNull final HashSet<Player> players, @NotNull final HashSet<Mole> placedMoles, final int currentPlayerID, @NotNull final HashMap<Integer, String> playersColors) {
     var playerModelList = new ArrayList<PlayerModel>();
     for (var player : players) {
       var moleModelList = new ArrayList<MoleModel>();
@@ -160,7 +156,7 @@ public class GameBoard {
           moleModelList.add(new MoleModel(player.getClientID(), mole, playersColors.get(player.getClientID())));
         }
       }
-      playerModelList.add(new PlayerModel(player, moleModelList, player.getClientID() == currentPlayerId, playersColors.get(player.getClientID())));
+      playerModelList.add(new PlayerModel(player, moleModelList, player.getClientID() == currentPlayerID, playersColors.get(player.getClientID())));
     }
     return playerModelList;
   }
@@ -181,7 +177,7 @@ public class GameBoard {
       players = gameState.getActivePlayers();
     }
     //get current player
-    var currentPlayerId = CLIENT.getCurrentPlayer() == null ? -1 : CLIENT.getCurrentPlayer().getClientID();
+    var currentPlayerID = CLIENT.getCurrentPlayer() == null ? -1 : CLIENT.getCurrentPlayer().getClientID();
     var currentPlayerName = CLIENT.getCurrentPlayer() == null ? "" : CLIENT.getCurrentPlayer().getName();
     //get moles
     var fieldMap = CLIENT.getMap().getFieldMap();
@@ -196,11 +192,11 @@ public class GameBoard {
         placedMoles.add(currentMole);
       }
     }
-    playerModelList = mapPlayersToPlayerModels(players, placedMoles, currentPlayerId, playersColors);
+    playerModelList = mapPlayersToPlayerModels(players, placedMoles, currentPlayerID, playersColors);
     gameHandler.update(playerModelList);
     CLIENT.getClientPacketHandler().getRemainingTimePacket();
-    if (currentPlayerId != -1) {
-      playerTurnInformation(currentPlayerId, currentPlayerName);
+    if (currentPlayerID != -1) {
+      playerTurnInformation(currentPlayerID, currentPlayerName);
     }
     updatePlayerList();
   }
@@ -212,15 +208,15 @@ public class GameBoard {
       var placeColumn = new TableColumn("Platz");
       placeColumn.setMinWidth(10);
       placeColumn.setCellValueFactory(
-              new PropertyValueFactory<PlayerResult, Integer>("placement"));
+        new PropertyValueFactory<PlayerResult, Integer>("placement"));
       var nameColumn = new TableColumn("Name");
       nameColumn.setMinWidth(30);
       nameColumn.setCellValueFactory(
-              new PropertyValueFactory<PlayerResult, String>("name"));
+        new PropertyValueFactory<PlayerResult, String>("name"));
       var pointsColumn = new TableColumn("Punkte");
       pointsColumn.setMinWidth(10);
       pointsColumn.setCellValueFactory(
-              new PropertyValueFactory<PlayerResult, Integer>("score"));
+        new PropertyValueFactory<PlayerResult, Integer>("score"));
       CLIENT.getClientPacketHandler().getScorePacket();
       ObservableList<PlayerResult> newResultList = FXCollections.observableArrayList();
       var newGameState = CLIENT.getGameState();
@@ -232,8 +228,8 @@ public class GameBoard {
         var thisPlace = 1;
         for (var player : score.getPlayers()) {
           newResultList.add(
-                  new PlayerResult(
-                          player.getName(), score.getPoints().get(player.getClientID()), thisPlace));
+            new PlayerResult(
+              player.getName(), score.getPoints().get(player.getClientID()), thisPlace));
           thisPlace++;
         }
       }
@@ -280,25 +276,23 @@ public class GameBoard {
     Platform.runLater(() -> {
       long time = CLIENT.getRemainingTime() - System.currentTimeMillis();
       COUNTDOWN.setRemainingTime(time);
-      updateTime(time,COUNTDOWN.getShowCount());
+      updateTime(time, COUNTDOWN.getShowCount());
     });
   }
 
-  public void updateTime(long remainingTime,boolean run)
-  {
-   Platform.runLater(() -> {
-     float remainingTimeInSec =(float)remainingTime / (float)1000;
-     var roundUpTime = (int) Math.ceil(remainingTimeInSec);
-
-     Text txtRemainingTime = (run)
-       ? new Text(String.valueOf(roundUpTime))
-       : new Text("Das Spiel wurde pausiert!");
-     var containerTimer = new AnchorPane();
-     txtRemainingTime.setId("text");
-     containerTimer.getChildren().add(txtRemainingTime);
-     countDownPane.setTop(txtRemainingTime);
-     BorderPane.setAlignment(txtRemainingTime, Pos.TOP_CENTER);
-   });
+  public void updateTime(long remainingTime, boolean run) {
+    Platform.runLater(() -> {
+      float remainingTimeInSec = (float) remainingTime / (float) 1000;
+      var roundUpTime = (int) Math.ceil(remainingTimeInSec);
+      Text txtRemainingTime = (run)
+        ? new Text(String.valueOf(roundUpTime))
+        : new Text("Das Spiel wurde pausiert!");
+      var containerTimer = new AnchorPane();
+      txtRemainingTime.setId("text");
+      containerTimer.getChildren().add(txtRemainingTime);
+      countDownPane.setTop(txtRemainingTime);
+      BorderPane.setAlignment(txtRemainingTime, Pos.TOP_CENTER);
+    });
   }
 
   public void stopCountAfterTurn() {
@@ -313,44 +307,33 @@ public class GameBoard {
     COUNTDOWN.continueTimer();
   }
 
-  public void showPenalty(String player, String penalty, String reason, String deductedPoints)
-  {
+  public void showPenalty(String player, String penalty, String reason, String deductedPoints) {
     String out = null;
-
-    if (Objects.equals(penalty, Punishments.NOTHING.toString()))
-    {
+    if (Objects.equals(penalty, Punishments.NOTHING.toString())) {
       var test = Punishments.INVALIDMOVE.toString();
-      if (Objects.equals(reason, test))
-      {
-        out= "Fehlerhafter Zug von Spieler " + player  + ".";
+      if (Objects.equals(reason, test)) {
+        out = "Fehlerhafter Zug von Spieler " + player + ".";
       }
-      if (Objects.equals(reason, Punishments.NOMOVE.toString()))
-      {
-        out= "Zeitüberschreitung von Spieler " + player  + ".";
+      if (Objects.equals(reason, Punishments.NOMOVE.toString())) {
+        out = "Zeitüberschreitung von Spieler " + player + ".";
       }
     }
-    if (Objects.equals(penalty, Punishments.POINTS.toString()))
-    {
-      out= "Spieler " + player + " bekommt " + deductedPoints + " Punktabzug für ";
-      if (Objects.equals(reason, Punishments.INVALIDMOVE.toString()))
-      {
-        out= out + "fehlerhafter Zug.";
+    if (Objects.equals(penalty, Punishments.POINTS.toString())) {
+      out = "Spieler " + player + " bekommt " + deductedPoints + " Punktabzug für ";
+      if (Objects.equals(reason, Punishments.INVALIDMOVE.toString())) {
+        out = out + "fehlerhafter Zug.";
       }
-      if (Objects.equals(reason, Punishments.NOMOVE.toString()))
-      {
-        out= out + "Zeitüberschreitung.";
+      if (Objects.equals(reason, Punishments.NOMOVE.toString())) {
+        out = out + "Zeitüberschreitung.";
       }
     }
-    if (Objects.equals(penalty, Punishments.KICK.toString()))
-    {
-      out= "Spieler " + player + " würde wegen " ;
-      if (Objects.equals(reason, Punishments.INVALIDMOVE.toString()))
-      {
-        out= out + "fehlerhaften Zug gekickt.";
+    if (Objects.equals(penalty, Punishments.KICK.toString())) {
+      out = "Spieler " + player + " würde wegen ";
+      if (Objects.equals(reason, Punishments.INVALIDMOVE.toString())) {
+        out = out + "fehlerhaften Zug gekickt.";
       }
-      if (Objects.equals(reason, Punishments.NOMOVE.toString()))
-      {
-        out= out + "Zeitüberschreitung gekickt.";
+      if (Objects.equals(reason, Punishments.NOMOVE.toString())) {
+        out = out + "Zeitüberschreitung gekickt.";
       }
     }
     //showPunishment(out);
@@ -367,9 +350,9 @@ public class GameBoard {
     });
   }
 
-  public void moveMole(Field from, Field to,int currentPlayerId) {
+  public void moveMole(Field from, Field to, int currentPlayerID) {
     Platform.runLater(() -> {
-      this.gameHandler.getBoard().moveMole(from, to, currentPlayerId);
+      this.gameHandler.getBoard().moveMole(from, to, currentPlayerID);
     });
   }
 
