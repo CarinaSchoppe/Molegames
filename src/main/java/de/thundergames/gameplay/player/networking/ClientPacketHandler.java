@@ -35,10 +35,7 @@ import de.thundergames.playmechanics.util.Player;
 import lombok.Data;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.*;
 
 @Data
 public class ClientPacketHandler {
@@ -102,9 +99,9 @@ public class ClientPacketHandler {
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.MOLEPLACED.getPacketType())) {
       handleMolePlacedPacket();
     } else if (packet
-      .getPacketType()
-      .equalsIgnoreCase(Packets.MOVEPENALTYNOTIFICATION.getPacketType())) {
-      handleMovePentaltyNotificationPacket();
+        .getPacketType()
+        .equalsIgnoreCase(Packets.MOVEPENALTYNOTIFICATION.getPacketType())) {
+      handleMovePenaltyNotificationPacket();
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.PLAYERSKIPPED.getPacketType())) {
       handlePlayerSkippedPacket();
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.NEXTLEVEL.getPacketType())) {
@@ -258,8 +255,30 @@ public class ClientPacketHandler {
    */
   public void updateMap() {
     var gameBoard = GameBoard.getObserver();
-    if (gameBoard != null) gameBoard.updateGameBoard();
+    if (gameBoard != null) {
+      if (gameBoard.getGameHandler() != null) gameBoard.updateGameBoard();
+    }
   }
+
+  /**
+   * @author Carina
+   * @use is called everytime a map gets updated TODO: implement this
+   */
+  public void updateMoleMoved(Field from, Field to,Mole mole) {
+    var gameBoard = GameBoard.getObserver();
+    if (gameBoard != null) gameBoard.moveMole(from,to,mole.getPlayer().getClientID());
+  }
+
+  /**
+   * @author Carina
+   * @use is called everytime a map gets updated TODO: implement this
+   */
+  public void updateMolePlaced(Mole mole) {
+    var gameBoard = GameBoard.getObserver();
+    if (gameBoard != null) gameBoard.placeMole(mole);
+  }
+
+
 
   /**
    * @author Carina
@@ -291,7 +310,8 @@ public class ClientPacketHandler {
         break;
       }
     }
-    updateMap();
+    updateMoleMoved(from,to,moleObject);
+    checkForStopRemainingTime();
   }
 
   /**
@@ -322,6 +342,7 @@ public class ClientPacketHandler {
         System.out.println(player);
       }
     }
+    client.setGameState(new Gson().fromJson(packet.getValues().get("gameState"), GameState.class));
     handleFloor();
   }
 
@@ -331,8 +352,8 @@ public class ClientPacketHandler {
    */
   protected void handleFloor() {
     client.getMoles().clear();
-    client.setGameState(
-      new Gson().fromJson(packet.getValues().get("gameState"), GameState.class));
+    //client.setGameState(
+    //  new Gson().fromJson(packet.getValues().get("gameState"), GameState.class));
     if (client.getGameState().getPullDiscs().containsKey(client.getClientThread().getThreadID())) {
       client
         .getPullDiscs()
@@ -372,6 +393,7 @@ public class ClientPacketHandler {
         System.out.println("The Playermodel " + player.getName() + " skipped his turn!");
       }
     }
+    checkForStopRemainingTime();
   }
 
   /**
@@ -386,16 +408,22 @@ public class ClientPacketHandler {
    * @author Carina
    * @use handles if a client did an invalid handling with a punishment
    */
-  protected void handleMovePentaltyNotificationPacket() {
-    if (client.isDebug()) {
+  protected void handleMovePenaltyNotificationPacket() {
+    if (client.isDebug())
       System.out.println(
-        "The client "
-          + new Gson()
-          .fromJson(packet.getValues().get("player"), Player.class)
-          .getName()
-          + " got a move penalty for the reason"
-          + packet.getValues().get("reason"));
-    }
+          "The client "
+              + new Gson()
+                  .fromJson(packet.getValues().get("player").getAsString(), Player.class)
+                  .getName()
+              + " got a move penalty for the reason"
+              + packet.getValues().get("reason").getAsString());
+
+    var player = new Gson().fromJson(packet.getValues().get("player"), Player.class).getName();
+    var penalty = packet.getValues().get("punishment").toString();
+    var reason = packet.getValues().get("reason").toString();
+    var deductedPoints = packet.getValues().get("deductedPoints").toString();
+    checkForStopRemainingTime();
+    showPenalty(player,penalty,reason,deductedPoints);
   }
 
   /**
@@ -415,7 +443,8 @@ public class ClientPacketHandler {
       .get(List.of(mole.getPosition().getX(), mole.getPosition().getY()))
       .setMole(mole);
     client.getGameState().getPlacedMoles().add(mole);
-    updateMap();
+    updateMolePlaced(mole);
+    checkForStopRemainingTime();
   }
 
   /**
@@ -473,6 +502,7 @@ public class ClientPacketHandler {
             + " is now on the turn!");
       }
     }
+    checkForStopRemainingTime();
   }
 
   /**
@@ -553,7 +583,6 @@ public class ClientPacketHandler {
             + (packet.getValues().get("until").getAsLong() - System.currentTimeMillis()) + " seconds!");
       }
     }
-    updateMap();
   }
 
   /**
@@ -617,6 +646,7 @@ public class ClientPacketHandler {
    * @use handles the packet that a game has started
    */
   protected void handleGameStartedPacket() {
+    client.setGameState(new Gson().fromJson(packet.getValues().get("initialGameState"), GameState.class));
     handleFloor();
     updateTableView();
     var lobbyObserverGame = LobbyObserverGame.getObserver();
@@ -759,6 +789,7 @@ public class ClientPacketHandler {
       ((AI) client).setPlacedMolesAmount(0);
       ((AI) client).setPlacedMoles(false);
     }
+    client.setGameState(new Gson().fromJson(packet.getValues().get("gameState"), GameState.class));
     handleFloor();
   }
 
@@ -920,7 +951,16 @@ public class ClientPacketHandler {
    */
   private void pausedGameRemainingTime() {
     var observerGameBoard = GameBoard.getObserver();
-    if (observerGameBoard != null) observerGameBoard.stopTimer();
+    if (observerGameBoard != null) observerGameBoard.stopCountAfterTurn();
+  }
+
+  /**
+   * @author Marc
+   * @use check for pause remaining time of game board
+   */
+  private void checkForStopRemainingTime(){
+    var observerGameBoard = GameBoard.getObserver();
+    if (observerGameBoard != null) observerGameBoard.checkForStopTimer();
   }
 
   /**
@@ -930,5 +970,14 @@ public class ClientPacketHandler {
   private void continuedGameRemainingTime() {
     var observerGameBoard = GameBoard.getObserver();
     if (observerGameBoard != null) observerGameBoard.continueTimer();
+  }
+
+  /**
+   * @author Marc
+   * @use show info of invalid move or none move
+   */
+  private void showPenalty(String player, String penalty,String reason,String deductedPoints){
+    var observerGameBoard = GameBoard.getObserver();
+    if (observerGameBoard != null) observerGameBoard.showPenalty(player, penalty, reason, deductedPoints);
   }
 }

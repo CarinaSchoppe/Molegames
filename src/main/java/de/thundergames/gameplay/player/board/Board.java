@@ -202,4 +202,35 @@ public class Board extends Group {
     }
     return null;
   }
+
+
+  public PlayerModel getCurrentPlayerModel(int currentPlayerId) {
+    return this.players.stream().filter(playerModel -> playerModel.getPlayer().getClientID() == currentPlayerId).findFirst().get();
+  }
+
+  public void moveMole(Field from,Field to, int currentPlayerId){
+    var currentPlayerModel = getCurrentPlayerModel(currentPlayerId);
+    var moleToBeMoved = currentPlayerModel.getMoles().stream().filter(_mole -> _mole.hasSameField(from)).findFirst().get();
+    var nodeTo = getNodeByField(to);
+    currentPlayerModel.getMoles().remove(moleToBeMoved);
+    this.getChildren().remove(moleToBeMoved);
+
+    // Update mole
+    moleToBeMoved.getMole().setPosition(to);
+    moleToBeMoved.setLayoutX(nodeTo.getCenterX() - moleToBeMoved.getSize() / 2);
+    moleToBeMoved.setLayoutY(nodeTo.getCenterY() - moleToBeMoved.getSize() / 2);
+    currentPlayerModel.getMoles().add(moleToBeMoved);
+    this.getChildren().add(moleToBeMoved);
+  }
+
+  public void placeMole(MoleModel mole) {
+    var currentPlayerModel = getCurrentPlayerModel(mole.getMole().getPlayer().getClientID());
+    currentPlayerModel.getMoles().add(mole);
+    var nodeTo = getNodeByField(mole.getMole().getPosition());
+    mole.setLayoutX(nodeTo.getCenterX() - mole.getSize() / 2);
+    mole.setLayoutY(nodeTo.getCenterY() - mole.getSize() / 2);
+    mole.render();
+    this.getChildren().add(mole);
+  }
+
 }

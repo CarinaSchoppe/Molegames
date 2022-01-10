@@ -28,7 +28,7 @@ public class AI extends Client {
   private int card;
   private boolean placedMoles = false;
   private int placedMolesAmount = 0;
-  private double sleepingTime = 0;
+  private double sleepingTime = 5;
 
   /**
    * @param ip

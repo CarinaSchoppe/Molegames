@@ -60,6 +60,8 @@ public class LobbyObserverGame implements Initializable {
 
   private Game game;
 
+  private Integer gameId;
+
   private HashSet<Player> playerList;
 
   private ObservableList<SettingsTable> settingsData;
@@ -70,9 +72,10 @@ public class LobbyObserverGame implements Initializable {
     return OBSERVER;
   }
 
-  public void create(Stage event) throws IOException {
+  public void create(Stage event, Integer gameId) throws IOException {
     CLIENT = Client.getClientInstance();
     OBSERVER = this;
+    this.gameId = gameId;
     createScene(event);
   }
 
@@ -106,8 +109,11 @@ public class LobbyObserverGame implements Initializable {
     settingName.setCellValueFactory(new PropertyValueFactory<>("setting"));
     settingValue.setCellValueFactory(new PropertyValueFactory<>("value"));
     PlayerName.setText("Spieler: " + CLIENT.name);
+    System.out.println("GameID: " + CLIENT.getGameID());
+    //System.out.println(CLIENT.getGames());
     for (var game : CLIENT.getGames()) {
-      if (game.getGameID() == CLIENT.getGameID()) {
+      System.out.println(game);
+      if (game.getGameID() == this.gameId) {
         this.game = game;
         break;
       }
@@ -174,6 +180,7 @@ public class LobbyObserverGame implements Initializable {
    */
   public String getNumberOfPlayers() {
     var numberOfPlayers = CLIENT.getGameState().getActivePlayers().size();
+    System.out.println(game);
     return numberOfPlayers + "/" + game.getMaxPlayerCount();
   }
 

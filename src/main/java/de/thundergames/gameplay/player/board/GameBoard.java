@@ -15,8 +15,10 @@ import de.thundergames.gameplay.player.Client;
 import de.thundergames.gameplay.player.ui.score.PlayerResult;
 import de.thundergames.playmechanics.game.GameState;
 import de.thundergames.playmechanics.game.GameStates;
+import de.thundergames.playmechanics.map.Field;
 import de.thundergames.playmechanics.util.Mole;
 import de.thundergames.playmechanics.util.Player;
+import de.thundergames.playmechanics.util.Punishments;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
@@ -25,6 +27,7 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.ImageCursor;
 import javafx.scene.Scene;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -35,13 +38,19 @@ import javafx.scene.paint.Paint;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
+import lombok.Getter;
+import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 
+import java.awt.*;
 import java.net.URL;
 import java.util.*;
+import java.util.List;
 import java.util.stream.Collectors;
 
-public class GameBoard implements Initializable {
+@Getter
+@Setter
+public class GameBoard {
 
   private static Client CLIENT;
   private static GameBoard OBSERVER;
@@ -57,6 +66,9 @@ public class GameBoard implements Initializable {
   private GameState gameState;
 
   private ObservableList<PlayerResult> resultList;
+
+  private ScrollPane scrollPane;
+  private TextFlow textFlow;
 
   private Score score;
 
@@ -102,13 +114,21 @@ public class GameBoard implements Initializable {
     // Set custom cursor
     var cursor = new Image(Utils.getSprite("game/cursor.png"));
     borderPane.setCursor(new ImageCursor(cursor,
-      cursor.getWidth() / 2,
-      cursor.getHeight() / 2));
+            cursor.getWidth() / 2,
+            cursor.getHeight() / 2));
     var rootPane = new BorderPane();
     rootPane.setTop(countDownPane);
     rootPane.setCenter(borderPane);
     rootPane.setBottom(turnPane);
     rootPane.setRight(scorePane);
+    scrollPane = new ScrollPane();
+    textFlow = new TextFlow();
+    scrollPane.setContent(textFlow);
+    turnPane.setCenter(scrollPane);
+    turnPane.setMinHeight(100);
+    turnPane.setMaxHeight(100);
+    scrollPane.setMaxHeight(turnPane.getMaxHeight());
+    scrollPane.setMinHeight(turnPane.getMinHeight());
     // Create a game handler and add random players to it
     gameHandler = new GameHandler(playerModelList, BOARD_RADIUS, updateFloor(gameState), borderPane, rootPane);
     gameHandler.start(playerModelList);
@@ -129,10 +149,6 @@ public class GameBoard implements Initializable {
     primaryStage.setResizable(true);
     primaryStage.setMaximized(true);
     primaryStage.show();
-  }
-
-  @Override
-  public void initialize(URL location, ResourceBundle resources) {
   }
 
   public ArrayList<PlayerModel> mapPlayersToPlayerModels(@NotNull final HashSet<Player> players, @NotNull final HashSet<Mole> placedMoles, final int currentPlayerId, @NotNull final HashMap<Integer, String> playersColors) {
@@ -196,15 +212,15 @@ public class GameBoard implements Initializable {
       var placeColumn = new TableColumn("Platz");
       placeColumn.setMinWidth(10);
       placeColumn.setCellValueFactory(
-        new PropertyValueFactory<PlayerResult, Integer>("placement"));
+              new PropertyValueFactory<PlayerResult, Integer>("placement"));
       var nameColumn = new TableColumn("Name");
       nameColumn.setMinWidth(30);
       nameColumn.setCellValueFactory(
-        new PropertyValueFactory<PlayerResult, String>("name"));
+              new PropertyValueFactory<PlayerResult, String>("name"));
       var pointsColumn = new TableColumn("Punkte");
       pointsColumn.setMinWidth(10);
       pointsColumn.setCellValueFactory(
-        new PropertyValueFactory<PlayerResult, Integer>("score"));
+              new PropertyValueFactory<PlayerResult, Integer>("score"));
       CLIENT.getClientPacketHandler().getScorePacket();
       ObservableList<PlayerResult> newResultList = FXCollections.observableArrayList();
       var newGameState = CLIENT.getGameState();
@@ -216,8 +232,8 @@ public class GameBoard implements Initializable {
         var thisPlace = 1;
         for (var player : score.getPlayers()) {
           newResultList.add(
-            new PlayerResult(
-              player.getName(), score.getPoints().get(player.getClientID()), thisPlace));
+                  new PlayerResult(
+                          player.getName(), score.getPoints().get(player.getClientID()), thisPlace));
           thisPlace++;
         }
       }
@@ -240,7 +256,7 @@ public class GameBoard implements Initializable {
       }
       var playerText = new Text(playerString);
       var beginning = new Text("Spieler ");
-      var end = new Text(" ist jetzt an der Reihe.");
+      var end = new Text(" ist jetzt an der Reihe.\n");
       var defTextColor = "#ffffff";
       beginning.setId("text");
       beginning.setFill(Paint.valueOf(defTextColor));
@@ -248,9 +264,8 @@ public class GameBoard implements Initializable {
       end.setFill(Paint.valueOf(defTextColor));
       playerText.setId("text");
       playerText.setFill(Paint.valueOf(playersColors.get(playerID)));
-      var textFlow = new TextFlow(beginning, playerText, end);
-      textFlow.setMaxWidth(turnPane.getWidth() / 2);
-      turnPane.setCenter(textFlow);
+      textFlow.getChildren().addAll(beginning, playerText, end);
+      scrollPane.setVvalue(1.0f);
     });
   }
 
@@ -263,30 +278,104 @@ public class GameBoard implements Initializable {
 
   public void updateRemainingTime() {
     Platform.runLater(() -> {
-      long remainingTime = CLIENT.getRemainingTime();
-      var sys = System.currentTimeMillis();
-      long time = remainingTime - sys;
-      updateTime(time);
+      long time = CLIENT.getRemainingTime() - System.currentTimeMillis();
       COUNTDOWN.setRemainingTime(time);
+      updateTime(time,COUNTDOWN.getShowCount());
     });
   }
 
-  public void updateTime(final long remainingTime) {
-    Platform.runLater(() -> {
-      var txtRemainingTime = new Text(String.valueOf((remainingTime / 1000)));
-      var container = new AnchorPane();
-      txtRemainingTime.setFont(new javafx.scene.text.Font("Chicle", 50));
-      container.getChildren().add(txtRemainingTime);
-      countDownPane.setTop(txtRemainingTime);
-      BorderPane.setAlignment(txtRemainingTime, Pos.TOP_CENTER);
-    });
+  public void updateTime(long remainingTime,boolean run)
+  {
+   Platform.runLater(() -> {
+     float remainingTimeInSec =(float)remainingTime / (float)1000;
+     var roundUpTime = (int) Math.ceil(remainingTimeInSec);
+
+     Text txtRemainingTime = (run)
+       ? new Text(String.valueOf(roundUpTime))
+       : new Text("Das Spiel wurde pausiert!");
+     var containerTimer = new AnchorPane();
+     txtRemainingTime.setId("text");
+     containerTimer.getChildren().add(txtRemainingTime);
+     countDownPane.setTop(txtRemainingTime);
+     BorderPane.setAlignment(txtRemainingTime, Pos.TOP_CENTER);
+   });
   }
 
-  public void stopTimer() {
-    COUNTDOWN.stopTimer();
+  public void stopCountAfterTurn() {
+    COUNTDOWN.stopCountAfterTurn();
+  }
+
+  public void checkForStopTimer() {
+    COUNTDOWN.checkForStopTimer();
   }
 
   public void continueTimer() {
     COUNTDOWN.continueTimer();
+  }
+
+  public void showPenalty(String player, String penalty, String reason, String deductedPoints)
+  {
+    String out = null;
+
+    if (Objects.equals(penalty, Punishments.NOTHING.toString()))
+    {
+      var test = Punishments.INVALIDMOVE.toString();
+      if (Objects.equals(reason, test))
+      {
+        out= "Fehlerhafter Zug von Spieler " + player  + ".";
+      }
+      if (Objects.equals(reason, Punishments.NOMOVE.toString()))
+      {
+        out= "Zeitüberschreitung von Spieler " + player  + ".";
+      }
+    }
+    if (Objects.equals(penalty, Punishments.POINTS.toString()))
+    {
+      out= "Spieler " + player + " bekommt " + deductedPoints + " Punktabzug für ";
+      if (Objects.equals(reason, Punishments.INVALIDMOVE.toString()))
+      {
+        out= out + "fehlerhafter Zug.";
+      }
+      if (Objects.equals(reason, Punishments.NOMOVE.toString()))
+      {
+        out= out + "Zeitüberschreitung.";
+      }
+    }
+    if (Objects.equals(penalty, Punishments.KICK.toString()))
+    {
+      out= "Spieler " + player + " würde wegen " ;
+      if (Objects.equals(reason, Punishments.INVALIDMOVE.toString()))
+      {
+        out= out + "fehlerhaften Zug gekickt.";
+      }
+      if (Objects.equals(reason, Punishments.NOMOVE.toString()))
+      {
+        out= out + "Zeitüberschreitung gekickt.";
+      }
+    }
+    //showPunishment(out);
+  }
+
+  public void showPunishment(String punishment) {
+    Platform.runLater(() -> {
+      Text txtPunishment = new Text(punishment);
+      var containerTimer = new AnchorPane();
+      txtPunishment.setId("text");
+      containerTimer.getChildren().add(txtPunishment);
+      countDownPane.setTop(txtPunishment);
+      BorderPane.setAlignment(txtPunishment, Pos.TOP_CENTER);
+    });
+  }
+
+  public void moveMole(Field from, Field to,int currentPlayerId) {
+    Platform.runLater(() -> {
+      this.gameHandler.getBoard().moveMole(from, to, currentPlayerId);
+    });
+  }
+
+  public void placeMole(Mole mole) {
+    Platform.runLater(() -> {
+      this.gameHandler.getBoard().placeMole(new MoleModel(mole, playersColors.get(mole.getPlayer().getClientID())));
+    });
   }
 }

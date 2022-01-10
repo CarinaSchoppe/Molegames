@@ -10,6 +10,7 @@
 
 package de.thundergames.gameplay.player.board;
 
+import de.thundergames.playmechanics.map.Field;
 import de.thundergames.playmechanics.util.Mole;
 import javafx.scene.Group;
 import javafx.scene.image.Image;
@@ -17,6 +18,8 @@ import javafx.scene.image.ImageView;
 import lombok.Getter;
 import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Objects;
 
 @Getter
 @Setter
@@ -69,24 +72,14 @@ public class MoleModel extends Group {
     this.mole = mole;
   }
 
-  public int getMoleId() {
-    return this.moleId;
+  public MoleModel(Mole mole, String moleColor) {
+    this(0, 0, 0, DEFAULT_SIZE, false, moleColor);
+    this.mole = mole;
   }
+
 
   public int getSize() {
     return this.size;
-  }
-
-  /**
-   * @param x
-   * @param y
-   * @author Issam, Dila, Alp
-   * @use updates the position
-   */
-  public void updatePostion(final double x, final double y) {
-    this.setLayoutX(x);
-    this.setLayoutY(y);
-    this.render();
   }
 
   /**
@@ -107,4 +100,16 @@ public class MoleModel extends Group {
   public void render() {
     this.addStyles();
   }
+
+
+  public boolean hasSameField(Field field){
+    return Objects.equals(this.mole.getPosition().getX(), field.getX())
+      && Objects.equals(this.mole.getPosition().getY(), field.getY());
+  }
+
+  @Override
+  public String toString(){
+    return mole.getPosition().toString();
+  }
+  
 }
