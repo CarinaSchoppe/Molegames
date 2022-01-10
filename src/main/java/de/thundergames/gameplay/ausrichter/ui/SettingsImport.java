@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2022
- * File created on 09.01.22, 23:38 by Carina Latest changes made by Carina on 09.01.22, 23:05 All contents of "SettingsImport" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 10.01.22, 22:01 by Carina Latest changes made by Carina on 10.01.22, 22:01 All contents of "SettingsImport" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -16,6 +16,7 @@ import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
 import de.thundergames.filehandling.GameConfiguration;
 import de.thundergames.gameplay.ausrichter.ui.floor.Floor;
+import de.thundergames.playmechanics.util.Dialog;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -31,7 +32,6 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import org.jetbrains.annotations.NotNull;
 
-import javax.swing.*;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -124,12 +124,12 @@ public class SettingsImport {
         new Gson().fromJson(object.get("visualisationTime"), String.class));
       CreateGame.setPunishmentPrev(
         new Gson().fromJson(object.get("movePenalty"), String.class));
-      JOptionPane.showMessageDialog(null, "Configuration geladen!");
+      Dialog.show("Configuration geladen!", "Erfolg!", Dialog.DialogType.INFO);
       var primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
       CreateGame.getCreateGameInstance().start(primaryStage);
       object = null;
     } else {
-      JOptionPane.showMessageDialog(null, "Keine Konfiguration geladen!");
+      Dialog.show("Keine Konfiguration geladen!", "Fehler!", Dialog.DialogType.ERROR);
     }
   }
 
@@ -174,7 +174,7 @@ public class SettingsImport {
     // TODO: grafik und system implementieren  json.addProperty("deductedPoints",
     // Integer.parseInt(CreateGame.getCreateGameInstance().getDeductedPoints()));
     new GameConfiguration().saveSettings(json);
-    JOptionPane.showMessageDialog(null, "Konfiguration gespeichert!");
+    Dialog.show("Konfiguration gespeichert!", "Erfolg!", Dialog.DialogType.INFO);
   }
 
   @FXML

@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2022
- * File created on 09.01.22, 21:26 by Carina Latest changes made by Carina on 09.01.22, 21:25 All contents of "PlayerManagement" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 10.01.22, 22:01 by Carina Latest changes made by Carina on 10.01.22, 22:01 All contents of "PlayerManagement" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -18,6 +18,7 @@ import de.thundergames.networking.util.Packets;
 import de.thundergames.networking.util.exceptions.NotAllowedError;
 import de.thundergames.playmechanics.game.Game;
 import de.thundergames.playmechanics.game.GameStates;
+import de.thundergames.playmechanics.util.Dialog;
 import de.thundergames.playmechanics.util.Player;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
@@ -34,7 +35,6 @@ import javafx.stage.Stage;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 
-import javax.swing.*;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -81,27 +81,19 @@ public class PlayerManagement implements Initializable {
   public static PlayerManagement getPlayerManagement() {
     return playerManagement;
   }
-
-  //TODO: JoptionPanes raus machen
   @FXML
   void onAdd(ActionEvent event) throws NotAllowedError {
     var selectedPlayer = availablePlayersTable.getSelectionModel().getSelectedItem();
     if (selectedPlayer != null) {
       if (selectedPlayer.getPlayer().getGame() != null) {
-        JOptionPane.showMessageDialog(
-          null, "Der Spieler ist bereits in einem Spiel!", "Fehler!", JOptionPane.ERROR_MESSAGE);
+        Dialog.show("Der Spieler ist bereits in einem Spiel!", "Fehler!", Dialog.DialogType.ERROR);
         return;
       }
       if (game.getCurrentGameState() == GameStates.OVER) {
-        JOptionPane.showMessageDialog(
-          null, "Das Spiel ist bereits vorbei!", "Fehler!", JOptionPane.ERROR_MESSAGE);
+        Dialog.show("Das Spiel ist bereits vorbei!", "Fehler!", Dialog.DialogType.ERROR);
         return;
       } else if (game.getCurrentGameState() != GameStates.NOT_STARTED && !spectator.isSelected()) {
-        JOptionPane.showMessageDialog(
-          null,
-          "Der Spieler kann keinem laufenden Spiel als Spieler beitreten nur als Beobachter!",
-          "Fehler!",
-          JOptionPane.ERROR_MESSAGE);
+        Dialog.show("Der Spieler kann keinem laufenden Spiel als Spieler beitreten nur als Beobachter!", "Fehler!", Dialog.DialogType.ERROR);
         return;
       }
       if (game.getPlayers().size() + 1 <= game.getSettings().getMaxPlayers()) {
@@ -119,19 +111,13 @@ public class PlayerManagement implements Initializable {
           MoleGames.getMoleGames().getServer().getPacketHandler().welcomeGamePacket(selectedPlayer);
           updateTable();
         } else {
-          JOptionPane.showMessageDialog(
-            null,
-            "Das hinzufuegen des Spielers hat nicht geklappt.",
-            "Fehler!",
-            JOptionPane.ERROR_MESSAGE);
+          Dialog.show("Das hinzufuegen des Spielers hat nicht geklappt.", "Fehler!", Dialog.DialogType.ERROR);
         }
       } else {
-        JOptionPane.showMessageDialog(
-          null, "Das Spiel ist bereits voll!", "Fehler!", JOptionPane.ERROR_MESSAGE);
+        Dialog.show("Das Spiel ist bereits voll!", "Fehler!", Dialog.DialogType.ERROR);
       }
     } else {
-      JOptionPane.showMessageDialog(
-        null, "Du musst einen Spieler auswaehlen!", "Auswaehlen!", JOptionPane.ERROR_MESSAGE);
+      Dialog.show("Du musst einen Spieler auswaehlen!", "Fehler!", Dialog.DialogType.ERROR);
     }
   }
 
@@ -147,8 +133,7 @@ public class PlayerManagement implements Initializable {
     var selectedPlayer = playerTable.getSelectionModel().getSelectedItem();
     if (selectedPlayer != null) {
       if (selectedPlayer.getGame() == null) {
-        JOptionPane.showMessageDialog(
-          null, "Der Spieler ist nicht in einem Spiel!", "Fehler!", JOptionPane.ERROR_MESSAGE);
+        Dialog.show("Der Spieler ist nicht in einem Spiel!", "Fehler!", Dialog.DialogType.ERROR);
         return;
       }
       MoleGames.getMoleGames()
@@ -157,8 +142,7 @@ public class PlayerManagement implements Initializable {
         .handlePlayerLeavePacket((ServerThread) selectedPlayer.getServerClient());
       updateTable();
     } else {
-      JOptionPane.showMessageDialog(
-        null, "Du musst einen Spieler auswaehlen!", "Auswaehlen!", JOptionPane.ERROR_MESSAGE);
+      Dialog.show("Du musst einen Spieler auswaehlen!", "Fehler!", Dialog.DialogType.ERROR);
     }
   }
 
