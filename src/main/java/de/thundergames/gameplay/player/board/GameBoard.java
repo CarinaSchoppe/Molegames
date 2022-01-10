@@ -25,6 +25,7 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.ImageCursor;
 import javafx.scene.Scene;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -211,15 +212,15 @@ public class GameBoard implements Initializable {
       var placeColumn = new TableColumn("Platz");
       placeColumn.setMinWidth(10);
       placeColumn.setCellValueFactory(
-        new PropertyValueFactory<PlayerResult, Integer>("placement"));
+              new PropertyValueFactory<PlayerResult, Integer>("placement"));
       var nameColumn = new TableColumn("Name");
       nameColumn.setMinWidth(30);
       nameColumn.setCellValueFactory(
-        new PropertyValueFactory<PlayerResult, String>("name"));
+              new PropertyValueFactory<PlayerResult, String>("name"));
       var pointsColumn = new TableColumn("Punkte");
       pointsColumn.setMinWidth(10);
       pointsColumn.setCellValueFactory(
-        new PropertyValueFactory<PlayerResult, Integer>("score"));
+              new PropertyValueFactory<PlayerResult, Integer>("score"));
       CLIENT.getClientPacketHandler().getScorePacket();
       ObservableList<PlayerResult> newResultList = FXCollections.observableArrayList();
       var newGameState = CLIENT.getGameState();
@@ -231,8 +232,8 @@ public class GameBoard implements Initializable {
         var thisPlace = 1;
         for (var player : score.getPlayers()) {
           newResultList.add(
-            new PlayerResult(
-              player.getName(), score.getPoints().get(player.getClientID()), thisPlace));
+                  new PlayerResult(
+                          player.getName(), score.getPoints().get(player.getClientID()), thisPlace));
           thisPlace++;
         }
       }
