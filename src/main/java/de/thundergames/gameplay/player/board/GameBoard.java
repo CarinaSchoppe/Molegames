@@ -15,6 +15,7 @@ import de.thundergames.gameplay.player.Client;
 import de.thundergames.gameplay.player.ui.score.PlayerResult;
 import de.thundergames.playmechanics.game.GameState;
 import de.thundergames.playmechanics.game.GameStates;
+import de.thundergames.playmechanics.map.Field;
 import de.thundergames.playmechanics.util.Mole;
 import de.thundergames.playmechanics.util.Player;
 import de.thundergames.playmechanics.util.Punishments;
@@ -49,7 +50,7 @@ import java.util.stream.Collectors;
 
 @Getter
 @Setter
-public class GameBoard implements Initializable {
+public class GameBoard {
 
   private static Client CLIENT;
   private static GameBoard OBSERVER;
@@ -148,10 +149,6 @@ public class GameBoard implements Initializable {
     primaryStage.setResizable(true);
     primaryStage.setMaximized(true);
     primaryStage.show();
-  }
-
-  @Override
-  public void initialize(URL location, ResourceBundle resources) {
   }
 
   public ArrayList<PlayerModel> mapPlayersToPlayerModels(@NotNull final HashSet<Player> players, @NotNull final HashSet<Mole> placedMoles, final int currentPlayerId, @NotNull final HashMap<Integer, String> playersColors) {
@@ -367,6 +364,18 @@ public class GameBoard implements Initializable {
       containerTimer.getChildren().add(txtPunishment);
       countDownPane.setTop(txtPunishment);
       BorderPane.setAlignment(txtPunishment, Pos.TOP_CENTER);
+    });
+  }
+
+  public void moveMole(Field from, Field to,int currentPlayerId) {
+    Platform.runLater(() -> {
+      this.gameHandler.getBoard().moveMole(from, to, currentPlayerId);
+    });
+  }
+
+  public void placeMole(Mole mole) {
+    Platform.runLater(() -> {
+      this.gameHandler.getBoard().placeMole(new MoleModel(mole, playersColors.get(mole.getPlayer().getClientID())));
     });
   }
 }

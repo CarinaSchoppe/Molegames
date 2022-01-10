@@ -262,6 +262,26 @@ public class ClientPacketHandler {
 
   /**
    * @author Carina
+   * @use is called everytime a map gets updated TODO: implement this
+   */
+  public void updateMoleMoved(Field from, Field to,Mole mole) {
+    var gameBoard = GameBoard.getObserver();
+    if (gameBoard != null) gameBoard.moveMole(from,to,mole.getPlayer().getClientID());
+  }
+
+  /**
+   * @author Carina
+   * @use is called everytime a map gets updated TODO: implement this
+   */
+  public void updateMolePlaced(Mole mole) {
+    var gameBoard = GameBoard.getObserver();
+    if (gameBoard != null) gameBoard.placeMole(mole);
+  }
+
+
+
+  /**
+   * @author Carina
    * @use handles the movement of a mole send by the server from a client
    */
   protected void handleMoleMovedPacket() {
@@ -290,7 +310,7 @@ public class ClientPacketHandler {
         break;
       }
     }
-    updateMap();
+    updateMoleMoved(from,to,moleObject);
     checkForStopRemainingTime();
   }
 
@@ -399,9 +419,9 @@ public class ClientPacketHandler {
               + packet.getValues().get("reason").getAsString());
 
     var player = new Gson().fromJson(packet.getValues().get("player"), Player.class).getName();
-    var penalty = packet.getValues().get("punishment");
-    var reason = packet.getValues().get("reason");
-    var deductedPoints = packet.getValues().get("deductedPoints");
+    var penalty = packet.getValues().get("punishment").toString();
+    var reason = packet.getValues().get("reason").toString();
+    var deductedPoints = packet.getValues().get("deductedPoints").toString();
     checkForStopRemainingTime();
     showPenalty(player,penalty,reason,deductedPoints);
   }
@@ -423,7 +443,7 @@ public class ClientPacketHandler {
       .get(List.of(mole.getPosition().getX(), mole.getPosition().getY()))
       .setMole(mole);
     client.getGameState().getPlacedMoles().add(mole);
-    updateMap();
+    updateMolePlaced(mole);
     checkForStopRemainingTime();
   }
 
@@ -563,7 +583,6 @@ public class ClientPacketHandler {
             + (packet.getValues().get("until").getAsLong() - System.currentTimeMillis()) + " seconds!");
       }
     }
-    updateMap();
   }
 
   /**

@@ -34,14 +34,14 @@ public class Settings {
   private final transient GameConfiguration gameConfiguration;
   private final transient Game game;
   private int maxPlayers = 4;
-  private int radius = 10;
+  private int radius = 4;
   private int numberOfMoles = 4;
 
   @SerializedName(value = "levels")
   private ArrayList<Map> floors = new ArrayList<>();
 
   private boolean pullDiscsOrdered = true;
-  private long turnTime = 5000;
+  private long turnTime = 15000;
   private int visualizationTime = 10000;
   private String movePenalty = "NOTHING";
 
