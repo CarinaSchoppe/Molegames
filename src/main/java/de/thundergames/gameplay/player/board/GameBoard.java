@@ -35,12 +35,16 @@ import javafx.scene.paint.Paint;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
+import lombok.Getter;
+import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 
 import java.net.URL;
 import java.util.*;
 import java.util.stream.Collectors;
 
+@Getter
+@Setter
 public class GameBoard implements Initializable {
 
   private static Client CLIENT;
@@ -57,6 +61,9 @@ public class GameBoard implements Initializable {
   private GameState gameState;
 
   private ObservableList<PlayerResult> resultList;
+
+  private ScrollPane scrollPane;
+  private TextFlow textFlow;
 
   private Score score;
 
@@ -102,8 +109,8 @@ public class GameBoard implements Initializable {
     // Set custom cursor
     var cursor = new Image(Utils.getSprite("game/cursor.png"));
     borderPane.setCursor(new ImageCursor(cursor,
-      cursor.getWidth() / 2,
-      cursor.getHeight() / 2));
+            cursor.getWidth() / 2,
+            cursor.getHeight() / 2));
     var rootPane = new BorderPane();
     rootPane.setTop(countDownPane);
     rootPane.setCenter(borderPane);
