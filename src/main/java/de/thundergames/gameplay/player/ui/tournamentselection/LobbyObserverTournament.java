@@ -1,8 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
- * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 24.12.21, 12:26 by Carina Latest changes made by Carina on 24.12.21, 12:22
- * All contents of "LobbyObserverTournament" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * Copyright (c) at ThunderGames | SwtPra10 2022
+ * File created on 09.01.22, 21:21 by Carina Latest changes made by Carina on 09.01.22, 21:18 All contents of "LobbyObserverTournament" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -29,11 +28,15 @@ import java.util.ResourceBundle;
 
 public class LobbyObserverTournament implements Initializable {
 
-  @FXML private static Client CLIENT;
+  @FXML
+  private static Client CLIENT;
   private static LobbyObserverTournament OBSERVER;
-  @FXML private Text PlayerName;
-  @FXML private Text PlayerJoined;
-  @FXML private Text JoinedSuccessfully;
+  @FXML
+  private Text PlayerName;
+  @FXML
+  private Text PlayerJoined;
+  @FXML
+  private Text JoinedSuccessfully;
 
   private int selectedTournamentId;
 
@@ -52,7 +55,7 @@ public class LobbyObserverTournament implements Initializable {
     var primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
     var loader = SceneController.loadFXML("/player/style/LobbyObserverTournament.fxml");
     loader.setController(this);
-    Parent root = loader.load();
+    var root = (Parent) loader.load();
     primaryStage.setTitle("Maulwurf Company");
     primaryStage.setResizable(false);
     primaryStage.setScene(new Scene(root));
@@ -62,13 +65,13 @@ public class LobbyObserverTournament implements Initializable {
     // set event for back button
     var btnBack = (Button) (primaryStage.getScene().lookup("#backToTournamentSelection"));
     btnBack.setOnAction(
-        e -> {
-          try {
-            onBackClick(e);
-          } catch (IOException ex) {
-            ex.printStackTrace();
-          }
-        });
+      e -> {
+        try {
+          onBackClick(e);
+        } catch (IOException ex) {
+          ex.printStackTrace();
+        }
+      });
     // endregion
   }
 
@@ -80,8 +83,8 @@ public class LobbyObserverTournament implements Initializable {
   /**
    * @author Nick
    * @use processes the click on the back button, loads previous scene GameSelection and informs
-   *     server player has left via leaveGame Packet (method inspired by "onSignOutClick()" -> see
-   *     GameSelection)
+   * server player has left via leaveGame Packet (method inspired by "onSignOutClick()" -> see
+   * GameSelection
    */
   @FXML
   void onBackClick(ActionEvent event) throws IOException {
@@ -102,8 +105,8 @@ public class LobbyObserverTournament implements Initializable {
   /**
    * @author Nick
    * @use Changes the opacity of a text field with the content "Ein weiterer Spieler ist
-   *     beigetreten" thus making it visible for 3 seconds when another player has joined
-   *     respectively when the client has received playerJoined packet.
+   * beigetreten" thus making it visible for 3 seconds when another player has joined
+   * respectively when the client has received playerJoined packet.
    */
   public void showNewPlayer() {
     PlayerJoined.setOpacity(1.0);
@@ -118,7 +121,7 @@ public class LobbyObserverTournament implements Initializable {
   /**
    * @author Nick
    * @use Changes the opacity of a text field with the content "Beitritt zum Turnier war
-   *     erfolgreich! Bitte warten." thus making it visible for 5 seconds.
+   * erfolgreich! Bitte warten." thus making it visible for 5 seconds.
    */
   public void showJoiningSuccessfully() {
     JoinedSuccessfully.setOpacity(1.0);

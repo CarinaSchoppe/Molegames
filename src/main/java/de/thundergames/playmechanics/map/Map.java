@@ -1,8 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
- * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 24.12.21, 12:18 by Carina Latest changes made by Carina on 24.12.21, 12:16
- * All contents of "Map" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * Copyright (c) at ThunderGames | SwtPra10 2022
+ * File created on 09.01.22, 21:26 by Carina Latest changes made by Carina on 09.01.22, 21:25 All contents of "Map" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -37,10 +36,10 @@ public class Map {
    * @use creates a new Map object with the given radius
    */
   public Map(
-      @NotNull final Game game,
-      @NotNull final HashSet<Field> holes,
-      @NotNull final HashSet<Field> drawAgainFields,
-      final int points) {
+    @NotNull final Game game,
+    @NotNull final HashSet<Field> holes,
+    @NotNull final HashSet<Field> drawAgainFields,
+    final int points) {
     this.holes = holes;
     this.drawAgainFields = drawAgainFields;
     this.points = points;
@@ -55,9 +54,9 @@ public class Map {
    * @use creates a new Map object with the given radius
    */
   public Map(
-      @NotNull final HashSet<Field> holes,
-      @NotNull final HashSet<Field> drawAgainFields,
-      final int points) {
+    @NotNull final HashSet<Field> holes,
+    @NotNull final HashSet<Field> drawAgainFields,
+    final int points) {
     this.holes = holes;
     this.drawAgainFields = drawAgainFields;
     this.points = points;
@@ -75,7 +74,7 @@ public class Map {
   /**
    * @param radius
    * @author Carina and Philipp
-   * @use creates the mapfield in the comitee decided designway
+   * @use creates the mapField in the committee decided designway
    */
   public void createMap(final int radius) {
     // Top left to mid right
@@ -117,8 +116,8 @@ public class Map {
         getFieldMap().get(List.of(field.getX(), field.getY())).setDrawAgainField(true);
     }
     for (var mole : gameState.getPlacedMoles()) {
-      getFieldMap().get(List.of(mole.getField().getX(), mole.getField().getY())).setMole(mole);
-      getFieldMap().get(List.of(mole.getField().getX(), mole.getField().getY())).setOccupied(true);
+      getFieldMap().get(List.of(mole.getPosition().getX(), mole.getPosition().getY())).setMole(mole);
+      getFieldMap().get(List.of(mole.getPosition().getX(), mole.getPosition().getY())).setOccupied(true);
     }
   }
 
@@ -128,12 +127,12 @@ public class Map {
    */
   public void printMap() {
     var fields =
-        new ArrayList<>(fieldMap.values())
-            .stream()
-                .sorted(
-                    Comparator.comparing(de.thundergames.playmechanics.map.Field::getY)
-                        .thenComparing(de.thundergames.playmechanics.map.Field::getX))
-                .collect(Collectors.toList());
+      new ArrayList<>(fieldMap.values())
+        .stream()
+        .sorted(
+          Comparator.comparing(de.thundergames.playmechanics.map.Field::getY)
+            .thenComparing(de.thundergames.playmechanics.map.Field::getX))
+        .collect(Collectors.toList());
     var row = 0;
     for (var field : fields) {
       if (field.getY() != row) {
@@ -141,19 +140,19 @@ public class Map {
         System.out.println();
       }
       System.out.print(
-          "Field X: "
-              + field.getX()
-              + ", Y: "
-              + field.getY()
-              + " occupied: "
-              + field.isOccupied()
-              + ", hole: "
-              + field.isHole()
-              + ", drawAgainField: "
-              + field.isDrawAgainField()
-              + "    ");
+        "Field X: "
+          + field.getX()
+          + ", Y: "
+          + field.getY()
+          + " occupied: "
+          + field.isOccupied()
+          + ", hole: "
+          + field.isHole()
+          + ", drawAgainField: "
+          + field.isDrawAgainField()
+          + "    ");
     }
-    System.out.println();
+    System.out.print("\n");
   }
 
   /**

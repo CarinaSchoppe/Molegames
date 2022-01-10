@@ -1,8 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
- * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 24.12.21, 12:18 by Carina Latest changes made by Carina on 24.12.21, 12:16
- * All contents of "Tournament" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * Copyright (c) at ThunderGames | SwtPra10 2022
+ * File created on 09.01.22, 21:26 by Carina Latest changes made by Carina on 09.01.22, 21:25 All contents of "Tournament" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -31,9 +30,9 @@ public class Tournament {
   private final transient HashSet<ServerThread> players = new HashSet<>();
   private final int tournamentID;
   private final HashSet<Game> games = new HashSet<>();
+  private transient Score score;
   private transient TournamentState tournamentState;
   private int playerCount;
-  private Score score;
   private TournamentStatus status;
 
   public Tournament(final int tournamentID) {
@@ -89,17 +88,23 @@ public class Tournament {
     }
   }
 
-  /** @return tournamentID with a hashtag in front of it */
+  /**
+   * @return tournamentID with a hashtag in front of it
+   */
   public String getHashtagWithTournamentID() {
     return "#" + tournamentID;
   }
 
-  /** @return current player count and the maximum player count with a slash between both */
+  /**
+   * @return current player count and the maximum player count with a slash between both
+   */
   public String getCurrentPlayerCount_MaxCount() {
     return players.size() + "/ XX";
   }
 
-  /** @return current player count and the maximum player count with a slash between both */
+  /**
+   * @return current player count and the maximum player count with a slash between both
+   */
   public String getStatusForTableView() {
     return Objects.equals(status, TournamentStatus.NOT_STARTED) ? "OPEN" : status.getStatus();
   }

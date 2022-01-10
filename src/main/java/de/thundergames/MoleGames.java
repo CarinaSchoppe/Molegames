@@ -1,8 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
- * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 24.12.21, 12:18 by Carina Latest changes made by Carina on 24.12.21, 12:16
- * All contents of "MoleGames" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * Copyright (c) at ThunderGames | SwtPra10 2022
+ * File created on 09.01.22, 16:05 by Carina Latest changes made by Carina on 09.01.22, 16:05 All contents of "MoleGames" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -43,7 +42,7 @@ public class MoleGames {
 
   /**
    * @author Carina
-   * @use Mainclass start method
+   * @use MainClass start method
    * @use creates a server object or AI object or client object depending on the arguments
    * @see Server
    * @see Client
@@ -71,15 +70,15 @@ public class MoleGames {
         case "a":
           if (args.length == 4) {
             MoleGames.getMoleGames().ai =
-                new AI(
-                    Objects.requireNonNull(args[1]),
-                    Integer.parseInt(Objects.requireNonNull(args[2])),
-                    Integer.parseInt(Objects.requireNonNull(args[3])));
+              new AI(
+                Objects.requireNonNull(args[1]),
+                Integer.parseInt(Objects.requireNonNull(args[2])),
+                Integer.parseInt(Objects.requireNonNull(args[3])));
           } else if (args.length == 3) {
             MoleGames.getMoleGames().ai =
-                new AI(
-                    Objects.requireNonNull(args[1]),
-                    Integer.parseInt(Objects.requireNonNull(args[2])));
+              new AI(
+                Objects.requireNonNull(args[1]),
+                Integer.parseInt(Objects.requireNonNull(args[2])));
           }
           MoleGames.getMoleGames().ai.create();
       }

@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
- * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 21.12.21, 16:39 by Carina Latest changes made by Carina on 21.12.21, 16:37 All contents of "Board" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * Copyright (c) at ThunderGames | SwtPra10 2022
+ * File created on 09.01.22, 21:35 by Carina Latest changes made by Carina on 09.01.22, 21:35 All contents of "Board" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -42,7 +42,7 @@ public class Board extends Group {
    * @author Issam, Alp, Dila
    * @use generate nodes and edges
    */
-  public Board(final int radius, final double width, final double height, HashMap<List<Integer>, NodeType> nodesType,ArrayList<PlayerModel> players) {
+  public Board(final int radius, final double width, final double height, @NotNull final HashMap<List<Integer>, NodeType> nodesType, @NotNull final ArrayList<PlayerModel> players) {
     super();
     this.radius = radius;
     this.width = width;
@@ -80,9 +80,9 @@ public class Board extends Group {
     }
     var possibleNeighbors = this.nodes.stream().filter(n -> possibleNeighborsIds.contains(n.getNodeId())).collect(Collectors.toList());
     // Filter out invalid neighbors
-    Function<Node, Boolean> isValidId = neighbor -> neighbor.getNodeId() > 0 && neighbor.getNodeId() <= maxPossibleId && neighbor.getNodeId() > nodeId;
-    Function<Node, Boolean> isNextEdge = neighbor -> (neighbor.getNodeId() == nodeId + 1 && neighbor.getRow() > nodeRow) || neighbor.getRow() - nodeRow > 1;
-    Function<Node, Boolean> isAdjacentSameRow = neighbor -> (neighbor.getNodeId() > nodeId + 1 && neighbor.getRow() == nodeRow);
+    var isValidId = (Function<Node, Boolean>) neighbor -> neighbor.getNodeId() > 0 && neighbor.getNodeId() <= maxPossibleId && neighbor.getNodeId() > nodeId;
+    var isNextEdge = (Function<Node, Boolean>) neighbor -> (neighbor.getNodeId() == nodeId + 1 && neighbor.getRow() > nodeRow) || neighbor.getRow() - nodeRow > 1;
+    var isAdjacentSameRow = (Function<Node, Boolean>) neighbor -> (neighbor.getNodeId() > nodeId + 1 && neighbor.getRow() == nodeRow);
     return possibleNeighbors.stream().filter(neighbor -> isValidId.apply(neighbor) && !isNextEdge.apply(neighbor) && !isAdjacentSameRow.apply(neighbor)).distinct().collect(Collectors.toList());
   }
 
@@ -97,14 +97,14 @@ public class Board extends Group {
     // Determine margin between nodes
     var displayHeight = this.height;
     var maxAreaCoveredByNodes = maxNumberOfNodes * 15; //TODO: change constant to actual node radius
-    double verticalMargin = (displayHeight - maxAreaCoveredByNodes - 100) / maxNumberOfNodes;
-    double horizentalMargin = verticalMargin / 2;
+    var verticalMargin = (displayHeight - maxAreaCoveredByNodes - 100) / maxNumberOfNodes;
+    var horizontalMargin = verticalMargin / 2;
     var edgeMargins = maxNumberOfNodes - numberOfNodes;
     var points = new Point2D[numberOfNodes];
-    var widthSoFar = edgeMargins * horizentalMargin;
+    var widthSoFar = edgeMargins * horizontalMargin;
     for (var i = 0; i < numberOfNodes; i++) {
       points[i] = new Point2D(widthSoFar, row * verticalMargin + 50);
-      widthSoFar += 2 * horizentalMargin;
+      widthSoFar += 2 * horizontalMargin;
     }
     return points;
   }
@@ -119,14 +119,12 @@ public class Board extends Group {
     for (var i = 0; i < numberOfGridRows; i++) {
       var numberOfGridCols = i <= this.radius ? this.radius + i + 1 : this.radius + numberOfGridRows - i;
       var nodesPositions = getNodesPosition(numberOfGridCols, numberOfGridRows, i);
-      var shift = i > this.radius ? numberOfGridRows-numberOfGridCols : 0;
+      var shift = i > this.radius ? numberOfGridRows - numberOfGridCols : 0;
       for (var j = 0; j < numberOfGridCols; j++) {
-        var nodeType = this.nodesType.get(List.of(i,j)) != null
-          ? this.nodesType.get(List.of(i,j))
+        var nodeType = this.nodesType.get(List.of(i, j)) != null
+          ? this.nodesType.get(List.of(i, j))
           : NodeType.DEFAULT;
-
-        this.nodes.add(new Node(startId + j, nodesPositions[j].getX(), nodesPositions[j].getY(), nodeType, i + 1,new Field(i,j + shift)));
-
+        this.nodes.add(new Node(startId + j, nodesPositions[j].getX(), nodesPositions[j].getY(), nodeType, i + 1, new Field(i, j + shift)));
       }
       startId += numberOfGridCols;
     }
@@ -153,7 +151,8 @@ public class Board extends Group {
     // Moles need to be set on each state mutation and should have the same id as the corresponding node
     for (var p : this.players) {
       for (var mole : p.getMoles()) {
-        var correspondingNode = getNodeByField(mole.getMole().getField());
+        var correspondingNode = getNodeByField(mole.getMole().getPosition());
+        assert correspondingNode != null;
         mole.setLayoutX(correspondingNode.getCenterX() - mole.getSize() / 2);
         mole.setLayoutY(correspondingNode.getCenterY() - mole.getSize() / 2);
         mole.render();
@@ -185,15 +184,10 @@ public class Board extends Group {
     this.generateNodes();
     this.generateEdges();
     // display edges and nodes
-    this.edges.forEach(edge -> {
-      this.getChildren().add(edge);
-    });
-    this.nodes.forEach(node -> {
-      this.getChildren().add(node);
-    });
+    this.edges.forEach(edge -> this.getChildren().add(edge));
+    this.nodes.forEach(node -> this.getChildren().add(node));
     // display moles
     this.generateMoles();
-    var test = this.players;
     this.players.forEach(player -> this.getChildren().addAll(player.getMoles()));
     // display markers
     this.players.forEach(PlayerModel::updateMarker);
@@ -201,11 +195,11 @@ public class Board extends Group {
   }
 
   private Node getNodeByField(final Field field) {
-      for (var node : nodes) {
-        if (node.getField().getX() == field.getX() && node.getField().getY() == field.getY()) {
-          return node;
-        }
+    for (var node : nodes) {
+      if (node.getField().getX() == field.getX() && node.getField().getY() == field.getY()) {
+        return node;
       }
+    }
     return null;
   }
 }

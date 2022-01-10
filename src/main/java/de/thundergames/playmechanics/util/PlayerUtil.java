@@ -1,8 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
- * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 24.12.21, 12:18 by Carina Latest changes made by Carina on 24.12.21, 12:16
- * All contents of "PlayerUtil" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * Copyright (c) at ThunderGames | SwtPra10 2022
+ * File created on 09.01.22, 16:05 by Carina Latest changes made by Carina on 09.01.22, 16:05 All contents of "PlayerUtil" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -46,29 +45,29 @@ public class PlayerUtil {
     try {
       if (player.getGame().getCurrentPlayer().equals(player)) {
         player
-            .getTimer()
-            .schedule(
-                new TimerTask() {
-                  @Override
-                  public void run() {
-                    if (player.getGame().getCurrentPlayer().equals(player)) {
-                      if (MoleGames.getMoleGames().getServer().isDebug()) {
-                        System.out.println(
-                            "Client "
-                                + player.getServerClient().getThreadID()
-                                + " ran out of time");
-                      }
-                      MoleGames.getMoleGames()
-                          .getGameHandler()
-                          .getGameLogic()
-                          .performPunishment(player, Punishments.NOMOVE);
-                      player.setTimerIsRunning(false);
-                      player.getGame().getGameUtil().nextPlayer();
-                      player.getTimer().cancel();
-                    }
+          .getTimer()
+          .schedule(
+            new TimerTask() {
+              @Override
+              public void run() {
+                if (player.getGame().getCurrentPlayer().equals(player)) {
+                  if (MoleGames.getMoleGames().getServer().isDebug()) {
+                    System.out.println(
+                      "Client "
+                        + player.getServerClient().getThreadID()
+                        + " ran out of time");
                   }
-                },
-                player.getGame().getSettings().getTurnTime());
+                  MoleGames.getMoleGames()
+                    .getGameHandler()
+                    .getGameLogic()
+                    .performPunishment(player, Punishments.NOMOVE);
+                  player.setTimerIsRunning(false);
+                  player.getGame().getGameUtil().nextPlayer();
+                  player.getTimer().cancel();
+                }
+              }
+            },
+            player.getGame().getSettings().getTurnTime());
       }
     } catch (Exception e) {
       e.printStackTrace();

@@ -1,8 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
- * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 24.12.21, 12:26 by Carina Latest changes made by Carina on 24.12.21, 12:22
- * All contents of "LeaderBoard" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * Copyright (c) at ThunderGames | SwtPra10 2022
+ * File created on 09.01.22, 21:21 by Carina Latest changes made by Carina on 09.01.22, 21:18 All contents of "LeaderBoard" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -36,13 +35,17 @@ import java.util.ResourceBundle;
 
 public class LeaderBoard extends Application implements Initializable {
 
-  @FXML private TableView<PlayerResult> scoreTable;
+  @FXML
+  private TableView<PlayerResult> scoreTable;
 
-  @FXML private TableColumn<PlayerResult, Integer> placement;
+  @FXML
+  private TableColumn<PlayerResult, Integer> placement;
 
-  @FXML private TableColumn<PlayerResult, String> name;
+  @FXML
+  private TableColumn<PlayerResult, String> name;
 
-  @FXML private TableColumn<PlayerResult, Integer> score;
+  @FXML
+  private TableColumn<PlayerResult, Integer> score;
 
   /**
    * @author Carina, Lennart
@@ -63,29 +66,29 @@ public class LeaderBoard extends Application implements Initializable {
     name.setCellValueFactory(new PropertyValueFactory<>("name"));
     score.setCellValueFactory(new PropertyValueFactory<>("score"));
     if (Client.getClientInstance() == null) return;
-    createLeaderbord();
+    createLeaderboard();
   }
 
   /**
    * @author Lennart, Carina
-   * @use creates a leaderboard and filles it with the playerscores depending on the placement
-   *     (points)
+   * @use creates a leaderboard and fills it with the playerScores depending on the placement
+   * (points)
    * @see Score
    * @see Player
    */
-  void createLeaderbord() {
+  void createLeaderboard() {
     var score = Client.getClientInstance().getGameState().getScore();
     // sort players in list by their points
-    // fill sorted players with their placement, name and points into leaderlist
-    var leaderlist = new ArrayList<PlayerResult>();
+    // fill sorted players with their placement, name and points into leaderList
+    var leaderList = new ArrayList<PlayerResult>();
     var thisPlace = 1;
     for (var player : score.getPlayers()) {
-      leaderlist.add(
-          new PlayerResult(
-              player.getName(), score.getPoints().get(player.getClientID()), thisPlace));
+      leaderList.add(
+        new PlayerResult(
+          player.getName(), score.getPoints().get(player.getClientID()), thisPlace));
       thisPlace++;
     }
-    scoreTable.getItems().addAll(leaderlist);
+    scoreTable.getItems().addAll(leaderList);
   }
 
   /**
@@ -110,7 +113,7 @@ public class LeaderBoard extends Application implements Initializable {
   }
 
   /**
-   * @param primaryStage stage that will be opend
+   * @param primaryStage stage that will be opened
    * @throws IOException error creating the scene LeaderBoard
    * @use Create the Scene for LeaderBoard
    * @author Lennart, Carina
@@ -119,8 +122,8 @@ public class LeaderBoard extends Application implements Initializable {
   public void start(Stage primaryStage) throws Exception {
     var loader = SceneController.loadFXML("/player/style/LeaderBoard.fxml");
     loader.setController(this);
-    Parent root = loader.load();
-    primaryStage.setTitle("Maulwurf Company");
+    var root = (Parent) loader.load();
+    primaryStage.setTitle("Leader Board");
     primaryStage.setResizable(false);
     primaryStage.setScene(new Scene(root));
     primaryStage.show();
@@ -129,12 +132,12 @@ public class LeaderBoard extends Application implements Initializable {
     // set event for backToMenu button
     var btnBack = (Button) (primaryStage.getScene().lookup("#btnToMenu"));
     btnBack.setOnAction(
-        e -> {
-          try {
-            backToMenu(e);
-          } catch (IOException ex) {
-            ex.printStackTrace();
-          }
-        });
+      e -> {
+        try {
+          backToMenu(e);
+        } catch (IOException ex) {
+          ex.printStackTrace();
+        }
+      });
   }
 }

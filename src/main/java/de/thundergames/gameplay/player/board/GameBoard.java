@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
- * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 15.12.21, 19:20 by Carina Latest changes made by Carina on 15.12.21, 19:19 All contents of "TestWindow" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * Copyright (c) at ThunderGames | SwtPra10 2022
+ * File created on 09.01.22, 21:35 by Carina Latest changes made by Carina on 09.01.22, 21:35 All contents of "GameBoard" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -32,31 +32,31 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.paint.Paint;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
+import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
 import java.net.URL;
 import java.util.*;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class GameBoard implements Initializable {
 
   private static Client CLIENT;
   private static GameBoard OBSERVER;
-
+  private static HashMap<Integer, String> playersColors;
+  private static BoardCountDown COUNTDOWN;
   private int BOARD_RADIUS;
-
   private Stage primaryStage;
   private BorderPane borderPane;
   private BorderPane countDownPane;
+  private BorderPane turnPane;
+  private BorderPane scorePane;
   private GameHandler gameHandler;
-  private static String[] playersColors;
-
-  public static GameBoard getObserver() {
-    return OBSERVER;
-  }
-
   private GameState gameState;
 
   private ObservableList<PlayerResult> resultList;
@@ -66,19 +66,26 @@ public class GameBoard implements Initializable {
   private HashSet<Player> players;
   private ArrayList<PlayerModel> playerModelList;
 
-  private static BoardCountDown COUNTDOWN;
+  public static GameBoard getObserver() {
+    return OBSERVER;
+  }
+
   /**
    * @param primaryStage
    * @author Alp, Dila, Issam
    * @use starts the stage
    */
-  public void create(Stage primaryStage) throws InterruptedException {
+  public void create(Stage primaryStage) {
     OBSERVER = this;
     CLIENT = Client.getClientInstance();
     this.primaryStage = primaryStage;
     borderPane = new BorderPane();
     countDownPane = new BorderPane();
     countDownPane.setMinHeight(50);
+    turnPane = new BorderPane();
+    turnPane.setMinHeight(50);
+    scorePane = new BorderPane();
+    scorePane.setMinWidth(50);
     // get gameState
     gameState = CLIENT.getGameState();
     if (gameState == null) return;
@@ -87,14 +94,13 @@ public class GameBoard implements Initializable {
     COUNTDOWN.setTimer(!Objects.equals(gameState.getStatus(), GameStates.PAUSED.toString()));
     // get radius
     BOARD_RADIUS = gameState.getRadius();
-
     //get current player
-    var currentPlayerId = gameState.getCurrentPlayer()== null  ? -1 : gameState.getCurrentPlayer().getClientID();
-
+    var currentPlayerId = gameState.getCurrentPlayer() == null ? -1 : gameState.getCurrentPlayer().getClientID();
+    var currentPlayerName = CLIENT.getCurrentPlayer() == null ? "" : CLIENT.getCurrentPlayer().getName();
     // create list of playerModels for ui
-   players = gameState.getActivePlayers();
-    playersColors = players.stream().map(player -> Utils.getRandomHSLAColor()).toArray(String[]::new);
-    HashSet<Mole> placedMoles = gameState.getPlacedMoles();
+    players = gameState.getActivePlayers();
+    playersColors = new HashMap<>(players.stream().collect(Collectors.toMap(Player::getClientID, player -> Utils.getRandomHSLAColor())));
+    var placedMoles = gameState.getPlacedMoles();
     var playerModelList = mapPlayersToPlayerModels(players, placedMoles, currentPlayerId, playersColors);
     // Set custom cursor
     var cursor = new Image(Utils.getSprite("game/cursor.png"));
@@ -104,20 +110,24 @@ public class GameBoard implements Initializable {
     var rootPane = new BorderPane();
     rootPane.setTop(countDownPane);
     rootPane.setCenter(borderPane);
+    rootPane.setBottom(turnPane);
+    rootPane.setRight(scorePane);
     // Create a game handler and add random players to it
     gameHandler = new GameHandler(playerModelList, BOARD_RADIUS, updateFloor(gameState), borderPane, rootPane);
     gameHandler.start(playerModelList);
     // Add resize event listener
-    ChangeListener<Number> resizeObserver = (obs, newValue, oldValue) -> gameHandler.getBoard().onResize(borderPane.getWidth(), borderPane.getHeight());
+    var resizeObserver = (ChangeListener<Number>) (obs, newValue, oldValue) -> gameHandler.getBoard().onResize(borderPane.getWidth(), borderPane.getHeight());
     borderPane.widthProperty().addListener(resizeObserver);
     borderPane.heightProperty().addListener(resizeObserver);
     // Add board to center of borderPane
     borderPane.setCenter(gameHandler.getBoard());
     CLIENT.getClientPacketHandler().getRemainingTimePacket();
     updatePlayerList();
+    if (currentPlayerId != -1) {
+      playerTurnInformation(currentPlayerId, currentPlayerName);
+    }
     var s = new Scene(rootPane);
     s.getStylesheets().add("/player/style/css/GameBoard.css");
-
     primaryStage.setScene(s);
     primaryStage.setResizable(true);
     primaryStage.setMaximized(true);
@@ -128,139 +138,127 @@ public class GameBoard implements Initializable {
   public void initialize(URL location, ResourceBundle resources) {
   }
 
-  public ArrayList<PlayerModel> mapPlayersToPlayerModels(HashSet<Player> players, HashSet<Mole> placedMoles, Integer currentPlayerId,String[] playersColors) {
-    ArrayList<PlayerModel> playerModelList = new ArrayList<>();
+  public ArrayList<PlayerModel> mapPlayersToPlayerModels(@NotNull final HashSet<Player> players, @NotNull final HashSet<Mole> placedMoles, final int currentPlayerId, @NotNull final HashMap<Integer, String> playersColors) {
+    var playerModelList = new ArrayList<PlayerModel>();
     for (var player : players) {
-      ArrayList<MoleModel> moleModelList = new ArrayList<>();
+      var moleModelList = new ArrayList<MoleModel>();
       for (var mole : placedMoles) {
         if (player.getClientID() == mole.getPlayer().getClientID()) {
-          moleModelList.add(new MoleModel(player.getClientID(),mole, playersColors[player.getClientID()]));
+          moleModelList.add(new MoleModel(player.getClientID(), mole, playersColors.get(player.getClientID())));
         }
       }
-      playerModelList.add(new PlayerModel(player,moleModelList,player.getClientID() == currentPlayerId, playersColors[player.getClientID()]));
+      playerModelList.add(new PlayerModel(player, moleModelList, player.getClientID() == currentPlayerId, playersColors.get(player.getClientID())));
     }
     return playerModelList;
   }
 
-
-  public void updateGameBoard()
-  {
+  public void updateGameBoard() {
     var loadedGameState = CLIENT.getGameState();
-
-    if (gameState != loadedGameState)
-    {
+    if (gameState != loadedGameState) {
       //Update board if count of holes changed
-      if (gameState.getFloor().getHoles().size() != loadedGameState.getFloor().getHoles().size())
-      {
-        HashMap<List<Integer>, NodeType> nodes;
-          nodes = updateFloor(loadedGameState);
-          gameHandler.setNodeTypes(nodes);
-          ArrayList<String> backgroundList = new ArrayList<>( List.of("background/ug_1.png","background/ug_2.png","background/ug_3.png"));
-          backgroundList.remove(gameHandler.getBackground());
-          gameHandler.setBackground(backgroundList.get(new Random().nextInt(backgroundList.size()-1)));
+      if (gameState.getFloor().getHoles().size() != loadedGameState.getFloor().getHoles().size()) {
+        var nodes = updateFloor(loadedGameState);
+        gameHandler.setNodeTypes(nodes);
+        var backgroundList = new ArrayList<>(List.of("background/ug_1.png", "background/ug_2.png", "background/ug_3.png"));
+        backgroundList.remove(gameHandler.getBackground());
+        gameHandler.setBackground(backgroundList.get(new Random().nextInt(backgroundList.size() - 1)));
       }
-      gameState=loadedGameState;
-
-
+      gameState = loadedGameState;
       // get active players of gameState
       players = gameState.getActivePlayers();
     }
-
     //get current player
     var currentPlayerId = CLIENT.getCurrentPlayer() == null ? -1 : CLIENT.getCurrentPlayer().getClientID();
     var currentPlayerName = CLIENT.getCurrentPlayer() == null ? "" : CLIENT.getCurrentPlayer().getName();
     //get moles
     var fieldMap = CLIENT.getMap().getFieldMap();
-    HashSet<Mole> placedMoles = new HashSet<>();
-    for (var field :fieldMap.values())
-    {
+    var placedMoles = new HashSet<Mole>();
+    for (var field : fieldMap.values()) {
       var currentMole = field.getMole();
       if (currentMole != null) {
-        if (currentMole.getField().getX() != field.getX() || currentMole.getField().getY() != field.getY()) {
-          currentMole.setField(field);
-          System.out.println(currentMole.getField().getX() + " " + currentMole.getField().getY() + "/ " + field.getX() + " " + field.getY());
+        if (currentMole.getPosition().getX() != field.getX() || currentMole.getPosition().getY() != field.getY()) {
+          currentMole.setPosition(field);
+          System.out.println(currentMole.getPosition().getX() + " " + currentMole.getPosition().getY() + "/ " + field.getX() + " " + field.getY());
         }
         placedMoles.add(currentMole);
       }
     }
-
-
-    playerModelList = mapPlayersToPlayerModels(players, placedMoles, currentPlayerId,playersColors);
+    playerModelList = mapPlayersToPlayerModels(players, placedMoles, currentPlayerId, playersColors);
     gameHandler.update(playerModelList);
     CLIENT.getClientPacketHandler().getRemainingTimePacket();
-
-    if (!currentPlayerName.equals("")) {
-      playerTurnInformation(currentPlayerName);
+    if (currentPlayerId != -1) {
+      playerTurnInformation(currentPlayerId, currentPlayerName);
     }
     updatePlayerList();
   }
 
   public void updatePlayerList() {
     Platform.runLater(() -> {
-      TableView<PlayerResult> playerListTable = new TableView<>();
+      var playerListTable = new TableView<PlayerResult>();
       playerListTable.setEditable(false);
-
-      TableColumn placeColumn = new TableColumn("Platz");
+      var placeColumn = new TableColumn("Platz");
       placeColumn.setMinWidth(10);
       placeColumn.setCellValueFactory(
-              new PropertyValueFactory<PlayerResult, Integer>("placement"));
-
-      TableColumn nameColumn = new TableColumn("Name");
+        new PropertyValueFactory<PlayerResult, Integer>("placement"));
+      var nameColumn = new TableColumn("Name");
       nameColumn.setMinWidth(30);
       nameColumn.setCellValueFactory(
-              new PropertyValueFactory<PlayerResult, String>("name"));
-
-      TableColumn pointsColumn = new TableColumn("Punkte");
+        new PropertyValueFactory<PlayerResult, String>("name"));
+      var pointsColumn = new TableColumn("Punkte");
       pointsColumn.setMinWidth(10);
       pointsColumn.setCellValueFactory(
-              new PropertyValueFactory<PlayerResult, Integer>("score"));
-
+        new PropertyValueFactory<PlayerResult, Integer>("score"));
       CLIENT.getClientPacketHandler().getScorePacket();
       ObservableList<PlayerResult> newResultList = FXCollections.observableArrayList();
       var newGameState = CLIENT.getGameState();
       if (gameState != newGameState) {
         gameState = newGameState;
       }
-      System.out.println(gameState.getScore());
       if (score != gameState.getScore() && !gameState.getScore().getPlayers().isEmpty()) {
         score = gameState.getScore();
         var thisPlace = 1;
         for (var player : score.getPlayers()) {
           newResultList.add(
-                  new PlayerResult(
-                          player.getName(), score.getPoints().get(player.getClientID()), thisPlace));
+            new PlayerResult(
+              player.getName(), score.getPoints().get(player.getClientID()), thisPlace));
           thisPlace++;
         }
       }
-
       if (resultList != newResultList && !newResultList.isEmpty()) {
         resultList = newResultList;
       }
       playerListTable.setItems(resultList);
       playerListTable.getColumns().addAll(placeColumn, nameColumn, pointsColumn);
       playerListTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-      //playerListTable.setStyle("-fx-background-color: -fx-table-cell-border-color, rgba(65, 23, 167, 1);");
       playerListTable.prefHeightProperty().bind(primaryStage.heightProperty());
-      var container = new BorderPane();
-      container.setRight(playerListTable);
-      BorderPane.setAlignment(playerListTable, Pos.CENTER_RIGHT);
-      borderPane.setRight(container);
+      scorePane.setCenter(playerListTable);
     });
   }
 
-  public void playerTurnInformation(String playerName) {
+  public void playerTurnInformation(final int playerID, @NotNull final String playerName) {
     Platform.runLater(() -> {
-      var notification = new Text("Spieler " + playerName + " ist jetzt an der Reihe.");
-      var container = new BorderPane();
-      notification.setId("text");
-      container.setTop(notification);
-      BorderPane.setAlignment(notification, Pos.BOTTOM_CENTER);
-      borderPane.setBottom(container);
+      var playerString = Integer.toString(playerID);
+      if (!playerName.equals("")) {
+        playerString = playerString + "/" + playerName;
+      }
+      var playerText = new Text(playerString);
+      var beginning = new Text("Spieler ");
+      var end = new Text(" ist jetzt an der Reihe.");
+      var defTextColor = "#ffffff";
+      beginning.setId("text");
+      beginning.setFill(Paint.valueOf(defTextColor));
+      end.setId("text");
+      end.setFill(Paint.valueOf(defTextColor));
+      playerText.setId("text");
+      playerText.setFill(Paint.valueOf(playersColors.get(playerID)));
+      var textFlow = new TextFlow(beginning, playerText, end);
+      textFlow.setMaxWidth(turnPane.getWidth() / 2);
+      turnPane.setCenter(textFlow);
     });
   }
 
-  public HashMap<List<Integer>, NodeType> updateFloor(GameState gameState) {
-    HashMap<List<Integer>, NodeType> nodes = new HashMap<>();
+  public HashMap<List<Integer>, NodeType> updateFloor(@NotNull final GameState gameState) {
+    var nodes = new HashMap<List<Integer>, NodeType>();
     gameState.getFloor().getHoles().forEach(field -> nodes.put(List.of(field.getX(), field.getY()), NodeType.HOLE));
     gameState.getFloor().getDrawAgainFields().forEach(field -> nodes.put(List.of(field.getX(), field.getY()), NodeType.DRAW_AGAIN));
     return nodes;
@@ -299,7 +297,7 @@ public class GameBoard implements Initializable {
     COUNTDOWN.checkForStopTimer();
   }
 
-  public void continueTimer(){
+  public void continueTimer() {
     COUNTDOWN.continueTimer();
   }
 

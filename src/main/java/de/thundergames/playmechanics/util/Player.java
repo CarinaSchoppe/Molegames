@@ -1,8 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
- * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 24.12.21, 12:18 by Carina Latest changes made by Carina on 24.12.21, 12:16
- * All contents of "Player" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * Copyright (c) at ThunderGames | SwtPra10 2022
+ * File created on 09.01.22, 21:45 by Carina Latest changes made by Carina on 09.01.22, 21:45 All contents of "Player" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -90,8 +89,8 @@ public class Player {
   /**
    * @param x_start the x-coordinate of the start field
    * @param y_start the y-coordinate of the start field
-   * @param x_end the x-coordinate of the end field
-   * @param y_end the y-coordinate of the end field
+   * @param x_end   the x-coordinate of the end field
+   * @param y_end   the y-coordinate of the end field
    * @return true if the move is valid
    * @author Carina
    * @use will check if a field is valid and if the player has the right to move the mole
@@ -101,19 +100,21 @@ public class Player {
    * @see GameLogic
    */
   public synchronized void moveMole(
-      final int x_start, final int y_start, final int x_end, final int y_end, final int cardValue) {
+    final int x_start, final int y_start, final int x_end, final int y_end, final int cardValue) {
     if (!game.getCurrentPlayer().equals(this)) {
-      System.out.println(
+      if (MoleGames.getMoleGames().getServer().isDebug()) {
+        System.out.println(
           "current" + game.getCurrentPlayer().getName() + "who moved: " + this.getName());
+      }
       return;
     }
     if (GameLogic.wasLegalMove(
-        new int[] {x_start, y_start}, new int[] {x_end, y_end}, cardValue, game.getMap())) {
-      Mole mole = null;
+      new int[]{x_start, y_start}, new int[]{x_end, y_end}, cardValue, game.getMap())) {
+      var mole = (Mole) null;
       for (var m : moles) {
-        if (m.getField().getX() == x_start
-            && m.getField().getY() == y_start
-            && m.getPlayer().getServerClient().getThreadID() == getServerClient().getThreadID()) {
+        if (m.getPosition().getX() == x_start
+          && m.getPosition().getY() == y_start
+          && m.getPlayer().getServerClient().getThreadID() == getServerClient().getThreadID()) {
           mole = m;
           moles.remove(m);
           break;
@@ -124,16 +125,16 @@ public class Player {
         playerUtil.refillCards();
       }
       MoleGames.getMoleGames()
-          .getServer()
-          .sendToAllGameClients(
-              game,
-              MoleGames.getMoleGames()
-                  .getServer()
-                  .getPacketHandler()
-                  .moleMovedPacket(
-                      new Field(x_start, y_start), new Field(x_end, y_end), cardValue));
+        .getServer()
+        .sendToAllGameClients(
+          game,
+          MoleGames.getMoleGames()
+            .getServer()
+            .getPacketHandler()
+            .moleMovedPacket(
+              new Field(x_start, y_start), new Field(x_end, y_end), cardValue));
       if (mole != null) {
-        mole.setField(game.getMap().getFieldMap().get(List.of(x_end, y_end)));
+        mole.setPosition(game.getMap().getFieldMap().get(List.of(x_end, y_end)));
         game.getMap().getFieldMap().get(List.of(x_start, y_start)).setOccupied(false);
         game.getMap().getFieldMap().get(List.of(x_end, y_end)).setOccupied(true);
         game.getMap().getFieldMap().get(List.of(x_end, y_end)).setMole(mole);
@@ -141,20 +142,20 @@ public class Player {
         moles.add(mole);
         if (MoleGames.getMoleGames().getServer().isDebug()) {
           System.out.println(
-              "Playermodel with id: "
-                  + serverClient.getThreadID()
-                  + " has moved his mole from: x="
-                  + x_start
-                  + " y="
-                  + y_start
-                  + " to x="
-                  + x_end
-                  + " y="
-                  + y_end
-                  + " with a card="
-                  + cardValue
-                  + "."
-                  + "\n");
+            "Playermodel with id: "
+              + serverClient.getThreadID()
+              + " has moved his mole from: x="
+              + x_start
+              + " y="
+              + y_start
+              + " to x="
+              + x_end
+              + " y="
+              + y_end
+              + " with a card="
+              + cardValue
+              + "."
+              + "\n");
         }
       }
       if (game.getMap().getFieldMap().get(List.of(x_end, y_end)).isDrawAgainField()) {
@@ -163,26 +164,26 @@ public class Player {
       playerUtil.handleTurnAfterAction();
     } else {
       MoleGames.getMoleGames()
-          .getGameHandler()
-          .getGameLogic()
-          .performPunishment(this, Punishments.INVALIDMOVE);
+        .getGameHandler()
+        .getGameLogic()
+        .performPunishment(this, Punishments.INVALIDMOVE);
       if (MoleGames.getMoleGames().getServer().isDebug()) {
         System.out.println(
-            "Client with id: "
-                + serverClient.getThreadID()
-                + " has done in invalid move Punishment: "
-                + game.getSettings().getPunishment()
-                + " player tried to move from X,Y: ["
-                + x_start
-                + ","
-                + y_start
-                + "] to X,Y: ["
-                + x_end
-                + ","
-                + y_end
-                + "] with a card of "
-                + cardValue
-                + "\n");
+          "Client with id: "
+            + serverClient.getThreadID()
+            + " has done in invalid move Punishment: "
+            + game.getSettings().getPunishment()
+            + " player tried to move from X,Y: ["
+            + x_start
+            + ","
+            + y_start
+            + "] to X,Y: ["
+            + x_end
+            + ","
+            + y_end
+            + "] with a card of "
+            + cardValue
+            + "\n");
       }
       timer.cancel();
       game.getGameUtil().nextPlayer();
@@ -190,43 +191,36 @@ public class Player {
   }
 
   /**
-   * @param x the x cordinate where a mole will be placed
-   * @param y the y cordinate where a mole will be placed
+   * @param x the x coordinate where a mole will be placed
+   * @param y the y coordinate where a mole will be placed
    * @author Carina
-   * @use will check if a field is free than set the mole on this field
+   * @use will check if a field is free, then set the mole on this field
    * @see Mole
    * @see Player
    * @see Field
    */
   public synchronized void placeMole(final int x, final int y) {
     if (!game.getCurrentPlayer().equals(this)
-        || moles.size() >= game.getSettings().getNumberOfMoles()) {
-      System.out.println(
-          " Size: "
-              + (moles.size() >= game.getSettings().getNumberOfMoles())
-              + "this: "
-              + this.getServerClient().getThreadID()
-              + " current: "
-              + game.getCurrentPlayer().getServerClient().getThreadID());
+      || moles.size() >= game.getSettings().getNumberOfMoles()) {
       return;
     }
     if (game.getMap().getFieldMap().get(List.of(x, y)).isOccupied()
-        || game.getMap().getFieldMap().get(List.of(x, y)).isHole()) {
+      || game.getMap().getFieldMap().get(List.of(x, y)).isHole()) {
       MoleGames.getMoleGames()
-          .getGameHandler()
-          .getGameLogic()
-          .performPunishment(this, Punishments.INVALIDMOVE);
+        .getGameHandler()
+        .getGameLogic()
+        .performPunishment(this, Punishments.INVALIDMOVE);
       if (MoleGames.getMoleGames().getServer().isDebug())
         System.out.println(
-            "Client with id: "
-                + serverClient.getThreadID()
-                + " has done in invalid move Punishment: "
-                + game.getSettings().getPunishment()
-                + " player tried to place a mole on X,Y: ["
-                + x
-                + ","
-                + y
-                + "]");
+          "Client with id: "
+            + serverClient.getThreadID()
+            + " has done in invalid move Punishment: "
+            + game.getSettings().getPunishment()
+            + " player tried to place a mole on X,Y: ["
+            + x
+            + ","
+            + y
+            + "]");
       timer.cancel();
       game.getGameUtil().nextPlayer();
     } else {
@@ -236,24 +230,29 @@ public class Player {
       game.getMap().getFieldMap().get(List.of(x, y)).setOccupied(true);
       game.getMap().getFieldMap().get(List.of(x, y)).setMole(mole);
       MoleGames.getMoleGames()
-          .getServer()
-          .sendToAllGameClients(
-              game, MoleGames.getMoleGames().getServer().getPacketHandler().molePlacedPacket(mole));
+        .getServer()
+        .sendToAllGameClients(
+          game, MoleGames.getMoleGames().getServer().getPacketHandler().molePlacedPacket(mole));
       playerUtil.handleTurnAfterAction();
-      if (MoleGames.getMoleGames().getServer().isDebug())
+      if (MoleGames.getMoleGames().getServer().isDebug()) {
         System.out.println(
-            "Playermodel with id: "
-                + serverClient.getThreadID()
-                + " has placed his mole on x="
-                + x
-                + " y="
-                + y
-                + ". ("
-                + getMoles().size()
-                + "/"
-                + game.getSettings().getNumberOfMoles()
-                + ")\n");
+          "Playermodel with id: "
+            + serverClient.getThreadID()
+            + " has placed his mole on x="
+            + x
+            + " y="
+            + y
+            + ". ("
+            + getMoles().size()
+            + "/"
+            + game.getSettings().getNumberOfMoles()
+            + ")\n");
+      }
     }
+  }
+
+  public String getPlayerIdAndName() {
+    return clientID + "/" + name;
   }
 
   public boolean isSpectator() {

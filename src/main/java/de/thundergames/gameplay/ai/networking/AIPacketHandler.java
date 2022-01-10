@@ -1,8 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
- * Copyright (c) at ThunderGames | SwtPra10 2021
- * File created on 24.12.21, 12:18 by Carina Latest changes made by Carina on 24.12.21, 12:16
- * All contents of "AIPacketHandler" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * Copyright (c) at ThunderGames | SwtPra10 2022
+ * File created on 09.01.22, 21:59 by Carina Latest changes made by Carina on 09.01.22, 21:58 All contents of "AIPacketHandler" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -30,10 +29,10 @@ public class AIPacketHandler extends ClientPacketHandler {
   }
 
   /**
-   * @param ai the instance of the AI
-   * @param packet the packet recieved
+   * @param ai     the instance of the AI
+   * @param packet the packet received
    * @author Carina
-   * @use the logic for the AI to decide what to do depending on the packet recieved
+   * @use the logic for the AI to decide what to do depending on the packet received
    */
   public void handlePacket(@NotNull final AI ai, @NotNull final Packet packet) {
     this.packet = packet;
@@ -43,6 +42,10 @@ public class AIPacketHandler extends ClientPacketHandler {
       }
       ai.getClientThread().setThreadID(packet.getValues().get("clientID").getAsInt());
       ai.setPlayer(new Player(ai));
+      loginPacket(ai.getName());
+      if (ai.getGameID() != -1) {
+        joinGamePacket(ai.getGameID(), true);
+      }
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.WELCOMEGAME.getPacketType())) {
       handleWelcomeGamePacket();
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.NEXTLEVEL.getPacketType())) {
@@ -51,7 +54,7 @@ public class AIPacketHandler extends ClientPacketHandler {
       handleMolePlacedPacket();
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.MOLEMOVED.getPacketType())) {
       handleMoleMovedPacket();
-    } else if (packet.getPacketType().equalsIgnoreCase(Packets.ASSIGNTOGAME.getPacketType())) {
+    } else if (packet.getPacketType().equalsIgnoreCase(Packets.ASSIGNEDTOGAME.getPacketType())) {
       handleAssignedToGamePacket();
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.PLAYERJOINED.getPacketType())) {
       handlePlayerJoinedPacket();
@@ -62,14 +65,26 @@ public class AIPacketHandler extends ClientPacketHandler {
       handlePlayerPlacesMolePacket();
       timerRelatedController(ai);
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.GAMEOVER.getPacketType())
-        || packet.getPacketType().equalsIgnoreCase(Packets.GAMECANCELED.getPacketType())) {
+      || packet.getPacketType().equalsIgnoreCase(Packets.GAMECANCELED.getPacketType())) {
       handleGameOverPacket();
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.MESSAGE.getPacketType())) {
       if (packet.getValues() != null) {
         if (packet.getValues().get("message") != null) {
-          if (ai.isDebug())
-            System.out.println("Server sended: " + packet.getValues().get("message").getAsString());
+          if (ai.isDebug()) {
+            System.out.println("Server sent: " + packet.getValues().get("message"));
+          }
         }
+      }
+    } else {
+      for (var packets : Packets.values()) {
+        if (packets.getPacketType().equalsIgnoreCase(packet.getPacketType())) {
+          if (ai.isDebug()) {
+            System.out.println("The packet: " + packet.getPacketType() + " is not handled by the AI!");
+          }
+        }
+      }
+      if (ai.isDebug()) {
+        System.out.println("Packet not found: " + packet.getPacketType());
       }
     }
   }
