@@ -189,7 +189,7 @@ public class GameSelection implements Initializable {
       || Objects.equals(currentGameState.getStatus(), GameStates.PAUSED.toString())) {
       spectateGame();
     } else if (Objects.equals(currentGameState.getStatus(), GameStates.NOT_STARTED.toString())) {
-      new LobbyObserverGame().create(primaryStage);
+      new LobbyObserverGame().create(primaryStage, selectedItem.getGameID());
     } else if (Objects.equals(currentGameState.getStatus(), GameStates.OVER.toString())) {
       loadScoreboard();
     }

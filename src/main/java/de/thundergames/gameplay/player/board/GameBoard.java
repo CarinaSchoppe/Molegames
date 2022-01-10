@@ -26,6 +26,7 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.ImageCursor;
 import javafx.scene.Scene;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -36,6 +37,8 @@ import javafx.scene.paint.Paint;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
+import lombok.Getter;
+import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
@@ -44,6 +47,8 @@ import java.util.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Getter
+@Setter
 public class GameBoard implements Initializable {
 
   private static Client CLIENT;
@@ -60,6 +65,9 @@ public class GameBoard implements Initializable {
   private GameState gameState;
 
   private ObservableList<PlayerResult> resultList;
+
+  private ScrollPane scrollPane;
+  private TextFlow textFlow;
 
   private Score score;
 
@@ -105,13 +113,21 @@ public class GameBoard implements Initializable {
     // Set custom cursor
     var cursor = new Image(Utils.getSprite("game/cursor.png"));
     borderPane.setCursor(new ImageCursor(cursor,
-      cursor.getWidth() / 2,
-      cursor.getHeight() / 2));
+            cursor.getWidth() / 2,
+            cursor.getHeight() / 2));
     var rootPane = new BorderPane();
     rootPane.setTop(countDownPane);
     rootPane.setCenter(borderPane);
     rootPane.setBottom(turnPane);
     rootPane.setRight(scorePane);
+    scrollPane = new ScrollPane();
+    textFlow = new TextFlow();
+    scrollPane.setContent(textFlow);
+    turnPane.setCenter(scrollPane);
+    turnPane.setMinHeight(100);
+    turnPane.setMaxHeight(100);
+    scrollPane.setMaxHeight(turnPane.getMaxHeight());
+    scrollPane.setMinHeight(turnPane.getMinHeight());
     // Create a game handler and add random players to it
     gameHandler = new GameHandler(playerModelList, BOARD_RADIUS, updateFloor(gameState), borderPane, rootPane);
     gameHandler.start(playerModelList);
@@ -199,15 +215,15 @@ public class GameBoard implements Initializable {
       var placeColumn = new TableColumn("Platz");
       placeColumn.setMinWidth(10);
       placeColumn.setCellValueFactory(
-        new PropertyValueFactory<PlayerResult, Integer>("placement"));
+              new PropertyValueFactory<PlayerResult, Integer>("placement"));
       var nameColumn = new TableColumn("Name");
       nameColumn.setMinWidth(30);
       nameColumn.setCellValueFactory(
-        new PropertyValueFactory<PlayerResult, String>("name"));
+              new PropertyValueFactory<PlayerResult, String>("name"));
       var pointsColumn = new TableColumn("Punkte");
       pointsColumn.setMinWidth(10);
       pointsColumn.setCellValueFactory(
-        new PropertyValueFactory<PlayerResult, Integer>("score"));
+              new PropertyValueFactory<PlayerResult, Integer>("score"));
       CLIENT.getClientPacketHandler().getScorePacket();
       ObservableList<PlayerResult> newResultList = FXCollections.observableArrayList();
       var newGameState = CLIENT.getGameState();
@@ -219,8 +235,8 @@ public class GameBoard implements Initializable {
         var thisPlace = 1;
         for (var player : score.getPlayers()) {
           newResultList.add(
-            new PlayerResult(
-              player.getName(), score.getPoints().get(player.getClientID()), thisPlace));
+                  new PlayerResult(
+                          player.getName(), score.getPoints().get(player.getClientID()), thisPlace));
           thisPlace++;
         }
       }
@@ -243,7 +259,7 @@ public class GameBoard implements Initializable {
       }
       var playerText = new Text(playerString);
       var beginning = new Text("Spieler ");
-      var end = new Text(" ist jetzt an der Reihe.");
+      var end = new Text(" ist jetzt an der Reihe.\n");
       var defTextColor = "#ffffff";
       beginning.setId("text");
       beginning.setFill(Paint.valueOf(defTextColor));
@@ -251,9 +267,8 @@ public class GameBoard implements Initializable {
       end.setFill(Paint.valueOf(defTextColor));
       playerText.setId("text");
       playerText.setFill(Paint.valueOf(playersColors.get(playerID)));
-      var textFlow = new TextFlow(beginning, playerText, end);
-      textFlow.setMaxWidth(turnPane.getWidth() / 2);
-      turnPane.setCenter(textFlow);
+      textFlow.getChildren().addAll(beginning, playerText, end);
+      scrollPane.setVvalue(1.0f);
     });
   }
 
