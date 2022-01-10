@@ -109,6 +109,14 @@ public class GameBoard implements Initializable {
     rootPane.setCenter(borderPane);
     rootPane.setBottom(turnPane);
     rootPane.setRight(scorePane);
+    scrollPane = new ScrollPane();
+    textFlow = new TextFlow();
+    scrollPane.setContent(textFlow);
+    turnPane.setCenter(scrollPane);
+    turnPane.setMinHeight(100);
+    turnPane.setMaxHeight(100);
+    scrollPane.setMaxHeight(turnPane.getMaxHeight());
+    scrollPane.setMinHeight(turnPane.getMinHeight());
     // Create a game handler and add random players to it
     gameHandler = new GameHandler(playerModelList, BOARD_RADIUS, updateFloor(gameState), borderPane, rootPane);
     gameHandler.start(playerModelList);
@@ -240,7 +248,7 @@ public class GameBoard implements Initializable {
       }
       var playerText = new Text(playerString);
       var beginning = new Text("Spieler ");
-      var end = new Text(" ist jetzt an der Reihe.");
+      var end = new Text(" ist jetzt an der Reihe.\n");
       var defTextColor = "#ffffff";
       beginning.setId("text");
       beginning.setFill(Paint.valueOf(defTextColor));
@@ -248,9 +256,8 @@ public class GameBoard implements Initializable {
       end.setFill(Paint.valueOf(defTextColor));
       playerText.setId("text");
       playerText.setFill(Paint.valueOf(playersColors.get(playerID)));
-      var textFlow = new TextFlow(beginning, playerText, end);
-      textFlow.setMaxWidth(turnPane.getWidth() / 2);
-      turnPane.setCenter(textFlow);
+      textFlow.getChildren().addAll(beginning, playerText, end);
+      scrollPane.setVvalue(1.0f);
     });
   }
 

@@ -258,7 +258,9 @@ public class ClientPacketHandler {
    */
   public void updateMap() {
     var gameBoard = GameBoard.getObserver();
-    if (gameBoard != null) gameBoard.updateGameBoard();
+    if (gameBoard != null) {
+      if (gameBoard.getGameHandler() != null) gameBoard.updateGameBoard();
+    }
   }
 
   /**
@@ -322,6 +324,7 @@ public class ClientPacketHandler {
         System.out.println(player);
       }
     }
+    client.setGameState(new Gson().fromJson(packet.getValues().get("gameState"), GameState.class));
     handleFloor();
   }
 
@@ -331,8 +334,8 @@ public class ClientPacketHandler {
    */
   protected void handleFloor() {
     client.getMoles().clear();
-    client.setGameState(
-      new Gson().fromJson(packet.getValues().get("gameState"), GameState.class));
+    //client.setGameState(
+    //  new Gson().fromJson(packet.getValues().get("gameState"), GameState.class));
     if (client.getGameState().getPullDiscs().containsKey(client.getClientThread().getThreadID())) {
       client
         .getPullDiscs()
@@ -617,6 +620,7 @@ public class ClientPacketHandler {
    * @use handles the packet that a game has started
    */
   protected void handleGameStartedPacket() {
+    client.setGameState(new Gson().fromJson(packet.getValues().get("initialGameState"), GameState.class));
     handleFloor();
     updateTableView();
     var lobbyObserverGame = LobbyObserverGame.getObserver();
@@ -759,6 +763,7 @@ public class ClientPacketHandler {
       ((AI) client).setPlacedMolesAmount(0);
       ((AI) client).setPlacedMoles(false);
     }
+    client.setGameState(new Gson().fromJson(packet.getValues().get("gameState"), GameState.class));
     handleFloor();
   }
 

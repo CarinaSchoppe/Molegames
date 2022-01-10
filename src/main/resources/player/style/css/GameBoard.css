@@ -67,6 +67,6 @@
 
 #text {
     -fx-stroke: black;
-    -fx-stroke-width: 2;
-    -fx-font: 40px Chicle;
+    -fx-stroke-width: 1;
+    -fx-font: 20px Chicle;
 }
