@@ -34,10 +34,7 @@ import de.thundergames.playmechanics.util.Player;
 import lombok.Data;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.*;
 
 @Data
 public class ClientPacketHandler {
@@ -102,7 +99,7 @@ public class ClientPacketHandler {
     } else if (packet
         .getPacketType()
         .equalsIgnoreCase(Packets.MOVEPENALTYNOTIFICATION.getPacketType())) {
-      handleMovePentaltyNotificationPacket();
+      handleMovePenaltyNotificationPacket();
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.PLAYERSKIPPED.getPacketType())) {
       handlePlayerSkippedPacket();
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.NEXTLEVEL.getPacketType())) {
@@ -371,7 +368,7 @@ public class ClientPacketHandler {
    * @author Carina
    * @use handles if a client did an invalid handling with a punishment
    */
-  protected void handleMovePentaltyNotificationPacket() {
+  protected void handleMovePenaltyNotificationPacket() {
     if (client.isDebug())
       System.out.println(
           "The client "
@@ -380,7 +377,13 @@ public class ClientPacketHandler {
                   .getName()
               + " got a move penalty for the reason"
               + packet.getValues().get("reason").getAsString());
+
+    var player = new Gson().fromJson(packet.getValues().get("player").getAsString(), Player.class).getName();
+    var penalty = packet.getValues().get("punishment").getAsString();
+    var reason = packet.getValues().get("reason").getAsString();
+    var deductedPoints = packet.getValues().get("deductedPoints").getAsString();
     checkForStopRemainingTime();
+    showPenalty(player,penalty,reason,deductedPoints);
   }
 
   /**
@@ -873,7 +876,7 @@ public class ClientPacketHandler {
 
   /**
    * @author Marc
-   * @use paused remaining time of game board
+   * @use check for pause remaining time of game board
    */
   private void checkForStopRemainingTime(){
     var observerGameBoard = GameBoard.getObserver();
@@ -887,5 +890,14 @@ public class ClientPacketHandler {
   private void  continuedGameRemainingTime() {
     var observerGameBoard = GameBoard.getObserver();
     if (observerGameBoard != null) observerGameBoard.continueTimer();
+  }
+
+  /**
+   * @author Marc
+   * @use show info of invalid move or none move
+   */
+  private void showPenalty(String player, String penalty,String reason,String deductedPoints){
+    var observerGameBoard = GameBoard.getObserver();
+    if (observerGameBoard != null) observerGameBoard.showPenalty(player, penalty, reason, deductedPoints);
   }
 }

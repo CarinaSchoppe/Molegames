@@ -17,6 +17,7 @@ import de.thundergames.playmechanics.game.GameState;
 import de.thundergames.playmechanics.game.GameStates;
 import de.thundergames.playmechanics.util.Mole;
 import de.thundergames.playmechanics.util.Player;
+import de.thundergames.playmechanics.util.Punishments;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
@@ -275,20 +276,19 @@ public class GameBoard implements Initializable {
 
   public void updateTime(long remainingTime,boolean run)
   {
-    Platform.runLater(() -> {
-      float remainingTimeInSec =(float)remainingTime / (float)1000;
-      var roundUpTime = (int) Math.ceil(remainingTimeInSec);
+   Platform.runLater(() -> {
+     float remainingTimeInSec =(float)remainingTime / (float)1000;
+     var roundUpTime = (int) Math.ceil(remainingTimeInSec);
 
-      Text txtRemainingTime = (run)
-        ? new Text(String.valueOf(roundUpTime))
-        : new Text("Das Spiel wurde pausiert!");
-      var container = new AnchorPane();
-      txtRemainingTime.setId("text");
-      //txtRemainingTime.setFont(new javafx.scene.text.Font("Chicle", 50));
-      container.getChildren().add(txtRemainingTime);
-      countDownPane.setTop(txtRemainingTime);
-      BorderPane.setAlignment(txtRemainingTime, Pos.TOP_CENTER);
-    });
+     Text txtRemainingTime = (run)
+       ? new Text(String.valueOf(roundUpTime))
+       : new Text("Das Spiel wurde pausiert!");
+     var containerTimer = new AnchorPane();
+     txtRemainingTime.setId("text");
+     containerTimer.getChildren().add(txtRemainingTime);
+     countDownPane.setTop(txtRemainingTime);
+     BorderPane.setAlignment(txtRemainingTime, Pos.TOP_CENTER);
+   });
   }
 
   public void stopCountAfterTurn() {
@@ -301,5 +301,59 @@ public class GameBoard implements Initializable {
 
   public void continueTimer(){
     COUNTDOWN.continueTimer();
+  }
+
+  public void showPenalty(String player, String penalty, String reason, String deductedPoints)
+  {
+    String out = null;
+
+    if (Objects.equals(penalty, Punishments.NOTHING.toString()))
+    {
+      var test = Punishments.INVALIDMOVE.toString();
+      if (Objects.equals(reason, test))
+      {
+        out= "Fehlerhafter Zug von Spieler " + player  + ".";
+      }
+      if (Objects.equals(reason, Punishments.NOMOVE.toString()))
+      {
+        out= "Zeitüberschreitung von Spieler " + player  + ".";
+      }
+    }
+    if (Objects.equals(penalty, Punishments.POINTS.toString()))
+    {
+      out= "Spieler " + player + " bekommt " + deductedPoints + " Punktabzug für ";
+      if (Objects.equals(reason, Punishments.INVALIDMOVE.toString()))
+      {
+        out= out + "fehlerhafter Zug.";
+      }
+      if (Objects.equals(reason, Punishments.NOMOVE.toString()))
+      {
+        out= out + "Zeitüberschreitung.";
+      }
+    }
+    if (Objects.equals(penalty, Punishments.KICK.toString()))
+    {
+      out= "Spieler " + player + " würde wegen " ;
+      if (Objects.equals(reason, Punishments.INVALIDMOVE.toString()))
+      {
+        out= out + "fehlerhaften Zug gekickt.";
+      }
+      if (Objects.equals(reason, Punishments.NOMOVE.toString()))
+      {
+        out= out + "Zeitüberschreitung gekickt.";
+      }
+    }
+    //showPunishment(out);
+  }
+
+  public void showPunishment(String punishment) {
+    Platform.runLater(() -> {
+      Text txtPunishment = new Text(punishment);
+      var containerTimer = new AnchorPane();
+      txtPunishment.setId("text");
+      containerTimer.getChildren().add(txtPunishment);
+      countDownPane.setTop(txtPunishment);
+      BorderPane.setAlignment(txtPunishment, Pos.TOP_CENTER);
+    });
   }
 }
