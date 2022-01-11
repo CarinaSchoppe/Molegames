@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2022
- * File created on 10.01.22, 22:08 by Carina Latest changes made by Carina on 10.01.22, 22:08 All contents of "GameBoard" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 11.01.22, 20:01 by Carina Latest changes made by Carina on 11.01.22, 19:43 All contents of "GameBoard" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -308,7 +308,7 @@ public class GameBoard {
   }
 
   public void showPenalty(String player, String penalty, String reason, String deductedPoints) {
-    String out = null;
+    var out = (String) null;
     if (Objects.equals(penalty, Punishments.NOTHING.toString())) {
       var test = Punishments.INVALIDMOVE.toString();
       if (Objects.equals(reason, test)) {
@@ -351,14 +351,10 @@ public class GameBoard {
   }
 
   public void moveMole(Field from, Field to, int currentPlayerID) {
-    Platform.runLater(() -> {
-      this.gameHandler.getBoard().moveMole(from, to, currentPlayerID);
-    });
+    Platform.runLater(() -> this.gameHandler.getBoard().moveMole(from, to, currentPlayerID));
   }
 
   public void placeMole(Mole mole) {
-    Platform.runLater(() -> {
-      this.gameHandler.getBoard().placeMole(new MoleModel(mole, playersColors.get(mole.getPlayer().getClientID())));
-    });
+    Platform.runLater(() -> this.gameHandler.getBoard().placeMole(new MoleModel(mole, playersColors.get(mole.getPlayer().getClientID()))));
   }
 }

@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2022
- * File created on 10.01.22, 22:08 by Carina Latest changes made by Carina on 10.01.22, 22:07 All contents of "Player" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 11.01.22, 20:01 by Carina Latest changes made by Carina on 11.01.22, 19:55 All contents of "Player" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -104,11 +104,11 @@ public class Player {
     if (!game.getCurrentPlayer().equals(this)) {
       if (MoleGames.getMoleGames().getServer().isDebug()) {
         System.out.println(
-          "current" + game.getCurrentPlayer().getName() + "who moved: " + this.getName());
+          "current " + game.getCurrentPlayer().getName() + " who moved: " + this.getName());
       }
       return;
     }
-    if (GameLogic.wasLegalMove(
+    if (GameLogic.wasLegalMove(MoleGames.getMoleGames().getServer(),
       new int[]{x_start, y_start}, new int[]{x_end, y_end}, cardValue, game.getMap())) {
       var mole = (Mole) null;
       for (var m : moles) {
@@ -141,17 +141,14 @@ public class Player {
         game.getMap().getFieldMap().get(List.of(x_start, y_start)).setMole(null);
         moles.add(mole);
         if (MoleGames.getMoleGames().getServer().isDebug()) {
+          var start = new Field(x_start, y_start);
+          var end = new Field(x_end, y_end);
           System.out.println(
             "Playermodel with id: "
               + serverClient.getThreadID()
-              + " has moved his mole from: x="
-              + x_start
-              + " y="
-              + y_start
-              + " to x="
-              + x_end
-              + " y="
-              + y_end
+              + " has moved his mole from: "
+              + start + " to: "
+              + end
               + " with a card="
               + cardValue
               + "."

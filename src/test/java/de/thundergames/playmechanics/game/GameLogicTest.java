@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2022
- * File created on 09.01.22, 21:26 by Carina Latest changes made by Carina on 09.01.22, 21:26 All contents of "GameLogicTest" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 11.01.22, 20:01 by Carina Latest changes made by Carina on 11.01.22, 19:07 All contents of "GameLogicTest" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -42,12 +42,12 @@ class GameLogicTest {
 
   @Test
   void wasLegalMove() {
-    assertFalse(GameLogic.wasLegalMove(new int[]{5, 5}, new int[]{6, 5}, 1, map));
-    assertFalse(GameLogic.wasLegalMove(new int[]{3, 3}, new int[]{6, 6}, 1, map));
-    assertFalse(GameLogic.wasLegalMove(new int[]{3, 3}, new int[]{3, 3}, 1, map));
-    assertFalse(GameLogic.wasLegalMove(new int[]{5, 5}, new int[]{3, 3}, 2, map));
-    assertFalse(GameLogic.wasLegalMove(new int[]{3, 4}, new int[]{3, 1}, 4, map));
-    assertFalse(GameLogic.wasLegalMove(new int[]{4, 3}, new int[]{1, 3}, 4, map));
+    assertFalse(GameLogic.wasLegalMove(null, new int[]{5, 5}, new int[]{6, 5}, 1, map));
+    assertFalse(GameLogic.wasLegalMove(null, new int[]{3, 3}, new int[]{6, 6}, 1, map));
+    assertFalse(GameLogic.wasLegalMove(null, new int[]{3, 3}, new int[]{3, 3}, 1, map));
+    assertFalse(GameLogic.wasLegalMove(null, new int[]{5, 5}, new int[]{3, 3}, 2, map));
+    assertFalse(GameLogic.wasLegalMove(null, new int[]{3, 4}, new int[]{3, 1}, 4, map));
+    assertFalse(GameLogic.wasLegalMove(null, new int[]{4, 3}, new int[]{1, 3}, 4, map));
     var fieldMole = map.getFieldMap().get(List.of(1, 1));
     var fieldHole = map.getFieldMap().get(List.of(1, 2));
     var fieldDrawAgain = map.getFieldMap().get(List.of(0, 0));
@@ -64,22 +64,22 @@ class GameLogicTest {
     gameState.setPlacedMoles(moles);
     gameState.setFloor(floor);
     map.changeFieldParams(gameState);
-    assertFalse(GameLogic.wasLegalMove(new int[]{0, 0}, new int[]{1, 1}, 1, map));
-    assertFalse(GameLogic.wasLegalMove(new int[]{1, 0}, new int[]{1, 2}, 2, map));
-    assertTrue(GameLogic.wasLegalMove(new int[]{2, 0}, new int[]{2, 2}, 2, map));
-    assertFalse(GameLogic.wasLegalMove(new int[]{1, 2}, new int[]{1, 0}, 2, map));
-    assertTrue(GameLogic.wasLegalMove(new int[]{2, 2}, new int[]{2, 0}, 2, map));
-    assertFalse(GameLogic.wasLegalMove(new int[]{0, 1}, new int[]{3, 1}, 3, map));
-    assertTrue(GameLogic.wasLegalMove(new int[]{0, 2}, new int[]{3, 2}, 3, map));
-    assertFalse(GameLogic.wasLegalMove(new int[]{3, 1}, new int[]{0, 1}, 3, map));
-    assertFalse(GameLogic.wasLegalMove(new int[]{0, 0}, new int[]{3, 3}, 3, map));
-    assertTrue(GameLogic.wasLegalMove(new int[]{1, 1}, new int[]{4, 4}, 3, map));
-    assertFalse(GameLogic.wasLegalMove(new int[]{2, 0}, new int[]{0, 2}, 2, map));
-    assertFalse(GameLogic.wasLegalMove(new int[]{3, 1}, new int[]{1, 3}, 2, map));
-    assertFalse(GameLogic.wasLegalMove(new int[]{0, 2}, new int[]{2, 0}, 2, map));
-    assertFalse(GameLogic.wasLegalMove(new int[]{1, 3}, new int[]{3, 1}, 2, map));
-    assertFalse(GameLogic.wasLegalMove(new int[]{3, 3}, new int[]{0, 0}, 3, map));
-    assertFalse(GameLogic.wasLegalMove(new int[]{1, 3}, new int[]{2, 4}, 2, map));
+    assertFalse(GameLogic.wasLegalMove(null, new int[]{0, 0}, new int[]{1, 1}, 1, map));
+    assertFalse(GameLogic.wasLegalMove(null, new int[]{1, 0}, new int[]{1, 2}, 2, map));
+    assertTrue(GameLogic.wasLegalMove(null, new int[]{2, 0}, new int[]{2, 2}, 2, map));
+    assertFalse(GameLogic.wasLegalMove(null, new int[]{1, 2}, new int[]{1, 0}, 2, map));
+    assertTrue(GameLogic.wasLegalMove(null, new int[]{2, 2}, new int[]{2, 0}, 2, map));
+    assertFalse(GameLogic.wasLegalMove(null, new int[]{0, 1}, new int[]{3, 1}, 3, map));
+    assertTrue(GameLogic.wasLegalMove(null, new int[]{0, 2}, new int[]{3, 2}, 3, map));
+    assertFalse(GameLogic.wasLegalMove(null, new int[]{3, 1}, new int[]{0, 1}, 3, map));
+    assertFalse(GameLogic.wasLegalMove(null, new int[]{0, 0}, new int[]{3, 3}, 3, map));
+    assertTrue(GameLogic.wasLegalMove(null, new int[]{1, 1}, new int[]{4, 4}, 3, map));
+    assertFalse(GameLogic.wasLegalMove(null, new int[]{2, 0}, new int[]{0, 2}, 2, map));
+    assertFalse(GameLogic.wasLegalMove(null, new int[]{3, 1}, new int[]{1, 3}, 2, map));
+    assertFalse(GameLogic.wasLegalMove(null, new int[]{0, 2}, new int[]{2, 0}, 2, map));
+    assertFalse(GameLogic.wasLegalMove(null, new int[]{1, 3}, new int[]{3, 1}, 2, map));
+    assertFalse(GameLogic.wasLegalMove(null, new int[]{3, 3}, new int[]{0, 0}, 3, map));
+    assertFalse(GameLogic.wasLegalMove(null, new int[]{1, 3}, new int[]{2, 4}, 2, map));
   }
 
   @Test

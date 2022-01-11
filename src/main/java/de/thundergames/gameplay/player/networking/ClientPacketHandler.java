@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2022
- * File created on 10.01.22, 22:08 by Carina Latest changes made by Carina on 10.01.22, 22:08 All contents of "ClientPacketHandler" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 11.01.22, 20:01 by Carina Latest changes made by Carina on 11.01.22, 19:39 All contents of "ClientPacketHandler" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -291,11 +291,11 @@ public class ClientPacketHandler {
     var moleObject = client.getMap().getFieldMap().get(List.of(from.getX(), from.getY())).getMole();
     if (client.isDebug()) {
       System.out.println(
-        "A mole has been moved"
+        "Client: A mole has been moved"
           + " from "
-          + packet.getValues().get("from")
+          + from
           + " to "
-          + packet.getValues().get("to")
+          + to
           + "\n");
     }
     client.getMap().getFieldMap().get(List.of(from.getX(), from.getY())).setOccupied(false);
@@ -353,7 +353,7 @@ public class ClientPacketHandler {
    */
   protected void handleFloor() {
     client.getMoles().clear();
-    //client.setGameState(
+    //TODO: ?????? (carina) client.setGameState(
     //  new Gson().fromJson(packet.getValues().get("gameState"), GameState.class));
     if (client.getGameState().getPullDiscs().containsKey(client.getClientThread().getThreadID())) {
       client
@@ -414,10 +414,10 @@ public class ClientPacketHandler {
       System.out.println(
         "The client "
           + new Gson()
-          .fromJson(packet.getValues().get("player").getAsString(), Player.class)
+          .fromJson(packet.getValues().get("player"), Player.class)
           .getName()
           + " got a move penalty for the reason"
-          + packet.getValues().get("reason").getAsString());
+          + packet.getValues().get("reason"));
     var player = new Gson().fromJson(packet.getValues().get("player"), Player.class).getName();
     var penalty = packet.getValues().get("punishment").toString();
     var reason = packet.getValues().get("reason").toString();
@@ -443,6 +443,9 @@ public class ClientPacketHandler {
       .get(List.of(mole.getPosition().getX(), mole.getPosition().getY()))
       .setMole(mole);
     client.getGameState().getPlacedMoles().add(mole);
+    if (client.isDebug()) {
+      System.out.println("Client: A mole has been placed at: " + mole.getPosition().toString() + "\n");
+    }
     updateMolePlaced(mole);
     checkForStopRemainingTime();
   }

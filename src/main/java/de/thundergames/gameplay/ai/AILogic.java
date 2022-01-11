@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2022
- * File created on 09.01.22, 21:45 by Carina Latest changes made by Carina on 09.01.22, 21:39 All contents of "AILogic" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 11.01.22, 20:01 by Carina Latest changes made by Carina on 11.01.22, 19:55 All contents of "AILogic" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -42,7 +42,7 @@ public class AILogic {
         System.out.println(
           "AI: there is a hole close to a mole within the drawcard. Hole: " + x + "," + y);
       }
-      if (GameLogic.wasLegalMove(
+      if (GameLogic.wasLegalMove(ai,
         new int[]{mole.getPosition().getX(), mole.getPosition().getY()},
         new int[]{x, y},
         ai.getCard(),
@@ -71,9 +71,8 @@ public class AILogic {
         }
       }
     }
-    var endField = endField(ai, mole, direction);
-    if (GameLogic.wasLegalMove(
-      new int[]{mole.getPosition().getX(), mole.getPosition().getY()},
+    var endField = endFieldCalculator(ai, mole, direction);
+    if (GameLogic.wasLegalMove(ai, new int[]{mole.getPosition().getX(), mole.getPosition().getY()},
       endField,
       ai.getCard(),
       ai.getMap())) {
@@ -98,6 +97,8 @@ public class AILogic {
   }
 
   /**
+   * @param ai
+   * @param mole
    * @return says if a mole can be moved (important for AI)
    * @author Carina
    * @see Player
@@ -108,15 +109,18 @@ public class AILogic {
     var directionsList = new ArrayList<>(List.of(Directions.values()));
     while (true) {
       if (directionsList.isEmpty()) {
-        System.out.println("No possible directions found!");
+        System.out.println("No possible directions found for this mole!\n");
         return null;
       }
       var direction = directionsList.get(new Random().nextInt(directionsList.size()));
       directionsList.remove(direction);
-      var endField = endField(ai, mole, direction);
+      var endField = endFieldCalculator(ai, mole, direction);
+      if (!ai.getMap().getFieldMap().containsKey(List.of(endField[0], endField[1]))) {
+        continue;
+      }
       if (direction == Directions.DOWN) {
         try {
-          if (GameLogic.wasLegalMove(
+          if (GameLogic.wasLegalMove(ai,
             new int[]{mole.getPosition().getX(), mole.getPosition().getY()},
             endField,
             ai.getCard(),
@@ -127,7 +131,7 @@ public class AILogic {
         }
       } else if (direction == Directions.UP) {
         try {
-          if (GameLogic.wasLegalMove(
+          if (GameLogic.wasLegalMove(ai,
             new int[]{mole.getPosition().getX(), mole.getPosition().getY()},
             endField,
             ai.getCard(),
@@ -138,7 +142,7 @@ public class AILogic {
         }
       } else if (direction == Directions.LEFT) {
         try {
-          if (GameLogic.wasLegalMove(
+          if (GameLogic.wasLegalMove(ai,
             new int[]{mole.getPosition().getX(), mole.getPosition().getY()},
             endField,
             ai.getCard(),
@@ -149,7 +153,7 @@ public class AILogic {
         }
       } else if (direction == RIGHT) {
         try {
-          if (GameLogic.wasLegalMove(
+          if (GameLogic.wasLegalMove(ai,
             new int[]{mole.getPosition().getX(), mole.getPosition().getY()},
             endField,
             ai.getCard(),
@@ -160,7 +164,7 @@ public class AILogic {
         }
       } else if (direction == Directions.DOWN_RIGHT) {
         try {
-          if (GameLogic.wasLegalMove(
+          if (GameLogic.wasLegalMove(ai,
             new int[]{mole.getPosition().getX(), mole.getPosition().getY()},
             endField,
             ai.getCard(),
@@ -171,7 +175,7 @@ public class AILogic {
         }
       } else if (direction == Directions.UP_LEFT) {
         try {
-          if (GameLogic.wasLegalMove(
+          if (GameLogic.wasLegalMove(ai,
             new int[]{mole.getPosition().getX(), mole.getPosition().getY()},
             endField,
             ai.getCard(),
@@ -184,7 +188,15 @@ public class AILogic {
     }
   }
 
-  public int[] endField(
+  /**
+   * @param ai
+   * @param mole
+   * @param direction
+   * @return the end field of the move
+   * @author Carina
+   * @see Player
+   */
+  public int[] endFieldCalculator(
     @NotNull final AI ai, @NotNull final Mole mole, @NotNull final Directions direction) {
     var x = 0;
     var y = 0;
@@ -201,10 +213,10 @@ public class AILogic {
       y = mole.getPosition().getY();
       x = mole.getPosition().getX() + ai.getCard();
     } else if (direction == Directions.UP_LEFT) {
-      y = mole.getPosition().getY() + ai.getCard();
+      y = mole.getPosition().getY() - ai.getCard();
       x = mole.getPosition().getX() - ai.getCard();
     } else if (direction == Directions.DOWN_RIGHT) {
-      y = mole.getPosition().getY() - ai.getCard();
+      y = mole.getPosition().getY() + ai.getCard();
       x = mole.getPosition().getX() + ai.getCard();
     }
     return new int[]{x, y};
@@ -241,23 +253,25 @@ public class AILogic {
   private boolean move(@NotNull final AI ai, @NotNull final ArrayList<Mole> moles) {
     var random = new Random();
     var direction = (Directions) null;
-    for (var ignored : moles) {
-      var mole = moles.get(random.nextInt(moles.size()));
-      if (mole == null) {
-        continue;
-      }
-      direction = isMoveable(ai, mole);
-      if (direction != null) {
-        if (makeMove(mole, direction)) {
-          return true;
+    while (true) {
+      if (moles.isEmpty()) {
+        return false;
+      } else {
+        var mole = moles.get(random.nextInt(moles.size()));
+        if (mole == null) {
+          continue;
+        }
+        moles.remove(mole);
+        direction = isMoveable(ai, mole);
+        if (direction != null) {
+          if (makeMove(mole, direction)) {
+            return true;
+          }
         }
       }
     }
-    if (direction == null) {
-      System.out.println("AI: No move possible!");
-    }
-    return false;
   }
+  //TODO: checken ob ein zug überhaupt möglich ist.
 
   /**
    * @param ai
@@ -275,7 +289,9 @@ public class AILogic {
     }
     holeMoles.removeAll(openMoles);
     if (!move(ai, openMoles)) {
-      move(ai, holeMoles);
+      if (!move(ai, holeMoles)) {
+        System.out.println("AI: No move possible!");
+      }
     }
   }
 
@@ -297,7 +313,7 @@ public class AILogic {
       }
     }
     if (ai.isDebug()) {
-      System.out.println("The ai has placed a mole on: [" + field.getX() + "," + field.getY() + "]");
+      System.out.println("AI: has placed a mole on: [" + field.getX() + "," + field.getY() + "]");
     }
     ai.getAIPacketHandler().placeMolePacket(field);
   }
