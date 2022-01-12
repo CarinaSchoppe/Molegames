@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2022
- * File created on 09.01.22, 21:21 by Carina Latest changes made by Carina on 09.01.22, 21:21 All contents of "LoginScreen" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 12.01.22, 17:08 by Carina Latest changes made by Carina on 12.01.22, 17:08 All contents of "LoginScreen" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -77,7 +77,7 @@ public class LoginScreen extends Application {
       if (client.isConnected()) {
         new PlayerMenu().create(event);
       } else {
-        Dialog.show("Könnte mich nicht mit dem Server verbinden.", "Verbindungsfehler", Dialog.DialogType.ERROR);
+        Dialog.show("Konnte mich nicht mit dem Server verbinden.", "Verbindungsfehler", Dialog.DialogType.ERROR);
       }
     } else {
       Dialog.show(errorMessage, "Falscher Feldinhalt", Dialog.DialogType.ERROR);
