@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2022
- * File created on 12.01.22, 11:58 by Carina Latest changes made by Carina on 12.01.22, 11:57 All contents of "CreateGame" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 12.01.22, 12:05 by Carina Latest changes made by Carina on 12.01.22, 12:05 All contents of "CreateGame" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -393,6 +393,26 @@ public class CreateGame extends Application implements Initializable {
    * @use checks if a configuration was legal or not
    */
   private boolean isLegalConfiguration(final int radius, int numberOfMoles) {
+    if (radius <= 0 || numberOfMoles <= 0) {
+      return false;
+    }
+    if (thinkTime.getText() != null && !"".equalsIgnoreCase(thinkTime.getText())) {
+      if (Integer.parseInt(thinkTime.getText()) <= 0) {
+        return false;
+      }
+    }
+    if (visualEffects.getText() != null && !"".equalsIgnoreCase(visualEffects.getText())) {
+      if (Integer.parseInt(visualEffects.getText()) < 0) {
+        return false;
+      }
+    }
+    if (!drawCardValuesList.isEmpty()) {
+      for (var value : drawCardValuesList) {
+        if (value <= 0) {
+          return false;
+        }
+      }
+    }
     if (playerAmount.getText() != null && !"".equalsIgnoreCase(playerAmount.getText())) {
       if (Integer.parseInt(playerAmount.getText()) <= 1) {
         return false;
