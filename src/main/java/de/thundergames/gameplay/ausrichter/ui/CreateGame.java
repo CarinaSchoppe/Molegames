@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2022
- * File created on 12.01.22, 12:08 by Carina Latest changes made by Carina on 12.01.22, 12:08 All contents of "CreateGame" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 12.01.22, 17:36 by Carina Latest changes made by Carina on 12.01.22, 17:36 All contents of "CreateGame" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -20,7 +20,6 @@ import de.thundergames.playmechanics.map.Field;
 import de.thundergames.playmechanics.map.Map;
 import de.thundergames.playmechanics.util.Dialog;
 import de.thundergames.playmechanics.util.Punishments;
-import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -43,7 +42,7 @@ import java.util.ResourceBundle;
  * @author Carina, Eva, Jana
  */
 @Getter
-public class CreateGame extends Application implements Initializable {
+public class CreateGame implements Initializable {
 
   // Liste von Floor welche DrawAgain<Field> und Hole<Field> enthält
   private static ArrayList<Floor> floors = new ArrayList<>();
