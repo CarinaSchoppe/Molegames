@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2022
- * File created on 09.01.22, 21:59 by Carina Latest changes made by Carina on 09.01.22, 21:58 All contents of "PacketHandler" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 12.01.22, 14:38 by Carina Latest changes made by Carina on 12.01.22, 14:37 All contents of "PacketHandler" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -87,7 +87,7 @@ public class PacketHandler {
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.LEAVETOURNAMENT.getPacketType())) {
       handleLeaveTournamentPacket(client);
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.JOINGAME.getPacketType())) {
-      if (handleJoinPacket(client, packet)) {
+      if (handleJoinGamePacket(client, packet)) {
         welcomeGamePacket(client);
       }
     } else {
@@ -835,7 +835,7 @@ public class PacketHandler {
    * @see Player
    * @see Client
    */
-  public boolean handleJoinPacket(@NotNull final ServerThread client, @NotNull final Packet packet)
+  public boolean handleJoinGamePacket(@NotNull final ServerThread client, @NotNull final Packet packet)
     throws NotAllowedError {
     if (MoleGames.getMoleGames()
       .getGameHandler()
@@ -925,10 +925,10 @@ public class PacketHandler {
     object.addProperty("type", Packets.WELCOMEGAME.getPacketType());
     json.add("gameState", JsonParser.parseString(new Gson().toJson(client.getPlayer().getGame().getGameState())));
     object.add("value", json);
-    client.sendPacket(new Packet(object));
     if (client.getPlayer().getGame().getActivePlayers().contains(client.getPlayer())) {
       playerJoinedPacket(client);
     }
+    client.sendPacket(new Packet(object));
   }
 
   /**
@@ -942,9 +942,11 @@ public class PacketHandler {
     object.addProperty("type", Packets.PLAYERJOINED.getPacketType());
     json.add("player", JsonParser.parseString(new Gson().toJson(client.getPlayer())));
     object.add("value", json);
+    client.getPlayer().getGame().getPlayers().remove(client.getPlayer());
     MoleGames.getMoleGames()
       .getServer()
       .sendToAllGameClients(client.getPlayer().getGame(), new Packet(object));
+    client.getPlayer().getGame().getPlayers().add(client.getPlayer());
     for (var ignored : MoleGames.getMoleGames().getServer().getObserver()) overviewPacket(client);
   }
 }

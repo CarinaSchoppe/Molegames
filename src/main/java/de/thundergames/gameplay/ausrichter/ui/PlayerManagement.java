@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2022
- * File created on 10.01.22, 22:08 by Carina Latest changes made by Carina on 10.01.22, 22:08 All contents of "PlayerManagement" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 12.01.22, 14:38 by Carina Latest changes made by Carina on 12.01.22, 14:37 All contents of "PlayerManagement" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -108,7 +108,7 @@ public class PlayerManagement implements Initializable {
         if (MoleGames.getMoleGames()
           .getServer()
           .getPacketHandler()
-          .handleJoinPacket(selectedPlayer, packet)) {
+          .handleJoinGamePacket(selectedPlayer, packet)) {
           MoleGames.getMoleGames().getServer().getPacketHandler().welcomeGamePacket(selectedPlayer);
           updateTable();
         } else {
