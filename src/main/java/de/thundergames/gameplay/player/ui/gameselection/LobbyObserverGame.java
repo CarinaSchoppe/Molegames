@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2022
- * File created on 11.01.22, 20:01 by Carina Latest changes made by Carina on 11.01.22, 19:39 All contents of "LobbyObserverGame" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 12.01.22, 17:30 by Carina Latest changes made by Carina on 12.01.22, 17:22 All contents of "LobbyObserverGame" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -108,9 +108,7 @@ public class LobbyObserverGame implements Initializable {
     settingValue.setCellValueFactory(new PropertyValueFactory<>("value"));
     PlayerName.setText("Spieler: " + CLIENT.name);
     System.out.println("GameID: " + CLIENT.getGameID());
-    //System.out.println(CLIENT.getGames());
     for (var game : CLIENT.getGames()) {
-      System.out.println(game);
       if (game.getGameID() == this.gameID) {
         this.game = game;
         break;
@@ -178,7 +176,6 @@ public class LobbyObserverGame implements Initializable {
    */
   public String getNumberOfPlayers() {
     var numberOfPlayers = CLIENT.getGameState().getActivePlayers().size();
-    System.out.println(game);
     return numberOfPlayers + "/" + game.getMaxPlayerCount();
   }
 
