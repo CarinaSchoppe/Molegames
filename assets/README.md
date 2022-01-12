@@ -2,7 +2,7 @@
 
 ## Gitlab main branch
 
-Carina Schoppe: Produktmanagerin, Komitee
+Carina Schoppe: Produktmanagerin, Developerin
 
 Lennart Kunkel: Produktmanager
 
@@ -24,5 +24,5 @@ Dila C: Entwicklerin
 
 Alp B: Entwickler
 
-Michael A: Product Owner
+Michael A: Product Owner, Komitee
 
