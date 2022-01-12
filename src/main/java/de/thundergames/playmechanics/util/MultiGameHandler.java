@@ -38,30 +38,37 @@ public class MultiGameHandler {
 
   /**
    * @author Carina
+   * @author Eva (modified)
    * @use creates the new game
    */
-  public void createNewGame(final int gameID) {
+  public Game createNewGame(final int gameID) {
     if (!IDGames.containsKey(gameID)) {
-      new Game(gameID).create();
+      Game game = new Game(gameID);
+      game.create();
+      return game;
     } else {
       if (MoleGames.getMoleGames().getServer().isDebug()) {
         System.out.println("Game already exists");
       }
     }
+    return null;
   }
 
   /**
    * @author Carina
+   * @author Eva (modified)
    * @use creates the new tournament
    */
-  public void createNewTournament(final int tournamentID) {
+  public Tournament createNewTournament(final int tournamentID) {
     if (!IDGames.containsKey(tournamentID)) {
       var tournament = new Tournament(tournamentID);
       tournament.create();
+      return tournament;
     } else {
       if (MoleGames.getMoleGames().getServer().isDebug()) {
         System.out.println("Tournament already exists");
       }
     }
+    return null;
   }
 }

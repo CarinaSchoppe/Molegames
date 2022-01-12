@@ -77,6 +77,11 @@ public class Tournament {
     updateTournamentState();
   }
 
+  public HashSet<Game> addGame(Game game){
+    this.games.add(game);
+    return this.games;
+  }
+
   /**
    * @author Carina
    * @use updates the tournament state
@@ -109,4 +114,55 @@ public class Tournament {
     return Objects.equals(status, TournamentStatus.NOT_STARTED) ? "OPEN" : status.getStatus();
   }
   // endregion
+
+  public HashSet<ServerThread> getSpectators() {
+    return spectators;
+  }
+
+  public HashSet<ServerThread> getPlayers() {
+    return players;
+  }
+
+  public int getTournamentID() {
+    return tournamentID;
+  }
+
+  public HashSet<Game> getGames() {
+    return games;
+  }
+
+  public Score getScore() {
+    return score;
+  }
+
+  public void setScore(Score score) {
+    this.score = score;
+  }
+
+  public TournamentState getTournamentState() {
+    return tournamentState;
+  }
+
+  public void setTournamentState(TournamentState tournamentState) {
+    this.tournamentState = tournamentState;
+  }
+
+  public int getPlayerCount() {
+    return playerCount;
+  }
+
+  public void setPlayerCount(int playerCount) {
+    this.playerCount = playerCount;
+  }
+
+  public TournamentStatus getStatus() {
+    return status;
+  }
+
+  public void setStatus(TournamentStatus status) {
+    this.status = status;
+  }
 }
+
+
+

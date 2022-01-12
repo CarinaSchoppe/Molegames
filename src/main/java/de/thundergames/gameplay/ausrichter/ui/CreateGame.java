@@ -276,8 +276,12 @@ public class CreateGame extends Application implements Initializable {
     drawCardValuesList.clear();
     floors.clear();
     savePrevSettings();
+
+
     MoleGames.getMoleGames().getGui().start(primaryStage);
     MoleGames.getMoleGames().getGui().updateTable();
+
+
   }
 
   /**
