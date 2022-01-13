@@ -344,6 +344,7 @@ public class ClientPacketHandler {
       }
     }
     client.setGameState(new Gson().fromJson(packet.getValues().get("gameState"), GameState.class));
+    updateScoreTable();
     handleFloor();
   }
 
