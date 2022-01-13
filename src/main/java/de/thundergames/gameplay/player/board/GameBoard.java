@@ -135,10 +135,7 @@ public class GameBoard {
     // Add board to center of borderPane
     borderPane.setCenter(gameHandler.getBoard());
     CLIENT.getClientPacketHandler().getRemainingTimePacket();
-    updatePlayerList();
-    if (currentPlayerID != -1) {
-      playerTurnInformation(currentPlayerID, currentPlayerName);
-    }
+    updateScoreTable();
     var s = new Scene(rootPane);
     s.getStylesheets().add("/player/style/css/GameBoard.css");
     primaryStage.setScene(s);
@@ -195,13 +192,9 @@ public class GameBoard {
     playerModelList = mapPlayersToPlayerModels(players, placedMoles, currentPlayerID, playersColors);
     gameHandler.update(playerModelList);
     CLIENT.getClientPacketHandler().getRemainingTimePacket();
-    if (currentPlayerID != -1) {
-      playerTurnInformation(currentPlayerID, currentPlayerName);
-    }
-    updatePlayerList();
   }
 
-  public void updatePlayerList() {
+  public void updateScoreTable() {
     Platform.runLater(() -> {
       var playerListTable = new TableView<PlayerResult>();
       playerListTable.setEditable(false);
@@ -217,21 +210,18 @@ public class GameBoard {
       pointsColumn.setMinWidth(10);
       pointsColumn.setCellValueFactory(
         new PropertyValueFactory<PlayerResult, Integer>("score"));
-      CLIENT.getClientPacketHandler().getScorePacket();
       ObservableList<PlayerResult> newResultList = FXCollections.observableArrayList();
-      var newGameState = CLIENT.getGameState();
-      if (gameState != newGameState) {
-        gameState = newGameState;
-      }
-      if (score != gameState.getScore() && !gameState.getScore().getPlayers().isEmpty()) {
-        score = gameState.getScore();
-        var thisPlace = 1;
-        for (var player : score.getPlayers()) {
-          newResultList.add(
-            new PlayerResult(
-              player.getName(), score.getPoints().get(player.getClientID()), thisPlace));
-          thisPlace++;
+      score = CLIENT.getGameState().getScore();
+      var thisPlace = 1;
+      var players = score.getPlayers();
+      for (var player : score.getPlayers()) {
+        var playerScore = score.getPoints().get(player.getClientID());
+        if (playerScore == null) {
+          playerScore = 0;
         }
+        newResultList.add(
+                new PlayerResult(player.getClientID() + "/" + player.getName(), playerScore, thisPlace));
+        thisPlace++;
       }
       if (resultList != newResultList && !newResultList.isEmpty()) {
         resultList = newResultList;
@@ -240,11 +230,12 @@ public class GameBoard {
       playerListTable.getColumns().addAll(placeColumn, nameColumn, pointsColumn);
       playerListTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
       playerListTable.prefHeightProperty().bind(primaryStage.heightProperty());
+      playerListTable.getSortOrder().add(placeColumn);
       scorePane.setCenter(playerListTable);
     });
   }
 
-  public void playerTurnInformation(final int playerID, @NotNull final String playerName) {
+  public void updateGameLog(Integer playerID, String playerName, String information) {
     Platform.runLater(() -> {
       var playerString = Integer.toString(playerID);
       if (!playerName.equals("")) {
@@ -252,7 +243,7 @@ public class GameBoard {
       }
       var playerText = new Text(playerString);
       var beginning = new Text("Spieler ");
-      var end = new Text(" ist jetzt an der Reihe.\n");
+      var end = new Text(information);
       var defTextColor = "#ffffff";
       beginning.setId("text");
       beginning.setFill(Paint.valueOf(defTextColor));

@@ -344,6 +344,7 @@ public class ClientPacketHandler {
       }
     }
     client.setGameState(new Gson().fromJson(packet.getValues().get("gameState"), GameState.class));
+    updateScoreTable();
     handleFloor();
   }
 
@@ -391,6 +392,7 @@ public class ClientPacketHandler {
         System.out.println("The Playermodel " + player.getName() + " skipped his turn!");
       }
     }
+    updateGameLog(player, " übersprungen.\n");
     checkForStopRemainingTime();
   }
 
@@ -416,7 +418,7 @@ public class ClientPacketHandler {
           + " got a move penalty for the reason"
           + packet.getValues().get("reason"));
     var player = new Gson().fromJson(packet.getValues().get("player"), Player.class).getName();
-    var penalty = packet.getValues().get("punishment").toString();
+    var penalty = packet.getValues().get("penalty").toString();
     var reason = packet.getValues().get("reason").toString();
     var deductedPoints = packet.getValues().get("deductedPoints").toString();
     checkForStopRemainingTime();
@@ -502,6 +504,7 @@ public class ClientPacketHandler {
             + " is now on the turn!");
       }
     }
+    updateGameLog(player, " ist am Zug.\n");
     checkForStopRemainingTime();
   }
 
@@ -549,6 +552,7 @@ public class ClientPacketHandler {
    */
   protected void handlePlayerPlacesMolePacket() {
     var player = new Gson().fromJson(packet.getValues().get("player"), Player.class);
+    client.setCurrentPlayer(player);
     if (player.getClientID() == client.getClientThread().getThreadID()) {
       if (client.isDebug()) {
         System.out.println("Client is now on to place a mole!");
@@ -583,6 +587,7 @@ public class ClientPacketHandler {
             + (packet.getValues().get("until").getAsLong() - System.currentTimeMillis()) + " seconds!");
       }
     }
+    updateGameLog(player, " platziert einen Maulwurf.\n");
   }
 
   /**
@@ -730,6 +735,7 @@ public class ClientPacketHandler {
       System.out.println("A player has left the Game + " + player);
     }
     client.getGameState().getActivePlayers().remove(player);
+    updateGameLog(player, " hat das Spiel verlassen.\n");
     updateTableView();
   }
 
@@ -743,6 +749,7 @@ public class ClientPacketHandler {
       System.out.println("A player has left the Game + " + player);
     }
     client.getGameState().getActivePlayers().remove(player);
+    updateGameLog(player, " wurde herausgeworfen.\n");
     updateTableView();
   }
 
@@ -934,6 +941,24 @@ public class ClientPacketHandler {
   private void showPlayerJoinedGameLobby() {
     var lobbyObserverGame = LobbyObserverGame.getObserver();
     if (lobbyObserverGame != null) lobbyObserverGame.showJoiningSuccessfully();
+  }
+
+  /**
+   * @author Philipp
+   * @use Update game Log Text Box
+   */
+  private void updateGameLog(Player player, String text) {
+    var observerGameBoard = GameBoard.getObserver();
+    if (observerGameBoard != null) observerGameBoard.updateGameLog(player.getClientID(), player.getName(), text);
+  }
+
+  /**
+   * @author Philipp
+   * @use Updates the score table
+   */
+  private void updateScoreTable() {
+    var observerGameBoard = GameBoard.getObserver();
+    if (observerGameBoard != null) observerGameBoard.updateScoreTable();
   }
 
   /**

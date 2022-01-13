@@ -219,10 +219,15 @@ public class MainGUI extends Application implements Initializable {
     new CreateGame().start(primaryStage);
   }
 
+  /**
+   * @throws Exception
+   * @author Eva
+   * @use creates mode for tournament
+   */
   @FXML
-  void onCreateTournament(ActionEvent event) {
-    // TODO: create and start mechanics on creating a tournament
-    Dialog.show("Noch nicht eingebaut!", "Fehler", Dialog.DialogType.ERROR);
+  void onCreateTournament(ActionEvent event) throws Exception {
+    var primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+    new TournamentEditor().start(primaryStage);
   }
 
   @FXML
