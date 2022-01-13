@@ -949,7 +949,9 @@ public class ClientPacketHandler {
    */
   private void updateGameLog(Player player, String text) {
     var observerGameBoard = GameBoard.getObserver();
-    if (observerGameBoard != null) observerGameBoard.updateGameLog(player.getClientID(), player.getName(), text);
+    if (observerGameBoard != null) {
+      if (observerGameBoard.isInitialized()) observerGameBoard.updateGameLog(player.getClientID(), player.getName(), text);
+    }
   }
 
   /**
@@ -958,7 +960,9 @@ public class ClientPacketHandler {
    */
   private void updateScoreTable() {
     var observerGameBoard = GameBoard.getObserver();
-    if (observerGameBoard != null) observerGameBoard.updateScoreTable();
+    if (observerGameBoard != null) {
+      if (observerGameBoard.isInitialized()) observerGameBoard.updateScoreTable();
+    }
   }
 
   /**
@@ -967,7 +971,9 @@ public class ClientPacketHandler {
    */
   private void updateGameRemainingTime() {
     var observerGameBoard = GameBoard.getObserver();
-    if (observerGameBoard != null) observerGameBoard.updateRemainingTime();
+    if (observerGameBoard != null) {
+      if (observerGameBoard.isInitialized()) observerGameBoard.updateRemainingTime();
+    }
   }
 
   /**
@@ -976,7 +982,9 @@ public class ClientPacketHandler {
    */
   private void pausedGameRemainingTime() {
     var observerGameBoard = GameBoard.getObserver();
-    if (observerGameBoard != null) observerGameBoard.stopCountAfterTurn();
+    if (observerGameBoard != null) {
+      if (observerGameBoard.isInitialized()) observerGameBoard.stopCountAfterTurn();
+    }
   }
 
   /**
@@ -985,7 +993,9 @@ public class ClientPacketHandler {
    */
   private void checkForStopRemainingTime() {
     var observerGameBoard = GameBoard.getObserver();
-    if (observerGameBoard != null) observerGameBoard.checkForStopTimer();
+    if (observerGameBoard != null) {
+      if (observerGameBoard.isInitialized()) observerGameBoard.checkForStopTimer();
+    }
   }
 
   /**
@@ -994,7 +1004,9 @@ public class ClientPacketHandler {
    */
   private void continuedGameRemainingTime() {
     var observerGameBoard = GameBoard.getObserver();
-    if (observerGameBoard != null) observerGameBoard.continueTimer();
+    if (observerGameBoard != null) {
+      if (observerGameBoard.isInitialized()) observerGameBoard.continueTimer();
+    }
   }
 
   /**
@@ -1003,6 +1015,8 @@ public class ClientPacketHandler {
    */
   private void showPenalty(String player, String penalty, String reason, String deductedPoints) {
     var observerGameBoard = GameBoard.getObserver();
-    if (observerGameBoard != null) observerGameBoard.showPenalty(player, penalty, reason, deductedPoints);
+    if (observerGameBoard != null) {
+      if (observerGameBoard.isInitialized()) observerGameBoard.showPenalty(player, penalty, reason, deductedPoints);
+    }
   }
 }

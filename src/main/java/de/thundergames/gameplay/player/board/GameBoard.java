@@ -71,6 +71,8 @@ public class GameBoard {
   private HashSet<Player> players;
   private ArrayList<PlayerModel> playerModelList;
 
+  private boolean initialized = false;
+
   public static GameBoard getObserver() {
     return OBSERVER;
   }
@@ -142,6 +144,7 @@ public class GameBoard {
     primaryStage.setResizable(true);
     primaryStage.setMaximized(true);
     primaryStage.show();
+    initialized = true;
   }
 
   public ArrayList<PlayerModel> mapPlayersToPlayerModels(@NotNull final HashSet<Player> players, @NotNull final HashSet<Mole> placedMoles, final int currentPlayerID, @NotNull final HashMap<Integer, String> playersColors) {
