@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2022
- * File created on 13.01.22, 22:39 by Carina Latest changes made by Carina on 13.01.22, 22:39 All contents of "GameUtil" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 13.01.22, 22:47 by Carina Latest changes made by Carina on 13.01.22, 22:47 All contents of "GameUtil" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -120,6 +120,8 @@ public class GameUtil {
       }
       if (game.getActivePlayers().size() >= 1) {
         nextFloor();
+      } else {
+        game.endGame();
       }
     } else if (allPlayerMolesInHoles(game.getCurrentPlayer())) {
       if (MoleGames.getMoleGames().getServer().isDebug()) {
@@ -136,8 +138,10 @@ public class GameUtil {
             .playerSkippedPacket(game.getCurrentPlayer()));
       if (game.getActivePlayers().size() == 1) {
         nextFloor();
-      } else {
+      } else if (game.getActivePlayers().size() > 1) {
         nextPlayer();
+      } else {
+        game.endGame();
       }
     } else {
       if (game.getCurrentPlayer().getMoles().size() < game.getSettings().getNumberOfMoles()
