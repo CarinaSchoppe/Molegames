@@ -17,9 +17,8 @@ public class PathSearch {
         this.nodes = nodes;
     }
 
-    // https://stackoverflow.com/a/64835948
-    private HashSet<Node> findSimplePathLengthN(Node source, Node destination, int pathLength) {
-        HashSet<Node> path = new HashSet<>();
+    private ArrayList<Node> findSimplePathLengthN(Node source, Node destination, int pathLength) {
+        ArrayList<Node> path = new ArrayList<>();
         path.add(source);
 
         if(source == destination) {
@@ -50,8 +49,6 @@ public class PathSearch {
                 path.add(getNodeFromField(new Field(newFieldX , newFieldY)));
             }
         }
-
-        System.out.println("pullDisc "+ pathLength + " -> pathSize " + path.size() + "   " + path);
         return path;
     }
 
