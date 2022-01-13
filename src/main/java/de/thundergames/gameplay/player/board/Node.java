@@ -71,7 +71,6 @@ public class Node extends Circle {
       this.setStroke(Color.YELLOW);
       this.setStrokeWidth(2);
     } else {
-      this.setStroke(Color.RED);
       this.setStrokeWidth(0);
     }
   }
