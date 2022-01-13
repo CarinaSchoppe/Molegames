@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2022
- * File created on 11.01.22, 20:01 by Carina Latest changes made by Carina on 11.01.22, 19:42 All contents of "Board" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 13.01.22, 15:20 by Carina Latest changes made by Carina on 13.01.22, 15:20 All contents of "Board" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -203,10 +203,12 @@ public class Board extends Group {
     return null;
   }
 
+  @SuppressWarnings("OptionalGetWithoutIsPresent")
   public PlayerModel getCurrentPlayerModel(int currentPlayerID) {
     return this.players.stream().filter(playerModel -> playerModel.getPlayer().getClientID() == currentPlayerID).findFirst().get();
   }
 
+  @SuppressWarnings("OptionalGetWithoutIsPresent")
   public void moveMole(Field from, Field to, int currentPlayerID) {
     var currentPlayerModel = getCurrentPlayerModel(currentPlayerID);
     var moleToBeMoved = currentPlayerModel.getMoles().stream().filter(_mole -> _mole.hasSameField(from)).findFirst().get();

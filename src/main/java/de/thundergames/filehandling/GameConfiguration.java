@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2022
- * File created on 09.01.22, 23:38 by Carina Latest changes made by Carina on 09.01.22, 23:05 All contents of "GameConfiguration" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 13.01.22, 16:58 by Carina Latest changes made by Carina on 13.01.22, 16:58 All contents of "GameConfiguration" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -12,6 +12,7 @@ package de.thundergames.filehandling;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import de.thundergames.MoleGames;
+import de.thundergames.playmechanics.util.Settings;
 import lombok.Data;
 import org.jetbrains.annotations.NotNull;
 
@@ -30,7 +31,7 @@ public class GameConfiguration {
    * @author Carina
    * @use call the method add the settings to the json object and then pass that to create a new
    * file that will be saved
-   * @see de.thundergames.playmechanics.util.Settings
+   * @see Settings
    */
   public void saveSettings(@NotNull final JsonObject config) throws IOException {
     var file = new File("config" + ID + ".json");
