@@ -244,7 +244,7 @@ public class GameBoard {
     });
   }
 
-  public void playerTurnInformation(final int playerID, @NotNull final String playerName) {
+  public void updateGameLog(Integer playerID, String playerName, String information) {
     Platform.runLater(() -> {
       var playerString = Integer.toString(playerID);
       if (!playerName.equals("")) {
@@ -252,7 +252,7 @@ public class GameBoard {
       }
       var playerText = new Text(playerString);
       var beginning = new Text("Spieler ");
-      var end = new Text(" ist jetzt an der Reihe.\n");
+      var end = new Text(information);
       var defTextColor = "#ffffff";
       beginning.setId("text");
       beginning.setFill(Paint.valueOf(defTextColor));
