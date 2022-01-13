@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2022
- * File created on 13.01.22, 16:58 by Carina Latest changes made by Carina on 13.01.22, 16:58 All contents of "ClientPacketHandler" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 13.01.22, 21:51 by Carina Latest changes made by Carina on 13.01.22, 21:51 All contents of "ClientPacketHandler" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -267,9 +267,9 @@ public class ClientPacketHandler {
    * @author Carina
    * @use is called everytime a map gets updated TODO: implement this
    */
-  public void updateMoleMoved(Field from, Field to,Mole mole, int pullDisc) {
+  public void updateMoleMoved(Field from, Field to, Mole mole, int pullDisc) {
     var gameBoard = GameBoard.getObserver();
-    if (gameBoard != null) gameBoard.moveMole(from,to,mole.getPlayer().getClientID(), pullDisc);
+    if (gameBoard != null) gameBoard.moveMole(from, to, mole.getPlayer().getClientID(), pullDisc);
   }
 
   /**
@@ -312,7 +312,7 @@ public class ClientPacketHandler {
         break;
       }
     }
-    updateMoleMoved(from,to,moleObject,pullDisc);
+    updateMoleMoved(from, to, moleObject, pullDisc);
     checkForStopRemainingTime();
   }
 
@@ -432,16 +432,11 @@ public class ClientPacketHandler {
    */
   protected void handleMolePlacedPacket() {
     var mole = new Gson().fromJson(packet.getValues().get("mole"), Mole.class);
-    client
-      .getMap()
-      .getFieldMap()
-      .get(List.of(mole.getPosition().getX(), mole.getPosition().getY()))
-      .setOccupied(true);
-    client
-      .getMap()
-      .getFieldMap()
-      .get(List.of(mole.getPosition().getX(), mole.getPosition().getY()))
-      .setMole(mole);
+    if (mole.getPlayer().getClientID() == client.getClientThread().getThreadID()) {
+      client.getMoles().add(mole);
+    }
+    client.getMap().getFieldMap().get(List.of(mole.getPosition().getX(), mole.getPosition().getY())).setOccupied(true);
+    client.getMap().getFieldMap().get(List.of(mole.getPosition().getX(), mole.getPosition().getY())).setMole(mole);
     client.getGameState().getPlacedMoles().add(mole);
     if (client.isDebug()) {
       System.out.println("Client: A mole has been placed at: " + mole.getPosition().toString() + "\n");
@@ -540,7 +535,6 @@ public class ClientPacketHandler {
     object.addProperty("type", Packets.PLACEMOLE.getPacketType());
     json.add("position", JsonParser.parseString(new Gson().toJson(field)));
     object.add("value", json);
-    client.getMoles().add(new Mole(client.getPlayer(), field));
     client.getClientThread().sendPacket(new Packet(object));
   }
 
