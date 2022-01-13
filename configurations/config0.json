@@ -1,0 +1,69 @@
+{
+  "maxPlayers": 5,
+  "radius": 50,
+  "numberOfMoles": 7,
+  "levels": [
+    {
+      "holes": [
+        {
+          "x": 1,
+          "y": 1
+        },
+        {
+          "x": 7,
+          "y": 7
+        },
+        {
+          "x": 1,
+          "y": 30
+        }
+      ],
+      "drawAgainFields": [
+        {
+          "x": 0,
+          "y": 0
+        }
+      ],
+      "points": 5
+    },
+    {
+      "holes": [
+        {
+          "x": 40,
+          "y": 40
+        },
+        {
+          "x": 30,
+          "y": 7
+        }
+      ],
+      "drawAgainFields": [
+        {
+          "x": 1,
+          "y": 1
+        }
+      ],
+      "points": 10
+    },
+    {
+      "holes": [
+        {
+          "x": 50,
+          "y": 50
+        }
+      ],
+      "drawAgainFields": [
+        {
+          "x": 2,
+          "y": 2
+        }
+      ],
+      "points": 25
+    }
+  ],
+  "pullDiscsOrdered": false,
+  "pullDiscs": [],
+  "turnTime": 15,
+  "visualisationTime": 15,
+  "movePenalty": "NOTHING"
+}
