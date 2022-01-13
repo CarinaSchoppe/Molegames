@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2022
- * File created on 13.01.22, 21:51 by Carina Latest changes made by Carina on 13.01.22, 21:51 All contents of "ClientPacketHandler" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 13.01.22, 21:56 by Carina Latest changes made by Carina on 13.01.22, 21:55 All contents of "ClientPacketHandler" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -299,13 +299,13 @@ public class ClientPacketHandler {
           + to
           + "\n");
     }
+    if (moleObject == null) {
+      System.exit(9);
+    }
     client.getMap().getFieldMap().get(List.of(from.getX(), from.getY())).setOccupied(false);
     client.getMap().getFieldMap().get(List.of(to.getX(), to.getY())).setOccupied(true);
     client.getMap().getFieldMap().get(List.of(to.getX(), to.getY())).setMole(moleObject);
     client.getMap().getFieldMap().get(List.of(from.getX(), from.getY())).setMole(null);
-    if (moleObject == null) {
-      System.exit(9);
-    }
     for (var mole : client.getMoles()) {
       if (mole.getPosition().getX() == from.getX() && mole.getPosition().getY() == from.getY()) {
         mole.setPosition(to);
