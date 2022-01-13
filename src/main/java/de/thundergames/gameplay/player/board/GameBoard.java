@@ -370,12 +370,14 @@ public class GameBoard {
   public void moveMole(Field from, Field to,int currentPlayerId) {
     Platform.runLater(() -> {
       this.gameHandler.getBoard().moveMole(from, to, currentPlayerId);
+      CLIENT.getClientPacketHandler().getRemainingTimePacket();
     });
   }
 
   public void placeMole(Mole mole) {
     Platform.runLater(() -> {
       this.gameHandler.getBoard().placeMole(new MoleModel(mole, playersColors.get(mole.getPlayer().getClientID())));
+      CLIENT.getClientPacketHandler().getRemainingTimePacket();
     });
   }
 }
