@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2022
- * File created on 12.01.22, 17:36 by Carina Latest changes made by Carina on 12.01.22, 17:36 All contents of "CreateGame" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 13.01.22, 22:03 by Carina Latest changes made by Carina on 13.01.22, 22:02 All contents of "CreateGame" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -275,12 +275,8 @@ public class CreateGame implements Initializable {
     drawCardValuesList.clear();
     floors.clear();
     savePrevSettings();
-
-
     MoleGames.getMoleGames().getGui().start(primaryStage);
     MoleGames.getMoleGames().getGui().updateTable();
-
-
   }
 
   /**
@@ -309,7 +305,7 @@ public class CreateGame implements Initializable {
       }
       var newFloor = new Map(holes, drawAgain, floor.getPoints());
       floorMap.add(newFloor);
-      if (drawAgain.isEmpty() || holes.isEmpty() || floors.isEmpty()) {
+      if (holes.isEmpty() || floors.isEmpty()) {
         Dialog.show("Du musst erst das Spiel voll konfigurieren!", "Fehler!", Dialog.DialogType.ERROR);
         return;
       }
@@ -441,12 +437,12 @@ public class CreateGame implements Initializable {
           return false;
         }
       }
+      numberOfMoles -= floor.getHoles().size();
+      if (numberOfMoles < 0) {
+        return false;
+      }
       for (var field : floor.getDrawAgainFields()) {
         if (!map.getFieldMap().containsKey(List.of(field.getXPosition(), field.getYPosition()))) {
-          return false;
-        }
-        numberOfMoles -= floor.getHoles().size();
-        if (numberOfMoles < 0) {
           return false;
         }
       }
