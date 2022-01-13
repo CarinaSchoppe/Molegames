@@ -110,7 +110,9 @@ public class GameBoard {
     var currentPlayerName = CLIENT.getCurrentPlayer() == null ? "" : CLIENT.getCurrentPlayer().getName();
     // create list of playerModels for ui
     players = gameState.getActivePlayers();
-    playersColors = new HashMap<>(players.stream().collect(Collectors.toMap(Player::getClientID, player -> Utils.getRandomHSLAColor())));
+
+    var randomColorsItertator = Utils.getRandomHSLAColor(players.size()).listIterator();
+    playersColors = new HashMap<>(players.stream().collect(Collectors.toMap(Player::getClientID, player -> randomColorsItertator.next())));
     var placedMoles = gameState.getPlacedMoles();
     var playerModelList = mapPlayersToPlayerModels(players, placedMoles, currentPlayerID, playersColors);
     // Set custom cursor
@@ -355,9 +357,10 @@ public class GameBoard {
     });
   }
 
-  public void moveMole(Field from, Field to, int currentPlayerID) {
-    Platform.runLater(() -> this.gameHandler.getBoard().moveMole(from, to, currentPlayerID));
-    CLIENT.getClientPacketHandler().getRemainingTimePacket();
+  public void moveMole(Field from, Field to,int currentPlayerId, int pullDisc) {
+    Platform.runLater(() -> {
+      this.gameHandler.getBoard().moveMole(from, to, currentPlayerId, pullDisc);
+    });
   }
 
   public void placeMole(Mole mole) {
