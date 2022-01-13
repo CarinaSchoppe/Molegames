@@ -38,7 +38,7 @@ public class Edge extends Line {
     if(highlight) {
       this.setStroke(Color.YELLOW);
     } else {
-      this.setStrokeWidth(0);
+      this.setStroke(Color.BLACK);
     }
   }
 }
