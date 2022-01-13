@@ -12,6 +12,7 @@ package de.thundergames.gameplay.player.board;
 
 import de.thundergames.playmechanics.map.Field;
 import javafx.scene.image.Image;
+import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import lombok.Getter;
@@ -65,8 +66,31 @@ public class Node extends Circle {
     this(id, x, y, DEFAULT_RADIUS, nodeType, row, field);
   }
 
+  public void highlightNode(boolean highlight) {
+    if(highlight) {
+      this.setStroke(Color.YELLOW);
+      this.setStrokeWidth(2);
+    } else {
+      this.setStroke(Color.RED);
+      this.setStrokeWidth(0);
+    }
+  }
+
   @Override
   public String toString() {
     return "(id: " + nodeID + ", x: " + this.getCenterX() + ", y: " + this.getCenterY() + ")";
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if(!(o instanceof Node)) {
+      return false;
+    }
+
+    if(o == this) {
+      return true;
+    }
+    Node node = (Node) o;
+    return node.getField().getX() == this.getField().getX() && node.getField().getY() == this.getField().getY();
   }
 }
