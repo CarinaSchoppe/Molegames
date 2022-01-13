@@ -92,7 +92,7 @@ public class GameBoard {
     this.primaryStage = primaryStage;
     borderPane = new BorderPane();
     countDownPane = new BorderPane();
-    countDownPane.setMinHeight(50);
+    countDownPane.setMinHeight(55);
     turnPane = new BorderPane();
     turnPane.setMinHeight(50);
     scorePane = new BorderPane();
@@ -286,7 +286,8 @@ public class GameBoard {
         ? new Text(String.valueOf(roundUpTime))
         : new Text("Das Spiel wurde pausiert!");
       var containerTimer = new AnchorPane();
-      txtRemainingTime.setId("text");
+      txtRemainingTime.setId("textTime");
+      txtRemainingTime.setFill(Paint.valueOf(playersColors.get(CLIENT.getCurrentPlayer().getClientID())));
       containerTimer.getChildren().add(txtRemainingTime);
       countDownPane.setTop(txtRemainingTime);
       BorderPane.setAlignment(txtRemainingTime, Pos.TOP_CENTER);
@@ -305,51 +306,30 @@ public class GameBoard {
     COUNTDOWN.continueTimer();
   }
 
-  public void showPenalty(String player, String penalty, String reason, String deductedPoints) {
+  public void showPenalty(Player player, String penalty, String reason, String deductedPoints) {
     var out = "";
-    if (Objects.equals(penalty, Punishments.NOTHING.toString())) {
-      if (Objects.equals(reason, Punishments.INVALIDMOVE.toString())) {
-        out = "Fehlerhafter Zug von Spieler " + player + ".";
-      } else if (Objects.equals(reason, Punishments.NOMOVE.toString())) {
-        out = "Zeitüberschreitung von Spieler " + player + ".";
-      }
-    } else if (Objects.equals(penalty, Punishments.POINTS.toString())) {
-      out = "Spieler " + player + " bekommt " + deductedPoints + " Punktabzug für ";
-      if (Objects.equals(reason, Punishments.INVALIDMOVE.toString())) {
-        out += "fehlerhafter Zug.";
-      } else if (Objects.equals(reason, Punishments.NOMOVE.toString())) {
-        out += "Zeitüberschreitung.";
-      }
+    if (Objects.equals(reason, Punishments.INVALIDMOVE.toString())) {
+      out = " hat einen fehlerhaften Zug gemacht.";
+    } else if (Objects.equals(reason, Punishments.NOMOVE.toString())) {
+      out = " hat die Spielzeit überschritten.";
+    }
+    if (Objects.equals(penalty, Punishments.POINTS.toString())) {
+      out += " " + deductedPoints + " Punkte wurden dem Spieler entzogen. ";
     }
     if (Objects.equals(penalty, Punishments.KICK.toString())) {
-      out = "Spieler " + player + " würde wegen ";
-      if (Objects.equals(reason, Punishments.INVALIDMOVE.toString())) {
-        out += "fehlerhaften Zug gekickt.";
-      } else if (Objects.equals(reason, Punishments.NOMOVE.toString())) {
-        out += "Zeitüberschreitung gekickt.";
-      }
+      out += " Spieler wurde gekickt.";
     }
-    //TODO: showPunishment(out);
+    out += "\n";
+    updateGameLog(player.getClientID(),player.getName(),out);
   }
 
-  public void showPunishment(String punishment) {
-    Platform.runLater(() -> {
-      Text txtPunishment = new Text(punishment);
-      var containerTimer = new AnchorPane();
-      txtPunishment.setId("text");
-      containerTimer.getChildren().add(txtPunishment);
-      countDownPane.setTop(txtPunishment);
-      BorderPane.setAlignment(txtPunishment, Pos.TOP_CENTER);
-    });
-  }
+
 
   public void moveMole(Field from, Field to, int currentPlayerID) {
     Platform.runLater(() -> this.gameHandler.getBoard().moveMole(from, to, currentPlayerID));
-    CLIENT.getClientPacketHandler().getRemainingTimePacket();
   }
 
   public void placeMole(Mole mole) {
     Platform.runLater(() -> this.gameHandler.getBoard().placeMole(new MoleModel(mole, playersColors.get(mole.getPlayer().getClientID()))));
-    CLIENT.getClientPacketHandler().getRemainingTimePacket();
   }
 }

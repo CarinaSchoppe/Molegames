@@ -417,10 +417,10 @@ public class ClientPacketHandler {
           .getName()
           + " got a move penalty for the reason"
           + packet.getValues().get("reason"));
-    var player = new Gson().fromJson(packet.getValues().get("player"), Player.class).getName();
-    var penalty = packet.getValues().get("penalty").toString();
-    var reason = packet.getValues().get("reason").toString();
-    var deductedPoints = packet.getValues().get("deductedPoints").toString();
+    var player = new Gson().fromJson(packet.getValues().get("player"), Player.class);
+    var penalty = packet.getValues().get("penalty").getAsString();
+    var reason = packet.getValues().get("reason").getAsString();
+    var deductedPoints = packet.getValues().get("deductedPoints").getAsString();
     checkForStopRemainingTime();
     showPenalty(player, penalty, reason, deductedPoints);
   }
@@ -505,6 +505,8 @@ public class ClientPacketHandler {
       }
     }
     updateGameLog(player, " ist am Zug.\n");
+    client.setRemainingTime(packet.getValues().get("until").getAsLong());
+    updateGameRemainingTime();
     checkForStopRemainingTime();
   }
 
@@ -588,6 +590,8 @@ public class ClientPacketHandler {
       }
     }
     updateGameLog(player, " platziert einen Maulwurf.\n");
+    client.setRemainingTime(packet.getValues().get("until").getAsLong());
+    updateGameRemainingTime();
   }
 
   /**
@@ -1013,7 +1017,7 @@ public class ClientPacketHandler {
    * @author Marc
    * @use show info of invalid move or none move
    */
-  private void showPenalty(String player, String penalty, String reason, String deductedPoints) {
+  private void showPenalty(Player player, String penalty, String reason, String deductedPoints) {
     var observerGameBoard = GameBoard.getObserver();
     if (observerGameBoard != null) {
       if (observerGameBoard.isInitialized()) observerGameBoard.showPenalty(player, penalty, reason, deductedPoints);
