@@ -70,3 +70,9 @@
     -fx-stroke-width: 1;
     -fx-font: 20px Chicle;
 }
+
+#textTime {
+    -fx-stroke: black;
+    -fx-stroke-width: 1;
+    -fx-font: 45px Chicle;
+}

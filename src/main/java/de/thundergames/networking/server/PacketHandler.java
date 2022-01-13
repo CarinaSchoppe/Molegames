@@ -303,7 +303,7 @@ public class PacketHandler {
     json.add("player", JsonParser.parseString(new Gson().toJson(player)));
     json.addProperty("reason", reason);
     json.addProperty("deductedPoints", points);
-    json.addProperty("punishment", punishment.getName());
+    json.addProperty("penalty", punishment.getName());
     object.add("value", json);
     return new Packet(object);
   }
