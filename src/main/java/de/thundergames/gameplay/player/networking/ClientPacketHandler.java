@@ -417,7 +417,7 @@ public class ClientPacketHandler {
           + " got a move penalty for the reason"
           + packet.getValues().get("reason"));
     var player = new Gson().fromJson(packet.getValues().get("player"), Player.class).getName();
-    var penalty = packet.getValues().get("punishment").toString();
+    var penalty = packet.getValues().get("penalty").toString();
     var reason = packet.getValues().get("reason").toString();
     var deductedPoints = packet.getValues().get("deductedPoints").toString();
     checkForStopRemainingTime();
