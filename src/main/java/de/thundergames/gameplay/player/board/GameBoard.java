@@ -218,16 +218,28 @@ public class GameBoard {
       pointsColumn.setCellValueFactory(
         new PropertyValueFactory<PlayerResult, Integer>("score"));
       ObservableList<PlayerResult> newResultList = FXCollections.observableArrayList();
-      score = CLIENT.getGameState().getScore();
+      var score = CLIENT.getGameState().getScore();
       var thisPlace = 1;
       var players = score.getPlayers();
-      for (var player : score.getPlayers()) {
-        var playerScore = score.getPoints().get(player.getClientID());
-        if (playerScore == null) {
-          playerScore = 0;
+      var size = score.getPlayers().size();
+      var highestScore = -1;
+      Player highestPlayer = null;
+      while (newResultList.size() != size) {
+        for (var player : players) {
+          var playerScore = 0;
+          if (score.getPoints().get(player.getClientID()) != null) {
+            playerScore = score.getPoints().get(player.getClientID());
+          }
+          if (highestScore < playerScore) {
+            highestScore = playerScore;
+            highestPlayer = player;
+          }
         }
         newResultList.add(
-                new PlayerResult(player.getClientID() + "/" + player.getName(), playerScore, thisPlace));
+                new PlayerResult(highestPlayer.getClientID() + "/" + highestPlayer.getName(), highestScore, thisPlace));
+        players.remove(highestPlayer);
+        highestScore = -1;
+        highestPlayer = null;
         thisPlace++;
       }
       if (resultList != newResultList && !newResultList.isEmpty()) {
