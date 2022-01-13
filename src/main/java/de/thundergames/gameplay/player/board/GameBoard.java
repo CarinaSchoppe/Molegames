@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2022
- * File created on 11.01.22, 20:01 by Carina Latest changes made by Carina on 11.01.22, 19:43 All contents of "GameBoard" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 13.01.22, 15:20 by Carina Latest changes made by Carina on 13.01.22, 15:20 All contents of "GameBoard" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -205,15 +205,15 @@ public class GameBoard {
     Platform.runLater(() -> {
       var playerListTable = new TableView<PlayerResult>();
       playerListTable.setEditable(false);
-      var placeColumn = new TableColumn("Platz");
+      @SuppressWarnings("rawtypes") var placeColumn = new TableColumn("Platz");
       placeColumn.setMinWidth(10);
       placeColumn.setCellValueFactory(
         new PropertyValueFactory<PlayerResult, Integer>("placement"));
-      var nameColumn = new TableColumn("Name");
+      @SuppressWarnings("rawtypes") var nameColumn = new TableColumn("Name");
       nameColumn.setMinWidth(30);
       nameColumn.setCellValueFactory(
         new PropertyValueFactory<PlayerResult, String>("name"));
-      var pointsColumn = new TableColumn("Punkte");
+      @SuppressWarnings("rawtypes") var pointsColumn = new TableColumn("Punkte");
       pointsColumn.setMinWidth(10);
       pointsColumn.setCellValueFactory(
         new PropertyValueFactory<PlayerResult, Integer>("score"));
@@ -308,35 +308,30 @@ public class GameBoard {
   }
 
   public void showPenalty(String player, String penalty, String reason, String deductedPoints) {
-    var out = (String) null;
+    var out = "";
     if (Objects.equals(penalty, Punishments.NOTHING.toString())) {
-      var test = Punishments.INVALIDMOVE.toString();
-      if (Objects.equals(reason, test)) {
+      if (Objects.equals(reason, Punishments.INVALIDMOVE.toString())) {
         out = "Fehlerhafter Zug von Spieler " + player + ".";
-      }
-      if (Objects.equals(reason, Punishments.NOMOVE.toString())) {
+      } else if (Objects.equals(reason, Punishments.NOMOVE.toString())) {
         out = "Zeitüberschreitung von Spieler " + player + ".";
       }
-    }
-    if (Objects.equals(penalty, Punishments.POINTS.toString())) {
+    } else if (Objects.equals(penalty, Punishments.POINTS.toString())) {
       out = "Spieler " + player + " bekommt " + deductedPoints + " Punktabzug für ";
       if (Objects.equals(reason, Punishments.INVALIDMOVE.toString())) {
-        out = out + "fehlerhafter Zug.";
-      }
-      if (Objects.equals(reason, Punishments.NOMOVE.toString())) {
-        out = out + "Zeitüberschreitung.";
+        out += "fehlerhafter Zug.";
+      } else if (Objects.equals(reason, Punishments.NOMOVE.toString())) {
+        out += "Zeitüberschreitung.";
       }
     }
     if (Objects.equals(penalty, Punishments.KICK.toString())) {
       out = "Spieler " + player + " würde wegen ";
       if (Objects.equals(reason, Punishments.INVALIDMOVE.toString())) {
-        out = out + "fehlerhaften Zug gekickt.";
-      }
-      if (Objects.equals(reason, Punishments.NOMOVE.toString())) {
-        out = out + "Zeitüberschreitung gekickt.";
+        out += "fehlerhaften Zug gekickt.";
+      } else if (Objects.equals(reason, Punishments.NOMOVE.toString())) {
+        out += "Zeitüberschreitung gekickt.";
       }
     }
-    //showPunishment(out);
+    //TODO: showPunishment(out);
   }
 
   public void showPunishment(String punishment) {
