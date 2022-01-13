@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2022
- * File created on 13.01.22, 22:17 by Carina Latest changes made by Carina on 13.01.22, 22:12 All contents of "CreateGame" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 13.01.22, 22:39 by Carina Latest changes made by Carina on 13.01.22, 22:39 All contents of "CreateGame" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -430,7 +430,13 @@ public class CreateGame implements Initializable {
     game.setRadius(radius);
     var map = new Map(game, new HashSet<>(), new HashSet<>(), 1);
     map.build(game);
+    if (numberOfMoles <= floors.get(0).getHoles().size()) {
+      return false;
+    }
     for (var floor : floors) {
+      if (floor.getHoles().size() == 0) {
+        return false;
+      }
       // check for the amount of holes
       if (floors.size() > floors.indexOf(floor) + 1) {
         if (floor.getHoles().size() < floors.get(floors.indexOf(floor) + 1).getHoles().size()) {

@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2022
- * File created on 13.01.22, 17:14 by Carina Latest changes made by Carina on 13.01.22, 17:09 All contents of "GameLogic" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 13.01.22, 22:39 by Carina Latest changes made by Carina on 13.01.22, 22:39 All contents of "GameLogic" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -143,32 +143,6 @@ public class GameLogic {
       }
       return false;
     }
-  }
-
-  /**
-   * @param game
-   * @author Carina
-   * @use checks if a player has won when the player is the only one in a single hole floor
-   */
-  public void checkWinning(@NotNull final Game game) {
-    var hole = 0;
-    for (var field : game.getMap().getFieldMap().values()) {
-      if (field.isHole()) {
-        hole++;
-      }
-    }
-    if (hole == 1) {
-      win(game);
-    }
-  }
-
-  /**
-   * @param game
-   * @author Carina
-   * @use handles the player and the game when won
-   */
-  public void win(@NotNull final Game game) {
-    game.endGame();
   }
 
   /**
