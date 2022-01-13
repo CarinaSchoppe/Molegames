@@ -110,7 +110,9 @@ public class GameBoard {
     var currentPlayerName = CLIENT.getCurrentPlayer() == null ? "" : CLIENT.getCurrentPlayer().getName();
     // create list of playerModels for ui
     players = gameState.getActivePlayers();
-    playersColors = new HashMap<>(players.stream().collect(Collectors.toMap(Player::getClientID, player -> Utils.getRandomHSLAColor())));
+
+    var randomColorsItertator = Utils.getRandomHSLAColor(players.size()).listIterator();
+    playersColors = new HashMap<>(players.stream().collect(Collectors.toMap(Player::getClientID, player -> randomColorsItertator.next())));
     var placedMoles = gameState.getPlacedMoles();
     var playerModelList = mapPlayersToPlayerModels(players, placedMoles, currentPlayerID, playersColors);
     // Set custom cursor
@@ -218,16 +220,28 @@ public class GameBoard {
       pointsColumn.setCellValueFactory(
         new PropertyValueFactory<PlayerResult, Integer>("score"));
       ObservableList<PlayerResult> newResultList = FXCollections.observableArrayList();
-      score = CLIENT.getGameState().getScore();
+      var score = CLIENT.getGameState().getScore();
       var thisPlace = 1;
       var players = score.getPlayers();
-      for (var player : score.getPlayers()) {
-        var playerScore = score.getPoints().get(player.getClientID());
-        if (playerScore == null) {
-          playerScore = 0;
+      var size = score.getPlayers().size();
+      var highestScore = -1;
+      Player highestPlayer = null;
+      while (newResultList.size() != size) {
+        for (var player : players) {
+          var playerScore = 0;
+          if (score.getPoints().get(player.getClientID()) != null) {
+            playerScore = score.getPoints().get(player.getClientID());
+          }
+          if (highestScore < playerScore) {
+            highestScore = playerScore;
+            highestPlayer = player;
+          }
         }
         newResultList.add(
-                new PlayerResult(player.getClientID() + "/" + player.getName(), playerScore, thisPlace));
+                new PlayerResult(highestPlayer.getClientID() + "/" + highestPlayer.getName(), highestScore, thisPlace));
+        players.remove(highestPlayer);
+        highestScore = -1;
+        highestPlayer = null;
         thisPlace++;
       }
       if (resultList != newResultList && !newResultList.isEmpty()) {
@@ -325,8 +339,10 @@ public class GameBoard {
 
 
 
-  public void moveMole(Field from, Field to, int currentPlayerID) {
-    Platform.runLater(() -> this.gameHandler.getBoard().moveMole(from, to, currentPlayerID));
+  public void moveMole(Field from, Field to,int currentPlayerId, int pullDisc) {
+    Platform.runLater(() -> {
+      this.gameHandler.getBoard().moveMole(from, to, currentPlayerId, pullDisc);
+    });
   }
 
   public void placeMole(Mole mole) {

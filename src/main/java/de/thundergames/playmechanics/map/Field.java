@@ -27,4 +27,10 @@ public class Field {
   public String toString() {
     return "[" + x + "|" + y + "]";
   }
+
+  public static boolean isSameField(Field first, Field second) {
+    return first.getX() == second.getX() && first.getY() == second.getY();
+  }
+
+
 }

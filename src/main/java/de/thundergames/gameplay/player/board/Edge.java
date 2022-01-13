@@ -33,4 +33,12 @@ public class Edge extends Line {
     this.setStroke(Color.BLACK);
     this.setStrokeWidth(2);
   }
+
+  public void highlightEdge(boolean highlight) {
+    if(highlight) {
+      this.setStroke(Color.YELLOW);
+    } else {
+      this.setStroke(Color.BLACK);
+    }
+  }
 }

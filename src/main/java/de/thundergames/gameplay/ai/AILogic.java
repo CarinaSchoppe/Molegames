@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2022
- * File created on 11.01.22, 20:27 by Carina Latest changes made by Carina on 11.01.22, 20:27 All contents of "AILogic" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 13.01.22, 21:40 by Carina Latest changes made by Carina on 13.01.22, 21:40 All contents of "AILogic" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -19,6 +19,7 @@ import lombok.Data;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
 
@@ -245,24 +246,27 @@ public class AILogic {
 
   /**
    * @param ai
-   * @param moles
+   * @param m
    * @return if it could be moved or not
    * @author Carina
    * @use moves a mole depending on in a hole or on a field
    */
-  private boolean move(@NotNull final AI ai, @NotNull final ArrayList<Mole> moles) {
+  private boolean move(@NotNull final AI ai, @NotNull final HashSet<Mole> m) {
     var random = new Random();
     var direction = (Directions) null;
+    var moles = new ArrayList<>(m);
     while (true) {
       if (moles.isEmpty()) {
         return false;
       } else {
-        var mole = moles.get(random.nextInt(moles.size()));
-        if (mole == null) {
-          continue;
+        var mole = (Mole) null;
+        if (moles.size() > 1) {
+          mole = moles.get(random.nextInt(moles.size()));
+        } else {
+          mole = moles.get(0);
         }
-        moles.remove(mole);
         direction = isMoveable(ai, mole);
+        moles.remove(mole);
         if (direction != null) {
           if (makeMove(mole, direction)) {
             return true;
@@ -280,8 +284,8 @@ public class AILogic {
    * value of the drawCard
    */
   public void moveMole(@NotNull final AI ai) {
-    var openMoles = new ArrayList<>(ai.getMoles());
-    var holeMoles = new ArrayList<>(ai.getMoles());
+    var openMoles = new HashSet<>(ai.getMoles());
+    var holeMoles = new HashSet<>(ai.getMoles());
     for (var hole : ai.getGameState().getFloor().getHoles()) {
       openMoles.removeIf(
         mole -> hole.getX() == mole.getPosition().getX() && hole.getY() == mole.getPosition().getY());
