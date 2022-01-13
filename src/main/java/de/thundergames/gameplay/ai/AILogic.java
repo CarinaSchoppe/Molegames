@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2022
- * File created on 11.01.22, 20:27 by Carina Latest changes made by Carina on 11.01.22, 20:27 All contents of "AILogic" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 13.01.22, 21:38 by Carina Latest changes made by Carina on 13.01.22, 21:37 All contents of "AILogic" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -257,12 +257,14 @@ public class AILogic {
       if (moles.isEmpty()) {
         return false;
       } else {
-        var mole = moles.get(random.nextInt(moles.size()));
-        if (mole == null) {
-          continue;
+        var mole = (Mole) null;
+        if (moles.size() > 1) {
+          mole = moles.get(random.nextInt(moles.size()));
+        } else {
+          mole = moles.get(0);
         }
-        moles.remove(mole);
         direction = isMoveable(ai, mole);
+        moles.remove(mole);
         if (direction != null) {
           if (makeMove(mole, direction)) {
             return true;
