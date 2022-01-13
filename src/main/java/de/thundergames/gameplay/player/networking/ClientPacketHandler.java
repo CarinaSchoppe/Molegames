@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2022
- * File created on 12.01.22, 14:38 by Carina Latest changes made by Carina on 12.01.22, 12:29 All contents of "ClientPacketHandler" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 13.01.22, 16:58 by Carina Latest changes made by Carina on 13.01.22, 16:58 All contents of "ClientPacketHandler" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -530,7 +530,7 @@ public class ClientPacketHandler {
    * @param field
    * @author Carina
    * @use handles that the player wants to place a mole at the position
-   * @see de.thundergames.playmechanics.util.Player
+   * @see Player
    * @see Field
    */
   public void placeMolePacket(@NotNull final Field field) {
@@ -547,8 +547,8 @@ public class ClientPacketHandler {
    * @author Carina
    * @use handles that this player need to place a mole till the turnTime ends
    * @see de.thundergames.playmechanics.game.Game
-   * @see de.thundergames.playmechanics.util.Player
-   * @see de.thundergames.playmechanics.util.Mole
+   * @see Player
+   * @see Mole
    */
   protected void handlePlayerPlacesMolePacket() {
     var player = new Gson().fromJson(packet.getValues().get("player"), Player.class);
@@ -887,7 +887,7 @@ public class ClientPacketHandler {
    * @author Carina
    * @use send to the server that this client wants to join a specific game as player or spectator
    * @see de.thundergames.playmechanics.game.Game
-   * @see de.thundergames.playmechanics.util.Player
+   * @see Player
    */
   public void joinGamePacket(final int gameID, final boolean player) {
     var object = new JsonObject();
