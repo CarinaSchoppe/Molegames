@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2022
- * File created on 11.01.22, 20:01 by Carina Latest changes made by Carina on 11.01.22, 19:00 All contents of "GameUtil" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 13.01.22, 22:17 by Carina Latest changes made by Carina on 13.01.22, 22:17 All contents of "GameUtil" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -14,6 +14,7 @@ import de.thundergames.MoleGames;
 import de.thundergames.networking.server.ServerThread;
 import de.thundergames.playmechanics.util.Player;
 import lombok.Data;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -43,11 +44,11 @@ public class GameUtil {
    * @author Carina
    * @use checks if all moles of a player are in a hole
    */
-  public synchronized boolean allPlayerMolesInHoles() {
-    if (game.getCurrentPlayer().getMoles().isEmpty()) {
+  public synchronized boolean allPlayerMolesInHoles(@NotNull final Player player) {
+    if (player.getMoles().isEmpty()) {
       return false;
     }
-    for (var moles : game.getCurrentPlayer().getMoles()) {
+    for (var moles : player.getMoles()) {
       if (!game.getMap()
         .getFieldMap()
         .get(List.of(moles.getPosition().getX(), moles.getPosition().getY()))
@@ -114,10 +115,10 @@ public class GameUtil {
       nextFloor();
       return;
     }
-    if (allPlayerMolesInHoles()) {
+    if (allPlayerMolesInHoles(game.getCurrentPlayer())) {
       if (MoleGames.getMoleGames().getServer().isDebug()) {
         System.out.println(
-          "all player moles are in holes! for player: " + game.getCurrentPlayer().getName());
+          "Server: All player moles are in holes! for player: " + game.getCurrentPlayer().getName());
       }
       MoleGames.getMoleGames()
         .getServer()
@@ -127,10 +128,18 @@ public class GameUtil {
             .getServer()
             .getPacketHandler()
             .playerSkippedPacket(game.getCurrentPlayer()));
-      if (game.getActivePlayers().size() == 1) {
+      if (game.getActivePlayers().size() >= 1) {
         nextFloor();
       } else {
         nextPlayer();
+      }
+    }
+    if (allMolesOfAllPlayersInHoles()) {
+      if (MoleGames.getMoleGames().getServer().isDebug()) {
+        System.out.println("Server: All moles of all players are in holes!");
+      }
+      if (game.getActivePlayers().size() >= 1) {
+        nextFloor();
       }
     } else {
       if (game.getCurrentPlayer().getMoles().size() < game.getSettings().getNumberOfMoles()
@@ -161,6 +170,15 @@ public class GameUtil {
       }
       game.getCurrentPlayer().getPlayerUtil().startThinkTimer();
     }
+  }
+
+  private boolean allMolesOfAllPlayersInHoles() {
+    for (var player : game.getActivePlayers()) {
+      if (!allPlayerMolesInHoles(player)) {
+        return false;
+      }
+    }
+    return true;
   }
 
   /**

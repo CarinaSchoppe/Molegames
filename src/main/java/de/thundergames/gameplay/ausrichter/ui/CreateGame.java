@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2022
- * File created on 13.01.22, 22:03 by Carina Latest changes made by Carina on 13.01.22, 22:02 All contents of "CreateGame" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 13.01.22, 22:17 by Carina Latest changes made by Carina on 13.01.22, 22:12 All contents of "CreateGame" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -315,7 +315,7 @@ public class CreateGame implements Initializable {
       radius.getText() != null && !"".equalsIgnoreCase(radius.getText())
         ? Integer.parseInt(radius.getText())
         : 8,
-      molesAmount.getText() != null ? Integer.parseInt(molesAmount.getText()) : 4)) {
+      molesAmount.getText() != null && playerAmount != null ? Integer.parseInt(molesAmount.getText()) * Integer.parseInt(playerAmount.getText()) : 16)) {
       Dialog.show("Das Spiel ist nicht richtig konfiguriert!", "Fehler!", Dialog.DialogType.ERROR);
       return;
     }

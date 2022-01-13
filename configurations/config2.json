@@ -1,0 +1,46 @@
+{
+  "maxPlayers": 2,
+  "radius": 2,
+  "numberOfMoles": 2,
+  "levels": [
+    {
+      "holes": [
+        {
+          "x": 0,
+          "y": 2
+        },
+        {
+          "x": 2,
+          "y": 0
+        },
+        {
+          "x": 2,
+          "y": 3
+        },
+        {
+          "x": 2,
+          "y": 4
+        },
+        {
+          "x": 3,
+          "y": 2
+        },
+        {
+          "x": 4,
+          "y": 4
+        }
+      ],
+      "drawAgainFields": [],
+      "points": 1
+    }
+  ],
+  "pullDiscsOrdered": true,
+  "pullDiscs": [
+    1,
+    2,
+    1
+  ],
+  "turnTime": 5,
+  "visualisationTime": 5,
+  "movePenalty": "NOTHING"
+}
