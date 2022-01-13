@@ -267,9 +267,9 @@ public class ClientPacketHandler {
    * @author Carina
    * @use is called everytime a map gets updated TODO: implement this
    */
-  public void updateMoleMoved(Field from, Field to, Mole mole) {
+  public void updateMoleMoved(Field from, Field to,Mole mole, int pullDisc) {
     var gameBoard = GameBoard.getObserver();
-    if (gameBoard != null) gameBoard.moveMole(from, to, mole.getPlayer().getClientID());
+    if (gameBoard != null) gameBoard.moveMole(from,to,mole.getPlayer().getClientID(), pullDisc);
   }
 
   /**
@@ -288,6 +288,7 @@ public class ClientPacketHandler {
   protected void handleMoleMovedPacket() {
     var from = new Gson().fromJson(packet.getValues().get("from"), Field.class);
     var to = new Gson().fromJson(packet.getValues().get("to"), Field.class);
+    var pullDisc = new Gson().fromJson(packet.getValues().get("pullDisc"), Integer.class);
     var moleObject = client.getMap().getFieldMap().get(List.of(from.getX(), from.getY())).getMole();
     if (client.isDebug()) {
       System.out.println(
@@ -311,7 +312,7 @@ public class ClientPacketHandler {
         break;
       }
     }
-    updateMoleMoved(from, to, moleObject);
+    updateMoleMoved(from,to,moleObject,pullDisc);
     checkForStopRemainingTime();
   }
 
