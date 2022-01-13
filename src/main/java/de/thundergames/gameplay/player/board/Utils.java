@@ -12,6 +12,7 @@ package de.thundergames.gameplay.player.board;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class Utils {
@@ -19,7 +20,17 @@ public class Utils {
     return Objects.requireNonNull(Utils.class.getResource("/sprites/" + spriteName)).toString();
   }
 
-  public static String getRandomHSLAColor() {
-    return "hsla(" + Math.random() * 360 + ", 100%, 50%, 1)";
+  // Code originated from:
+  // https://mika-s.github.io/javascript/colors/hsl/2017/12/05/generating-random-colors-in-javascript.html
+  // This method was slightly modified.
+  public static ArrayList<String> getRandomHSLAColor(int amount) {
+    ArrayList<String> colors = new ArrayList<>(amount);
+    var huedelta = (int) (360 / amount);
+
+    for (var i = 0; i < amount; i++) {
+      var hue = i * huedelta;
+      colors.add("hsla(" + hue + ", 100%, 50%, 1)");
+    }
+    return colors;
   }
 }

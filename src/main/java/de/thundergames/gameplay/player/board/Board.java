@@ -10,26 +10,25 @@
 
 package de.thundergames.gameplay.player.board;
 
+
 import de.thundergames.playmechanics.map.Field;
+import javafx.animation.PathTransition;
 import javafx.geometry.Point2D;
 import javafx.scene.Group;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
+
+import javafx.util.Pair;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class Board extends Group {
   private final int radius;
-  // TODO:: make a partial type for nodes that decouples logic from UI
   private final HashSet<Node> nodes;
-  private final ArrayList<Edge> edges;
-  //private final Map map;
+  private final HashMap<List<Field>, Edge> edges;
   private final HashMap<List<Integer>, NodeType> nodesType;
   private final ArrayList<PlayerModel> players;
   private double width;
@@ -48,7 +47,7 @@ public class Board extends Group {
     this.width = width;
     this.height = height;
     this.nodes = new HashSet<>();
-    this.edges = new ArrayList<>();
+    this.edges = new HashMap<>();
     this.players = players;
     this.nodesType = nodesType;
   }
@@ -138,7 +137,7 @@ public class Board extends Group {
     for (var node : nodes) {
       var neighbors = getNodeNeighbors(node);
       for (var neighbor : neighbors) {
-        this.edges.add(new Edge(node.getCenterX(), node.getCenterY(), neighbor.getCenterX(), neighbor.getCenterY()));
+        this.edges.put(Arrays.asList(node.getField(), neighbor.getField()), new Edge(node.getCenterX(), node.getCenterY(), neighbor.getCenterX(), neighbor.getCenterY()));
       }
     }
   }
@@ -163,7 +162,6 @@ public class Board extends Group {
   public void onResize(final double width, final double height) {
     this.width = width;
     this.height = height;
-    // TODO: Debounce rendering to avoid multiple successive renders when resizing
     this.render();
   }
 
@@ -184,7 +182,7 @@ public class Board extends Group {
     this.generateNodes();
     this.generateEdges();
     // display edges and nodes
-    this.edges.forEach(edge -> this.getChildren().add(edge));
+    this.edges.forEach((k,v) -> this.getChildren().add(v));
     this.nodes.forEach(node -> this.getChildren().add(node));
     // display moles
     this.generateMoles();
@@ -209,19 +207,38 @@ public class Board extends Group {
   }
 
   @SuppressWarnings("OptionalGetWithoutIsPresent")
-  public void moveMole(Field from, Field to, int currentPlayerID) {
-    var currentPlayerModel = getCurrentPlayerModel(currentPlayerID);
+  public void moveMole(Field from,Field to, int currentPlayerId, int pullDisc){
+    var currentPlayerModel = getCurrentPlayerModel(currentPlayerId);
     var moleToBeMoved = currentPlayerModel.getMoles().stream().filter(_mole -> _mole.hasSameField(from)).findFirst().get();
+    var nodeFrom = getNodeByField(from);
     var nodeTo = getNodeByField(to);
+
+    var moveDistance = new Point2D(nodeTo.getCenterX() - nodeFrom.getCenterX() + moleToBeMoved.getSize() / 2,  nodeTo.getCenterY() - nodeFrom.getCenterY() + moleToBeMoved.getSize() / 2);
+    var endPosition = new Point2D(nodeTo.getCenterX() - moleToBeMoved.getSize() / 2, nodeTo.getCenterY() - moleToBeMoved.getSize() / 2);
+
+    // Update mole position
     currentPlayerModel.getMoles().remove(moleToBeMoved);
-    this.getChildren().remove(moleToBeMoved);
-    // Update mole
     moleToBeMoved.getMole().setPosition(to);
-    assert nodeTo != null;
-    moleToBeMoved.setLayoutX(nodeTo.getCenterX() - moleToBeMoved.getSize() / 2);
-    moleToBeMoved.setLayoutY(nodeTo.getCenterY() - moleToBeMoved.getSize() / 2);
     currentPlayerModel.getMoles().add(moleToBeMoved);
-    this.getChildren().add(moleToBeMoved);
+
+    // Find path to new node
+    PathSearch pathSearch = new PathSearch(this.nodes);
+    var nodePath = pathSearch.getPathBetweenWithLength(nodeFrom, nodeTo, pullDisc);
+
+    // Highlight path to new node
+    beforeTransition(nodePath);
+    // Apply transition to mole
+    PathTransition pathTransition = MoleTransition.transitionMole(moleToBeMoved, moveDistance);
+
+    // Cleanup after transition end
+    pathTransition.setOnFinished(finish -> {
+      moleToBeMoved.setLayoutX(endPosition.getX());
+      moleToBeMoved.setLayoutY(endPosition.getY());
+      moleToBeMoved.setTranslateX(0);
+      moleToBeMoved.setTranslateY(0);
+      afterTransition(nodePath);
+    });
+
   }
 
   public void placeMole(MoleModel mole) {
@@ -234,4 +251,35 @@ public class Board extends Group {
     mole.render();
     this.getChildren().add(mole);
   }
+
+  private void beforeTransition(List<Node> nodePath) {
+    followNodePath(nodePath, true);
+  }
+
+  private void afterTransition(List<Node> nodePath) {
+    followNodePath(nodePath, false);
+  }
+
+  private void followNodePath(List<Node> nodePath, boolean follow) {
+    // Highlight all nodes in nodePath
+    nodePath.stream().forEach(node -> node.highlightNode(follow));
+
+    // Highlight matching edges
+   for(int i = 0; i < nodePath.size(); i++) {
+     boolean hasNext = i + 1 < nodePath.size();
+     if(hasNext) {
+       for(var edge: this.edges.entrySet()) {
+          var fieldFrom = edge.getKey().get(0);
+          var fieldTo = edge.getKey().get(1);
+          var isSameField = (Field.isSameField(fieldFrom, nodePath.get(i).getField()) && Field.isSameField(fieldTo, nodePath.get(i + 1).getField()))
+                    || (Field.isSameField(fieldFrom, nodePath.get(i + 1).getField()) && Field.isSameField(fieldTo, nodePath.get(i).getField()));
+          if(isSameField) {
+            edge.getValue().highlightEdge(follow);
+
+          }
+       }
+     }
+   }
+  }
+
 }

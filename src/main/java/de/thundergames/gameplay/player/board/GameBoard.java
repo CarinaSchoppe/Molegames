@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2022
- * File created on 13.01.22, 15:20 by Carina Latest changes made by Carina on 13.01.22, 15:20 All contents of "GameBoard" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 09.01.22, 21:35 by Carina Latest changes made by Carina on 09.01.22, 21:35 All contents of "GameBoard" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -23,6 +23,7 @@ import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.ImageCursor;
 import javafx.scene.Scene;
@@ -41,7 +42,10 @@ import lombok.Getter;
 import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 
+import java.awt.*;
+import java.net.URL;
 import java.util.*;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Getter
@@ -106,7 +110,9 @@ public class GameBoard {
     var currentPlayerName = CLIENT.getCurrentPlayer() == null ? "" : CLIENT.getCurrentPlayer().getName();
     // create list of playerModels for ui
     players = gameState.getActivePlayers();
-    playersColors = new HashMap<>(players.stream().collect(Collectors.toMap(Player::getClientID, player -> Utils.getRandomHSLAColor())));
+
+    var randomColorsItertator = Utils.getRandomHSLAColor(players.size()).listIterator();
+    playersColors = new HashMap<>(players.stream().collect(Collectors.toMap(Player::getClientID, player -> randomColorsItertator.next())));
     var placedMoles = gameState.getPlacedMoles();
     var playerModelList = mapPlayersToPlayerModels(players, placedMoles, currentPlayerID, playersColors);
     // Set custom cursor
@@ -214,16 +220,28 @@ public class GameBoard {
       pointsColumn.setCellValueFactory(
         new PropertyValueFactory<PlayerResult, Integer>("score"));
       ObservableList<PlayerResult> newResultList = FXCollections.observableArrayList();
-      score = CLIENT.getGameState().getScore();
+      var score = CLIENT.getGameState().getScore();
       var thisPlace = 1;
       var players = score.getPlayers();
-      for (var player : score.getPlayers()) {
-        var playerScore = score.getPoints().get(player.getClientID());
-        if (playerScore == null) {
-          playerScore = 0;
+      var size = score.getPlayers().size();
+      var highestScore = -1;
+      Player highestPlayer = null;
+      while (newResultList.size() != size) {
+        for (var player : players) {
+          var playerScore = 0;
+          if (score.getPoints().get(player.getClientID()) != null) {
+            playerScore = score.getPoints().get(player.getClientID());
+          }
+          if (highestScore < playerScore) {
+            highestScore = playerScore;
+            highestPlayer = player;
+          }
         }
         newResultList.add(
-                new PlayerResult(player.getClientID() + "/" + player.getName(), playerScore, thisPlace));
+                new PlayerResult(highestPlayer.getClientID() + "/" + highestPlayer.getName(), highestScore, thisPlace));
+        players.remove(highestPlayer);
+        highestScore = -1;
+        highestPlayer = null;
         thisPlace++;
       }
       if (resultList != newResultList && !newResultList.isEmpty()) {
@@ -339,11 +357,14 @@ public class GameBoard {
     });
   }
 
-  public void moveMole(Field from, Field to, int currentPlayerID) {
-    Platform.runLater(() -> this.gameHandler.getBoard().moveMole(from, to, currentPlayerID));
+  public void moveMole(Field from, Field to,int currentPlayerId, int pullDisc) {
+    Platform.runLater(() -> {
+      this.gameHandler.getBoard().moveMole(from, to, currentPlayerId, pullDisc);
+    });
   }
 
   public void placeMole(Mole mole) {
     Platform.runLater(() -> this.gameHandler.getBoard().placeMole(new MoleModel(mole, playersColors.get(mole.getPlayer().getClientID()))));
+    CLIENT.getClientPacketHandler().getRemainingTimePacket();
   }
 }
