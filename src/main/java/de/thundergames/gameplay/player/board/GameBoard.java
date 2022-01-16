@@ -127,6 +127,7 @@ public class GameBoard {
     rootPane.setRight(scorePane);
     scrollPane = new ScrollPane();
     textFlow = new TextFlow();
+    textFlow.setStyle("-fx-background-color: rgba(65, 23, 167, 1);");
     scrollPane.setContent(textFlow);
     turnPane.setCenter(scrollPane);
     turnPane.setMinHeight(100);
@@ -146,6 +147,7 @@ public class GameBoard {
     updateScoreTable();
     var s = new Scene(rootPane);
     s.getStylesheets().add("/player/style/css/GameBoard.css");
+    scrollPane.setId("gamelog");
     primaryStage.setScene(s);
     primaryStage.setResizable(true);
     primaryStage.setMaximized(true);

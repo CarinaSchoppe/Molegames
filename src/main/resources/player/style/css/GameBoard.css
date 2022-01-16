@@ -65,9 +65,12 @@
     -fx-max-height: 0;
 }
 
+#gamelog {
+    -fx-background: rgba(65, 23, 167, 1);
+    -fx-background-color: rgba(0, 0, 0, 1);
+}
+
 #text {
-    -fx-stroke: black;
-    -fx-stroke-width: 1;
     -fx-font: 20px Chicle;
 }
 
