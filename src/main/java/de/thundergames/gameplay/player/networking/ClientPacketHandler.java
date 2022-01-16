@@ -269,7 +269,10 @@ public class ClientPacketHandler {
    */
   public void updateMoleMoved(Field from, Field to, Mole mole, int pullDisc) {
     var gameBoard = GameBoard.getObserver();
-    if (gameBoard != null) gameBoard.moveMole(from, to, mole.getPlayer().getClientID(), pullDisc);
+    if (gameBoard != null) {
+      gameBoard.moveMole(from, to, mole.getPlayer().getClientID(), pullDisc);
+      gameBoard.updatePullDiscs(mole.getPlayer(), pullDisc);
+    }
   }
 
   /**
@@ -500,7 +503,7 @@ public class ClientPacketHandler {
             + " is now on the turn!");
       }
     }
-    updateGameLog(player, " ist am Zug.\n");
+    updateGameLog(player, " ist mit den Zugkarten " + packet.getValues().get("pullDiscs") + " an der Reihe.\n");
     client.setRemainingTime(packet.getValues().get("until").getAsLong());
     updateGameRemainingTime();
     checkForStopRemainingTime();

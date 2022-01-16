@@ -65,11 +65,13 @@ public class GameBoard {
   private GameHandler gameHandler;
   private GameState gameState;
 
-  private ObservableList<PlayerResult> resultList;
+  private ObservableList<PlayerTable> resultList;
 
   private ScrollPane scrollPane;
   private TextFlow textFlow;
 
+  private TableView<PlayerTable> playerListTable;
+  private HashMap<Integer, ArrayList<Integer>> pullDiscs;
   private Score score;
 
   private HashSet<Player> players;
@@ -207,7 +209,7 @@ public class GameBoard {
 
   public void updateScoreTable() {
     Platform.runLater(() -> {
-      var playerListTable = new TableView<PlayerResult>();
+      playerListTable = new TableView<PlayerTable>();
       playerListTable.setEditable(false);
       @SuppressWarnings("rawtypes") var placeColumn = new TableColumn("Platz");
       placeColumn.setMinWidth(10);
@@ -221,8 +223,17 @@ public class GameBoard {
       pointsColumn.setMinWidth(10);
       pointsColumn.setCellValueFactory(
         new PropertyValueFactory<PlayerResult, Integer>("score"));
-      ObservableList<PlayerResult> newResultList = FXCollections.observableArrayList();
+      @SuppressWarnings("rawtypes") var pullDiscsColumn = new TableColumn("Karten");
+      pullDiscsColumn.setMinWidth(10);
+      pullDiscsColumn.setCellValueFactory(
+              new PropertyValueFactory<PlayerResult, Integer>("pullDiscs"));
+      ObservableList<PlayerTable> newResultList = FXCollections.observableArrayList();
       var score = CLIENT.getGameState().getScore();
+      pullDiscs = new HashMap<>();
+      for (Map.Entry<Integer, ArrayList<Integer>> entry : CLIENT.getGameState().getPullDiscs().entrySet()) {
+        pullDiscs.put(entry.getKey(), new ArrayList<>(entry.getValue()));
+      }
+      pullDiscs.putAll(CLIENT.getGameState().getPullDiscs());
       var thisPlace = 1;
       var players = score.getPlayers();
       var size = score.getPlayers().size();
@@ -239,8 +250,9 @@ public class GameBoard {
             highestPlayer = player;
           }
         }
+        System.out.println(pullDiscs.get(highestPlayer.getClientID()).toString());
         newResultList.add(
-                new PlayerResult(highestPlayer.getClientID() + "/" + highestPlayer.getName(), highestScore, thisPlace));
+                new PlayerTable(highestPlayer.getClientID() + "/" + highestPlayer.getName(), highestScore, thisPlace, pullDiscs.get(highestPlayer.getClientID()).toString()));
         players.remove(highestPlayer);
         highestScore = -1;
         highestPlayer = null;
@@ -250,12 +262,31 @@ public class GameBoard {
         resultList = newResultList;
       }
       playerListTable.setItems(resultList);
-      playerListTable.getColumns().addAll(placeColumn, nameColumn, pointsColumn);
+      playerListTable.getColumns().addAll(placeColumn, nameColumn, pointsColumn, pullDiscsColumn);
       playerListTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
       playerListTable.prefHeightProperty().bind(primaryStage.heightProperty());
       playerListTable.getSortOrder().add(placeColumn);
       scorePane.setCenter(playerListTable);
     });
+  }
+
+  public void updatePullDiscs(Player player, Integer pullDisc) {
+    for (int i=0; i<resultList.size();i++) {
+      if (resultList.get(i).getName().equals(player.getClientID()+"/"+player.getName())) {
+        System.out.println("PULLDISCS!!!!: "+pullDiscs.get(player.getClientID()));
+        System.out.println("PULLDISCS_SIZE!!!!: "+pullDiscs.get(player.getClientID()).size());
+        pullDiscs.get(player.getClientID()).remove(pullDisc);
+        System.out.println("PULLDISCS!!!!: "+pullDiscs.get(player.getClientID()));
+        System.out.println("PULLDISCS_SIZE!!!!: "+pullDiscs.get(player.getClientID()).size());
+        System.out.println("GAMESTATE!!!!: "+CLIENT.getGameState());
+        if (pullDiscs.get(player.getClientID()).size() == 0) {
+          pullDiscs.get(player.getClientID()).addAll(CLIENT.getGameState().getPullDiscs().get(player.getClientID()));
+        }
+        resultList.get(i).setPullDiscs(pullDiscs.get(player.getClientID()).toString());
+        break;
+      }
+    }
+    playerListTable.refresh();
   }
 
   public void updateGameLog(Integer playerID, String playerName, String information) {
