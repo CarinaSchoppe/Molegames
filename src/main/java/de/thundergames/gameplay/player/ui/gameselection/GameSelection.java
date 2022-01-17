@@ -122,7 +122,7 @@ public class GameSelection implements Initializable {
     // show username at scene
     playerName.setText("Spieler: " + CLIENT.name);
     // set value for each row
-    gameID.setCellValueFactory(new PropertyValueFactory<>("HashtagWithGameID"));
+    gameID.setCellValueFactory(new PropertyValueFactory<>("GameID"));
     gamePlayerCount.setCellValueFactory(new PropertyValueFactory<>("CurrentPlayerCount_MaxCount"));
     gameState.setCellValueFactory(new PropertyValueFactory<>("StatusForTableView"));
     // load data for tableview
