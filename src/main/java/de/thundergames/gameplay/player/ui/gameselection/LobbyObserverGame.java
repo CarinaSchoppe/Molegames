@@ -186,6 +186,7 @@ public class LobbyObserverGame implements Initializable {
   public void updatePlayerTable() {
     HashSet<Player> playerList = CLIENT.getGameState().getActivePlayers();
     ObservableList<Player> players = FXCollections.observableArrayList();
+    players.clear();
     players.addAll(playerList);
     if (!players.isEmpty()) {
       playerTable.setItems(players);

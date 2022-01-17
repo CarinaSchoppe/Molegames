@@ -739,6 +739,7 @@ public class ClientPacketHandler {
     client.getGameState().getActivePlayers().remove(player);
     updateGameLog(player, " hat das Spiel verlassen.\n");
     updateTableView();
+    updateLobbyPlayerTable();
   }
 
   /***
@@ -785,8 +786,7 @@ public class ClientPacketHandler {
       client.getGameState().getActivePlayers().add(player);
     }
     updateTableView();
-    var lobbyObserverGame = LobbyObserverGame.getObserver();
-    if (lobbyObserverGame != null) lobbyObserverGame.showNewPlayer();
+    updateLobbyPlayerTable();
   }
 
   /**
@@ -943,6 +943,16 @@ public class ClientPacketHandler {
   private void showPlayerJoinedGameLobby() {
     var lobbyObserverGame = LobbyObserverGame.getObserver();
     if (lobbyObserverGame != null) lobbyObserverGame.showJoiningSuccessfully();
+  }
+
+  /**
+   * @author Philipp
+   * @use update the Player Table if a player joined or left the game
+   */
+  private void updateLobbyPlayerTable() {
+    var lobbyObserverGame = LobbyObserverGame.getObserver();
+    if (lobbyObserverGame != null) lobbyObserverGame.showNewPlayer();
+
   }
 
   /**
