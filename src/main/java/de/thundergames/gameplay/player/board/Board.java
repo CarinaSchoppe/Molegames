@@ -18,7 +18,6 @@ import javafx.scene.Group;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 
-import javafx.util.Pair;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
@@ -187,9 +186,6 @@ public class Board extends Group {
     // display moles
     this.generateMoles();
     this.players.forEach(player -> this.getChildren().addAll(player.getMoles()));
-    // display markers
-    this.players.forEach(PlayerModel::updateMarker);
-    this.players.forEach(player -> this.getChildren().addAll((player.getMarkers())));
   }
 
   private Node getNodeByField(final Field field) {
@@ -213,8 +209,8 @@ public class Board extends Group {
     var nodeFrom = getNodeByField(from);
     var nodeTo = getNodeByField(to);
 
-    var moveDistance = new Point2D(nodeTo.getCenterX() - nodeFrom.getCenterX() + moleToBeMoved.getSize() / 2,  nodeTo.getCenterY() - nodeFrom.getCenterY() + moleToBeMoved.getSize() / 2);
-    var endPosition = new Point2D(nodeTo.getCenterX() - moleToBeMoved.getSize() / 2, nodeTo.getCenterY() - moleToBeMoved.getSize() / 2);
+    var moveDistance = new Point2D(nodeTo.getCenterX() - nodeFrom.getCenterX(),  nodeTo.getCenterY() - nodeFrom.getCenterY());
+    var endPosition = new Point2D(nodeTo.getCenterX() - Marker.DEFAULT_SIZE, nodeTo.getCenterY() - Marker.DEFAULT_SIZE);
 
     // Update mole position
     currentPlayerModel.getMoles().remove(moleToBeMoved);
@@ -225,6 +221,8 @@ public class Board extends Group {
     PathSearch pathSearch = new PathSearch(this.nodes);
     var nodePath = pathSearch.getPathBetweenWithLength(nodeFrom, nodeTo, pullDisc);
 
+    moleToBeMoved.showMarker(true);
+
     // Highlight path to new node
     beforeTransition(nodePath);
     // Apply transition to mole
@@ -232,6 +230,7 @@ public class Board extends Group {
 
     // Cleanup after transition end
     pathTransition.setOnFinished(finish -> {
+      moleToBeMoved.showMarker(false);
       moleToBeMoved.setLayoutX(endPosition.getX());
       moleToBeMoved.setLayoutY(endPosition.getY());
       moleToBeMoved.setTranslateX(0);
@@ -246,10 +245,14 @@ public class Board extends Group {
     currentPlayerModel.getMoles().add(mole);
     var nodeTo = getNodeByField(mole.getMole().getPosition());
     assert nodeTo != null;
-    mole.setLayoutX(nodeTo.getCenterX() - mole.getSize() / 2);
-    mole.setLayoutY(nodeTo.getCenterY() - mole.getSize() / 2);
+    mole.setLayoutX(nodeTo.getCenterX() - mole.getComputedMoleSize() / 2);
+    mole.setLayoutY(nodeTo.getCenterY() - mole.getComputedMoleSize() / 2);
     mole.render();
     this.getChildren().add(mole);
+
+    // Show placed mole transition
+    MoleTransition.placeMole(mole, nodeTo);
+
   }
 
   private void beforeTransition(List<Node> nodePath) {
