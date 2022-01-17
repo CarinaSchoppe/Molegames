@@ -94,7 +94,9 @@ public class MoleModel extends Group {
     var mole = new ImageView(new Image(Utils.getSprite("mole/mole.png"), this.size - Marker.DEFAULT_SIZE, this.size - Marker.DEFAULT_SIZE, false, true));
     this.getChildren().add(mole);
     this.getChildren().add(MoleHat.getHat(this.moleColor, 8, 0, 1));
-    this.getChildren().add(marker);
+    if(!this.getChildren().contains(marker)) {
+      this.getChildren().add(marker);
+    }
   }
 
   /**

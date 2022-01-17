@@ -81,7 +81,6 @@ public class GameHandler {
     Platform.runLater(() -> {
       start(players);
       this.container.getChildren().clear();
-      //this.container.getChildren().add(board);
       this.container.setCenter(this.board);
     });
   }

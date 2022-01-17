@@ -203,12 +203,13 @@ public class Board extends Group {
   }
 
   @SuppressWarnings("OptionalGetWithoutIsPresent")
-  public void moveMole(Field from, Field to, int currentPlayerId, int pullDisc) {
+  public void moveMole(Field from,Field to, int currentPlayerId, int pullDisc){
     var currentPlayerModel = getCurrentPlayerModel(currentPlayerId);
     var moleToBeMoved = currentPlayerModel.getMoles().stream().filter(_mole -> _mole.hasSameField(from)).findFirst().get();
     var nodeFrom = getNodeByField(from);
     var nodeTo = getNodeByField(to);
-    var moveDistance = new Point2D(Objects.requireNonNull(nodeTo).getCenterX() - Objects.requireNonNull(nodeFrom).getCenterX(), nodeTo.getCenterY() - nodeFrom.getCenterY());
+
+    var moveDistance = new Point2D(nodeTo.getCenterX() - nodeFrom.getCenterX(),  nodeTo.getCenterY() - nodeFrom.getCenterY());
     var endPosition = new Point2D(nodeTo.getCenterX() - Marker.DEFAULT_SIZE, nodeTo.getCenterY() - Marker.DEFAULT_SIZE);
 
     // Update mole position
@@ -241,16 +242,19 @@ public class Board extends Group {
 
   public void placeMole(MoleModel mole) {
     var currentPlayerModel = getCurrentPlayerModel(mole.getMole().getPlayer().getClientID());
-    currentPlayerModel.getMoles().add(mole);
-    var nodeTo = getNodeByField(mole.getMole().getPosition());
-    assert nodeTo != null;
-    mole.setLayoutX(nodeTo.getCenterX() - mole.getComputedMoleSize() / 2);
-    mole.setLayoutY(nodeTo.getCenterY() - mole.getComputedMoleSize() / 2);
-    mole.render();
-    this.getChildren().add(mole);
+    if(!currentPlayerModel.getMoles().contains(mole)) {
+      currentPlayerModel.getMoles().add(mole);
+      var nodeTo = getNodeByField(mole.getMole().getPosition());
+      assert nodeTo != null;
+      mole.setLayoutX(nodeTo.getCenterX() - mole.getComputedMoleSize() / 2);
+      mole.setLayoutY(nodeTo.getCenterY() - mole.getComputedMoleSize() / 2);
+      mole.render();
+      this.getChildren().add(mole);
 
-    // Show placed mole transition
-    MoleTransition.placeMole(mole, nodeTo);
+      // Show placed mole transition
+      MoleTransition.placeMole(mole, nodeTo);
+    }
+
 
   }
 
