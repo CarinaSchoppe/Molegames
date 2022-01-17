@@ -951,6 +951,6 @@ public class PacketHandler {
       .getServer()
       .sendToAllGameClients(client.getPlayer().getGame(), new Packet(object));
     client.getPlayer().getGame().getPlayers().add(client.getPlayer());
-    for (var ignored : MoleGames.getMoleGames().getServer().getObserver()) overviewPacket(client);
+    for (var ignored : MoleGames.getMoleGames().getServer().getObserver()) overviewPacket(ignored);
   }
 }
