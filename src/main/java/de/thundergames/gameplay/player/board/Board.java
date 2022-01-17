@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2022
- * File created on 13.01.22, 15:20 by Carina Latest changes made by Carina on 13.01.22, 15:20 All contents of "Board" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 17.01.22, 19:10 by Carina Latest changes made by Carina on 17.01.22, 19:10 All contents of "Board" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -10,14 +10,12 @@
 
 package de.thundergames.gameplay.player.board;
 
-
 import de.thundergames.playmechanics.map.Field;
 import javafx.animation.PathTransition;
 import javafx.geometry.Point2D;
 import javafx.scene.Group;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
-
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
@@ -181,7 +179,7 @@ public class Board extends Group {
     this.generateNodes();
     this.generateEdges();
     // display edges and nodes
-    this.edges.forEach((k,v) -> this.getChildren().add(v));
+    this.edges.forEach((k, v) -> this.getChildren().add(v));
     this.nodes.forEach(node -> this.getChildren().add(node));
     // display moles
     this.generateMoles();
@@ -203,31 +201,25 @@ public class Board extends Group {
   }
 
   @SuppressWarnings("OptionalGetWithoutIsPresent")
-  public void moveMole(Field from,Field to, int currentPlayerId, int pullDisc){
+  public void moveMole(Field from, Field to, int currentPlayerId, int pullDisc) {
     var currentPlayerModel = getCurrentPlayerModel(currentPlayerId);
     var moleToBeMoved = currentPlayerModel.getMoles().stream().filter(_mole -> _mole.hasSameField(from)).findFirst().get();
     var nodeFrom = getNodeByField(from);
     var nodeTo = getNodeByField(to);
-
-    var moveDistance = new Point2D(nodeTo.getCenterX() - nodeFrom.getCenterX(),  nodeTo.getCenterY() - nodeFrom.getCenterY());
+    var moveDistance = new Point2D(Objects.requireNonNull(nodeTo).getCenterX() - Objects.requireNonNull(nodeFrom).getCenterX(), nodeTo.getCenterY() - nodeFrom.getCenterY());
     var endPosition = new Point2D(nodeTo.getCenterX() - Marker.DEFAULT_SIZE, nodeTo.getCenterY() - Marker.DEFAULT_SIZE);
-
     // Update mole position
     currentPlayerModel.getMoles().remove(moleToBeMoved);
     moleToBeMoved.getMole().setPosition(to);
     currentPlayerModel.getMoles().add(moleToBeMoved);
-
     // Find path to new node
     PathSearch pathSearch = new PathSearch(this.nodes);
     var nodePath = pathSearch.getPathBetweenWithLength(nodeFrom, nodeTo, pullDisc);
-
     moleToBeMoved.showMarker(true);
-
     // Highlight path to new node
     beforeTransition(nodePath);
     // Apply transition to mole
     PathTransition pathTransition = MoleTransition.transitionMole(moleToBeMoved, moveDistance);
-
     // Cleanup after transition end
     pathTransition.setOnFinished(finish -> {
       moleToBeMoved.showMarker(false);
@@ -237,7 +229,6 @@ public class Board extends Group {
       moleToBeMoved.setTranslateY(0);
       afterTransition(nodePath);
     });
-
   }
 
   public void placeMole(MoleModel mole) {
@@ -249,10 +240,8 @@ public class Board extends Group {
     mole.setLayoutY(nodeTo.getCenterY() - mole.getComputedMoleSize() / 2);
     mole.render();
     this.getChildren().add(mole);
-
     // Show placed mole transition
     MoleTransition.placeMole(mole, nodeTo);
-
   }
 
   private void beforeTransition(List<Node> nodePath) {
@@ -265,24 +254,21 @@ public class Board extends Group {
 
   private void followNodePath(List<Node> nodePath, boolean follow) {
     // Highlight all nodes in nodePath
-    nodePath.stream().forEach(node -> node.highlightNode(follow));
-
+    nodePath.forEach(node -> node.highlightNode(follow));
     // Highlight matching edges
-   for(int i = 0; i < nodePath.size(); i++) {
-     boolean hasNext = i + 1 < nodePath.size();
-     if(hasNext) {
-       for(var edge: this.edges.entrySet()) {
+    for (int i = 0; i < nodePath.size(); i++) {
+      boolean hasNext = i + 1 < nodePath.size();
+      if (hasNext) {
+        for (var edge : this.edges.entrySet()) {
           var fieldFrom = edge.getKey().get(0);
           var fieldTo = edge.getKey().get(1);
           var isSameField = (Field.isSameField(fieldFrom, nodePath.get(i).getField()) && Field.isSameField(fieldTo, nodePath.get(i + 1).getField()))
-                    || (Field.isSameField(fieldFrom, nodePath.get(i + 1).getField()) && Field.isSameField(fieldTo, nodePath.get(i).getField()));
-          if(isSameField) {
+            || (Field.isSameField(fieldFrom, nodePath.get(i + 1).getField()) && Field.isSameField(fieldTo, nodePath.get(i).getField()));
+          if (isSameField) {
             edge.getValue().highlightEdge(follow);
-
           }
-       }
-     }
-   }
+        }
+      }
+    }
   }
-
 }

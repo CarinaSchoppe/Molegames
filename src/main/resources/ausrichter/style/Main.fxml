@@ -3,7 +3,7 @@
 <!--
   ~ Copyright Notice for SwtPra10
   ~ Copyright (c) at ThunderGames | SwtPra10 2022
-  ~ File created on 09.01.22, 16:05 by Carina Latest changes made by Carina on 09.01.22, 16:05 All contents of "Main.fxml" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+  ~ File created on 17.01.22, 19:10 by Carina Latest changes made by Carina on 17.01.22, 19:10 All contents of "Main.fxml" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
   ~ at ThunderGames | SwtPra10. All rights reserved
   ~ Any type of duplication, distribution, rental, sale, award,
   ~ Public accessibility or other use
@@ -11,36 +11,36 @@
   -->
 
 <?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1">
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.2">
     <children>
         <ImageView fitHeight="600.0" fitWidth="600.0" pickOnBounds="true">
             <image>
-                <Image url="@../pictures/Management-Ausrichter.png" />
+                <Image url="@../pictures/Management-Ausrichter.png"/>
             </image>
         </ImageView>
-        <Button fx:id="createGame" layoutX="417.0" layoutY="151.0" mnemonicParsing="false" onAction="#onCreateGame" prefHeight="43.0" prefWidth="170.0" style="-fx-background-color: transparent;" />
-        <Button fx:id="editGame" layoutX="420.0" layoutY="203.0" mnemonicParsing="false" onAction="#onEditGame" prefHeight="41.0" prefWidth="170.0" style="-fx-background-color: transparent;" />
-        <Button fx:id="startGame" layoutX="414.0" layoutY="250.0" mnemonicParsing="false" onAction="#onStartGame" prefHeight="41.0" prefWidth="170.0" style="-fx-background-color: transparent;" />
-        <Button fx:id="createTournament" layoutX="420.0" layoutY="386.0" mnemonicParsing="false" onAction="#onCreateTournament" prefHeight="41.0" prefWidth="170.0" style="-fx-background-color: transparent;" />
-        <Button fx:id="editTournament" layoutX="411.0" layoutY="435.0" mnemonicParsing="false" onAction="#onEditTournament" prefHeight="41.0" prefWidth="170.0" style="-fx-background-color: transparent;" />
-        <Button fx:id="end" layoutX="414.0" layoutY="536.0" mnemonicParsing="false" onAction="#onEnd" prefHeight="41.0" prefWidth="170.0" style="-fx-background-color: transparent;" />
-        <Button fx:id="continueButton" layoutX="216.0" layoutY="533.0" mnemonicParsing="false" onAction="#onContinue" prefHeight="41.0" prefWidth="170.0" style="-fx-background-color: transparent;" />
-        <Button fx:id="breakButton" layoutX="13.0" layoutY="536.0" mnemonicParsing="false" onAction="#onBreak" prefHeight="41.0" prefWidth="170.0" style="-fx-background-color: transparent;" />
+        <Button fx:id="createGame" layoutX="417.0" layoutY="151.0" mnemonicParsing="false" onAction="#onCreateGame" prefHeight="43.0" prefWidth="170.0" style="-fx-background-color: transparent;"/>
+        <Button fx:id="editGame" layoutX="420.0" layoutY="203.0" mnemonicParsing="false" onAction="#onEditGame" prefHeight="41.0" prefWidth="170.0" style="-fx-background-color: transparent;"/>
+        <Button fx:id="startGame" layoutX="414.0" layoutY="250.0" mnemonicParsing="false" onAction="#onStartGame" prefHeight="41.0" prefWidth="170.0" style="-fx-background-color: transparent;"/>
+        <Button fx:id="createTournament" layoutX="420.0" layoutY="386.0" mnemonicParsing="false" onAction="#onCreateTournament" prefHeight="41.0" prefWidth="170.0" style="-fx-background-color: transparent;"/>
+        <Button fx:id="editTournament" layoutX="411.0" layoutY="435.0" mnemonicParsing="false" onAction="#onEditTournament" prefHeight="41.0" prefWidth="170.0" style="-fx-background-color: transparent;"/>
+        <Button fx:id="end" layoutX="414.0" layoutY="536.0" mnemonicParsing="false" onAction="#onEnd" prefHeight="41.0" prefWidth="170.0" style="-fx-background-color: transparent;"/>
+        <Button fx:id="continueButton" layoutX="216.0" layoutY="533.0" mnemonicParsing="false" onAction="#onContinue" prefHeight="41.0" prefWidth="170.0" style="-fx-background-color: transparent;"/>
+        <Button fx:id="breakButton" layoutX="13.0" layoutY="536.0" mnemonicParsing="false" onAction="#onBreak" prefHeight="41.0" prefWidth="170.0" style="-fx-background-color: transparent;"/>
         <TableView fx:id="gameTable" layoutX="42.0" layoutY="161.0" prefHeight="120.0" prefWidth="334.0" stylesheets="@css/MainGUI.css">
             <columns>
-                <TableColumn fx:id="gameID" prefWidth="88.5" reorderable="false" resizable="false" sortable="false" style="fx-font-size: 10;" text="Spiel ID" />
-                <TableColumn fx:id="gamePlayerCount" prefWidth="133.0" reorderable="false" resizable="false" sortable="false" style="fx-font-size: 10;" text="Spieler" />
-                <TableColumn fx:id="gameState" prefWidth="110.5" reorderable="false" resizable="false" sortable="false" style="fx-font-size: 10;" text="Status" />
+                <TableColumn fx:id="gameID" prefWidth="88.5" reorderable="false" resizable="false" sortable="false" style="fx-font-size: 10;" text="Spiel ID"/>
+                <TableColumn fx:id="gamePlayerCount" prefWidth="133.0" reorderable="false" resizable="false" sortable="false" style="fx-font-size: 10;" text="Spieler"/>
+                <TableColumn fx:id="gameState" prefWidth="110.5" reorderable="false" resizable="false" sortable="false" style="fx-font-size: 10;" text="Status"/>
             </columns>
         </TableView>
         <TableView fx:id="tournamentTable" layoutX="49.0" layoutY="369.0" prefHeight="120.0" prefWidth="326.0" stylesheets="@css/MainGUI.css">
             <columns>
-                <TableColumn fx:id="tournamentID" prefWidth="88.5" reorderable="false" resizable="false" sortable="false" style="fx-font-size: 10;" text="Turnier ID" />
-                <TableColumn fx:id="tournamentPlayerCount" prefWidth="133.0" reorderable="false" resizable="false" sortable="false" style="fx-font-size: 10;" text="Spieler" />
-                <TableColumn fx:id="tournamentState" prefWidth="100.0" reorderable="false" resizable="false" sortable="false" style="fx-font-size: 10;" text="Status" />
+                <TableColumn fx:id="tournamentID" prefWidth="88.5" reorderable="false" resizable="false" sortable="false" style="fx-font-size: 10;" text="Turnier ID"/>
+                <TableColumn fx:id="tournamentPlayerCount" prefWidth="133.0" reorderable="false" resizable="false" sortable="false" style="fx-font-size: 10;" text="Spieler"/>
+                <TableColumn fx:id="tournamentState" prefWidth="100.0" reorderable="false" resizable="false" sortable="false" style="fx-font-size: 10;" text="Status"/>
             </columns>
         </TableView>
     </children>
