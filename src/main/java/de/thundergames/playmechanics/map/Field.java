@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2022
- * File created on 11.01.22, 20:01 by Carina Latest changes made by Carina on 11.01.22, 19:43 All contents of "Field" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 17.01.22, 19:10 by Carina Latest changes made by Carina on 17.01.22, 19:10 All contents of "Field" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -23,14 +23,12 @@ public class Field {
   private transient Map map;
   private transient Mole mole;
 
-  @Override
-  public String toString() {
-    return "[" + x + "|" + y + "]";
-  }
-
   public static boolean isSameField(Field first, Field second) {
     return first.getX() == second.getX() && first.getY() == second.getY();
   }
 
-
+  @Override
+  public String toString() {
+    return "[" + x + "|" + y + "]";
+  }
 }

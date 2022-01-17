@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2022
- * File created on 09.01.22, 21:35 by Carina Latest changes made by Carina on 09.01.22, 21:35 All contents of "GameBoard" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 17.01.22, 19:10 by Carina Latest changes made by Carina on 17.01.22, 19:10 All contents of "GameBoard" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -25,7 +25,6 @@ import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.ImageCursor;
 import javafx.scene.Scene;
@@ -44,13 +43,11 @@ import lombok.Getter;
 import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 
-import java.awt.*;
 import java.lang.reflect.Type;
-import java.net.URL;
 import java.util.*;
-import java.util.List;
 import java.util.stream.Collectors;
 
+@SuppressWarnings("unchecked")
 @Getter
 @Setter
 public class GameBoard {
@@ -115,7 +112,6 @@ public class GameBoard {
     var currentPlayerName = CLIENT.getCurrentPlayer() == null ? "" : CLIENT.getCurrentPlayer().getName();
     // create list of playerModels for ui
     players = gameState.getActivePlayers();
-
     var randomColorsItertator = Utils.getRandomHSLAColor(players.size()).listIterator();
     playersColors = new HashMap<>(players.stream().collect(Collectors.toMap(Player::getClientID, player -> randomColorsItertator.next())));
     var placedMoles = gameState.getPlacedMoles();
@@ -212,7 +208,7 @@ public class GameBoard {
 
   public void updateScoreTable() {
     Platform.runLater(() -> {
-      playerListTable = new TableView<PlayerTable>();
+      playerListTable = new TableView<>();
       playerListTable.setEditable(false);
       @SuppressWarnings("rawtypes") var placeColumn = new TableColumn("Platz");
       placeColumn.setMinWidth(10);
@@ -229,12 +225,13 @@ public class GameBoard {
       @SuppressWarnings("rawtypes") var pullDiscsColumn = new TableColumn("Karten");
       pullDiscsColumn.setMinWidth(10);
       pullDiscsColumn.setCellValueFactory(
-              new PropertyValueFactory<PlayerResult, Integer>("pullDiscs"));
+        new PropertyValueFactory<PlayerResult, Integer>("pullDiscs"));
       ObservableList<PlayerTable> newResultList = FXCollections.observableArrayList();
       var score = CLIENT.getGameState().getScore();
       Gson gson = new Gson();
       String jsonString = gson.toJson(CLIENT.getGameState().getPullDiscs());
-      Type type = new TypeToken<HashMap<Integer, ArrayList<Integer>>>(){}.getType();
+      Type type = new TypeToken<HashMap<Integer, ArrayList<Integer>>>() {
+      }.getType();
       pullDiscs = gson.fromJson(jsonString, type);
       var thisPlace = 1;
       var players = score.getPlayers();
@@ -252,9 +249,9 @@ public class GameBoard {
             highestPlayer = player;
           }
         }
-        System.out.println(pullDiscs.get(highestPlayer.getClientID()).toString());
+        System.out.println(pullDiscs.get(Objects.requireNonNull(highestPlayer).getClientID()).toString());
         newResultList.add(
-                new PlayerTable(highestPlayer.getClientID() + "/" + highestPlayer.getName(), highestScore, thisPlace, pullDiscs.get(highestPlayer.getClientID()).toString()));
+          new PlayerTable(highestPlayer.getClientID() + "/" + highestPlayer.getName(), highestScore, thisPlace, pullDiscs.get(highestPlayer.getClientID()).toString()));
         players.remove(highestPlayer);
         highestScore = -1;
         highestPlayer = null;
@@ -273,13 +270,13 @@ public class GameBoard {
   }
 
   public void updatePullDiscs(Player player, Integer pullDisc) {
-    for (int i=0; i<resultList.size();i++) {
-      if (resultList.get(i).getName().equals(player.getClientID()+"/"+player.getName())) {
+    for (PlayerTable playerTable : resultList) {
+      if (playerTable.getName().equals(player.getClientID() + "/" + player.getName())) {
         pullDiscs.get(player.getClientID()).remove(pullDisc);
         if (pullDiscs.get(player.getClientID()).size() == 0) {
           pullDiscs.get(player.getClientID()).addAll(CLIENT.getGameState().getPullDiscs().get(player.getClientID()));
         }
-        resultList.get(i).setPullDiscs(pullDiscs.get(player.getClientID()).toString());
+        playerTable.setPullDiscs(pullDiscs.get(player.getClientID()).toString());
         break;
       }
     }
@@ -365,15 +362,11 @@ public class GameBoard {
       out += " Spieler wurde gekickt.";
     }
     out += "\n";
-    updateGameLog(player.getClientID(),player.getName(),out);
+    updateGameLog(player.getClientID(), player.getName(), out);
   }
 
-
-
-  public void moveMole(Field from, Field to,int currentPlayerId, int pullDisc) {
-    Platform.runLater(() -> {
-      this.gameHandler.getBoard().moveMole(from, to, currentPlayerId, pullDisc);
-    });
+  public void moveMole(Field from, Field to, int currentPlayerId, int pullDisc) {
+    Platform.runLater(() -> this.gameHandler.getBoard().moveMole(from, to, currentPlayerId, pullDisc));
   }
 
   public void placeMole(Mole mole) {

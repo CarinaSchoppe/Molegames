@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2022
- * File created on 13.01.22, 15:20 by Carina Latest changes made by Carina on 13.01.22, 15:20 All contents of "Board" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 17.01.22, 19:10 by Carina Latest changes made by Carina on 17.01.22, 19:10 All contents of "Board" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -120,8 +120,8 @@ public class Board extends Group {
       var nodesPositions = getNodesPosition(numberOfGridCols, numberOfGridRows, i);
       var shift = i > this.radius ? numberOfGridRows - numberOfGridCols : 0;
       for (var j = 0; j < numberOfGridCols; j++) {
-        var nodeType = this.nodesType.get(List.of(i, j)) != null
-          ? this.nodesType.get(List.of(i, j))
+        var nodeType = this.nodesType.get(List.of(i, j + shift)) != null
+                ? this.nodesType.get(List.of(i, j + shift))
           : NodeType.DEFAULT;
         this.nodes.add(new Node(startID + j, nodesPositions[j].getX(), nodesPositions[j].getY(), nodeType, i + 1, new Field(i, j + shift)));
       }
@@ -152,8 +152,8 @@ public class Board extends Group {
       for (var mole : p.getMoles()) {
         var correspondingNode = getNodeByField(mole.getMole().getPosition());
         assert correspondingNode != null;
-        mole.setLayoutX(correspondingNode.getCenterX() - mole.getSize() / 2);
-        mole.setLayoutY(correspondingNode.getCenterY() - mole.getSize() / 2);
+        mole.setLayoutX(correspondingNode.getCenterX() - Marker.DEFAULT_SIZE);
+        mole.setLayoutY(correspondingNode.getCenterY() - Marker.DEFAULT_SIZE);
         mole.render();
       }
     }
@@ -182,7 +182,7 @@ public class Board extends Group {
     this.generateNodes();
     this.generateEdges();
     // display edges and nodes
-    this.edges.forEach((k,v) -> this.getChildren().add(v));
+    this.edges.forEach((k, v) -> this.getChildren().add(v));
     this.nodes.forEach(node -> this.getChildren().add(node));
     // display moles
     this.generateMoles();
@@ -243,16 +243,19 @@ public class Board extends Group {
 
   public void placeMole(MoleModel mole) {
     var currentPlayerModel = getCurrentPlayerModel(mole.getMole().getPlayer().getClientID());
-    currentPlayerModel.getMoles().add(mole);
-    var nodeTo = getNodeByField(mole.getMole().getPosition());
-    assert nodeTo != null;
-    mole.setLayoutX(nodeTo.getCenterX() - mole.getComputedMoleSize() / 2);
-    mole.setLayoutY(nodeTo.getCenterY() - mole.getComputedMoleSize() / 2);
-    mole.render();
-    this.getChildren().add(mole);
+    if(!currentPlayerModel.getMoles().contains(mole)) {
+      currentPlayerModel.getMoles().add(mole);
+      var nodeTo = getNodeByField(mole.getMole().getPosition());
+      assert nodeTo != null;
+      mole.setLayoutX(nodeTo.getCenterX() - mole.getComputedMoleSize() / 2);
+      mole.setLayoutY(nodeTo.getCenterY() - mole.getComputedMoleSize() / 2);
+      mole.render();
+      this.getChildren().add(mole);
 
-    // Show placed mole transition
-    MoleTransition.placeMole(mole, nodeTo);
+      // Show placed mole transition
+      MoleTransition.placeMole(mole, nodeTo);
+    }
+
 
   }
 

@@ -1,9 +1,16 @@
+/*
+ * Copyright Notice for SwtPra10
+ * Copyright (c) at ThunderGames | SwtPra10 2022
+ * File created on 17.01.22, 19:10 by Carina Latest changes made by Carina on 17.01.22, 19:10 All contents of "TournamentEditor" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * at ThunderGames | SwtPra10. All rights reserved
+ * Any type of duplication, distribution, rental, sale, award,
+ * Public accessibility or other use
+ * requires the express written consent of ThunderGames | SwtPra10.
+ */
+
 package de.thundergames.gameplay.ausrichter.ui;
-import java.net.URL;
-import java.util.ResourceBundle;
 
 import de.thundergames.MoleGames;
-import de.thundergames.playmechanics.game.Game;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -17,15 +24,16 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.stage.Stage;
 import org.jetbrains.annotations.NotNull;
-import javafx.scene.input.MouseEvent;
+
+import java.net.URL;
+import java.util.ResourceBundle;
 
 /**
  * @param event
+ * @author Eva
  * @throws Exception
- * @author  Eva
  * @use opens tournament mode to create games in it
  */
-
 
 public class TournamentEditor extends Application implements Initializable {
 
@@ -59,7 +67,7 @@ public class TournamentEditor extends Application implements Initializable {
   /**
    * @param event
    * @throws Exception
-   * @author  Eva
+   * @author Eva
    * @use open CreateGames to create games in tournament
    */
 
@@ -94,34 +102,28 @@ public class TournamentEditor extends Application implements Initializable {
     floors.clear();
     savePrevSettings();
     */
-
     MoleGames.getMoleGames().getGui().start(primaryStage);
     MoleGames.getMoleGames().getGui().updateTable();
   }
 
   @FXML
   void onDeleteGame(ActionEvent event) {
-
   }
 
   @FXML
   void onGameID(ActionEvent event) {
-
   }
 
   @FXML
   void onPlayer(ActionEvent event) {
-
   }
 
   @FXML
   void onReleaseTournament(ActionEvent event) {
-
   }
 
   @FXML
   void onTableTournamentGame(ActionEvent event) {
-
   }
 
   @FXML
@@ -133,7 +135,6 @@ public class TournamentEditor extends Application implements Initializable {
     assert player != null : "fx:id=\"player\" was not injected: check your FXML file 'Tournament-Editor.fxml'.";
     assert releaseTournament != null : "fx:id=\"releaseTournament\" was not injected: check your FXML file 'Tournament-Editor.fxml'.";
     assert tableTournamentGame != null : "fx:id=\"tableTournamentGame\" was not injected: check your FXML file 'Tournament-Editor.fxml'.";
-
   }
 
   /**

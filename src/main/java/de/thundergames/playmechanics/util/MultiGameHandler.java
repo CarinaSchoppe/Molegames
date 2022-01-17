@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2022
- * File created on 13.01.22, 16:58 by Carina Latest changes made by Carina on 13.01.22, 16:58 All contents of "MultiGameHandler" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 17.01.22, 19:10 by Carina Latest changes made by Carina on 17.01.22, 19:10 All contents of "MultiGameHandler" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -41,17 +41,15 @@ public class MultiGameHandler {
    * @author Eva (modified)
    * @use creates the new game
    */
-  public Game createNewGame(final int gameID) {
+  public void createNewGame(final int gameID) {
     if (!IDGames.containsKey(gameID)) {
       Game game = new Game(gameID);
       game.create();
-      return game;
     } else {
       if (MoleGames.getMoleGames().getServer().isDebug()) {
         System.out.println("Game already exists");
       }
     }
-    return null;
   }
 
   /**
@@ -59,16 +57,14 @@ public class MultiGameHandler {
    * @author Eva (modified)
    * @use creates the new tournament
    */
-  public Tournament createNewTournament(final int tournamentID) {
+  public void createNewTournament(final int tournamentID) {
     if (!IDGames.containsKey(tournamentID)) {
       var tournament = new Tournament(tournamentID);
       tournament.create();
-      return tournament;
     } else {
       if (MoleGames.getMoleGames().getServer().isDebug()) {
         System.out.println("Tournament already exists");
       }
     }
-    return null;
   }
 }
