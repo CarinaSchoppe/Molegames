@@ -26,29 +26,12 @@ public class PlayerModel {
   private MoleModel activeMole;
   private boolean isItMyTurn;
   private Player player;
-  private ArrayList<Marker> markers;
 
   public PlayerModel(@NotNull final Player player, @NotNull final ArrayList<MoleModel> moles, final boolean isItMyTurn, @NotNull final String playerColor) {
     this.player = player;
     this.moles = moles;
     this.isItMyTurn = isItMyTurn;
-    this.markers = new ArrayList<>();
     this.playerColor = playerColor;
-  }
-
-  /**
-   * @author Alp, Dila, Issam
-   * @use updates the marker
-   */
-  public void updateMarker() {
-    markers.clear();
-    for (var mole : this.moles) {
-      var marker = new Marker();
-      marker.setLayoutX(mole.getLayoutX() + 8);
-      marker.setLayoutY(mole.getLayoutY() - 16);
-      marker.setOpacity(this.isItMyTurn ? 1 : 0);
-      this.markers.add(marker);
-    }
   }
 
   public void setMoles(@NotNull final ArrayList<MoleModel> moles) {

@@ -24,11 +24,12 @@ import java.util.Objects;
 @Getter
 @Setter
 public class MoleModel extends Group {
-  private final static int DEFAULT_SIZE = 32;
+  private final static int DEFAULT_SIZE = 48;
   private final int moleID;
   private final int size;
   private final String moleColor;
   private Mole mole;
+  private Marker marker;
 
   /**
    * @param id
@@ -44,6 +45,7 @@ public class MoleModel extends Group {
     this.moleID = id;
     this.size = size;
     this.moleColor = moleColor;
+    this.marker = new Marker();
   }
 
   /**
@@ -86,10 +88,13 @@ public class MoleModel extends Group {
    * @use adds style to the background
    */
   private void addStyles() {
+    this.minWidth(this.size);
+    this.minWidth(this.size);
     // Set size
-    var mole = new ImageView(new Image(Utils.getSprite("mole/mole.png"), this.size, this.size, false, true));
+    var mole = new ImageView(new Image(Utils.getSprite("mole/mole.png"), this.size - Marker.DEFAULT_SIZE, this.size - Marker.DEFAULT_SIZE, false, true));
     this.getChildren().add(mole);
     this.getChildren().add(MoleHat.getHat(this.moleColor, 8, 0, 1));
+    this.getChildren().add(marker);
   }
 
   /**
@@ -105,6 +110,13 @@ public class MoleModel extends Group {
       && Objects.equals(this.mole.getPosition().getY(), field.getY());
   }
 
+  public void showMarker(boolean showFlag) {
+    this.marker.show(showFlag);
+  }
+
+  public double getComputedMoleSize() {
+    return (this.size - Marker.DEFAULT_SIZE) ;
+  }
   @Override
   public String toString() {
     return mole.getPosition().toString();
