@@ -12,6 +12,7 @@ package de.thundergames.gameplay.player.board;
 
 
 import de.thundergames.playmechanics.map.Field;
+import de.thundergames.playmechanics.util.Player;
 import javafx.animation.PathTransition;
 import javafx.geometry.Point2D;
 import javafx.scene.Group;
@@ -285,4 +286,18 @@ public class Board extends Group {
    }
   }
 
+  public void removePlayer(Player player) {
+    for (var p:players)
+    {
+      if(p.getPlayer().getClientID() == player.getClientID())
+      {
+        for(var mole : p.getMoles())
+        {
+          this.getChildren().remove(mole);
+        }
+        players.remove(p);
+        break;
+      }
+    }
+  }
 }

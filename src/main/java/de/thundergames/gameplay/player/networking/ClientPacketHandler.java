@@ -686,10 +686,11 @@ public class ClientPacketHandler {
    * @author Carina
    * @use handles that the server send this client the score of the game
    */
-  protected void handleScoreNotificationPacket() {
+  public void handleScoreNotificationPacket() {
     client
       .getGameState()
       .setScore(new Gson().fromJson(packet.getValues().get("score"), Score.class));
+    updateScoreTable();
   }
 
   /**
@@ -740,6 +741,7 @@ public class ClientPacketHandler {
     updateGameLog(player, " hat das Spiel verlassen.\n");
     updateTableView();
     updateLobbyPlayerTable();
+    kickMolesOfPlayer(player);
   }
 
   /***
@@ -754,6 +756,7 @@ public class ClientPacketHandler {
     client.getGameState().getActivePlayers().remove(player);
     updateGameLog(player, " wurde herausgeworfen.\n");
     updateTableView();
+    kickMolesOfPlayer(player);
   }
 
   /**
@@ -1029,6 +1032,17 @@ public class ClientPacketHandler {
     var observerGameBoard = GameBoard.getObserver();
     if (observerGameBoard != null) {
       if (observerGameBoard.isInitialized()) observerGameBoard.showPenalty(player, penalty, reason, deductedPoints);
+    }
+  }
+
+  /**
+   * @author Issam
+   * @use show info of invalid move or none move
+   */
+  private void kickMolesOfPlayer(Player player) {
+    var observerGameBoard = GameBoard.getObserver();
+    if (observerGameBoard != null) {
+      if (observerGameBoard.isInitialized()) observerGameBoard.kickMolesOfPlayer(player);
     }
   }
 }

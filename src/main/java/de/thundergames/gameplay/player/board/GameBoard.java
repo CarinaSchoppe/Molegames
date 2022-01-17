@@ -359,6 +359,7 @@ public class GameBoard {
     }
     if (Objects.equals(penalty, Punishments.POINTS.toString())) {
       out += " " + deductedPoints + " Punkte wurden dem Spieler entzogen. ";
+      CLIENT.getClientPacketHandler().getScorePacket();
     }
     if (Objects.equals(penalty, Punishments.KICK.toString())) {
       out += " Spieler wurde gekickt.";
@@ -377,5 +378,9 @@ public class GameBoard {
 
   public void placeMole(Mole mole) {
     Platform.runLater(() -> this.gameHandler.getBoard().placeMole(new MoleModel(mole, playersColors.get(mole.getPlayer().getClientID()))));
+  }
+
+  public void kickMolesOfPlayer(Player player) {
+    Platform.runLater(() ->{this.gameHandler.getBoard().removePlayer(player);});
   }
 }
