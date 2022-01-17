@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2022
- * File created on 17.01.22, 22:55 by Carina Latest changes made by Carina on 17.01.22, 22:55 All contents of "AILogic" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 17.01.22, 22:57 by Carina Latest changes made by Carina on 17.01.22, 22:57 All contents of "AILogic" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -234,9 +234,16 @@ public class AILogic {
       ai.setDraw(false);
       if (ai.getPlacedMolesAmount() >= ai.getGameState().getMoles() || ai.isPlacedMoles()) {
         ai.setPlacedMoles(true);
+        var openMoles = new HashSet<>(ai.getMoles());
+        var holeMoles = new HashSet<>(ai.getMoles());
+        for (var hole : ai.getGameState().getFloor().getHoles()) {
+          openMoles.removeIf(
+            mole -> hole.getX() == mole.getPosition().getX() && hole.getY() == mole.getPosition().getY());
+        }
+        holeMoles.removeAll(openMoles);
         for (var pullDisc : ai.getPullDiscs()) {
           ai.setCard(pullDisc);
-          if (moveMole(ai)) {
+          if (moveMole(ai, openMoles, holeMoles)) {
             return;
           }
         }
@@ -286,14 +293,7 @@ public class AILogic {
    * a random mole checks if it can be moved and then moves it in the allowed direction by the
    * value of the drawCard
    */
-  public boolean moveMole(@NotNull final AI ai) {
-    var openMoles = new HashSet<>(ai.getMoles());
-    var holeMoles = new HashSet<>(ai.getMoles());
-    for (var hole : ai.getGameState().getFloor().getHoles()) {
-      openMoles.removeIf(
-        mole -> hole.getX() == mole.getPosition().getX() && hole.getY() == mole.getPosition().getY());
-    }
-    holeMoles.removeAll(openMoles);
+  public boolean moveMole(@NotNull final AI ai, @NotNull final HashSet<Mole> openMoles, @NotNull final HashSet<Mole> holeMoles) {
     if (!move(ai, openMoles)) {
       if (!move(ai, holeMoles)) {
         System.out.println("AI: No move possible!");
