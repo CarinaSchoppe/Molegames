@@ -10,6 +10,8 @@
 
 package de.thundergames.gameplay.player.board;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import de.thundergames.filehandling.Score;
 import de.thundergames.gameplay.player.Client;
 import de.thundergames.gameplay.player.ui.score.PlayerResult;
@@ -43,6 +45,7 @@ import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
+import java.lang.reflect.Type;
 import java.net.URL;
 import java.util.*;
 import java.util.List;
@@ -229,11 +232,10 @@ public class GameBoard {
               new PropertyValueFactory<PlayerResult, Integer>("pullDiscs"));
       ObservableList<PlayerTable> newResultList = FXCollections.observableArrayList();
       var score = CLIENT.getGameState().getScore();
-      pullDiscs = new HashMap<>();
-      for (Map.Entry<Integer, ArrayList<Integer>> entry : CLIENT.getGameState().getPullDiscs().entrySet()) {
-        pullDiscs.put(entry.getKey(), new ArrayList<>(entry.getValue()));
-      }
-      pullDiscs.putAll(CLIENT.getGameState().getPullDiscs());
+      Gson gson = new Gson();
+      String jsonString = gson.toJson(CLIENT.getGameState().getPullDiscs());
+      Type type = new TypeToken<HashMap<Integer, ArrayList<Integer>>>(){}.getType();
+      pullDiscs = gson.fromJson(jsonString, type);
       var thisPlace = 1;
       var players = score.getPlayers();
       var size = score.getPlayers().size();
@@ -273,12 +275,7 @@ public class GameBoard {
   public void updatePullDiscs(Player player, Integer pullDisc) {
     for (int i=0; i<resultList.size();i++) {
       if (resultList.get(i).getName().equals(player.getClientID()+"/"+player.getName())) {
-        System.out.println("PULLDISCS!!!!: "+pullDiscs.get(player.getClientID()));
-        System.out.println("PULLDISCS_SIZE!!!!: "+pullDiscs.get(player.getClientID()).size());
         pullDiscs.get(player.getClientID()).remove(pullDisc);
-        System.out.println("PULLDISCS!!!!: "+pullDiscs.get(player.getClientID()));
-        System.out.println("PULLDISCS_SIZE!!!!: "+pullDiscs.get(player.getClientID()).size());
-        System.out.println("GAMESTATE!!!!: "+CLIENT.getGameState());
         if (pullDiscs.get(player.getClientID()).size() == 0) {
           pullDiscs.get(player.getClientID()).addAll(CLIENT.getGameState().getPullDiscs().get(player.getClientID()));
         }
