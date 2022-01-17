@@ -148,7 +148,6 @@ public class GameBoard {
     borderPane.heightProperty().addListener(resizeObserver);
     // Add board to center of borderPane
     borderPane.setCenter(gameHandler.getBoard());
-    CLIENT.getClientPacketHandler().getRemainingTimePacket();
     updateScoreTable();
     var s = new Scene(rootPane);
     s.getStylesheets().add("/player/style/css/GameBoard.css");
@@ -158,6 +157,7 @@ public class GameBoard {
     primaryStage.setMaximized(true);
     primaryStage.show();
     initialized = true;
+    CLIENT.getClientPacketHandler().getRemainingTimePacket();
   }
 
   public ArrayList<PlayerModel> mapPlayersToPlayerModels(@NotNull final HashSet<Player> players, @NotNull final HashSet<Mole> placedMoles, final int currentPlayerID, @NotNull final HashMap<Integer, String> playersColors) {
