@@ -18,6 +18,7 @@ import de.thundergames.playmechanics.game.Game;
 import de.thundergames.playmechanics.game.GameState;
 import de.thundergames.playmechanics.game.GameStates;
 import de.thundergames.playmechanics.util.Dialog;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -135,8 +136,11 @@ public class GameSelection implements Initializable {
    */
   public void updateTable() {
     // clear tableview and get games from server and add all to table view
-    gameTable.getItems().clear();
-    gameTable.getItems().addAll(CLIENT.getGames());
+    Platform.runLater(() -> {
+      gameTable.getItems().clear();
+      gameTable.getItems().addAll(CLIENT.getGames());
+      gameTable.getSortOrder().add(gameID);
+    });
   }
 
   /**
