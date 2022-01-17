@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2022
- * File created on 17.01.22, 19:10 by Carina Latest changes made by Carina on 17.01.22, 19:10 All contents of "Game" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 17.01.22, 22:42 by Carina Latest changes made by Carina on 17.01.22, 22:39 All contents of "Game" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -221,10 +221,10 @@ public class Game {
         currentGameState = GameStates.OVER;
         MoleGames.getMoleGames().getServer().getPacketHandler().gameOverPacket(this);
         for (var player : new HashSet<>(players)) {
-          removePlayerFromGame(player);
+          MoleGames.getMoleGames().getServer().getPacketHandler().removeFromGames((ServerThread) player.getServerClient());
         }
         for (var player : new HashSet<>(spectators)) {
-          removePlayerFromGame(player);
+          MoleGames.getMoleGames().getServer().getPacketHandler().removeFromGames((ServerThread) player.getServerClient());
         }
         updateGameState();
         for (var observer : MoleGames.getMoleGames().getServer().getObserver()) {
@@ -384,7 +384,6 @@ public class Game {
       if (currentGameState == GameStates.NOT_STARTED || currentGameState == GameStates.OVER) {
         players.remove(player);
       }
-      spectators.remove(player);
       activePlayers.remove(player);
       player.getMoles().clear();
       MoleGames.getMoleGames()

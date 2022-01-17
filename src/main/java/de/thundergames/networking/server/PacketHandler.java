@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2022
- * File created on 17.01.22, 22:19 by Carina Latest changes made by Carina on 17.01.22, 22:18 All contents of "PacketHandler" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 17.01.22, 22:42 by Carina Latest changes made by Carina on 17.01.22, 22:42 All contents of "PacketHandler" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -666,7 +666,7 @@ public class PacketHandler {
    * @author Carina
    * @use removes a client from a game
    */
-  private void removeFromGames(@NotNull final ServerThread client) {
+  public void removeFromGames(@NotNull final ServerThread client) {
     client.getServer().getPlayingThreads().remove(client);
     client.getServer().getLobbyThreads().add(client);
     if (client.getPlayer() != null) {
@@ -679,16 +679,12 @@ public class PacketHandler {
     if (client.getPlayer().getGame().getCurrentPlayer() != null) {
       client.getPlayer().getGame().getCurrentPlayer().getTimer().cancel();
     }
-    client.getPlayer().getGame().getActivePlayers().remove(client.getPlayer());
     client.getPlayer().getGame().getPlayers().remove(client.getPlayer());
     client.getPlayer().getGame().getSpectators().remove(client.getPlayer());
     client.getPlayer().getGame().removePlayerFromGame(client.getPlayer());
     MoleGames.getMoleGames().getGameHandler().getClientGames().remove(client);
     System.out.println("Client with id: " + client.getThreadID() + " left the game!");
     client.setPlayer(new Player(client));
-    if (MainGUI.getGUI() != null) {
-      MainGUI.getGUI().updateTable();
-    }
   }
 
   /**

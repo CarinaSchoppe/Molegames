@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2022
- * File created on 13.01.22, 22:39 by Carina Latest changes made by Carina on 13.01.22, 22:39 All contents of "GameLogic" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 17.01.22, 22:42 by Carina Latest changes made by Carina on 17.01.22, 22:39 All contents of "GameLogic" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -11,6 +11,7 @@ package de.thundergames.playmechanics.game;
 
 import de.thundergames.MoleGames;
 import de.thundergames.networking.server.Server;
+import de.thundergames.networking.server.ServerThread;
 import de.thundergames.networking.util.Network;
 import de.thundergames.playmechanics.map.Directions;
 import de.thundergames.playmechanics.map.Map;
@@ -161,7 +162,7 @@ public class GameLogic {
       player.getGame().getScore().getPoints().put(player.getServerClient().getThreadID(), player.getGame().getScore().getPoints().get(player.getServerClient().getThreadID()) - player.getGame().getDeductedPoints());
     } else if (punishment == Punishments.KICK) {
       MoleGames.getMoleGames().getServer().getPacketHandler().playerKickedPacket(player, player.getGame());
-      player.getGame().removePlayerFromGame(player);
+      MoleGames.getMoleGames().getServer().getPacketHandler().removeFromGames((ServerThread) player.getServerClient());
     }
   }
 
