@@ -73,6 +73,13 @@ public class TournamentEditor extends Application implements Initializable {
 
   @FXML
   void onAddGame(ActionEvent event) throws Exception {
+    var primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+    new AddGame().start(primaryStage);
+  }
+
+  /**
+  @FXML
+  void onAddGame(ActionEvent event) throws Exception {
     if (CreateGame.getCreateGameInstance() != null) {
       CreateGame.setPunishmentPrev(null);
       CreateGame.setVisualEffectsPrev(null);
@@ -87,7 +94,7 @@ public class TournamentEditor extends Application implements Initializable {
     var primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
     new CreateGame().start(primaryStage);
   }
-
+   */
   @FXML
   void onBack(ActionEvent event) throws Exception {
     var primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();

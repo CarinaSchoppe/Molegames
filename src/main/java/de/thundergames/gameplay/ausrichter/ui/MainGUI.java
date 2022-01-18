@@ -246,9 +246,9 @@ public class MainGUI extends Application implements Initializable {
   }
 
   @FXML
-  void onEditTournament(ActionEvent event) {
-    // TODO: create and start mechanics on editing a tournament to add and remove players
-    Dialog.show("Noch nicht eingebaut!", "Fehler!", Dialog.DialogType.ERROR);
+  void onEditTournament(ActionEvent event) throws Exception {
+    var primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+    new AddGame().start(primaryStage);
   }
 
   public void updateTable() {
