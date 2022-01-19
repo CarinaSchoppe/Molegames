@@ -17,7 +17,10 @@ import javafx.stage.Stage;
 import org.jetbrains.annotations.NotNull;
 
 public class Tournaments {
+/*
+...
 
+ */
   @FXML
   private ResourceBundle resources;
 
