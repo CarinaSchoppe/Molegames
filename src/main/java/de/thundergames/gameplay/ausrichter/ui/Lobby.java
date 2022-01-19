@@ -5,6 +5,7 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -26,13 +27,16 @@ public class Lobby {
   private Button tournaments;
 
   @FXML
-  void onGames(ActionEvent event) {
-
+  void onGames(ActionEvent event) throws Exception {
+    var primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+    new Games().start(primaryStage);
   }
 
-  @FXML
-  void onTournaments(ActionEvent event) {
 
+  @FXML
+  void onTournaments(ActionEvent event) throws Exception {
+    var primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+    new Tournaments().start(primaryStage);
   }
 
   @FXML

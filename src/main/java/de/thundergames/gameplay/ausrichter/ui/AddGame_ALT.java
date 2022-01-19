@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2022
- * File created on 10.01.22, 22:01 by Carina Latest changes made by Carina on 10.01.22, 22:01 All contents of "AddGame" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 10.01.22, 22:01 by Carina Latest changes made by Carina on 10.01.22, 22:01 All contents of "AddGame_ALT" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -20,7 +20,6 @@ import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -39,9 +38,9 @@ import java.util.ResourceBundle;
  * @author Jana
  * @use add a Game into a Tournament
  */
-public class AddGame    {
+public class AddGame_ALT {
 
-  private static AddGame ADD_GAME;
+  private static AddGame_ALT ADD_GAME;
 
   @FXML private ResourceBundle resources;
 
@@ -75,7 +74,7 @@ public class AddGame    {
     MoleGames.getMoleGames().getAusrichterClient().testGame(0);
   }
 
-  public static AddGame getAddGame() {
+  public static AddGame_ALT getAddGame() {
     return ADD_GAME;
   }
 
@@ -230,27 +229,27 @@ public class AddGame    {
 
   @FXML
   void initialize() {
-    assert back != null : "fx:id=\"back\" was not injected: check your FXML file 'AddGame.fxml'.";
+    assert back != null : "fx:id=\"back\" was not injected: check your FXML file 'AddGame_ALT.fxml'.";
     assert breakGame != null
-        : "fx:id=\"breakGame\" was not injected: check your FXML file 'AddGame.fxml'.";
+        : "fx:id=\"breakGame\" was not injected: check your FXML file 'AddGame_ALT.fxml'.";
     assert continueGame != null
-        : "fx:id=\"continueGame\" was not injected: check your FXML file 'AddGame.fxml'.";
+        : "fx:id=\"continueGame\" was not injected: check your FXML file 'AddGame_ALT.fxml'.";
     assert editGame != null
-        : "fx:id=\"editGame\" was not injected: check your FXML file 'AddGame.fxml'.";
+        : "fx:id=\"editGame\" was not injected: check your FXML file 'AddGame_ALT.fxml'.";
     assert endGame != null
-        : "fx:id=\"endGame\" was not injected: check your FXML file 'AddGame.fxml'.";
+        : "fx:id=\"endGame\" was not injected: check your FXML file 'AddGame_ALT.fxml'.";
     assert gameID != null
-        : "fx:id=\"gameID\" was not injected: check your FXML file 'AddGame.fxml'.";
+        : "fx:id=\"gameID\" was not injected: check your FXML file 'AddGame_ALT.fxml'.";
     assert gamePlayerCount != null
-        : "fx:id=\"gamePlayerCount\" was not injected: check your FXML file 'AddGame.fxml'.";
+        : "fx:id=\"gamePlayerCount\" was not injected: check your FXML file 'AddGame_ALT.fxml'.";
     assert gameState != null
-        : "fx:id=\"gameState\" was not injected: check your FXML file 'AddGame.fxml'.";
+        : "fx:id=\"gameState\" was not injected: check your FXML file 'AddGame_ALT.fxml'.";
     assert gameTable != null
-        : "fx:id=\"gameTable\" was not injected: check your FXML file 'AddGame.fxml'.";
+        : "fx:id=\"gameTable\" was not injected: check your FXML file 'AddGame_ALT.fxml'.";
     assert getScore != null
-        : "fx:id=\"getScore\" was not injected: check your FXML file 'AddGame.fxml'.";
+        : "fx:id=\"getScore\" was not injected: check your FXML file 'AddGame_ALT.fxml'.";
     assert startGame != null
-        : "fx:id=\"startGame\" was not injected: check your FXML file 'AddGame.fxml'.";
+        : "fx:id=\"startGame\" was not injected: check your FXML file 'AddGame_ALT.fxml'.";
 
     gameID.setCellValueFactory(new PropertyValueFactory<>("HashtagWithGameID"));
     gamePlayerCount.setCellValueFactory(new PropertyValueFactory<>("CurrentPlayerCount_MaxCount"));

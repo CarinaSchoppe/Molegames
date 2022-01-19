@@ -10,7 +10,7 @@
 package de.thundergames.networking.server;
 
 import de.thundergames.MoleGames;
-import de.thundergames.gameplay.ausrichter.ui.MainGUI;
+import de.thundergames.gameplay.ausrichter.ui.MainGUI_ALT;
 import de.thundergames.gameplay.ausrichter.ui.PlayerManagement;
 import de.thundergames.networking.util.NetworkThread;
 import de.thundergames.playmechanics.game.GameStates;
@@ -67,8 +67,8 @@ public class ServerThread extends NetworkThread {
     if (MoleGames.getMoleGames().getServer().isDebug()) {
       System.out.println("Disconnecting " + this.getClientName());
     }
-    if (MainGUI.getGUI() != null) {
-      MainGUI.getGUI().updateTable();
+    if (MainGUI_ALT.getGUI() != null) {
+      MainGUI_ALT.getGUI().updateTable();
     }
     if (PlayerManagement.getPlayerManagement() != null) {
       PlayerManagement.getPlayerManagement().updateTable();

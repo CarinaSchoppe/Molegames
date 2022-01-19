@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2022
- * File created on 12.01.22, 11:58 by Carina Latest changes made by Carina on 12.01.22, 11:57 All contents of "MainGUI" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 12.01.22, 11:58 by Carina Latest changes made by Carina on 12.01.22, 11:57 All contents of "MainGUI_ALT" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -42,9 +42,9 @@ import java.util.ResourceBundle;
  * @use the main gui of the "ausrichter"
  */
 @Getter
-public class MainGUI extends Application implements Initializable {
+public class MainGUI_ALT extends Application implements Initializable {
 
-  private static MainGUI GUI;
+  private static MainGUI_ALT GUI;
   @FXML
   private ResourceBundle resources;
   @FXML
@@ -87,7 +87,7 @@ public class MainGUI extends Application implements Initializable {
     MoleGames.getMoleGames().getAusrichterClient().testGame(0);
   }
 
-  public static MainGUI getGUI() {
+  public static MainGUI_ALT getGUI() {
     return GUI;
   }
 
@@ -227,7 +227,7 @@ public class MainGUI extends Application implements Initializable {
   @FXML
   void onCreateTournament(ActionEvent event) throws Exception {
     var primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-    new TournamentEditor().start(primaryStage);
+    new TournamentEditor_ALT().start(primaryStage);
   }
 
   @FXML
@@ -248,7 +248,7 @@ public class MainGUI extends Application implements Initializable {
   @FXML
   void onEditTournament(ActionEvent event) throws Exception {
     var primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-    new AddGame().start(primaryStage);
+    new AddGame_ALT().start(primaryStage);
   }
 
   public void updateTable() {

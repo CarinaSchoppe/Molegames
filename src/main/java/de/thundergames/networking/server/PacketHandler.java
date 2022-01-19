@@ -14,7 +14,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import de.thundergames.MoleGames;
 import de.thundergames.filehandling.Score;
-import de.thundergames.gameplay.ausrichter.ui.MainGUI;
+import de.thundergames.gameplay.ausrichter.ui.MainGUI_ALT;
 import de.thundergames.gameplay.ausrichter.ui.PlayerManagement;
 import de.thundergames.gameplay.player.Client;
 import de.thundergames.networking.util.Packet;
@@ -233,7 +233,7 @@ public class PacketHandler {
       .sendToAllTournamentClients(
         MoleGames.getMoleGames().getGameHandler().getClientTournaments().get(client),
         tournamentPlayerLeftPacket(client));
-    MainGUI.getGUI().updateTable();
+    MainGUI_ALT.getGUI().updateTable();
   }
 
   /**
@@ -630,7 +630,7 @@ public class PacketHandler {
     removeFromGames(client);
     overviewPacket(client);
     client.setPlayer(new Player(client));
-    MainGUI.getGUI().updateTable();
+    MainGUI_ALT.getGUI().updateTable();
   }
 
   /**
@@ -829,7 +829,7 @@ public class PacketHandler {
     client.getServer().getLobbyThreads().remove(client);
     MoleGames.getMoleGames().getServer().getObserver().remove(client);
     MoleGames.getMoleGames().getServer().getConnectionNames().remove(client.getClientName());
-    MainGUI.getGUI().updateTable();
+    MainGUI_ALT.getGUI().updateTable();
   }
 
   /**

@@ -73,7 +73,7 @@ public class AddGames {
     assert createGame != null : "fx:id=\"createGame\" was not injected: check your FXML file 'AddGames.fxml'.";
     assert editGame != null : "fx:id=\"editGame\" was not injected: check your FXML file 'AddGames.fxml'.";
     assert gameID != null : "fx:id=\"gameID\" was not injected: check your FXML file 'AddGames.fxml'.";
-    assert gamePlayerCounter != null : "fx:id=\"gamePlayerCounter\" was not injected: check your FXML file 'AddGames.fxml'.";
+    assert gamePlayerCount != null : "fx:id=\"gamePlayerCounter\" was not injected: check your FXML file 'AddGames.fxml'.";
     assert gameState != null : "fx:id=\"gameState\" was not injected: check your FXML file 'AddGames.fxml'.";
     assert gameTable != null : "fx:id=\"gameTable\" was not injected: check your FXML file 'AddGames.fxml'.";
     assert ready != null : "fx:id=\"ready\" was not injected: check your FXML file 'AddGames.fxml'.";

@@ -12,7 +12,7 @@ package de.thundergames.playmechanics.game;
 import com.google.gson.annotations.SerializedName;
 import de.thundergames.MoleGames;
 import de.thundergames.filehandling.Score;
-import de.thundergames.gameplay.ausrichter.ui.MainGUI;
+import de.thundergames.gameplay.ausrichter.ui.MainGUI_ALT;
 import de.thundergames.gameplay.ausrichter.ui.PlayerManagement;
 import de.thundergames.networking.server.ServerThread;
 import de.thundergames.networking.util.exceptions.NotAllowedError;
@@ -171,7 +171,7 @@ public class Game {
         .sendToAllGameClients(
           this,
           MoleGames.getMoleGames().getServer().getPacketHandler().gameStartedPacket(this.gameState));
-      MainGUI.getGUI().updateTable();
+      MainGUI_ALT.getGUI().updateTable();
     }
   }
 
@@ -231,8 +231,8 @@ public class Game {
           MoleGames.getMoleGames().getServer().getPacketHandler().overviewPacket(observer);
         }
       }
-      if (MainGUI.getGUI() != null) {
-        MainGUI.getGUI().updateTable();
+      if (MainGUI_ALT.getGUI() != null) {
+        MainGUI_ALT.getGUI().updateTable();
       }
     }
   }
@@ -248,7 +248,7 @@ public class Game {
       }
       MoleGames.getMoleGames().getServer().getPacketHandler().gameCanceledPacket(this);
       endGame();
-      MainGUI.getGUI().updateTable();
+      MainGUI_ALT.getGUI().updateTable();
     }
   }
 
@@ -264,7 +264,7 @@ public class Game {
       for (var observer : MoleGames.getMoleGames().getServer().getObserver()) {
         MoleGames.getMoleGames().getServer().getPacketHandler().overviewPacket(observer);
       }
-      MainGUI.getGUI().updateTable();
+      MainGUI_ALT.getGUI().updateTable();
     }
   }
 
@@ -284,7 +284,7 @@ public class Game {
         gameUtil.nextPlayer();
       }
     }
-    MainGUI.getGUI().updateTable();
+    MainGUI_ALT.getGUI().updateTable();
   }
 
   /**
@@ -311,8 +311,8 @@ public class Game {
         .put((ServerThread) player.getServerClient(), this);
       updateGameState();
       setCurrentPlayerCount(players.size());
-      if (MainGUI.getGUI() != null) {
-        MainGUI.getGUI().updateTable();
+      if (MainGUI_ALT.getGUI() != null) {
+        MainGUI_ALT.getGUI().updateTable();
       }
     } else if (spectator) {
       MoleGames.getMoleGames()
@@ -399,8 +399,8 @@ public class Game {
       if (PlayerManagement.getPlayerManagement() != null) {
         PlayerManagement.getPlayerManagement().updateTable();
       }
-      if (MainGUI.getGUI() != null) {
-        MainGUI.getGUI().updateTable();
+      if (MainGUI_ALT.getGUI() != null) {
+        MainGUI_ALT.getGUI().updateTable();
       }
       if (activePlayers.isEmpty() && currentGameState != GameStates.OVER) {
         endGame();
