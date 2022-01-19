@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="669.0" prefWidth="704.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <ImageView fx:id="back" fitHeight="674.0" fitWidth="714.0" layoutX="-9.0" layoutY="-3.0" onDragDetected="#onBack" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../pictures/CreateTournaments.png" />
+         </image>
+      </ImageView>
+      <Button layoutX="46.0" layoutY="45.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="53.0" text="Button" visible="false" />
+      <Button fx:id="chooseGame" layoutX="486.0" layoutY="303.0" mnemonicParsing="false" onAction="#onChooseGame" prefHeight="58.0" prefWidth="198.0" text="Button" visible="false" />
+      <Button fx:id="deleteGame" layoutX="486.0" layoutY="384.0" mnemonicParsing="false" onAction="#onDeleteGame" prefHeight="52.0" prefWidth="198.0" text="Button" visible="false" />
+      <Button fx:id="startTournament" layoutX="486.0" layoutY="588.0" mnemonicParsing="false" onAction="#onStartTournament" prefHeight="52.0" prefWidth="198.0" text="Button" visible="false" />
+      <TableView fx:id="gameTable" layoutX="53.0" layoutY="184.0" prefHeight="361.0" prefWidth="390.0" style="-fx-background-color: transparent;" stylesheets="@css/MainGUI.css">
+        <columns>
+          <TableColumn fx:id="gameID" prefWidth="120.00006484985352" text="Spiel ID" />
+          <TableColumn fx:id="gamePlayerCounter" prefWidth="142.40000915527344" text="Spieler" />
+            <TableColumn fx:id="gameState" prefWidth="124.00006103515625" text="Status" />
+        </columns>
+      </TableView>
+   </children>
+</AnchorPane>
