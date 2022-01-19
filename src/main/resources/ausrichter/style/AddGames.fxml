@@ -14,10 +14,10 @@
             <Image url="@../pictures/AddGames.png" />
          </image>
       </ImageView>
-      <Button fx:id="back" layoutX="62.0" layoutY="50.0" mnemonicParsing="false" onAction="#onBack" prefHeight="42.0" prefWidth="52.0" text="Button" visible="false" />
-      <Button fx:id="createGame" layoutX="524.0" layoutY="321.0" mnemonicParsing="false" onAction="#onCreateGame" prefHeight="53.0" prefWidth="209.0" text="Button" visible="false" />
-      <Button fx:id="editGame" layoutX="524.0" layoutY="400.0" mnemonicParsing="false" onAction="#onEditGame" prefHeight="54.0" prefWidth="210.0" text="Button" visible="false" />
-      <Button fx:id="ready" layoutX="524.0" layoutY="628.0" mnemonicParsing="false" onAction="#onReady" prefHeight="54.0" prefWidth="210.0" text="Button" visible="false" />
+      <Button fx:id="back" layoutX="62.0" layoutY="50.0" mnemonicParsing="false" onAction="#onBack" prefHeight="42.0" prefWidth="52.0" style="-fx-background-color: transparent;" />
+      <Button fx:id="createGame" layoutX="524.0" layoutY="321.0" mnemonicParsing="false" onAction="#onCreateGame" prefHeight="53.0" prefWidth="209.0" style="-fx-background-color: transparent;" />
+      <Button fx:id="editGame" layoutX="524.0" layoutY="400.0" mnemonicParsing="false" onAction="#onEditGame" prefHeight="54.0" prefWidth="210.0" style="-fx-background-color: transparent;" />
+      <Button fx:id="ready" layoutX="524.0" layoutY="628.0" mnemonicParsing="false" onAction="#onReady" prefHeight="54.0" prefWidth="210.0" style="-fx-background-color: transparent;" />
       <TableView fx:id="gameTable" layoutX="68.0" layoutY="200.0" prefHeight="376.0" prefWidth="416.0" stylesheets="@css/MainGUI.css">
         <columns>
           <TableColumn fx:id="gameID" prefWidth="126.4000244140625" text="Spiel ID" />

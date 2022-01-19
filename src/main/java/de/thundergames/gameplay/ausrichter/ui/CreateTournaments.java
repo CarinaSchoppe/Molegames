@@ -2,9 +2,13 @@ package de.thundergames.gameplay.ausrichter.ui;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import de.thundergames.MoleGames;
 import de.thundergames.playmechanics.game.Game;
+import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -16,7 +20,8 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.jetbrains.annotations.NotNull;
 
-public class CreateTournaments {
+
+public class CreateTournaments extends Application implements Initializable {
 
   @FXML
   private ResourceBundle resources;
@@ -41,16 +46,18 @@ public class CreateTournaments {
 
   @FXML private TableView<Game> gameTable;
   @FXML
+
   private Button startTournament;
 
   @FXML
-  void onBack(MouseEvent event) {
+  void onBack(ActionEvent event) throws Exception {
+     }
 
-  }
 
   @FXML
-  void onChooseGame(ActionEvent event) {
-
+  void onChooseGame(ActionEvent event) throws Exception  {
+      var primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+      new AddGames().start(primaryStage);
   }
 
   @FXML
@@ -73,6 +80,11 @@ public class CreateTournaments {
     assert gameState != null : "fx:id=\"gameState\" was not injected: check your FXML file 'CreateTournaments.fxml'.";
     assert startTournament != null : "fx:id=\"startTournament\" was not injected: check your FXML file 'CreateTournaments.fxml'.";
 
+  }
+
+  @Override
+  public void initialize(URL location, ResourceBundle resources) {
+    initialize();
   }
   public void start(@NotNull final Stage primaryStage) throws Exception {
     var loader = new FXMLLoader(getClass().getResource("/ausrichter/style/CreateTournaments.fxml"));

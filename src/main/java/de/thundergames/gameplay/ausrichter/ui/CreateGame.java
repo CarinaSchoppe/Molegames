@@ -276,7 +276,7 @@ public class CreateGame implements Initializable {
     floors.clear();
     savePrevSettings();
     MoleGames.getMoleGames().getGui().start(primaryStage);
-    MoleGames.getMoleGames().getGui().updateTable();
+    //MoleGames.getMoleGames().getGui().updateTable();
   }
 
   /**

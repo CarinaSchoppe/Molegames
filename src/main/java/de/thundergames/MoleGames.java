@@ -11,6 +11,7 @@ package de.thundergames;
 
 import de.thundergames.gameplay.ai.AI;
 import de.thundergames.gameplay.ausrichter.AusrichterClient;
+import de.thundergames.gameplay.ausrichter.ui.Lobby;
 import de.thundergames.gameplay.ausrichter.ui.MainGUI_ALT;
 import de.thundergames.gameplay.player.Client;
 import de.thundergames.gameplay.player.ui.LoginScreen;
@@ -38,7 +39,7 @@ public class MoleGames {
   private Server server;
   private MultiGameHandler gameHandler;
   private AusrichterClient ausrichterClient;
-  private MainGUI_ALT gui;
+  private Lobby gui;
 
   /**
    * @author Carina
@@ -63,8 +64,8 @@ public class MoleGames {
           MOLE_GAMES.server = new Server(5000, "127.0.0.1");
           MOLE_GAMES.gameHandler = new MultiGameHandler();
           MOLE_GAMES.server.create();
-          MOLE_GAMES.gui = new MainGUI_ALT();
-          MainGUI_ALT.create(MOLE_GAMES.server);
+          MOLE_GAMES.gui = new Lobby();
+          Lobby.create(MOLE_GAMES.server);
           break;
         case "-a":
         case "a":

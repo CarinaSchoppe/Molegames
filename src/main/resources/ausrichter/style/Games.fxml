@@ -22,7 +22,7 @@
         <columns>
           <TableColumn fx:id="gameID" prefWidth="119.0" text="Spiel ID" />
           <TableColumn fx:id="gamePlayerCount" prefWidth="136.0" text="Spieler" />
-            <TableColumn fx:id="gameTable" prefWidth="136.0" text="Status" />
+            <TableColumn fx:id="gameState" prefWidth="136.0" text="Status" />
         </columns>
       </TableView>
       <Button fx:id="score" layoutX="570.0" layoutY="45.0" mnemonicParsing="false" onAction="#onScore" prefHeight="72.0" prefWidth="85.0" style="-fx-background-color: transparent;" />

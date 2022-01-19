@@ -7,6 +7,7 @@ import de.thundergames.playmechanics.game.Game;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -53,9 +54,22 @@ public class AddGames {
   }
 
   @FXML
-  void onCreateGame(ActionEvent event) {
+  void onCreateGame(ActionEvent event) throws Exception {
+      if (CreateGame.getCreateGameInstance() != null) {
+        CreateGame.setPunishmentPrev(null);
+        CreateGame.setVisualEffectsPrev(null);
+        CreateGame.setThinkTimePrev(null);
+        CreateGame.getFloors().clear();
+        CreateGame.setPullDiscsOrderedPrev(false);
+        CreateGame.setRadiusPrev(null);
+        CreateGame.getDrawCardValuesList().clear();
+        CreateGame.setMaxPlayersPrev(null);
+        CreateGame.setMolesAmountPrev(null);
+      }
+      var primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+      new CreateGame().start(primaryStage);
+    }
 
-  }
 
   @FXML
   void onEditGame(ActionEvent event) {

@@ -126,7 +126,7 @@ public class PlayerManagement implements Initializable {
   void onBack(ActionEvent event) throws Exception {
     var primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
     MoleGames.getMoleGames().getGui().start(primaryStage);
-    MoleGames.getMoleGames().getGui().updateTable();
+    //MoleGames.getMoleGames().getGui().updateTable();
   }
 
   @FXML

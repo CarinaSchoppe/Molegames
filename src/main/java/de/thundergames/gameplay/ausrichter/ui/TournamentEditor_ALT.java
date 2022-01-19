@@ -24,7 +24,6 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.stage.Stage;
 import org.jetbrains.annotations.NotNull;
-
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -110,7 +109,7 @@ public class TournamentEditor_ALT extends Application implements Initializable {
     savePrevSettings();
     */
     MoleGames.getMoleGames().getGui().start(primaryStage);
-    MoleGames.getMoleGames().getGui().updateTable();
+    //MoleGames.getMoleGames().getGui().updateTable();
   }
 
   @FXML
@@ -135,6 +134,7 @@ public class TournamentEditor_ALT extends Application implements Initializable {
 
   @FXML
   void initialize() {
+    System.out.println("eva 2");
     assert addGAme != null : "fx:id=\"addGAme\" was not injected: check your FXML file 'Tournament-Editor.fxml'.";
     assert back != null : "fx:id=\"back\" was not injected: check your FXML file 'Tournament-Editor.fxml'.";
     assert deleteGame != null : "fx:id=\"deleteGame\" was not injected: check your FXML file 'Tournament-Editor.fxml'.";
@@ -153,6 +153,7 @@ public class TournamentEditor_ALT extends Application implements Initializable {
 
   @Override
   public void initialize(URL location, ResourceBundle resources) {
+    System.out.println("jana 2");
     initialize();
   }
 

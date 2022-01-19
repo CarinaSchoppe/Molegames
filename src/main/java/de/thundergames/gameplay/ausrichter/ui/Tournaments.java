@@ -1,26 +1,35 @@
 package de.thundergames.gameplay.ausrichter.ui;
 
-import java.net.URL;
-import java.util.ResourceBundle;
-
 import de.thundergames.playmechanics.tournament.Tournament;
+import javafx.scene.control.cell.PropertyValueFactory;
+import de.thundergames.MoleGames;
+import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import org.jetbrains.annotations.NotNull;
+import java.net.URL;
+import java.util.ResourceBundle;
 
-public class Tournaments {
-/*
-...dscsdv
-
+/**
+ * @param event
+ * @author Eva
+ * @throws Exception
+ * @use opens tournament mode to create games in it
  */
+
+public class Tournaments extends Application implements Initializable {
+
+  private static Tournaments TournamentsInstance;
+
   @FXML
   private ResourceBundle resources;
 
@@ -45,14 +54,17 @@ public class Tournaments {
   @FXML
   private TableView<Tournament> tournamentTable;
 
-  @FXML
-  void onBack(ActionEvent event) {
 
+  @FXML
+  void onBack(ActionEvent event) throws Exception {
+    var primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+    MoleGames.getMoleGames().getGui().start(primaryStage);
   }
-
   @FXML
-  void onCreateTournament(ActionEvent event) {
 
+  void onCreateTournament(ActionEvent event) throws Exception {
+    var primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+    new CreateTournaments().start(primaryStage);
   }
 
   @FXML
@@ -62,21 +74,33 @@ public class Tournaments {
 
   @FXML
   void initialize() {
-    assert back != null : "fx:id=\"back\" was not injected: check your FXML file '2.1.fxml'.";
-    assert createTournament != null : "fx:id=\"createTournament\" was not injected: check your FXML file '2.1.fxml'.";
-    assert editTournament != null : "fx:id=\"editTournament\" was not injected: check your FXML file '2.1.fxml'.";
-    assert tournamentID != null : "fx:id=\"tournamentID\" was not injected: check your FXML file '2.1.fxml'.";
-    assert tournamentPlayerCount != null : "fx:id=\"tournamentPlayerCount\" was not injected: check your FXML file '2.1.fxml'.";
-    assert tournamentState != null : "fx:id=\"tournamentState\" was not injected: check your FXML file '2.1.fxml'.";
-    assert tournamentTable != null : "fx:id=\"tournamentTable\" was not injected: check your FXML file '2.1.fxml'.";
+    assert back != null : "fx:id=\"back\" was not injected: check your FXML file 'Tournaments.fxml'.";
+    assert createTournament != null : "fx:id=\"createTournament\" was not injected: check your FXML file 'Tournaments.fxml'.";
+    assert editTournament != null : "fx:id=\"editTournament\" was not injected: check your FXML file 'Tournaments.fxml'.";
+    assert tournamentID != null : "fx:id=\"tournamentID\" was not injected: check your FXML file 'Tournaments.fxml'.";
+    assert tournamentPlayerCount != null : "fx:id=\"tournamentPlayerCount\" was not injected: check your FXML file 'Tournaments.fxml'.";
+    assert tournamentState != null : "fx:id=\"tournamentState\" was not injected: check your FXML file 'Tournaments.fxml'.";
+    assert tournamentTable != null : "fx:id=\"tournamentTable\" was not injected: check your FXML file 'Tournaments.fxml'.";
 
     tournamentID.setCellValueFactory(new PropertyValueFactory<>("HashtagWithTournamentID"));
     tournamentPlayerCount.setCellValueFactory(
       new PropertyValueFactory<>("CurrentPlayerCount_MaxCount"));
     tournamentState.setCellValueFactory(new PropertyValueFactory<>("StatusForTableView"));
     updateTable();
-
   }
+
+  @Override
+  public void initialize(URL location, ResourceBundle resources) {
+    TournamentsInstance = this;
+    initialize();
+  }
+
+  /**
+   * @param primaryStage
+   * @throws Exception
+   * @author Carina, Eva, Jana
+   * @use starts the main GUI
+   */
 
   private void updateTable() {
   }
@@ -89,7 +113,7 @@ public class Tournaments {
     primaryStage.setResizable(false);
     primaryStage.setScene(new Scene(root));
     initialize();
+    System.out.println("Ich bins start");
     primaryStage.show();
   }
-
 }

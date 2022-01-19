@@ -14,9 +14,9 @@
             <Image url="@../pictures/Tournaments.png" />
          </image>
       </ImageView>
-      <Button fx:id="createTournament" layoutX="502.0" layoutY="316.0" mnemonicParsing="false" onAction="#onCreateTournament" prefHeight="54.0" prefWidth="200.0" text="Button" visible="false" />
-      <Button fx:id="editTournament" layoutX="502.0" layoutY="396.0" mnemonicParsing="false" onAction="#onEditTournament" prefHeight="54.0" prefWidth="200.0" text="Button" visible="false" />
-      <Button fx:id="back" layoutX="58.0" layoutY="51.0" mnemonicParsing="false" onAction="#onBack" prefHeight="46.0" prefWidth="48.0" text="Button" visible="false" />
+      <Button fx:id="createTournament" layoutX="502.0" layoutY="316.0" mnemonicParsing="false" onAction="#onCreateTournament" prefHeight="54.0" prefWidth="200.0" style="-fx-background-color: transparent;" />
+      <Button fx:id="editTournament" layoutX="502.0" layoutY="396.0" mnemonicParsing="false" onAction="#onEditTournament" prefHeight="54.0" prefWidth="200.0" style="-fx-background-color: transparent;" />
+      <Button fx:id="back" layoutX="58.0" layoutY="51.0" mnemonicParsing="false" onAction="#onBack" prefHeight="46.0" prefWidth="48.0" style="-fx-background-color: transparent;"/>
       <TableView fx:id="tournamentTable" layoutX="58.0" layoutY="185.0" prefHeight="358.0" prefWidth="394.0" style="-fx-background-color: transparent;" stylesheets="@css/MainGUI.css">
         <columns>
           <TableColumn fx:id="tournamentID" prefWidth="124.79999542236328" style="-fx-background-color: transparent;" text="Turnier ID" />
