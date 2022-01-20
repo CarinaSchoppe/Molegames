@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2022
- * File created on 17.01.22, 22:42 by Carina Latest changes made by Carina on 17.01.22, 22:39 All contents of "Game" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 20.01.22, 22:29 by Carina Latest changes made by Carina on 20.01.22, 22:25 All contents of "Game" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -158,7 +158,11 @@ public class Game {
       if (MoleGames.getMoleGames().getServer().isDebug()) {
         System.out.println("Starting a game with the gameID: " + getGameID());
       }
-      gameUtil.nextPlayer();
+      try {
+        gameUtil.nextPlayer();
+      } catch (InterruptedException e) {
+        e.printStackTrace();
+      }
       if (MoleGames.getMoleGames().getServer().isDebug()) {
         System.out.println(
           "Current player is: "
@@ -281,7 +285,11 @@ public class Game {
         MoleGames.getMoleGames().getServer().getPacketHandler().overviewPacket(observer);
       }
       if (!activePlayers.isEmpty()) {
-        gameUtil.nextPlayer();
+        try {
+          gameUtil.nextPlayer();
+        } catch (InterruptedException e) {
+          e.printStackTrace();
+        }
       }
     }
     MainGUI.getGUI().updateTable();
