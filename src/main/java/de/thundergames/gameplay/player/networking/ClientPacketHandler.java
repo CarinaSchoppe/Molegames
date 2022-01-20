@@ -641,10 +641,6 @@ public class ClientPacketHandler {
             + score.getPoints().get(player.getClientID()));
       }
     }
-    try {
-      new Thread(() -> new LeaderBoard().create(score)).start();
-    } catch (IllegalStateException ignored) {
-    }
     updateTableView();
   }
 

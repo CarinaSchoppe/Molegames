@@ -10,6 +10,8 @@
 
 package de.thundergames.gameplay.ai.networking;
 
+import com.google.gson.Gson;
+import de.thundergames.filehandling.Score;
 import de.thundergames.gameplay.ai.AI;
 import de.thundergames.gameplay.player.Client;
 import de.thundergames.gameplay.player.networking.ClientPacketHandler;
@@ -106,5 +108,29 @@ public class AIPacketHandler extends ClientPacketHandler {
     } catch (InterruptedException e) {
       e.printStackTrace();
     }
+  }
+
+  /**
+   * @author Philipp, Marc, Issam
+   * @use handles that the game of the client is over
+   */
+  protected void handleGameOverPacket() {
+    var score = new Gson().fromJson(packet.getValues().get("result"), Score.class);
+    if (client.isDebug()) {
+      System.out.println(
+              "Client: game with the id: "
+                      + client.getGameID()
+                      + " has ended! Winners are: "
+                      + score.getWinners());
+      for (var player : score.getPlayers()) {
+        System.out.println(
+                "Client: player with the name: "
+                        + player.getName()
+                        + " has points: "
+                        + score.getPoints().get(player.getClientID()));
+      }
+    }
+    logoutPacket();
+    System.exit(0);
   }
 }
