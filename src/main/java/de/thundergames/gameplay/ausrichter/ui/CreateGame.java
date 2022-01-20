@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2022
- * File created on 20.01.22, 18:19 by Carina Latest changes made by Carina on 20.01.22, 18:19 All contents of "CreateGame" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 20.01.22, 18:24 by Carina Latest changes made by Carina on 20.01.22, 18:24 All contents of "CreateGame" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -131,26 +131,13 @@ public class CreateGame implements Initializable {
     MoleGames.getMoleGames().getGameHandler().createNewGame(id);
     var game = MoleGames.getMoleGames().getGameHandler().getIDGames().get(id);
     game.getSettings().getFloors().addAll(floorMap);
-    game.getSettings()
-      .setMaxPlayers(
-        (playerAmount.getText() != null && !"".equalsIgnoreCase(playerAmount.getText()))
-          ? Integer.parseInt(playerAmount.getText())
-          : 4);
-    game.getSettings()
-      .setRadius(
-        (radius.getText() != null && !"".equalsIgnoreCase(radius.getText()))
-          ? Integer.parseInt(radius.getText())
-          : 6);
-    game.getSettings()
-      .setNumberOfMoles(
-        (molesAmount.getText() != null && !"".equalsIgnoreCase(molesAmount.getText()))
-          ? Integer.parseInt(molesAmount.getText())
-          : 4);
+    game.getSettings().setMaxPlayers((playerAmount.getText() != null && !"".equalsIgnoreCase(playerAmount.getText())) ? Integer.parseInt(playerAmount.getText()) : 4);
+    game.getSettings().setRadius((radius.getText() != null && !"".equalsIgnoreCase(radius.getText())) ? Integer.parseInt(radius.getText()) : 6);
+    game.getSettings().setDeductedPoints((deductedPoints.getText() != null && !"".equalsIgnoreCase(deductedPoints.getText())) ? Integer.parseInt(deductedPoints.getText()) : 10);
+    game.setDeductedPoints(game.getSettings().getDeductedPoints());
+    game.getSettings().setNumberOfMoles((molesAmount.getText() != null && !"".equalsIgnoreCase(molesAmount.getText())) ? Integer.parseInt(molesAmount.getText()) : 4);
     game.getSettings().setPullDiscsOrdered(pullDiscsOrdered.isSelected());
-    game.getSettings()
-      .setTurnTime(
-        (thinkTime.getText() != null && !"".equalsIgnoreCase(thinkTime.getText()))
-          ? Integer.parseInt(thinkTime.getText()) * 1000L
+    game.getSettings().setTurnTime((thinkTime.getText() != null && !"".equalsIgnoreCase(thinkTime.getText())) ? Integer.parseInt(thinkTime.getText()) * 1000L
           : 15000);
     if (!drawCardValuesList.isEmpty()) {
       game.getSettings().getPullDiscs().clear();
@@ -359,6 +346,7 @@ public class CreateGame implements Initializable {
       movePenalty.setValue(Punishments.valueOf(punishmentPrev));
     }
   }
+
   private static ArrayList<Integer> drawCardValuesList = new ArrayList<>();
   @FXML
   private Button configureDrawAgain;
