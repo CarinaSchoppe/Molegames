@@ -72,8 +72,9 @@ public class Tournaments extends Application implements Initializable {
   }
 
   @FXML
-  void onEditTournament(ActionEvent event) {
-
+  void onEditTournament(ActionEvent event) throws Exception {
+    var primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+    new TournamentEditor().start(primaryStage);
   }
 
   @FXML

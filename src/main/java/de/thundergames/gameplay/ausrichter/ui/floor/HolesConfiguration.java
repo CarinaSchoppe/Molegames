@@ -120,7 +120,7 @@ public class HolesConfiguration implements Initializable {
   @FXML
   void onBack(@NotNull final ActionEvent event) throws Exception {
     var primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-    CreateGame.getCreateGameInstance().start(primaryStage);
+    CreateGame.getCreateGameInstance().start(primaryStage, "Modus");
   }
 
   /**

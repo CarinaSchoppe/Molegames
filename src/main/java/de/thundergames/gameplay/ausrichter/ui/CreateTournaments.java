@@ -1,8 +1,7 @@
 package de.thundergames.gameplay.ausrichter.ui;
+
 import java.net.URL;
 import java.util.ResourceBundle;
-
-import de.thundergames.MoleGames;
 import de.thundergames.playmechanics.game.Game;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -12,8 +11,6 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -21,16 +18,14 @@ import javafx.stage.Stage;
 import org.jetbrains.annotations.NotNull;
 
 
-public class CreateTournaments extends Application implements Initializable {
+public class CreateTournaments implements Initializable {
 
+  private static CreateTournaments CreateTournamentsInstance;
   @FXML
   private ResourceBundle resources;
 
   @FXML
   private URL location;
-
-  @FXML
-  private ImageView back;
 
   @FXML
   private Button chooseGame;
@@ -49,15 +44,19 @@ public class CreateTournaments extends Application implements Initializable {
 
   private Button startTournament;
 
+  private Button back;
+
   @FXML
   void onBack(ActionEvent event) throws Exception {
-     }
+    var primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+    Tournaments.getTournamentsInstance().start(primaryStage);
+  }
 
 
   @FXML
   void onChooseGame(ActionEvent event) throws Exception  {
-      var primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-      new AddGames().start(primaryStage);
+    var primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+    new AddGames().start(primaryStage);
   }
 
   @FXML
@@ -68,6 +67,10 @@ public class CreateTournaments extends Application implements Initializable {
   @FXML
   void onStartTournament(ActionEvent event) {
 
+  }
+
+  public static CreateTournaments getCreateTournamentsInstance() {
+    return CreateTournamentsInstance;
   }
 
   @FXML
@@ -84,6 +87,7 @@ public class CreateTournaments extends Application implements Initializable {
 
   @Override
   public void initialize(URL location, ResourceBundle resources) {
+    CreateTournamentsInstance=this;
     initialize();
   }
   public void start(@NotNull final Stage primaryStage) throws Exception {
@@ -93,7 +97,6 @@ public class CreateTournaments extends Application implements Initializable {
     primaryStage.setTitle("Turnier erstellen!");
     primaryStage.setResizable(false);
     primaryStage.setScene(new Scene(root));
-    initialize();
     primaryStage.show();
   }
 }
