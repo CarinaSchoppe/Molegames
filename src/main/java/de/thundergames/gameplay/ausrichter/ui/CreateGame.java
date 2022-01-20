@@ -275,8 +275,8 @@ public class CreateGame implements Initializable {
     drawCardValuesList.clear();
     floors.clear();
     savePrevSettings();
-    MoleGames.getMoleGames().getGui().start(primaryStage);
-    //MoleGames.getMoleGames().getGui().updateTable();
+    Games.getGamesInstance().start(primaryStage);
+    //Games.getGamesInstance().updateTable();
   }
 
   /**
@@ -360,7 +360,8 @@ public class CreateGame implements Initializable {
     MoleGames.getMoleGames().getGameHandler().getIDGames().get(id).updateGameState();
     floors.clear();
     var primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-    MoleGames.getMoleGames().getGui().start(primaryStage);
+    Games.getGamesInstance().start(primaryStage);
+    Games.getGamesInstance().updateTable();
     for (var observer : MoleGames.getMoleGames().getServer().getObserver()) {
       MoleGames.getMoleGames().getServer().getPacketHandler().overviewPacket(observer);
     }

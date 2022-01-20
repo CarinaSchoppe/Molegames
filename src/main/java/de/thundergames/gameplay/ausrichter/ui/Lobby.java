@@ -3,6 +3,8 @@ package de.thundergames.gameplay.ausrichter.ui;
 import de.thundergames.MoleGames;
 import de.thundergames.gameplay.ausrichter.AusrichterClient;
 import de.thundergames.networking.server.Server;
+import de.thundergames.playmechanics.game.Game;
+import de.thundergames.playmechanics.tournament.Tournament;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -12,6 +14,8 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.stage.Stage;
 import org.jetbrains.annotations.NotNull;
 import java.net.URL;
@@ -33,6 +37,8 @@ public class Lobby extends Application implements Initializable {
   @FXML
   private Button tournaments;
 
+
+
   public static void create(@NotNull final Server server) {
     MoleGames.getMoleGames().setAusrichterClient(new AusrichterClient(server));
     new Thread(Application::launch).start();
@@ -48,7 +54,7 @@ public class Lobby extends Application implements Initializable {
   @FXML
   void onGames(ActionEvent event) throws Exception {
     var primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-    new CreateGame().start(primaryStage);
+    new Games().start(primaryStage);
   }
 
 

@@ -55,6 +55,10 @@ public class Tournaments extends Application implements Initializable {
   private TableView<Tournament> tournamentTable;
 
 
+  public static Tournaments getTournamentsInstance() {
+    return TournamentsInstance;
+  }
+
   @FXML
   void onBack(ActionEvent event) throws Exception {
     var primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -113,7 +117,6 @@ public class Tournaments extends Application implements Initializable {
     primaryStage.setResizable(false);
     primaryStage.setScene(new Scene(root));
     initialize();
-    System.out.println("Ich bins start");
     primaryStage.show();
   }
 }

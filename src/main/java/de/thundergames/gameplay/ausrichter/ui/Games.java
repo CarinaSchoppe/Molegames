@@ -3,10 +3,15 @@ package de.thundergames.gameplay.ausrichter.ui;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import de.thundergames.MoleGames;
 import de.thundergames.playmechanics.game.Game;
+import de.thundergames.playmechanics.tournament.Tournament;
+import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -16,7 +21,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import org.jetbrains.annotations.NotNull;
 
-public class Games {
+public class Games extends Application implements Initializable {
 
   @FXML
   private ResourceBundle resources;
@@ -56,14 +61,22 @@ public class Games {
   @FXML
   private Button startGame;
 
+  private static Games GamesInstance;
+
+
+  public static Games getGamesInstance() {
+    return GamesInstance;
+  }
+
   @FXML
   void onAddPlayer(ActionEvent event) {
 
   }
 
   @FXML
-  void onBack(ActionEvent event) {
-
+  void onBack(ActionEvent event) throws Exception {
+    var primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+    MoleGames.getMoleGames().getGui().start(primaryStage);
   }
 
   @FXML
@@ -77,8 +90,9 @@ public class Games {
   }
 
   @FXML
-  void onCreateGame(ActionEvent event) {
-
+  void onCreateGame(ActionEvent event) throws Exception {
+    var primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+    new CreateGame().start(primaryStage);
   }
 
   @FXML
@@ -114,7 +128,17 @@ public class Games {
     updateTable();
   }
 
-  private void updateTable() {
+  @Override
+  public void initialize(URL location, ResourceBundle resources) {
+    GamesInstance = this;
+    initialize();
+  }
+
+  public void updateTable() {
+    var gameSelection = gameTable.getSelectionModel().getSelectedItem();
+    gameTable.getItems().clear();
+    gameTable.getItems().addAll(MoleGames.getMoleGames().getGameHandler().getGames());
+    gameTable.getSelectionModel().select(gameSelection);
   }
 
   public void start(@NotNull final Stage primaryStage) throws Exception {

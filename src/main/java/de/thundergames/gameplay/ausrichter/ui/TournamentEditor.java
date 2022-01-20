@@ -1,4 +1,4 @@
-package de.thundergames.gameplay.ausrichter.ui.neu;
+package de.thundergames.gameplay.ausrichter.ui;
 
 import java.net.URL;
 import java.util.ResourceBundle;

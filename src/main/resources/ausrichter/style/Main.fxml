@@ -18,7 +18,7 @@
     <children>
         <ImageView fitHeight="600.0" fitWidth="600.0" pickOnBounds="true">
             <image>
-                <Image url="@../pictures/Management-Ausrichter.png"/>
+                <Image url="@../pictures/MainGUI_ALT.png"/>
             </image>
         </ImageView>
         <Button fx:id="createGame" layoutX="417.0" layoutY="151.0" mnemonicParsing="false" onAction="#onCreateGame" prefHeight="43.0" prefWidth="170.0" style="-fx-background-color: transparent;"/>
