@@ -145,6 +145,8 @@ public class GameBoard {
     // Add board to center of borderPane
     borderPane.setCenter(gameHandler.getBoard());
     updateScoreTable();
+    rootPane.setMinHeight(856.0);
+    rootPane.setMinWidth(900.0);
     var s = new Scene(rootPane);
     s.getStylesheets().add("/player/style/css/GameBoard.css");
     scrollPane.setId("gamelog");
