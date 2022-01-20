@@ -171,41 +171,28 @@ public class GameSelection implements Initializable {
       Dialog.show("Es wurde kein Spiel ausgewählt!", "Spiel beobachten", Dialog.DialogType.ERROR);
       return;
     }
+    else {
+      if (Objects.equals(selectedItem.getStatus(), GameStates.OVER.toString())) {
+        loadScoreboard(selectedItem.getScore());
+      } else {
+        CLIENT.getClientPacketHandler().joinGamePacket(selectedItem.getGameID(), false);
+        if (Objects.equals(selectedItem.getStatus(), GameStates.NOT_STARTED.toString())) {
+          new LobbyObserverGame().create(primaryStage, selectedItem.getGameID());
+        }
+      }
+    }
     // Send Packet to spectate game to get GameState
-    CLIENT.getClientPacketHandler().joinGamePacket(selectedItem.getGameID(), false);
-    boolean waiting = true;
-    int counter = 0;
-    var currentGameState = (GameState) null;
-    while (waiting) {
-      Thread.sleep(1000);
-      counter += 1;
-      currentGameState = CLIENT.getGameState();
-      if (counter == 5 || currentGameState != null) {
-        waiting = false;
-      }
-    }
-    // Get GameState
-    //GameState currentGameState = client.getGameState();
-    if (Client.getClientInstance().isDebug()) {
-      if (currentGameState == null) {
-        return;
-      }
-    }
-    if (Objects.equals(currentGameState.getStatus(), GameStates.STARTED.toString())
-            || Objects.equals(currentGameState.getStatus(), GameStates.PAUSED.toString())) {
-      spectateGame();
-    } else if (Objects.equals(currentGameState.getStatus(), GameStates.NOT_STARTED.toString())) {
-      new LobbyObserverGame().create(primaryStage, selectedItem.getGameID());
-    } else if (Objects.equals(currentGameState.getStatus(), GameStates.OVER.toString())) {
-      loadScoreboard(selectedItem.getScore());
-    }
+  }
+
+  public TableView<Game> getGameTable() {
+    return gameTable;
   }
 
   /**
    * @author Philipp
    * @use Load scoreboard of game that is already over
    */
-  private void loadScoreboard(Score score) throws IOException {
+   public void loadScoreboard(Score score) throws IOException {
     LeaderBoard leaderBoard = new LeaderBoard();
     leaderBoard.create(score);
     leaderBoard.start(primaryStage);
@@ -214,7 +201,11 @@ public class GameSelection implements Initializable {
   /**
    * Load scene of game
    */
-  private void spectateGame() {
-    new GameBoard().create(primaryStage);
+  public void spectateGame() {
+    var status = CLIENT.getGameState().getStatus();
+    if (Objects.equals(status, GameStates.STARTED.toString())
+            || Objects.equals(status, GameStates.PAUSED.toString())) {
+      new GameBoard().create(primaryStage);
+    }
   }
 }

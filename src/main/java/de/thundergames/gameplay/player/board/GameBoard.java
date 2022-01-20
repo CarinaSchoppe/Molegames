@@ -14,6 +14,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import de.thundergames.filehandling.Score;
 import de.thundergames.gameplay.player.Client;
+import de.thundergames.gameplay.player.ui.score.LeaderBoard;
 import de.thundergames.gameplay.player.ui.score.PlayerResult;
 import de.thundergames.playmechanics.game.GameState;
 import de.thundergames.playmechanics.game.GameStates;
@@ -43,6 +44,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -377,5 +379,17 @@ public class GameBoard {
 
   public void kickMolesOfPlayer(Player player) {
     Platform.runLater(() ->{this.gameHandler.getBoard().removePlayer(player);});
+  }
+
+  public void gameOver(Score score) {
+    Platform.runLater(() -> {
+      LeaderBoard leaderBoard = new LeaderBoard();
+      leaderBoard.create(score);
+      try {
+        leaderBoard.start(primaryStage);
+      } catch (Exception e) {
+        System.out.println(e);
+      }
+    });
   }
 }

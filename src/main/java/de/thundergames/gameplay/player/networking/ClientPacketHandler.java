@@ -642,6 +642,7 @@ public class ClientPacketHandler {
       }
     }
     updateTableView();
+    spectatorGameOver(score);
   }
 
   /**
@@ -799,6 +800,7 @@ public class ClientPacketHandler {
     }
     client.setGameState(new Gson().fromJson(packet.getValues().get("gameState"), GameState.class));
     handleFloor();
+    spectatorJoin();
   }
 
   /**
@@ -1039,5 +1041,25 @@ public class ClientPacketHandler {
     if (observerGameBoard != null) {
       if (observerGameBoard.isInitialized()) observerGameBoard.kickMolesOfPlayer(player);
     }
+  }
+
+  /**
+   * @author Marc, Issam, Philipp
+   * @use opens the game over score board screen
+   */
+  private void spectatorGameOver(Score score) {
+    var observerGameBoard = GameBoard.getObserver();
+    if (observerGameBoard != null) {
+            if (observerGameBoard.isInitialized()) observerGameBoard.gameOver(score);
+    }
+  }
+
+  /**
+   * @author Marc, Issam, Philipp
+   * @use joins the spectator to the server, creating the GUI
+   */
+  private void spectatorJoin() {
+    var gameSelection = GameSelection.getGameSelection();
+    if (gameSelection != null) gameSelection.spectateGame();
   }
 }
