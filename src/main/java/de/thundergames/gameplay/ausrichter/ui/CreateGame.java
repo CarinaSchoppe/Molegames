@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2022
- * File created on 20.01.22, 17:11 by Carina Latest changes made by Carina on 20.01.22, 17:10 All contents of "CreateGame" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 20.01.22, 17:51 by Carina Latest changes made by Carina on 20.01.22, 17:51 All contents of "CreateGame" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -47,147 +47,6 @@ public class CreateGame implements Initializable {
 
   // Liste von Floor welche DrawAgain<Field> und Hole<Field> enthält
   private static ArrayList<Floor> floors = new ArrayList<>();
-  private static CreateGame createGameInstance;
-  private static String molesAmountPrev;
-  private static String maxPlayersPrev;
-  private static String punishmentPrev;
-  private static String radiusPrev;
-  private static String thinkTimePrev;
-  private static boolean pullDiscsOrderedPrev;
-  private static String visualEffectsPrev;
-  private static ArrayList<Integer> drawCardValuesList = new ArrayList<>();
-  @FXML
-  private Button configureDrawAgain;
-  @FXML
-  private Button configureHoles;
-  private Map map;
-  @FXML
-  private ChoiceBox<Punishments> movePenalty;
-  @FXML
-  private ResourceBundle resources;
-  @FXML
-  private URL location;
-  @FXML
-  private Button addItem;
-  @FXML
-  private Button back;
-  @FXML
-  private Button createGame;
-  @FXML
-  private TextField drawCardValue;
-  @FXML
-  private Button loadConfig;
-  @FXML
-  private TextField molesAmount;
-  @FXML
-  private TextField playerAmount;
-  @FXML
-  private ChoiceBox<String> punishment;
-  @FXML
-  private TextField radius;
-  @FXML
-  private Button removeAll;
-  @FXML
-  private TextArea drawCardValues;
-  @FXML
-  private TextField thinkTime;
-  @FXML
-  private CheckBox pullDiscsOrdered;
-  @FXML
-  private TextField visualEffects;
-
-  public static String getMolesAmountPrev() {
-    return molesAmountPrev;
-  }
-
-  public static void setMolesAmountPrev(String molesAmountPrev) {
-    CreateGame.molesAmountPrev = molesAmountPrev;
-  }
-
-  public static ArrayList<Floor> getLevel() {
-    return floors;
-  }
-
-  public static String getMaxPlayersPrev() {
-    return maxPlayersPrev;
-  }
-
-  public static void setMaxPlayersPrev(String maxPlayersPrev) {
-    CreateGame.maxPlayersPrev = maxPlayersPrev;
-  }
-
-  public static String getPunishmentPrev() {
-    return punishmentPrev;
-  }
-
-  public static void setPunishmentPrev(String punishmentPrev) {
-    CreateGame.punishmentPrev = punishmentPrev;
-  }
-
-  public static String getRadiusPrev() {
-    return radiusPrev;
-  }
-
-  public static void setRadiusPrev(String radiusPrev) {
-    CreateGame.radiusPrev = radiusPrev;
-  }
-
-  public static String getThinkTimePrev() {
-    return thinkTimePrev;
-  }
-
-  public static void setThinkTimePrev(String thinkTimePrev) {
-    CreateGame.thinkTimePrev = thinkTimePrev;
-  }
-
-  public static boolean isPullDiscsOrderedPrev() {
-    return pullDiscsOrderedPrev;
-  }
-
-  public static void setPullDiscsOrderedPrev(boolean pullDiscsOrderedPrev) {
-    CreateGame.pullDiscsOrderedPrev = pullDiscsOrderedPrev;
-  }
-
-  public static String getVisualEffectsPrev() {
-    return visualEffectsPrev;
-  }
-
-  public static void setVisualEffectsPrev(String visualEffectsPrev) {
-    CreateGame.visualEffectsPrev = visualEffectsPrev;
-  }
-
-  public static ArrayList<Integer> getDrawCardValuesList() {
-    return drawCardValuesList;
-  }
-
-  public static void setDrawCardValuesList(ArrayList<Integer> drawCardValuesList) {
-    CreateGame.drawCardValuesList = drawCardValuesList;
-  }
-
-  public static CreateGame getCreateGameInstance() {
-    return createGameInstance;
-  }
-
-  public static ArrayList<Floor> getFloors() {
-    return floors;
-  }
-
-  public static void setFloors(ArrayList<Floor> floors) {
-    CreateGame.floors = floors;
-  }
-
-  @FXML
-  void addItemButtonEvent(@NotNull final ActionEvent event) {
-    if (drawCardValue.getText() != null && !"".equalsIgnoreCase(drawCardValue.getText())) {
-      drawCardValuesList.add(Integer.valueOf(drawCardValue.getText()));
-    }
-    if (drawCardValues.getText() == null || "".equalsIgnoreCase(drawCardValues.getText())) {
-      drawCardValues.setText(drawCardValue.getText());
-    } else {
-      drawCardValues.setText(drawCardValues.getText() + "\n" + drawCardValue.getText());
-    }
-    drawCardValue.clear();
-  }
 
   /**
    * @author Carina, Jana, Eva
@@ -529,5 +388,147 @@ public class CreateGame implements Initializable {
       punishmentPrev = movePenalty.getSelectionModel().getSelectedItem().getName();
     } catch (Exception ignored) {
     }
+  }
+
+  private static CreateGame createGameInstance;
+  private static String molesAmountPrev;
+  private static String maxPlayersPrev;
+  private static String punishmentPrev;
+  private static String radiusPrev;
+  private static String thinkTimePrev;
+  private static boolean pullDiscsOrderedPrev;
+  private static String visualEffectsPrev;
+  private static ArrayList<Integer> drawCardValuesList = new ArrayList<>();
+  @FXML
+  private Button configureDrawAgain;
+  @FXML
+  private Button configureHoles;
+  private Map map;
+  @FXML
+  private ChoiceBox<Punishments> movePenalty;
+  @FXML
+  private ResourceBundle resources;
+  @FXML
+  private URL location;
+  @FXML
+  private Button addItem;
+  @FXML
+  private Button back;
+  @FXML
+  private Button createGame;
+  @FXML
+  private TextField drawCardValue;
+  @FXML
+  private Button loadConfig;
+  @FXML
+  private TextField molesAmount;
+  @FXML
+  private TextField playerAmount;
+  @FXML
+  private ChoiceBox<String> punishment;
+  @FXML
+  private TextField radius;
+  @FXML
+  private Button removeAll;
+  @FXML
+  private TextArea drawCardValues;
+  @FXML
+  private TextField thinkTime;
+  @FXML
+  private CheckBox pullDiscsOrdered;
+  @FXML
+  private TextField visualEffects;
+
+  public static String getMolesAmountPrev() {
+    return molesAmountPrev;
+  }
+
+  public static void setMolesAmountPrev(String molesAmountPrev) {
+    CreateGame.molesAmountPrev = molesAmountPrev;
+  }
+
+  public static ArrayList<Floor> getLevel() {
+    return floors;
+  }
+
+  public static String getMaxPlayersPrev() {
+    return maxPlayersPrev;
+  }
+
+  public static void setMaxPlayersPrev(String maxPlayersPrev) {
+    CreateGame.maxPlayersPrev = maxPlayersPrev;
+  }
+
+  public static String getPunishmentPrev() {
+    return punishmentPrev;
+  }
+
+  public static void setPunishmentPrev(String punishmentPrev) {
+    CreateGame.punishmentPrev = punishmentPrev;
+  }
+
+  public static String getRadiusPrev() {
+    return radiusPrev;
+  }
+
+  public static void setRadiusPrev(String radiusPrev) {
+    CreateGame.radiusPrev = radiusPrev;
+  }
+
+  public static String getThinkTimePrev() {
+    return thinkTimePrev;
+  }
+
+  public static void setThinkTimePrev(String thinkTimePrev) {
+    CreateGame.thinkTimePrev = thinkTimePrev;
+  }
+
+  public static boolean isPullDiscsOrderedPrev() {
+    return pullDiscsOrderedPrev;
+  }
+
+  public static void setPullDiscsOrderedPrev(boolean pullDiscsOrderedPrev) {
+    CreateGame.pullDiscsOrderedPrev = pullDiscsOrderedPrev;
+  }
+
+  public static String getVisualEffectsPrev() {
+    return visualEffectsPrev;
+  }
+
+  public static void setVisualEffectsPrev(String visualEffectsPrev) {
+    CreateGame.visualEffectsPrev = visualEffectsPrev;
+  }
+
+  public static ArrayList<Integer> getDrawCardValuesList() {
+    return drawCardValuesList;
+  }
+
+  public static void setDrawCardValuesList(ArrayList<Integer> drawCardValuesList) {
+    CreateGame.drawCardValuesList = drawCardValuesList;
+  }
+
+  public static CreateGame getCreateGameInstance() {
+    return createGameInstance;
+  }
+
+  public static ArrayList<Floor> getFloors() {
+    return floors;
+  }
+
+  public static void setFloors(ArrayList<Floor> floors) {
+    CreateGame.floors = floors;
+  }
+
+  @FXML
+  void addItemButtonEvent(@NotNull final ActionEvent event) {
+    if (drawCardValue.getText() != null && !"".equalsIgnoreCase(drawCardValue.getText())) {
+      drawCardValuesList.add(Integer.valueOf(drawCardValue.getText()));
+      if (drawCardValues.getText() == null || "".equalsIgnoreCase(drawCardValues.getText())) {
+        drawCardValues.setText(drawCardValue.getText());
+      } else {
+        drawCardValues.setText(drawCardValues.getText() + "\n" + drawCardValue.getText());
+      }
+    }
+    drawCardValue.clear();
   }
 }
