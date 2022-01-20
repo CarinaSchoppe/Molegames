@@ -1,0 +1,12 @@
+{
+  "maxPlayers": 5,
+  "radius": 8,
+  "numberOfMoles": 4,
+  "deductedPoints": 12,
+  "levels": [],
+  "pullDiscsOrdered": false,
+  "pullDiscs": [],
+  "turnTime": 10,
+  "visualisationTime": 10,
+  "movePenalty": "NOTHING"
+}
