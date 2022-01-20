@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2022
- * File created on 13.01.22, 22:39 by Carina Latest changes made by Carina on 13.01.22, 22:39 All contents of "CreateGame" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 20.01.22, 17:11 by Carina Latest changes made by Carina on 20.01.22, 17:10 All contents of "CreateGame" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -39,7 +39,8 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 /**
- * @author Carina, Eva, Jana
+ * @author Carina
+ * @use the logic that does everything related to create a game
  */
 @Getter
 public class CreateGame implements Initializable {
