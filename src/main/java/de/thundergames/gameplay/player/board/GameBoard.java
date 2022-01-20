@@ -79,6 +79,8 @@ public class GameBoard {
   private HashSet<Player> players;
   private ArrayList<PlayerModel> playerModelList;
 
+  private double visTime;
+
   private boolean initialized = false;
 
   public static GameBoard getObserver() {
@@ -104,6 +106,7 @@ public class GameBoard {
     // get gameState
     gameState = CLIENT.getGameState();
     if (gameState == null) return;
+    visTime = gameState.getVisualizationTime();
     //start timer of gameBoard
     COUNTDOWN = new BoardCountDown();
     COUNTDOWN.setTimer(!Objects.equals(gameState.getStatus(), GameStates.PAUSED.toString()));
@@ -373,11 +376,11 @@ public class GameBoard {
   }
 
   public void moveMole(Field from, Field to, int currentPlayerId, int pullDisc) {
-    Platform.runLater(() -> this.gameHandler.getBoard().moveMole(from, to, currentPlayerId, pullDisc));
+    Platform.runLater(() -> this.gameHandler.getBoard().moveMole(from, to, currentPlayerId, pullDisc, visTime));
   }
 
   public void placeMole(Mole mole) {
-    Platform.runLater(() -> this.gameHandler.getBoard().placeMole(new MoleModel(mole, playersColors.get(mole.getPlayer().getClientID()))));
+    Platform.runLater(() -> this.gameHandler.getBoard().placeMole(new MoleModel(mole, playersColors.get(mole.getPlayer().getClientID())), visTime));
   }
 
   public void kickMolesOfPlayer(Player player) {

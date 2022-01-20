@@ -202,7 +202,7 @@ public class Board extends Group {
   }
 
   @SuppressWarnings("OptionalGetWithoutIsPresent")
-  public void moveMole(Field from, Field to, int currentPlayerId, int pullDisc) {
+  public void moveMole(Field from, Field to, int currentPlayerId, int pullDisc, double visTime) {
     var currentPlayerModel = getCurrentPlayerModel(currentPlayerId);
     var moleToBeMoved = currentPlayerModel.getMoles().stream().filter(_mole -> _mole.hasSameField(from)).findFirst().get();
     var nodeFrom = getNodeByField(from);
@@ -222,7 +222,7 @@ public class Board extends Group {
     // Highlight path to new node
     beforeTransition(nodePath);
     // Apply transition to mole
-    PathTransition pathTransition = MoleTransition.transitionMole(moleToBeMoved, moveDistance);
+    PathTransition pathTransition = MoleTransition.transitionMole(moleToBeMoved, moveDistance, visTime);
     // Cleanup after transition end
     pathTransition.setOnFinished(finish -> {
       moleToBeMoved.showMarker(false);
@@ -234,7 +234,7 @@ public class Board extends Group {
     });
   }
 
-  public void placeMole(MoleModel mole) {
+  public void placeMole(MoleModel mole, double visTime) {
     var currentPlayerModel = getCurrentPlayerModel(mole.getMole().getPlayer().getClientID());
     if (!currentPlayerModel.getMoles().contains(mole)) {
       currentPlayerModel.getMoles().add(mole);
@@ -245,7 +245,7 @@ public class Board extends Group {
       mole.render();
       this.getChildren().add(mole);
       // Show placed mole transition
-      MoleTransition.placeMole(mole, nodeTo);
+      MoleTransition.placeMole(mole, nodeTo, visTime);
     }
   }
 
