@@ -92,7 +92,7 @@ public class Games extends Application implements Initializable {
   @FXML
   void onCreateGame(ActionEvent event) throws Exception {
     var primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-    new CreateGame().start(primaryStage);
+    new CreateGame().start(primaryStage, "SpielModus");
   }
 
   @FXML

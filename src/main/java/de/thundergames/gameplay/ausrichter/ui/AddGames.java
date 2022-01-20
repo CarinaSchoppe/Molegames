@@ -31,8 +31,9 @@ import java.net.URL;
 import java.util.ResourceBundle;
 @Getter
 //public class MainGUI_ALT extends Application implements Initializable {
-public class AddGames {
+public class AddGames extends Application implements Initializable{
 
+  private static AddGames AddGamesInstance;
   @FXML
   private ResourceBundle resources;
 
@@ -63,9 +64,15 @@ public class AddGames {
   @FXML
   private Button ready;
 
-  @FXML
-  void onBack(ActionEvent event) {
+  public static AddGames getAddGamesInstance() {
+    return AddGamesInstance;
+  }
 
+
+  @FXML
+  void onBack(ActionEvent event) throws Exception {
+    var primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+    CreateTournaments.getCreateTournamentsInstance().start(primaryStage);
   }
 
   @FXML
@@ -82,7 +89,7 @@ public class AddGames {
         CreateGame.setMolesAmountPrev(null);
       }
       var primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-      new CreateGame().start(primaryStage);
+      new CreateGame().start(primaryStage, "TurnierModus");
     }
 
 
@@ -95,6 +102,12 @@ public class AddGames {
   void onReady(ActionEvent event) {
 
   }
+  public void updateTable() {
+    var gameSelection = gameTable.getSelectionModel().getSelectedItem();
+    gameTable.getItems().clear();
+    gameTable.getItems().addAll(MoleGames.getMoleGames().getGameHandler().getGames());
+    gameTable.getSelectionModel().select(gameSelection);
+  }
 
   @FXML
   void initialize() {
@@ -106,8 +119,14 @@ public class AddGames {
     assert gameState != null : "fx:id=\"gameState\" was not injected: check your FXML file 'AddGames.fxml'.";
     assert gameTable != null : "fx:id=\"gameTable\" was not injected: check your FXML file 'AddGames.fxml'.";
     assert ready != null : "fx:id=\"ready\" was not injected: check your FXML file 'AddGames.fxml'.";
-
   }
+
+  @Override
+  public void initialize(URL location, ResourceBundle resources) {
+    AddGamesInstance = this;
+    initialize();
+  }
+
   public void start(@NotNull final Stage primaryStage) throws Exception {
     var loader = new FXMLLoader(getClass().getResource("/ausrichter/style/AddGames.fxml"));
     loader.setController(this);

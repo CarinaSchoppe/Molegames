@@ -126,7 +126,7 @@ public class SettingsImport {
         new Gson().fromJson(object.get("movePenalty"), String.class));
       Dialog.show("Configuration geladen!", "Erfolg!", Dialog.DialogType.INFO);
       var primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-      CreateGame.getCreateGameInstance().start(primaryStage);
+      CreateGame.getCreateGameInstance().start(primaryStage, "Modus");
       object = null;
     } else {
       Dialog.show("Keine Konfiguration geladen!", "Fehler!", Dialog.DialogType.ERROR);
@@ -136,7 +136,7 @@ public class SettingsImport {
   @FXML
   void onBack(@NotNull ActionEvent event) throws Exception {
     var primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-    CreateGame.getCreateGameInstance().start(primaryStage);
+    CreateGame.getCreateGameInstance().start(primaryStage, "Modus");
   }
 
   @FXML

@@ -95,6 +95,8 @@ public class CreateGame implements Initializable {
   @FXML
   private TextField visualEffects;
 
+  private String Spielmodus;
+
   public static String getMolesAmountPrev() {
     return molesAmountPrev;
   }
@@ -209,7 +211,8 @@ public class CreateGame implements Initializable {
     drawCardValuesList.clear();
   }
 
-  public void start(@NotNull final Stage primaryStage) throws Exception {
+  public void start(@NotNull final Stage primaryStage, String modus) throws Exception {
+    Spielmodus = modus;
     var loader = new FXMLLoader(getClass().getResource("/ausrichter/style/CreateGame.fxml"));
     loader.setController(this);
     var root = (Parent) loader.load();
@@ -275,7 +278,12 @@ public class CreateGame implements Initializable {
     drawCardValuesList.clear();
     floors.clear();
     savePrevSettings();
-    Games.getGamesInstance().start(primaryStage);
+    if(Spielmodus.equalsIgnoreCase("TurnierModus")){
+      AddGames.getAddGamesInstance().start(primaryStage);
+    }else {
+      Games.getGamesInstance().start(primaryStage);
+    }
+
     //Games.getGamesInstance().updateTable();
   }
 
@@ -360,6 +368,7 @@ public class CreateGame implements Initializable {
     MoleGames.getMoleGames().getGameHandler().getIDGames().get(id).updateGameState();
     floors.clear();
     var primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
     Games.getGamesInstance().start(primaryStage);
     Games.getGamesInstance().updateTable();
     for (var observer : MoleGames.getMoleGames().getServer().getObserver()) {

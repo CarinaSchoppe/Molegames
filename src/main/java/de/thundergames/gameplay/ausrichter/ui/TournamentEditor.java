@@ -2,19 +2,27 @@ package de.thundergames.gameplay.ausrichter.ui;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+
+import de.thundergames.MoleGames;
+import de.thundergames.playmechanics.game.Game;
+import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.TableView;
 import javafx.stage.Stage;
 import org.jetbrains.annotations.NotNull;
 
-public class TournamentEditor {
+public class TournamentEditor implements Initializable {
 
+  private static TournamentEditor TournamentEditorInstance;
   @FXML
   private ResourceBundle resources;
 
@@ -37,13 +45,16 @@ public class TournamentEditor {
   private Button endGame;
 
   @FXML
-  private TableColumn<?, ?> gameID;
+  private TableColumn<Game, Integer> gameID;
 
   @FXML
-  private TableColumn<?, ?> gamePlayerCount;
+  private TableColumn<Game, Integer> gamePlayerCount;
 
   @FXML
-  private TableColumn<?, ?> gameTable;
+  private TableColumn<Game, String> gameState;
+
+  @FXML
+  private TableView<Game> gameTable;
 
   @FXML
   private Button score;
@@ -57,8 +68,9 @@ public class TournamentEditor {
   }
 
   @FXML
-  void onBack(ActionEvent event) {
-
+  void onBack(ActionEvent event) throws Exception {
+    var primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+    Tournaments.getTournamentsInstance().start(primaryStage);
   }
 
   @FXML
@@ -95,21 +107,29 @@ public class TournamentEditor {
     assert endGame != null : "fx:id=\"endGame\" was not injected: check your FXML file 'TournamentEditor.fxml'.";
     assert gameID != null : "fx:id=\"gameID\" was not injected: check your FXML file 'TournamentEditor.fxml'.";
     assert gamePlayerCount != null : "fx:id=\"gamePlayerCount\" was not injected: check your FXML file 'TournamentEditor.fxml'.";
+    assert gameState != null : "fx:id=\"gameState\" was not injected: check your FXML file 'TournamentEditor.fxml'.";
     assert gameTable != null : "fx:id=\"gameTable\" was not injected: check your FXML file 'TournamentEditor.fxml'.";
     assert score != null : "fx:id=\"score\" was not injected: check your FXML file 'TournamentEditor.fxml'.";
     assert startGame != null : "fx:id=\"startGame\" was not injected: check your FXML file 'TournamentEditor.fxml'.";
+  }
 
+  @Override
+  public void initialize(URL location, ResourceBundle resources) {
+    TournamentEditorInstance=this;
+    initialize();
+  }
+
+  public static TournamentEditor getTournamentEditorInstance() {
+    return TournamentEditorInstance;
   }
 
   public void start(@NotNull final Stage primaryStage) throws Exception {
     var loader = new FXMLLoader(getClass().getResource("/ausrichter/style/TournamentEditor.fxml"));
     loader.setController(this);
     var root = (Parent) loader.load();
-    primaryStage.setTitle("Turnier bearbeiten");
+    primaryStage.setTitle("Turnier bearbeiten!");
     primaryStage.setResizable(false);
     primaryStage.setScene(new Scene(root));
-    initialize();
     primaryStage.show();
   }
-
 }

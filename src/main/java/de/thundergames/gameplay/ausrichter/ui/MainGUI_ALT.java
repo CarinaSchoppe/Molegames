@@ -216,7 +216,7 @@ public class MainGUI_ALT extends Application implements Initializable {
       CreateGame.setMolesAmountPrev(null);
     }
     var primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-    new CreateGame().start(primaryStage);
+    new CreateGame().start(primaryStage, "Modus");
   }
 
   /**
