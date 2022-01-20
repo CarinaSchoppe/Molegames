@@ -253,9 +253,12 @@ public class GameBoard {
             highestPlayer = player;
           }
         }
-        System.out.println(pullDiscs.get(Objects.requireNonNull(highestPlayer).getClientID()).toString());
+        var playerName = Integer.toString(highestPlayer.getClientID());
+        if (highestPlayer.getName() != null) {
+          playerName = playerName + "/" + highestPlayer.getName();
+        }
         newResultList.add(
-          new PlayerTable(highestPlayer.getClientID() + "/" + highestPlayer.getName(), highestScore, thisPlace, pullDiscs.get(highestPlayer.getClientID()).toString()));
+          new PlayerTable(playerName, highestScore, thisPlace, pullDiscs.get(highestPlayer.getClientID()).toString()));
         players.remove(highestPlayer);
         highestScore = -1;
         highestPlayer = null;
