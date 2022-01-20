@@ -3,7 +3,7 @@
 <!--
   ~ Copyright Notice for SwtPra10
   ~ Copyright (c) at ThunderGames | SwtPra10 2022
-  ~ File created on 20.01.22, 17:33 by Carina Latest changes made by Carina on 20.01.22, 17:33 All contents of "PlayerManagement.fxml" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+  ~ File created on 20.01.22, 18:19 by Carina Latest changes made by Carina on 20.01.22, 18:19 All contents of "PlayerManagement.fxml" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
   ~ at ThunderGames | SwtPra10. All rights reserved
   ~ Any type of duplication, distribution, rental, sale, award,
   ~ Public accessibility or other use
@@ -37,6 +37,6 @@
             </columns>
         </TableView>
         <Button fx:id="back" layoutX="88.0" layoutY="49.0" mnemonicParsing="false" onAction="#onBack" prefHeight="56.0" prefWidth="70.0" style="-fx-background-color: transparent;"/>
-        <CheckBox fx:id="spectator" layoutX="590.0" layoutY="474.0" mnemonicParsing="false" prefHeight="19.0" prefWidth="18.0"/>
+        <CheckBox fx:id="spectator" layoutX="579.0" layoutY="473.0" mnemonicParsing="false" prefHeight="19.0" prefWidth="18.0"/>
     </children>
 </AnchorPane>
