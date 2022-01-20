@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2022
- * File created on 17.01.22, 19:10 by Carina Latest changes made by Carina on 17.01.22, 19:10 All contents of "TournamentEditor" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 20.01.22, 17:01 by Carina Latest changes made by Carina on 20.01.22, 17:00 All contents of "TournamentEditor" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -27,13 +27,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-
-/**
- * @param event
- * @author Eva
- * @throws Exception
- * @use opens tournament mode to create games in it
- */
 
 public class TournamentEditor extends Application implements Initializable {
 
@@ -73,19 +66,7 @@ public class TournamentEditor extends Application implements Initializable {
 
   @FXML
   void onAddGame(ActionEvent event) throws Exception {
-    if (CreateGame.getCreateGameInstance() != null) {
-      CreateGame.setPunishmentPrev(null);
-      CreateGame.setVisualEffectsPrev(null);
-      CreateGame.setThinkTimePrev(null);
-      CreateGame.getFloors().clear();
-      CreateGame.setPullDiscsOrderedPrev(false);
-      CreateGame.setRadiusPrev(null);
-      CreateGame.getDrawCardValuesList().clear();
-      CreateGame.setMaxPlayersPrev(null);
-      CreateGame.setMolesAmountPrev(null);
-    }
-    var primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-    new CreateGame().start(primaryStage);
+    MainGUI.creatingGameData(event);
   }
 
   @FXML
@@ -136,13 +117,6 @@ public class TournamentEditor extends Application implements Initializable {
     assert releaseTournament != null : "fx:id=\"releaseTournament\" was not injected: check your FXML file 'Tournament-Editor.fxml'.";
     assert tableTournamentGame != null : "fx:id=\"tableTournamentGame\" was not injected: check your FXML file 'Tournament-Editor.fxml'.";
   }
-
-  /**
-   * @param primaryStage
-   * @throws Exception
-   * @author Carina, Eva, Jana
-   * @use starts the main GUI
-   */
 
   @Override
   public void initialize(URL location, ResourceBundle resources) {

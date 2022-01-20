@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
 <!--
   ~ Copyright Notice for SwtPra10
   ~ Copyright (c) at ThunderGames | SwtPra10 2022
-  ~ File created on 17.01.22, 19:10 by Carina Latest changes made by Carina on 17.01.22, 19:10 All contents of "Tournament-Editor.fxml" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+  ~ File created on 20.01.22, 17:01 by Carina Latest changes made by Carina on 20.01.22, 16:57 All contents of "Tournament-Editor.fxml" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
   ~ at ThunderGames | SwtPra10. All rights reserved
   ~ Any type of duplication, distribution, rental, sale, award,
   ~ Public accessibility or other use
   ~ requires the express written consent of ThunderGames | SwtPra10.
   -->
 
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="437.0" xmlns="http://javafx.com/javafx/17">
     <children>
         <ImageView fx:id="backDrop" fitHeight="400.0" fitWidth="438.0" pickOnBounds="true">
