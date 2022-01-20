@@ -10,9 +10,11 @@
 
 package de.thundergames.gameplay.player.ui.gameselection;
 
+import de.thundergames.filehandling.Score;
 import de.thundergames.gameplay.player.Client;
 import de.thundergames.gameplay.player.board.GameBoard;
 import de.thundergames.gameplay.player.ui.PlayerMenu;
+import de.thundergames.gameplay.player.ui.score.LeaderBoard;
 import de.thundergames.gameplay.util.SceneController;
 import de.thundergames.playmechanics.game.Game;
 import de.thundergames.playmechanics.game.GameState;
@@ -190,22 +192,23 @@ public class GameSelection implements Initializable {
       }
     }
     if (Objects.equals(currentGameState.getStatus(), GameStates.STARTED.toString())
-      || Objects.equals(currentGameState.getStatus(), GameStates.PAUSED.toString())) {
+            || Objects.equals(currentGameState.getStatus(), GameStates.PAUSED.toString())) {
       spectateGame();
     } else if (Objects.equals(currentGameState.getStatus(), GameStates.NOT_STARTED.toString())) {
       new LobbyObserverGame().create(primaryStage, selectedItem.getGameID());
     } else if (Objects.equals(currentGameState.getStatus(), GameStates.OVER.toString())) {
-      loadScoreboard();
+      loadScoreboard(selectedItem.getScore());
     }
   }
 
   /**
-   * Load scene of scoreboard
+   * @author Philipp
+   * @use Load scoreboard of game that is already over
    */
-  private void loadScoreboard() {
-    CLIENT.getClientPacketHandler().getScorePacket();
-    var gameScore = CLIENT.getGameState().getScore();
-    // Todo:Open scene of ScoreBoard with gameScore and check if it is even possible to do so
+  private void loadScoreboard(Score score) throws IOException {
+    LeaderBoard leaderBoard = new LeaderBoard();
+    leaderBoard.create(score);
+    leaderBoard.start(primaryStage);
   }
 
   /**

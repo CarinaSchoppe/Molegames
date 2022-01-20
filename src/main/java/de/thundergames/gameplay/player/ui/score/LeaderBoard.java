@@ -119,7 +119,7 @@ public class LeaderBoard extends Application implements Initializable {
    * @author Lennart, Carina
    */
   @Override
-  public void start(Stage primaryStage) throws Exception {
+  public void start(Stage primaryStage) throws IOException {
     var loader = SceneController.loadFXML("/player/style/LeaderBoard.fxml");
     loader.setController(this);
     var root = (Parent) loader.load();
