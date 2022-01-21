@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2022
- * File created on 20.01.22, 18:24 by Carina Latest changes made by Carina on 20.01.22, 18:24 All contents of "CreateGame" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 21.01.22, 10:29 by Carina Latest changes made by Carina on 21.01.22, 10:28 All contents of "CreateGame" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -138,7 +138,7 @@ public class CreateGame implements Initializable {
     game.getSettings().setNumberOfMoles((molesAmount.getText() != null && !"".equalsIgnoreCase(molesAmount.getText())) ? Integer.parseInt(molesAmount.getText()) : 4);
     game.getSettings().setPullDiscsOrdered(pullDiscsOrdered.isSelected());
     game.getSettings().setTurnTime((thinkTime.getText() != null && !"".equalsIgnoreCase(thinkTime.getText())) ? Integer.parseInt(thinkTime.getText()) * 1000L
-          : 15000);
+      : 15000);
     if (!drawCardValuesList.isEmpty()) {
       game.getSettings().getPullDiscs().clear();
       game.getSettings().getPullDiscs().addAll(drawCardValuesList);
@@ -189,6 +189,9 @@ public class CreateGame implements Initializable {
    */
   private boolean isLegalConfiguration(final int radius, int numberOfMoles) {
     if (radius <= 0 || numberOfMoles <= 0) {
+      return false;
+    }
+    if (floors.isEmpty()) {
       return false;
     }
     if (thinkTime.getText() != null && !"".equalsIgnoreCase(thinkTime.getText())) {
