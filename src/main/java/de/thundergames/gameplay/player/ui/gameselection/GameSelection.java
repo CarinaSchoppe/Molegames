@@ -17,7 +17,6 @@ import de.thundergames.gameplay.player.ui.PlayerMenu;
 import de.thundergames.gameplay.player.ui.score.LeaderBoard;
 import de.thundergames.gameplay.util.SceneController;
 import de.thundergames.playmechanics.game.Game;
-import de.thundergames.playmechanics.game.GameState;
 import de.thundergames.playmechanics.game.GameStates;
 import de.thundergames.playmechanics.util.Dialog;
 import javafx.application.Platform;
@@ -202,10 +201,12 @@ public class GameSelection implements Initializable {
    * Load scene of game
    */
   public void spectateGame() {
-    var status = CLIENT.getGameState().getStatus();
-    if (Objects.equals(status, GameStates.STARTED.toString())
-            || Objects.equals(status, GameStates.PAUSED.toString())) {
-      new GameBoard().create(primaryStage);
-    }
+    Platform.runLater(() -> {
+      var status = CLIENT.getGameState().getStatus();
+      if (Objects.equals(status, GameStates.STARTED.toString())
+              || Objects.equals(status, GameStates.PAUSED.toString())) {
+        new GameBoard().create(primaryStage);
+      }
+    });
   }
 }
