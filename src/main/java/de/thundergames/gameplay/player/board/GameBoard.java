@@ -44,7 +44,6 @@ import lombok.Getter;
 import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -300,7 +299,7 @@ public class GameBoard {
         playerString = playerString + "/" + playerName;
       }
       var playerText = new Text(playerString);
-      var beginning = new Text("Spieler ");
+      var beginning = new Text("\u25B9 Spieler ");
       var end = new Text(information);
       var defTextColor = "#ffffff";
       beginning.setId("text");
@@ -309,6 +308,8 @@ public class GameBoard {
       end.setFill(Paint.valueOf(defTextColor));
       playerText.setId("text");
       playerText.setFill(Paint.valueOf(playersColors.get(playerID)));
+      playerText.setStroke(Paint.valueOf(defTextColor));
+      playerText.setStrokeWidth(0.5);
       textFlow.getChildren().addAll(beginning, playerText, end);
       scrollPane.setVvalue(1.0f);
     });
