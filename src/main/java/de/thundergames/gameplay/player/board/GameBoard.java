@@ -404,4 +404,6 @@ public class GameBoard {
       }
     });
   }
+
+  //TODO: Handle window closed
 }
