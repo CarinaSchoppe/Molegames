@@ -158,9 +158,9 @@ public class GameSelection implements Initializable {
   /**
    * @param event event from the current scene to build next scene on same object
    * @throws IOException error at creating the scene
-   * @author Marc
-   * @use Observe the game. If game is already started, spectate the game, else join the spectator
-   * lobby.
+   * @author Marc, Issam, Philipp
+   * @use Observe the game. If it is over, show score board, otherwise send join game packet and if it is not started
+   * join the spectator lobby.
    */
   @FXML
   void spectateGame(ActionEvent event) throws IOException, InterruptedException {
@@ -174,13 +174,13 @@ public class GameSelection implements Initializable {
       if (Objects.equals(selectedItem.getStatus(), GameStates.OVER.toString())) {
         loadScoreboard(selectedItem.getScore());
       } else {
+        // Send Packet to join game to get GameState
         CLIENT.getClientPacketHandler().joinGamePacket(selectedItem.getGameID(), false);
         if (Objects.equals(selectedItem.getStatus(), GameStates.NOT_STARTED.toString())) {
           new LobbyObserverGame().create(primaryStage, selectedItem.getGameID());
         }
       }
     }
-    // Send Packet to spectate game to get GameState
   }
 
   public TableView<Game> getGameTable() {
@@ -195,9 +195,10 @@ public class GameSelection implements Initializable {
     LeaderBoard leaderBoard = new LeaderBoard();
     leaderBoard.create(score);
     leaderBoard.start(primaryStage);
-  }
+   }
 
   /**
+   * @author Marc, Issam, Philipp
    * Load scene of game
    */
   public void spectateGame() {
