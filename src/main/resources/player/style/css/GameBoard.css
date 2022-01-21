@@ -79,3 +79,47 @@
     -fx-stroke-width: 1;
     -fx-font: 45px Chicle;
 }
+
+.scroll-bar:vertical {
+    -fx-pref-width: 12;
+    -fx-background-color: rgba(39, 19, 72, 1);
+    -fx-padding: 0 1 0 1;
+}
+
+.scroll-bar:horizontal .track,
+.scroll-bar:vertical .track {
+    -fx-background-color: rgba(39, 19, 72, 1);
+    -fx-border-color: transparent;
+}
+
+/* Remove horizontal increment/decrement buttons */
+.scroll-bar:horizontal .increment-button ,
+.scroll-bar:horizontal .decrement-button {
+    -fx-padding: 0 0 0 0;
+}
+
+/* Remove vertical increment/decrement buttons */
+.scroll-bar:vertical .increment-button ,
+.scroll-bar:vertical .decrement-button {
+    -fx-padding: 0 0 0 0;
+}
+
+.scroll-bar .increment-arrow,
+.scroll-bar .decrement-arrow {
+   -fx-padding: 0 0 0 0;
+}
+
+.scroll-bar:vertical .increment-arrow,
+.scroll-bar:vertical .decrement-arrow{
+   -fx-padding: 0 0 0 0;
+}
+
+.scroll-bar:horizontal .thumb,
+.scroll-bar:vertical .thumb {
+    -fx-background-color: rgba(86, 47, 182, 1);
+}
+
+.scroll-bar:horizontal .thumb:hover,
+.scroll-bar:vertical .thumb:hover {
+    -fx-background-color: rgba(75, 203, 79, 1);
+}
