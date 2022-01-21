@@ -39,7 +39,7 @@ public class GameState {
 
   private boolean pullDiscsOrdered;
   private HashMap<Integer, ArrayList<Integer>> pullDiscs = new HashMap<>();
-  private long visualizationTime = 10000;
+  private long visualizationTime;
   private String status;
   private Score score;
 }
