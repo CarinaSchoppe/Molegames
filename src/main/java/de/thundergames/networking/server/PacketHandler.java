@@ -560,7 +560,7 @@ public class PacketHandler {
       var object = new JsonObject();
       var json = new JsonObject();
       long remainingTime = -1;
-      if (game.getCurrentPlayer() != null) {
+      if (game.getCurrentPlayer() != null && game.getCurrentGameState() == GameStates.STARTED) {
         remainingTime =
             game.getCurrentPlayer().getStartRemainingTime()
                 + game.getSettings().getTurnTime()
