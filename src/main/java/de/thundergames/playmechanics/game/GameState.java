@@ -26,7 +26,7 @@ public class GameState {
 
   private HashSet<Player> activePlayers = new HashSet<>();
   private Player currentPlayer;
-  private int remainingTime;
+  private int remainingTime = -1;
   private HashSet<Mole> placedMoles = new HashSet<>();
   private int moles;
   private int radius;

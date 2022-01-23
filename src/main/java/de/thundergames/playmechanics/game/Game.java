@@ -109,11 +109,11 @@ public class Game {
     gameState.setVisualizationTime(settings.getVisualizationTime());
     gameState.setScore(getScore());
     map =
-      new Map(
-        this,
-        gameState.getFloor().getHoles(),
-        gameState.getFloor().getDrawAgainFields(),
-        gameState.getFloor().getPoints());
+        new Map(
+            this,
+            gameState.getFloor().getHoles(),
+            gameState.getFloor().getDrawAgainFields(),
+            gameState.getFloor().getPoints());
     map.build(this);
     map.changeFieldParams(gameState);
   }
@@ -158,6 +158,14 @@ public class Game {
       if (MoleGames.getMoleGames().getServer().isDebug()) {
         System.out.println("Starting a game with the gameID: " + getGameID());
       }
+      MoleGames.getMoleGames()
+          .getServer()
+          .sendToAllGameClients(
+              this,
+              MoleGames.getMoleGames()
+                  .getServer()
+                  .getPacketHandler()
+                  .gameStartedPacket(this.gameState));
       try {
         gameUtil.nextPlayer();
       } catch (InterruptedException e) {
@@ -165,16 +173,12 @@ public class Game {
       }
       if (MoleGames.getMoleGames().getServer().isDebug()) {
         System.out.println(
-          "Current player is: "
-            + currentPlayer.getServerClient().getThreadID()
-            + " name: "
-            + currentPlayer.getName());
+            "Current player is: "
+                + currentPlayer.getServerClient().getThreadID()
+                + " name: "
+                + currentPlayer.getName());
       }
-      MoleGames.getMoleGames()
-        .getServer()
-        .sendToAllGameClients(
-          this,
-          MoleGames.getMoleGames().getServer().getPacketHandler().gameStartedPacket(this.gameState));
+
       MainGUI.getGUI().updateTable();
     }
   }
@@ -190,16 +194,16 @@ public class Game {
         var max = Collections.max(getScore().getPoints().values());
         for (var playerID : playerIDs) {
           players.add(
-            MoleGames.getMoleGames().getServer().getConnectionIDs().get(playerID).getPlayer());
+              MoleGames.getMoleGames().getServer().getConnectionIDs().get(playerID).getPlayer());
         }
         score
-          .getPlayers()
-          .sort(
-            (o1, o2) ->
-              getScore()
-                .getPoints()
-                .get(o2.getServerClient().getThreadID())
-                .compareTo(getScore().getPoints().get(o1.getServerClient().getThreadID())));
+            .getPlayers()
+            .sort(
+                (o1, o2) ->
+                    getScore()
+                        .getPoints()
+                        .get(o2.getServerClient().getThreadID())
+                        .compareTo(getScore().getPoints().get(o1.getServerClient().getThreadID())));
         for (var player : score.getPlayers()) {
           if (getScore().getPoints().get(player.getServerClient().getThreadID()).equals(max)) {
             getScore().getWinners().add(player);
@@ -207,17 +211,17 @@ public class Game {
         }
         if (MoleGames.getMoleGames().getServer().isDebug()) {
           System.out.println(
-            "Server: the game with the id: "
-              + getGameID()
-              + " has ended! Winners are: "
-              + getScore().getWinners());
+              "Server: the game with the id: "
+                  + getGameID()
+                  + " has ended! Winners are: "
+                  + getScore().getWinners());
           for (var player : score.getPlayers()) {
             if (MoleGames.getMoleGames().getServer().isDebug()) {
               System.out.println(
-                "Score of player: "
-                  + player.getName()
-                  + " is: "
-                  + getScore().getPoints().get(player.getServerClient().getThreadID()));
+                  "Score of player: "
+                      + player.getName()
+                      + " is: "
+                      + getScore().getPoints().get(player.getServerClient().getThreadID()));
             }
           }
         }
@@ -225,10 +229,16 @@ public class Game {
         currentGameState = GameStates.OVER;
         MoleGames.getMoleGames().getServer().getPacketHandler().gameOverPacket(this);
         for (var player : new HashSet<>(players)) {
-          MoleGames.getMoleGames().getServer().getPacketHandler().removeFromGames((ServerThread) player.getServerClient());
+          MoleGames.getMoleGames()
+              .getServer()
+              .getPacketHandler()
+              .removeFromGames((ServerThread) player.getServerClient());
         }
         for (var player : new HashSet<>(spectators)) {
-          MoleGames.getMoleGames().getServer().getPacketHandler().removeFromGames((ServerThread) player.getServerClient());
+          MoleGames.getMoleGames()
+              .getServer()
+              .getPacketHandler()
+              .removeFromGames((ServerThread) player.getServerClient());
         }
         updateGameState();
         for (var observer : MoleGames.getMoleGames().getServer().getObserver()) {
@@ -296,12 +306,12 @@ public class Game {
   }
 
   /**
-   * @param client    the playerServerThread that joins the game
+   * @param client the playerServerThread that joins the game
    * @param spectator if it's a spectator or player that has joined
    * @author Carina
    */
   public void joinGame(@NotNull final ServerThread client, final boolean spectator)
-    throws NotAllowedError {
+      throws NotAllowedError {
     var player = new Player(client).create(this);
     client.setPlayer(player);
     if (getCurrentGameState().equals(GameStates.NOT_STARTED) && !spectator) {
@@ -314,9 +324,9 @@ public class Game {
         score.getPlayers().add(player);
       }
       MoleGames.getMoleGames()
-        .getGameHandler()
-        .getClientGames()
-        .put((ServerThread) player.getServerClient(), this);
+          .getGameHandler()
+          .getClientGames()
+          .put((ServerThread) player.getServerClient(), this);
       updateGameState();
       setCurrentPlayerCount(players.size());
       if (MainGUI.getGUI() != null) {
@@ -324,21 +334,21 @@ public class Game {
       }
     } else if (spectator) {
       MoleGames.getMoleGames()
-        .getGameHandler()
-        .getClientGames()
-        .put((ServerThread) player.getServerClient(), this);
+          .getGameHandler()
+          .getClientGames()
+          .put((ServerThread) player.getServerClient(), this);
       spectators.add(player);
     } else {
       throw new NotAllowedError("Game is over cant be joined anymore!");
     }
     ((ServerThread) player.getServerClient())
-      .getServer()
-      .getPlayingThreads()
-      .add((ServerThread) player.getServerClient());
+        .getServer()
+        .getPlayingThreads()
+        .add((ServerThread) player.getServerClient());
     ((ServerThread) player.getServerClient())
-      .getServer()
-      .getLobbyThreads()
-      .remove((ServerThread) player.getServerClient());
+        .getServer()
+        .getLobbyThreads()
+        .remove((ServerThread) player.getServerClient());
     if (PlayerManagement.getPlayerManagement() != null) {
       PlayerManagement.getPlayerManagement().updateTable();
     }
@@ -358,13 +368,13 @@ public class Game {
     if (player != null) {
       if (player.getServerClient() != null) {
         MoleGames.getMoleGames()
-          .getServer()
-          .getPlayingThreads()
-          .remove((ServerThread) player.getServerClient());
+            .getServer()
+            .getPlayingThreads()
+            .remove((ServerThread) player.getServerClient());
         MoleGames.getMoleGames()
-          .getServer()
-          .getLobbyThreads()
-          .add((ServerThread) player.getServerClient());
+            .getServer()
+            .getLobbyThreads()
+            .add((ServerThread) player.getServerClient());
       }
       if (currentGameState == GameStates.NOT_STARTED) {
         score.getPlayers().remove(player);
@@ -380,11 +390,11 @@ public class Game {
         clientPlayersMap.get((ServerThread) player.getServerClient()).setTimerIsRunning(false);
         for (var moles : player.getMoles()) {
           map.getFieldMap()
-            .get(List.of(moles.getPosition().getX(), moles.getPosition().getY()))
-            .setOccupied(false);
+              .get(List.of(moles.getPosition().getX(), moles.getPosition().getY()))
+              .setOccupied(false);
           map.getFieldMap()
-            .get(List.of(moles.getPosition().getX(), moles.getPosition().getY()))
-            .setMole(null);
+              .get(List.of(moles.getPosition().getX(), moles.getPosition().getY()))
+              .setMole(null);
         }
       }
       player.getMoles().clear();
@@ -393,15 +403,14 @@ public class Game {
         players.remove(player);
       }
       activePlayers.remove(player);
-      player.getMoles().clear();
       MoleGames.getMoleGames()
-        .getGameHandler()
-        .getClientGames()
-        .remove((ServerThread) player.getServerClient());
+          .getGameHandler()
+          .getClientGames()
+          .remove((ServerThread) player.getServerClient());
       setCurrentPlayerCount(players.size());
       if (currentGameState == GameStates.NOT_STARTED || currentGameState == GameStates.OVER) {
         ((ServerThread) player.getServerClient())
-          .setPlayer(new Player((ServerThread) player.getServerClient()));
+            .setPlayer(new Player((ServerThread) player.getServerClient()));
       }
       updateGameState();
       if (PlayerManagement.getPlayerManagement() != null) {
@@ -416,23 +425,17 @@ public class Game {
     }
   }
 
-  /**
-   * @return gameID with a hashtag in front of it
-   */
+  /** @return gameID with a hashtag in front of it */
   public String getHashtagWithGameID() {
     return "#" + gameID;
   }
 
-  /**
-   * @return current player count and the maximum player count with a slash between both
-   */
+  /** @return current player count and the maximum player count with a slash between both */
   public String getCurrentPlayerCount_MaxCount() {
     return currentPlayerCount + "/" + maxPlayerCount;
   }
 
-  /**
-   * @return current player count and the maximum player count with a slash between both
-   */
+  /** @return current player count and the maximum player count with a slash between both */
   public String getStatusForTableView() {
     return Objects.equals(status, GameStates.NOT_STARTED.toString()) ? "OPEN" : status;
   }

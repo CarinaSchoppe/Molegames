@@ -37,7 +37,7 @@ public class Settings {
   private ArrayList<Map> floors = new ArrayList<>();
 
   private boolean pullDiscsOrdered = true;
-  private long turnTime = 15000;
+  private int turnTime = 15000;
   private int visualizationTime = 250;
   private String movePenalty = "NOTHING";
 

@@ -39,6 +39,7 @@ public class PlayerUtil {
    */
   public synchronized void startThinkTimer() {
     player.setStartRemainingTime(System.currentTimeMillis());
+    player.getGame().getGameState().setRemainingTime(player.getGame().getSettings().getTurnTime());
     player.setTimerIsRunning(true);
     player.getTimer().cancel();
     player.setTimer(new Timer());
