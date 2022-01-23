@@ -41,6 +41,7 @@ public class Client extends Network {
   protected ClientThread clientThread;
   private GameState gameState;
   private long remainingTime;
+  private long remainingDateTime;
   private Map map;
   private Player currentPlayer;
   private Player player;

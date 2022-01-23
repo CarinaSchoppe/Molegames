@@ -35,7 +35,6 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Paint;
@@ -100,7 +99,7 @@ public class GameBoard {
     this.primaryStage = primaryStage;
     borderPane = new BorderPane();
     countDownPane = new BorderPane();
-    countDownPane.setMinHeight(55);
+    countDownPane.setMinHeight(60);
     turnPane = new BorderPane();
     turnPane.setMinHeight(50);
     scorePane = new BorderPane();
@@ -118,13 +117,14 @@ public class GameBoard {
     //start timer of gameBoard
     COUNTDOWN = new BoardCountDown();
     COUNTDOWN.setTimer(!Objects.equals(gameState.getStatus(), GameStates.PAUSED.toString()));
+    CLIENT.setRemainingTime(gameState.getRemainingTime());
 
     // get radius
     BOARD_RADIUS = gameState.getRadius();
 
     //get current player
-    var currentPlayerID = gameState.getCurrentPlayer() == null ? -1 : gameState.getCurrentPlayer().getClientID();
-    var currentPlayerName = CLIENT.getCurrentPlayer() == null ? "" : CLIENT.getCurrentPlayer().getName();
+    CLIENT.setCurrentPlayer(gameState.getCurrentPlayer());
+    var currentPlayerID = gameState.getCurrentPlayer() == null ? -1 : CLIENT.getCurrentPlayer().getClientID();
 
     // create list of playerModels for ui
     players = gameState.getActivePlayers();
@@ -201,12 +201,12 @@ public class GameBoard {
     var s = new Scene(rootPane);
     s.getStylesheets().add("/player/style/css/GameBoard.css");
     scrollPane.setId("gamelog");
+    updateRemainingTime();
     primaryStage.setScene(s);
     primaryStage.setResizable(true);
     primaryStage.setMaximized(true);
     primaryStage.show();
     initialized = true;
-    CLIENT.getClientPacketHandler().getRemainingTimePacket();
   }
 
   //window logout
@@ -226,6 +226,7 @@ public class GameBoard {
     alert.showAndWait().ifPresent(type -> {
       if (type.getButtonData().name().equals(ButtonType.YES.getButtonData().name()))
       {
+        COUNTDOWN.deleteTimer();
         CLIENT.getClientPacketHandler().leaveGamePacket();
         try {
           new PlayerMenu().create(event);
@@ -398,9 +399,36 @@ public class GameBoard {
 
   public void updateRemainingTime() {
     Platform.runLater(() -> {
-      long time = CLIENT.getRemainingTime() - System.currentTimeMillis();
-      COUNTDOWN.setRemainingTime(time);
-      updateTime(time, COUNTDOWN.getShowCount());
+      if (CLIENT.getRemainingTime() > 0) {
+        long time = CLIENT.getRemainingTime();
+        COUNTDOWN.setRemainingTime(time);
+        updateTime(time, COUNTDOWN.getShowCount());
+      }
+    });
+  }
+
+  public void updateRemainingDateTime()
+  {
+    Platform.runLater(() -> {
+      if (CLIENT.getRemainingDateTime() > 0) {
+        long time = CLIENT.getRemainingDateTime() - System.currentTimeMillis();
+        COUNTDOWN.setRemainingTime(time);
+        updateTime(time, COUNTDOWN.getShowCount());
+      }
+    });
+  }
+
+  public void stopRemainingTime()
+  {
+    Platform.runLater(() -> {
+      COUNTDOWN.setStopTurnOver(true);
+    });
+  }
+
+  public void continueRemainingTime()
+  {
+    Platform.runLater(() -> {
+    COUNTDOWN.setStopTurnOver(false);
     });
   }
 

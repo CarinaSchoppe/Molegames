@@ -10,14 +10,21 @@
 
 package de.thundergames.gameplay.player.board;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.Timer;
 import java.util.TimerTask;
 
+@Getter
+@Setter
 public class BoardCountDown {
 
   private long remainingTime;
   private boolean showCount;
   private boolean stopCountAfterTurn;
+  private boolean stopTurnOver;
+  private static TimerTask task;
 
   public void setRemainingTime(long remainingTime) {
     this.remainingTime = remainingTime;
@@ -27,18 +34,18 @@ public class BoardCountDown {
   public void setTimer(boolean run) {
     this.showCount = run;
     var timer = new Timer();
-    var task = new TimerTask() {
+    task = new TimerTask() {
       @Override
       public void run() {
         if (!showCount) {
           GameBoard.getObserver().updateTime(remainingTime, false);
-        } else if (remainingTime > 0) {
+        } else if (remainingTime > 0 && !stopTurnOver) {
           GameBoard.getObserver().updateTime(remainingTime, true);
-          remainingTime = remainingTime - 1000;
+          remainingTime = remainingTime - 100;
         }
       }
     };
-    timer.schedule(task, 0, 1000);
+    timer.schedule(task, 0, 100);
   }
 
   public Boolean getShowCount() {
@@ -58,5 +65,9 @@ public class BoardCountDown {
       stopCountAfterTurn = false;
       showCount = false;
     }
+  }
+
+  public void deleteTimer() {
+    task.cancel();
   }
 }

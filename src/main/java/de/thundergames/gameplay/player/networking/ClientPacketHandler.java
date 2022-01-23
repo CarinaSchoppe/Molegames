@@ -19,7 +19,6 @@ import de.thundergames.gameplay.player.Client;
 import de.thundergames.gameplay.player.board.GameBoard;
 import de.thundergames.gameplay.player.ui.gameselection.GameSelection;
 import de.thundergames.gameplay.player.ui.gameselection.LobbyObserverGame;
-import de.thundergames.gameplay.player.ui.score.LeaderBoard;
 import de.thundergames.gameplay.player.ui.tournamentselection.LobbyObserverTournament;
 import de.thundergames.gameplay.player.ui.tournamentselection.TournamentSelection;
 import de.thundergames.networking.server.PacketHandler;
@@ -317,6 +316,7 @@ public class ClientPacketHandler {
     }
     updateMoleMoved(from, to, moleObject, pullDisc);
     checkForStopRemainingTime();
+    stopRemainingTime();
   }
 
   /**
@@ -427,6 +427,7 @@ public class ClientPacketHandler {
     var deductedPoints = packet.getValues().get("deductedPoints").getAsString();
     checkForStopRemainingTime();
     showPenalty(player, penalty, reason, deductedPoints);
+    stopRemainingTime();
   }
 
   /**
@@ -446,6 +447,7 @@ public class ClientPacketHandler {
     }
     updateMolePlaced(mole);
     checkForStopRemainingTime();
+    stopRemainingTime();
   }
 
   /**
@@ -504,9 +506,10 @@ public class ClientPacketHandler {
       }
     }
     updateGameLog(player, " ist mit den Zugkarten " + packet.getValues().get("pullDiscs") + " an der Reihe.\n");
-    client.setRemainingTime(packet.getValues().get("until").getAsLong());
-    updateGameRemainingTime();
+    client.setRemainingDateTime(packet.getValues().get("until").getAsLong());
+    updateGameRemainingDateTime();
     checkForStopRemainingTime();
+    continueRemainingTime();
   }
 
   /**
@@ -588,8 +591,9 @@ public class ClientPacketHandler {
       }
     }
     updateGameLog(player, " platziert einen Maulwurf.\n");
-    client.setRemainingTime(packet.getValues().get("until").getAsLong());
-    updateGameRemainingTime();
+    client.setRemainingDateTime(packet.getValues().get("until").getAsLong());
+    updateGameRemainingDateTime();
+    continueRemainingTime();
   }
 
   /**
@@ -989,6 +993,17 @@ public class ClientPacketHandler {
   }
 
   /**
+   * @author Marc, Issam, Philipp
+   * @use update remaining Datetime
+   */
+  private void updateGameRemainingDateTime() {
+    var observerGameBoard = GameBoard.getObserver();
+    if (observerGameBoard != null) {
+      if (observerGameBoard.isInitialized()) observerGameBoard.updateRemainingDateTime();
+    }
+  }
+
+  /**
    * @author Marc
    * @use paused remaining time of game board
    */
@@ -1061,5 +1076,27 @@ public class ClientPacketHandler {
   private void spectatorJoin() {
     var gameSelection = GameSelection.getGameSelection();
     if (gameSelection != null) gameSelection.spectateGame();
+  }
+
+  /**
+   * @author Marc, Issam, Philipp
+   * @use continue remaining time
+   */
+  private void continueRemainingTime() {
+    var observerGameBoard = GameBoard.getObserver();
+    if (observerGameBoard != null) {
+      if (observerGameBoard.isInitialized()) observerGameBoard.continueRemainingTime();
+    }
+  }
+
+  /**
+   * @author Marc, Issam, Philipp
+   * @use stop remaining time
+   */
+  private void stopRemainingTime() {
+    var observerGameBoard = GameBoard.getObserver();
+    if (observerGameBoard != null) {
+      if (observerGameBoard.isInitialized()) observerGameBoard.stopRemainingTime();
+    }
   }
 }
