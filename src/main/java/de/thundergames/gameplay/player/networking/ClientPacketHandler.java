@@ -253,7 +253,7 @@ public class ClientPacketHandler {
 
   /**
    * @author Carina
-   * @use is called everytime a map gets updated TODO: implement this
+   * @use is called everytime a map gets updated
    */
   public void updateMap() {
     var gameBoard = GameBoard.getObserver();
@@ -264,7 +264,7 @@ public class ClientPacketHandler {
 
   /**
    * @author Carina
-   * @use is called everytime a map gets updated TODO: implement this
+   * @use is called everytime a map gets updated
    */
   public void updateMoleMoved(Field from, Field to, Mole mole, int pullDisc) {
     var gameBoard = GameBoard.getObserver();
@@ -276,7 +276,7 @@ public class ClientPacketHandler {
 
   /**
    * @author Carina
-   * @use is called everytime a map gets updated TODO: implement this
+   * @use is called everytime a map gets updated
    */
   public void updateMolePlaced(Mole mole) {
     var gameBoard = GameBoard.getObserver();

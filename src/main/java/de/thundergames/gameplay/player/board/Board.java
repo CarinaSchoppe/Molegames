@@ -93,7 +93,7 @@ public class Board extends Group {
   private Point2D[] getNodesPosition(final int numberOfNodes, final int maxNumberOfNodes, final int row) {
     // Determine margin between nodes
     var displayHeight = this.height;
-    var maxAreaCoveredByNodes = maxNumberOfNodes * 15; //TODO: change constant to actual node radius
+    var maxAreaCoveredByNodes = maxNumberOfNodes * 15;
     var verticalMargin = (displayHeight - maxAreaCoveredByNodes - 100) / maxNumberOfNodes;
     var horizontalMargin = verticalMargin / 2;
     var edgeMargins = maxNumberOfNodes - numberOfNodes;

@@ -81,8 +81,4 @@ class GameLogicTest {
     assertFalse(GameLogic.wasLegalMove(null, new int[]{3, 3}, new int[]{0, 0}, 3, map));
     assertFalse(GameLogic.wasLegalMove(null, new int[]{1, 3}, new int[]{2, 4}, 2, map));
   }
-
-  @Test
-  void checkWinning() { // TODO: Implement
-  }
 }

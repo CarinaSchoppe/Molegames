@@ -109,10 +109,8 @@ public class GameBoard {
     gameState = CLIENT.getGameState();
     if (gameState == null) return;
     visTime = gameState.getVisualizationTime();
-    // TODO: Handle visTime of 0, seems to bug the animation logic, as nothing happens even though the path the
-    //       mole takes is highlighted
     if (visTime == 0.0) {
-      visTime = 250;
+      visTime = 5;
     }
     //start timer of gameBoard
     COUNTDOWN = new BoardCountDown();
