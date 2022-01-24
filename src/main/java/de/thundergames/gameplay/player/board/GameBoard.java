@@ -205,6 +205,7 @@ public class GameBoard {
     primaryStage.setMaximized(true);
     primaryStage.show();
     initialized = true;
+    CLIENT.getClientPacketHandler().getRemainingTimePacket();
   }
 
   //window logout

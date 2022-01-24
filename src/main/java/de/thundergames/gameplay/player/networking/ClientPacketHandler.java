@@ -960,13 +960,31 @@ public class ClientPacketHandler {
   }
 
   /**
-   * @author Philipp
+   * @author Philipp,Issam,Marc
    * @use Update game Log Text Box
    */
   private void updateGameLog(Player player, String text) {
     var observerGameBoard = GameBoard.getObserver();
     if (observerGameBoard != null) {
-      if (observerGameBoard.isInitialized()) observerGameBoard.updateGameLog(player.getClientID(), player.getName(), text);
+
+      //check if GameBoard is initialized before adding entry to GameLog
+      if (observerGameBoard.isInitialized())
+      {
+        observerGameBoard.updateGameLog(player.getClientID(), player.getName(), text);
+      }else{
+        var timer = new Timer();
+        var task = new TimerTask() {
+          @Override
+          public void run() {
+           if (observerGameBoard.isInitialized())
+           {
+             observerGameBoard.updateGameLog(player.getClientID(), player.getName(), text);
+             timer.cancel();
+           }
+          }
+        };
+        timer.schedule(task, 0, 100);
+      }
     }
   }
 
