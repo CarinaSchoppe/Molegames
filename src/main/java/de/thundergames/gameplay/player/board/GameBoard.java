@@ -316,17 +316,24 @@ public class GameBoard {
       var thisPlace = 1;
       var players = score.getPlayers();
       var size = score.getPlayers().size();
-      var highestScore = -1;
+      var highestScore = 0;
       Player highestPlayer = null;
       while (newResultList.size() != size) {
+        var firstValue = true;
         for (var player : players) {
           var playerScore = 0;
           if (score.getPoints().get(player.getClientID()) != null) {
             playerScore = score.getPoints().get(player.getClientID());
           }
-          if (highestScore < playerScore) {
+          if (firstValue) {
             highestScore = playerScore;
             highestPlayer = player;
+            firstValue = false;
+          } else {
+            if (highestScore < playerScore) {
+              highestScore = playerScore;
+              highestPlayer = player;
+            }
           }
         }
         var playerName = Integer.toString(highestPlayer.getClientID());

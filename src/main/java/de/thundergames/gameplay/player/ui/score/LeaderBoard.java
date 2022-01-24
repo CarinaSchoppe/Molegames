@@ -75,7 +75,7 @@ public class LeaderBoard extends Application implements Initializable {
     // fill sorted players with their placement, name and points into leaderList
     var leaderList = new ArrayList<PlayerResult>();
     var thisPlace = 1;
-    var highestScore = -1;
+    var highestScore = 0;
     Player highestPlayer = null;
     ArrayList<Player> players = new ArrayList<>();
     for (var p : gameScore.getPlayers()) {
@@ -83,14 +83,21 @@ public class LeaderBoard extends Application implements Initializable {
     }
     var size = players.size();
     while (leaderList.size() != size) {
+      var firstValue = true;
       for (var player : players) {
         var playerScore = 0;
         if (gameScore.getPoints().get(player.getClientID()) != null) {
           playerScore = gameScore.getPoints().get(player.getClientID());
         }
-        if (highestScore < playerScore) {
+        if (firstValue) {
           highestScore = playerScore;
           highestPlayer = player;
+          firstValue = false;
+        } else {
+          if (highestScore < playerScore) {
+            highestScore = playerScore;
+            highestPlayer = player;
+          }
         }
       }
       var playerName = Integer.toString(highestPlayer.getClientID());
