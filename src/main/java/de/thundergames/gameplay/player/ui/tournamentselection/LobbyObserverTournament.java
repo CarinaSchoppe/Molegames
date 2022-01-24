@@ -44,11 +44,11 @@ public class LobbyObserverTournament implements Initializable {
     return OBSERVER;
   }
 
-  public void create(ActionEvent event, int tournamentID) throws IOException {
+  public void create(Stage primaryStage, int tournamentID) throws IOException {
     CLIENT = Client.getClientInstance();
     selectedTournamentID = tournamentID;
     OBSERVER = this;
-    createScene(event);
+    //createScene(event);
   }
 
   private void createScene(ActionEvent event) throws IOException {

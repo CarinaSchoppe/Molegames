@@ -1098,6 +1098,15 @@ public class ClientPacketHandler {
 
   /**
    * @author Marc, Issam, Philipp
+   * @use joins the spectator to the server, creating the GUI
+   */
+  private void spectatorJoinTournament() {
+    var tournamentSelection = TournamentSelection.getTournamentSelection();
+    if (tournamentSelection != null) tournamentSelection.spectateGame();
+  }
+
+  /**
+   * @author Marc, Issam, Philipp
    * @use continue remaining time
    */
   private void continueRemainingTime() {

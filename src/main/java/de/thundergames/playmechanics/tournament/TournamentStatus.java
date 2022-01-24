@@ -15,8 +15,7 @@ import org.jetbrains.annotations.NotNull;
 public enum TournamentStatus {
   NOT_STARTED("NOT_STARTED"),
   STARTED("STARTED"),
-  OVER("OVER"),
-  INVALID("INVALID");
+  OVER("OVER");
   private final String status;
 
   TournamentStatus(@NotNull final String status) {
