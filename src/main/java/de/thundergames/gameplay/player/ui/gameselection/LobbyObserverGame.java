@@ -45,8 +45,6 @@ public class LobbyObserverGame implements Initializable {
   @FXML
   private Text PlayerJoined;
   @FXML
-  private Text JoinedSuccessfully;
-  @FXML
   private TableView<SettingsTable> settingsTable;
   @FXML
   private TableColumn<SettingsTable, String> settingName;
@@ -189,8 +187,15 @@ public class LobbyObserverGame implements Initializable {
    * @use Writes the playing Client names to a table view to display it in the GUI
    */
   public void updatePlayerTable() {
-    HashSet<Player> playerList = CLIENT.getGameState().getActivePlayers();
+    while (CLIENT.getGameState() == null) {
+        try {
+          Thread.sleep(100);
+        } catch (InterruptedException e) {
+          e.printStackTrace();
+        }
+    }
     ObservableList<Player> players = FXCollections.observableArrayList();
+    HashSet<Player> playerList = CLIENT.getGameState().getActivePlayers();
     players.clear();
     players.addAll(playerList);
     if (!players.isEmpty()) {
@@ -215,22 +220,6 @@ public class LobbyObserverGame implements Initializable {
     settingsData.add(new SettingsTable("Visualisierungszeit", Long.toString(this.game.getVisualizationTime())));
     settingsData.add(new SettingsTable("Bestrafung", this.game.getMovePenalty()));
     settingsTable.setItems(settingsData);
-  }
-
-  /**
-   * @author Nick
-   * @use Changes the opacity of a text field with the content "Beitritt zum Spiel war erfolgreich!
-   * Bitte warten." thus making it visible for 5 seconds when the client has received
-   * AssignToGame packet.
-   */
-  public void showJoiningSuccessfully() {
-    JoinedSuccessfully.setOpacity(1.0);
-    try {
-      Thread.sleep(5000);
-    } catch (InterruptedException e) {
-      e.printStackTrace();
-    }
-    JoinedSuccessfully.setOpacity(0.0);
   }
 
   /**
