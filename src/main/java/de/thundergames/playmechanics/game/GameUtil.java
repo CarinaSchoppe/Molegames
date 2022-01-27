@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2022
- * File created on 17.01.22, 22:51 by Carina Latest changes made by Carina on 17.01.22, 22:51 All contents of "GameUtil" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 20.01.22, 22:29 by Carina Latest changes made by Carina on 20.01.22, 22:25 All contents of "GameUtil" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -63,7 +63,7 @@ public class GameUtil {
    * @author Carina
    * @use sets the next player in the game if all moles are in holes the player is not on turn
    */
-  public synchronized void nextPlayer() {
+  public synchronized void nextPlayer() throws InterruptedException {
     if (game.getActivePlayers().isEmpty()) {
       game.forceGameEnd();
     }
@@ -112,14 +112,17 @@ public class GameUtil {
         System.out.println(
           "Server: All holes are filled going to next Floor or check the winning!");
       }
+      Thread.sleep(game.getSettings().getVisualizationTime());
       nextFloor();
     } else if (allMolesOfAllPlayersInHoles()) {
       if (MoleGames.getMoleGames().getServer().isDebug()) {
         System.out.println("Server: All moles of all players are in holes!");
       }
       if (game.getActivePlayers().size() >= 1) {
+        Thread.sleep(game.getSettings().getVisualizationTime());
         nextFloor();
       } else {
+        Thread.sleep(game.getSettings().getVisualizationTime());
         game.endGame();
       }
     } else if (allPlayerMolesInHoles(game.getCurrentPlayer())) {
@@ -136,15 +139,18 @@ public class GameUtil {
             .getPacketHandler()
             .playerSkippedPacket(game.getCurrentPlayer()));
       if (game.getActivePlayers().size() == 1) {
+        Thread.sleep(game.getSettings().getVisualizationTime());
         nextFloor();
       } else if (game.getActivePlayers().size() > 1) {
         nextPlayer();
       } else {
+        Thread.sleep(game.getSettings().getVisualizationTime());
         game.endGame();
       }
     } else {
       if (game.getCurrentPlayer().getMoles().size() < game.getSettings().getNumberOfMoles()
         && game.getGameState().getCurrentFloorID() == 0) {
+        Thread.sleep(game.getSettings().getVisualizationTime());
         MoleGames.getMoleGames()
           .getServer()
           .sendToAllGameClients(
@@ -155,6 +161,7 @@ public class GameUtil {
               .playerPlacesMolePacket(game.getCurrentPlayer()));
       } else {
         if (MoleGames.getMoleGames().getGameHandler().getGameLogic().isPlayerMovePossible(game.getCurrentPlayer())) {
+          Thread.sleep(game.getSettings().getVisualizationTime());
           MoleGames.getMoleGames()
             .getServer()
             .sendToAllGameClients(
@@ -168,6 +175,7 @@ public class GameUtil {
           if (game.getActivePlayers().size() > 1) {
             nextPlayer();
           } else {
+            Thread.sleep(game.getSettings().getVisualizationTime());
             game.endGame();
           }
           return;
@@ -206,7 +214,11 @@ public class GameUtil {
             .getServer()
             .getPacketHandler()
             .nextFloorPacket(game.getGameState(), eliminated));
-      nextPlayer();
+      try {
+        nextPlayer();
+      } catch (InterruptedException e) {
+        e.printStackTrace();
+      }
     } else {
       eliminatedPlayerHandling();
       game.getGameUtil()

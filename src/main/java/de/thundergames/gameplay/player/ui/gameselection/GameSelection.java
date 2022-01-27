@@ -10,12 +10,13 @@
 
 package de.thundergames.gameplay.player.ui.gameselection;
 
+import de.thundergames.filehandling.Score;
 import de.thundergames.gameplay.player.Client;
 import de.thundergames.gameplay.player.board.GameBoard;
 import de.thundergames.gameplay.player.ui.PlayerMenu;
+import de.thundergames.gameplay.player.ui.score.LeaderBoard;
 import de.thundergames.gameplay.util.SceneController;
 import de.thundergames.playmechanics.game.Game;
-import de.thundergames.playmechanics.game.GameState;
 import de.thundergames.playmechanics.game.GameStates;
 import de.thundergames.playmechanics.util.Dialog;
 import javafx.application.Platform;
@@ -157,9 +158,9 @@ public class GameSelection implements Initializable {
   /**
    * @param event event from the current scene to build next scene on same object
    * @throws IOException error at creating the scene
-   * @author Marc
-   * @use Observe the game. If game is already started, spectate the game, else join the spectator
-   * lobby.
+   * @author Marc, Issam, Philipp
+   * @use Observe the game. If it is over, show score board, otherwise send join game packet and if it is not started
+   * join the spectator lobby.
    */
   @FXML
   void spectateGame(ActionEvent event) throws IOException, InterruptedException {
@@ -169,49 +170,44 @@ public class GameSelection implements Initializable {
       Dialog.show("Es wurde kein Spiel ausgewählt!", "Spiel beobachten", Dialog.DialogType.ERROR);
       return;
     }
-    // Send Packet to spectate game to get GameState
-    CLIENT.getClientPacketHandler().joinGamePacket(selectedItem.getGameID(), false);
-    boolean waiting = true;
-    int counter = 0;
-    var currentGameState = (GameState) null;
-    while (waiting) {
-      Thread.sleep(1000);
-      counter += 1;
-      currentGameState = CLIENT.getGameState();
-      if (counter == 5 || currentGameState != null) {
-        waiting = false;
+    else {
+      if (Objects.equals(selectedItem.getStatus(), GameStates.OVER.toString())) {
+        loadScoreboard(selectedItem.getScore());
+      } else {
+        // Send Packet to join game to get GameState
+        CLIENT.getClientPacketHandler().joinGamePacket(selectedItem.getGameID(), false);
+        if (Objects.equals(selectedItem.getStatus(), GameStates.NOT_STARTED.toString())) {
+          new LobbyObserverGame().create(primaryStage, selectedItem.getGameID());
+        }
       }
-    }
-    // Get GameState
-    //GameState currentGameState = client.getGameState();
-    if (Client.getClientInstance().isDebug()) {
-      if (currentGameState == null) {
-        return;
-      }
-    }
-    if (Objects.equals(currentGameState.getStatus(), GameStates.STARTED.toString())
-      || Objects.equals(currentGameState.getStatus(), GameStates.PAUSED.toString())) {
-      spectateGame();
-    } else if (Objects.equals(currentGameState.getStatus(), GameStates.NOT_STARTED.toString())) {
-      new LobbyObserverGame().create(primaryStage, selectedItem.getGameID());
-    } else if (Objects.equals(currentGameState.getStatus(), GameStates.OVER.toString())) {
-      loadScoreboard();
     }
   }
 
+  public TableView<Game> getGameTable() {
+    return gameTable;
+  }
+
   /**
-   * Load scene of scoreboard
+   * @author Philipp
+   * @use Load scoreboard of game that is already over
    */
-  private void loadScoreboard() {
-    CLIENT.getClientPacketHandler().getScorePacket();
-    var gameScore = CLIENT.getGameState().getScore();
-    // Todo:Open scene of ScoreBoard with gameScore and check if it is even possible to do so
-  }
+   public void loadScoreboard(Score score) throws IOException {
+    LeaderBoard leaderBoard = new LeaderBoard();
+    leaderBoard.create(score);
+    leaderBoard.start(primaryStage);
+   }
 
   /**
+   * @author Marc, Issam, Philipp
    * Load scene of game
    */
-  private void spectateGame() {
-    new GameBoard().create(primaryStage);
+  public void spectateGame() {
+    Platform.runLater(() -> {
+      var status = CLIENT.getGameState().getStatus();
+      if (Objects.equals(status, GameStates.STARTED.toString())
+              || Objects.equals(status, GameStates.PAUSED.toString())) {
+        new GameBoard().create(primaryStage,false);
+      }
+    });
   }
 }

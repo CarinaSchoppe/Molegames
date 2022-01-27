@@ -11,21 +11,29 @@
 package de.thundergames.gameplay.player.ui.tournamentselection;
 
 import de.thundergames.gameplay.player.Client;
+import de.thundergames.gameplay.player.board.GameBoard;
 import de.thundergames.gameplay.util.SceneController;
+import de.thundergames.playmechanics.game.GameStates;
+import de.thundergames.playmechanics.util.Player;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
+@Getter
+@Setter
 public class LobbyObserverTournament implements Initializable {
 
   @FXML
@@ -39,20 +47,20 @@ public class LobbyObserverTournament implements Initializable {
   private Text JoinedSuccessfully;
 
   private int selectedTournamentID;
+  private Stage primaryStage;
 
   public static LobbyObserverTournament getObserver() {
     return OBSERVER;
   }
 
-  public void create(ActionEvent event, int tournamentID) throws IOException {
+  public void create(Stage primaryStage) throws IOException {
     CLIENT = Client.getClientInstance();
-    selectedTournamentID = tournamentID;
     OBSERVER = this;
-    createScene(event);
+    createScene(primaryStage);
   }
 
-  private void createScene(ActionEvent event) throws IOException {
-    var primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+  private void createScene(Stage primaryStage) throws IOException {
+    this.primaryStage = primaryStage;
     var loader = SceneController.loadFXML("/player/style/LobbyObserverTournament.fxml");
     loader.setController(this);
     var root = (Parent) loader.load();
@@ -99,6 +107,7 @@ public class LobbyObserverTournament implements Initializable {
    */
   private void logout(Stage stage) {
     CLIENT.getClientPacketHandler().logoutPacket();
+    CLIENT.getClientPacketHandler().leaveTournament(selectedTournamentID);
     stage.close();
   }
 
@@ -123,7 +132,7 @@ public class LobbyObserverTournament implements Initializable {
    * @use Changes the opacity of a text field with the content "Beitritt zum Turnier war
    * erfolgreich! Bitte warten." thus making it visible for 5 seconds.
    */
-  public void showJoiningSuccessfully() {
+  public void showPLayerJoin(Player player) {
     JoinedSuccessfully.setOpacity(1.0);
     try {
       Thread.sleep(5000);
@@ -138,7 +147,21 @@ public class LobbyObserverTournament implements Initializable {
    * @use Create scene and spectate the game of tournament
    */
   public void spectateGame() {
-    var currentGameState = CLIENT.getGameState();
-    // TODO:Create scene for game
+    Platform.runLater(() -> {
+      var status = CLIENT.getGameState().getStatus();
+      if (Objects.equals(status, GameStates.STARTED.toString())
+        || Objects.equals(status, GameStates.PAUSED.toString()))
+      {
+        GameBoard board = new GameBoard();
+        board.create(primaryStage,true);
+        board.setTournamentId(selectedTournamentID);
+      }
+    });
+  }
+
+  public void showPlayerLeave(Player player) {
+  }
+
+  public void showPlayerKicked(Player player) {
   }
 }

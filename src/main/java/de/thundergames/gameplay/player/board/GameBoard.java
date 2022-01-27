@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2022
- * File created on 17.01.22, 19:10 by Carina Latest changes made by Carina on 17.01.22, 19:10 All contents of "GameBoard" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 20.01.22, 17:01 by Carina Latest changes made by Carina on 20.01.22, 17:00 All contents of "GameBoard" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -14,10 +14,14 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import de.thundergames.filehandling.Score;
 import de.thundergames.gameplay.player.Client;
+import de.thundergames.gameplay.player.ui.PlayerMenu;
+import de.thundergames.gameplay.player.ui.score.LeaderBoard;
 import de.thundergames.gameplay.player.ui.score.PlayerResult;
+import de.thundergames.gameplay.player.ui.tournamentselection.LobbyObserverTournament;
 import de.thundergames.playmechanics.game.GameState;
 import de.thundergames.playmechanics.game.GameStates;
 import de.thundergames.playmechanics.map.Field;
+import de.thundergames.playmechanics.tournament.TournamentState;
 import de.thundergames.playmechanics.util.Mole;
 import de.thundergames.playmechanics.util.Player;
 import de.thundergames.playmechanics.util.Punishments;
@@ -25,14 +29,14 @@ import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.geometry.Pos;
 import javafx.scene.ImageCursor;
 import javafx.scene.Scene;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Paint;
@@ -43,6 +47,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -77,7 +82,12 @@ public class GameBoard {
   private HashSet<Player> players;
   private ArrayList<PlayerModel> playerModelList;
 
+  private double visTime;
+
   private boolean initialized = false;
+
+  private boolean isTournamentGame;
+  private int tournamentId;
 
   public static GameBoard getObserver() {
     return OBSERVER;
@@ -88,44 +98,89 @@ public class GameBoard {
    * @author Alp, Dila, Issam
    * @use starts the stage
    */
-  public void create(Stage primaryStage) {
+  public void create(Stage primaryStage,boolean isTournamentGame) {
     OBSERVER = this;
+    this.isTournamentGame = isTournamentGame;
     CLIENT = Client.getClientInstance();
     this.primaryStage = primaryStage;
     borderPane = new BorderPane();
     countDownPane = new BorderPane();
-    countDownPane.setMinHeight(55);
+    countDownPane.setMinHeight(60);
     turnPane = new BorderPane();
     turnPane.setMinHeight(50);
     scorePane = new BorderPane();
     scorePane.setMinWidth(50);
+
     // get gameState
     gameState = CLIENT.getGameState();
     if (gameState == null) return;
+    visTime = gameState.getVisualizationTime();
+    if (visTime == 0.0) {
+      visTime = 5;
+    }
     //start timer of gameBoard
     COUNTDOWN = new BoardCountDown();
     COUNTDOWN.setTimer(!Objects.equals(gameState.getStatus(), GameStates.PAUSED.toString()));
+    CLIENT.setRemainingTime(gameState.getRemainingTime());
+
     // get radius
     BOARD_RADIUS = gameState.getRadius();
+
     //get current player
-    var currentPlayerID = gameState.getCurrentPlayer() == null ? -1 : gameState.getCurrentPlayer().getClientID();
-    var currentPlayerName = CLIENT.getCurrentPlayer() == null ? "" : CLIENT.getCurrentPlayer().getName();
+    CLIENT.setCurrentPlayer(gameState.getCurrentPlayer());
+    var currentPlayerID = gameState.getCurrentPlayer() == null ? -1 : CLIENT.getCurrentPlayer().getClientID();
+
     // create list of playerModels for ui
     players = gameState.getActivePlayers();
     var randomColorsItertator = Utils.getRandomHSLAColor(players.size()).listIterator();
     playersColors = new HashMap<>(players.stream().collect(Collectors.toMap(Player::getClientID, player -> randomColorsItertator.next())));
     var placedMoles = gameState.getPlacedMoles();
     var playerModelList = mapPlayersToPlayerModels(players, placedMoles, currentPlayerID, playersColors);
+
     // Set custom cursor
     var cursor = new Image(Utils.getSprite("game/cursor.png"));
     borderPane.setCursor(new ImageCursor(cursor,
       cursor.getWidth() / 2,
       cursor.getHeight() / 2));
+
+    //Logout Button
+    BorderPane LogoutPane = new BorderPane();
+    BorderPane LogoutInnerPane = new BorderPane();
+    AnchorPane stylePane = new AnchorPane();
+    stylePane.setMinHeight(50);
+    stylePane.setMinWidth(240);
+    Button logoutButton = new Button();
+    logoutButton.setOpacity(0);
+    logoutButton.setMinHeight(45);
+    logoutButton.setMinWidth(235);
+    ImageView logoutButtonImage = new ImageView();
+    logoutButtonImage.setImage(new Image(Objects.requireNonNull(Utils.class.getResource("/player/pictures/LogoutButton.png")).toString()));
+    logoutButtonImage.setFitHeight(45);
+    logoutButtonImage.setFitWidth(235);
+    stylePane.getChildren().add(logoutButtonImage);
+    stylePane.getChildren().add(logoutButton);
+    LogoutInnerPane.setRight(stylePane);
+    LogoutPane.setBottom(LogoutInnerPane);
+    scorePane.setBottom(LogoutPane);
+    logoutButton.setOnAction(
+      e -> {
+        try {
+          backToMenu(e);
+        } catch (Exception ex) {
+          ex.printStackTrace();
+        }
+      });
+
+    //window logout
+    primaryStage.setOnCloseRequest(ev -> logout(primaryStage));
+
+    //set root of panes
     var rootPane = new BorderPane();
     rootPane.setTop(countDownPane);
     rootPane.setCenter(borderPane);
     rootPane.setBottom(turnPane);
     rootPane.setRight(scorePane);
+
     scrollPane = new ScrollPane();
     textFlow = new TextFlow();
     textFlow.setStyle("-fx-background-color: rgba(65, 23, 167, 1);");
@@ -145,15 +200,46 @@ public class GameBoard {
     // Add board to center of borderPane
     borderPane.setCenter(gameHandler.getBoard());
     updateScoreTable();
+    rootPane.setMinHeight(856.0);
+    rootPane.setMinWidth(900.0);
     var s = new Scene(rootPane);
     s.getStylesheets().add("/player/style/css/GameBoard.css");
     scrollPane.setId("gamelog");
+    updateRemainingTime();
     primaryStage.setScene(s);
     primaryStage.setResizable(true);
     primaryStage.setMaximized(true);
     primaryStage.show();
     initialized = true;
     CLIENT.getClientPacketHandler().getRemainingTimePacket();
+  }
+
+  //window logout
+  private void logout(Stage stage) {
+    CLIENT.getClientPacketHandler().logoutPacket();
+    stage.close();
+  }
+
+  private void backToMenu(ActionEvent event) {
+    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+    alert.setTitle("Spiel verlassen");
+    alert.setHeaderText("");
+    alert.setContentText("Wollen Sie das Spiel verlassen?");
+    ButtonType okButton = new ButtonType("Yes", ButtonBar.ButtonData.YES);
+    ButtonType noButton = new ButtonType("NO", ButtonBar.ButtonData.NO);
+    alert.getButtonTypes().setAll(okButton, noButton);
+    alert.showAndWait().ifPresent(type -> {
+      if (type.getButtonData().name().equals(ButtonType.YES.getButtonData().name()))
+      {
+        COUNTDOWN.deleteTimer();
+        CLIENT.getClientPacketHandler().leaveGamePacket();
+        try {
+          new PlayerMenu().create(event);
+        } catch (IOException e) {
+          e.printStackTrace();
+        }
+      }
+    });
   }
 
   public ArrayList<PlayerModel> mapPlayersToPlayerModels(@NotNull final HashSet<Player> players, @NotNull final HashSet<Mole> placedMoles, final int currentPlayerID, @NotNull final HashMap<Integer, String> playersColors) {
@@ -236,22 +322,32 @@ public class GameBoard {
       var thisPlace = 1;
       var players = score.getPlayers();
       var size = score.getPlayers().size();
-      var highestScore = -1;
+      var highestScore = 0;
       Player highestPlayer = null;
       while (newResultList.size() != size) {
+        var firstValue = true;
         for (var player : players) {
           var playerScore = 0;
           if (score.getPoints().get(player.getClientID()) != null) {
             playerScore = score.getPoints().get(player.getClientID());
           }
-          if (highestScore < playerScore) {
+          if (firstValue) {
             highestScore = playerScore;
             highestPlayer = player;
+            firstValue = false;
+          } else {
+            if (highestScore < playerScore) {
+              highestScore = playerScore;
+              highestPlayer = player;
+            }
           }
         }
-        System.out.println(pullDiscs.get(Objects.requireNonNull(highestPlayer).getClientID()).toString());
+        var playerName = Integer.toString(highestPlayer.getClientID());
+        if (highestPlayer.getName() != null) {
+          playerName = playerName + "/" + highestPlayer.getName();
+        }
         newResultList.add(
-          new PlayerTable(highestPlayer.getClientID() + "/" + highestPlayer.getName(), highestScore, thisPlace, pullDiscs.get(highestPlayer.getClientID()).toString()));
+          new PlayerTable(playerName, highestScore, thisPlace, pullDiscs.get(highestPlayer.getClientID()).toString()));
         players.remove(highestPlayer);
         highestScore = -1;
         highestPlayer = null;
@@ -290,7 +386,7 @@ public class GameBoard {
         playerString = playerString + "/" + playerName;
       }
       var playerText = new Text(playerString);
-      var beginning = new Text("Spieler ");
+      var beginning = new Text("\u25B9 Spieler ");
       var end = new Text(information);
       var defTextColor = "#ffffff";
       beginning.setId("text");
@@ -299,6 +395,8 @@ public class GameBoard {
       end.setFill(Paint.valueOf(defTextColor));
       playerText.setId("text");
       playerText.setFill(Paint.valueOf(playersColors.get(playerID)));
+      playerText.setStroke(Paint.valueOf(defTextColor));
+      playerText.setStrokeWidth(0.5);
       textFlow.getChildren().addAll(beginning, playerText, end);
       scrollPane.setVvalue(1.0f);
     });
@@ -313,9 +411,36 @@ public class GameBoard {
 
   public void updateRemainingTime() {
     Platform.runLater(() -> {
-      long time = CLIENT.getRemainingTime() - System.currentTimeMillis();
-      COUNTDOWN.setRemainingTime(time);
-      updateTime(time, COUNTDOWN.getShowCount());
+      if (CLIENT.getRemainingTime() > 0) {
+        long time = CLIENT.getRemainingTime();
+        COUNTDOWN.setRemainingTime(time);
+        updateTime(time, COUNTDOWN.getShowCount());
+      }
+    });
+  }
+
+  public void updateRemainingDateTime()
+  {
+    Platform.runLater(() -> {
+      if (CLIENT.getRemainingDateTime() > 0) {
+        long time = CLIENT.getRemainingDateTime() - System.currentTimeMillis();
+        COUNTDOWN.setRemainingTime(time);
+        updateTime(time, COUNTDOWN.getShowCount());
+      }
+    });
+  }
+
+  public void stopRemainingTime()
+  {
+    Platform.runLater(() -> {
+      COUNTDOWN.setStopTurnOver(true);
+    });
+  }
+
+  public void continueRemainingTime()
+  {
+    Platform.runLater(() -> {
+    COUNTDOWN.setStopTurnOver(false);
     });
   }
 
@@ -366,14 +491,52 @@ public class GameBoard {
   }
 
   public void moveMole(Field from, Field to, int currentPlayerId, int pullDisc) {
-    Platform.runLater(() -> this.gameHandler.getBoard().moveMole(from, to, currentPlayerId, pullDisc));
+    Platform.runLater(() -> this.gameHandler.getBoard().moveMole(from, to, currentPlayerId, pullDisc, visTime));
   }
 
   public void placeMole(Mole mole) {
-    Platform.runLater(() -> this.gameHandler.getBoard().placeMole(new MoleModel(mole, playersColors.get(mole.getPlayer().getClientID()))));
+    Platform.runLater(() -> this.gameHandler.getBoard().placeMole(new MoleModel(mole, playersColors.get(mole.getPlayer().getClientID())), visTime));
   }
 
   public void kickMolesOfPlayer(Player player) {
-    Platform.runLater(() ->{this.gameHandler.getBoard().removePlayer(player);});
+    Platform.runLater(() -> this.gameHandler.getBoard().removePlayer(player));
+  }
+
+  public void gameOver(Score score) {
+    Platform.runLater(() -> {
+      if (isTournamentGame) {
+        try {
+          new LobbyObserverTournament().create(primaryStage);
+        } catch (IOException e) {
+          e.printStackTrace();
+        }
+      }
+
+      LeaderBoard leaderBoard = new LeaderBoard();
+      leaderBoard.create(score);
+      try {
+        leaderBoard.start(primaryStage);
+      } catch (Exception e) {
+        System.out.println(e);
+      }
+    });
+  }
+
+  public void tournamentOver() {
+    Platform.runLater(() -> {
+    CLIENT.getClientPacketHandler().getTournamentScorePacket(this.tournamentId);
+    });
+  }
+
+  public void showTournamentScore() {
+    Platform.runLater(() -> {
+      LeaderBoard leaderBoard = new LeaderBoard();
+      leaderBoard.create(CLIENT.getTournamentState().getScore());
+      try {
+        leaderBoard.start(primaryStage);
+      } catch (Exception e) {
+        System.out.println(e);
+      }
+    });
   }
 }

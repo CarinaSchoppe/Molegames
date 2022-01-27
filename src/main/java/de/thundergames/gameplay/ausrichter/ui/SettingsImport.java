@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2022
- * File created on 10.01.22, 22:01 by Carina Latest changes made by Carina on 10.01.22, 22:01 All contents of "SettingsImport" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 20.01.22, 18:24 by Carina Latest changes made by Carina on 20.01.22, 18:21 All contents of "SettingsImport" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -38,7 +38,10 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 /**
- * @author Carina, Eva, Jana
+ * @author Carina
+ * @use creates a GUI for saving and loading a config for the game
+ * @see de.thundergames.playmechanics.util.Settings
+ * @see CreateGame
  */
 public class SettingsImport {
 
@@ -116,6 +119,8 @@ public class SettingsImport {
         new Gson().fromJson(object.get("radius"), String.class));
       CreateGame.setMolesAmountPrev(
         new Gson().fromJson(object.get("numberOfMoles"), String.class));
+      CreateGame.setDeductedPointsPrev(
+        new Gson().fromJson(object.get("deductedPoints"), String.class));
       CreateGame.setPullDiscsOrderedPrev(
         new Gson().fromJson(object.get("pullDiscsOrdered"), Boolean.class));
       CreateGame.setThinkTimePrev(
@@ -155,6 +160,11 @@ public class SettingsImport {
       CreateGame.getMolesAmountPrev() != null
         ? Integer.parseInt(CreateGame.getMolesAmountPrev())
         : 4);
+    json.addProperty(
+      "deductedPoints",
+      CreateGame.getDeductedPointsPrev() != null
+        ? Integer.parseInt(CreateGame.getDeductedPointsPrev())
+        : 10);
     json.add("levels", JsonParser.parseString(new Gson().toJson(CreateGame.getLevel())));
     json.addProperty("pullDiscsOrdered", CreateGame.isPullDiscsOrderedPrev());
     json.add("pullDiscs", JsonParser.parseString(new Gson().toJson(CreateGame.getDrawCardValuesList())));
@@ -171,10 +181,7 @@ public class SettingsImport {
     json.addProperty(
       "movePenalty",
       CreateGame.getPunishmentPrev() != null ? CreateGame.getPunishmentPrev() : "NOTHING");
-    // TODO: grafik und system implementieren  json.addProperty("deductedPoints",
-    // Integer.parseInt(CreateGame.getCreateGameInstance().getDeductedPoints()));
     new GameConfiguration().saveSettings(json);
-    Dialog.show("Konfiguration gespeichert!", "Erfolg!", Dialog.DialogType.INFO);
   }
 
   @FXML

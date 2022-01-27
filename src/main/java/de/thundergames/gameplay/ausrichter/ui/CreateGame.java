@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2022
- * File created on 13.01.22, 22:39 by Carina Latest changes made by Carina on 13.01.22, 22:39 All contents of "CreateGame" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 21.01.22, 10:29 by Carina Latest changes made by Carina on 21.01.22, 10:28 All contents of "CreateGame" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -39,7 +39,8 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 /**
- * @author Carina, Eva, Jana
+ * @author Carina
+ * @use the logic that does everything related to create a game
  */
 @Getter
 public class CreateGame implements Initializable {
@@ -266,12 +267,49 @@ public class CreateGame implements Initializable {
     initialize();
   }
 
+  private static String deductedPointsPrev;
+
+  @FXML private TextField deductedPoints;
+
+  @FXML
+  void loadConfigButtonEvent(ActionEvent event) throws Exception {
+    savePrevSettings();
+    var primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+    new SettingsImport().start(primaryStage);
+  }
+
+  @FXML
+  void onConfigureDrawAgain(ActionEvent event) throws Exception {
+    savePrevSettings();
+    var primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+    new DrawAgainConfiguration().start(primaryStage);
+  }
+
+  @FXML
+  void onConfigureHoles(ActionEvent event) throws Exception {
+    savePrevSettings();
+    var primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+    new HolesConfiguration().start(primaryStage);
+  }
+
+  @FXML private Button configureDrawAgain;
+  @FXML private Button configureHoles;
+
+  public static String getDeductedPointsPrev() {
+    return deductedPointsPrev;
+  }
+
+  public static void setDeductedPointsPrev(String deductedPointsPrev) {
+    CreateGame.deductedPointsPrev = deductedPointsPrev;
+  }
+
   @FXML
   void backButtonEvent(ActionEvent event) throws Exception {
     var primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
     punishmentPrev = null;
     maxPlayersPrev = null;
     molesAmountPrev = null;
+    deductedPointsPrev = null;
     thinkTimePrev = null;
     visualEffectsPrev = null;
     radiusPrev = null;
@@ -314,58 +352,66 @@ public class CreateGame implements Initializable {
       var newFloor = new Map(holes, drawAgain, floor.getPoints());
       floorMap.add(newFloor);
       if (holes.isEmpty() || floors.isEmpty()) {
-        Dialog.show("Du musst erst das Spiel voll konfigurieren!", "Fehler!", Dialog.DialogType.ERROR);
+        Dialog.show(
+            "Du musst erst das Spiel voll konfigurieren!", "Fehler!", Dialog.DialogType.ERROR);
         return;
       }
     }
     var id = MoleGames.getMoleGames().getGameHandler().getGames().size();
     if (!isLegalConfiguration(
-            radius.getText() != null && !"".equalsIgnoreCase(radius.getText())
-                    ? Integer.parseInt(radius.getText())
-                    : 8,
-            molesAmount.getText() != null && playerAmount != null ? Integer.parseInt(molesAmount.getText()) * Integer.parseInt(playerAmount.getText()) : 16)) {
+        radius.getText() != null && !"".equalsIgnoreCase(radius.getText())
+            ? Integer.parseInt(radius.getText())
+            : 8,
+        molesAmount.getText() != null && playerAmount != null
+            ? Integer.parseInt(molesAmount.getText()) * Integer.parseInt(playerAmount.getText())
+            : 16)) {
       Dialog.show("Das Spiel ist nicht richtig konfiguriert!", "Fehler!", Dialog.DialogType.ERROR);
       return;
     }
     MoleGames.getMoleGames().getGameHandler().createNewGame(id);
-
     var game = MoleGames.getMoleGames().getGameHandler().getIDGames().get(id);
     game.getSettings().getFloors().addAll(floorMap);
     game.getSettings()
-            .setMaxPlayers(
-                    (playerAmount.getText() != null && !"".equalsIgnoreCase(playerAmount.getText()))
-                            ? Integer.parseInt(playerAmount.getText())
-                            : 4);
+        .setMaxPlayers(
+            (playerAmount.getText() != null && !"".equalsIgnoreCase(playerAmount.getText()))
+                ? Integer.parseInt(playerAmount.getText())
+                : 4);
     game.getSettings()
-            .setRadius(
-                    (radius.getText() != null && !"".equalsIgnoreCase(radius.getText()))
-                            ? Integer.parseInt(radius.getText())
-                            : 6);
+        .setRadius(
+            (radius.getText() != null && !"".equalsIgnoreCase(radius.getText()))
+                ? Integer.parseInt(radius.getText())
+                : 6);
     game.getSettings()
-            .setNumberOfMoles(
-                    (molesAmount.getText() != null && !"".equalsIgnoreCase(molesAmount.getText()))
-                            ? Integer.parseInt(molesAmount.getText())
-                            : 4);
+        .setDeductedPoints(
+            (deductedPoints.getText() != null && !"".equalsIgnoreCase(deductedPoints.getText()))
+                ? Integer.parseInt(deductedPoints.getText())
+                : 10);
+    game.setDeductedPoints(game.getSettings().getDeductedPoints());
+    game.getSettings()
+        .setNumberOfMoles(
+            (molesAmount.getText() != null && !"".equalsIgnoreCase(molesAmount.getText()))
+                ? Integer.parseInt(molesAmount.getText())
+                : 4);
     game.getSettings().setPullDiscsOrdered(pullDiscsOrdered.isSelected());
     game.getSettings()
-            .setTurnTime(
-                    (thinkTime.getText() != null && !"".equalsIgnoreCase(thinkTime.getText()))
-                            ? Integer.parseInt(thinkTime.getText()) * 1000L
-                            : 15000);
+        .setTurnTime(
+            (thinkTime.getText() != null && !"".equalsIgnoreCase(thinkTime.getText()))
+                ? Integer.parseInt(thinkTime.getText()) * 1000
+                : 15000);
     if (!drawCardValuesList.isEmpty()) {
       game.getSettings().getPullDiscs().clear();
       game.getSettings().getPullDiscs().addAll(drawCardValuesList);
     }
     game.getSettings()
-            .setVisualizationTime(
-                    (visualEffects.getText() != null && !"".equalsIgnoreCase(visualEffects.getText()))
-                            ? Integer.parseInt(visualEffects.getText()) * 1000
-                            : 5000);
+        .setVisualizationTime(
+            (visualEffects.getText() != null && !"".equalsIgnoreCase(visualEffects.getText()))
+                ? Integer.parseInt(visualEffects.getText()) * 1000
+                : 5000);
     game.getSettings()
-            .setMovePenalty(
-                    movePenalty.getSelectionModel().getSelectedItem() != null
-                            ? movePenalty.getSelectionModel().getSelectedItem().getName()
-                            : Punishments.NOTHING.getName());
+        .setMovePenalty(
+            movePenalty.getSelectionModel().getSelectedItem() != null
+                ? movePenalty.getSelectionModel().getSelectedItem().getName()
+                : Punishments.NOTHING.getName());
     MoleGames.getMoleGames().getGameHandler().getIDGames().get(id).updateGameState();
     floors.clear();
 
@@ -383,33 +429,15 @@ public class CreateGame implements Initializable {
     }
   }
 
-  @FXML
-  void loadConfigButtonEvent(ActionEvent event) throws Exception {
-    savePrevSettings();
-    var primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-    new SettingsImport().start(primaryStage);
-  }
-
-  @FXML
-  void onConfigureDrawAgain(ActionEvent event) throws Exception {
-    savePrevSettings();
-    var primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-    new DrawAgainConfiguration().start(primaryStage, Spielmodus);
-  }
-
-  @FXML
-  void onConfigureHoles(ActionEvent event) throws Exception {
-    savePrevSettings();
-    var primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-    new HolesConfiguration().start(primaryStage, Spielmodus);
-  }
-
   /**
    * @author Carina
    * @use checks if a configuration was legal or not
    */
   private boolean isLegalConfiguration(final int radius, int numberOfMoles) {
     if (radius <= 0 || numberOfMoles <= 0) {
+      return false;
+    }
+    if (floors.isEmpty()) {
       return false;
     }
     if (thinkTime.getText() != null && !"".equalsIgnoreCase(thinkTime.getText())) {
@@ -436,10 +464,10 @@ public class CreateGame implements Initializable {
     }
     if (MoleGames.getMoleGames().getServer().isDebug()) {
       System.out.println(
-              "Server: Testing the configuration with a radius of: "
-                      + radius
-                      + " and a mole amount of: "
-                      + numberOfMoles);
+          "Server: Testing the configuration with a radius of: "
+              + radius
+              + " and a mole amount of: "
+              + numberOfMoles);
     }
     var holeDouble = new ArrayList<Hole>();
     var holes = new ArrayList<Hole>();
@@ -481,7 +509,7 @@ public class CreateGame implements Initializable {
         for (var hole : floor.getHoles()) {
           for (var holeCheck : holes) {
             if (hole.getXPosition() == holeCheck.getXPosition()
-                    && hole.getYPosition() == holeCheck.getYPosition()) {
+                && hole.getYPosition() == holeCheck.getYPosition()) {
               return false;
             }
           }
@@ -496,7 +524,7 @@ public class CreateGame implements Initializable {
         prev = hole;
       } else {
         if (hole.getXPosition() == prev.getXPosition()
-                && hole.getYPosition() == prev.getYPosition()) {
+            && hole.getYPosition() == prev.getYPosition()) {
           return false;
         }
       }
@@ -537,6 +565,7 @@ public class CreateGame implements Initializable {
    */
   private void savePrevSettings() {
     molesAmountPrev = molesAmount.getText();
+    deductedPointsPrev = deductedPoints.getText();
     maxPlayersPrev = playerAmount.getText();
     radiusPrev = radius.getText();
     thinkTimePrev = thinkTime.getText();
@@ -546,5 +575,142 @@ public class CreateGame implements Initializable {
       punishmentPrev = movePenalty.getSelectionModel().getSelectedItem().getName();
     } catch (Exception ignored) {
     }
+  }
+
+  /**
+   * @param event
+   * @author Carina
+   * @use adds a number to the draw card values
+   */
+  @FXML
+  void addItemButtonEvent(@NotNull final ActionEvent event) {
+    if (drawCardValue.getText() != null && !"".equalsIgnoreCase(drawCardValue.getText())) {
+      drawCardValuesList.add(Integer.valueOf(drawCardValue.getText()));
+      if (drawCardValues.getText() == null || "".equalsIgnoreCase(drawCardValues.getText())) {
+        drawCardValues.setText(drawCardValue.getText());
+      } else {
+        drawCardValues.setText(drawCardValues.getText() + "\n" + drawCardValue.getText());
+      }
+    }
+    drawCardValue.clear();
+  }
+
+  @FXML
+  void initialize() {
+    assert addItem != null
+        : "fx:id=\"addItem\" was not injected: check your FXML file 'CreateGame.fxml'.";
+    assert back != null
+        : "fx:id=\"back\" was not injected: check your FXML file 'CreateGame.fxml'.";
+    assert configureDrawAgain != null
+        : "fx:id=\"configureDrawAgain\" was not injected: check your FXML file 'CreateGame.fxml'.";
+    assert configureHoles != null
+        : "fx:id=\"configureHoles\" was not injected: check your FXML file 'CreateGame.fxml'.";
+    assert createGame != null
+        : "fx:id=\"createGame\" was not injected: check your FXML file 'CreateGame.fxml'.";
+    assert drawCardValue != null
+        : "fx:id=\"drawCardValue\" was not injected: check your FXML file 'CreateGame.fxml'.";
+    assert drawCardValues != null
+        : "fx:id=\"drawCardValues\" was not injected: check your FXML file 'CreateGame.fxml'.";
+    assert loadConfig != null
+        : "fx:id=\"loadConfig\" was not injected: check your FXML file 'CreateGame.fxml'.";
+    assert molesAmount != null
+        : "fx:id=\"molesAmount\" was not injected: check your FXML file 'CreateGame.fxml'.";
+    assert movePenalty != null
+        : "fx:id=\"movePenalty\" was not injected: check your FXML file 'CreateGame.fxml'.";
+    assert playerAmount != null
+        : "fx:id=\"playerAmount\" was not injected: check your FXML file 'CreateGame.fxml'.";
+    assert pullDiscsOrdered != null
+        : "fx:id=\"pullDiscsOrdered\" was not injected: check your FXML file 'CreateGame.fxml'.";
+    assert radius != null
+        : "fx:id=\"radius\" was not injected: check your FXML file 'CreateGame.fxml'.";
+    assert deductedPoints != null
+        : "fx:id=\"deductedPoints\" was not injected: check your FXML file 'CreateGame.fxml'.";
+    assert removeAll != null
+        : "fx:id=\"removeAll\" was not injected: check your FXML file 'CreateGame.fxml'.";
+    assert thinkTime != null
+        : "fx:id=\"thinkTime\" was not injected: check your FXML file 'CreateGame.fxml'.";
+    assert visualEffects != null
+        : "fx:id=\"visualEffects\" was not injected: check your FXML file 'CreateGame.fxml'.";
+    movePenalty.getItems().addAll(Punishments.values());
+  }
+
+  public static String getMolesAmountPrev() {
+    return molesAmountPrev;
+  }
+
+  public static void setMolesAmountPrev(String molesAmountPrev) {
+    CreateGame.molesAmountPrev = molesAmountPrev;
+  }
+
+  public static ArrayList<Floor> getLevel() {
+    return floors;
+  }
+
+  public static String getMaxPlayersPrev() {
+    return maxPlayersPrev;
+  }
+
+  public static void setMaxPlayersPrev(String maxPlayersPrev) {
+    CreateGame.maxPlayersPrev = maxPlayersPrev;
+  }
+
+  public static String getPunishmentPrev() {
+    return punishmentPrev;
+  }
+
+  public static void setPunishmentPrev(String punishmentPrev) {
+    CreateGame.punishmentPrev = punishmentPrev;
+  }
+
+  public static String getRadiusPrev() {
+    return radiusPrev;
+  }
+
+  public static void setRadiusPrev(String radiusPrev) {
+    CreateGame.radiusPrev = radiusPrev;
+  }
+
+  public static String getThinkTimePrev() {
+    return thinkTimePrev;
+  }
+
+  public static void setThinkTimePrev(String thinkTimePrev) {
+    CreateGame.thinkTimePrev = thinkTimePrev;
+  }
+
+  public static boolean isPullDiscsOrderedPrev() {
+    return pullDiscsOrderedPrev;
+  }
+
+  public static void setPullDiscsOrderedPrev(boolean pullDiscsOrderedPrev) {
+    CreateGame.pullDiscsOrderedPrev = pullDiscsOrderedPrev;
+  }
+
+  public static String getVisualEffectsPrev() {
+    return visualEffectsPrev;
+  }
+
+  public static void setVisualEffectsPrev(String visualEffectsPrev) {
+    CreateGame.visualEffectsPrev = visualEffectsPrev;
+  }
+
+  public static ArrayList<Integer> getDrawCardValuesList() {
+    return drawCardValuesList;
+  }
+
+  public static void setDrawCardValuesList(ArrayList<Integer> drawCardValuesList) {
+    CreateGame.drawCardValuesList = drawCardValuesList;
+  }
+
+  public static CreateGame getCreateGameInstance() {
+    return createGameInstance;
+  }
+
+  public static ArrayList<Floor> getFloors() {
+    return floors;
+  }
+
+  public static void setFloors(ArrayList<Floor> floors) {
+    CreateGame.floors = floors;
   }
 }

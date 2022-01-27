@@ -21,24 +21,24 @@ import javafx.util.Duration;
 
 public class MoleTransition {
 
-  public static PathTransition transitionMole(MoleModel mole, Point2D moveDistance) {
+  public static PathTransition transitionMole(MoleModel mole, Point2D moveDistance, double visTime) {
     Path path = new Path();
     path.getElements().add(new MoveTo(Marker.DEFAULT_SIZE, Marker.DEFAULT_SIZE / 2));
     path.getElements().add(new LineTo(moveDistance.getX() + Marker.DEFAULT_SIZE, moveDistance.getY() + Marker.DEFAULT_SIZE / 2));
     PathTransition pathTransition = new PathTransition();
-    pathTransition.setDuration(Duration.seconds(1));
+    pathTransition.setDuration(Duration.millis(visTime));
     pathTransition.setNode(mole);
     pathTransition.setPath(path);
     pathTransition.play();
     return pathTransition;
   }
 
-  public static void placeMole(MoleModel mole, Node nodeTo) {
+  public static void placeMole(MoleModel mole, Node nodeTo, double visTime) {
     final KeyFrame keyframe1 = new KeyFrame(Duration.seconds(0), e -> {
       nodeTo.highlightNode(true);
       mole.showMarker(true);
     });
-    final KeyFrame keyframe2 = new KeyFrame(Duration.seconds(2), e -> {
+    final KeyFrame keyframe2 = new KeyFrame(Duration.millis(visTime), e -> {
       nodeTo.highlightNode(false);
       mole.showMarker(false);
     });

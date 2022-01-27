@@ -47,17 +47,7 @@ public class LeaderBoard extends Application implements Initializable {
   @FXML
   private TableColumn<PlayerResult, Integer> score;
 
-  /**
-   * @author Carina, Lennart
-   * @use launches the Scene
-   */
-  public void create(@NotNull final Score score) {
-    Client.getClientInstance().getGameState().setScore(score);
-    try {
-      launch();
-    } catch (Exception ignored) {
-    }
-  }
+  private Score gameScore;
 
   @FXML
   public void initialize(URL location, ResourceBundle resources) {
@@ -69,6 +59,10 @@ public class LeaderBoard extends Application implements Initializable {
     createLeaderboard();
   }
 
+  public void create(Score score) {
+    this.gameScore = score;
+  }
+
   /**
    * @author Lennart, Carina
    * @use creates a leaderboard and fills it with the playerScores depending on the placement
@@ -77,15 +71,44 @@ public class LeaderBoard extends Application implements Initializable {
    * @see Player
    */
   void createLeaderboard() {
-    var score = Client.getClientInstance().getGameState().getScore();
     // sort players in list by their points
     // fill sorted players with their placement, name and points into leaderList
     var leaderList = new ArrayList<PlayerResult>();
     var thisPlace = 1;
-    for (var player : score.getPlayers()) {
+    var highestScore = 0;
+    Player highestPlayer = null;
+    ArrayList<Player> players = new ArrayList<>();
+    for (var p : gameScore.getPlayers()) {
+      players.add(p);
+    }
+    var size = players.size();
+    while (leaderList.size() != size) {
+      var firstValue = true;
+      for (var player : players) {
+        var playerScore = 0;
+        if (gameScore.getPoints().get(player.getClientID()) != null) {
+          playerScore = gameScore.getPoints().get(player.getClientID());
+        }
+        if (firstValue) {
+          highestScore = playerScore;
+          highestPlayer = player;
+          firstValue = false;
+        } else {
+          if (highestScore < playerScore) {
+            highestScore = playerScore;
+            highestPlayer = player;
+          }
+        }
+      }
+      var playerName = Integer.toString(highestPlayer.getClientID());
+      if (highestPlayer.getName() != null) {
+        playerName = playerName + "/" + highestPlayer.getName();
+      }
       leaderList.add(
-        new PlayerResult(
-          player.getName(), score.getPoints().get(player.getClientID()), thisPlace));
+              new PlayerResult(playerName, highestScore, thisPlace));
+      players.remove(highestPlayer);
+      highestScore = -1;
+      highestPlayer = null;
       thisPlace++;
     }
     scoreTable.getItems().addAll(leaderList);
@@ -119,7 +142,7 @@ public class LeaderBoard extends Application implements Initializable {
    * @author Lennart, Carina
    */
   @Override
-  public void start(Stage primaryStage) throws Exception {
+  public void start(Stage primaryStage) throws IOException {
     var loader = SceneController.loadFXML("/player/style/LeaderBoard.fxml");
     loader.setController(this);
     var root = (Parent) loader.load();

@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2022
- * File created on 13.01.22, 16:58 by Carina Latest changes made by Carina on 13.01.22, 16:58 All contents of "Settings" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 20.01.22, 22:29 by Carina Latest changes made by Carina on 20.01.22, 22:28 All contents of "Settings" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -26,7 +26,7 @@ import java.util.List;
 public class Settings {
 
   private final ArrayList<Integer> pullDiscs = new ArrayList<>(List.of(1, 2, 3, 4));
-  private final int deductedPoints = 15;
+  private int deductedPoints = 15;
   private final transient GameConfiguration gameConfiguration;
   private final transient Game game;
   private int maxPlayers = 4;
@@ -37,8 +37,8 @@ public class Settings {
   private ArrayList<Map> floors = new ArrayList<>();
 
   private boolean pullDiscsOrdered = true;
-  private long turnTime = 15000;
-  private int visualizationTime = 10000;
+  private int turnTime = 15000;
+  private int visualizationTime = 250;
   private String movePenalty = "NOTHING";
 
   public Settings(@NotNull final Game game) {

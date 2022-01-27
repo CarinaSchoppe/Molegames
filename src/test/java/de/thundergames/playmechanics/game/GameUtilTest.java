@@ -86,19 +86,4 @@ class GameUtilTest {
     game.getMap().getFieldMap().get(List.of(1, 1)).setMole(mole);
     assertTrue(gameUtil.allPlayerMolesInHoles(game.getCurrentPlayer()));
   }
-
-  @Test
-  void nextPlayer() {
-    // TODO: Implement
-  }
-
-  @Test
-  void nextFloor() {
-    // TODO: Implement
-  }
-
-  @Test
-  void givePoints() {
-    // TODO: Implement
-  }
 }

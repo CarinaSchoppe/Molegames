@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2022
- * File created on 17.01.22, 22:42 by Carina Latest changes made by Carina on 17.01.22, 22:39 All contents of "Game" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 20.01.22, 22:29 by Carina Latest changes made by Carina on 20.01.22, 22:25 All contents of "Game" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -23,6 +23,7 @@ import de.thundergames.playmechanics.util.Settings;
 import lombok.Getter;
 import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
+
 import java.time.Instant;
 import java.util.*;
 
@@ -108,11 +109,11 @@ public class Game {
     gameState.setVisualizationTime(settings.getVisualizationTime());
     gameState.setScore(getScore());
     map =
-      new Map(
-        this,
-        gameState.getFloor().getHoles(),
-        gameState.getFloor().getDrawAgainFields(),
-        gameState.getFloor().getPoints());
+        new Map(
+            this,
+            gameState.getFloor().getHoles(),
+            gameState.getFloor().getDrawAgainFields(),
+            gameState.getFloor().getPoints());
     map.build(this);
     map.changeFieldParams(gameState);
   }
@@ -157,13 +158,25 @@ public class Game {
       if (MoleGames.getMoleGames().getServer().isDebug()) {
         System.out.println("Starting a game with the gameID: " + getGameID());
       }
-      gameUtil.nextPlayer();
+      MoleGames.getMoleGames()
+          .getServer()
+          .sendToAllGameClients(
+              this,
+              MoleGames.getMoleGames()
+                  .getServer()
+                  .getPacketHandler()
+                  .gameStartedPacket(this.gameState));
+      try {
+        gameUtil.nextPlayer();
+      } catch (InterruptedException e) {
+        e.printStackTrace();
+      }
       if (MoleGames.getMoleGames().getServer().isDebug()) {
         System.out.println(
-          "Current player is: "
-            + currentPlayer.getServerClient().getThreadID()
-            + " name: "
-            + currentPlayer.getName());
+            "Current player is: "
+                + currentPlayer.getServerClient().getThreadID()
+                + " name: "
+                + currentPlayer.getName());
       }
       MoleGames.getMoleGames()
         .getServer()
@@ -220,10 +233,16 @@ public class Game {
         currentGameState = GameStates.OVER;
         MoleGames.getMoleGames().getServer().getPacketHandler().gameOverPacket(this);
         for (var player : new HashSet<>(players)) {
-          MoleGames.getMoleGames().getServer().getPacketHandler().removeFromGames((ServerThread) player.getServerClient());
+          MoleGames.getMoleGames()
+              .getServer()
+              .getPacketHandler()
+              .removeFromGames((ServerThread) player.getServerClient());
         }
         for (var player : new HashSet<>(spectators)) {
-          MoleGames.getMoleGames().getServer().getPacketHandler().removeFromGames((ServerThread) player.getServerClient());
+          MoleGames.getMoleGames()
+              .getServer()
+              .getPacketHandler()
+              .removeFromGames((ServerThread) player.getServerClient());
         }
         updateGameState();
         for (var observer : MoleGames.getMoleGames().getServer().getObserver()) {
@@ -280,19 +299,23 @@ public class Game {
         MoleGames.getMoleGames().getServer().getPacketHandler().overviewPacket(observer);
       }
       if (!activePlayers.isEmpty()) {
-        gameUtil.nextPlayer();
+        try {
+          gameUtil.nextPlayer();
+        } catch (InterruptedException e) {
+          e.printStackTrace();
+        }
       }
     }
     //Games.getGamesInstance().updateTable();
   }
 
   /**
-   * @param client    the playerServerThread that joins the game
+   * @param client the playerServerThread that joins the game
    * @param spectator if it's a spectator or player that has joined
    * @author Carina
    */
   public void joinGame(@NotNull final ServerThread client, final boolean spectator)
-    throws NotAllowedError {
+      throws NotAllowedError {
     var player = new Player(client).create(this);
     client.setPlayer(player);
     if (getCurrentGameState().equals(GameStates.NOT_STARTED) && !spectator) {
@@ -305,9 +328,9 @@ public class Game {
         score.getPlayers().add(player);
       }
       MoleGames.getMoleGames()
-        .getGameHandler()
-        .getClientGames()
-        .put((ServerThread) player.getServerClient(), this);
+          .getGameHandler()
+          .getClientGames()
+          .put((ServerThread) player.getServerClient(), this);
       updateGameState();
       setCurrentPlayerCount(players.size());
       if (Games.getGamesInstance() != null) {

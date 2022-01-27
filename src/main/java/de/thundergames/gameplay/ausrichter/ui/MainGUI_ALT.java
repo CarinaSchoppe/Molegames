@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2022
- * File created on 12.01.22, 11:58 by Carina Latest changes made by Carina on 12.01.22, 11:57 All contents of "MainGUI_ALT" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 20.01.22, 18:19 by Carina Latest changes made by Carina on 20.01.22, 18:08 All contents of "MainGUI" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -38,13 +38,14 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 /**
- * @author Carina, Jana, Eva
+ * @author Carina
  * @use the main gui of the "ausrichter"
+ * @use handling everything that is related to the game
  */
 @Getter
-public class MainGUI_ALT extends Application implements Initializable {
+public class MainGUI extends Application implements Initializable {
 
-  private static MainGUI_ALT GUI;
+  private static MainGUI GUI;
   @FXML
   private ResourceBundle resources;
   @FXML
@@ -87,8 +88,25 @@ public class MainGUI_ALT extends Application implements Initializable {
     MoleGames.getMoleGames().getAusrichterClient().testGame(0);
   }
 
-  public static MainGUI_ALT getGUI() {
+  public static MainGUI getGUI() {
     return GUI;
+  }
+
+  static void creatingGameData(ActionEvent event) throws Exception {
+    if (CreateGame.getCreateGameInstance() != null) {
+      CreateGame.setPunishmentPrev(null);
+      CreateGame.setVisualEffectsPrev(null);
+      CreateGame.setThinkTimePrev(null);
+      CreateGame.getFloors().clear();
+      CreateGame.setPullDiscsOrderedPrev(false);
+      CreateGame.setRadiusPrev(null);
+      CreateGame.setDeductedPointsPrev(null);
+      CreateGame.setMaxPlayersPrev(null);
+      CreateGame.setMolesAmountPrev(null);
+      CreateGame.getDrawCardValuesList().clear();
+    }
+    var primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+    new CreateGame().start(primaryStage);
   }
 
   @FXML
@@ -204,19 +222,7 @@ public class MainGUI_ALT extends Application implements Initializable {
 
   @FXML
   void onCreateGame(ActionEvent event) throws Exception {
-    if (CreateGame.getCreateGameInstance() != null) {
-      CreateGame.setPunishmentPrev(null);
-      CreateGame.setVisualEffectsPrev(null);
-      CreateGame.setThinkTimePrev(null);
-      CreateGame.getFloors().clear();
-      CreateGame.setPullDiscsOrderedPrev(false);
-      CreateGame.setRadiusPrev(null);
-      CreateGame.getDrawCardValuesList().clear();
-      CreateGame.setMaxPlayersPrev(null);
-      CreateGame.setMolesAmountPrev(null);
-    }
-    var primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-    new CreateGame().start(primaryStage, "Modus");
+    creatingGameData(event);
   }
 
   /**
@@ -227,7 +233,7 @@ public class MainGUI_ALT extends Application implements Initializable {
   @FXML
   void onCreateTournament(ActionEvent event) throws Exception {
     var primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-    new TournamentEditor_ALT().start(primaryStage);
+    new TournamentEditor().start(primaryStage);
   }
 
   @FXML
@@ -239,16 +245,16 @@ public class MainGUI_ALT extends Application implements Initializable {
       var primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
       tournamentTable.getSelectionModel().clearSelection();
       gameTable.getSelectionModel().clearSelection();
-      //new PlayerManagement(game).start(primaryStage);
+      new PlayerManagement(game).start(primaryStage);
     } else {
       Dialog.show("Du musst ein Spiel auswählen!", "Fehler", Dialog.DialogType.ERROR);
     }
   }
 
   @FXML
-  void onEditTournament(ActionEvent event) throws Exception {
-    var primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-    new AddGame_ALT().start(primaryStage);
+  void onEditTournament(ActionEvent event) {
+    // TODO: create and start mechanics on editing a tournament to add and remove players
+    Dialog.show("Noch nicht eingebaut!", "Fehler!", Dialog.DialogType.ERROR);
   }
 
   public void updateTable() {

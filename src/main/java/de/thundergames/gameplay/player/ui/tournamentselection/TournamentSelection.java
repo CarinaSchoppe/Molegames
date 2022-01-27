@@ -10,14 +10,17 @@
 
 package de.thundergames.gameplay.player.ui.tournamentselection;
 
-import de.thundergames.MoleGames;
+import de.thundergames.filehandling.Score;
 import de.thundergames.gameplay.player.Client;
+import de.thundergames.gameplay.player.board.GameBoard;
 import de.thundergames.gameplay.player.ui.PlayerMenu;
+import de.thundergames.gameplay.player.ui.score.LeaderBoard;
 import de.thundergames.gameplay.util.SceneController;
-import de.thundergames.playmechanics.game.GameState;
 import de.thundergames.playmechanics.game.GameStates;
 import de.thundergames.playmechanics.tournament.Tournament;
+import de.thundergames.playmechanics.tournament.TournamentStatus;
 import de.thundergames.playmechanics.util.Dialog;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -82,9 +85,16 @@ public class TournamentSelection implements Initializable {
           ex.printStackTrace();
         }
       });
-    // set event for spectate game
+    // set event for spectate game of tournament
     var btnSpectateGame = (Button) (primaryStage.getScene().lookup("#spectateGame"));
-    btnSpectateGame.setOnAction(this::spectateGame);
+    btnSpectateGame.setOnAction(
+      e -> {
+        try {
+          spectateGame(e);
+        } catch (IOException ex) {
+          ex.printStackTrace();
+        }
+      });
     // endregion
   }
 
@@ -101,7 +111,7 @@ public class TournamentSelection implements Initializable {
     // show username at scene
     PlayerName.setText("Spieler: " + CLIENT.name);
     // set value for each row
-    tournamentID.setCellValueFactory(new PropertyValueFactory<>("HashtagWithTournamentID"));
+    tournamentID.setCellValueFactory(new PropertyValueFactory<>("TournamentID"));
     playerCount.setCellValueFactory(new PropertyValueFactory<>("playerCount"));
     // load data for tableview
     updateTable();
@@ -114,6 +124,7 @@ public class TournamentSelection implements Initializable {
     // clear tableview and get tournaments from server and add all to table view
     gameTable.getItems().clear();
     gameTable.getItems().addAll(CLIENT.getTournaments());
+    gameTable.getSortOrder().add(tournamentID);
   }
 
   /**
@@ -144,27 +155,25 @@ public class TournamentSelection implements Initializable {
    * @param event event from the current scene to build next scene on same object
    */
   @FXML
-  public void spectateGame(ActionEvent event) {
+  public void spectateGame(ActionEvent event) throws IOException {
     var selectedItem = gameTable.getSelectionModel().getSelectedItem();
     // If no item of tableview is selected.
     if (selectedItem == null) {
       Dialog.show("Es wurde kein Turnier ausgewaehlt!", "Turnier beobachten!", Dialog.DialogType.ERROR);
       return;
     }
-    // Send Packet to spectate tournament to get GameState
-    CLIENT.getClientPacketHandler().enterTournamentPacket(selectedItem.getTournamentID(), false);
-    var currentGameState = CLIENT.getGameState();
-    if (MoleGames.getMoleGames().getServer().isDebug()) {
-      if (currentGameState == null) {
-        return;
+    else {
+      if (Objects.equals(selectedItem.getStatus(), TournamentStatus.OVER.toString())) {
+        loadScoreboard(selectedItem.getScore());
+      } else {
+        // Send Packet to join game to get GameState
+        CLIENT.getClientPacketHandler().enterTournamentPacket(selectedItem.getTournamentID(), false);
+        if (Objects.equals(selectedItem.getStatus(), TournamentStatus.NOT_STARTED.toString())) {
+          var lobby = new LobbyObserverTournament();
+          lobby.create(primaryStage);
+          lobby.setSelectedTournamentID(selectedItem.getTournamentID());
+        }
       }
-    }
-    if (Objects.equals(currentGameState.getStatus(), GameStates.STARTED.toString())
-      || Objects.equals(currentGameState.getStatus(), GameStates.PAUSED.toString())) {
-      spectateGame(currentGameState);
-    } else if (Objects.equals(currentGameState.getStatus(), GameStates.NOT_STARTED.toString())) {//TODO: hier bitte mal füllen!
-    } else if (Objects.equals(currentGameState.getStatus(), GameStates.OVER.toString())) {
-      loadScoreboard();
     }
   }
 
@@ -172,18 +181,27 @@ public class TournamentSelection implements Initializable {
    * @author Marc
    * @use Load scene of scoreboard
    */
-  private void loadScoreboard() {
-    CLIENT.getClientPacketHandler().getScorePacket();
-    // TODO: Get TournamentState and open scene of ScoreBoard
-    // var gameScore = client.getTournamentState().getTournamentScore();
+  public void loadScoreboard(Score score) throws IOException {
+    LeaderBoard leaderBoard = new LeaderBoard();
+    leaderBoard.create(score);
+    leaderBoard.start(primaryStage);
   }
 
   /**
    * @author Marc
    * @use Load scene of game
    */
-  private void spectateGame(GameState gameState) {
-    primaryStage.close();
-    // Todo:Open scene of Game
+  public void spectateGame() {
+    Platform.runLater(() -> {
+      var status = CLIENT.getGameState().getStatus();
+      if (Objects.equals(status, GameStates.STARTED.toString())
+        || Objects.equals(status, GameStates.PAUSED.toString()))
+      {
+        var selectedItem = gameTable.getSelectionModel().getSelectedItem();
+        GameBoard board = new GameBoard();
+        board.create(primaryStage,true);
+        board.setTournamentId(selectedItem.getTournamentID());
+      }
+    });
   }
 }

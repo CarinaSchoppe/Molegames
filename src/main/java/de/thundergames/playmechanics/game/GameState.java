@@ -26,7 +26,7 @@ public class GameState {
 
   private HashSet<Player> activePlayers = new HashSet<>();
   private Player currentPlayer;
-  private int remainingTime;
+  private int remainingTime = -1;
   private HashSet<Mole> placedMoles = new HashSet<>();
   private int moles;
   private int radius;
@@ -39,7 +39,7 @@ public class GameState {
 
   private boolean pullDiscsOrdered;
   private HashMap<Integer, ArrayList<Integer>> pullDiscs = new HashMap<>();
-  private long visualizationTime = 10000;
+  private long visualizationTime;
   private String status;
   private Score score;
 }

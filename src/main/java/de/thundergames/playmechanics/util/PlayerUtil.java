@@ -1,7 +1,7 @@
 /*
  * Copyright Notice for SwtPra10
  * Copyright (c) at ThunderGames | SwtPra10 2022
- * File created on 13.01.22, 16:58 by Carina Latest changes made by Carina on 13.01.22, 16:58 All contents of "PlayerUtil" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * File created on 20.01.22, 22:29 by Carina Latest changes made by Carina on 20.01.22, 22:26 All contents of "PlayerUtil" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
  * at ThunderGames | SwtPra10. All rights reserved
  * Any type of duplication, distribution, rental, sale, award,
  * Public accessibility or other use
@@ -39,6 +39,7 @@ public class PlayerUtil {
    */
   public synchronized void startThinkTimer() {
     player.setStartRemainingTime(System.currentTimeMillis());
+    player.getGame().getGameState().setRemainingTime(player.getGame().getSettings().getTurnTime());
     player.setTimerIsRunning(true);
     player.getTimer().cancel();
     player.setTimer(new Timer());
@@ -62,7 +63,11 @@ public class PlayerUtil {
                     .getGameLogic()
                     .performPunishment(player, Punishments.NOMOVE);
                   player.setTimerIsRunning(false);
-                  player.getGame().getGameUtil().nextPlayer();
+                  try {
+                    player.getGame().getGameUtil().nextPlayer();
+                  } catch (InterruptedException e) {
+                    e.printStackTrace();
+                  }
                   player.getTimer().cancel();
                 }
               }
@@ -77,7 +82,11 @@ public class PlayerUtil {
   public void handleTurnAfterAction() {
     if (player.isTimerIsRunning()) {
       player.getTimer().cancel();
-      player.getGame().getGameUtil().nextPlayer();
+      try {
+        player.getGame().getGameUtil().nextPlayer();
+      } catch (InterruptedException e) {
+        e.printStackTrace();
+      }
     }
   }
 }
