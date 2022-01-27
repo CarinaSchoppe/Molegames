@@ -128,6 +128,7 @@ public class LobbyObserverGame implements Initializable {
   @FXML
   void onBackClick(ActionEvent event) throws IOException {
     CLIENT.getClientPacketHandler().leaveGamePacket();
+    CLIENT.getClientPacketHandler().registerOverviewObserverPacket();
     new GameSelection().create(event);
   }
 
@@ -165,8 +166,12 @@ public class LobbyObserverGame implements Initializable {
    * @use Refreshes the table view, if the number of players in the room changes
    */
   public void updateNumberOfPlayers() {
-    settingsData.get(0).setValue(getNumberOfPlayers());
-    settingsTable.refresh();
+    if (settingsData != null) {
+      if (settingsData.size() > 0) {
+        settingsData.get(0).setValue(getNumberOfPlayers());
+        settingsTable.refresh();
+      }
+    }
   }
 
   /**
