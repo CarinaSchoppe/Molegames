@@ -230,7 +230,7 @@ public class GameSelection implements Initializable {
       }
       else if (Objects.equals(status, GameStates.STARTED.toString())
               || Objects.equals(status, GameStates.PAUSED.toString())) {
-        new GameBoard().create(primaryStage);
+        new GameBoard().create(primaryStage, false);
       }
     });
   }
