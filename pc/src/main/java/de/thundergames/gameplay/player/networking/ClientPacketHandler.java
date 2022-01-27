@@ -1140,6 +1140,8 @@ public class ClientPacketHandler {
   private void spectatorJoin() {
     var gameSelection = GameSelection.getGameSelection();
     if (gameSelection != null) gameSelection.spectateGame();
+    var tournamentSelection = TournamentSelection.getTournamentSelection();
+    if (tournamentSelection != null) tournamentSelection.spectateGame();
   }
 
   /**
@@ -1147,26 +1149,10 @@ public class ClientPacketHandler {
    * @use joins an assigned game
    */
   private void joinAssignedGame() {
-    var gameSelection = GameSelection.getGameSelection();
-    if (gameSelection != null) {
-      gameSelection.joinAssignedGame();
-    }
-    else {
       var playerMenu = PlayerMenu.getPlayerMenu();
       if (playerMenu != null) {
         playerMenu.joinAssignedGame();
       }
-    }
-
-  }
-
-  /**
-   * @author Marc, Issam, Philipp
-   * @use joins the spectator to the server, creating the GUI
-   */
-  private void spectatorJoinTournament() {
-    var tournamentSelection = TournamentSelection.getTournamentSelection();
-    if (tournamentSelection != null) tournamentSelection.spectateGame();
   }
 
   /**

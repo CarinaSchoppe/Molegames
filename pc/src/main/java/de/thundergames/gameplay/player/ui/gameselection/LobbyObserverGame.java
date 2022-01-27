@@ -128,6 +128,7 @@ public class LobbyObserverGame implements Initializable {
     CLIENT.getClientPacketHandler().leaveGamePacket();
     CLIENT.getClientPacketHandler().registerOverviewObserverPacket();
     new GameSelection().create(event);
+    OBSERVER = null;
   }
 
   /**

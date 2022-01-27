@@ -98,6 +98,7 @@ public class LobbyObserverTournament implements Initializable {
   void onBackClick(ActionEvent event) throws IOException {
     CLIENT.getClientPacketHandler().leaveTournament(selectedTournamentID);
     new TournamentSelection().create(event);
+    OBSERVER=null;
   }
 
   /**
@@ -109,22 +110,6 @@ public class LobbyObserverTournament implements Initializable {
     CLIENT.getClientPacketHandler().logoutPacket();
     CLIENT.getClientPacketHandler().leaveTournament(selectedTournamentID);
     stage.close();
-  }
-
-  /**
-   * @author Nick
-   * @use Changes the opacity of a text field with the content "Ein weiterer Spieler ist
-   * beigetreten" thus making it visible for 3 seconds when another player has joined
-   * respectively when the client has received playerJoined packet.
-   */
-  public void showNewPlayer() {
-    PlayerJoined.setOpacity(1.0);
-    try {
-      Thread.sleep(3000);
-    } catch (InterruptedException e) {
-      e.printStackTrace();
-    }
-    PlayerJoined.setOpacity(0.0);
   }
 
   /**

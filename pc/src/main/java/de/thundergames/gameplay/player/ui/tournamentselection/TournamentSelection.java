@@ -136,6 +136,7 @@ public class TournamentSelection implements Initializable {
   @FXML
   void backToMenu(ActionEvent event) throws IOException {
     new PlayerMenu().create(event);
+    TOURNAMENT_SELECTION = null;
   }
 
   /**

@@ -96,6 +96,7 @@ public class PlayerMenu implements Initializable {
     primaryStage.setResizable(false);
     primaryStage.setScene(new Scene(root));
     primaryStage.show();
+    PLAYER_MENU = null;
   }
 
   /**
@@ -106,6 +107,7 @@ public class PlayerMenu implements Initializable {
    */
   @FXML
   public void onGameClick(ActionEvent event) throws IOException {
+    PLAYER_MENU = null;
     new GameSelection().create(event);
   }
 
@@ -127,6 +129,7 @@ public class PlayerMenu implements Initializable {
    */
   @FXML
   public void onTournamentClick(ActionEvent event) throws IOException {
+    PLAYER_MENU = null;
     CLIENT.getClientPacketHandler().getOverviewPacket();
     new TournamentSelection().create(event);
   }

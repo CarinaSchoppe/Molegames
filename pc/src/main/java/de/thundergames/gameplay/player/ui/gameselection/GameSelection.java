@@ -153,6 +153,7 @@ public class GameSelection implements Initializable {
   @FXML
   void backToMenu(ActionEvent event) throws IOException {
     new PlayerMenu().create(event);
+    GAME_SELECTION = null;
   }
 
   /**
@@ -211,29 +212,4 @@ public class GameSelection implements Initializable {
       }
     });
   }
-
-  /**
-   * @author Philipp
-   * Join an assigned game
-   */
-  public void joinAssignedGame(){
-    Platform.runLater(() -> {
-      CLIENT.getClientPacketHandler().unregisterOverviewObserverPacket();
-      CLIENT.getClientPacketHandler().joinGamePacket(CLIENT.getGameID(), false);
-      var status = CLIENT.getGameState().getStatus();
-      if (Objects.equals(status, GameStates.NOT_STARTED.toString())) {
-        try {
-          new LobbyObserverGame().create(primaryStage, CLIENT.getGameID());
-        } catch (IOException e) {
-          e.printStackTrace();
-        }
-      }
-      else if (Objects.equals(status, GameStates.STARTED.toString())
-              || Objects.equals(status, GameStates.PAUSED.toString())) {
-        new GameBoard().create(primaryStage, false);
-      }
-    });
-  }
-
-
 }
