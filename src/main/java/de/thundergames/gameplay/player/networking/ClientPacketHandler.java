@@ -827,6 +827,7 @@ public class ClientPacketHandler {
       System.out.println("Client: left the game!");
     }
     updateTableView();
+    client.setGameState(null);
   }
 
   /**
@@ -993,15 +994,6 @@ public class ClientPacketHandler {
     // Update tableview of TournamentSelection
     var tournamentSelection = TournamentSelection.getTournamentSelection();
     if (tournamentSelection != null) tournamentSelection.updateTable();
-  }
-
-  /**
-   * @author Nick
-   * @use show player joined message at game lobby
-   */
-  private void showPlayerJoinedGameLobby() {
-    var lobbyObserverGame = LobbyObserverGame.getObserver();
-    if (lobbyObserverGame != null) lobbyObserverGame.showJoiningSuccessfully();
   }
 
   /**
