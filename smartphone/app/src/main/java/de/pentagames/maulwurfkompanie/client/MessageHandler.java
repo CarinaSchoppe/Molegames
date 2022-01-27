@@ -682,9 +682,8 @@ public class MessageHandler {
    * @param participant are you joining as an active Player?
    */
   public void joinGame(@NotNull final Game game, final boolean participant) {
-    Client.sendMessage(new UnregisterOverviewObserver());
+    Client.sendMessages(new UnregisterOverviewObserver(),new JoinGame(game.gameID,    participant));
     this.overview = null;
-    Client.sendMessage(new JoinGame(game.gameID, participant));
     this.game = game;
   }
 
