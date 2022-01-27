@@ -75,6 +75,7 @@ public class GameBoard {
 
   private TableView<PlayerTable> playerListTable;
   private HashMap<Integer, ArrayList<Integer>> pullDiscs;
+  private HashMap<Integer, ArrayList<Integer>> pullDiscsDefault;
   private Score score;
 
   private HashSet<Player> players;
@@ -313,6 +314,9 @@ public class GameBoard {
       Type type = new TypeToken<HashMap<Integer, ArrayList<Integer>>>() {
       }.getType();
       pullDiscs = gson.fromJson(jsonString, type);
+      if (pullDiscsDefault == null) {
+        pullDiscsDefault = gson.fromJson(jsonString, type);
+      }
       var thisPlace = 1;
       var players = score.getPlayers();
       var size = score.getPlayers().size();
@@ -364,7 +368,7 @@ public class GameBoard {
       if (playerTable.getName().equals(player.getClientID() + "/" + player.getName())) {
         pullDiscs.get(player.getClientID()).remove(pullDisc);
         if (pullDiscs.get(player.getClientID()).size() == 0) {
-          pullDiscs.get(player.getClientID()).addAll(CLIENT.getGameState().getPullDiscs().get(player.getClientID()));
+          pullDiscs.get(player.getClientID()).addAll(pullDiscsDefault.get(player.getClientID()));
         }
         playerTable.setPullDiscs(pullDiscs.get(player.getClientID()).toString());
         break;
