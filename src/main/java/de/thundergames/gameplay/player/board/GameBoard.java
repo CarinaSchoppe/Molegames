@@ -17,9 +17,11 @@ import de.thundergames.gameplay.player.Client;
 import de.thundergames.gameplay.player.ui.PlayerMenu;
 import de.thundergames.gameplay.player.ui.score.LeaderBoard;
 import de.thundergames.gameplay.player.ui.score.PlayerResult;
+import de.thundergames.gameplay.player.ui.tournamentselection.LobbyObserverTournament;
 import de.thundergames.playmechanics.game.GameState;
 import de.thundergames.playmechanics.game.GameStates;
 import de.thundergames.playmechanics.map.Field;
+import de.thundergames.playmechanics.tournament.TournamentState;
 import de.thundergames.playmechanics.util.Mole;
 import de.thundergames.playmechanics.util.Player;
 import de.thundergames.playmechanics.util.Punishments;
@@ -84,6 +86,9 @@ public class GameBoard {
 
   private boolean initialized = false;
 
+  private boolean isTournamentGame;
+  private int tournamentId;
+
   public static GameBoard getObserver() {
     return OBSERVER;
   }
@@ -93,8 +98,9 @@ public class GameBoard {
    * @author Alp, Dila, Issam
    * @use starts the stage
    */
-  public void create(Stage primaryStage) {
+  public void create(Stage primaryStage,boolean isTournamentGame) {
     OBSERVER = this;
+    this.isTournamentGame = isTournamentGame;
     CLIENT = Client.getClientInstance();
     this.primaryStage = primaryStage;
     borderPane = new BorderPane();
@@ -498,8 +504,34 @@ public class GameBoard {
 
   public void gameOver(Score score) {
     Platform.runLater(() -> {
+      if (isTournamentGame) {
+        try {
+          new LobbyObserverTournament().create(primaryStage);
+        } catch (IOException e) {
+          e.printStackTrace();
+        }
+      }
+
       LeaderBoard leaderBoard = new LeaderBoard();
       leaderBoard.create(score);
+      try {
+        leaderBoard.start(primaryStage);
+      } catch (Exception e) {
+        System.out.println(e);
+      }
+    });
+  }
+
+  public void tournamentOver() {
+    Platform.runLater(() -> {
+    CLIENT.getClientPacketHandler().getTournamentScorePacket(this.tournamentId);
+    });
+  }
+
+  public void showTournamentScore() {
+    Platform.runLater(() -> {
+      LeaderBoard leaderBoard = new LeaderBoard();
+      leaderBoard.create(CLIENT.getTournamentState().getScore());
       try {
         leaderBoard.start(primaryStage);
       } catch (Exception e) {

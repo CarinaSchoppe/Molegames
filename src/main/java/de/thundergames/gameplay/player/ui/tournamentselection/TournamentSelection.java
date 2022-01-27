@@ -169,7 +169,9 @@ public class TournamentSelection implements Initializable {
         // Send Packet to join game to get GameState
         CLIENT.getClientPacketHandler().enterTournamentPacket(selectedItem.getTournamentID(), false);
         if (Objects.equals(selectedItem.getStatus(), TournamentStatus.NOT_STARTED.toString())) {
-          new LobbyObserverTournament().create(primaryStage, selectedItem.getTournamentID());
+          var lobby = new LobbyObserverTournament();
+          lobby.create(primaryStage);
+          lobby.setSelectedTournamentID(selectedItem.getTournamentID());
         }
       }
     }
@@ -193,8 +195,12 @@ public class TournamentSelection implements Initializable {
     Platform.runLater(() -> {
       var status = CLIENT.getGameState().getStatus();
       if (Objects.equals(status, GameStates.STARTED.toString())
-        || Objects.equals(status, GameStates.PAUSED.toString())) {
-        new GameBoard().create(primaryStage);
+        || Objects.equals(status, GameStates.PAUSED.toString()))
+      {
+        var selectedItem = gameTable.getSelectionModel().getSelectedItem();
+        GameBoard board = new GameBoard();
+        board.create(primaryStage,true);
+        board.setTournamentId(selectedItem.getTournamentID());
       }
     });
   }

@@ -29,6 +29,7 @@ import de.thundergames.playmechanics.game.GameState;
 import de.thundergames.playmechanics.map.Field;
 import de.thundergames.playmechanics.map.Map;
 import de.thundergames.playmechanics.tournament.Tournament;
+import de.thundergames.playmechanics.tournament.TournamentState;
 import de.thundergames.playmechanics.util.Mole;
 import de.thundergames.playmechanics.util.Player;
 import lombok.Data;
@@ -115,14 +116,18 @@ public class ClientPacketHandler {
     } else if (packet
       .getPacketType()
       .equalsIgnoreCase(Packets.TOURNAMENTSTATERESPONSE.getPacketType())) {
-      handleTournamentStateResponePacket();
+      handleTournamentStateResponsePacket();
+    } else if (packet
+      .getPacketType()
+      .equalsIgnoreCase(Packets.TOURNAMENTSTARTED.getPacketType())) {
+      handleTournamentStartedPacket();
     } else if (packet
       .getPacketType()
       .equalsIgnoreCase(Packets.TOURNAMENTPLAYERJOINED.getPacketType())) {
       handleTournamentPlayerJoinedPacket();
     } else if (packet
       .getPacketType()
-      .equalsIgnoreCase(Packets.TOURNAMENTPLAYERJOINED.getPacketType())) {
+      .equalsIgnoreCase(Packets.TOURNAMENTPLAYERLEFT.getPacketType())) {
       handleTournamentPlayerLeftPacket();
     } else if (packet
       .getPacketType()
@@ -136,6 +141,10 @@ public class ClientPacketHandler {
       .getPacketType()
       .equalsIgnoreCase(Packets.TOURNAMENTGAMESOVERVIEW.getPacketType())) {
       handleTournamentGamesOverviewPacket();
+    } else if (packet
+      .getPacketType()
+      .equalsIgnoreCase(Packets.TOURNAMENTPLAYERINLOBBY.getPacketType())) {
+      handleTournamentPlayerInLobbyPacket();
     } else if (packet.getPacketType().equalsIgnoreCase(Packets.TOURNAMENTOVER.getPacketType())) {
       handleTournamentOverPacket();
     } else {
@@ -151,6 +160,36 @@ public class ClientPacketHandler {
         System.out.println("Packet not found: " + packet.getPacketType());
       }
     }
+  }
+
+  /**
+   * @author Marc
+   * @use send to service to get tournament score
+   */
+  public void getTournamentScorePacket(int tournamentID) {
+    var object = new JsonObject();
+    var json = new JsonObject();
+    object.addProperty("type", Packets.TOURNAMENTSCORE.getPacketType());
+    json.addProperty("tournamentID", tournamentID);
+    object.add("value", json);
+    client.getClientThread().sendPacket(new Packet(object));
+    showTournamentScore();
+  }
+
+  /**
+   * @author Marc
+   * @use called on tournament start
+   */
+  private void handleTournamentStartedPacket() {
+    client.setTournamentState(new Gson().fromJson(packet.getValues().get("tournamentState"), TournamentState.class));
+  }
+
+  /**
+   * @author Marc
+   * @use called if player is back at tournament lobby
+   */
+  private void handleTournamentPlayerInLobbyPacket() {
+    var player = new Gson().fromJson(packet.getValues().get("player"), Player.class);
   }
 
   /**
@@ -170,6 +209,10 @@ public class ClientPacketHandler {
    */
   protected void handleTournamentOverPacket() {
     updateTableView();
+    var observerGameBoard = GameBoard.getObserver();
+    if (observerGameBoard != null) {
+      observerGameBoard.tournamentOver();
+    }
   }
 
   /**
@@ -177,6 +220,9 @@ public class ClientPacketHandler {
    * @use handles the leftment of a player from the tournament
    */
   protected void handleTournamentPlayerLeftPacket() {
+    var player = new Gson().fromJson(packet.getValues().get("player"), Player.class);
+    var lobbyObserverTournament = LobbyObserverTournament.getObserver();
+    if (lobbyObserverTournament != null) lobbyObserverTournament.showPlayerLeave(player);
     updateTableView();
   }
 
@@ -208,7 +254,10 @@ public class ClientPacketHandler {
    * @use handles the kick of a player from the tournament
    */
   protected void handleTournamentPlayerKickedPacket() {
+    var player = new Gson().fromJson(packet.getValues().get("player"), Player.class);
     updateTableView();
+    var lobbyObserverTournament = LobbyObserverTournament.getObserver();
+    if (lobbyObserverTournament != null) lobbyObserverTournament.showPlayerKicked(player);
   }
 
   /**
@@ -223,6 +272,8 @@ public class ClientPacketHandler {
     object.add("value", json);
     client.getClientThread().sendPacket(new Packet(object));
     updateTableView();
+
+
   }
 
   /**
@@ -230,9 +281,10 @@ public class ClientPacketHandler {
    * @use handles the joining of a player into the tournament
    */
   protected void handleTournamentPlayerJoinedPacket() {
+    var player = new Gson().fromJson(packet.getValues().get("player"), Player.class);
     updateTableView();
     var lobbyObserverTournament = LobbyObserverTournament.getObserver();
-    if (lobbyObserverTournament != null) lobbyObserverTournament.showJoiningSuccessfully();
+    if (lobbyObserverTournament != null) lobbyObserverTournament.showPLayerJoin(player);
   }
 
   /**
@@ -324,6 +376,7 @@ public class ClientPacketHandler {
    * @use handles the tournament score send by the server
    */
   protected void handleTournamentScorePacket() {
+    var score = new Gson().fromJson(packet.getValues().get("result"), Score.class);
   }
 
   /**
@@ -404,8 +457,8 @@ public class ClientPacketHandler {
    * @author Carina
    * @use handles the response after joining a tournament
    */
-  protected void handleTournamentStateResponePacket() {
-    // TODO: hier response einfügen
+  protected void handleTournamentStateResponsePacket() {
+    client.setTournamentState(new Gson().fromJson(packet.getValues().get("tournamentState"), TournamentState.class));
   }
 
   /**
@@ -1125,5 +1178,15 @@ public class ClientPacketHandler {
     if (observerGameBoard != null) {
       if (observerGameBoard.isInitialized()) observerGameBoard.stopRemainingTime();
     }
+  }
+
+  /**
+   * @author Marc
+   * @use show tournament score
+   */
+  private void showTournamentScore() {
+    var observerGameBoard = GameBoard.getObserver();
+    if (observerGameBoard != null) observerGameBoard.showTournamentScore();
+
   }
 }
