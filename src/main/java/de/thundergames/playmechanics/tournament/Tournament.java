@@ -12,7 +12,6 @@ package de.thundergames.playmechanics.tournament;
 
 import de.thundergames.MoleGames;
 import de.thundergames.filehandling.Score;
-import de.thundergames.gameplay.ausrichter.ui.MainGUI_ALT;
 import de.thundergames.networking.server.ServerThread;
 import de.thundergames.playmechanics.game.Game;
 import lombok.Getter;
@@ -49,7 +48,7 @@ public class Tournament {
     MoleGames.getMoleGames().getGameHandler().getClientTournaments().put(client, this);
     updateTournamentState();
     playerCount++;
-    MainGUI_ALT.getGUI().updateTable();
+
   }
 
   /**

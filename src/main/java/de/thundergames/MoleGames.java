@@ -12,7 +12,6 @@ package de.thundergames;
 import de.thundergames.gameplay.ai.AI;
 import de.thundergames.gameplay.ausrichter.AusrichterClient;
 import de.thundergames.gameplay.ausrichter.ui.Lobby;
-import de.thundergames.gameplay.ausrichter.ui.MainGUI_ALT;
 import de.thundergames.gameplay.player.Client;
 import de.thundergames.gameplay.player.ui.LoginScreen;
 import de.thundergames.networking.server.Server;
