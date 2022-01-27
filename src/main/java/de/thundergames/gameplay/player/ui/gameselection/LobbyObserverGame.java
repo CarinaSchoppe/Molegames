@@ -238,6 +238,6 @@ public class LobbyObserverGame implements Initializable {
    * @use Create scene and spectate the game
    */
   public void spectateGame() {
-    Platform.runLater(() -> new GameBoard().create(primaryStage));
+    Platform.runLater(() -> new GameBoard().create(primaryStage,false));
   }
 }

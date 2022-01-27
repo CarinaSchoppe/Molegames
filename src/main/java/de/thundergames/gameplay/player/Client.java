@@ -16,6 +16,7 @@ import de.thundergames.playmechanics.game.Game;
 import de.thundergames.playmechanics.game.GameState;
 import de.thundergames.playmechanics.map.Map;
 import de.thundergames.playmechanics.tournament.Tournament;
+import de.thundergames.playmechanics.tournament.TournamentState;
 import de.thundergames.playmechanics.util.Mole;
 import de.thundergames.playmechanics.util.Player;
 import lombok.Getter;
@@ -40,6 +41,7 @@ public class Client extends Network {
   protected ClientPacketHandler clientPacketHandler;
   protected ClientThread clientThread;
   private GameState gameState;
+  private TournamentState tournamentState;
   private long remainingTime;
   private long remainingDateTime;
   private Map map;
