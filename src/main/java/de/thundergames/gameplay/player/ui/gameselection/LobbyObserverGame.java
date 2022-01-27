@@ -128,6 +128,7 @@ public class LobbyObserverGame implements Initializable {
   @FXML
   void onBackClick(ActionEvent event) throws IOException {
     CLIENT.getClientPacketHandler().leaveGamePacket();
+    CLIENT.getClientPacketHandler().registerOverviewObserverPacket();
     new GameSelection().create(event);
   }
 
