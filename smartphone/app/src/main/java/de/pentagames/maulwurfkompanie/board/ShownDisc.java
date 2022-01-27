@@ -76,6 +76,7 @@ public class ShownDisc {
             case 5:
                 drawableDiscNumber = ContextCompat.getDrawable(Utils.getContext(),
                         R.drawable.ic_disc5);
+                break;
             default:
                 drawableDiscNumber = ContextCompat.getDrawable(Utils.getContext(),
                         R.drawable.ic_discclosed);
