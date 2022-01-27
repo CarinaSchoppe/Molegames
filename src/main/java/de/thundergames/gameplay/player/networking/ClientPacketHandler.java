@@ -17,6 +17,7 @@ import de.thundergames.filehandling.Score;
 import de.thundergames.gameplay.ai.AI;
 import de.thundergames.gameplay.player.Client;
 import de.thundergames.gameplay.player.board.GameBoard;
+import de.thundergames.gameplay.player.ui.PlayerMenu;
 import de.thundergames.gameplay.player.ui.gameselection.GameSelection;
 import de.thundergames.gameplay.player.ui.gameselection.LobbyObserverGame;
 import de.thundergames.gameplay.player.ui.tournamentselection.LobbyObserverTournament;
@@ -884,8 +885,8 @@ public class ClientPacketHandler {
         "Client joined game with the id: " + packet.getValues().get("gameID").getAsInt());
     }
     client.setGameID(packet.getValues().get("gameID").getAsInt());
-    showPlayerJoinedGameLobby();
     updateTableView();
+    joinAssignedGame();
   }
 
   /**
@@ -1094,6 +1095,24 @@ public class ClientPacketHandler {
   private void spectatorJoin() {
     var gameSelection = GameSelection.getGameSelection();
     if (gameSelection != null) gameSelection.spectateGame();
+  }
+
+  /**
+   * @author Philipp
+   * @use joins an assigned game
+   */
+  private void joinAssignedGame() {
+    var gameSelection = GameSelection.getGameSelection();
+    if (gameSelection != null) {
+      gameSelection.joinAssignedGame();
+    }
+    else {
+      var playerMenu = PlayerMenu.getPlayerMenu();
+      if (playerMenu != null) {
+        playerMenu.joinAssignedGame();
+      }
+    }
+
   }
 
   /**

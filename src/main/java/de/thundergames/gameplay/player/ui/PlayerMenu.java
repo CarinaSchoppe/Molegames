@@ -11,8 +11,12 @@
 package de.thundergames.gameplay.player.ui;
 
 import de.thundergames.gameplay.player.Client;
+import de.thundergames.gameplay.player.board.GameBoard;
 import de.thundergames.gameplay.player.ui.gameselection.GameSelection;
+import de.thundergames.gameplay.player.ui.gameselection.LobbyObserverGame;
 import de.thundergames.gameplay.player.ui.tournamentselection.TournamentSelection;
+import de.thundergames.playmechanics.game.GameStates;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -31,8 +35,14 @@ import java.util.ResourceBundle;
 public class PlayerMenu implements Initializable {
 
   private static Client CLIENT;
+  private static PlayerMenu PLAYER_MENU;
   @FXML
   private Text PlayerName;
+  private Stage primaryStage;
+
+  public static PlayerMenu getPlayerMenu() {
+    return PLAYER_MENU;
+  }
 
   /**
    * Create the Scene for PlayerMenu
@@ -41,7 +51,8 @@ public class PlayerMenu implements Initializable {
    * @throws IOException error creating the scene PlayerMenu
    */
   public void create(ActionEvent event) throws IOException {
-    var primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+    PLAYER_MENU = this;
+    primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
     var root = (Parent)
       FXMLLoader.load(
         Objects.requireNonNull(getClass().getResource("/player/style/PlayerMenu.fxml")));
@@ -118,5 +129,28 @@ public class PlayerMenu implements Initializable {
   public void onTournamentClick(ActionEvent event) throws IOException {
     CLIENT.getClientPacketHandler().getOverviewPacket();
     new TournamentSelection().create(event);
+  }
+
+  /**
+   * @author Philipp
+   * Join an assigned game
+   */
+  public void joinAssignedGame(){
+    Platform.runLater(() -> {
+      CLIENT.getClientPacketHandler().unregisterOverviewObserverPacket();
+      CLIENT.getClientPacketHandler().joinGamePacket(CLIENT.getGameID(), false);
+      var status = CLIENT.getGameState().getStatus();
+      if (Objects.equals(status, GameStates.NOT_STARTED.toString())) {
+        try {
+          new LobbyObserverGame().create(primaryStage, CLIENT.getGameID());
+        } catch (IOException e) {
+          e.printStackTrace();
+        }
+      }
+      else if (Objects.equals(status, GameStates.STARTED.toString())
+              || Objects.equals(status, GameStates.PAUSED.toString())) {
+        new GameBoard().create(primaryStage);
+      }
+    });
   }
 }
