@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">Maulwurfkompanie</string>
+    <string name="beitreten">beitreten</string>
+    <string name="bei_maulwurfkompanie">bei Maulwurf Company!</string>
+    <string name="name">Name</string>
+    <string name="ip">IP-Adresse</string>
+    <string name="port">Port</string>
+    <string name="welcome">Willkommen</string>
+    <string name="title_activity_lobby">Lobby</string>
+    <string name="tab_text_1">Vergangen</string>
+    <string name="tab_text_2">Laufend</string>
+    <string name="tab_text_3">Geplant</string>
+    <string name="tab_text_4">Turniere</string>
+    <string name="title_activity_game_activy">GameActivy</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="leaving_game_warning">Willst du das Spiel wirklich verlassen?\nWenn du jetzt zurück gehst, wirst du aus dem Spiel und dem Ergebnis entfernt!</string>
+</resources>
