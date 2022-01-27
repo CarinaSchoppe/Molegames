@@ -174,7 +174,8 @@ public class GameSelection implements Initializable {
       if (Objects.equals(selectedItem.getStatus(), GameStates.OVER.toString())) {
         loadScoreboard(selectedItem.getScore());
       } else {
-        // Send Packet to join game to get GameState
+        // Unregister as an Overview Observer and send Packet to join game to get GameState
+        CLIENT.getClientPacketHandler().unregisterOverviewObserverPacket();
         CLIENT.getClientPacketHandler().joinGamePacket(selectedItem.getGameID(), false);
         if (Objects.equals(selectedItem.getStatus(), GameStates.NOT_STARTED.toString())) {
           new LobbyObserverGame().create(primaryStage, selectedItem.getGameID());

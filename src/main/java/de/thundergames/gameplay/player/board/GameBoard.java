@@ -229,6 +229,7 @@ public class GameBoard {
         COUNTDOWN.deleteTimer();
         CLIENT.getClientPacketHandler().leaveGamePacket();
         try {
+          CLIENT.getClientPacketHandler().registerOverviewObserverPacket();
           new PlayerMenu().create(event);
         } catch (IOException e) {
           e.printStackTrace();
@@ -505,6 +506,7 @@ public class GameBoard {
       LeaderBoard leaderBoard = new LeaderBoard();
       leaderBoard.create(score);
       try {
+        CLIENT.getClientPacketHandler().registerOverviewObserverPacket();
         leaderBoard.start(primaryStage);
       } catch (Exception e) {
         System.out.println(e);
