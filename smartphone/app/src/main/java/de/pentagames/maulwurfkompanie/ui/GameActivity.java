@@ -15,6 +15,7 @@ import de.pentagames.maulwurfkompanie.board.GameView;
 import de.pentagames.maulwurfkompanie.client.Client;
 import de.pentagames.maulwurfkompanie.ui.lobby.GameWaitLobby;
 import upb.maulwurfcompany.library.data.GameStatus;
+import upb.maulwurfcompany.library.messages.LeaveGame;
 import upb.maulwurfcompany.library.messages.RegisterOverviewObserver;
 
 public class GameActivity extends AppCompatActivity {
@@ -64,7 +65,6 @@ public class GameActivity extends AppCompatActivity {
     Client.messageHandler.currentGameState = null;
     Client.messageHandler.game = null;
     GameView.instance = null;
-    Client.messageHandler.leaveGame();
-    Client.sendMessage(new RegisterOverviewObserver());
+    Client.sendMessages(new LeaveGame(),new RegisterOverviewObserver());
   }
 }
