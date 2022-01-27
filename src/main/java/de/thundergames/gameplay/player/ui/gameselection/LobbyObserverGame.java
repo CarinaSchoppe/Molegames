@@ -166,8 +166,12 @@ public class LobbyObserverGame implements Initializable {
    * @use Refreshes the table view, if the number of players in the room changes
    */
   public void updateNumberOfPlayers() {
-    settingsData.get(0).setValue(getNumberOfPlayers());
-    settingsTable.refresh();
+    if (settingsData != null) {
+      if (settingsData.size() > 0) {
+        settingsData.get(0).setValue(getNumberOfPlayers());
+        settingsTable.refresh();
+      }
+    }
   }
 
   /**
