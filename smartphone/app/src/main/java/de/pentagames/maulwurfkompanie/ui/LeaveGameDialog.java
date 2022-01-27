@@ -21,7 +21,7 @@ public class LeaveGameDialog extends AppCompatDialogFragment {
   @NonNull
   @Override
   public Dialog onCreateDialog(@Nullable final Bundle savedInstanceState) {
-    var builder = (AlertDialog.Builder) new AlertDialog.Builder(Objects.requireNonNull(getActivity()));
+    var builder = (AlertDialog.Builder) new AlertDialog.Builder(requireActivity());
     var infl = (LayoutInflater) getActivity().getLayoutInflater();
     var view = infl.inflate(R.layout.fragment_leave_game_dialog, null);
     builder.setView(view)

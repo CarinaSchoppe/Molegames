@@ -12,35 +12,35 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Maulwurfkompanie">
         <activity
-            android:name=".ui.ShowConfiguration"
+            android:name="de.pentagames.maulwurfkompanie.ui.ShowConfiguration"
             android:exported="false"
             android:theme="@style/Theme.Maulwurfkompanie.NoActionBar" />
         <activity
-            android:name=".ui.lobby.GameWaitLobby"
+            android:name="de.pentagames.maulwurfkompanie.ui.lobby.GameWaitLobby"
             android:exported="false"
             android:theme="@style/Theme.Maulwurfkompanie.NoActionBar"/>
         <activity
-            android:name=".ui.GameActivity"
+            android:name="de.pentagames.maulwurfkompanie.ui.GameActivity"
             android:exported="false"
             android:theme="@style/Theme.Maulwurfkompanie.NoActionBar" />
         <activity
-            android:name=".ui.ShowRules"
+            android:name="de.pentagames.maulwurfkompanie.ui.ShowRules"
             android:screenOrientation="portrait"
             android:exported="false"
             android:theme="@style/Theme.Maulwurfkompanie.NoActionBar" />
         <activity
-            android:name=".ui.ShowLoginRules"
+            android:name="de.pentagames.maulwurfkompanie.ui.ShowLoginRules"
             android:exported="false"
             android:theme="@style/Theme.Maulwurfkompanie.NoActionBar" />
         <!-- android:screenOrientation="portrait" -->
         <activity
-            android:name=".ui.lobby.LobbyActivity"
+            android:name="de.pentagames.maulwurfkompanie.ui.lobby.LobbyActivity"
             android:screenOrientation="portrait"
             android:exported="false"
             android:label="@string/title_activity_lobby"
             android:theme="@style/Theme.Maulwurfkompanie.NoActionBar" />
         <activity
-            android:name=".ui.LoginActivity"
+            android:name="de.pentagames.maulwurfkompanie.ui.LoginActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Maulwurfkompanie.NoActionBar"
             android:exported="true">
