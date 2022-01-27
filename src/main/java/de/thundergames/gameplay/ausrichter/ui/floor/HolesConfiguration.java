@@ -71,7 +71,10 @@ public class HolesConfiguration implements Initializable {
   @FXML
   private TableView<Hole> holesTable;
 
-  public void start(@NotNull final Stage primaryStage) throws Exception {
+  private String Spielmodus;
+
+  public void start(@NotNull final Stage primaryStage, String modus) throws Exception {
+    Spielmodus = modus;
     var loader =
       new FXMLLoader(getClass().getResource("/ausrichter/style/HolesConfiguration.fxml"));
     loader.setController(this);
@@ -120,7 +123,7 @@ public class HolesConfiguration implements Initializable {
   @FXML
   void onBack(@NotNull final ActionEvent event) throws Exception {
     var primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-    CreateGame.getCreateGameInstance().start(primaryStage, "Modus");
+    CreateGame.getCreateGameInstance().start(primaryStage, Spielmodus);
   }
 
   /**

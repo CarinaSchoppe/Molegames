@@ -5,7 +5,9 @@ import java.util.ResourceBundle;
 
 import de.thundergames.MoleGames;
 import de.thundergames.playmechanics.game.Game;
+import de.thundergames.playmechanics.game.GameStates;
 import de.thundergames.playmechanics.tournament.Tournament;
+import de.thundergames.playmechanics.util.Dialog;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -63,14 +65,29 @@ public class Games extends Application implements Initializable {
 
   private static Games GamesInstance;
 
-
   public static Games getGamesInstance() {
     return GamesInstance;
   }
 
   @FXML
-  void onAddPlayer(ActionEvent event) {
+  void onCreateGame(ActionEvent event) throws Exception {
+    var primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+    new CreateGame().start(primaryStage, "SpielModus");
+  }
 
+  @FXML
+  void onAddPlayer(ActionEvent event) throws Exception {
+    if (gameTable.getSelectionModel().getSelectedItem() != null) {
+      var selectedItem = gameTable.getSelectionModel().getSelectedItem();
+      var game =
+              MoleGames.getMoleGames().getGameHandler().getIDGames().get(selectedItem.getGameID());
+      var primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+      gameTable.getSelectionModel().clearSelection();
+      //new AddPlayer(game).start(primaryStage, "Spielmodus");
+      new PlayerManagement(game).start(primaryStage, "Spielmodus");
+    } else {
+      Dialog.show("Du musst ein Spiel auswählen!", "Fehler", Dialog.DialogType.ERROR);
+    }
   }
 
   @FXML
@@ -81,23 +98,86 @@ public class Games extends Application implements Initializable {
 
   @FXML
   void onBreakGame(ActionEvent event) {
-
+    var selectedItem = gameTable.getSelectionModel().getSelectedItem();
+    if (selectedItem == null) {
+      Dialog.show("Es wurde kein Spiel ausgewaehlt!", "Spiel auswaehlen!", Dialog.DialogType.ERROR);
+    } else {
+      if (MoleGames.getMoleGames()
+              .getGameHandler()
+              .getIDGames()
+              .get(selectedItem.getGameID())
+              .getCurrentGameState()
+              == GameStates.STARTED) {
+        MoleGames.getMoleGames()
+                .getGameHandler()
+                .getIDGames()
+                .get(selectedItem.getGameID())
+                .pauseGame();
+        updateTable();
+        Dialog.show("Spiel wurde erfolgreich pausiert!", "Erfolg!", Dialog.DialogType.INFO);
+        gameTable.getSelectionModel().clearSelection();
+      } else {
+        Dialog.show("Das Spiel ist nicht im Started GameState!", "Spiel Gamestate!", Dialog.DialogType.ERROR);
+      }
+    }
   }
 
   @FXML
   void onContinueGame(ActionEvent event) {
-
-  }
-
-  @FXML
-  void onCreateGame(ActionEvent event) throws Exception {
-    var primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-    new CreateGame().start(primaryStage, "SpielModus");
+    var selectedItem = gameTable.getSelectionModel().getSelectedItem();
+    if (selectedItem == null) {
+      Dialog.show("Es wurde kein Spiel ausgewaehlt!", "Spiel auswaehlen!", Dialog.DialogType.ERROR);
+    } else {
+      if (MoleGames.getMoleGames()
+              .getGameHandler()
+              .getIDGames()
+              .get(selectedItem.getGameID())
+              .getCurrentGameState()
+              == GameStates.PAUSED) {
+        MoleGames.getMoleGames()
+                .getGameHandler()
+                .getIDGames()
+                .get(selectedItem.getGameID())
+                .resumeGame();
+        gameTable.getSelectionModel().clearSelection();
+        updateTable();
+        Dialog.show("Spiel wurde erfolgreich weitergefuehrt!", "Erfolg!", Dialog.DialogType.INFO);
+      } else {
+        Dialog.show("Das Spiel ist nicht im Paused GameState!", "Spiel Gamestate!", Dialog.DialogType.ERROR);
+      }
+    }
   }
 
   @FXML
   void onEndGame(ActionEvent event) {
-
+    var selectedItem = gameTable.getSelectionModel().getSelectedItem();
+    if (selectedItem == null) {
+      Dialog.show("Es wurde kein Spiel ausgewaehlt!", "Spiel auswaehlen!", Dialog.DialogType.ERROR);
+    } else {
+      if (MoleGames.getMoleGames()
+              .getGameHandler()
+              .getIDGames()
+              .get(selectedItem.getGameID())
+              .getCurrentGameState()
+              != GameStates.OVER
+              && MoleGames.getMoleGames()
+              .getGameHandler()
+              .getIDGames()
+              .get(selectedItem.getGameID())
+              .getCurrentGameState()
+              != GameStates.NOT_STARTED) {
+        MoleGames.getMoleGames()
+                .getGameHandler()
+                .getIDGames()
+                .get(selectedItem.getGameID())
+                .forceGameEnd();
+        gameTable.getSelectionModel().clearSelection();
+        updateTable();
+        Dialog.show("Spiel wurde erfolgreich beendet!", "Erfolg!", Dialog.DialogType.INFO);
+      } else {
+        Dialog.show("Das Spiel ist nicht irgendwie am laufen!", "Spiel Gamestate!", Dialog.DialogType.ERROR);
+      }
+    }
   }
 
   @FXML
@@ -107,7 +187,29 @@ public class Games extends Application implements Initializable {
 
   @FXML
   void onStartGame(ActionEvent event) {
-
+    var selectedItem = gameTable.getSelectionModel().getSelectedItem();
+    if (selectedItem == null) {
+      Dialog.show("Es wurde kein Spiel ausgewaehlt!", "Spiel auswaehlen!", Dialog.DialogType.WARNING);
+    } else {
+      if (MoleGames.getMoleGames()
+              .getGameHandler()
+              .getIDGames()
+              .get(selectedItem.getGameID())
+              .getCurrentGameState()
+              == GameStates.NOT_STARTED
+              && selectedItem.getActivePlayers().size() >= 2) {
+        MoleGames.getMoleGames()
+                .getGameHandler()
+                .getIDGames()
+                .get(selectedItem.getGameID())
+                .startGame(GameStates.STARTED);
+        gameTable.getSelectionModel().clearSelection();
+        updateTable();
+        Dialog.show("Spiel wurde erfolgreich gestartet!", "Erfolg!", Dialog.DialogType.INFO);
+      } else {
+        Dialog.show("Das Spiel ist kann nicht gestartet werden!", "Fehler", Dialog.DialogType.ERROR);
+      }
+    }
   }
 
   @FXML

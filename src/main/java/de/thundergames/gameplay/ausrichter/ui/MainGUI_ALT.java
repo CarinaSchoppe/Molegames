@@ -239,7 +239,7 @@ public class MainGUI_ALT extends Application implements Initializable {
       var primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
       tournamentTable.getSelectionModel().clearSelection();
       gameTable.getSelectionModel().clearSelection();
-      new PlayerManagement(game).start(primaryStage);
+      //new PlayerManagement(game).start(primaryStage);
     } else {
       Dialog.show("Du musst ein Spiel auswählen!", "Fehler", Dialog.DialogType.ERROR);
     }

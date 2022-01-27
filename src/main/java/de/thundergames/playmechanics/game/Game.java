@@ -12,8 +12,7 @@ package de.thundergames.playmechanics.game;
 import com.google.gson.annotations.SerializedName;
 import de.thundergames.MoleGames;
 import de.thundergames.filehandling.Score;
-import de.thundergames.gameplay.ausrichter.ui.Lobby;
-import de.thundergames.gameplay.ausrichter.ui.MainGUI_ALT;
+import de.thundergames.gameplay.ausrichter.ui.Games;
 import de.thundergames.gameplay.ausrichter.ui.PlayerManagement;
 import de.thundergames.networking.server.ServerThread;
 import de.thundergames.networking.util.exceptions.NotAllowedError;
@@ -24,7 +23,6 @@ import de.thundergames.playmechanics.util.Settings;
 import lombok.Getter;
 import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
-
 import java.time.Instant;
 import java.util.*;
 
@@ -172,7 +170,7 @@ public class Game {
         .sendToAllGameClients(
           this,
           MoleGames.getMoleGames().getServer().getPacketHandler().gameStartedPacket(this.gameState));
-      MainGUI_ALT.getGUI().updateTable();
+      //Games.getGamesInstance().updateTable();
     }
   }
 
@@ -232,8 +230,8 @@ public class Game {
           MoleGames.getMoleGames().getServer().getPacketHandler().overviewPacket(observer);
         }
       }
-      if (MainGUI_ALT.getGUI() != null) {
-        MainGUI_ALT.getGUI().updateTable();
+      if (Games.getGamesInstance() != null) {
+        Games.getGamesInstance().updateTable();
       }
     }
   }
@@ -249,7 +247,7 @@ public class Game {
       }
       MoleGames.getMoleGames().getServer().getPacketHandler().gameCanceledPacket(this);
       endGame();
-      MainGUI_ALT.getGUI().updateTable();
+      //Games.getGamesInstance().updateTable();
     }
   }
 
@@ -265,7 +263,7 @@ public class Game {
       for (var observer : MoleGames.getMoleGames().getServer().getObserver()) {
         MoleGames.getMoleGames().getServer().getPacketHandler().overviewPacket(observer);
       }
-      MainGUI_ALT.getGUI().updateTable();
+      //Games.getGamesInstance().updateTable();
     }
   }
 
@@ -285,7 +283,7 @@ public class Game {
         gameUtil.nextPlayer();
       }
     }
-    MainGUI_ALT.getGUI().updateTable();
+    //Games.getGamesInstance().updateTable();
   }
 
   /**
@@ -312,8 +310,8 @@ public class Game {
         .put((ServerThread) player.getServerClient(), this);
       updateGameState();
       setCurrentPlayerCount(players.size());
-      if (MainGUI_ALT.getGUI() != null) {
-        MainGUI_ALT.getGUI().updateTable();
+      if (Games.getGamesInstance() != null) {
+        Games.getGamesInstance().updateTable();
       }
     } else if (spectator) {
       MoleGames.getMoleGames()
@@ -400,8 +398,8 @@ public class Game {
       if (PlayerManagement.getPlayerManagement() != null) {
         PlayerManagement.getPlayerManagement().updateTable();
       }
-      if (MainGUI_ALT.getGUI() != null) {
-        MainGUI_ALT.getGUI().updateTable();
+      if (Games.getGamesInstance() != null) {
+        Games.getGamesInstance().updateTable();
       }
       if (activePlayers.isEmpty() && currentGameState != GameStates.OVER) {
         endGame();

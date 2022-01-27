@@ -1,6 +1,8 @@
 package de.thundergames.gameplay.ausrichter.ui;
 
+import de.thundergames.playmechanics.game.Game;
 import de.thundergames.playmechanics.tournament.Tournament;
+import de.thundergames.playmechanics.util.Dialog;
 import javafx.scene.control.cell.PropertyValueFactory;
 import de.thundergames.MoleGames;
 import javafx.application.Application;
@@ -54,6 +56,10 @@ public class Tournaments extends Application implements Initializable {
   @FXML
   private TableView<Tournament> tournamentTable;
 
+  private static int tournamentCount;
+
+
+
 
   public static Tournaments getTournamentsInstance() {
     return TournamentsInstance;
@@ -67,14 +73,25 @@ public class Tournaments extends Application implements Initializable {
   @FXML
 
   void onCreateTournament(ActionEvent event) throws Exception {
-    var primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-    new CreateTournaments().start(primaryStage);
+    MoleGames.getMoleGames().getGameHandler().createNewTournament(tournamentCount);
+    MoleGames.getMoleGames().getGameHandler().getIDTournaments().get(tournamentCount).updateTournamentState();
+    tournamentCount++;
+    updateTable();
   }
 
   @FXML
   void onEditTournament(ActionEvent event) throws Exception {
     var primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-    new TournamentEditor().start(primaryStage);
+    if (tournamentTable.getSelectionModel().getSelectedItem() != null) {
+      var selectedItem = tournamentTable.getSelectionModel().getSelectedItem();
+      var tournament =
+              MoleGames.getMoleGames().getGameHandler().getIDTournaments().get(selectedItem.getTournamentID());
+
+      tournamentTable.getSelectionModel().clearSelection();
+      new TournamentEditor(tournament).start(primaryStage);
+    } else {
+      Dialog.show("Du musst ein Spiel auswählen!", "Fehler", Dialog.DialogType.ERROR);
+    }
   }
 
   @FXML
@@ -107,7 +124,11 @@ public class Tournaments extends Application implements Initializable {
    * @use starts the main GUI
    */
 
-  private void updateTable() {
+  public void updateTable() {
+    var tournamentSelection = tournamentTable.getSelectionModel().getSelectedItem();
+    tournamentTable.getItems().clear();
+    tournamentTable.getItems().addAll(MoleGames.getMoleGames().getGameHandler().getTournaments());
+    tournamentTable.getSelectionModel().select(tournamentSelection);
   }
 
   public void start(@NotNull final Stage primaryStage) throws Exception {
@@ -118,6 +139,7 @@ public class Tournaments extends Application implements Initializable {
     primaryStage.setResizable(false);
     primaryStage.setScene(new Scene(root));
     initialize();
+    tournamentCount = MoleGames.getMoleGames().getGameHandler().getTournaments().size();
     primaryStage.show();
   }
 }

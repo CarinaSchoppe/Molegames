@@ -2,7 +2,10 @@ package de.thundergames.gameplay.ausrichter.ui;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+
+import de.thundergames.MoleGames;
 import de.thundergames.playmechanics.game.Game;
+import de.thundergames.playmechanics.util.Mole;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -14,6 +17,7 @@ import javafx.scene.control.TableView;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import org.jetbrains.annotations.NotNull;
 
@@ -56,7 +60,7 @@ public class CreateTournaments implements Initializable {
   @FXML
   void onChooseGame(ActionEvent event) throws Exception  {
     var primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-    new AddGames().start(primaryStage);
+    //new AddGames().start(primaryStage, "TurnierModus");
   }
 
   @FXML
@@ -82,7 +86,20 @@ public class CreateTournaments implements Initializable {
     assert gamePlayerCount != null : "fx:id=\"gamePlayerCounter\" was not injected: check your FXML file 'CreateTournaments.fxml'.";
     assert gameState != null : "fx:id=\"gameState\" was not injected: check your FXML file 'CreateTournaments.fxml'.";
     assert startTournament != null : "fx:id=\"startTournament\" was not injected: check your FXML file 'CreateTournaments.fxml'.";
+    assert gameTable != null : "fx:id=\"gameTable\" was not injected: check your FXML file 'CreateTournaments.fxml'.";
 
+    //MoleGames.getMoleGames().getGameHandler().getIDTournaments().get(1).addGame()
+    //gameID.setCellValueFactory(new PropertyValueFactory<>("HashtagWithTournamentID"));
+    //gamePlayerCount.setCellValueFactory(new PropertyValueFactory<>("CurrentPlayerCount_MaxCount"));
+    //gameState.setCellValueFactory(new PropertyValueFactory<>("StatusForTableView"));
+    updateTable();
+  }
+
+  private void updateTable() {
+    var gameSelection = gameTable.getSelectionModel().getSelectedItem();
+    gameTable.getItems().clear();
+    gameTable.getItems().addAll(MoleGames.getMoleGames().getGameHandler().getGames());
+    gameTable.getSelectionModel().select(gameSelection);
   }
 
   @Override
@@ -94,6 +111,7 @@ public class CreateTournaments implements Initializable {
     var loader = new FXMLLoader(getClass().getResource("/ausrichter/style/CreateTournaments.fxml"));
     loader.setController(this);
     var root = (Parent) loader.load();
+    updateTable();
     primaryStage.setTitle("Turnier erstellen!");
     primaryStage.setResizable(false);
     primaryStage.setScene(new Scene(root));

@@ -38,14 +38,12 @@ public class Lobby extends Application implements Initializable {
   private Button tournaments;
 
 
-
   public static void create(@NotNull final Server server) {
     MoleGames.getMoleGames().setAusrichterClient(new AusrichterClient(server));
     new Thread(Application::launch).start();
-    MoleGames.getMoleGames().getAusrichterClient().testTournament(0);
+    //MoleGames.getMoleGames().getAusrichterClient().testTournament(0);
     MoleGames.getMoleGames().getAusrichterClient().testGame(0);
   }
-
 
   public static Lobby getGUI() {
     return GUI;
@@ -56,7 +54,6 @@ public class Lobby extends Application implements Initializable {
     var primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
     new Games().start(primaryStage);
   }
-
 
   @FXML
   void onTournaments(ActionEvent event) throws Exception {

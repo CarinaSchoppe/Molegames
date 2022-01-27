@@ -148,7 +148,7 @@ public class AddGame_ALT {
           MoleGames.getMoleGames().getGameHandler().getIDGames().get(selectedItem.getGameID());
       var primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
       gameTable.getSelectionModel().clearSelection();
-      new PlayerManagement(game).start(primaryStage);
+      //new PlayerManagement(game).start(primaryStage);
     } else {
       Dialog.show("Du musst ein Spiel auswählen!", "Fehler", Dialog.DialogType.ERROR);
     }

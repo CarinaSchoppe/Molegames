@@ -109,5 +109,6 @@ public class AusrichterClient {
       .get(id)
       .getGames()
       .add(new Game(741));
+    MoleGames.getMoleGames().getGameHandler().getIDTournaments().get(id).updateTournamentState();
   }
 }

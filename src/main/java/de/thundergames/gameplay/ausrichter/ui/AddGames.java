@@ -31,9 +31,12 @@ import java.net.URL;
 import java.util.ResourceBundle;
 @Getter
 //public class MainGUI_ALT extends Application implements Initializable {
-public class AddGames extends Application implements Initializable{
+public class AddGames implements Initializable{
 
   private static AddGames AddGamesInstance;
+
+  private String Spielmodus;
+
   @FXML
   private ResourceBundle resources;
 
@@ -47,7 +50,7 @@ public class AddGames extends Application implements Initializable{
   private Button createGame;
 
   @FXML
-  private Button editGame;
+  private Button addGame;
 
   @FXML
   private TableColumn<Game, Integer> gameID;
@@ -64,6 +67,12 @@ public class AddGames extends Application implements Initializable{
   @FXML
   private Button ready;
 
+  private Tournament tournament;
+
+  public AddGames(Tournament tournament) {
+    this.tournament = tournament;
+  }
+
   public static AddGames getAddGamesInstance() {
     return AddGamesInstance;
   }
@@ -72,7 +81,11 @@ public class AddGames extends Application implements Initializable{
   @FXML
   void onBack(ActionEvent event) throws Exception {
     var primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-    CreateTournaments.getCreateTournamentsInstance().start(primaryStage);
+    if(Spielmodus.equalsIgnoreCase("TurnierModus")){
+      TournamentEditor.getTournamentEditorInstance().start(primaryStage);
+    }else {
+      Games.getGamesInstance().start(primaryStage);
+    }
   }
 
   @FXML
@@ -89,13 +102,27 @@ public class AddGames extends Application implements Initializable{
         CreateGame.setMolesAmountPrev(null);
       }
       var primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-      new CreateGame().start(primaryStage, "TurnierModus");
+      new CreateGame().start(primaryStage, Spielmodus);
     }
 
 
   @FXML
-  void onEditGame(ActionEvent event) {
-
+  void onAddGame(ActionEvent event) {
+    var selectedItem = gameTable.getSelectionModel().getSelectedItem();
+    if (selectedItem == null) {
+      Dialog.show("Es wurde kein Spiel ausgewaehlt!", "Spiel auswaehlen!", Dialog.DialogType.WARNING);
+    } else {
+      if (MoleGames.getMoleGames()
+              .getGameHandler()
+              .getIDGames()
+              .get(selectedItem.getGameID())
+              .getCurrentGameState()
+              == GameStates.NOT_STARTED) {
+        tournament.addGame(selectedItem);
+        //MoleGames.getMoleGames().getGameHandler().getGames().add(selectedItem);
+        updateTable();
+      }
+    }
   }
 
   @FXML
@@ -113,12 +140,17 @@ public class AddGames extends Application implements Initializable{
   void initialize() {
     assert back != null : "fx:id=\"back\" was not injected: check your FXML file 'AddGames.fxml'.";
     assert createGame != null : "fx:id=\"createGame\" was not injected: check your FXML file 'AddGames.fxml'.";
-    assert editGame != null : "fx:id=\"editGame\" was not injected: check your FXML file 'AddGames.fxml'.";
+    assert addGame != null : "fx:id=\"addGame\" was not injected: check your FXML file 'AddGames.fxml'.";
     assert gameID != null : "fx:id=\"gameID\" was not injected: check your FXML file 'AddGames.fxml'.";
     assert gamePlayerCount != null : "fx:id=\"gamePlayerCounter\" was not injected: check your FXML file 'AddGames.fxml'.";
     assert gameState != null : "fx:id=\"gameState\" was not injected: check your FXML file 'AddGames.fxml'.";
     assert gameTable != null : "fx:id=\"gameTable\" was not injected: check your FXML file 'AddGames.fxml'.";
     assert ready != null : "fx:id=\"ready\" was not injected: check your FXML file 'AddGames.fxml'.";
+
+    gameID.setCellValueFactory(new PropertyValueFactory<>("HashtagWithGameID"));
+    gamePlayerCount.setCellValueFactory(new PropertyValueFactory<>("CurrentPlayerCount_MaxCount"));
+    gameState.setCellValueFactory(new PropertyValueFactory<>("StatusForTableView"));
+    updateTable();
   }
 
   @Override
@@ -127,7 +159,8 @@ public class AddGames extends Application implements Initializable{
     initialize();
   }
 
-  public void start(@NotNull final Stage primaryStage) throws Exception {
+  public void start(@NotNull final Stage primaryStage, String modus) throws Exception {
+    Spielmodus = modus;
     var loader = new FXMLLoader(getClass().getResource("/ausrichter/style/AddGames.fxml"));
     loader.setController(this);
     var root = (Parent) loader.load();
