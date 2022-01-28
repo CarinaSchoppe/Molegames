@@ -1,0 +1,22 @@
+Linux Installation:
+
+Einfach:
+Kopiere sowohl die "SwtPra10-pc-1.3.2-all.jar" als auch die *.sh und *.desktop Dateien in ein gemeinsames Verzeichnis.
+Danach kann die jeweilige Komponente über das *.sh Skript gestartet werden. Dafür muss zunächst das Executable Bit
+gesetzt sein.
+
+Integrierte Methode:
+Wenn die Applikation in einem App Launcher auftauchen soll, muss die jeweilige .desktop Datei installiert werden. Dafür
+gibt es zum einen ein Skript, welches dieses übernimmt (linux-install.sh). Dieses schiebt die .desktop Dateien nach
+$HOME/.local/share/applications/ und die "SwtPra10-pc-1.3.2-all.jar" nach /opt/ (hierfür wird sudo benötigt). Die
+Verschiebung dieser Dateien kann natürlich auch manuell durchgeführt werden, um z.B. die .desktop Dateien Systemweit in
+/usr/local/share/applications/ zu installieren.
+
+Wayland:
+Die Dateien mit wayland im Namen sind für Systeme mit Wayland Compositor gedacht, welche Probleme bei der Ausführung
+der normalen Dateien haben. Falls also die GUI Applikationen (Ausrichter und Beobachter) nicht unter Wayland
+funktionieren, sollte das entsprechende Wayland Skript/desktop Datei verwendet werden. Dies sollte unter X11 Umgebungen
+nicht notwending sein.
+
+Der Engine Teilnehmer kann über "Engine.sh" gestartet werden, hierfür muss nur darauf geachtet werden, dass das
+Executable Bit gesetzt ist.
