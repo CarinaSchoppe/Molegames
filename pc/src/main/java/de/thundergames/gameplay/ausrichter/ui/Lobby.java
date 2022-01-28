@@ -37,8 +37,6 @@ public class Lobby extends Application implements Initializable {
   public static void create(@NotNull final Server server) {
     MoleGames.getMoleGames().setAusrichterClient(new AusrichterClient(server));
     new Thread(Application::launch).start();
-    //MoleGames.getMoleGames().getAusrichterClient().testTournament(0);
-    MoleGames.getMoleGames().getAusrichterClient().testGame(0);
   }
 
   public static Lobby getGUI() {
