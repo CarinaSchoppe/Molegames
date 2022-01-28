@@ -109,28 +109,4 @@ public class AIPacketHandler extends ClientPacketHandler {
       e.printStackTrace();
     }
   }
-
-  /**
-   * @author Philipp, Marc, Issam
-   * @use handles that the game of the client is over
-   */
-  protected void handleGameOverPacket() {
-    var score = new Gson().fromJson(packet.getValues().get("result"), Score.class);
-    if (client.isDebug()) {
-      System.out.println(
-              "Client: game with the id: "
-                      + client.getGameID()
-                      + " has ended! Winners are: "
-                      + score.getWinners());
-      for (var player : score.getPlayers()) {
-        System.out.println(
-                "Client: player with the name: "
-                        + player.getName()
-                        + " has points: "
-                        + score.getPoints().get(player.getClientID()));
-      }
-    }
-    logoutPacket();
-    System.exit(0);
-  }
 }
