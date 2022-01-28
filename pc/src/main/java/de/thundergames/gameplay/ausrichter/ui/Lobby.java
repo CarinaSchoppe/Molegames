@@ -3,8 +3,6 @@ package de.thundergames.gameplay.ausrichter.ui;
 import de.thundergames.MoleGames;
 import de.thundergames.gameplay.ausrichter.AusrichterClient;
 import de.thundergames.networking.server.Server;
-import de.thundergames.playmechanics.game.Game;
-import de.thundergames.playmechanics.tournament.Tournament;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -14,8 +12,6 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
 import javafx.stage.Stage;
 import org.jetbrains.annotations.NotNull;
 import java.net.URL;
@@ -49,6 +45,18 @@ public class Lobby extends Application implements Initializable {
     return GUI;
   }
 
+
+  /**
+   * @param stage current stage
+   * @use Is called when the close button is clicked. Logout user.
+   * @author Marc
+   */
+  private void logout(Stage stage) {
+    stage.close();
+    System.exit(0);
+  }
+
+
   @FXML
   void onGames(ActionEvent event) throws Exception {
     var primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -78,6 +86,7 @@ public class Lobby extends Application implements Initializable {
     loader.setController(this);
     var root = (Parent) loader.load();
     primaryStage.setTitle("Lobby!");
+    primaryStage.setOnCloseRequest(ev -> logout(primaryStage));
     primaryStage.setResizable(false);
     primaryStage.setScene(new Scene(root));
     initialize();
