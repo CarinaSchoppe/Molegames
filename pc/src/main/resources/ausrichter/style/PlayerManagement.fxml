@@ -11,32 +11,32 @@
   -->
 
 <?import javafx.scene.control.*?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="834.0" prefWidth="1098.0" xmlns="http://javafx.com/javafx/17">
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="680.0" prefWidth="720.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1">
     <children>
-        <ImageView fitHeight="836.0" fitWidth="1100.0" layoutX="-1.0" layoutY="-1.0" pickOnBounds="true">
+        <ImageView fitHeight="681.0" fitWidth="721.0" layoutX="-1.0" layoutY="-1.0" pickOnBounds="true">
             <image>
-                <Image url="@../pictures/Player-Management.png"/>
+                <Image url="@../pictures/Player-Management.png" />
             </image>
         </ImageView>
-        <Button fx:id="add" layoutX="306.0" layoutY="452.0" mnemonicParsing="false" onAction="#onAdd" prefHeight="58.0" prefWidth="194.0" style="-fx-background-color: transparent;"/>
-        <Button fx:id="remove" layoutX="686.0" layoutY="458.0" mnemonicParsing="false" onAction="#onRemove" prefHeight="49.0" prefWidth="168.0" style="-fx-background-color: transparent;"/>
-        <TableView fx:id="playerTable" layoutX="90.0" layoutY="227.0" prefHeight="196.0" prefWidth="874.0" stylesheets="@css/MainGUI.css">
+        <Button fx:id="add" layoutX="500.0" layoutY="555.0" mnemonicParsing="false" onAction="#onAdd" prefHeight="58.0" prefWidth="200.0" style="-fx-background-color: transparent;" />
+        <Button fx:id="remove" layoutX="504.0" layoutY="248.0" mnemonicParsing="false" onAction="#onRemove" prefHeight="49.0" prefWidth="200.0" style="-fx-background-color: transparent;" />
+        <TableView fx:id="playerTable" layoutX="67.0" layoutY="162.0" prefHeight="186.0" prefWidth="417.0" stylesheets="@css/MainGUI.css">
             <columns>
-                <TableColumn fx:id="playerNumber" prefWidth="201.6666717529297" text="Spieler Nummer"/>
-                <TableColumn fx:id="playerName" prefWidth="435.3333282470703" text="Spieler Name"/>
-                <TableColumn fx:id="playerStatus" prefWidth="236.0" text="Spieler Status"/>
+                <TableColumn fx:id="playerNumber" prefWidth="136.0" text="Spieler Nummer" />
+                <TableColumn fx:id="playerName" prefWidth="151.0" text="Spieler Name" />
+                <TableColumn fx:id="playerStatus" prefWidth="129.0" text="Spieler Status" />
             </columns>
         </TableView>
-        <TableView fx:id="availablePlayersTable" layoutX="100.0" layoutY="568.0" prefHeight="190.0" prefWidth="874.0" stylesheets="@css/MainGUI.css">
+        <TableView fx:id="availablePlayersTable" layoutX="62.0" layoutY="437.0" prefHeight="180.0" prefWidth="417.0" stylesheets="@css/MainGUI.css">
             <columns>
-                <TableColumn fx:id="playerNumberSelection" prefWidth="201.6666717529297" text="Spieler Nummer"/>
-                <TableColumn fx:id="playerNameSelection" prefWidth="671.0" text="Spieler Name"/>
+                <TableColumn fx:id="playerNumberSelection" prefWidth="185.0" text="Spieler Nummer" />
+                <TableColumn fx:id="playerNameSelection" prefWidth="231.0" text="Spieler Name" />
             </columns>
         </TableView>
-        <Button fx:id="back" layoutX="88.0" layoutY="49.0" mnemonicParsing="false" onAction="#onBack" prefHeight="56.0" prefWidth="70.0" style="-fx-background-color: transparent;"/>
-        <CheckBox fx:id="spectator" layoutX="579.0" layoutY="473.0" mnemonicParsing="false" prefHeight="19.0" prefWidth="18.0"/>
+        <Button fx:id="back" layoutX="62.0" layoutY="42.0" mnemonicParsing="false" onAction="#onBack" prefHeight="41.0" prefWidth="38.0" style="-fx-background-color: transparent;" />
+        <CheckBox fx:id="spectator" layoutX="670.0" layoutY="499.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="18.0" />
     </children>
 </AnchorPane>

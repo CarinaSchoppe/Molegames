@@ -90,7 +90,7 @@ public class Tournaments extends Application implements Initializable {
       tournamentTable.getSelectionModel().clearSelection();
       new TournamentEditor(tournament).start(primaryStage);
     } else {
-      Dialog.show("Du musst ein Spiel auswählen!", "Fehler", Dialog.DialogType.ERROR);
+      Dialog.show("Du musst ein Turnier auswählen!", "Achtung!", Dialog.DialogType.ERROR);
     }
   }
 

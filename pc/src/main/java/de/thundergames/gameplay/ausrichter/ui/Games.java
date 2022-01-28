@@ -86,7 +86,7 @@ public class Games extends Application implements Initializable {
       //new AddPlayer(game).start(primaryStage, "Spielmodus");
       new PlayerManagement(game).start(primaryStage, "Spielmodus");
     } else {
-      Dialog.show("Du musst ein Spiel auswählen!", "Fehler", Dialog.DialogType.ERROR);
+      Dialog.show("Du musst ein Spiel auswählen!", "Achtung!", Dialog.DialogType.WARNING);
     }
   }
 
@@ -100,7 +100,7 @@ public class Games extends Application implements Initializable {
   void onBreakGame(ActionEvent event) {
     var selectedItem = gameTable.getSelectionModel().getSelectedItem();
     if (selectedItem == null) {
-      Dialog.show("Es wurde kein Spiel ausgewaehlt!", "Spiel auswaehlen!", Dialog.DialogType.ERROR);
+      Dialog.show("Du musst ein Spiel auswählen!", "Achtung!", Dialog.DialogType.WARNING);
     } else {
       if (MoleGames.getMoleGames()
               .getGameHandler()
@@ -114,10 +114,10 @@ public class Games extends Application implements Initializable {
                 .get(selectedItem.getGameID())
                 .pauseGame();
         updateTable();
-        Dialog.show("Spiel wurde erfolgreich pausiert!", "Erfolg!", Dialog.DialogType.INFO);
+        Dialog.show("Das gewählte Spiel wurde erfolgreich pausiert!", "Erfolg!", Dialog.DialogType.INFO);
         gameTable.getSelectionModel().clearSelection();
       } else {
-        Dialog.show("Das Spiel ist nicht im Started GameState!", "Spiel Gamestate!", Dialog.DialogType.ERROR);
+        Dialog.show("Das gewählte Spiel wurde noch nicht gestartet!", "Achtung!", Dialog.DialogType.WARNING);
       }
     }
   }
@@ -126,7 +126,7 @@ public class Games extends Application implements Initializable {
   void onContinueGame(ActionEvent event) {
     var selectedItem = gameTable.getSelectionModel().getSelectedItem();
     if (selectedItem == null) {
-      Dialog.show("Es wurde kein Spiel ausgewaehlt!", "Spiel auswaehlen!", Dialog.DialogType.ERROR);
+      Dialog.show("Du musst ein Spiel auswählen!", "Achtung!", Dialog.DialogType.WARNING);
     } else {
       if (MoleGames.getMoleGames()
               .getGameHandler()
@@ -141,9 +141,9 @@ public class Games extends Application implements Initializable {
                 .resumeGame();
         gameTable.getSelectionModel().clearSelection();
         updateTable();
-        Dialog.show("Spiel wurde erfolgreich weitergefuehrt!", "Erfolg!", Dialog.DialogType.INFO);
+        Dialog.show("Das gewählte Spiel geht weiter!", "Erfolg!", Dialog.DialogType.INFO);
       } else {
-        Dialog.show("Das Spiel ist nicht im Paused GameState!", "Spiel Gamestate!", Dialog.DialogType.ERROR);
+        Dialog.show("Das gewählte Spiel ist nicht pausiert!", "Achtung!", Dialog.DialogType.WARNING);
       }
     }
   }
@@ -152,7 +152,7 @@ public class Games extends Application implements Initializable {
   void onEndGame(ActionEvent event) {
     var selectedItem = gameTable.getSelectionModel().getSelectedItem();
     if (selectedItem == null) {
-      Dialog.show("Es wurde kein Spiel ausgewaehlt!", "Spiel auswaehlen!", Dialog.DialogType.ERROR);
+      Dialog.show("Du musst ein Spiel auswählen!", "Achtung!", Dialog.DialogType.WARNING);
     } else {
       if (MoleGames.getMoleGames()
               .getGameHandler()
@@ -173,9 +173,9 @@ public class Games extends Application implements Initializable {
                 .forceGameEnd();
         gameTable.getSelectionModel().clearSelection();
         updateTable();
-        Dialog.show("Spiel wurde erfolgreich beendet!", "Erfolg!", Dialog.DialogType.INFO);
+        Dialog.show("Das gewählte Spiel wurde erfolgreich beendet!", "Erfolg!", Dialog.DialogType.INFO);
       } else {
-        Dialog.show("Das Spiel ist nicht irgendwie am laufen!", "Spiel Gamestate!", Dialog.DialogType.ERROR);
+        Dialog.show("Das gewählte Spiel kann nicht beendet werden!", "Achtung!", Dialog.DialogType.WARNING);
       }
     }
   }
@@ -189,7 +189,7 @@ public class Games extends Application implements Initializable {
   void onStartGame(ActionEvent event) {
     var selectedItem = gameTable.getSelectionModel().getSelectedItem();
     if (selectedItem == null) {
-      Dialog.show("Es wurde kein Spiel ausgewaehlt!", "Spiel auswaehlen!", Dialog.DialogType.WARNING);
+      Dialog.show("Du musst ein Spiel auswählen!", "Achtung!", Dialog.DialogType.WARNING);
     } else {
       if (MoleGames.getMoleGames()
               .getGameHandler()
@@ -205,9 +205,9 @@ public class Games extends Application implements Initializable {
                 .startGame(GameStates.STARTED);
         gameTable.getSelectionModel().clearSelection();
         updateTable();
-        Dialog.show("Spiel wurde erfolgreich gestartet!", "Erfolg!", Dialog.DialogType.INFO);
+        Dialog.show("Das gewählte Spiel wurde erfolgreich gestartet!", "Erfolg!", Dialog.DialogType.INFO);
       } else {
-        Dialog.show("Das Spiel ist kann nicht gestartet werden!", "Fehler", Dialog.DialogType.ERROR);
+        Dialog.show("Status 'Open', dann musst du mindestens 2 Spieler hinzufügen!", "Achtung!", Dialog.DialogType.WARNING);
       }
     }
   }

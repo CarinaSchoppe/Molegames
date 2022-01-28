@@ -90,14 +90,14 @@ public class PlayerManagement implements Initializable {
     var selectedPlayer = availablePlayersTable.getSelectionModel().getSelectedItem();
     if (selectedPlayer != null) {
       if (selectedPlayer.getPlayer().getGame() != null) {
-        Dialog.show("Der Spieler ist bereits in einem Spiel!", "Fehler!", Dialog.DialogType.ERROR);
+        Dialog.show("Der Spieler ist bereits in einem Spiel!", "Achtung!", Dialog.DialogType.WARNING);
         return;
       }
       if (game.getCurrentGameState() == GameStates.OVER) {
-        Dialog.show("Das Spiel ist bereits vorbei!", "Fehler!", Dialog.DialogType.ERROR);
+        Dialog.show("Das gewählte Spiel ist bereits vorbei!", "Achtung!", Dialog.DialogType.WARNING);
         return;
       } else if (game.getCurrentGameState() != GameStates.NOT_STARTED && !spectator.isSelected()) {
-        Dialog.show("Der Spieler kann keinem laufenden Spiel als Spieler beitreten nur als Beobachter!", "Fehler!", Dialog.DialogType.ERROR);
+        Dialog.show("Der Spieler kann nur als Beobachter laufenden Spielen beitreten!", "Achtung!", Dialog.DialogType.WARNING);
         return;
       }
       if (game.getPlayers().size() + 1 <= game.getSettings().getMaxPlayers()) {
@@ -115,13 +115,13 @@ public class PlayerManagement implements Initializable {
           MoleGames.getMoleGames().getServer().getPacketHandler().welcomeGamePacket(selectedPlayer);
           updateTable();
         } else {
-          Dialog.show("Das hinzufuegen des Spielers hat nicht geklappt.", "Fehler!", Dialog.DialogType.ERROR);
+          Dialog.show("Das hinzufügen des Spielers hat nicht geklappt!", "Achtung!", Dialog.DialogType.WARNING);
         }
       } else {
-        Dialog.show("Das Spiel ist bereits voll!", "Fehler!", Dialog.DialogType.ERROR);
+        Dialog.show("Das Spiel ist voll!", "Achtung!", Dialog.DialogType.WARNING);
       }
     } else {
-      Dialog.show("Du musst einen Spieler auswaehlen!", "Fehler!", Dialog.DialogType.ERROR);
+      Dialog.show("Du musst einen Spieler auswählen!", "Achtung!", Dialog.DialogType.WARNING);
     }
   }
 
@@ -142,16 +142,16 @@ public class PlayerManagement implements Initializable {
     var selectedPlayer = playerTable.getSelectionModel().getSelectedItem();
     if (selectedPlayer != null) {
       if (selectedPlayer.getGame() == null) {
-        Dialog.show("Der Spieler ist nicht in einem Spiel!", "Fehler!", Dialog.DialogType.ERROR);
+        Dialog.show("Der Spieler ist noch keinem Spiel beigetreten!", "Achtung!", Dialog.DialogType.WARNING);
         return;
       }
       if (selectedPlayer.getGame().getCurrentGameState() != GameStates.OVER) {
         MoleGames.getMoleGames().getServer().getPacketHandler().handlePlayerLeavePacket((ServerThread) selectedPlayer.getServerClient());
-        Dialog.show("Der Spieler wurde aus dem Spiel entfernt!", "Erfolg beim entfernen!", Dialog.DialogType.INFO);
+        Dialog.show("Der Spieler wurde aus dem Spiel entfernt!", "Erfolg!", Dialog.DialogType.INFO);
       }
       updateTable();
     } else {
-      Dialog.show("Du musst einen Spieler auswaehlen!", "Fehler!", Dialog.DialogType.ERROR);
+      Dialog.show("Du musst einen Spieler auswählen!", "Achtung!", Dialog.DialogType.WARNING);
     }
   }
 

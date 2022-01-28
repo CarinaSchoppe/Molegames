@@ -110,7 +110,7 @@ public class AddGames implements Initializable{
   void onAddGame(ActionEvent event) {
     var selectedItem = gameTable.getSelectionModel().getSelectedItem();
     if (selectedItem == null) {
-      Dialog.show("Es wurde kein Spiel ausgewaehlt!", "Spiel auswaehlen!", Dialog.DialogType.WARNING);
+      Dialog.show("Du musst ein Spiel auswählen!", "Achtung!",  Dialog.DialogType.INFO);
     } else {
       if (MoleGames.getMoleGames()
               .getGameHandler()
