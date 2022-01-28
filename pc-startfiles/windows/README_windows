@@ -1,0 +1,4 @@
+Windows installation:
+
+Move both the "SwtPra10-pc-1.3.2-all.jar" and "Ausrichter.bat" as well as "Beobachter.bat" into a directory
+of your choice. After that, double clicking either .bat file should start the corresponding component.

@@ -1,0 +1,7 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Exec=java -jar /opt/SwtPra10-pc-1.3.2-all.jar -p
+Name=Beobachter Maulwurf Kompanie
+Comment=Watch mole company games
+Terminal=false

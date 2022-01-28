@@ -1,0 +1,15 @@
+How to install and start Thunder Games Mole Company applications
+
+PC-Observer & Server UI:
+
+If the PC-Observer is build, take the generated jar-file "SwtPra10-pc-1.3.2-all.jar" 
+and install the execution files depending on the operating system as described in the READMEs located
+in the corresponding directory.
+
+-The file "Beobachter.*" will start the Mole Company Observer.
+-The file "Ausrichter.*" will start the Mole Company Server UI.
+
+Smartphone-Player:
+
+If the Smartphone-Player is build, copy the generated apk-file "app-release-unsigned.apk" to you smart device.
+After installation you can start the application.
