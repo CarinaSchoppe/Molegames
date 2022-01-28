@@ -4,7 +4,7 @@
 
 Carina Schoppe: Produktmanagerin, Developerin
 
-Lennart Kunkel: Produktmanager
+Lennart Kunkel: Produktmanager, Dokumentationsmanager
 
 Marc W: Scrum Master
 
@@ -15,8 +15,6 @@ Jana R: Testmanagerin
 Issam Mani: Entwickler, Qualitätsmanager
 
 Nick Lührmann: Scrum Master
-
-Nicole Malgorzata M: Dokumentationsmanagerin
 
 Philipp F: Werkzeugbeauftragter
 
