@@ -1,0 +1,97 @@
+Task Id;Column;Position;Color;Complexity;Title;Priority;Beschreibung
+12811;Done;13;Blue;1;Ich als PC-Beobachter  möchte mich anmelden können, damit ich die Spiele beobachten kann.;3;"Anmeldebildschirm:
+
+-Name muss angegeben werden (Bereits verwendete Namen sind erlaubt)
+Sonderzeichen sollen nicht erlaubt sein. Fehlermeldung soll angezeigt werden.
+-Design für Hintergrund muss erstellt und in der UI eingebunden werden.
+-Button ""Anmelden"" führt zum Fenster der Spielauswahl."
+12814;Done;42;Yellow;3;Ich als Smartphone-Teilnehmer möchte in der ersten Runde meine Spielfiguren selbst platzieren können, damit ich meine Startaufstellung festlegen kann.;1;Nach Start des Spiels soll dem Smartphone- Teilnehmer das Spielfeld und seine verfügbaren Maulwürfe gezeigt werden. Abwechselnd mit anderen Teilnehmern kann der Teilnehmer einen Maulwurf auf ein noch nicht belegtes Feld (kein Loch oder Zieh- Erneut Feld) platzieren, bis alle platziert wurden.
+12817;Done;41;Yellow;3;Ich als Smartphone-Teilnehmer möchte eine Bewegungskarte ziehen können, damit ich weiß, wie viele Felder ich gehen darf.;1;"Ist ein Spieler an der Reihe wird ihm bei festgelegter Reihenfolge des Servers die nächste Zugkarte angezeigt. Ist freie Wahl eingestellt kann der Spieler die verbleibenden Zugkarten sehen und eine davon Auswählen.
+“Ziehe erneut”-Feld erlaubt 2ten Zug pro Runde."
+12820;Done;35;Yellow;1;"Ich als Smartphone-Teilnehmer möchte die Spielzeit sehen können, damit ich weiß, wie viel Bedenkzeit mir noch bleibt.	";1;"Der Teilnehmer soll in der ""Spiel""- GUI einen Timer sehen, der sich im Sekundentakt verringert und nach Ablauf der Zeit und bei keinem betätigtem Zug den Spielzug des Spielers beendet. Wird bei jedem Spielzug zurückgesetzt.
+"
+12829;Done;40;Yellow;5;Ich als Smartphone-Teilnehmer möchte meine Figur bewegen können, damit ich beim Spiel mitwirken kann.;1;Ist ein Teilnehmer am Zug und hat seine Zugkarte erhalten, werden seine Maulwürfe gehighlightet. Nach der Auswahl eines seiner Maulwürfe kann der Teilnehmer auf das Zielfeld klicken und der Maulwurf bewegt sich zum Zielfeld. Bei einem regelwidrigem Zug wird der Teilnehmer der Konfiguration des Spiels entsprechend bestraft. Erreicht der Teilnehmer ein Zieh- Erneut Feld ist er wieder an der Reihe. Nach seinem Zug ist der nächste Teilnehmer an der Reihe.
+12832;Done;39;Yellow;2;Ich als Smartphone-Teilnehmer möchte noch nicht gestarteten Spielen beitreten können, damit ich mitspielen kann.;1;"In einer ""Spiel Auswahl""- GUI werden alle der gerade laufenden, in Kürze startenden und vor Kurzem beendeten (Dauer 1 Stunde) Spiele in einer Liste angezeigt. Es wird angezeigt ob das Spiel ein normales Spiel oder ein Turnier ist. Durch einen Button in der GUI ist es möglich einem Spiel beizutreten. Bei einem noch nicht gestartetem Spiel tritt der Spieler einer Lobby bei, in der auf Beginn des Spiels gewartet wird. Durch einen Button ""Aktualisieren"" kann die Liste der Spiele neu geladen werden."
+12835;Done;18;Blue;2;Ich als PC- Beobachter möchte die Punktzahlen aller teilnehmender Spieler sehen, damit ich eine Übersicht über die Platzierung bekomme.;3;"-Ein Listenelement soll alle Spieler mit ihrem Punktestand anzeigen.
+-Liste muss nach jeden Zug neu vom Spielserver geladen werden um die Liste aktuell zu halten.
+-Nach Wechsel einer Ebene verteilt der Spielserver Punkte an alle Teilnehmer anhand:
+Anzahl der eigenen Maulwürfe x Festgelegte Punkte für ein Loch je Ebene (Information aus Konfiguration vom Spielserver)."
+12838;Done;14;Blue;2;Ich als PC- Beobachter möchte sehen können, wer am Zug ist, damit ich den Runden-Fortschritt erkennen kann.;2;"-Anzeigen der Farbe des Spielers, Highlighting der Spielfigur, Score und der Spielernamen in UI.
+-Kurze Meldung bis 2 Sekunden in der Mitte des Bildes des Spielers welcher am Zug ist."
+12841;Done;33;Blue;2;Ich als PC-Beobachter möchte den gelisteten Spielen beitreten können, damit ich sie in Echtzeit sehen kann.;3;"In einer ""Spiel Auswahl""- GUI werden alle der gerade laufenden, in Kürze startenden und vor Kurzem beendeten (Dauer 1 Stunde) Spiele in einer Liste angezeigt. Es wird angezeigt ob das Spiel ein normales Spiel oder ein Turnier ist. Durch einen Button in der GUI ist es möglich ein Spiel zu beobachten. Bei einem noch nicht gestartetem Spiel tritt der Spieler einer Lobby bei, in der auf Beginn des Spiels gewartet wird. Durch einen Button ""Aktualisieren"" kann die Liste der Spiele neu geladen werden."
+12847;Done;9;Blue;1;Ich als PC- Beobachter möchte mich abmelden können, damit ich den Server verlassen kann.;3;"Ein Button in der ""Spielliste""- GUI trennt die Verbindung zum Server und führt zurück zur Anmelde- GUI.
+"
+12850;Done;32;Blue;1;Ich als PC- Beobachter möchte nach Spielende über das Ergebnis benachrichtigt werden, damit ich weiß, wer gewonnen hat. ;3;-Bei erreichen der Zielebene oder Abbruch des Spiels soll das Leaderboard des Spiels zentriert im Bild genannt werden.
+12856;Done;15;Blue;3;Ich als PC-Beobachter möchte dem Spiel zugucken können, damit ich einen Eindruck vom Spielverlauf bekomme.;3;"Anzeige des Spiels beinhaltet:
+-Position der Maulwürfe
+-Löcher und Zieh-Erneut Felder der aktuellen Ebene
+-Übersicht über alle Ebenen (Anzeige auf welcher Ebene man sich aktuell befindet)"
+12862;Done;8;Blue;2;Ich als PC- Beobachter möchte die Spielzeiten sehen, damit ich sehen kann, wie viel Bedenkzeit die Spieler noch haben.;3;"Der Beobachter soll in der ""Spiel""- GUI einen Timer sehen, der sich im Sekundentakt verringert und nach Ablauf der Zeit und bei keinem betätigtem Zug den Spielzug des Spielers beendet. Wird bei jedem Spielzug zurückgesetzt.
+"
+12979;Done;9;Green;0;Ich als Ausrichter möchte die Anzahl der Mitspieler konfigurieren, damit ich entscheiden kann wie viele Spieler am Spiel teilnehmen können. ;0;
+13021;Done;22;Green;5;Ich als Ausrichter möchte die Konfiguration über eine GUI erstellen können, damit ich eine graphische Übersicht über den Vorgang habe. ;3;Über die graphische Übersicht soll man durch Eingabefelder den Spielserver konfigurieren können.
+13024;Done;20;Green;2;Ich als Ausrichter möchte die Konfiguration speichern und laden können, damit ich meine favorisierten Einstellung sichern kann.  ;2;"Durch die Buttons ""Konfiguration laden"" und ""Konfiguration speichern"" in der Konfigurations-GUI kann eine gültige Konfiguration als eine festgelegte Datei abgespeichert oder geladen werden. Hierbei öffnet sich der Dateien-Explorer."
+13030;Done;24;Green;5;Ich als Ausrichter möchte das offene Spiel konfigurieren können, damit ich Spieler oder Beobachter der  Lobby hinzufügen und die Startreihenfolge anpassen kann.;2;GUI zur Bestimmung der Teilnehmer und der Reihenfolge der Spieler von bereits erstellten aber noch nicht gestarteten oder beendeten Spielen.
+13048;Done;31;Green;2;Ich als Ausrichter möchte das Spiel jederzeit starten können, damit ich auf Vorkommnisse reagieren kann. ;3;"Der Ausrichter kann ein noch nicht gestartetes Spiel aus der Spielliste auswählen und jederzeit über einen in die GUI eingebundenen Button starten.
+"
+13051;Done;12;Green;0;Ich als Ausrichter möchte das Spiel jederzeit pausieren können, damit ich auf Vorkommnisse reagieren kann. ;0;
+13054;Done;13;Green;0;Ich als Ausrichter möchte das Spiel jederzeit fortsetzen können, damit ich auf Vorkommnisse reagieren kann. ;0;
+13057;Done;30;Green;2;Ich als Ausrichter möchte das Spiel jederzeit beenden können, damit ich auf Vorkommnisse reagieren kann. ;2;"Der Ausrichter kann ein laufendes Spiel auswählen und jederzeit über einen in die GUI eingebundenen Button beenden. Hierbei muss der Ausrichter selber über die Wertung des Spiels entscheiden.
+"
+13063;Done;15;Green;0;Ich als Ausrichter möchte eine Menge von nacheinander auszuführenden Spielen im Vorhinein planen können, damit ich ein Turnier erstellen kann. ;0;
+13069;Done;3;Green;0;Ich als Ausrichter möchte eine Menge von nacheinander auszuführenden Spielen ausführen können, damit ich ein Turnier starten kann. ;0;
+13072;Work in progress;1;Green;2;Ich als Ausrichter möchte während dem Turnier die Ergebnisse der abgelaufenen Spiele und die aktuelle Rangfolge der Spieler sehen können, damit ich sehen kann wer am besten ist.;2;"Die Ergebnisse der beendeten Spiele des Turniers und die aktuelle Rangliste der Spieler soll jederzeit abrufbar sein. Die Ergebnisse werden auf der ""Turnier bearbeiten""-GUI dargestellt.
+Eine Liste für das jeweils Spiel und eine Besten-Liste für das gesamte Turnier. In den Listen wird der Score und der Name des Spielers angezeigt."
+13282;Done;12;Blue;10;Ich als PC-Beobachter möchte das Spielfeld sehen können, damit ich einen Eindruck vom Design des Spiels bekomme.;3;"Nach Beginn eines Spiels oder Beitritt eines schon laufenden Spiels wird das Design des Hintergrunds, des Spielfelds, der Maulwürfe und der Felder; die Position der Löcher, der ggf. schon platzierten Maulwürfe und der Zieh-Erneut Felder geladen. Diese Daten werden vom Spielserver bereitgestellt und beim Client in einer ""Spiel""- GUI erstellt."
+13573;Done;34;Blue;1;Ich als PC-Beobachter möchte einer Lobby beitreten können, damit ich auf den Beginn des Spiels warten kann.;3;"Lobby wird geöffnet wenn der Beobachter einem offenen Spiel beitritt (noch nicht gestartete Spiele). Lobby ist der Wartebereich für ein Spiel. Der Ausrichter startet das Spiel wenn genügend Spieler vorhanden sind.
+"
+13576;Done;2;Green;3;Ich als Ausrichter möchte ein Turnier erstellen können, damit sich andere Spieler messen können.;2;"Ein Turnier ist eine Menge hintereinander ablaufenden Spielen.
+
+-Button ""Turnier erstellen/arbeiten"" öffnet Dialog ein neues Turnier zu erstellen, oder ein selektiertes Turnier zu bearbeiten.
+-Spiele eines Turniers laufen hintereinander ab.
+-Spiele werden erst konfiguriert.
+-Vor jedem Spiel muss der Ausrichter die Spieler in der Lobby dem Spiel zuweisen."
+13585;Done;27;Green;5;Ich als Ausrichter möchte ein Spiel jederzeit pausieren und fortsetzen können.;2;"Nach Auswahl eines Spiels in der Liste werden die beiden Buttons ""pausieren/unterbrechen"" und ""fortsetzen"" benutzbar falls das Spiel aktuell läuft.
+Mit dem Button ""Pausieren/unterbrechen"" wird das Spiel angehalte.
+Erst wenn der Ausrichter den Button ""Fortsetzen"" betätigt läuft das Spiel weiter."
+13588;Work in progress;2;Yellow;3;Ich als Smartphone-Teilnehmer möchte an einem Turnier teilnehmen können, damit ich zeigen kann wie gut ich bin.;1;"Ein Teilnehmer soll von der Spieleauswahl einer Lobby eines Turniers beitreten können.
+Wenn der Spieler der Lobby beigetreten ist, muss der Ausrichter den Teilnehmer einem Spiel hinzufügen."
+14474;Done;28;Green;3;Ich als Ausrichter möchte eine grafische Übersicht über alle erstellten Spiele sehen können, damit ich die Spiele besser verwalten kann.;3;"Grundsätzliche Anzeige der gesamten Spiele in einer Liste. Informationen werden pro Element eines Listenelementes angezeigt.
+Liste wird nach erstellen des Servers geladen.
+Aktualisieren ladet die Liste neu."
+14486;Done;19;Green;5;Ich als Ausrichter möchte die Zugscheiben und die Reihenfolge der Scheiben selber Konfigurieren können, damit das Spiel spannender wird.;2;Das Anzahl und Werte der Zugscheiben/Spielkarten sollen frei wählbar sein. Des Weiteren soll die Reihenfolge der Zugscheiben sortierbar sein. Falls dies nicht erwünscht ist soll der Teilnehmer die Möglichkeit haben aus seinen Zugscheiben auszuwählen.
+14489;Done;25;Green;2;Ich als Ausrichter möchte einen Engine-Teilnehmer meinem Spiel hinzufügen können, damit ich auch ohne Menschen spielen kann. ;1;"Der Engine-Teilnehmer wird über die Kommandozeile gestartet und einem Spiel hinzugefügt. Der Engine-Teilnehmer zieht seine Züge mithilfe eines Algorithmuses selber.
+"
+14492;Done;26;Green;5;Ich als Ausrichter möchte die Platzierung der Löcher, deren Punkte und die Zieh-erneut Felder selber bestimmen können, damit das Spiel spannender wird.;2;"Der Ausrichter soll die Löcher, die Zieherneut Felder und die Punkte die ein Spieler bei Wechsel einer Ebenen bekommt selber bestimmen können.
+In jeder Ebene gibt es weniger Löcher als in der darüber liegenden. In der obersten
+Ebene muss es weniger Löcher als die gesamte Anzahl aller Maulwürfe geben.
+Die Löcher zweier Ebenen dürfen nicht direkt übereinander liegen."
+14498;Done;3;Green;3;Ich als Ausrichter möchte ein Turnier planen und ausführen können, damit andere Spieler sich messen können.;2;"Ein Turnier ist eine Menge hintereinander ablaufenden Spielen.
+
+-Button ""Turnier erstellen/arbeiten"" öffnet Dialog ein neues Turnier zu erstellen, oder ein selektiertes Turnier zu bearbeiten.
+-Spiele eines Turniers laufen hintereinander ab.
+-Spiele werden erst konfiguriert.
+-Vor jedem Spiel muss der Ausrichter die Spieler in der Lobby dem Spiel zuweisen."
+14501;Done;36;Yellow;1;Ich als Smartphone- Teilnehmer möchte mich anmelden können, damit ich Spielen beitreten kann.;1;"Anmeldebildschirm:
+
+-Name muss angegeben werden (Bereits verwendete Namen sind erlaubt)
+Sonderzeichen sollen nicht erlaubt sein. Fehlermeldung soll angezeigt werden.
+-Design für Hintergrund muss erstellt und in der UI eingebunden werden.
+-Button ""Anmelden"" führt zum Fenster der Spielauswahl."
+14504;Done;37;Yellow;1;Ich als Smartphone-Teilnehmer möchte mich abmelden können, damit ich den Server verlassen kann.;1;"Ein Button in der ""Spielliste""- GUI trennt die Verbindung zum Server und führt zurück zur Anmelde- GUI.
+"
+15620;Done;5;Purple;0;Komitee Umsetzung;2;Umsetzung der Komitee entschiedenen Änderungen und Einstellungen
+17693;Done;4;Purple;0;AI;0;ich als AI möchte einem Spiel beitreten können und automatisch intelligent handeln können
+17843;Done;17;Brown;2;Möglichkeiten für die Skallierbarkeit von dynamischen GUIs;0;"Möglichkeiten eine GUI skallierbar zu machen sodass diese nicht mehr statisch implementiert werden müssen
+
+gelöst von Phillip,Issam,Marc"
+18014;Done;29;Green;3;Ich als Ausrichter möchte mich anmelden können, damit ich Spiele und Turniere erstellen kann.;2;
+18239;Done;16;Brown;0;General Support beim Projekt;0;Allgemeiner Support für dasProjekt sodass alle gut vorankommen
+18242;Done;38;Yellow;0;Ich als Smartphone-Teilnehmer möchte einem Spiel als Beobachter beitreten ;0;
+18434;Done;11;Blue;0;Ich als PC- Beobachter möchte die Namen aller Spieler sehen können.;0;
+18437;Done;7;Blue;0;Ich als PC- Beobachter möchte sehen können wenn ein Spieler einen falschen Zug gemacht hat.;0;
+18440;Done;1;Blue;0;Ich als PC- Beobachter möchte die Mützen der Spieler in unterschiedlichen Farben sehen können.;0;
+18443;Done;23;Blue;0;Ich als PC- Beobachter möchte Animationen zu den Bewegungen eines Maulwurfs sehen  können.;0;Aktuell zu statisch.
+18446;Done;21;Blue;0;Ich als PC- Beobachter möchte keine Bugs haben damit ich das Spiel besser spielen kann.;0;
+18452;Done;10;Blue;0;Ich als PC-Beobachter möchte die Bewegungskarten angezeigt bekommen.;0;
+18455;Done;6;Blue;0;Ich als PC-Beobachter möchte auf den Referenzserver zugreifen können.;0;
