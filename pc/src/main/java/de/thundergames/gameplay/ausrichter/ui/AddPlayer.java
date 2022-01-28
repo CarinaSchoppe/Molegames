@@ -122,7 +122,7 @@ public class AddPlayer implements Initializable {
           MoleGames.getMoleGames().getServer().getPacketHandler().welcomeGamePacket(selectedPlayer);
           updateTable();
         } else {
-          Dialog.show("Das hinzufuegen des Spielers hat nicht geklappt.", "Fehler!", Dialog.DialogType.ERROR);
+          Dialog.show("Das hinzufügen des Spielers hat nicht geklappt.", "Fehler!", Dialog.DialogType.ERROR);
         }
       } else {
         Dialog.show("Das Spiel ist bereits voll!", "Fehler!", Dialog.DialogType.ERROR);

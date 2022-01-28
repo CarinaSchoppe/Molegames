@@ -90,7 +90,7 @@ public class PlayerManagement implements Initializable {
     var selectedPlayer = availablePlayersTable.getSelectionModel().getSelectedItem();
     if (selectedPlayer != null) {
       if (selectedPlayer.getPlayer().getGame() != null) {
-        Dialog.show("Der Spieler ist bereits in einem Spiel!", "Achtung!", Dialog.DialogType.WARNING);
+        Dialog.show("Du musst einen Spieler wählen!", "Achtung!", Dialog.DialogType.WARNING);
         return;
       }
       if (game.getCurrentGameState() == GameStates.OVER) {
@@ -147,7 +147,6 @@ public class PlayerManagement implements Initializable {
       }
       if (selectedPlayer.getGame().getCurrentGameState() != GameStates.OVER) {
         MoleGames.getMoleGames().getServer().getPacketHandler().handlePlayerLeavePacket((ServerThread) selectedPlayer.getServerClient());
-        Dialog.show("Der Spieler wurde aus dem Spiel entfernt!", "Erfolg!", Dialog.DialogType.INFO);
       }
       updateTable();
     } else {

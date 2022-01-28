@@ -50,6 +50,8 @@ public class HolesConfiguration implements Initializable {
   @FXML
   private Button add;
   @FXML
+  private Button addPoints;
+  @FXML
   private TableColumn<Floor, String> amountDrawAgain;
   @FXML
   private TableColumn<Floor, String> amountHoles;
@@ -67,6 +69,8 @@ public class HolesConfiguration implements Initializable {
   private TableColumn<Hole, String> xPosition;
   @FXML
   private TextField y;
+  @FXML
+  private TextField z;
   @FXML
   private TableColumn<Hole, String> yPosition;
   @FXML
@@ -92,18 +96,11 @@ public class HolesConfiguration implements Initializable {
   /**
    * @param event
    * @author Carina, Jana, Eva
-   * @use removes a new floor or field
    */
   @FXML
   void onAdd(@NotNull final ActionEvent event) {
     try {
       if (!"".equalsIgnoreCase(x.getText())
-        && x.getText() != null
-        && ("".equalsIgnoreCase(y.getText()) || y.getText() == null)) {
-        var floor = new Floor(Integer.parseInt(x.getText()));
-        CreateGame.getFloors().add(floor);
-        updateTable();
-      } else if (!"".equalsIgnoreCase(x.getText())
         && x.getText() != null
         && !"".equalsIgnoreCase(y.getText())
         && y.getText() != null
@@ -114,15 +111,32 @@ public class HolesConfiguration implements Initializable {
         updateHolesTable();
         updateTable();
       } else {
-        Dialog.show("Wähle eine Ebene aus!", "Ebeneauswahl!", Dialog.DialogType.WARNING);
+        Dialog.show("Wähle eine Ebene aus!", "Achtung!", Dialog.DialogType.WARNING);
       }
       x.setText(null);
       y.setText(null);
     } catch (NumberFormatException exe) {
-      Dialog.show("Du musst eine Zahl eingeben!", "Eingabe!", Dialog.DialogType.ERROR);
+      Dialog.show("Du musst die X und Y Koordinaten eingeben!", "Achtung!", Dialog.DialogType.WARNING);
     }
   }
-
+  /**
+   * @param event
+   * @author Eva, Jana
+   */
+  @FXML
+  void onAddPoints(@NotNull final ActionEvent event) {
+    try {
+      if (!"".equalsIgnoreCase(z.getText())
+        && z.getText() != null) {
+        var floor = new Floor(Integer.parseInt(z.getText()));
+        CreateGame.getFloors().add(floor);
+        updateTable();
+      }
+      z.setText(null);
+    } catch (NumberFormatException exe) {
+      Dialog.show("Du musst eine Zahl eingeben!", "Achtung!", Dialog.DialogType.WARNING);
+    }
+  }
   @FXML
   void onBack(@NotNull final ActionEvent event) throws Exception {
     var primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -146,7 +160,7 @@ public class HolesConfiguration implements Initializable {
       updateTable();
       floorTable.getSelectionModel().select(null);
     } else {
-      Dialog.show("Du musst eine Spalte auswaehlen!", "Auswählen!", Dialog.DialogType.ERROR);
+      Dialog.show("Du musst eine Zeile auswählen!", "Achtung!", Dialog.DialogType.WARNING);
     }
   }
 
@@ -185,6 +199,8 @@ public class HolesConfiguration implements Initializable {
   void initialize() {
     assert add != null
       : "fx:id=\"add\" was not injected: check your FXML file 'HolesConfiguration.fxml'.";
+    assert addPoints != null
+      : "fx:id=\"addPoints\" was not injected: check your FXML file 'HolesConfiguration.fxml'.";
     assert amountDrawAgain != null
       : "fx:id=\"amountDrawAgain\" was not injected: check your FXML file 'HolesConfiguration.fxml'.";
     assert amountHoles != null
@@ -207,6 +223,8 @@ public class HolesConfiguration implements Initializable {
       : "fx:id=\"xPosition\" was not injected: check your FXML file 'HolesConfiguration.fxml'.";
     assert y != null
       : "fx:id=\"y\" was not injected: check your FXML file 'HolesConfiguration.fxml'.";
+    assert z != null
+      : "fx:id=\"z\" was not injected: check your FXML file 'HolesConfiguration.fxml'.";
     assert points != null
       : "fx:id=\"points\" was not injected: check your FXML file 'HolesConfiguration.fxml'.";
     assert yPosition != null

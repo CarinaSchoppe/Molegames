@@ -44,6 +44,8 @@ public class DrawAgainConfiguration implements Initializable {
   @FXML
   private Button add;
   @FXML
+  private Button addPoints;
+  @FXML
   private TableColumn<Floor, String> amountDrawAgain;
   @FXML
   private TableColumn<Floor, String> amountHoles;
@@ -65,6 +67,8 @@ public class DrawAgainConfiguration implements Initializable {
   private TableColumn<DrawAgain, String> xPosition;
   @FXML
   private TextField y;
+  @FXML
+  private TextField z;
   @FXML
   private TableColumn<DrawAgain, String> yPosition;
   @FXML
@@ -90,12 +94,6 @@ public class DrawAgainConfiguration implements Initializable {
     try {
       if (!"".equalsIgnoreCase(x.getText())
         && x.getText() != null
-        && ("".equalsIgnoreCase(y.getText()) || y.getText() == null)) {
-        var floor = new Floor(Integer.parseInt(x.getText()));
-        CreateGame.getFloors().add(floor);
-        updateTable();
-      } else if (!"".equalsIgnoreCase(x.getText())
-        && x.getText() != null
         && !"".equalsIgnoreCase(y.getText())
         && y.getText() != null
         && floorTable.getSelectionModel().getSelectedItem() != null) {
@@ -106,12 +104,31 @@ public class DrawAgainConfiguration implements Initializable {
         updateDragAgainTable();
         updateTable();
       } else {
-        Dialog.show("Waehle eine Ebene aus!", "Settings", Dialog.DialogType.ERROR);
+        Dialog.show("Du musst eine Ebene auswählen!", "Achtung!", Dialog.DialogType.WARNING);
       }
       x.setText(null);
       y.setText(null);
     } catch (NumberFormatException exe) {
-      Dialog.show("Du musst eine Zahl eingeben!", "Settings", Dialog.DialogType.ERROR);
+      Dialog.show("Du musst die X und Y Koordinaten eingeben!", "Achtung!", Dialog.DialogType.WARNING);
+    }
+  }
+
+  /**
+   * @author Eva,Jana
+   */
+  @FXML
+  void onAddPoints(@NotNull final ActionEvent event) {
+    try {
+      if (
+        !"".equalsIgnoreCase(z.getText())
+          && z.getText() != null) {
+        var floor = new Floor(Integer.parseInt(z.getText()));
+        CreateGame.getFloors().add(floor);
+        updateTable();
+      }
+      z.setText(null);
+    } catch (NumberFormatException exe) {
+      Dialog.show("Du musst eine Zahl eingeben!", "Achtung!", Dialog.DialogType.WARNING);
     }
   }
 
@@ -133,9 +150,10 @@ public class DrawAgainConfiguration implements Initializable {
       updateTable();
       floorTable.getSelectionModel().select(null);
     } else {
-      Dialog.show("Du musst eine Spalte auswaehlen!", "Settings", Dialog.DialogType.ERROR);
+      Dialog.show("Du musst eine Zeile auswählen!", "Achtung!", Dialog.DialogType.WARNING);
     }
   }
+
 
   public void updateTable() {
     floorTable.getItems().clear();
@@ -153,6 +171,8 @@ public class DrawAgainConfiguration implements Initializable {
   void initialize() {
     assert add != null
       : "fx:id=\"add\" was not injected: check your FXML file 'DrawAgainConfiguration.fxml'.";
+    assert addPoints != null
+      : "fx:id=\"addPoints\" was not injected: check your FXML file 'DrawAgainConfiguration.fxml'.";
     assert amountDrawAgain != null
       : "fx:id=\"amountDrawAgain\" was not injected: check your FXML file 'DrawAgainConfiguration.fxml'.";
     assert amountHoles != null
@@ -177,6 +197,8 @@ public class DrawAgainConfiguration implements Initializable {
       : "fx:id=\"xPosition\" was not injected: check your FXML file 'DrawAgainConfiguration.fxml'.";
     assert y != null
       : "fx:id=\"y\" was not injected: check your FXML file 'DrawAgainConfiguration.fxml'.";
+    assert z != null
+      : "fx:id=\"z\" was not injected: check your FXML file 'DrawAgainConfiguration.fxml'.";
     assert yPosition != null
       : "fx:id=\"yPosition\" was not injected: check your FXML file 'DrawAgainConfiguration.fxml'.";
     // create a listener on selecting a property for the floorTable

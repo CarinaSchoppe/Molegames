@@ -110,17 +110,27 @@ public class AddGames implements Initializable{
   void onAddGame(ActionEvent event) {
     var selectedItem = gameTable.getSelectionModel().getSelectedItem();
     if (selectedItem == null) {
-      Dialog.show("Du musst ein Spiel auswählen!", "Achtung!",  Dialog.DialogType.INFO);
+      Dialog.show("Du musst ein Spiel auswählen!", "Achtung!",  Dialog.DialogType.WARNING);
     } else {
       if (MoleGames.getMoleGames()
-              .getGameHandler()
-              .getIDGames()
-              .get(selectedItem.getGameID())
-              .getCurrentGameState()
-              == GameStates.NOT_STARTED) {
+        .getGameHandler()
+        .getIDGames()
+        .get(selectedItem.getGameID())
+        .getCurrentGameState()
+        == GameStates.NOT_STARTED) {
         tournament.addGame(selectedItem);
-        //MoleGames.getMoleGames().getGameHandler().getGames().add(selectedItem);
+        Dialog.show("Das Spiel wurde hinzugefügt!", "Erfolg!",  Dialog.DialogType.WARNING);
         updateTable();
+      } else {
+        if (MoleGames.getMoleGames()
+          .getGameHandler()
+          .getIDGames()
+          .get(selectedItem.getGameID())
+          .getCurrentGameState()
+          == GameStates.OVER) {
+          Dialog.show("Das Spiel ist bereits vorbei", "Achtung!",  Dialog.DialogType.WARNING);
+          updateTable();
+        }
       }
     }
   }

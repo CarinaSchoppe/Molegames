@@ -112,6 +112,8 @@ public class TournamentEditor implements Initializable {
       var selectedItem = gameTable.getSelectionModel().getSelectedItem();
       tournament.getGames().remove(selectedItem);
       updateTable();
+    } else {
+      Dialog.show("Du musst ein Spiel auswählen!", "Achtung!", Dialog.DialogType.WARNING);
     }
   }
 
@@ -125,7 +127,7 @@ public class TournamentEditor implements Initializable {
       //new AddPlayer(selectedItem).start(primaryStage, "TurnierModus");
       new PlayerManagement(selectedItem).start(primaryStage, "Turniermodus");
     } else {
-      Dialog.show("Du musst ein Spiel auswählen!", "Achtung!", Dialog.DialogType.ERROR);
+      Dialog.show("Du musst ein Spiel auswählen!", "Achtung!", Dialog.DialogType.WARNING);
     }
   }
 
@@ -133,7 +135,7 @@ public class TournamentEditor implements Initializable {
   void onBreakGame(ActionEvent event) {
     var selectedItem = gameTable.getSelectionModel().getSelectedItem();
     if (selectedItem == null) {
-      Dialog.show("Du musst ein Spiel auswählen!", "Achtung!", Dialog.DialogType.ERROR);
+      Dialog.show("Du musst ein Spiel auswählen!", "Achtung!", Dialog.DialogType.WARNING);
     } else {
       if (MoleGames.getMoleGames()
               .getGameHandler()
@@ -147,10 +149,10 @@ public class TournamentEditor implements Initializable {
                 .get(selectedItem.getGameID())
                 .pauseGame();
         updateTable();
-        Dialog.show("Spiel wurde erfolgreich pausiert!", "Erfolg!", Dialog.DialogType.INFO);
+        Dialog.show("Das gewählte Spiel wurde erfolgreich pausiert!", "Erfolg!", Dialog.DialogType.INFO);
         gameTable.getSelectionModel().clearSelection();
       } else {
-        Dialog.show("Das Spiel ist nicht im Started GameState!", "Spiel Gamestate!", Dialog.DialogType.ERROR);
+        Dialog.show("Das gewählte Spiel ist vorbei oder wurde noch nicht gestartet!", "Achtung!", Dialog.DialogType.WARNING);
       }
     }
   }
@@ -159,7 +161,7 @@ public class TournamentEditor implements Initializable {
   void onContinueGame(ActionEvent event) {
     var selectedItem = gameTable.getSelectionModel().getSelectedItem();
     if (selectedItem == null) {
-      Dialog.show("Du musst ein Spiel auswählen!", "Achtung!", Dialog.DialogType.ERROR);
+      Dialog.show("Du musst ein Spiel auswählen!", "Achtung!", Dialog.DialogType.WARNING);
     } else {
       if (MoleGames.getMoleGames()
               .getGameHandler()
@@ -176,7 +178,7 @@ public class TournamentEditor implements Initializable {
         updateTable();
         Dialog.show("Das gewählte Spiel geht weiter!", "Erfolg!", Dialog.DialogType.INFO);
       } else {
-        Dialog.show("Das gewählte Spiel ist nicht pausiert!", "Achtung!", Dialog.DialogType.ERROR);
+        Dialog.show("Das gewählte Spiel ist nicht pausiert!", "Achtung!", Dialog.DialogType.WARNING);
       }
     }
   }
@@ -185,7 +187,7 @@ public class TournamentEditor implements Initializable {
   void onEndGame(ActionEvent event) {
     var selectedItem = gameTable.getSelectionModel().getSelectedItem();
     if (selectedItem == null) {
-      Dialog.show("Du musst ein Spiel auswählen!", "Achtung!", Dialog.DialogType.ERROR);
+      Dialog.show("Du musst ein Spiel auswählen!", "Achtung!", Dialog.DialogType.WARNING);
     } else {
       if (MoleGames.getMoleGames()
               .getGameHandler()
@@ -208,7 +210,7 @@ public class TournamentEditor implements Initializable {
         updateTable();
         Dialog.show("Das gewählte Spiel wurde erfolgreich beendet!", "Erfolg!", Dialog.DialogType.INFO);
       } else {
-        Dialog.show("Das gewählte Spiel vvvv?????????!", "Achtung!", Dialog.DialogType.ERROR);
+        Dialog.show("Das gewählte Spiel ist vorbei!", "Achtung!", Dialog.DialogType.WARNING);
       }
     }
   }
@@ -224,7 +226,7 @@ public class TournamentEditor implements Initializable {
       }
     }
     if (selectedItem == null) {
-      Dialog.show("Du musst ein Spiel auswählen!", "Achtung!", Dialog.DialogType.ERROR);
+      Dialog.show("Du musst ein Spiel auswählen!", "Achtung!", Dialog.DialogType.WARNING);
     } else {
       if (MoleGames.getMoleGames()
               .getGameHandler()
@@ -242,7 +244,7 @@ public class TournamentEditor implements Initializable {
         updateTable();
         Dialog.show("Das gewählte Spiel wurde erfolgreich gestartet!", "Erfolg!", Dialog.DialogType.INFO);
       } else {
-        Dialog.show("Das nccdneo!", "Achtung", Dialog.DialogType.ERROR);
+        Dialog.show("Status 'Open', dann musst du mindestens 2 Spieler hinzufügen!", "Achtung", Dialog.DialogType.WARNING);
       }
     }
   }
