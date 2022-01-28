@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TournamentEditor_ALT.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SwtPra10-pc</a> &gt; <a href="index.source.html" class="el_package">de.thundergames.gameplay.ausrichter.ui</a> &gt; <span class="el_source">TournamentEditor_ALT.java</span></div><h1>TournamentEditor_ALT.java</h1><pre class="source lang-java linenums">/*
+ * Copyright Notice for SwtPra10
+ * Copyright (c) at ThunderGames | SwtPra10 2022
+ * File created on 17.01.22, 19:10 by Carina Latest changes made by Carina on 17.01.22, 19:10 All contents of &quot;TournamentEditor_ALT&quot; are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * at ThunderGames | SwtPra10. All rights reserved
+ * Any type of duplication, distribution, rental, sale, award,
+ * Public accessibility or other use
+ * requires the express written consent of ThunderGames | SwtPra10.
+ */
+
+package de.thundergames.gameplay.ausrichter.ui;
+
+import de.thundergames.MoleGames;
+import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.stage.Stage;
+import org.jetbrains.annotations.NotNull;
+import java.net.URL;
+import java.util.ResourceBundle;
+
+/**
+ * @param event
+ * @author Eva
+ * @throws Exception
+ * @use opens tournament mode to create games in it
+ */
+
+<span class="nc bnc" id="L37" title="All 2 branches missed.">public class TournamentEditor_ALT extends Application implements Initializable {</span>
+
+  @FXML
+  private ResourceBundle resources;
+
+  @FXML
+  private URL location;
+
+  @FXML
+  private Button addGAme;
+
+  @FXML
+  private Button back;
+
+  @FXML
+  private Button deleteGame;
+
+  @FXML
+  private TableColumn&lt;?, ?&gt; gameID;
+
+  @FXML
+  private TableColumn&lt;?, ?&gt; player;
+
+  @FXML
+  private Button releaseTournament;
+
+  @FXML
+  private TableView&lt;?&gt; tableTournamentGame;
+
+  /**
+   * @param event
+   * @throws Exception
+   * @author Eva
+   * @use open CreateGames to create games in tournament
+   */
+
+  @FXML
+  void onAddGame(ActionEvent event) throws Exception {
+<span class="nc" id="L75">    var primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();</span>
+<span class="nc" id="L76">    new AddGame_ALT().start(primaryStage);</span>
+<span class="nc" id="L77">  }</span>
+
+  /**
+  @FXML
+  void onAddGame(ActionEvent event) throws Exception {
+    if (CreateGame.getCreateGameInstance() != null) {
+      CreateGame.setPunishmentPrev(null);
+      CreateGame.setVisualEffectsPrev(null);
+      CreateGame.setThinkTimePrev(null);
+      CreateGame.getFloors().clear();
+      CreateGame.setPullDiscsOrderedPrev(false);
+      CreateGame.setRadiusPrev(null);
+      CreateGame.getDrawCardValuesList().clear();
+      CreateGame.setMaxPlayersPrev(null);
+      CreateGame.setMolesAmountPrev(null);
+    }
+    var primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+    new CreateGame().start(primaryStage);
+  }
+   */
+  @FXML
+  void onBack(ActionEvent event) throws Exception {
+<span class="nc" id="L99">    var primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();</span>
+    /*
+    punishmentPrev = null;
+    maxPlayersPrev = null;
+    molesAmountPrev = null;
+    thinkTimePrev = null;
+    visualEffectsPrev = null;
+    radiusPrev = null;
+    drawCardValuesList.clear();
+    floors.clear();
+    savePrevSettings();
+    */
+<span class="nc" id="L111">    MoleGames.getMoleGames().getGui().start(primaryStage);</span>
+    //MoleGames.getMoleGames().getGui().updateTable();
+<span class="nc" id="L113">  }</span>
+
+  @FXML
+  void onDeleteGame(ActionEvent event) {
+<span class="nc" id="L117">  }</span>
+
+  @FXML
+  void onGameID(ActionEvent event) {
+<span class="nc" id="L121">  }</span>
+
+  @FXML
+  void onPlayer(ActionEvent event) {
+<span class="nc" id="L125">  }</span>
+
+  @FXML
+  void onReleaseTournament(ActionEvent event) {
+<span class="nc" id="L129">  }</span>
+
+  @FXML
+  void onTableTournamentGame(ActionEvent event) {
+<span class="nc" id="L133">  }</span>
+
+  @FXML
+  void initialize() {
+<span class="nc" id="L137">    System.out.println(&quot;eva 2&quot;);</span>
+<span class="nc bnc" id="L138" title="All 4 branches missed.">    assert addGAme != null : &quot;fx:id=\&quot;addGAme\&quot; was not injected: check your FXML file 'Tournament-Editor.fxml'.&quot;;</span>
+<span class="nc bnc" id="L139" title="All 4 branches missed.">    assert back != null : &quot;fx:id=\&quot;back\&quot; was not injected: check your FXML file 'Tournament-Editor.fxml'.&quot;;</span>
+<span class="nc bnc" id="L140" title="All 4 branches missed.">    assert deleteGame != null : &quot;fx:id=\&quot;deleteGame\&quot; was not injected: check your FXML file 'Tournament-Editor.fxml'.&quot;;</span>
+<span class="nc bnc" id="L141" title="All 4 branches missed.">    assert gameID != null : &quot;fx:id=\&quot;gameID\&quot; was not injected: check your FXML file 'Tournament-Editor.fxml'.&quot;;</span>
+<span class="nc bnc" id="L142" title="All 4 branches missed.">    assert player != null : &quot;fx:id=\&quot;player\&quot; was not injected: check your FXML file 'Tournament-Editor.fxml'.&quot;;</span>
+<span class="nc bnc" id="L143" title="All 4 branches missed.">    assert releaseTournament != null : &quot;fx:id=\&quot;releaseTournament\&quot; was not injected: check your FXML file 'Tournament-Editor.fxml'.&quot;;</span>
+<span class="nc bnc" id="L144" title="All 4 branches missed.">    assert tableTournamentGame != null : &quot;fx:id=\&quot;tableTournamentGame\&quot; was not injected: check your FXML file 'Tournament-Editor.fxml'.&quot;;</span>
+<span class="nc" id="L145">  }</span>
+
+  /**
+   * @param primaryStage
+   * @throws Exception
+   * @author Carina, Eva, Jana
+   * @use starts the main GUI
+   */
+
+  @Override
+  public void initialize(URL location, ResourceBundle resources) {
+<span class="nc" id="L156">    System.out.println(&quot;jana 2&quot;);</span>
+<span class="nc" id="L157">    initialize();</span>
+<span class="nc" id="L158">  }</span>
+
+  public void start(@NotNull final Stage primaryStage) throws Exception {
+<span class="nc" id="L161">    var loader = new FXMLLoader(getClass().getResource(&quot;/ausrichter/style/Tournament-Editor.fxml&quot;));</span>
+<span class="nc" id="L162">    loader.setController(this);</span>
+<span class="nc" id="L163">    var root = (Parent) loader.load();</span>
+<span class="nc" id="L164">    primaryStage.setTitle(&quot;Maulwurf Company&quot;);</span>
+<span class="nc" id="L165">    primaryStage.setResizable(false);</span>
+<span class="nc" id="L166">    primaryStage.setScene(new Scene(root));</span>
+<span class="nc" id="L167">    initialize();</span>
+<span class="nc" id="L168">    primaryStage.show();</span>
+<span class="nc" id="L169">  }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

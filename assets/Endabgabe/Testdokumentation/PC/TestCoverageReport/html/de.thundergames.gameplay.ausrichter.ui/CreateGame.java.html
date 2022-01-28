@@ -1,0 +1,576 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CreateGame.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SwtPra10-pc</a> &gt; <a href="index.source.html" class="el_package">de.thundergames.gameplay.ausrichter.ui</a> &gt; <span class="el_source">CreateGame.java</span></div><h1>CreateGame.java</h1><pre class="source lang-java linenums">/*
+ * Copyright Notice for SwtPra10
+ * Copyright (c) at ThunderGames | SwtPra10 2022
+ * File created on 13.01.22, 22:39 by Carina Latest changes made by Carina on 13.01.22, 22:39 All contents of &quot;CreateGame&quot; are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * at ThunderGames | SwtPra10. All rights reserved
+ * Any type of duplication, distribution, rental, sale, award,
+ * Public accessibility or other use
+ * requires the express written consent of ThunderGames | SwtPra10.
+ */
+
+package de.thundergames.gameplay.ausrichter.ui;
+
+import de.thundergames.MoleGames;
+import de.thundergames.gameplay.ausrichter.ui.floor.*;
+import de.thundergames.playmechanics.game.Game;
+import de.thundergames.playmechanics.map.Field;
+import de.thundergames.playmechanics.map.Map;
+import de.thundergames.playmechanics.util.Dialog;
+import de.thundergames.playmechanics.util.Punishments;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.stage.Stage;
+import lombok.Getter;
+import org.jetbrains.annotations.NotNull;
+
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.ResourceBundle;
+
+/**
+ * @author Carina, Eva, Jana
+ * @use to configure a game
+ */
+
+<span class="nc bnc" id="L43" title="All 2 branches missed.">@Getter</span>
+<span class="nc" id="L44">public class CreateGame implements Initializable {</span>
+
+  // Liste von Floor welche DrawAgain&lt;Field&gt; und Hole&lt;Field&gt; enthält
+<span class="nc" id="L47">  private static ArrayList&lt;Floor&gt; floors = new ArrayList&lt;&gt;();</span>
+  private static CreateGame createGameInstance;
+  private static String molesAmountPrev;
+  private static String maxPlayersPrev;
+  private static String punishmentPrev;
+  private static String radiusPrev;
+  private static String thinkTimePrev;
+  private static boolean pullDiscsOrderedPrev;
+  private static String visualEffectsPrev;
+<span class="nc" id="L56">  private static ArrayList&lt;Integer&gt; drawCardValuesList = new ArrayList&lt;&gt;();</span>
+
+  @FXML
+<span class="nc" id="L59">  private Button configureDrawAgain;</span>
+
+  @FXML
+<span class="nc" id="L62">  private Button configureHoles;</span>
+<span class="nc" id="L63">  private Map map;</span>
+
+  @FXML
+<span class="nc" id="L66">  private ChoiceBox&lt;Punishments&gt; movePenalty;</span>
+
+  @FXML
+<span class="nc" id="L69">  private ResourceBundle resources;</span>
+
+  @FXML
+<span class="nc" id="L72">  private URL location;</span>
+
+  @FXML
+<span class="nc" id="L75">  private Button addItem;</span>
+
+  @FXML
+<span class="nc" id="L78">  private Button back;</span>
+
+  @FXML
+<span class="nc" id="L81">  private Button createGame;</span>
+
+  @FXML
+<span class="nc" id="L84">  private TextField drawCardValue;</span>
+
+  @FXML
+<span class="nc" id="L87">  private Button loadConfig;</span>
+
+  @FXML
+<span class="nc" id="L90">  private TextField molesAmount;</span>
+
+  @FXML
+<span class="nc" id="L93">  private TextField playerAmount;</span>
+
+  @FXML
+<span class="nc" id="L96">  private ChoiceBox&lt;String&gt; punishment;</span>
+
+  @FXML
+<span class="nc" id="L99">  private TextField radius;</span>
+
+  @FXML
+<span class="nc" id="L102">  private Button removeAll;</span>
+
+  @FXML
+<span class="nc" id="L105">  private TextArea drawCardValues;</span>
+
+  @FXML
+<span class="nc" id="L108">  private TextField thinkTime;</span>
+
+  @FXML
+<span class="nc" id="L111">  private CheckBox pullDiscsOrdered;</span>
+
+  @FXML
+<span class="nc" id="L114">  private TextField visualEffects;</span>
+  private static String deductedPointsPrev;
+<span class="nc" id="L116">  private String Spielmodus;</span>
+
+  public static String getDeductedPointsPrev() {
+<span class="nc" id="L119">    return deductedPointsPrev;</span>
+  }
+
+  public static void setDeductedPointsPrev(String deductedPointsPrev) {
+<span class="nc" id="L123">    CreateGame.deductedPointsPrev = deductedPointsPrev;</span>
+<span class="nc" id="L124">  }</span>
+
+  public static String getMolesAmountPrev() {
+<span class="nc" id="L127">    return molesAmountPrev;</span>
+  }
+
+  public static void setMolesAmountPrev(String molesAmountPrev) {
+<span class="nc" id="L131">    CreateGame.molesAmountPrev = molesAmountPrev;</span>
+<span class="nc" id="L132">  }</span>
+
+  public static ArrayList&lt;Floor&gt; getLevel() {
+<span class="nc" id="L135">    return floors;</span>
+  }
+
+  public static String getMaxPlayersPrev() {
+<span class="nc" id="L139">    return maxPlayersPrev;</span>
+  }
+
+  public static void setMaxPlayersPrev(String maxPlayersPrev) {
+<span class="nc" id="L143">    CreateGame.maxPlayersPrev = maxPlayersPrev;</span>
+<span class="nc" id="L144">  }</span>
+
+  public static String getPunishmentPrev() {
+<span class="nc" id="L147">    return punishmentPrev;</span>
+  }
+
+  public static void setPunishmentPrev(String punishmentPrev) {
+<span class="nc" id="L151">    CreateGame.punishmentPrev = punishmentPrev;</span>
+<span class="nc" id="L152">  }</span>
+
+  public static String getRadiusPrev() {
+<span class="nc" id="L155">    return radiusPrev;</span>
+  }
+
+  public static void setRadiusPrev(String radiusPrev) {
+<span class="nc" id="L159">    CreateGame.radiusPrev = radiusPrev;</span>
+<span class="nc" id="L160">  }</span>
+
+  public static String getThinkTimePrev() {
+<span class="nc" id="L163">    return thinkTimePrev;</span>
+  }
+
+  public static void setThinkTimePrev(String thinkTimePrev) {
+<span class="nc" id="L167">    CreateGame.thinkTimePrev = thinkTimePrev;</span>
+<span class="nc" id="L168">  }</span>
+
+  public static boolean isPullDiscsOrderedPrev() {
+<span class="nc" id="L171">    return pullDiscsOrderedPrev;</span>
+  }
+
+  public static void setPullDiscsOrderedPrev(boolean pullDiscsOrderedPrev) {
+<span class="nc" id="L175">    CreateGame.pullDiscsOrderedPrev = pullDiscsOrderedPrev;</span>
+<span class="nc" id="L176">  }</span>
+
+  public static String getVisualEffectsPrev() {
+<span class="nc" id="L179">    return visualEffectsPrev;</span>
+  }
+
+  public static void setVisualEffectsPrev(String visualEffectsPrev) {
+<span class="nc" id="L183">    CreateGame.visualEffectsPrev = visualEffectsPrev;</span>
+<span class="nc" id="L184">  }</span>
+
+  public static ArrayList&lt;Integer&gt; getDrawCardValuesList() {
+<span class="nc" id="L187">    return drawCardValuesList;</span>
+  }
+
+  public static void setDrawCardValuesList(ArrayList&lt;Integer&gt; drawCardValuesList) {
+<span class="nc" id="L191">    CreateGame.drawCardValuesList = drawCardValuesList;</span>
+<span class="nc" id="L192">  }</span>
+
+  public static CreateGame getCreateGameInstance() {
+<span class="nc" id="L195">    return createGameInstance;</span>
+  }
+
+  public static ArrayList&lt;Floor&gt; getFloors() {
+<span class="nc" id="L199">    return floors;</span>
+  }
+
+  public static void setFloors(ArrayList&lt;Floor&gt; floors) {
+<span class="nc" id="L203">    CreateGame.floors = floors;</span>
+<span class="nc" id="L204">  }</span>
+
+  @FXML
+  void addItemButtonEvent(@NotNull final ActionEvent event) {
+<span class="nc bnc" id="L208" title="All 4 branches missed.">    if (drawCardValue.getText() != null &amp;&amp; !&quot;&quot;.equalsIgnoreCase(drawCardValue.getText())) {</span>
+<span class="nc" id="L209">      drawCardValuesList.add(Integer.valueOf(drawCardValue.getText()));</span>
+    }
+<span class="nc bnc" id="L211" title="All 4 branches missed.">    if (drawCardValues.getText() == null || &quot;&quot;.equalsIgnoreCase(drawCardValues.getText())) {</span>
+<span class="nc" id="L212">      drawCardValues.setText(drawCardValue.getText());</span>
+    } else {
+<span class="nc" id="L214">      drawCardValues.setText(drawCardValues.getText() + &quot;\n&quot; + drawCardValue.getText());</span>
+    }
+<span class="nc" id="L216">    drawCardValue.clear();</span>
+<span class="nc" id="L217">  }</span>
+
+  /**
+   * @author Carina, Jana, Eva
+   * @use clears all components of the CreateGame
+   */
+  private void clearAllComponents() {
+<span class="nc" id="L224">    drawCardValuesList.clear();</span>
+<span class="nc" id="L225">    drawCardValues.clear();</span>
+<span class="nc" id="L226">    drawCardValue.clear();</span>
+<span class="nc" id="L227">    playerAmount.clear();</span>
+<span class="nc" id="L228">    molesAmount.clear();</span>
+<span class="nc" id="L229">    thinkTime.clear();</span>
+<span class="nc" id="L230">    visualEffects.clear();</span>
+<span class="nc" id="L231">    radius.clear();</span>
+<span class="nc" id="L232">  }</span>
+
+  @FXML
+  void removeAllButtonEvent(ActionEvent event) {
+<span class="nc" id="L236">    drawCardValues.clear();</span>
+<span class="nc" id="L237">    drawCardValuesList.clear();</span>
+<span class="nc" id="L238">  }</span>
+
+  public void start(@NotNull final Stage primaryStage, String modus) throws Exception {
+<span class="nc" id="L241">    var loader = new FXMLLoader(getClass().getResource(&quot;/ausrichter/style/CreateGame.fxml&quot;));</span>
+<span class="nc" id="L242">    loader.setController(this);</span>
+<span class="nc" id="L243">    var root = (Parent) loader.load();</span>
+<span class="nc" id="L244">    primaryStage.setTitle(&quot;CreateGame&quot;);</span>
+<span class="nc" id="L245">    Spielmodus = modus;</span>
+<span class="nc" id="L246">    primaryStage.setResizable(false);</span>
+<span class="nc" id="L247">    primaryStage.setScene(new Scene(root));</span>
+<span class="nc" id="L248">    primaryStage.show();</span>
+<span class="nc" id="L249">    loadPrevSettings();</span>
+<span class="nc" id="L250">  }</span>
+
+  @FXML
+  void initialize() {
+<span class="nc bnc" id="L254" title="All 4 branches missed.">    assert addItem != null</span>
+      : &quot;fx:id=\&quot;addItem\&quot; was not injected: check your FXML file 'CreateGame.fxml'.&quot;;
+<span class="nc bnc" id="L256" title="All 4 branches missed.">    assert back != null</span>
+      : &quot;fx:id=\&quot;back\&quot; was not injected: check your FXML file 'CreateGame.fxml'.&quot;;
+<span class="nc bnc" id="L258" title="All 4 branches missed.">    assert configureDrawAgain != null</span>
+      : &quot;fx:id=\&quot;configureDrawAgain\&quot; was not injected: check your FXML file 'CreateGame.fxml'.&quot;;
+<span class="nc bnc" id="L260" title="All 4 branches missed.">    assert configureHoles != null</span>
+      : &quot;fx:id=\&quot;configureHoles\&quot; was not injected: check your FXML file 'CreateGame.fxml'.&quot;;
+<span class="nc bnc" id="L262" title="All 4 branches missed.">    assert createGame != null</span>
+      : &quot;fx:id=\&quot;createGame\&quot; was not injected: check your FXML file 'CreateGame.fxml'.&quot;;
+<span class="nc bnc" id="L264" title="All 4 branches missed.">    assert drawCardValue != null</span>
+      : &quot;fx:id=\&quot;drawCardValue\&quot; was not injected: check your FXML file 'CreateGame.fxml'.&quot;;
+<span class="nc bnc" id="L266" title="All 4 branches missed.">    assert drawCardValues != null</span>
+      : &quot;fx:id=\&quot;drawCardValues\&quot; was not injected: check your FXML file 'CreateGame.fxml'.&quot;;
+<span class="nc bnc" id="L268" title="All 4 branches missed.">    assert loadConfig != null</span>
+      : &quot;fx:id=\&quot;loadConfig\&quot; was not injected: check your FXML file 'CreateGame.fxml'.&quot;;
+<span class="nc bnc" id="L270" title="All 4 branches missed.">    assert molesAmount != null</span>
+      : &quot;fx:id=\&quot;molesAmount\&quot; was not injected: check your FXML file 'CreateGame.fxml'.&quot;;
+<span class="nc bnc" id="L272" title="All 4 branches missed.">    assert movePenalty != null</span>
+      : &quot;fx:id=\&quot;movePenalty\&quot; was not injected: check your FXML file 'CreateGame.fxml'.&quot;;
+<span class="nc bnc" id="L274" title="All 4 branches missed.">    assert playerAmount != null</span>
+      : &quot;fx:id=\&quot;playerAmount\&quot; was not injected: check your FXML file 'CreateGame.fxml'.&quot;;
+<span class="nc bnc" id="L276" title="All 4 branches missed.">    assert pullDiscsOrdered != null</span>
+      : &quot;fx:id=\&quot;pullDiscsOrdered\&quot; was not injected: check your FXML file 'CreateGame.fxml'.&quot;;
+<span class="nc bnc" id="L278" title="All 4 branches missed.">    assert radius != null</span>
+      : &quot;fx:id=\&quot;radius\&quot; was not injected: check your FXML file 'CreateGame.fxml'.&quot;;
+<span class="nc bnc" id="L280" title="All 4 branches missed.">    assert removeAll != null</span>
+      : &quot;fx:id=\&quot;removeAll\&quot; was not injected: check your FXML file 'CreateGame.fxml'.&quot;;
+<span class="nc bnc" id="L282" title="All 4 branches missed.">    assert thinkTime != null</span>
+      : &quot;fx:id=\&quot;thinkTime\&quot; was not injected: check your FXML file 'CreateGame.fxml'.&quot;;
+<span class="nc bnc" id="L284" title="All 4 branches missed.">    assert visualEffects != null</span>
+      : &quot;fx:id=\&quot;visualEffects\&quot; was not injected: check your FXML file 'CreateGame.fxml'.&quot;;
+<span class="nc" id="L286">    movePenalty.getItems().addAll(Punishments.values());</span>
+<span class="nc" id="L287">  }</span>
+
+  @Override
+  public void initialize(URL location, ResourceBundle resources) {
+<span class="nc" id="L291">    createGameInstance = this;</span>
+<span class="nc" id="L292">    initialize();</span>
+<span class="nc" id="L293">  }</span>
+
+  @FXML
+  void backButtonEvent(ActionEvent event) throws Exception {
+<span class="nc" id="L297">    var primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();</span>
+<span class="nc" id="L298">    punishmentPrev = null;</span>
+<span class="nc" id="L299">    maxPlayersPrev = null;</span>
+<span class="nc" id="L300">    molesAmountPrev = null;</span>
+<span class="nc" id="L301">    thinkTimePrev = null;</span>
+<span class="nc" id="L302">    visualEffectsPrev = null;</span>
+<span class="nc" id="L303">    radiusPrev = null;</span>
+<span class="nc" id="L304">    drawCardValuesList.clear();</span>
+<span class="nc" id="L305">    floors.clear();</span>
+<span class="nc" id="L306">    savePrevSettings();</span>
+<span class="nc bnc" id="L307" title="All 2 branches missed.">    if(Spielmodus.equalsIgnoreCase(&quot;TurnierModus&quot;)){</span>
+<span class="nc" id="L308">      AddGames.getAddGamesInstance().start(primaryStage, &quot;Turniermodus&quot;);</span>
+    }else {
+<span class="nc" id="L310">      Games.getGamesInstance().start(primaryStage);</span>
+    }
+<span class="nc" id="L312">  }</span>
+
+  /**
+   * @param event
+   * @throws Exception
+   * @author Carina, Jana, Eva
+   * @use creates a new game with the settings from the user
+   */
+  @FXML
+  void createGameButtonEvent(ActionEvent event) throws Exception {
+<span class="nc" id="L322">    var floorMap = new ArrayList&lt;Map&gt;();</span>
+<span class="nc bnc" id="L323" title="All 2 branches missed.">    for (var floor : floors) {</span>
+<span class="nc" id="L324">      var drawAgain = new HashSet&lt;Field&gt;();</span>
+<span class="nc" id="L325">      var holes = new HashSet&lt;Field&gt;();</span>
+<span class="nc bnc" id="L326" title="All 2 branches missed.">      for (var fields : floor.getDrawAgainFields()) {</span>
+<span class="nc" id="L327">        var field = new Field(fields.getXPosition(), fields.getYPosition());</span>
+<span class="nc" id="L328">        field.setOccupied(false);</span>
+<span class="nc" id="L329">        field.setHole(false);</span>
+<span class="nc" id="L330">        drawAgain.add(field);</span>
+<span class="nc" id="L331">      }</span>
+<span class="nc bnc" id="L332" title="All 2 branches missed.">      for (var fields : floor.getHoles()) {</span>
+<span class="nc" id="L333">        var field = new Field(fields.getXPosition(), fields.getYPosition());</span>
+<span class="nc" id="L334">        field.setOccupied(false);</span>
+<span class="nc" id="L335">        field.setHole(false);</span>
+<span class="nc" id="L336">        holes.add(field);</span>
+<span class="nc" id="L337">      }</span>
+<span class="nc" id="L338">      var newFloor = new Map(holes, drawAgain, floor.getPoints());</span>
+<span class="nc" id="L339">      floorMap.add(newFloor);</span>
+<span class="nc bnc" id="L340" title="All 4 branches missed.">      if (holes.isEmpty() || floors.isEmpty()) {</span>
+<span class="nc" id="L341">        Dialog.show(&quot;Du musst erst das Spiel voll konfigurieren!&quot;, &quot;Fehler!&quot;, Dialog.DialogType.ERROR);</span>
+<span class="nc" id="L342">        return;</span>
+      }
+<span class="nc" id="L344">    }</span>
+<span class="nc" id="L345">    var id = MoleGames.getMoleGames().getGameHandler().getGames().size();</span>
+<span class="nc bnc" id="L346" title="All 2 branches missed.">    if (!isLegalConfiguration(</span>
+<span class="nc bnc" id="L347" title="All 4 branches missed.">      radius.getText() != null &amp;&amp; !&quot;&quot;.equalsIgnoreCase(radius.getText())</span>
+<span class="nc" id="L348">        ? Integer.parseInt(radius.getText())</span>
+<span class="nc" id="L349">        : 8,</span>
+<span class="nc bnc" id="L350" title="All 4 branches missed.">      molesAmount.getText() != null &amp;&amp; playerAmount != null ? Integer.parseInt(molesAmount.getText()) * Integer.parseInt(playerAmount.getText()) : 16)) {</span>
+<span class="nc" id="L351">      Dialog.show(&quot;Das Spiel ist nicht richtig konfiguriert!&quot;, &quot;Fehler!&quot;, Dialog.DialogType.ERROR);</span>
+<span class="nc" id="L352">      return;</span>
+    }
+<span class="nc" id="L354">    MoleGames.getMoleGames().getGameHandler().createNewGame(id);</span>
+
+<span class="nc" id="L356">    var game = MoleGames.getMoleGames().getGameHandler().getIDGames().get(id);</span>
+<span class="nc" id="L357">    game.getSettings().getFloors().addAll(floorMap);</span>
+<span class="nc" id="L358">    game.getSettings()</span>
+<span class="nc" id="L359">      .setMaxPlayers(</span>
+<span class="nc bnc" id="L360" title="All 4 branches missed.">        (playerAmount.getText() != null &amp;&amp; !&quot;&quot;.equalsIgnoreCase(playerAmount.getText()))</span>
+<span class="nc" id="L361">          ? Integer.parseInt(playerAmount.getText())</span>
+<span class="nc" id="L362">          : 4);</span>
+<span class="nc" id="L363">    game.getSettings()</span>
+<span class="nc" id="L364">      .setRadius(</span>
+<span class="nc bnc" id="L365" title="All 4 branches missed.">        (radius.getText() != null &amp;&amp; !&quot;&quot;.equalsIgnoreCase(radius.getText()))</span>
+<span class="nc" id="L366">          ? Integer.parseInt(radius.getText())</span>
+<span class="nc" id="L367">          : 6);</span>
+<span class="nc" id="L368">    game.getSettings()</span>
+<span class="nc" id="L369">      .setNumberOfMoles(</span>
+<span class="nc bnc" id="L370" title="All 4 branches missed.">        (molesAmount.getText() != null &amp;&amp; !&quot;&quot;.equalsIgnoreCase(molesAmount.getText()))</span>
+<span class="nc" id="L371">          ? Integer.parseInt(molesAmount.getText())</span>
+<span class="nc" id="L372">          : 4);</span>
+<span class="nc" id="L373">    game.getSettings().setPullDiscsOrdered(pullDiscsOrdered.isSelected());</span>
+<span class="nc" id="L374">    game.getSettings()</span>
+<span class="nc" id="L375">      .setTurnTime(</span>
+<span class="nc bnc" id="L376" title="All 4 branches missed.">        (thinkTime.getText() != null &amp;&amp; !&quot;&quot;.equalsIgnoreCase(thinkTime.getText()))</span>
+<span class="nc" id="L377">          ? Integer.parseInt(thinkTime.getText()) * 1000</span>
+<span class="nc" id="L378">          : 15000);</span>
+<span class="nc bnc" id="L379" title="All 2 branches missed.">    if (!drawCardValuesList.isEmpty()) {</span>
+<span class="nc" id="L380">      game.getSettings().getPullDiscs().clear();</span>
+<span class="nc" id="L381">      game.getSettings().getPullDiscs().addAll(drawCardValuesList);</span>
+    }
+<span class="nc" id="L383">    game.getSettings()</span>
+<span class="nc" id="L384">      .setVisualizationTime(</span>
+<span class="nc bnc" id="L385" title="All 4 branches missed.">        (visualEffects.getText() != null &amp;&amp; !&quot;&quot;.equalsIgnoreCase(visualEffects.getText()))</span>
+<span class="nc" id="L386">          ? Integer.parseInt(visualEffects.getText()) * 1000</span>
+<span class="nc" id="L387">          : 5000);</span>
+<span class="nc" id="L388">    game.getSettings()</span>
+<span class="nc" id="L389">      .setMovePenalty(</span>
+<span class="nc bnc" id="L390" title="All 2 branches missed.">        movePenalty.getSelectionModel().getSelectedItem() != null</span>
+<span class="nc" id="L391">          ? movePenalty.getSelectionModel().getSelectedItem().getName()</span>
+<span class="nc" id="L392">          : Punishments.NOTHING.getName());</span>
+<span class="nc" id="L393">    MoleGames.getMoleGames().getGameHandler().getIDGames().get(id).updateGameState();</span>
+<span class="nc" id="L394">    floors.clear();</span>
+
+<span class="nc" id="L396">    var primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();</span>
+<span class="nc bnc" id="L397" title="All 2 branches missed.">    if(Spielmodus.equalsIgnoreCase(&quot;TurnierModus&quot;)){</span>
+<span class="nc" id="L398">      AddGames.getAddGamesInstance().start(primaryStage, Spielmodus);</span>
+<span class="nc" id="L399">      AddGames.getAddGamesInstance().updateTable();</span>
+    }else{
+<span class="nc" id="L401">      Games.getGamesInstance().start(primaryStage);</span>
+<span class="nc" id="L402">      Games.getGamesInstance().updateTable();</span>
+    }
+
+<span class="nc bnc" id="L405" title="All 2 branches missed.">    for (var observer : MoleGames.getMoleGames().getServer().getObserver()) {</span>
+<span class="nc" id="L406">      MoleGames.getMoleGames().getServer().getPacketHandler().overviewPacket(observer);</span>
+<span class="nc" id="L407">    }</span>
+<span class="nc" id="L408">  }</span>
+
+  @FXML
+  void loadConfigButtonEvent(ActionEvent event) throws Exception {
+<span class="nc" id="L412">    savePrevSettings();</span>
+<span class="nc" id="L413">    var primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();</span>
+<span class="nc" id="L414">    new SettingsImport().start(primaryStage);</span>
+<span class="nc" id="L415">  }</span>
+
+  @FXML
+  void onConfigureDrawAgain(ActionEvent event) throws Exception {
+<span class="nc" id="L419">    savePrevSettings();</span>
+<span class="nc" id="L420">    var primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();</span>
+<span class="nc" id="L421">    new DrawAgainConfiguration().start(primaryStage, Spielmodus);</span>
+<span class="nc" id="L422">  }</span>
+
+  @FXML
+  void onConfigureHoles(ActionEvent event) throws Exception {
+<span class="nc" id="L426">    savePrevSettings();</span>
+<span class="nc" id="L427">    var primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();</span>
+<span class="nc" id="L428">    new HolesConfiguration().start(primaryStage, Spielmodus);</span>
+<span class="nc" id="L429">  }</span>
+
+  /**
+   * @author Carina
+   * @use checks if a configuration was legal or not
+   */
+  private boolean isLegalConfiguration(final int radius, int numberOfMoles) {
+<span class="nc bnc" id="L436" title="All 4 branches missed.">    if (radius &lt;= 0 || numberOfMoles &lt;= 0) {</span>
+<span class="nc" id="L437">      return false;</span>
+    }
+<span class="nc bnc" id="L439" title="All 4 branches missed.">    if (thinkTime.getText() != null &amp;&amp; !&quot;&quot;.equalsIgnoreCase(thinkTime.getText())) {</span>
+<span class="nc bnc" id="L440" title="All 2 branches missed.">      if (Integer.parseInt(thinkTime.getText()) &lt;= 0) {</span>
+<span class="nc" id="L441">        return false;</span>
+      }
+    }
+<span class="nc bnc" id="L444" title="All 4 branches missed.">    if (visualEffects.getText() != null &amp;&amp; !&quot;&quot;.equalsIgnoreCase(visualEffects.getText())) {</span>
+<span class="nc bnc" id="L445" title="All 2 branches missed.">      if (Integer.parseInt(visualEffects.getText()) &lt; 0) {</span>
+<span class="nc" id="L446">        return false;</span>
+      }
+    }
+<span class="nc bnc" id="L449" title="All 2 branches missed.">    if (!drawCardValuesList.isEmpty()) {</span>
+<span class="nc bnc" id="L450" title="All 2 branches missed.">      for (var value : drawCardValuesList) {</span>
+<span class="nc bnc" id="L451" title="All 2 branches missed.">        if (value &lt;= 0) {</span>
+<span class="nc" id="L452">          return false;</span>
+        }
+<span class="nc" id="L454">      }</span>
+    }
+<span class="nc bnc" id="L456" title="All 4 branches missed.">    if (playerAmount.getText() != null &amp;&amp; !&quot;&quot;.equalsIgnoreCase(playerAmount.getText())) {</span>
+<span class="nc bnc" id="L457" title="All 2 branches missed.">      if (Integer.parseInt(playerAmount.getText()) &lt;= 1) {</span>
+<span class="nc" id="L458">        return false;</span>
+      }
+    }
+<span class="nc bnc" id="L461" title="All 2 branches missed.">    if (MoleGames.getMoleGames().getServer().isDebug()) {</span>
+<span class="nc" id="L462">      System.out.println(</span>
+        &quot;Server: Testing the configuration with a radius of: &quot;
+          + radius
+          + &quot; and a mole amount of: &quot;
+          + numberOfMoles);
+    }
+
+<span class="nc" id="L469">    var holeDouble = new ArrayList&lt;Hole&gt;();</span>
+<span class="nc" id="L470">    var holes = new ArrayList&lt;Hole&gt;();</span>
+<span class="nc" id="L471">    var game = new Game(1);</span>
+<span class="nc" id="L472">    game.setRadius(radius);</span>
+<span class="nc" id="L473">    var map = new Map(game, new HashSet&lt;&gt;(), new HashSet&lt;&gt;(), 1);</span>
+<span class="nc" id="L474">    map.build(game);</span>
+<span class="nc bnc" id="L475" title="All 2 branches missed.">    if (numberOfMoles &lt;= floors.get(0).getHoles().size()) {</span>
+<span class="nc" id="L476">      return false;</span>
+    }
+<span class="nc bnc" id="L478" title="All 2 branches missed.">    for (var floor : floors) {</span>
+<span class="nc bnc" id="L479" title="All 2 branches missed.">      if (floor.getHoles().size() == 0) {</span>
+<span class="nc" id="L480">        return false;</span>
+      }
+      // check for the amount of holes
+<span class="nc bnc" id="L483" title="All 2 branches missed.">      if (floors.size() &gt; floors.indexOf(floor) + 1) {</span>
+<span class="nc bnc" id="L484" title="All 2 branches missed.">        if (floor.getHoles().size() &lt; floors.get(floors.indexOf(floor) + 1).getHoles().size()) {</span>
+<span class="nc" id="L485">          return false;</span>
+        }
+      }
+<span class="nc" id="L488">      numberOfMoles -= floor.getHoles().size();</span>
+<span class="nc bnc" id="L489" title="All 2 branches missed.">      if (numberOfMoles &lt; 0) {</span>
+<span class="nc" id="L490">        return false;</span>
+      }
+<span class="nc bnc" id="L492" title="All 2 branches missed.">      for (var field : floor.getDrawAgainFields()) {</span>
+<span class="nc bnc" id="L493" title="All 2 branches missed.">        if (!map.getFieldMap().containsKey(List.of(field.getXPosition(), field.getYPosition()))) {</span>
+<span class="nc" id="L494">          return false;</span>
+        }
+<span class="nc" id="L496">      }</span>
+<span class="nc bnc" id="L497" title="All 2 branches missed.">      for (var hole : floor.getHoles()) {</span>
+<span class="nc" id="L498">        holeDouble.add(hole);</span>
+<span class="nc bnc" id="L499" title="All 2 branches missed.">        if (!map.getFieldMap().containsKey(List.of(hole.getXPosition(), hole.getYPosition()))) {</span>
+<span class="nc" id="L500">          return false;</span>
+        }
+<span class="nc" id="L502">      }</span>
+<span class="nc bnc" id="L503" title="All 2 branches missed.">      if (holes.isEmpty()) {</span>
+<span class="nc" id="L504">        holes.addAll(floor.getHoles());</span>
+      } else {
+<span class="nc bnc" id="L506" title="All 2 branches missed.">        for (var hole : floor.getHoles()) {</span>
+<span class="nc bnc" id="L507" title="All 2 branches missed.">          for (var holeCheck : holes) {</span>
+<span class="nc bnc" id="L508" title="All 2 branches missed.">            if (hole.getXPosition() == holeCheck.getXPosition()</span>
+<span class="nc bnc" id="L509" title="All 2 branches missed.">              &amp;&amp; hole.getYPosition() == holeCheck.getYPosition()) {</span>
+<span class="nc" id="L510">              return false;</span>
+            }
+<span class="nc" id="L512">          }</span>
+<span class="nc" id="L513">        }</span>
+<span class="nc" id="L514">        holes.clear();</span>
+<span class="nc" id="L515">        holes.addAll(floor.getHoles());</span>
+      }
+<span class="nc" id="L517">    }</span>
+<span class="nc" id="L518">    var prev = (Hole) null;</span>
+<span class="nc bnc" id="L519" title="All 2 branches missed.">    for (var hole : holeDouble) {</span>
+<span class="nc bnc" id="L520" title="All 2 branches missed.">      if (prev == null) {</span>
+<span class="nc" id="L521">        prev = hole;</span>
+      } else {
+<span class="nc bnc" id="L523" title="All 2 branches missed.">        if (hole.getXPosition() == prev.getXPosition()</span>
+<span class="nc bnc" id="L524" title="All 2 branches missed.">          &amp;&amp; hole.getYPosition() == prev.getYPosition()) {</span>
+<span class="nc" id="L525">          return false;</span>
+        }
+      }
+<span class="nc" id="L528">    }</span>
+<span class="nc bnc" id="L529" title="All 2 branches missed.">    if (floors.size() &lt; 1) {</span>
+<span class="nc" id="L530">      return false;</span>
+    }
+<span class="nc bnc" id="L532" title="All 2 branches missed.">    return floors.get(floors.size() - 1).getHoles().size() &gt;= 1;</span>
+  }
+
+  /**
+   * @author Carina, Jana, Eva
+   * @use loads prev configs.
+   */
+  public void
+  loadPrevSettings() {
+<span class="nc" id="L541">    molesAmount.setText(molesAmountPrev);</span>
+<span class="nc" id="L542">    playerAmount.setText(maxPlayersPrev);</span>
+<span class="nc" id="L543">    radius.setText(radiusPrev);</span>
+<span class="nc" id="L544">    thinkTime.setText(thinkTimePrev);</span>
+<span class="nc" id="L545">    visualEffects.setText(visualEffectsPrev);</span>
+<span class="nc" id="L546">    pullDiscsOrdered.setSelected(pullDiscsOrderedPrev);</span>
+<span class="nc bnc" id="L547" title="All 2 branches missed.">    for (var value : drawCardValuesList) {</span>
+<span class="nc bnc" id="L548" title="All 4 branches missed.">      if (drawCardValues.getText() == null || &quot;&quot;.equalsIgnoreCase(drawCardValues.getText())) {</span>
+<span class="nc" id="L549">        drawCardValues.setText(value.toString());</span>
+      } else {
+<span class="nc" id="L551">        drawCardValues.setText(drawCardValues.getText() + &quot;\n&quot; + value.toString());</span>
+      }
+<span class="nc" id="L553">    }</span>
+<span class="nc bnc" id="L554" title="All 2 branches missed.">    if (punishmentPrev != null) {</span>
+<span class="nc" id="L555">      movePenalty.setValue(Punishments.valueOf(punishmentPrev));</span>
+    }
+<span class="nc" id="L557">  }</span>
+
+  /**
+   * @author Carina, Jana, Eva
+   * @use saves prev configs.
+   */
+  private void savePrevSettings() {
+<span class="nc" id="L564">    molesAmountPrev = molesAmount.getText();</span>
+<span class="nc" id="L565">    maxPlayersPrev = playerAmount.getText();</span>
+<span class="nc" id="L566">    radiusPrev = radius.getText();</span>
+<span class="nc" id="L567">    thinkTimePrev = thinkTime.getText();</span>
+<span class="nc" id="L568">    visualEffectsPrev = visualEffects.getText();</span>
+<span class="nc" id="L569">    pullDiscsOrderedPrev = pullDiscsOrdered.isSelected();</span>
+    try {
+<span class="nc" id="L571">      punishmentPrev = movePenalty.getSelectionModel().getSelectedItem().getName();</span>
+<span class="nc" id="L572">    } catch (Exception ignored) {</span>
+<span class="nc" id="L573">    }</span>
+<span class="nc" id="L574">  }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

@@ -1,0 +1,988 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PacketHandler.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SwtPra10-pc</a> &gt; <a href="index.source.html" class="el_package">de.thundergames.networking.server</a> &gt; <span class="el_source">PacketHandler.java</span></div><h1>PacketHandler.java</h1><pre class="source lang-java linenums">/*
+ * Copyright Notice for SwtPra10
+ * Copyright (c) at ThunderGames | SwtPra10 2022
+ * File created on 17.01.22, 22:42 by Carina Latest changes made by Carina on 17.01.22, 22:42 All contents of &quot;PacketHandler&quot; are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * at ThunderGames | SwtPra10. All rights reserved
+ * Any type of duplication, distribution, rental, sale, award,
+ * Public accessibility or other use
+ * requires the express written consent of ThunderGames | SwtPra10.
+ */
+package de.thundergames.networking.server;
+
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import de.thundergames.MoleGames;
+import de.thundergames.filehandling.Score;
+import de.thundergames.gameplay.ausrichter.ui.Games;
+import de.thundergames.gameplay.ausrichter.ui.Lobby;
+import de.thundergames.gameplay.ausrichter.ui.PlayerManagement;
+import de.thundergames.gameplay.player.Client;
+import de.thundergames.networking.util.Packet;
+import de.thundergames.networking.util.Packets;
+import de.thundergames.networking.util.exceptions.NotAllowedError;
+import de.thundergames.playmechanics.game.Game;
+import de.thundergames.playmechanics.game.GameState;
+import de.thundergames.playmechanics.game.GameStates;
+import de.thundergames.playmechanics.map.Field;
+import de.thundergames.playmechanics.tournament.Tournament;
+import de.thundergames.playmechanics.util.Mole;
+import de.thundergames.playmechanics.util.Player;
+import de.thundergames.playmechanics.util.Punishments;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
+
+<span class="nc" id="L36">public class PacketHandler {</span>
+  /**
+   * @param packet
+   * @param client
+   * @author Carina
+   * @use handles the incoming packets from the server
+   * @see Server
+   * @see Packets
+   * @see Client
+   */
+  public void handlePacket(@NotNull final Packet packet, @NotNull final ServerThread client)
+      throws NotAllowedError {
+<span class="nc bnc" id="L48" title="All 2 branches missed.">    if (packet.getPacketType().equalsIgnoreCase(Packets.LOGIN.getPacketType())) {</span>
+<span class="nc" id="L49">      handleLoginPacket(client, packet);</span>
+<span class="nc bnc" id="L50" title="All 2 branches missed.">    } else if (packet.getPacketType().equalsIgnoreCase(Packets.LOGOUT.getPacketType())) {</span>
+<span class="nc" id="L51">      handleLogoutPacket(client);</span>
+<span class="nc bnc" id="L52" title="All 2 branches missed.">    } else if (packet.getPacketType().equalsIgnoreCase(Packets.MESSAGE.getPacketType())) {</span>
+<span class="nc bnc" id="L53" title="All 2 branches missed.">      if (MoleGames.getMoleGames().getServer().isDebug()) {</span>
+<span class="nc bnc" id="L54" title="All 2 branches missed.">        if (packet.getValues().get(&quot;message&quot;) != null) {</span>
+<span class="nc" id="L55">          System.out.println(</span>
+              &quot;Client with the name \&quot;&quot;
+<span class="nc" id="L57">                  + client.getClientName()</span>
+                  + &quot;\&quot; sent: &quot;
+<span class="nc" id="L59">                  + packet.getValues().get(&quot;message&quot;));</span>
+        }
+      }
+<span class="nc bnc" id="L62" title="All 2 branches missed.">    } else if (packet.getPacketType().equalsIgnoreCase(Packets.GETOVERVIEW.getPacketType())) {</span>
+<span class="nc" id="L63">      handleGetOverviewPacket(client);</span>
+<span class="nc bnc" id="L64" title="All 2 branches missed.">    } else if (packet.getPacketType().equalsIgnoreCase(Packets.REGISTEROBSERVER.getPacketType())) {</span>
+<span class="nc" id="L65">      handleRegisterOverviewObserverPacket(client);</span>
+<span class="nc" id="L66">    } else if (packet</span>
+<span class="nc" id="L67">        .getPacketType()</span>
+<span class="nc bnc" id="L68" title="All 2 branches missed.">        .equalsIgnoreCase(Packets.UNREGISTEROBSERVER.getPacketType())) {</span>
+<span class="nc" id="L69">      handleUnregisterOverviewObserverPacket(client);</span>
+<span class="nc bnc" id="L70" title="All 2 branches missed.">    } else if (packet.getPacketType().equalsIgnoreCase(Packets.LEAVEGAME.getPacketType())) {</span>
+<span class="nc" id="L71">      handlePlayerLeavePacket(client);</span>
+<span class="nc bnc" id="L72" title="All 2 branches missed.">    } else if (packet.getPacketType().equalsIgnoreCase(Packets.GETSCORE.getPacketType())) {</span>
+<span class="nc" id="L73">      handleGetScorePacket(client);</span>
+<span class="nc bnc" id="L74" title="All 2 branches missed.">    } else if (packet.getPacketType().equalsIgnoreCase(Packets.GETGAMEHISTORY.getPacketType())) {</span>
+<span class="nc" id="L75">      handleGetGameHistoryPacket(client, packet);</span>
+<span class="nc bnc" id="L76" title="All 2 branches missed.">    } else if (packet.getPacketType().equalsIgnoreCase(Packets.GETREMAININGTIME.getPacketType())) {</span>
+<span class="nc" id="L77">      handleGetRemainingTimePacket(client);</span>
+<span class="nc bnc" id="L78" title="All 2 branches missed.">    } else if (packet.getPacketType().equalsIgnoreCase(Packets.PLACEMOLE.getPacketType())) {</span>
+<span class="nc" id="L79">      handlePlaceMolePacket(client, packet);</span>
+<span class="nc bnc" id="L80" title="All 2 branches missed.">    } else if (packet.getPacketType().equalsIgnoreCase(Packets.MAKEMOVE.getPacketType())) {</span>
+<span class="nc" id="L81">      handleMakeMovePacket(client, packet);</span>
+<span class="nc bnc" id="L82" title="All 2 branches missed.">    } else if (packet.getPacketType().equalsIgnoreCase(Packets.ENTERTOURNAMENT.getPacketType())) {</span>
+<span class="nc" id="L83">      handleEnterTournamentPacket(client, packet);</span>
+<span class="nc" id="L84">    } else if (packet</span>
+<span class="nc" id="L85">        .getPacketType()</span>
+<span class="nc bnc" id="L86" title="All 2 branches missed.">        .equalsIgnoreCase(Packets.GETTOURNAMENTSCORE.getPacketType())) {</span>
+<span class="nc" id="L87">      handleGetTournamentScorePacket(client);</span>
+<span class="nc bnc" id="L88" title="All 2 branches missed.">    } else if (packet.getPacketType().equalsIgnoreCase(Packets.LEAVETOURNAMENT.getPacketType())) {</span>
+<span class="nc" id="L89">      handleLeaveTournamentPacket(client);</span>
+<span class="nc bnc" id="L90" title="All 2 branches missed.">    } else if (packet.getPacketType().equalsIgnoreCase(Packets.JOINGAME.getPacketType())) {</span>
+<span class="nc bnc" id="L91" title="All 2 branches missed.">      if (handleJoinGamePacket(client, packet)) {</span>
+<span class="nc" id="L92">        welcomeGamePacket(client);</span>
+      }
+    } else {
+<span class="nc bnc" id="L95" title="All 2 branches missed.">      for (var packets : Packets.values()) {</span>
+<span class="nc bnc" id="L96" title="All 2 branches missed.">        if (packets.getPacketType().equalsIgnoreCase(packet.getPacketType())) {</span>
+<span class="nc bnc" id="L97" title="All 2 branches missed.">          if (MoleGames.getMoleGames().getServer().isDebug()) {</span>
+<span class="nc" id="L98">            System.out.println(</span>
+<span class="nc" id="L99">                &quot;The packet: &quot; + packet.getPacketType() + &quot; is not handled by the server!&quot;);</span>
+<span class="nc" id="L100">            return;</span>
+          }
+        }
+      }
+<span class="nc bnc" id="L104" title="All 2 branches missed.">      if (MoleGames.getMoleGames().getServer().isDebug()) {</span>
+<span class="nc" id="L105">        System.out.println(&quot;Packet not found: &quot; + packet.getPacketType());</span>
+      }
+    }
+<span class="nc" id="L108">  }</span>
+
+  /**
+   * @param client
+   * @param game
+   * @author Carina
+   * @use sends the playerKicked packet to the game clients
+   */
+  public void playerKickedPacket(@NotNull final Player client, @NotNull final Game game) {
+<span class="nc" id="L117">    var json = new JsonObject();</span>
+<span class="nc" id="L118">    var object = new JsonObject();</span>
+<span class="nc" id="L119">    object.addProperty(&quot;type&quot;, Packets.PLAYERKICKED.getPacketType());</span>
+<span class="nc" id="L120">    json.add(&quot;player&quot;, JsonParser.parseString(new Gson().toJson(client)));</span>
+<span class="nc" id="L121">    object.add(&quot;value&quot;, json);</span>
+<span class="nc" id="L122">    var packet = new Packet(object);</span>
+<span class="nc" id="L123">    MoleGames.getMoleGames().getServer().sendToAllGameClients(game, packet);</span>
+<span class="nc" id="L124">  }</span>
+
+  /**
+   * @param client
+   * @param game
+   * @author Carina
+   * @use sends the playerLeft packet to the game clients
+   */
+  public void playerLeftPacket(@NotNull final Player client, @NotNull final Game game) {
+<span class="nc" id="L133">    var json = new JsonObject();</span>
+<span class="nc" id="L134">    var object = new JsonObject();</span>
+<span class="nc" id="L135">    object.addProperty(&quot;type&quot;, Packets.PLAYERLEFT.getPacketType());</span>
+<span class="nc" id="L136">    json.add(&quot;player&quot;, JsonParser.parseString(new Gson().toJson(client)));</span>
+<span class="nc" id="L137">    object.add(&quot;value&quot;, json);</span>
+<span class="nc" id="L138">    var packet = new Packet(object);</span>
+<span class="nc" id="L139">    MoleGames.getMoleGames().getServer().sendToAllGameClients(game, packet);</span>
+<span class="nc" id="L140">  }</span>
+
+  /**
+   * @return the packet itself
+   * @author Carina
+   * @use send to the clients that the tournament is over
+   */
+  public Packet tournamentOverPacket() {
+<span class="nc" id="L148">    var json = new JsonObject();</span>
+<span class="nc" id="L149">    json.addProperty(&quot;type&quot;, Packets.TOURNAMENTOVER.getPacketType());</span>
+<span class="nc" id="L150">    json.add(&quot;value&quot;, new JsonObject());</span>
+<span class="nc" id="L151">    return new Packet(json);</span>
+  }
+
+  /**
+   * @param client
+   * @author Carina
+   * @use gets the overview of a tournamentPacket
+   */
+  public void tournamentGamesOverviewPacket(@NotNull final ServerThread client) {
+<span class="nc" id="L160">    var object = new JsonObject();</span>
+<span class="nc" id="L161">    var json = new JsonObject();</span>
+<span class="nc" id="L162">    object.addProperty(&quot;type&quot;, Packets.TOURNAMENTGAMESOVERVIEW.getPacketType());</span>
+<span class="nc" id="L163">    json.add(&quot;games&quot;, JsonParser.parseString(new Gson().toJson(MoleGames.getMoleGames()</span>
+<span class="nc" id="L164">      .getGameHandler()</span>
+<span class="nc" id="L165">      .getClientTournaments()</span>
+<span class="nc" id="L166">      .get(client)</span>
+<span class="nc" id="L167">      .getGames())));</span>
+<span class="nc" id="L168">  }</span>
+
+  /**
+   * @param client
+   * @return the packet itself
+   * @author Carina
+   * @use sends that a player is now in a game of a tournament
+   */
+  public Packet tournamentPlayerInGamePacket(@NotNull final ServerThread client) {
+<span class="nc" id="L177">    var json = new JsonObject();</span>
+<span class="nc" id="L178">    var object = new JsonObject();</span>
+<span class="nc" id="L179">    object.addProperty(&quot;type&quot;, Packets.TOURNAMENTPLAYERINGAME.getPacketType());</span>
+<span class="nc" id="L180">    json.add(&quot;player&quot;, JsonParser.parseString(new Gson().toJson(client.getPlayer())));</span>
+<span class="nc" id="L181">    json.addProperty(</span>
+      &quot;gameID&quot;,
+<span class="nc" id="L183">      MoleGames.getMoleGames()</span>
+<span class="nc" id="L184">        .getGameHandler()</span>
+<span class="nc" id="L185">        .getClientTournaments()</span>
+<span class="nc" id="L186">        .get(client)</span>
+<span class="nc" id="L187">        .getTournamentID());</span>
+<span class="nc" id="L188">    object.add(&quot;value&quot;, json);</span>
+<span class="nc" id="L189">    return new Packet(object);</span>
+  }
+
+  /**
+   * @param client
+   * @return the packet send
+   * @author Carina
+   * @use gets a player left tournament packet that can be sent to all clients of the tournament
+   */
+  public Packet tournamentPlayerLeftPacket(@NotNull final ServerThread client) {
+<span class="nc" id="L199">    var json = new JsonObject();</span>
+<span class="nc" id="L200">    var object = new JsonObject();</span>
+<span class="nc" id="L201">    object.addProperty(&quot;type&quot;, Packets.TOURNAMENTPLAYERLEFT.getPacketType());</span>
+<span class="nc" id="L202">    json.add(&quot;player&quot;, JsonParser.parseString(new Gson().toJson(client.getPlayer())));</span>
+<span class="nc" id="L203">    object.add(&quot;value&quot;, json);</span>
+<span class="nc" id="L204">    return new Packet(object);</span>
+  }
+
+  /**
+   * @param client
+   * @return the packet send
+   * @author Carina
+   * @use gets a player kicked tournament packet that can be sent to all clients of the tournament
+   */
+  public Packet tournamentPlayerKickedPacket(@NotNull final ServerThread client) {
+<span class="nc" id="L214">    var json = new JsonObject();</span>
+<span class="nc" id="L215">    var object = new JsonObject();</span>
+<span class="nc" id="L216">    object.addProperty(&quot;type&quot;, Packets.TOURNAMENTPLAYERKICKED.getPacketType());</span>
+<span class="nc" id="L217">    json.add(&quot;player&quot;, JsonParser.parseString(new Gson().toJson(client.getPlayer())));</span>
+<span class="nc" id="L218">    object.add(&quot;value&quot;, json);</span>
+<span class="nc" id="L219">    return new Packet(object);</span>
+  }
+
+  /**
+   * @param client
+   * @author Carina
+   * @use handles when a player wants to leave a tournament
+   */
+  private void handleLeaveTournamentPacket(@NotNull final ServerThread client) {
+<span class="nc" id="L228">    MoleGames.getMoleGames()</span>
+<span class="nc" id="L229">      .getGameHandler()</span>
+<span class="nc" id="L230">      .getClientTournaments()</span>
+<span class="nc" id="L231">      .get(client)</span>
+<span class="nc" id="L232">      .leaveTournament(client);</span>
+<span class="nc" id="L233">    MoleGames.getMoleGames()</span>
+<span class="nc" id="L234">      .getServer()</span>
+<span class="nc" id="L235">      .sendToAllTournamentClients(</span>
+<span class="nc" id="L236">        MoleGames.getMoleGames().getGameHandler().getClientTournaments().get(client),</span>
+<span class="nc" id="L237">        tournamentPlayerLeftPacket(client));</span>
+    //Lobby.getGUI().updateTable();
+<span class="nc" id="L239">  }</span>
+
+  /**
+   * @param client
+   * @author Carina
+   * @use is the response to the getTournamentState packet
+   */
+  public void tournamentStateResponsePacket(@NotNull final ServerThread client) {
+<span class="nc" id="L247">    var tournament = MoleGames.getMoleGames().getGameHandler().getClientTournaments().get(client);</span>
+<span class="nc" id="L248">    var object = new JsonObject();</span>
+<span class="nc" id="L249">    var json = new JsonObject();</span>
+<span class="nc" id="L250">    object.addProperty(&quot;type&quot;, Packets.TOURNAMENTSTATERESPONSE.getPacketType());</span>
+<span class="nc" id="L251">    json.add(</span>
+        &quot;tournamentState&quot;,
+<span class="nc" id="L253">        JsonParser.parseString(new Gson().toJson(tournament.getTournamentState())));</span>
+<span class="nc" id="L254">    object.add(&quot;value&quot;, json);</span>
+<span class="nc" id="L255">    client.sendPacket(new Packet(object));</span>
+<span class="nc" id="L256">  }</span>
+
+  /**
+   * @param player
+   * @return the packet
+   * @author Carina
+   * @use sends the packet to all clients that this player was skipped!
+   */
+  public Packet playerSkippedPacket(@NotNull final Player player) {
+<span class="nc" id="L265">    var object = new JsonObject();</span>
+<span class="nc" id="L266">    var json = new JsonObject();</span>
+<span class="nc" id="L267">    object.addProperty(&quot;type&quot;, Packets.PLAYERSKIPPED.getPacketType());</span>
+<span class="nc" id="L268">    json.add(&quot;player&quot;, JsonParser.parseString(new Gson().toJson(player)));</span>
+<span class="nc" id="L269">    object.add(&quot;value&quot;, json);</span>
+<span class="nc" id="L270">    return new Packet(object);</span>
+  }
+
+  /**
+   * @param gameState
+   * @param eliminatedPlayers
+   * @return the packet
+   * @author Carina
+   * @use sends the next floor (gameState) to the players
+   */
+  public Packet nextFloorPacket(
+      @NotNull final GameState gameState, @NotNull final ArrayList&lt;Player&gt; eliminatedPlayers) {
+<span class="nc" id="L282">    var object = new JsonObject();</span>
+<span class="nc" id="L283">    var json = new JsonObject();</span>
+<span class="nc" id="L284">    object.addProperty(&quot;type&quot;, Packets.NEXTLEVEL.getPacketType());</span>
+<span class="nc" id="L285">    json.add(&quot;gameState&quot;, JsonParser.parseString(new Gson().toJson(gameState)));</span>
+<span class="nc" id="L286">    json.add(&quot;eliminatedPlayers&quot;, JsonParser.parseString(new Gson().toJson(eliminatedPlayers)));</span>
+<span class="nc" id="L287">    object.add(&quot;value&quot;, json);</span>
+<span class="nc" id="L288">    return new Packet(object);</span>
+  }
+
+  /**
+   * @param player
+   * @param punishment
+   * @param reason
+   * @return the packet
+   * @author Carina
+   * @use get the packet for the clients for the punishment notification
+   */
+  public Packet movePenaltyNotification(
+      @NotNull final Player player,
+      final int points,
+      @NotNull final Punishments punishment,
+      @NotNull final String reason) {
+<span class="nc" id="L304">    var object = new JsonObject();</span>
+<span class="nc" id="L305">    var json = new JsonObject();</span>
+<span class="nc" id="L306">    object.addProperty(&quot;type&quot;, Packets.MOVEPENALTYNOTIFICATION.getPacketType());</span>
+<span class="nc" id="L307">    json.add(&quot;player&quot;, JsonParser.parseString(new Gson().toJson(player)));</span>
+<span class="nc" id="L308">    json.addProperty(&quot;reason&quot;, reason);</span>
+<span class="nc" id="L309">    json.addProperty(&quot;deductedPoints&quot;, points);</span>
+<span class="nc" id="L310">    json.addProperty(&quot;penalty&quot;, punishment.getName());</span>
+<span class="nc" id="L311">    object.add(&quot;value&quot;, json);</span>
+<span class="nc" id="L312">    return new Packet(object);</span>
+  }
+
+  /**
+   * @param client
+   * @param packet
+   * @author Carina
+   * @use handles the movement of a mole from the client to the server
+   * @see Game
+   * @see de.thundergames.playmechanics.map.Field
+   * @see de.thundergames.playmechanics.map.Map
+   * @see Player
+   */
+  private void handleMakeMovePacket(
+      @NotNull final ServerThread client, @NotNull final Packet packet) {
+<span class="nc" id="L327">    var game = client.getPlayer().getGame();</span>
+<span class="nc bnc" id="L328" title="All 2 branches missed.">    if (game.getCurrentGameState() != GameStates.OVER</span>
+<span class="nc bnc" id="L329" title="All 2 branches missed.">        &amp;&amp; game.getCurrentGameState() != GameStates.NOT_STARTED) {</span>
+<span class="nc bnc" id="L330" title="All 2 branches missed.">      for (var player : game.getPlayers()) {</span>
+<span class="nc bnc" id="L331" title="All 2 branches missed.">        if (player.getServerClient().equals(client)) {</span>
+<span class="nc" id="L332">          var fieldStart = new Gson().fromJson(packet.getValues().get(&quot;from&quot;), Field.class);</span>
+<span class="nc" id="L333">          var fieldEnd = new Gson().fromJson(packet.getValues().get(&quot;to&quot;), Field.class);</span>
+<span class="nc" id="L334">          player.moveMole(</span>
+<span class="nc" id="L335">              fieldStart.getX(),</span>
+<span class="nc" id="L336">              fieldStart.getY(),</span>
+<span class="nc" id="L337">              fieldEnd.getX(),</span>
+<span class="nc" id="L338">              fieldEnd.getY(),</span>
+<span class="nc" id="L339">              packet.getValues().get(&quot;pullDisc&quot;).getAsInt());</span>
+<span class="nc" id="L340">          return;</span>
+        }
+<span class="nc" id="L342">      }</span>
+    }
+<span class="nc" id="L344">  }</span>
+
+  /**
+   * @param from
+   * @param to
+   * @param pullDisc
+   * @return the package that will be sent to the clients
+   * @use sends to the clients that a mole was moved
+   * @author Carina
+   * @see Mole
+   * @see Client
+   * @see Player
+   */
+  public Packet moleMovedPacket(
+      @NotNull final Field from, @NotNull final Field to, final int pullDisc) {
+<span class="nc" id="L359">    var object = new JsonObject();</span>
+<span class="nc" id="L360">    var json = new JsonObject();</span>
+<span class="nc" id="L361">    json.add(&quot;from&quot;, JsonParser.parseString(new Gson().toJson(from)));</span>
+<span class="nc" id="L362">    json.add(&quot;to&quot;, JsonParser.parseString(new Gson().toJson(to)));</span>
+<span class="nc" id="L363">    json.addProperty(&quot;pullDisc&quot;, pullDisc);</span>
+<span class="nc" id="L364">    object.addProperty(&quot;type&quot;, Packets.MOLEMOVED.getPacketType());</span>
+<span class="nc" id="L365">    object.add(&quot;value&quot;, json);</span>
+<span class="nc" id="L366">    return new Packet(object);</span>
+  }
+
+  /**
+   * @param client
+   * @return the packet
+   * @author Carina
+   * @use sends to all clients whose players turn it is and with which cards they have
+   */
+  public Packet playersTurnPacket(@NotNull final ServerThread client, final boolean maySkip) {
+<span class="nc" id="L376">    var object = new JsonObject();</span>
+<span class="nc" id="L377">    var json = new JsonObject();</span>
+<span class="nc" id="L378">    object.addProperty(&quot;type&quot;, Packets.PLAYERSTURN.getPacketType());</span>
+<span class="nc" id="L379">    var millis = System.currentTimeMillis();</span>
+<span class="nc" id="L380">    var until = millis + client.getPlayer().getGame().getTurnTime();</span>
+<span class="nc" id="L381">    json.add(&quot;player&quot;, JsonParser.parseString(new Gson().toJson(client.getPlayer())));</span>
+<span class="nc" id="L382">    json.addProperty(&quot;maySkip&quot;, maySkip);</span>
+<span class="nc" id="L383">    json.addProperty(&quot;until&quot;, until);</span>
+<span class="nc bnc" id="L384" title="All 2 branches missed.">    if (client.getPlayer().getGame().getSettings().isPullDiscsOrdered()) {</span>
+<span class="nc" id="L385">      json.add(</span>
+          &quot;pullDiscs&quot;,
+<span class="nc" id="L387">          JsonParser.parseString(</span>
+<span class="nc" id="L388">              new Gson().toJson(new int[] {client.getPlayer().getCards().get(0)})));</span>
+    } else {
+<span class="nc" id="L390">      json.add(</span>
+<span class="nc" id="L391">          &quot;pullDiscs&quot;, JsonParser.parseString(new Gson().toJson(client.getPlayer().getCards())));</span>
+    }
+<span class="nc" id="L393">    object.add(&quot;value&quot;, json);</span>
+<span class="nc" id="L394">    return new Packet(object);</span>
+  }
+
+  /**
+   * @param mole
+   * @author Carina
+   * @use sends to the clients of the game the placement of a mole
+   */
+  public Packet molePlacedPacket(@NotNull final Mole mole) {
+<span class="nc" id="L403">    var object = new JsonObject();</span>
+<span class="nc" id="L404">    var json = new JsonObject();</span>
+<span class="nc" id="L405">    object.addProperty(&quot;type&quot;, Packets.MOLEPLACED.getPacketType());</span>
+<span class="nc" id="L406">    json.add(&quot;mole&quot;, JsonParser.parseString(new Gson().toJson(mole)));</span>
+<span class="nc" id="L407">    object.add(&quot;value&quot;, json);</span>
+<span class="nc" id="L408">    return new Packet(object);</span>
+  }
+
+  /**
+   * @param client
+   * @param packet
+   * @author Carina
+   * @use handles the placement of a mole by a player
+   */
+  private void handlePlaceMolePacket(
+      @NotNull final ServerThread client, @NotNull final Packet packet) {
+<span class="nc bnc" id="L419" title="All 4 branches missed.">    if (client.getSocket().isConnected() &amp;&amp; client.getPlayer().getGame() != null) {</span>
+<span class="nc" id="L420">      var game = client.getPlayer().getGame();</span>
+<span class="nc bnc" id="L421" title="All 2 branches missed.">      if (game != null) {</span>
+<span class="nc bnc" id="L422" title="All 2 branches missed.">        if (game.getCurrentGameState() != GameStates.OVER</span>
+<span class="nc bnc" id="L423" title="All 2 branches missed.">            &amp;&amp; game.getCurrentGameState() != GameStates.NOT_STARTED) {</span>
+<span class="nc" id="L424">          var position = new Gson().fromJson(packet.getValues().get(&quot;position&quot;), Field.class);</span>
+<span class="nc" id="L425">          client.getPlayer().placeMole(position.getX(), position.getY());</span>
+        }
+      }
+    }
+<span class="nc" id="L429">  }</span>
+
+  /**
+   * @param gameState
+   * @author Carina
+   * @use sends to the server that the game was started activated by the ausrichter
+   * @see Game
+   * @see GameStates
+   */
+  public Packet gameStartedPacket(@NotNull final GameState gameState) {
+<span class="nc" id="L439">    var object = new JsonObject();</span>
+<span class="nc" id="L440">    var json = new JsonObject();</span>
+<span class="nc" id="L441">    object.addProperty(&quot;type&quot;, Packets.GAMESTARTED.getPacketType());</span>
+<span class="nc" id="L442">    json.add(&quot;initialGameState&quot;, JsonParser.parseString(new Gson().toJson(gameState)));</span>
+<span class="nc" id="L443">    object.add(&quot;value&quot;, json);</span>
+<span class="nc" id="L444">    return new Packet(object);</span>
+  }
+
+  /**
+   * @param player
+   * @author Carina
+   * @use sends to the client that he needs to place a mole
+   * @see Game
+   * @see Player
+   * @see Mole
+   */
+  public Packet playerPlacesMolePacket(@NotNull final Player player) {
+<span class="nc" id="L456">    var object = new JsonObject();</span>
+<span class="nc" id="L457">    var json = new JsonObject();</span>
+<span class="nc" id="L458">    object.addProperty(&quot;type&quot;, Packets.PLAYERPLACESMOLE.getPacketType());</span>
+<span class="nc" id="L459">    json.add(&quot;player&quot;, JsonParser.parseString(new Gson().toJson(player)));</span>
+<span class="nc" id="L460">    json.addProperty(</span>
+<span class="nc" id="L461">        &quot;until&quot;, System.currentTimeMillis() + player.getGame().getSettings().getTurnTime());</span>
+<span class="nc" id="L462">    object.add(&quot;value&quot;, json);</span>
+<span class="nc" id="L463">    return new Packet(object);</span>
+  }
+
+  /**
+   * @param game
+   * @author Carina
+   * @use sends to the server that the game was canceled
+   * @see Game
+   * @see Score
+   */
+  public void gameCanceledPacket(@NotNull final Game game) {
+<span class="nc" id="L474">    var object = new JsonObject();</span>
+<span class="nc" id="L475">    var json = new JsonObject();</span>
+<span class="nc" id="L476">    object.addProperty(&quot;type&quot;, Packets.GAMECANCELED.getPacketType());</span>
+<span class="nc" id="L477">    json.add(&quot;result&quot;, JsonParser.parseString(new Gson().toJson(game.getScore())));</span>
+<span class="nc" id="L478">    object.add(&quot;value&quot;, json);</span>
+<span class="nc" id="L479">    MoleGames.getMoleGames().getServer().sendToAllGameClients(game, new Packet(object));</span>
+<span class="nc" id="L480">  }</span>
+
+  /**
+   * @param game
+   * @author Carina
+   * @use sends to the server that the game was over
+   * @see Game
+   * @see Score
+   */
+  public void gameOverPacket(@NotNull final Game game) {
+<span class="nc" id="L490">    var object = new JsonObject();</span>
+<span class="nc" id="L491">    var json = new JsonObject();</span>
+<span class="nc" id="L492">    object.addProperty(&quot;type&quot;, Packets.GAMEOVER.getPacketType());</span>
+<span class="nc" id="L493">    json.add(&quot;result&quot;, JsonParser.parseString(new Gson().toJson(game.getScore())));</span>
+<span class="nc" id="L494">    object.add(&quot;value&quot;, json);</span>
+<span class="nc" id="L495">    MoleGames.getMoleGames().getServer().sendToAllGameClients(game, new Packet(object));</span>
+<span class="nc" id="L496">  }</span>
+
+  /**
+   * @param game
+   * @author Carina
+   * @use sends to the server that the game was paused
+   * @see Game
+   */
+  public void gamePausedPacket(@NotNull final Game game) {
+<span class="nc" id="L505">    var object = new JsonObject();</span>
+<span class="nc" id="L506">    object.addProperty(&quot;type&quot;, Packets.GAMEPAUSED.getPacketType());</span>
+<span class="nc" id="L507">    object.add(&quot;value&quot;, new JsonObject());</span>
+<span class="nc" id="L508">    MoleGames.getMoleGames().getServer().sendToAllGameClients(game, new Packet(object));</span>
+<span class="nc" id="L509">  }</span>
+
+  /**
+   * @param game
+   * @author Carina
+   * @use sends to the server that the game was continued
+   * @see Game
+   */
+  public void gameContinuedPacket(@NotNull final Game game) {
+<span class="nc" id="L518">    var object = new JsonObject();</span>
+<span class="nc" id="L519">    object.addProperty(&quot;type&quot;, Packets.GAMECONTINUED.getPacketType());</span>
+<span class="nc" id="L520">    object.add(&quot;value&quot;, new JsonObject());</span>
+<span class="nc" id="L521">    MoleGames.getMoleGames().getServer().sendToAllGameClients(game, new Packet(object));</span>
+<span class="nc" id="L522">  }</span>
+
+  /**
+   * @param client
+   * @author Carina
+   * @use handles the remaining Time of the client
+   */
+  private void handleGetRemainingTimePacket(@NotNull final ServerThread client) {
+<span class="nc" id="L530">    remainingTimePacket(client);</span>
+<span class="nc" id="L531">  }</span>
+
+  /**
+   * @param client
+   * @author Carina
+   * @use calculates and sends the remaining time to the client
+   */
+  public void remainingTimePacket(@NotNull final ServerThread client) {
+<span class="nc" id="L539">    var game = client.getPlayer().getGame();</span>
+<span class="nc bnc" id="L540" title="All 2 branches missed.">    for (var ignored : game.getPlayers()) {</span>
+<span class="nc" id="L541">      sendToUsersOnListTimeLeft(game, client);</span>
+<span class="nc" id="L542">    }</span>
+<span class="nc bnc" id="L543" title="All 2 branches missed.">    for (var ignored : game.getSpectators()) {</span>
+<span class="nc" id="L544">      sendToUsersOnListTimeLeft(game, client);</span>
+<span class="nc" id="L545">    }</span>
+<span class="nc" id="L546">  }</span>
+
+  /**
+   * @param game
+   * @param client
+   * @author Carina
+   * @use is sent to the users to tell them the time they got left
+   */
+  private void sendToUsersOnListTimeLeft(Game game, @NotNull final ServerThread client) {
+<span class="nc bnc" id="L555" title="All 2 branches missed.">    if (client.getPlayer().getServerClient().equals(client)) {</span>
+<span class="nc" id="L556">      var object = new JsonObject();</span>
+<span class="nc" id="L557">      var json = new JsonObject();</span>
+<span class="nc" id="L558">      long remainingTime = -1;</span>
+<span class="nc bnc" id="L559" title="All 4 branches missed.">      if (game.getCurrentPlayer() != null &amp;&amp; game.getCurrentGameState() == GameStates.STARTED) {</span>
+<span class="nc" id="L560">        remainingTime =</span>
+<span class="nc" id="L561">            game.getCurrentPlayer().getStartRemainingTime()</span>
+<span class="nc" id="L562">                + game.getSettings().getTurnTime()</span>
+<span class="nc" id="L563">                - System.currentTimeMillis();</span>
+      }
+<span class="nc" id="L565">      object.addProperty(&quot;type&quot;, Packets.REMAININGTIME.getPacketType());</span>
+<span class="nc" id="L566">      json.addProperty(&quot;timeLeft&quot;, remainingTime);</span>
+<span class="nc" id="L567">      object.add(&quot;value&quot;, json);</span>
+<span class="nc" id="L568">      client.getPlayer().getServerClient().sendPacket(new Packet(object));</span>
+    }
+<span class="nc" id="L570">  }</span>
+
+  /**
+   * @param client
+   * @param packet
+   * @author Carina
+   * @use gets the history of the game and sends it back to the client
+   */
+  private void handleGetGameHistoryPacket(
+      @NotNull final ServerThread client, @NotNull final Packet packet) {
+<span class="nc" id="L580">    gameHistoryPacket(client, packet.getValues().get(&quot;gameID&quot;).getAsInt());</span>
+<span class="nc" id="L581">  }</span>
+
+  /**
+   * TODO: here the messages[] einbauen einer history vom game
+   *
+   * @param client
+   * @param gameID
+   * @author Carina
+   * @use sends the gameHistory of the game to the client
+   */
+  public void gameHistoryPacket(@NotNull final ServerThread client, final int gameID) {
+<span class="nc" id="L592">    var json = new JsonObject();</span>
+<span class="nc" id="L593">    var object = new JsonObject();</span>
+<span class="nc" id="L594">    json.addProperty(&quot;type&quot;, Packets.GAMEHISTORYRESPONE.getPacketType());</span>
+<span class="nc" id="L595">    object.addProperty(&quot;gameID&quot;, gameID);</span>
+<span class="nc" id="L596">    json.add(&quot;value&quot;, object);</span>
+<span class="nc" id="L597">    client.sendPacket(new Packet(json));</span>
+<span class="nc" id="L598">  }</span>
+
+  /**
+   * @param client
+   * @author Carina
+   * @use handles the getScore packet from the client
+   */
+  private void handleGetScorePacket(@NotNull final ServerThread client) {
+<span class="nc bnc" id="L606" title="All 2 branches missed.">    if (client.getPlayer().getGame() != null) {</span>
+<span class="nc" id="L607">      scoreNotificationPacket(client);</span>
+    }
+<span class="nc" id="L609">  }</span>
+
+  /**
+   * @param client
+   * @author Carina
+   * @use unregisters the overview observer from the client
+   */
+  private void handleUnregisterOverviewObserverPacket(@NotNull final ServerThread client) {
+<span class="nc" id="L617">    MoleGames.getMoleGames().getServer().getObserver().remove(client);</span>
+<span class="nc" id="L618">  }</span>
+
+  /**
+   * @param client
+   * @author Carina
+   * @use handles the registration of an overview observer
+   */
+  private void handleRegisterOverviewObserverPacket(@NotNull final ServerThread client) {
+<span class="nc" id="L626">    MoleGames.getMoleGames().getServer().getObserver().add(client);</span>
+<span class="nc" id="L627">  }</span>
+
+  /**
+   * @param client
+   * @author Carina
+   * @see ServerThread
+   * @see Client
+   * @see Player
+   */
+  public void handlePlayerLeavePacket(@NotNull final ServerThread client) {
+<span class="nc bnc" id="L637" title="All 2 branches missed.">    if (client.getPlayer().getGame() != null) {</span>
+<span class="nc" id="L638">      var game = client.getPlayer().getGame();</span>
+<span class="nc bnc" id="L639" title="All 2 branches missed.">      if (game.getCurrentGameState() == GameStates.NOT_STARTED</span>
+<span class="nc bnc" id="L640" title="All 2 branches missed.">          &amp;&amp; game.getActivePlayers().contains(client.getPlayer())) {</span>
+<span class="nc" id="L641">        playerLeftPacket(client.getPlayer(), game);</span>
+<span class="nc bnc" id="L642" title="All 2 branches missed.">      } else if (game.getCurrentGameState() != GameStates.OVER</span>
+<span class="nc bnc" id="L643" title="All 2 branches missed.">          &amp;&amp; game.getActivePlayers().contains(client.getPlayer())) {</span>
+<span class="nc" id="L644">        MoleGames.getMoleGames()</span>
+<span class="nc" id="L645">            .getServer()</span>
+<span class="nc" id="L646">            .getPacketHandler()</span>
+<span class="nc" id="L647">            .playerKickedPacket(client.getPlayer(), game);</span>
+      }
+    }
+<span class="nc" id="L650">    removeFromGames(client);</span>
+<span class="nc" id="L651">    overviewPacket(client);</span>
+<span class="nc" id="L652">    client.setPlayer(new Player(client));</span>
+   // Games.getGUI().updateTable();
+<span class="nc" id="L654">  }</span>
+
+  /**
+   * @param client
+   * @author Carina
+   * @use handles the getTournamentScore from the client
+   * @see Client
+   * @see Score
+   */
+  private void handleGetTournamentScorePacket(@NotNull final ServerThread client) {
+<span class="nc" id="L664">    tournamentScore(</span>
+        client,
+<span class="nc" id="L666">        MoleGames.getMoleGames().getGameHandler().getClientTournaments().get(client).getScore());</span>
+<span class="nc" id="L667">  }</span>
+
+  /**
+   * @param client
+   * @param score
+   * @author Carina
+   * @use the score of the tournament is sent to the client
+   */
+  public void tournamentScore(@NotNull final ServerThread client, @NotNull final Score score) {
+<span class="nc" id="L676">    var json = new JsonObject();</span>
+<span class="nc" id="L677">    var object = new JsonObject();</span>
+<span class="nc" id="L678">    json.addProperty(&quot;type&quot;, Packets.TOURNAMENTSCORE.getPacketType());</span>
+<span class="nc" id="L679">    json.add(&quot;score&quot;, JsonParser.parseString(new Gson().toJson(score)));</span>
+<span class="nc" id="L680">    json.add(&quot;value&quot;, object);</span>
+<span class="nc" id="L681">    client.sendPacket(new Packet(json));</span>
+<span class="nc" id="L682">  }</span>
+
+  /**
+   * @param client
+   * @author Carina
+   * @use removes a client from a game
+   */
+  public void removeFromGames(@NotNull final ServerThread client) {
+<span class="nc" id="L690">    client.getServer().getPlayingThreads().remove(client);</span>
+<span class="nc" id="L691">    client.getServer().getLobbyThreads().add(client);</span>
+<span class="nc bnc" id="L692" title="All 2 branches missed.">    if (client.getPlayer() != null) {</span>
+<span class="nc bnc" id="L693" title="All 2 branches missed.">      if (client.getPlayer().getGame() == null) {</span>
+<span class="nc" id="L694">        return;</span>
+      }
+    } else {
+<span class="nc" id="L697">      return;</span>
+    }
+<span class="nc bnc" id="L699" title="All 2 branches missed.">    if (client.getPlayer().getGame().getCurrentPlayer() != null) {</span>
+<span class="nc" id="L700">      client.getPlayer().getGame().getCurrentPlayer().getTimer().cancel();</span>
+    }
+<span class="nc" id="L702">    client.getPlayer().getGame().getPlayers().remove(client.getPlayer());</span>
+<span class="nc" id="L703">    client.getPlayer().getGame().getSpectators().remove(client.getPlayer());</span>
+<span class="nc" id="L704">    client.getPlayer().getGame().removePlayerFromGame(client.getPlayer());</span>
+
+<span class="nc" id="L706">    MoleGames.getMoleGames().getGameHandler().getClientGames().remove(client);</span>
+<span class="nc" id="L707">    System.out.println(&quot;Client with id: &quot; + client.getThreadID() + &quot; left the game!&quot;);</span>
+<span class="nc" id="L708">    client.setPlayer(new Player(client));</span>
+<span class="nc" id="L709">  }</span>
+
+  /**
+   * @param client
+   * @param threadID the threadID of the client that will be sent to the client to give him an id
+   * @author Carina
+   * @see Client
+   */
+  public void welcomePacket(@NotNull final ServerThread client, final int threadID) {
+<span class="nc" id="L718">    var object = new JsonObject();</span>
+<span class="nc" id="L719">    var json = new JsonObject();</span>
+<span class="nc" id="L720">    object.addProperty(&quot;type&quot;, Packets.WELCOME.getPacketType());</span>
+<span class="nc" id="L721">    json.addProperty(&quot;clientID&quot;, threadID);</span>
+<span class="nc" id="L722">    json.addProperty(&quot;magic&quot;, &quot;mole42&quot;);</span>
+<span class="nc" id="L723">    object.add(&quot;value&quot;, json);</span>
+<span class="nc" id="L724">    client.sendPacket(new Packet(object));</span>
+<span class="nc" id="L725">  }</span>
+
+  /**
+   * @param packet
+   * @param client
+   * @author Carina
+   * @use handles the login packet from the client
+   */
+  private void handleLoginPacket(@NotNull final ServerThread client, @NotNull final Packet packet) {
+<span class="nc" id="L734">    var name = (String) null;</span>
+<span class="nc bnc" id="L735" title="All 2 branches missed.">    if (packet.getValues().get(&quot;name&quot;) == null) {</span>
+<span class="nc" id="L736">      name = &quot;PlayerModel&quot;;</span>
+    } else {
+<span class="nc" id="L738">      name = packet.getValues().get(&quot;name&quot;).getAsString();</span>
+    }
+<span class="nc" id="L740">    var inList = false;</span>
+<span class="nc bnc" id="L741" title="All 2 branches missed.">    for (var clientName : MoleGames.getMoleGames().getServer().getConnectionNames().keySet()) {</span>
+<span class="nc bnc" id="L742" title="All 2 branches missed.">      if (clientName.equalsIgnoreCase(name)) {</span>
+<span class="nc" id="L743">        inList = true;</span>
+<span class="nc" id="L744">        break;</span>
+      }
+<span class="nc" id="L746">    }</span>
+<span class="nc bnc" id="L747" title="All 2 branches missed.">    if (!inList) {</span>
+<span class="nc" id="L748">      client.setClientName(name);</span>
+<span class="nc" id="L749">      MoleGames.getMoleGames().getServer().getConnectionNames().put(client.getClientName(), client);</span>
+    } else {
+<span class="nc" id="L751">      for (var i = 1;</span>
+<span class="nc bnc" id="L752" title="All 2 branches missed.">          i &lt; MoleGames.getMoleGames().getServer().getConnectionNames().size() + 1;</span>
+<span class="nc" id="L753">          i++) {</span>
+<span class="nc" id="L754">        var in = false;</span>
+<span class="nc bnc" id="L755" title="All 2 branches missed.">        for (var clientName : MoleGames.getMoleGames().getServer().getConnectionNames().keySet()) {</span>
+<span class="nc bnc" id="L756" title="All 2 branches missed.">          if (clientName.equalsIgnoreCase(name + i)) {</span>
+<span class="nc" id="L757">            in = true;</span>
+<span class="nc" id="L758">            break;</span>
+          }
+<span class="nc" id="L760">        }</span>
+<span class="nc bnc" id="L761" title="All 2 branches missed.">        if (!in) {</span>
+<span class="nc" id="L762">          client.setClientName(name + i);</span>
+<span class="nc" id="L763">          MoleGames.getMoleGames()</span>
+<span class="nc" id="L764">              .getServer()</span>
+<span class="nc" id="L765">              .getConnectionNames()</span>
+<span class="nc" id="L766">              .put(client.getClientName(), client);</span>
+<span class="nc" id="L767">          break;</span>
+        }
+      }
+    }
+<span class="nc bnc" id="L771" title="All 2 branches missed.">    if (MoleGames.getMoleGames().getServer().isDebug()) {</span>
+<span class="nc" id="L772">      System.out.println(</span>
+          &quot;Client with id &quot;
+<span class="nc" id="L774">              + client.getThreadID()</span>
+              + &quot; got the name &quot;
+<span class="nc" id="L776">              + client.getClientName()</span>
+              + &quot; and logged in!&quot;);
+    }
+<span class="nc" id="L779">    client.setPlayer(new Player(client));</span>
+<span class="nc bnc" id="L780" title="All 2 branches missed.">    if (PlayerManagement.getPlayerManagement() != null) {</span>
+<span class="nc" id="L781">      PlayerManagement.getPlayerManagement().updateTable();</span>
+    }
+<span class="nc" id="L783">  }</span>
+
+  /**
+   * @param client
+   * @param gameID
+   * @author Carina
+   * @use sends that a player has joined or been assigned to the game with the gameID
+   * @see Game
+   */
+  public void assignToGamePacket(@NotNull final ServerThread client, final int gameID) {
+<span class="nc" id="L793">    var object = new JsonObject();</span>
+<span class="nc" id="L794">    var json = new JsonObject();</span>
+<span class="nc" id="L795">    object.addProperty(&quot;type&quot;, Packets.ASSIGNEDTOGAME.getPacketType());</span>
+<span class="nc" id="L796">    json.addProperty(&quot;gameID&quot;, gameID);</span>
+<span class="nc" id="L797">    object.add(&quot;value&quot;, json);</span>
+<span class="nc" id="L798">    client.sendPacket(new Packet(object));</span>
+<span class="nc" id="L799">  }</span>
+
+  /**
+   * @param client
+   * @author Carina
+   * @use sends the score of the client to the client
+   * @see Score
+   */
+  private void scoreNotificationPacket(@NotNull final ServerThread client) {
+<span class="nc" id="L808">    var object = new JsonObject();</span>
+<span class="nc" id="L809">    var json = new JsonObject();</span>
+<span class="nc" id="L810">    object.addProperty(&quot;type&quot;, Packets.SCORENOTIFICATION.getPacketType());</span>
+<span class="nc" id="L811">    json.add(</span>
+        &quot;score&quot;,
+<span class="nc" id="L813">        JsonParser.parseString(new Gson().toJson(client.getPlayer().getGame().getScore())));</span>
+<span class="nc" id="L814">    object.add(&quot;value&quot;, json);</span>
+<span class="nc" id="L815">    client.sendPacket(new Packet(object));</span>
+<span class="nc" id="L816">  }</span>
+
+  /**
+   * @param client
+   * @author Carina
+   * @use sends the overview to the clients
+   * @see Game
+   * @see Tournament
+   */
+  public void overviewPacket(@NotNull final ServerThread client) {
+<span class="nc" id="L826">    var object = new JsonObject();</span>
+<span class="nc" id="L827">    var json = new JsonObject();</span>
+<span class="nc" id="L828">    object.addProperty(&quot;type&quot;, Packets.OVERVIEW.getPacketType());</span>
+<span class="nc" id="L829">    json.add(</span>
+        &quot;games&quot;,
+<span class="nc" id="L831">        JsonParser.parseString(</span>
+<span class="nc" id="L832">            new Gson().toJson(MoleGames.getMoleGames().getGameHandler().getGames())));</span>
+<span class="nc" id="L833">    json.add(</span>
+        &quot;tournaments&quot;,
+<span class="nc" id="L835">        JsonParser.parseString(</span>
+<span class="nc" id="L836">            new Gson().toJson(MoleGames.getMoleGames().getGameHandler().getTournaments())));</span>
+<span class="nc" id="L837">    object.add(&quot;value&quot;, json);</span>
+<span class="nc" id="L838">    client.sendPacket(new Packet(object));</span>
+<span class="nc" id="L839">  }</span>
+
+  /**
+   * @param client
+   * @author Carina
+   * @use sends the overview packet to the client
+   */
+  private void handleGetOverviewPacket(@NotNull final ServerThread client) {
+<span class="nc" id="L847">    overviewPacket(client);</span>
+<span class="nc" id="L848">  }</span>
+
+  /**
+   * @param client
+   * @author Carina
+   * @usa handles the client logout from the game
+   */
+  private void handleLogoutPacket(@NotNull final ServerThread client) {
+<span class="nc" id="L856">    removeFromGames(client);</span>
+<span class="nc" id="L857">    client.endConnection();</span>
+<span class="nc" id="L858">    client.getServer().getLobbyThreads().remove(client);</span>
+<span class="nc" id="L859">    MoleGames.getMoleGames().getServer().getObserver().remove(client);</span>
+<span class="nc" id="L860">    MoleGames.getMoleGames().getServer().getConnectionNames().remove(client.getClientName());</span>
+    //Games.getGUI().updateTable();
+<span class="nc" id="L862">  }</span>
+
+  /**
+   * @param client
+   * @author Carina
+   * @see Game
+   * @see Player
+   * @see Client
+   */
+  public boolean handleJoinGamePacket(
+      @NotNull final ServerThread client, @NotNull final Packet packet) throws NotAllowedError {
+<span class="nc" id="L873">    if (MoleGames.getMoleGames()</span>
+<span class="nc" id="L874">        .getGameHandler()</span>
+<span class="nc" id="L875">        .getIDGames()</span>
+<span class="nc bnc" id="L876" title="All 2 branches missed.">        .containsKey(packet.getValues().get(&quot;gameID&quot;).getAsInt())) {</span>
+<span class="nc" id="L877">      var connectType = packet.getValues().get(&quot;participant&quot;).getAsBoolean();</span>
+      var game =
+<span class="nc" id="L879">          MoleGames.getMoleGames()</span>
+<span class="nc" id="L880">              .getGameHandler()</span>
+<span class="nc" id="L881">              .getIDGames()</span>
+<span class="nc" id="L882">              .get(packet.getValues().get(&quot;gameID&quot;).getAsInt());</span>
+<span class="nc bnc" id="L883" title="All 2 branches missed.">      if (connectType) {</span>
+<span class="nc bnc" id="L884" title="All 2 branches missed.">        if (client.getPlayer().getGame() != null) {</span>
+<span class="nc bnc" id="L885" title="All 2 branches missed.">          if (client.getPlayer().getGame().getPlayers().contains(client.getPlayer())) {</span>
+<span class="nc" id="L886">            System.out.println(&quot;Client &quot; + client.getClientName() + &quot; is already in a game!&quot;);</span>
+<span class="nc" id="L887">            return false;</span>
+          }
+        }
+<span class="nc bnc" id="L890" title="All 2 branches missed.">        if (game.getCurrentGameState() == GameStates.NOT_STARTED) {</span>
+<span class="nc bnc" id="L891" title="All 2 branches missed.">          if (game.getPlayers().size() &lt; game.getSettings().getMaxPlayers()) {</span>
+<span class="nc" id="L892">            MoleGames.getMoleGames()</span>
+<span class="nc" id="L893">                .getServer()</span>
+<span class="nc" id="L894">                .getPacketHandler()</span>
+<span class="nc" id="L895">                .assignToGamePacket(client, game.getGameID());</span>
+<span class="nc" id="L896">            game.joinGame(client, false);</span>
+<span class="nc" id="L897">            return true;</span>
+          }
+        }
+      } else {
+<span class="nc bnc" id="L901" title="All 2 branches missed.">        if (client.getPlayer().getGame() != null) {</span>
+<span class="nc bnc" id="L902" title="All 2 branches missed.">          if (client.getPlayer().getGame().getSpectators().contains(client.getPlayer())) {</span>
+<span class="nc" id="L903">            return false;</span>
+          }
+        }
+<span class="nc bnc" id="L906" title="All 2 branches missed.">        if (!game.getCurrentGameState().equals(GameStates.OVER)) {</span>
+<span class="nc" id="L907">          game.joinGame(client, true);</span>
+<span class="nc" id="L908">          return true;</span>
+        }
+      }
+    }
+<span class="nc" id="L912">    return false;</span>
+  }
+
+  /**
+   * @param client
+   * @return the packet that will be sent to the client
+   * @author Carina
+   * @use get a player joined tournament packet to send it to the clients of the tournament
+   */
+  public Packet playerJoinedTournamentPacket(@NotNull final ServerThread client) {
+<span class="nc" id="L922">    var object = new JsonObject();</span>
+<span class="nc" id="L923">    var json = new JsonObject();</span>
+<span class="nc" id="L924">    object.addProperty(&quot;type&quot;, Packets.TOURNAMENTPLAYERJOINED.getPacketType());</span>
+<span class="nc" id="L925">    json.add(&quot;player&quot;, JsonParser.parseString(new Gson().toJson(client.getPlayer())));</span>
+<span class="nc" id="L926">    object.add(&quot;value&quot;, json);</span>
+<span class="nc" id="L927">    return new Packet(object);</span>
+  }
+
+  /**
+   * @param client
+   * @param packet
+   * @author Carina
+   * @use handles the joining of a tournament
+   */
+  private void handleEnterTournamentPacket(
+      @NotNull final ServerThread client, @NotNull final Packet packet) {
+    var tournament =
+<span class="nc" id="L939">        MoleGames.getMoleGames()</span>
+<span class="nc" id="L940">            .getGameHandler()</span>
+<span class="nc" id="L941">            .getIDTournaments()</span>
+<span class="nc" id="L942">            .get(packet.getValues().get(&quot;tournamentID&quot;).getAsInt());</span>
+<span class="nc" id="L943">    tournament.joinTournament(client, packet.getValues().get(&quot;participant&quot;).getAsBoolean());</span>
+<span class="nc" id="L944">    tournamentStateResponsePacket(client);</span>
+<span class="nc" id="L945">    MoleGames.getMoleGames()</span>
+<span class="nc" id="L946">        .getServer()</span>
+<span class="nc" id="L947">        .sendToAllTournamentClients(tournament, playerJoinedTournamentPacket(client));</span>
+<span class="nc" id="L948">  }</span>
+
+  /**
+   * @param client
+   * @author Carina
+   * @use sends the welcomePacket to the client when he joins a game
+   */
+  public void welcomeGamePacket(@NotNull final ServerThread client) {
+<span class="nc" id="L956">    var object = new JsonObject();</span>
+<span class="nc" id="L957">    var json = new JsonObject();</span>
+<span class="nc" id="L958">    object.addProperty(&quot;type&quot;, Packets.WELCOMEGAME.getPacketType());</span>
+<span class="nc" id="L959">    json.add(</span>
+        &quot;gameState&quot;,
+<span class="nc" id="L961">        JsonParser.parseString(new Gson().toJson(client.getPlayer().getGame().getGameState())));</span>
+<span class="nc" id="L962">    object.add(&quot;value&quot;, json);</span>
+<span class="nc bnc" id="L963" title="All 2 branches missed.">    if (client.getPlayer().getGame().getActivePlayers().contains(client.getPlayer())) {</span>
+<span class="nc" id="L964">      playerJoinedPacket(client);</span>
+    }
+<span class="nc" id="L966">    client.sendPacket(new Packet(object));</span>
+<span class="nc" id="L967">  }</span>
+
+  /**
+   * @param client
+   * @author Carina
+   * @use calls when a player joined the game sending the message to the clients of the game
+   */
+  public void playerJoinedPacket(@NotNull final ServerThread client) {
+<span class="nc" id="L975">    var object = new JsonObject();</span>
+<span class="nc" id="L976">    var json = new JsonObject();</span>
+<span class="nc" id="L977">    object.addProperty(&quot;type&quot;, Packets.PLAYERJOINED.getPacketType());</span>
+<span class="nc" id="L978">    json.add(&quot;player&quot;, JsonParser.parseString(new Gson().toJson(client.getPlayer())));</span>
+<span class="nc" id="L979">    object.add(&quot;value&quot;, json);</span>
+<span class="nc" id="L980">    client.getPlayer().getGame().getPlayers().remove(client.getPlayer());</span>
+<span class="nc" id="L981">    MoleGames.getMoleGames()</span>
+<span class="nc" id="L982">        .getServer()</span>
+<span class="nc" id="L983">        .sendToAllGameClients(client.getPlayer().getGame(), new Packet(object));</span>
+<span class="nc" id="L984">    client.getPlayer().getGame().getPlayers().add(client.getPlayer());</span>
+<span class="nc bnc" id="L985" title="All 2 branches missed.">    for (var ignored : MoleGames.getMoleGames().getServer().getObserver()) overviewPacket(ignored);</span>
+<span class="nc" id="L986">  }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

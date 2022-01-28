@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>BoardCountDown.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SwtPra10-pc</a> &gt; <a href="index.source.html" class="el_package">de.thundergames.gameplay.player.board</a> &gt; <span class="el_source">BoardCountDown.java</span></div><h1>BoardCountDown.java</h1><pre class="source lang-java linenums">/*
+ * Copyright Notice for SwtPra10
+ * Copyright (c) at ThunderGames | SwtPra10 2022
+ * File created on 13.01.22, 17:45 by Carina Latest changes made by Carina on 13.01.22, 17:45 All contents of &quot;BoardCountDown&quot; are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * at ThunderGames | SwtPra10. All rights reserved
+ * Any type of duplication, distribution, rental, sale, award,
+ * Public accessibility or other use
+ * requires the express written consent of ThunderGames | SwtPra10.
+ */
+
+package de.thundergames.gameplay.player.board;
+
+import lombok.Getter;
+import lombok.Setter;
+
+import java.util.Timer;
+import java.util.TimerTask;
+
+@Getter
+<span class="nc" id="L20">@Setter</span>
+<span class="nc" id="L21">public class BoardCountDown {</span>
+
+<span class="nc" id="L23">  private long remainingTime;</span>
+  private boolean showCount;
+<span class="nc" id="L25">  private boolean stopCountAfterTurn;</span>
+<span class="nc" id="L26">  private boolean stopTurnOver;</span>
+  private static TimerTask task;
+
+  /**
+   * @author Marc
+   * @use set the remaining time
+   */
+  public void setRemainingTime(long remainingTime) {
+<span class="nc" id="L34">    this.remainingTime = remainingTime;</span>
+<span class="nc" id="L35">    this.stopCountAfterTurn = false;</span>
+<span class="nc" id="L36">  }</span>
+
+  /**
+   * @author Marc
+   * @use set timer for remaining time of gameboard
+   */
+  public void setTimer(boolean run) {
+<span class="nc" id="L43">    this.showCount = run;</span>
+<span class="nc" id="L44">    var timer = new Timer();</span>
+<span class="nc" id="L45">    task = new TimerTask() {</span>
+      @Override
+      public void run() {
+<span class="nc bnc" id="L48" title="All 2 branches missed.">        if (!showCount) {</span>
+<span class="nc" id="L49">          GameBoard.getObserver().updateTime(remainingTime, false);</span>
+<span class="nc bnc" id="L50" title="All 4 branches missed.">        } else if (remainingTime &gt; 0 &amp;&amp; !stopTurnOver) {</span>
+<span class="nc" id="L51">          GameBoard.getObserver().updateTime(remainingTime, true);</span>
+<span class="nc" id="L52">          remainingTime = remainingTime - 100;</span>
+        }
+<span class="nc" id="L54">      }</span>
+    };
+<span class="nc" id="L56">    timer.schedule(task, 0, 100);</span>
+<span class="nc" id="L57">  }</span>
+
+  /**
+   * @author Marc
+   * @use return value of count should be shown
+   */
+  public Boolean getShowCount() {
+<span class="nc" id="L64">    return showCount;</span>
+  }
+
+
+  /**
+   * @author Marc
+   * @use set value that counter should be stopped after turn end
+   */
+  public void stopCountAfterTurn() {
+<span class="nc" id="L73">    stopCountAfterTurn = true;</span>
+<span class="nc" id="L74">  }</span>
+
+  /**
+   * @author Marc
+   * @use contunue timer for remaining time
+   */
+  public void continueTimer() {
+<span class="nc" id="L81">    showCount = true;</span>
+<span class="nc" id="L82">  }</span>
+
+  /**
+   * @author Marc
+   * @use check if remaining time should be stopped
+   */
+  public void checkForStopTimer() {
+<span class="nc bnc" id="L89" title="All 2 branches missed.">    if (stopCountAfterTurn) {</span>
+<span class="nc" id="L90">      stopCountAfterTurn = false;</span>
+<span class="nc" id="L91">      showCount = false;</span>
+    }
+<span class="nc" id="L93">  }</span>
+
+  /**
+   * @author Marc
+   * @use delete the timer
+   */
+  public void deleteTimer() {
+<span class="nc" id="L100">    task.cancel();</span>
+<span class="nc" id="L101">  }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

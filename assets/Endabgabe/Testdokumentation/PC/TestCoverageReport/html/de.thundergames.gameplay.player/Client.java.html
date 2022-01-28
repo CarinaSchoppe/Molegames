@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Client.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SwtPra10-pc</a> &gt; <a href="index.source.html" class="el_package">de.thundergames.gameplay.player</a> &gt; <span class="el_source">Client.java</span></div><h1>Client.java</h1><pre class="source lang-java linenums">/*
+ * Copyright Notice for SwtPra10
+ * Copyright (c) at ThunderGames | SwtPra10 2022
+ * File created on 09.01.22, 21:45 by Carina Latest changes made by Carina on 09.01.22, 21:45 All contents of &quot;Client&quot; are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * at ThunderGames | SwtPra10. All rights reserved
+ * Any type of duplication, distribution, rental, sale, award,
+ * Public accessibility or other use
+ * requires the express written consent of ThunderGames | SwtPra10.
+ */
+package de.thundergames.gameplay.player;
+
+import de.thundergames.gameplay.player.networking.ClientPacketHandler;
+import de.thundergames.gameplay.player.networking.ClientThread;
+import de.thundergames.networking.util.Network;
+import de.thundergames.playmechanics.game.Game;
+import de.thundergames.playmechanics.game.GameState;
+import de.thundergames.playmechanics.map.Map;
+import de.thundergames.playmechanics.tournament.Tournament;
+import de.thundergames.playmechanics.tournament.TournamentState;
+import de.thundergames.playmechanics.util.Mole;
+import de.thundergames.playmechanics.util.Player;
+import lombok.Getter;
+import lombok.Setter;
+import org.jetbrains.annotations.NotNull;
+
+import java.io.IOException;
+import java.net.Socket;
+import java.util.ArrayList;
+import java.util.HashSet;
+
+@Getter
+<span class="nc" id="L32">@Setter</span>
+public class Client extends Network {
+
+  protected static Client CLIENT;
+  public final String name;
+<span class="nc" id="L37">  private final HashSet&lt;Game&gt; games = new HashSet&lt;&gt;();</span>
+<span class="nc" id="L38">  private final HashSet&lt;Tournament&gt; tournaments = new HashSet&lt;&gt;();</span>
+<span class="nc" id="L39">  private final ArrayList&lt;Integer&gt; pullDiscs = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L40">  private final ArrayList&lt;Mole&gt; moles = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L41">  protected ClientPacketHandler clientPacketHandler;</span>
+<span class="nc" id="L42">  protected ClientThread clientThread;</span>
+<span class="nc" id="L43">  private GameState gameState;</span>
+<span class="nc" id="L44">  private TournamentState tournamentState;</span>
+<span class="nc" id="L45">  private long remainingTime;</span>
+<span class="nc" id="L46">  private long remainingDateTime;</span>
+<span class="nc" id="L47">  private Map map;</span>
+<span class="nc" id="L48">  private Player currentPlayer;</span>
+<span class="nc" id="L49">  private Player player;</span>
+<span class="nc" id="L50">  private boolean isDraw = false;</span>
+<span class="nc" id="L51">  private int gameID;</span>
+<span class="nc" id="L52">  private boolean connected = false;</span>
+
+  /**
+   * @param port
+   * @param ip
+   * @param name
+   * @author Carina
+   * @use creates a basic client instance
+   */
+  public Client(final int port, @NotNull final String ip, @NotNull final String name) {
+<span class="nc" id="L62">    super(port, ip);</span>
+<span class="nc" id="L63">    this.name = name;</span>
+<span class="nc" id="L64">  }</span>
+
+  public static void main(String[] args) {
+<span class="nc" id="L67">    var client = new Client(5000, &quot;localhost&quot;, &quot;Carina&quot;);</span>
+<span class="nc" id="L68">    client.clientPacketHandler.joinGamePacket(0, true);</span>
+<span class="nc" id="L69">  }</span>
+
+  public static Client getClientInstance() {
+<span class="nc" id="L72">    return CLIENT;</span>
+  }
+
+  public String getName() {
+<span class="nc" id="L76">    return name;</span>
+  }
+
+  /**
+   * @author Carina
+   * @use Due to a bug where we are getting the constructor which is not constructed at the time we
+   * create the Constructor and call the creation object to create the sockets and stream
+   * @see Client
+   */
+  public void create() {
+<span class="nc" id="L86">    CLIENT = this;</span>
+<span class="nc" id="L87">    clientPacketHandler = new ClientPacketHandler(this);</span>
+<span class="nc" id="L88">    connect();</span>
+<span class="nc" id="L89">  }</span>
+
+  /**
+   * @author Carina
+   * @use connects the client to the server
+   * @see ClientThread for more
+   */
+  public void connect() {
+    try {
+<span class="nc" id="L98">      socket = new Socket(ip, port);</span>
+<span class="nc" id="L99">      connected = true;</span>
+<span class="nc" id="L100">      clientThread = new ClientThread(socket, 0, this);</span>
+<span class="nc" id="L101">      clientThread.start();</span>
+<span class="nc" id="L102">      clientPacketHandler.loginPacket(name);</span>
+<span class="nc" id="L103">    } catch (IOException exception) {</span>
+<span class="nc bnc" id="L104" title="All 2 branches missed.">      if (isDebug()) {</span>
+<span class="nc" id="L105">        System.out.println(&quot;Is the server running?!&quot;);</span>
+      }
+<span class="nc" id="L107">    }</span>
+<span class="nc" id="L108">  }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

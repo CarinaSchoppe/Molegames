@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>GameHandler.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SwtPra10-pc</a> &gt; <a href="index.source.html" class="el_package">de.thundergames.gameplay.player.board</a> &gt; <span class="el_source">GameHandler.java</span></div><h1>GameHandler.java</h1><pre class="source lang-java linenums">/*
+ * Copyright Notice for SwtPra10
+ * Copyright (c) at ThunderGames | SwtPra10 2022
+ * File created on 09.01.22, 21:35 by Carina Latest changes made by Carina on 09.01.22, 21:35 All contents of &quot;GameHandler&quot; are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * at ThunderGames | SwtPra10. All rights reserved
+ * Any type of duplication, distribution, rental, sale, award,
+ * Public accessibility or other use
+ * requires the express written consent of ThunderGames | SwtPra10.
+ */
+
+package de.thundergames.gameplay.player.board;
+
+import javafx.application.Platform;
+import javafx.scene.layout.BorderPane;
+import lombok.Getter;
+import lombok.Setter;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+@Getter
+<span class="nc" id="L24">@Setter</span>
+public class GameHandler {
+  final public static long DEFAULT_TIMEOUT = 10000; // 10 seconds
+<span class="nc" id="L27">  private final PlayerModel activePlayer;</span>
+<span class="nc" id="L28">  private final long timeout;</span>
+<span class="nc" id="L29">  private final int boardRadius;</span>
+<span class="nc" id="L30">  private ArrayList&lt;PlayerModel&gt; players;</span>
+<span class="nc" id="L31">  private HashMap&lt;List&lt;Integer&gt;, NodeType&gt; nodeTypes;</span>
+  private Board board;
+<span class="nc" id="L33">  private BorderPane container;</span>
+<span class="nc" id="L34">  private BorderPane rootContainer;</span>
+<span class="nc" id="L35">  private String background;</span>
+
+  /**
+   * @param players
+   * @param boardRadius
+   * @param nodeTypes
+   * @param timeout
+   * @author Alp, Dila, Issam
+   * @use constructor
+   */
+<span class="nc" id="L45">  public GameHandler(@NotNull final ArrayList&lt;PlayerModel&gt; players, final int boardRadius, @NotNull final HashMap&lt;List&lt;Integer&gt;, NodeType&gt; nodeTypes, final long timeout, @NotNull final BorderPane container, @NotNull final BorderPane rootContainer) {</span>
+<span class="nc" id="L46">    this.players = players;</span>
+<span class="nc" id="L47">    this.activePlayer = players.get(0);</span>
+<span class="nc" id="L48">    this.timeout = timeout;</span>
+<span class="nc" id="L49">    this.boardRadius = boardRadius;</span>
+<span class="nc" id="L50">    this.nodeTypes = new HashMap&lt;&gt;(nodeTypes);</span>
+<span class="nc" id="L51">    this.container = container;</span>
+<span class="nc" id="L52">    this.rootContainer = rootContainer;</span>
+<span class="nc" id="L53">    this.background = &quot;background/ground.png&quot;;</span>
+<span class="nc" id="L54">  }</span>
+
+  /**
+   * @param players
+   * @param boardRadius
+   * @param nodeTypes
+   * @author Alp, Dila, Issam
+   * @use constructor
+   */
+  public GameHandler(@NotNull final ArrayList&lt;PlayerModel&gt; players, final int boardRadius, @NotNull final HashMap&lt;List&lt;Integer&gt;, NodeType&gt; nodeTypes, @NotNull final BorderPane container, @NotNull final BorderPane rootContainer) {
+<span class="nc" id="L64">    this(players, boardRadius, nodeTypes, DEFAULT_TIMEOUT, container, rootContainer);</span>
+<span class="nc" id="L65">  }</span>
+
+  /**
+   * @param players
+   * @author Alp, Dila, Issam
+   * @use starts the pane
+   */
+  public void start(@NotNull final ArrayList&lt;PlayerModel&gt; players) {
+<span class="nc" id="L73">    this.board = new Board(this.boardRadius, container.getWidth(), container.getHeight(), nodeTypes, players);</span>
+<span class="nc" id="L74">    this.board.setContainerBackground(rootContainer, background);</span>
+<span class="nc" id="L75">    this.board.render();</span>
+<span class="nc" id="L76">    this.activePlayer.setItMyTurn(true);</span>
+<span class="nc" id="L77">  }</span>
+
+  public void update(@NotNull final ArrayList&lt;PlayerModel&gt; players) {
+<span class="nc" id="L80">    this.players = players;</span>
+<span class="nc" id="L81">    Platform.runLater(() -&gt; {</span>
+<span class="nc" id="L82">      start(players);</span>
+<span class="nc" id="L83">      this.container.getChildren().clear();</span>
+<span class="nc" id="L84">      this.container.setCenter(this.board);</span>
+<span class="nc" id="L85">    });</span>
+<span class="nc" id="L86">  }</span>
+
+  public Board getBoard() {
+<span class="nc" id="L89">    return this.board;</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

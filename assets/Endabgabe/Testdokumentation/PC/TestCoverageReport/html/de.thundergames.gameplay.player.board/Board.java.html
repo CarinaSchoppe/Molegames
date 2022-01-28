@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Board.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SwtPra10-pc</a> &gt; <a href="index.source.html" class="el_package">de.thundergames.gameplay.player.board</a> &gt; <span class="el_source">Board.java</span></div><h1>Board.java</h1><pre class="source lang-java linenums">/*
+ * Copyright Notice for SwtPra10
+ * Copyright (c) at ThunderGames | SwtPra10 2022
+ * File created on 20.01.22, 17:01 by Carina Latest changes made by Carina on 20.01.22, 17:00 All contents of &quot;Board&quot; are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * at ThunderGames | SwtPra10. All rights reserved
+ * Any type of duplication, distribution, rental, sale, award,
+ * Public accessibility or other use
+ * requires the express written consent of ThunderGames | SwtPra10.
+ */
+
+package de.thundergames.gameplay.player.board;
+
+import de.thundergames.playmechanics.map.Field;
+import de.thundergames.playmechanics.util.Player;
+import javafx.animation.PathTransition;
+import javafx.geometry.Point2D;
+import javafx.scene.Group;
+import javafx.scene.image.Image;
+import javafx.scene.layout.*;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+
+<span class="nc bnc" id="L26" title="All 2 branches missed.">public class Board extends Group {</span>
+  private final int radius;
+  private final HashSet&lt;Node&gt; nodes;
+  private final HashMap&lt;List&lt;Field&gt;, Edge&gt; edges;
+  private final HashMap&lt;List&lt;Integer&gt;, NodeType&gt; nodesType;
+  private final ArrayList&lt;PlayerModel&gt; players;
+  private double width;
+  private double height;
+
+  /**
+   * @param radius
+   * @param width
+   * @param height
+   * @author Issam, Alp, Dila
+   * @use generate nodes and edges
+   */
+  public Board(final int radius, final double width, final double height, @NotNull final HashMap&lt;List&lt;Integer&gt;, NodeType&gt; nodesType, @NotNull final ArrayList&lt;PlayerModel&gt; players) {
+<span class="nc" id="L43">    super();</span>
+<span class="nc" id="L44">    this.radius = radius;</span>
+<span class="nc" id="L45">    this.width = width;</span>
+<span class="nc" id="L46">    this.height = height;</span>
+<span class="nc" id="L47">    this.nodes = new HashSet&lt;&gt;();</span>
+<span class="nc" id="L48">    this.edges = new HashMap&lt;&gt;();</span>
+<span class="nc" id="L49">    this.players = players;</span>
+<span class="nc" id="L50">    this.nodesType = nodesType;</span>
+<span class="nc" id="L51">  }</span>
+
+  public void setContainerBackground(@NotNull final Pane container, @NotNull final String bgSpritePath) {
+<span class="nc" id="L54">    var backgroundImage = new BackgroundImage(new Image(Utils.getSprite(bgSpritePath), 100, 100, false, true),</span>
+      BackgroundRepeat.REPEAT,
+      BackgroundRepeat.REPEAT,
+      BackgroundPosition.CENTER,
+      BackgroundSize.DEFAULT);
+<span class="nc" id="L59">    container.setBackground(new Background(backgroundImage));</span>
+<span class="nc" id="L60">  }</span>
+
+  /**
+   * @param node
+   * @author Issam, Alp, Dila
+   */
+  public List&lt;Node&gt; getNodeNeighbors(@NotNull final Node node) {
+<span class="nc" id="L67">    var nodeID = node.getNodeID();</span>
+<span class="nc" id="L68">    var nodeRow = node.getRow();</span>
+<span class="nc bnc" id="L69" title="All 2 branches missed.">    var rowOffset = nodeRow &lt; this.radius + 1 ? this.radius + nodeRow : 3 * this.radius + 2 - nodeRow;</span>
+<span class="nc" id="L70">    var maxPossibleID = 3 * (int) Math.pow(this.radius, 2) + 3 * this.radius + 1;</span>
+    // Get list of possible neighbors
+<span class="nc" id="L72">    var possibleNeighborsIDs = new ArrayList&lt;&gt;(List.of(nodeID - 1, nodeID + 1, nodeID + rowOffset));</span>
+<span class="nc bnc" id="L73" title="All 2 branches missed.">    if (nodeRow &lt; this.radius + 1) {</span>
+<span class="nc" id="L74">      possibleNeighborsIDs.add(nodeID + rowOffset + 1);</span>
+    } else {
+<span class="nc" id="L76">      possibleNeighborsIDs.add(nodeID + rowOffset - 1);</span>
+    }
+<span class="nc" id="L78">    var possibleNeighbors = this.nodes.stream().filter(n -&gt; possibleNeighborsIDs.contains(n.getNodeID())).collect(Collectors.toList());</span>
+    // Filter out invalid neighbors
+<span class="nc bnc" id="L80" title="All 6 branches missed.">    var isValidID = (Function&lt;Node, Boolean&gt;) neighbor -&gt; neighbor.getNodeID() &gt; 0 &amp;&amp; neighbor.getNodeID() &lt;= maxPossibleID &amp;&amp; neighbor.getNodeID() &gt; nodeID;</span>
+<span class="nc bnc" id="L81" title="All 6 branches missed.">    var isNextEdge = (Function&lt;Node, Boolean&gt;) neighbor -&gt; (neighbor.getNodeID() == nodeID + 1 &amp;&amp; neighbor.getRow() &gt; nodeRow) || neighbor.getRow() - nodeRow &gt; 1;</span>
+<span class="nc bnc" id="L82" title="All 4 branches missed.">    var isAdjacentSameRow = (Function&lt;Node, Boolean&gt;) neighbor -&gt; (neighbor.getNodeID() &gt; nodeID + 1 &amp;&amp; neighbor.getRow() == nodeRow);</span>
+<span class="nc bnc" id="L83" title="All 6 branches missed.">    return possibleNeighbors.stream().filter(neighbor -&gt; isValidID.apply(neighbor) &amp;&amp; !isNextEdge.apply(neighbor) &amp;&amp; !isAdjacentSameRow.apply(neighbor)).distinct().collect(Collectors.toList());</span>
+  }
+
+  /**
+   * @param numberOfNodes
+   * @param maxNumberOfNodes
+   * @param row
+   * @return returns the 2d Points
+   * @author Issam, Alp, Dila
+   */
+  private Point2D[] getNodesPosition(final int numberOfNodes, final int maxNumberOfNodes, final int row) {
+    // Determine margin between nodes
+<span class="nc" id="L95">    var displayHeight = this.height;</span>
+<span class="nc" id="L96">    var maxAreaCoveredByNodes = maxNumberOfNodes * 15;</span>
+<span class="nc" id="L97">    var verticalMargin = (displayHeight - maxAreaCoveredByNodes - 100) / maxNumberOfNodes;</span>
+<span class="nc" id="L98">    var horizontalMargin = verticalMargin / 2;</span>
+<span class="nc" id="L99">    var edgeMargins = maxNumberOfNodes - numberOfNodes;</span>
+<span class="nc" id="L100">    var points = new Point2D[numberOfNodes];</span>
+<span class="nc" id="L101">    var widthSoFar = edgeMargins * horizontalMargin;</span>
+<span class="nc bnc" id="L102" title="All 2 branches missed.">    for (var i = 0; i &lt; numberOfNodes; i++) {</span>
+<span class="nc" id="L103">      points[i] = new Point2D(widthSoFar, row * verticalMargin + 50);</span>
+<span class="nc" id="L104">      widthSoFar += 2 * horizontalMargin;</span>
+    }
+<span class="nc" id="L106">    return points;</span>
+  }
+
+  /**
+   * @author Issam, Alp, Dila
+   * @use generates the nodes
+   */
+  public void generateNodes() {
+<span class="nc" id="L114">    var numberOfGridRows = this.radius * 2 + 1;</span>
+<span class="nc" id="L115">    var startID = 1;</span>
+<span class="nc bnc" id="L116" title="All 2 branches missed.">    for (var i = 0; i &lt; numberOfGridRows; i++) {</span>
+<span class="nc bnc" id="L117" title="All 2 branches missed.">      var numberOfGridCols = i &lt;= this.radius ? this.radius + i + 1 : this.radius + numberOfGridRows - i;</span>
+<span class="nc" id="L118">      var nodesPositions = getNodesPosition(numberOfGridCols, numberOfGridRows, i);</span>
+<span class="nc bnc" id="L119" title="All 2 branches missed.">      var shift = i &gt; this.radius ? numberOfGridRows - numberOfGridCols : 0;</span>
+<span class="nc bnc" id="L120" title="All 2 branches missed.">      for (var j = 0; j &lt; numberOfGridCols; j++) {</span>
+<span class="nc bnc" id="L121" title="All 2 branches missed.">        var nodeType = this.nodesType.get(List.of(i, j + shift)) != null</span>
+<span class="nc" id="L122">          ? this.nodesType.get(List.of(i, j + shift))</span>
+<span class="nc" id="L123">          : NodeType.DEFAULT;</span>
+<span class="nc" id="L124">        this.nodes.add(new Node(startID + j, nodesPositions[j].getX(), nodesPositions[j].getY(), nodeType, i + 1, new Field(i, j + shift)));</span>
+      }
+<span class="nc" id="L126">      startID += numberOfGridCols;</span>
+    }
+<span class="nc" id="L128">  }</span>
+
+  /**
+   * @author Issam, Alp, Dila
+   * @use generates the Edges
+   */
+  public void generateEdges() {
+<span class="nc bnc" id="L135" title="All 2 branches missed.">    for (var node : nodes) {</span>
+<span class="nc" id="L136">      var neighbors = getNodeNeighbors(node);</span>
+<span class="nc bnc" id="L137" title="All 2 branches missed.">      for (var neighbor : neighbors) {</span>
+<span class="nc" id="L138">        this.edges.put(Arrays.asList(node.getField(), neighbor.getField()), new Edge(node.getCenterX(), node.getCenterY(), neighbor.getCenterX(), neighbor.getCenterY()));</span>
+<span class="nc" id="L139">      }</span>
+<span class="nc" id="L140">    }</span>
+<span class="nc" id="L141">  }</span>
+
+  /**
+   * @author Issam, Alp, Dila
+   * @use generates the moles
+   */
+  public void generateMoles() {
+    // Moles need to be set on each state mutation and should have the same id as the corresponding node
+<span class="nc bnc" id="L149" title="All 2 branches missed.">    for (var p : this.players) {</span>
+<span class="nc bnc" id="L150" title="All 2 branches missed.">      for (var mole : p.getMoles()) {</span>
+<span class="nc" id="L151">        var correspondingNode = getNodeByField(mole.getMole().getPosition());</span>
+<span class="nc bnc" id="L152" title="All 4 branches missed.">        assert correspondingNode != null;</span>
+<span class="nc" id="L153">        mole.setLayoutX(correspondingNode.getCenterX() - Marker.DEFAULT_SIZE);</span>
+<span class="nc" id="L154">        mole.setLayoutY(correspondingNode.getCenterY() - Marker.DEFAULT_SIZE);</span>
+<span class="nc" id="L155">        mole.render();</span>
+<span class="nc" id="L156">      }</span>
+<span class="nc" id="L157">    }</span>
+<span class="nc" id="L158">  }</span>
+
+  public void onResize(final double width, final double height) {
+<span class="nc" id="L161">    this.width = width;</span>
+<span class="nc" id="L162">    this.height = height;</span>
+<span class="nc" id="L163">    this.render();</span>
+<span class="nc" id="L164">  }</span>
+
+  private void clearBoard() {
+<span class="nc" id="L167">    this.nodes.clear();</span>
+<span class="nc" id="L168">    this.edges.clear();</span>
+<span class="nc" id="L169">    this.getChildren().clear();</span>
+<span class="nc" id="L170">  }</span>
+
+  /**
+   * @author Issam, Alp, Dila
+   * @use renders the board
+   */
+  public void render() {
+    // On each render clear nodes and edges (this is not ideal performance-wise ! )
+<span class="nc" id="L178">    this.clearBoard();</span>
+    // generate edges and nodes
+<span class="nc" id="L180">    this.generateNodes();</span>
+<span class="nc" id="L181">    this.generateEdges();</span>
+    // display edges and nodes
+<span class="nc" id="L183">    this.edges.forEach((k, v) -&gt; this.getChildren().add(v));</span>
+<span class="nc" id="L184">    this.nodes.forEach(node -&gt; this.getChildren().add(node));</span>
+    // display moles
+<span class="nc" id="L186">    this.generateMoles();</span>
+<span class="nc" id="L187">    this.players.forEach(player -&gt; this.getChildren().addAll(player.getMoles()));</span>
+<span class="nc" id="L188">  }</span>
+
+  private Node getNodeByField(final Field field) {
+<span class="nc bnc" id="L191" title="All 2 branches missed.">    for (var node : nodes) {</span>
+<span class="nc bnc" id="L192" title="All 4 branches missed.">      if (node.getField().getX() == field.getX() &amp;&amp; node.getField().getY() == field.getY()) {</span>
+<span class="nc" id="L193">        return node;</span>
+      }
+<span class="nc" id="L195">    }</span>
+<span class="nc" id="L196">    return null;</span>
+  }
+
+  @SuppressWarnings(&quot;OptionalGetWithoutIsPresent&quot;)
+  public PlayerModel getCurrentPlayerModel(int currentPlayerID) {
+<span class="nc bnc" id="L201" title="All 2 branches missed.">    return this.players.stream().filter(playerModel -&gt; playerModel.getPlayer().getClientID() == currentPlayerID).findFirst().get();</span>
+  }
+
+  @SuppressWarnings(&quot;OptionalGetWithoutIsPresent&quot;)
+  public void moveMole(Field from, Field to, int currentPlayerId, int pullDisc, double visTime) {
+<span class="nc" id="L206">    var currentPlayerModel = getCurrentPlayerModel(currentPlayerId);</span>
+<span class="nc" id="L207">    var moleToBeMoved = currentPlayerModel.getMoles().stream().filter(_mole -&gt; _mole.hasSameField(from)).findFirst().get();</span>
+<span class="nc" id="L208">    var nodeFrom = getNodeByField(from);</span>
+<span class="nc" id="L209">    var nodeTo = getNodeByField(to);</span>
+<span class="nc bnc" id="L210" title="All 4 branches missed.">    assert nodeTo != null;</span>
+<span class="nc bnc" id="L211" title="All 4 branches missed.">    assert nodeFrom != null;</span>
+<span class="nc" id="L212">    var moveDistance = new Point2D(nodeTo.getCenterX() - nodeFrom.getCenterX(), nodeTo.getCenterY() - nodeFrom.getCenterY());</span>
+<span class="nc" id="L213">    var endPosition = new Point2D(nodeTo.getCenterX() - Marker.DEFAULT_SIZE, nodeTo.getCenterY() - Marker.DEFAULT_SIZE);</span>
+    // Update mole position
+<span class="nc" id="L215">    currentPlayerModel.getMoles().remove(moleToBeMoved);</span>
+<span class="nc" id="L216">    moleToBeMoved.getMole().setPosition(to);</span>
+<span class="nc" id="L217">    currentPlayerModel.getMoles().add(moleToBeMoved);</span>
+    // Find path to new node
+<span class="nc" id="L219">    PathSearch pathSearch = new PathSearch(this.nodes);</span>
+<span class="nc" id="L220">    var nodePath = pathSearch.getPathBetweenWithLength(nodeFrom, nodeTo, pullDisc);</span>
+<span class="nc" id="L221">    moleToBeMoved.showMarker(true);</span>
+    // Highlight path to new node
+<span class="nc" id="L223">    beforeTransition(nodePath);</span>
+    // Apply transition to mole
+<span class="nc" id="L225">    PathTransition pathTransition = MoleTransition.transitionMole(moleToBeMoved, moveDistance, visTime);</span>
+    // Cleanup after transition end
+<span class="nc" id="L227">    pathTransition.setOnFinished(finish -&gt; {</span>
+<span class="nc" id="L228">      moleToBeMoved.showMarker(false);</span>
+<span class="nc" id="L229">      moleToBeMoved.setLayoutX(endPosition.getX());</span>
+<span class="nc" id="L230">      moleToBeMoved.setLayoutY(endPosition.getY());</span>
+<span class="nc" id="L231">      moleToBeMoved.setTranslateX(0);</span>
+<span class="nc" id="L232">      moleToBeMoved.setTranslateY(0);</span>
+<span class="nc" id="L233">      afterTransition(nodePath);</span>
+<span class="nc" id="L234">    });</span>
+<span class="nc" id="L235">  }</span>
+
+  public void placeMole(MoleModel mole, double visTime) {
+<span class="nc" id="L238">    var currentPlayerModel = getCurrentPlayerModel(mole.getMole().getPlayer().getClientID());</span>
+<span class="nc bnc" id="L239" title="All 2 branches missed.">    if (!currentPlayerModel.getMoles().contains(mole)) {</span>
+<span class="nc" id="L240">      currentPlayerModel.getMoles().add(mole);</span>
+<span class="nc" id="L241">      var nodeTo = getNodeByField(mole.getMole().getPosition());</span>
+<span class="nc bnc" id="L242" title="All 4 branches missed.">      assert nodeTo != null;</span>
+<span class="nc" id="L243">      mole.setLayoutX(nodeTo.getCenterX() - mole.getComputedMoleSize() / 2);</span>
+<span class="nc" id="L244">      mole.setLayoutY(nodeTo.getCenterY() - mole.getComputedMoleSize() / 2);</span>
+<span class="nc" id="L245">      mole.render();</span>
+<span class="nc" id="L246">      this.getChildren().add(mole);</span>
+      // Show placed mole transition
+<span class="nc" id="L248">      MoleTransition.placeMole(mole, nodeTo, visTime);</span>
+    }
+<span class="nc" id="L250">  }</span>
+
+  private void beforeTransition(List&lt;Node&gt; nodePath) {
+<span class="nc" id="L253">    followNodePath(nodePath, true);</span>
+<span class="nc" id="L254">  }</span>
+
+  private void afterTransition(List&lt;Node&gt; nodePath) {
+<span class="nc" id="L257">    followNodePath(nodePath, false);</span>
+<span class="nc" id="L258">  }</span>
+
+  private void followNodePath(List&lt;Node&gt; nodePath, boolean follow) {
+    // Highlight all nodes in nodePath
+<span class="nc" id="L262">    nodePath.forEach(node -&gt; node.highlightNode(follow));</span>
+    // Highlight matching edges
+<span class="nc bnc" id="L264" title="All 2 branches missed.">    for (int i = 0; i &lt; nodePath.size(); i++) {</span>
+<span class="nc bnc" id="L265" title="All 2 branches missed.">      boolean hasNext = i + 1 &lt; nodePath.size();</span>
+<span class="nc bnc" id="L266" title="All 2 branches missed.">      if (hasNext) {</span>
+<span class="nc bnc" id="L267" title="All 2 branches missed.">        for (var edge : this.edges.entrySet()) {</span>
+<span class="nc" id="L268">          var fieldFrom = edge.getKey().get(0);</span>
+<span class="nc" id="L269">          var fieldTo = edge.getKey().get(1);</span>
+<span class="nc bnc" id="L270" title="All 4 branches missed.">          var isSameField = (Field.isSameField(fieldFrom, nodePath.get(i).getField()) &amp;&amp; Field.isSameField(fieldTo, nodePath.get(i + 1).getField()))</span>
+<span class="nc bnc" id="L271" title="All 4 branches missed.">            || (Field.isSameField(fieldFrom, nodePath.get(i + 1).getField()) &amp;&amp; Field.isSameField(fieldTo, nodePath.get(i).getField()));</span>
+<span class="nc bnc" id="L272" title="All 2 branches missed.">          if (isSameField) {</span>
+<span class="nc" id="L273">            edge.getValue().highlightEdge(follow);</span>
+          }
+<span class="nc" id="L275">        }</span>
+      }
+    }
+<span class="nc" id="L278">  }</span>
+
+  public void removePlayer(Player player) {
+<span class="nc bnc" id="L281" title="All 2 branches missed.">    for (var p : players) {</span>
+<span class="nc bnc" id="L282" title="All 2 branches missed.">      if (p.getPlayer().getClientID() == player.getClientID()) {</span>
+<span class="nc bnc" id="L283" title="All 2 branches missed.">        for (var mole : p.getMoles()) {</span>
+<span class="nc" id="L284">          this.getChildren().remove(mole);</span>
+<span class="nc" id="L285">        }</span>
+<span class="nc" id="L286">        players.remove(p);</span>
+<span class="nc" id="L287">        break;</span>
+      }
+<span class="nc" id="L289">    }</span>
+<span class="nc" id="L290">  }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

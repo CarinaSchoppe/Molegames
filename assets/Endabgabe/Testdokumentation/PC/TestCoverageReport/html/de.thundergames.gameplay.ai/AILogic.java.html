@@ -1,0 +1,352 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AILogic.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SwtPra10-pc</a> &gt; <a href="index.source.html" class="el_package">de.thundergames.gameplay.ai</a> &gt; <span class="el_source">AILogic.java</span></div><h1>AILogic.java</h1><pre class="source lang-java linenums">/*
+ * Copyright Notice for SwtPra10
+ * Copyright (c) at ThunderGames | SwtPra10 2022
+ * File created on 20.01.22, 17:01 by Carina Latest changes made by Carina on 20.01.22, 17:00 All contents of &quot;AILogic&quot; are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * at ThunderGames | SwtPra10. All rights reserved
+ * Any type of duplication, distribution, rental, sale, award,
+ * Public accessibility or other use
+ * requires the express written consent of ThunderGames | SwtPra10.
+ */
+
+package de.thundergames.gameplay.ai;
+
+import de.thundergames.playmechanics.game.GameLogic;
+import de.thundergames.playmechanics.map.Directions;
+import de.thundergames.playmechanics.map.Field;
+import de.thundergames.playmechanics.util.Mole;
+import de.thundergames.playmechanics.util.Player;
+import lombok.Data;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Random;
+
+import static de.thundergames.playmechanics.map.Directions.RIGHT;
+
+<span class="nc bnc" id="L28" title="All 14 branches missed.">@Data</span>
+public class AILogic {
+
+<span class="nc" id="L31">  private final AI ai;</span>
+
+  /**
+   * @author Carina
+   * @use is called to make a move!
+   */
+  public boolean makeMove(@NotNull Mole mole, @NotNull final Directions direction) {
+<span class="nc bnc" id="L38" title="All 2 branches missed.">    if (isHoleCloseToMole(ai) != null) {</span>
+<span class="nc" id="L39">      mole = (Mole) isHoleCloseToMole(ai).get(0);</span>
+<span class="nc" id="L40">      var x = (int) isHoleCloseToMole(ai).get(1);</span>
+<span class="nc" id="L41">      var y = (int) isHoleCloseToMole(ai).get(2);</span>
+<span class="nc bnc" id="L42" title="All 2 branches missed.">      if (ai.isDebug()) {</span>
+<span class="nc" id="L43">        System.out.println(</span>
+          &quot;AI: there is a hole close to a mole within the drawcard. Hole: &quot; + x + &quot;,&quot; + y);
+      }
+<span class="nc bnc" id="L46" title="All 2 branches missed.">      if (GameLogic.wasLegalMove(ai,</span>
+<span class="nc" id="L47">        new int[]{mole.getPosition().getX(), mole.getPosition().getY()},</span>
+        new int[]{x, y},
+<span class="nc" id="L49">        ai.getCard(),</span>
+<span class="nc" id="L50">        ai.getMap())) {</span>
+<span class="nc" id="L51">        ai.getAIPacketHandler()</span>
+<span class="nc" id="L52">          .makeMovePacket(</span>
+<span class="nc" id="L53">            new int[]{mole.getPosition().getX(), mole.getPosition().getY()},</span>
+            new int[]{x, y},
+<span class="nc" id="L55">            ai.getCard());</span>
+<span class="nc bnc" id="L56" title="All 2 branches missed.">        if (ai.isDebug()) {</span>
+<span class="nc" id="L57">          System.out.println(</span>
+            &quot;AI: moving from: [&quot;
+<span class="nc" id="L59">              + mole.getPosition().getX()</span>
+              + &quot;,&quot;
+<span class="nc" id="L61">              + mole.getPosition().getY()</span>
+              + &quot;] to [&quot;
+              + x
+              + &quot;,&quot;
+              + y
+              + &quot;]&quot;);
+        }
+<span class="nc" id="L68">        return true;</span>
+      } else {
+<span class="nc bnc" id="L70" title="All 2 branches missed.">        if (ai.isDebug()) {</span>
+<span class="nc" id="L71">          System.out.println(&quot;AI: the close hole at: [&quot; + x + &quot;,&quot; + y + &quot;] is not a legal move!&quot;);</span>
+        }
+      }
+    }
+<span class="nc" id="L75">    var endField = endFieldCalculator(ai, mole, direction);</span>
+<span class="nc bnc" id="L76" title="All 2 branches missed.">    if (GameLogic.wasLegalMove(ai, new int[]{mole.getPosition().getX(), mole.getPosition().getY()},</span>
+      endField,
+<span class="nc" id="L78">      ai.getCard(),</span>
+<span class="nc" id="L79">      ai.getMap())) {</span>
+<span class="nc bnc" id="L80" title="All 2 branches missed.">      if (ai.isDebug()) {</span>
+<span class="nc" id="L81">        System.out.println(</span>
+          &quot;AI: moving from: [&quot;
+<span class="nc" id="L83">            + mole.getPosition().getX()</span>
+            + &quot;,&quot;
+<span class="nc" id="L85">            + mole.getPosition().getY()</span>
+            + &quot;] to [&quot;
+            + endField[0]
+            + &quot;,&quot;
+            + endField[1]
+            + &quot;]&quot;);
+      }
+<span class="nc" id="L92">      ai.getAIPacketHandler()</span>
+<span class="nc" id="L93">        .makeMovePacket(</span>
+<span class="nc" id="L94">          new int[]{mole.getPosition().getX(), mole.getPosition().getY()}, endField, ai.getCard());</span>
+<span class="nc" id="L95">      return true;</span>
+    }
+<span class="nc" id="L97">    return false;</span>
+  }
+
+  /**
+   * @param ai
+   * @param mole
+   * @return says if a mole can be moved (important for AI)
+   * @author Carina
+   * @see Player
+   * @see de.thundergames.gameplay.ai.AI
+   */
+  public Directions isMoveable(@NotNull final AI ai, @NotNull final Mole mole)
+    throws NullPointerException {
+<span class="nc" id="L110">    var directionsList = new ArrayList&lt;&gt;(List.of(Directions.values()));</span>
+    while (true) {
+<span class="nc bnc" id="L112" title="All 2 branches missed.">      if (directionsList.isEmpty()) {</span>
+<span class="nc" id="L113">        System.out.println(&quot;No possible directions found for this mole!\n&quot;);</span>
+<span class="nc" id="L114">        return null;</span>
+      }
+<span class="nc" id="L116">      var direction = directionsList.get(new Random().nextInt(directionsList.size()));</span>
+<span class="nc" id="L117">      directionsList.remove(direction);</span>
+<span class="nc" id="L118">      var endField = endFieldCalculator(ai, mole, direction);</span>
+<span class="nc bnc" id="L119" title="All 2 branches missed.">      if (!ai.getMap().getFieldMap().containsKey(List.of(endField[0], endField[1]))) {</span>
+<span class="nc" id="L120">        continue;</span>
+      }
+<span class="nc bnc" id="L122" title="All 2 branches missed.">      if (direction == Directions.DOWN) {</span>
+        try {
+<span class="nc bnc" id="L124" title="All 2 branches missed.">          if (GameLogic.wasLegalMove(ai,</span>
+<span class="nc" id="L125">            new int[]{mole.getPosition().getX(), mole.getPosition().getY()},</span>
+            endField,
+<span class="nc" id="L127">            ai.getCard(),</span>
+<span class="nc" id="L128">            ai.getMap())) {</span>
+<span class="nc" id="L129">            return Directions.DOWN;</span>
+          }
+<span class="nc" id="L131">        } catch (@NotNull final Exception ignored) {</span>
+<span class="nc" id="L132">        }</span>
+<span class="nc bnc" id="L133" title="All 2 branches missed.">      } else if (direction == Directions.UP) {</span>
+        try {
+<span class="nc bnc" id="L135" title="All 2 branches missed.">          if (GameLogic.wasLegalMove(ai,</span>
+<span class="nc" id="L136">            new int[]{mole.getPosition().getX(), mole.getPosition().getY()},</span>
+            endField,
+<span class="nc" id="L138">            ai.getCard(),</span>
+<span class="nc" id="L139">            ai.getMap())) {</span>
+<span class="nc" id="L140">            return Directions.UP;</span>
+          }
+<span class="nc" id="L142">        } catch (@NotNull final Exception ignored) {</span>
+<span class="nc" id="L143">        }</span>
+<span class="nc bnc" id="L144" title="All 2 branches missed.">      } else if (direction == Directions.LEFT) {</span>
+        try {
+<span class="nc bnc" id="L146" title="All 2 branches missed.">          if (GameLogic.wasLegalMove(ai,</span>
+<span class="nc" id="L147">            new int[]{mole.getPosition().getX(), mole.getPosition().getY()},</span>
+            endField,
+<span class="nc" id="L149">            ai.getCard(),</span>
+<span class="nc" id="L150">            ai.getMap())) {</span>
+<span class="nc" id="L151">            return Directions.LEFT;</span>
+          }
+<span class="nc" id="L153">        } catch (@NotNull final Exception ignored) {</span>
+<span class="nc" id="L154">        }</span>
+<span class="nc bnc" id="L155" title="All 2 branches missed.">      } else if (direction == RIGHT) {</span>
+        try {
+<span class="nc bnc" id="L157" title="All 2 branches missed.">          if (GameLogic.wasLegalMove(ai,</span>
+<span class="nc" id="L158">            new int[]{mole.getPosition().getX(), mole.getPosition().getY()},</span>
+            endField,
+<span class="nc" id="L160">            ai.getCard(),</span>
+<span class="nc" id="L161">            ai.getMap())) {</span>
+<span class="nc" id="L162">            return Directions.RIGHT;</span>
+          }
+<span class="nc" id="L164">        } catch (@NotNull final Exception ignored) {</span>
+<span class="nc" id="L165">        }</span>
+<span class="nc bnc" id="L166" title="All 2 branches missed.">      } else if (direction == Directions.DOWN_RIGHT) {</span>
+        try {
+<span class="nc bnc" id="L168" title="All 2 branches missed.">          if (GameLogic.wasLegalMove(ai,</span>
+<span class="nc" id="L169">            new int[]{mole.getPosition().getX(), mole.getPosition().getY()},</span>
+            endField,
+<span class="nc" id="L171">            ai.getCard(),</span>
+<span class="nc" id="L172">            ai.getMap())) {</span>
+<span class="nc" id="L173">            return Directions.DOWN_RIGHT;</span>
+          }
+<span class="nc" id="L175">        } catch (@NotNull final Exception ignored) {</span>
+<span class="nc" id="L176">        }</span>
+<span class="nc bnc" id="L177" title="All 2 branches missed.">      } else if (direction == Directions.UP_LEFT) {</span>
+        try {
+<span class="nc bnc" id="L179" title="All 2 branches missed.">          if (GameLogic.wasLegalMove(ai,</span>
+<span class="nc" id="L180">            new int[]{mole.getPosition().getX(), mole.getPosition().getY()},</span>
+            endField,
+<span class="nc" id="L182">            ai.getCard(),</span>
+<span class="nc" id="L183">            ai.getMap())) {</span>
+<span class="nc" id="L184">            return Directions.UP_LEFT;</span>
+          }
+<span class="nc" id="L186">        } catch (@NotNull final Exception ignored) {</span>
+<span class="nc" id="L187">        }</span>
+      }
+<span class="nc" id="L189">    }</span>
+  }
+
+  /**
+   * @param ai
+   * @param mole
+   * @param direction
+   * @return the end field of the move
+   * @author Carina
+   * @see Player
+   */
+  public int[] endFieldCalculator(
+    @NotNull final AI ai, @NotNull final Mole mole, @NotNull final Directions direction) {
+<span class="nc" id="L202">    var x = 0;</span>
+<span class="nc" id="L203">    var y = 0;</span>
+<span class="nc bnc" id="L204" title="All 2 branches missed.">    if (direction == Directions.UP) {</span>
+<span class="nc" id="L205">      y = mole.getPosition().getY() + ai.getCard();</span>
+<span class="nc" id="L206">      x = mole.getPosition().getX();</span>
+<span class="nc bnc" id="L207" title="All 2 branches missed.">    } else if (direction == Directions.DOWN) {</span>
+<span class="nc" id="L208">      y = mole.getPosition().getY() - ai.getCard();</span>
+<span class="nc" id="L209">      x = mole.getPosition().getX();</span>
+<span class="nc bnc" id="L210" title="All 2 branches missed.">    } else if (direction == Directions.LEFT) {</span>
+<span class="nc" id="L211">      y = mole.getPosition().getY();</span>
+<span class="nc" id="L212">      x = mole.getPosition().getX() - ai.getCard();</span>
+<span class="nc bnc" id="L213" title="All 2 branches missed.">    } else if (direction == Directions.RIGHT) {</span>
+<span class="nc" id="L214">      y = mole.getPosition().getY();</span>
+<span class="nc" id="L215">      x = mole.getPosition().getX() + ai.getCard();</span>
+<span class="nc bnc" id="L216" title="All 2 branches missed.">    } else if (direction == Directions.UP_LEFT) {</span>
+<span class="nc" id="L217">      y = mole.getPosition().getY() - ai.getCard();</span>
+<span class="nc" id="L218">      x = mole.getPosition().getX() - ai.getCard();</span>
+<span class="nc bnc" id="L219" title="All 2 branches missed.">    } else if (direction == Directions.DOWN_RIGHT) {</span>
+<span class="nc" id="L220">      y = mole.getPosition().getY() + ai.getCard();</span>
+<span class="nc" id="L221">      x = mole.getPosition().getX() + ai.getCard();</span>
+    }
+<span class="nc" id="L223">    return new int[]{x, y};</span>
+  }
+
+  /**
+   * @param ai
+   * @author Carina
+   * @use handles the placement of a mole if the mole needs to be placed or if all moles has been
+   * placed
+   */
+  public void handleAction(@NotNull final AI ai) {
+<span class="nc bnc" id="L233" title="All 2 branches missed.">    if (ai.isDraw()) {</span>
+<span class="nc" id="L234">      ai.setDraw(false);</span>
+<span class="nc bnc" id="L235" title="All 4 branches missed.">      if (ai.getPlacedMolesAmount() &gt;= ai.getGameState().getMoles() || ai.isPlacedMoles()) {</span>
+<span class="nc" id="L236">        ai.setPlacedMoles(true);</span>
+<span class="nc" id="L237">        var openMoles = new HashSet&lt;&gt;(ai.getMoles());</span>
+<span class="nc" id="L238">        var holeMoles = new HashSet&lt;&gt;(ai.getMoles());</span>
+<span class="nc bnc" id="L239" title="All 2 branches missed.">        for (var hole : ai.getGameState().getFloor().getHoles()) {</span>
+<span class="nc" id="L240">          openMoles.removeIf(</span>
+<span class="nc bnc" id="L241" title="All 4 branches missed.">            mole -&gt; hole.getX() == mole.getPosition().getX() &amp;&amp; hole.getY() == mole.getPosition().getY());</span>
+<span class="nc" id="L242">        }</span>
+<span class="nc" id="L243">        holeMoles.removeAll(openMoles);</span>
+<span class="nc bnc" id="L244" title="All 2 branches missed.">        for (var pullDisc : ai.getPullDiscs()) {</span>
+<span class="nc" id="L245">          ai.setCard(pullDisc);</span>
+<span class="nc bnc" id="L246" title="All 2 branches missed.">          if (moveMole(ai, openMoles, holeMoles)) {</span>
+<span class="nc" id="L247">            return;</span>
+          }
+<span class="nc" id="L249">        }</span>
+<span class="nc" id="L250">      } else {</span>
+<span class="nc" id="L251">        placeMole(ai);</span>
+<span class="nc" id="L252">        ai.setPlacedMolesAmount(ai.getPlacedMolesAmount() + 1);</span>
+      }
+    }
+<span class="nc" id="L255">  }</span>
+
+  /**
+   * @param ai
+   * @param m
+   * @return if it could be moved or not
+   * @author Carina
+   * @use moves a mole depending on in a hole or on a field
+   */
+  @SuppressWarnings(&quot;BooleanMethodIsAlwaysInverted&quot;)
+  private boolean move(@NotNull final AI ai, @NotNull final HashSet&lt;Mole&gt; m) {
+<span class="nc" id="L266">    var random = new Random();</span>
+<span class="nc" id="L267">    var direction = (Directions) null;</span>
+<span class="nc" id="L268">    var moles = new ArrayList&lt;&gt;(m);</span>
+    while (true) {
+<span class="nc bnc" id="L270" title="All 2 branches missed.">      if (moles.isEmpty()) {</span>
+<span class="nc" id="L271">        return false;</span>
+      } else {
+<span class="nc" id="L273">        var mole = (Mole) null;</span>
+<span class="nc bnc" id="L274" title="All 2 branches missed.">        if (moles.size() &gt; 1) {</span>
+<span class="nc" id="L275">          mole = moles.get(random.nextInt(moles.size()));</span>
+        } else {
+<span class="nc" id="L277">          mole = moles.get(0);</span>
+        }
+<span class="nc" id="L279">        direction = isMoveable(ai, mole);</span>
+<span class="nc" id="L280">        moles.remove(mole);</span>
+<span class="nc bnc" id="L281" title="All 2 branches missed.">        if (direction != null) {</span>
+<span class="nc bnc" id="L282" title="All 2 branches missed.">          if (makeMove(mole, direction)) {</span>
+<span class="nc" id="L283">            return true;</span>
+          }
+        }
+<span class="nc" id="L286">      }</span>
+    }
+  }
+
+  /**
+   * @param ai
+   * @author Carina
+   * @use moves a mole in a smart way checks if a mole can now get into a hole and when not it takes
+   * a random mole checks if it can be moved and then moves it in the allowed direction by the
+   * value of the drawCard
+   */
+  public boolean moveMole(@NotNull final AI ai, @NotNull final HashSet&lt;Mole&gt; openMoles, @NotNull final HashSet&lt;Mole&gt; holeMoles) {
+<span class="nc bnc" id="L298" title="All 2 branches missed.">    if (!move(ai, openMoles)) {</span>
+<span class="nc bnc" id="L299" title="All 2 branches missed.">      if (!move(ai, holeMoles)) {</span>
+<span class="nc" id="L300">        System.out.println(&quot;AI: No move possible!&quot;);</span>
+<span class="nc" id="L301">        return false;</span>
+      }
+    }
+<span class="nc" id="L304">    return true;</span>
+  }
+
+  /**
+   * @param ai
+   * @author Carina
+   * @use placed a mole at a random position
+   */
+  public void placeMole(@NotNull final AI ai) {
+<span class="nc" id="L313">    var random = new Random();</span>
+<span class="nc" id="L314">    var fields = new ArrayList&lt;&gt;(ai.getMap().getFieldMap().values());</span>
+<span class="nc" id="L315">    var field = (Field) null;</span>
+    while (true) {
+<span class="nc" id="L317">      field = fields.get(random.nextInt(fields.size()));</span>
+<span class="nc bnc" id="L318" title="All 4 branches missed.">      if (!field.isOccupied() &amp;&amp; !field.isHole()) {</span>
+<span class="nc" id="L319">        break;</span>
+      } else {
+<span class="nc" id="L321">        fields.remove(field);</span>
+      }
+    }
+<span class="nc bnc" id="L324" title="All 2 branches missed.">    if (ai.isDebug()) {</span>
+<span class="nc" id="L325">      System.out.println(&quot;AI: has placed a mole on: [&quot; + field.getX() + &quot;,&quot; + field.getY() + &quot;]&quot;);</span>
+    }
+<span class="nc" id="L327">    ai.getAIPacketHandler().placeMolePacket(field);</span>
+<span class="nc" id="L328">  }</span>
+
+  /**
+   * @param ai instance
+   * @author Carina
+   * @use checks if a hole is close to a mole with the exact range of the card returns the mole ID
+   * and the x and y coordinates of the hole if the mole is close to a hole
+   */
+  public ArrayList&lt;Object&gt; isHoleCloseToMole(@NotNull final AI ai) {
+<span class="nc bnc" id="L337" title="All 2 branches missed.">    for (var mole : ai.getMoles()) {</span>
+<span class="nc bnc" id="L338" title="All 2 branches missed.">      for (var hole : ai.getMap().getHoles()) {</span>
+<span class="nc bnc" id="L339" title="All 2 branches missed.">        if (!ai.getMap().getFieldMap().get(List.of(hole.getX(), hole.getY())).isOccupied()) {</span>
+<span class="nc bnc" id="L340" title="All 2 branches missed.">          if ((hole.getX() == mole.getPosition().getX() + ai.getCard()</span>
+<span class="nc bnc" id="L341" title="All 2 branches missed.">            || hole.getX() == mole.getPosition().getX() - ai.getCard())</span>
+<span class="nc bnc" id="L342" title="All 2 branches missed.">            &amp;&amp; (hole.getY() == mole.getPosition().getY() + ai.getCard()</span>
+<span class="nc bnc" id="L343" title="All 2 branches missed.">            || hole.getY() == mole.getPosition().getY() - ai.getCard())) {</span>
+<span class="nc" id="L344">            return new ArrayList&lt;&gt;(List.of(mole, hole.getX(), hole.getY()));</span>
+          }
+        }
+<span class="nc" id="L347">      }</span>
+<span class="nc" id="L348">    }</span>
+<span class="nc" id="L349">    return null;</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

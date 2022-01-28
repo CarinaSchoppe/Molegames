@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PathSearch.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SwtPra10-pc</a> &gt; <a href="index.source.html" class="el_package">de.thundergames.gameplay.player.board</a> &gt; <span class="el_source">PathSearch.java</span></div><h1>PathSearch.java</h1><pre class="source lang-java linenums">/*
+ * Copyright Notice for SwtPra10
+ * Copyright (c) at ThunderGames | SwtPra10 2022
+ * File created on 17.01.22, 19:10 by Carina Latest changes made by Carina on 17.01.22, 19:10 All contents of &quot;PathSearch&quot; are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * at ThunderGames | SwtPra10. All rights reserved
+ * Any type of duplication, distribution, rental, sale, award,
+ * Public accessibility or other use
+ * requires the express written consent of ThunderGames | SwtPra10.
+ */
+
+package de.thundergames.gameplay.player.board;
+
+import de.thundergames.playmechanics.map.Field;
+import lombok.Getter;
+import lombok.Setter;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+
+@Getter
+<span class="nc" id="L22">@Setter</span>
+public class PathSearch {
+<span class="nc" id="L24">  private HashSet&lt;Node&gt; nodes;</span>
+
+<span class="nc" id="L26">  public PathSearch(HashSet&lt;Node&gt; nodes) {</span>
+<span class="nc" id="L27">    this.nodes = nodes;</span>
+<span class="nc" id="L28">  }</span>
+
+  private ArrayList&lt;Node&gt; findSimplePathLengthN(Node source, Node destination, int pathLength) {
+<span class="nc" id="L31">    ArrayList&lt;Node&gt; path = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L32">    path.add(source);</span>
+<span class="nc bnc" id="L33" title="All 2 branches missed.">    if (source == destination) {</span>
+<span class="nc" id="L34">      path.add(destination);</span>
+<span class="nc" id="L35">      return path;</span>
+    }
+<span class="nc" id="L37">    var sourceField = source.getField();</span>
+<span class="nc" id="L38">    var destinationField = destination.getField();</span>
+<span class="nc bnc" id="L39" title="All 2 branches missed.">    if (sourceField.getY() == destinationField.getY()) {</span>
+<span class="nc bnc" id="L40" title="All 2 branches missed.">      var movementDirection = sourceField.getX() &gt; destinationField.getX();</span>
+<span class="nc bnc" id="L41" title="All 2 branches missed.">      for (int i = 1; i &lt;= pathLength; i++) {</span>
+<span class="nc bnc" id="L42" title="All 2 branches missed.">        var newFieldX = movementDirection ? sourceField.getX() - i : sourceField.getX() + i;</span>
+<span class="nc" id="L43">        path.add(getNodeFromField(new Field(newFieldX, sourceField.getY())));</span>
+      }
+<span class="nc bnc" id="L45" title="All 2 branches missed.">    } else if (source.getField().getX() == destinationField.getX()) {</span>
+<span class="nc bnc" id="L46" title="All 2 branches missed.">      var movementDirection = sourceField.getY() &gt; destinationField.getY();</span>
+<span class="nc bnc" id="L47" title="All 2 branches missed.">      for (int i = 1; i &lt;= pathLength; i++) {</span>
+<span class="nc bnc" id="L48" title="All 2 branches missed.">        var newFieldY = movementDirection ? sourceField.getY() - i : sourceField.getY() + i;</span>
+<span class="nc" id="L49">        path.add(getNodeFromField(new Field(sourceField.getX(), newFieldY)));</span>
+      }
+<span class="nc" id="L51">    } else {</span>
+<span class="nc bnc" id="L52" title="All 2 branches missed.">      for (int i = 1; i &lt;= pathLength; i++) {</span>
+<span class="nc bnc" id="L53" title="All 2 branches missed.">        var newFieldX = sourceField.getX() &gt; destinationField.getX() ? sourceField.getX() - i : sourceField.getX() + i;</span>
+<span class="nc bnc" id="L54" title="All 2 branches missed.">        var newFieldY = sourceField.getY() &gt; destinationField.getY() ? sourceField.getY() - i : sourceField.getY() + i;</span>
+<span class="nc" id="L55">        path.add(getNodeFromField(new Field(newFieldX, newFieldY)));</span>
+      }
+    }
+<span class="nc" id="L58">    return path;</span>
+  }
+
+  private Node getNodeFromField(Field field) {
+<span class="nc bnc" id="L62" title="All 4 branches missed.">    return this.nodes.stream().filter(node -&gt; node.getField().getX() == field.getX() &amp;&amp; node.getField().getY() == field.getY()).findFirst().orElse(null);</span>
+  }
+
+  public List&lt;Node&gt; getPathBetweenWithLength(Node source, Node target, int length) {
+<span class="nc" id="L66">    var path = findSimplePathLengthN(source, target, length);</span>
+<span class="nc" id="L67">    return new ArrayList&lt;&gt;(path);</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

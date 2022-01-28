@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Games.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SwtPra10-pc</a> &gt; <a href="index.source.html" class="el_package">de.thundergames.gameplay.ausrichter.ui</a> &gt; <span class="el_source">Games.java</span></div><h1>Games.java</h1><pre class="source lang-java linenums">/*
+ * Copyright Notice for SwtPra10
+ * Copyright (c) at ThunderGames | SwtPra10 2022
+ * File created on 13.01.22, 22:39 by Carina Latest changes made by Carina on 13.01.22, 22:39 All contents of &quot;Games&quot; are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * at ThunderGames | SwtPra10. All rights reserved
+ * Any type of duplication, distribution, rental, sale, award,
+ * Public accessibility or other use
+ * requires the express written consent of ThunderGames | SwtPra10.
+ */
+
+package de.thundergames.gameplay.ausrichter.ui;
+
+import java.net.URL;
+import java.util.ResourceBundle;
+import de.thundergames.MoleGames;
+import de.thundergames.playmechanics.game.Game;
+import de.thundergames.playmechanics.game.GameStates;
+import de.thundergames.playmechanics.util.Dialog;
+import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
+import org.jetbrains.annotations.NotNull;
+
+/**
+ * @author Eva, Jana
+ * @use to manage create games
+ */
+
+<span class="nc bnc" id="L39" title="All 2 branches missed.">public class Games extends Application implements Initializable {</span>
+
+  @FXML
+  private ResourceBundle resources;
+
+  @FXML
+  private URL location;
+
+  @FXML
+  private Button addPlayer;
+
+  @FXML
+  private Button back;
+
+  @FXML
+  private Button breakGame;
+
+  @FXML
+  private Button continueGame;
+
+  @FXML
+  private Button createGame;
+
+  @FXML
+  private Button endGame;
+
+  @FXML private TableColumn&lt;Game, Integer&gt; gameID;
+
+  @FXML private TableColumn&lt;Game, Integer&gt; gamePlayerCount;
+
+  @FXML private TableColumn&lt;Game, String&gt; gameState;
+
+  @FXML private TableView&lt;Game&gt; gameTable;
+
+  @FXML
+  private Button startGame;
+
+  private static Games GamesInstance;
+
+  public static Games getGamesInstance() {
+<span class="nc" id="L79">    return GamesInstance;</span>
+  }
+
+  @FXML
+  void onCreateGame(ActionEvent event) throws Exception {
+<span class="nc" id="L84">    var primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();</span>
+<span class="nc" id="L85">    new CreateGame().start(primaryStage, &quot;SpielModus&quot;);</span>
+<span class="nc" id="L86">  }</span>
+
+  @FXML
+  void onAddPlayer(ActionEvent event) throws Exception {
+<span class="nc bnc" id="L90" title="All 2 branches missed.">    if (gameTable.getSelectionModel().getSelectedItem() != null) {</span>
+<span class="nc" id="L91">      var selectedItem = gameTable.getSelectionModel().getSelectedItem();</span>
+      var game =
+<span class="nc" id="L93">              MoleGames.getMoleGames().getGameHandler().getIDGames().get(selectedItem.getGameID());</span>
+<span class="nc" id="L94">      var primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();</span>
+<span class="nc" id="L95">      gameTable.getSelectionModel().clearSelection();</span>
+<span class="nc" id="L96">      new PlayerManagement(game).start(primaryStage, &quot;Spielmodus&quot;);</span>
+<span class="nc" id="L97">    } else {</span>
+<span class="nc" id="L98">      Dialog.show(&quot;Du musst ein Spiel auswählen!&quot;, &quot;Achtung!&quot;, Dialog.DialogType.WARNING);</span>
+    }
+<span class="nc" id="L100">  }</span>
+
+  @FXML
+  void onBack(ActionEvent event) throws Exception {
+<span class="nc" id="L104">    var primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();</span>
+<span class="nc" id="L105">    MoleGames.getMoleGames().getGui().start(primaryStage);</span>
+<span class="nc" id="L106">  }</span>
+
+  @FXML
+  void onBreakGame(ActionEvent event) {
+<span class="nc" id="L110">    var selectedItem = gameTable.getSelectionModel().getSelectedItem();</span>
+<span class="nc bnc" id="L111" title="All 2 branches missed.">    if (selectedItem == null) {</span>
+<span class="nc" id="L112">      Dialog.show(&quot;Du musst ein Spiel auswählen!&quot;, &quot;Achtung!&quot;, Dialog.DialogType.WARNING);</span>
+    } else {
+<span class="nc" id="L114">      if (MoleGames.getMoleGames()</span>
+<span class="nc" id="L115">              .getGameHandler()</span>
+<span class="nc" id="L116">              .getIDGames()</span>
+<span class="nc" id="L117">              .get(selectedItem.getGameID())</span>
+<span class="nc bnc" id="L118" title="All 2 branches missed.">              .getCurrentGameState()</span>
+              == GameStates.STARTED) {
+<span class="nc" id="L120">        MoleGames.getMoleGames()</span>
+<span class="nc" id="L121">                .getGameHandler()</span>
+<span class="nc" id="L122">                .getIDGames()</span>
+<span class="nc" id="L123">                .get(selectedItem.getGameID())</span>
+<span class="nc" id="L124">                .pauseGame();</span>
+<span class="nc" id="L125">        updateTable();</span>
+<span class="nc" id="L126">        Dialog.show(&quot;Das gewählte Spiel wurde erfolgreich pausiert!&quot;, &quot;Erfolg!&quot;, Dialog.DialogType.INFO);</span>
+<span class="nc" id="L127">        gameTable.getSelectionModel().clearSelection();</span>
+      } else {
+<span class="nc" id="L129">        Dialog.show(&quot;Das gewählte Spiel wurde noch nicht gestartet!&quot;, &quot;Achtung!&quot;, Dialog.DialogType.WARNING);</span>
+      }
+    }
+<span class="nc" id="L132">  }</span>
+
+  @FXML
+  void onContinueGame(ActionEvent event) {
+<span class="nc" id="L136">    var selectedItem = gameTable.getSelectionModel().getSelectedItem();</span>
+<span class="nc bnc" id="L137" title="All 2 branches missed.">    if (selectedItem == null) {</span>
+<span class="nc" id="L138">      Dialog.show(&quot;Du musst ein Spiel auswählen!&quot;, &quot;Achtung!&quot;, Dialog.DialogType.WARNING);</span>
+    } else {
+<span class="nc" id="L140">      if (MoleGames.getMoleGames()</span>
+<span class="nc" id="L141">              .getGameHandler()</span>
+<span class="nc" id="L142">              .getIDGames()</span>
+<span class="nc" id="L143">              .get(selectedItem.getGameID())</span>
+<span class="nc bnc" id="L144" title="All 2 branches missed.">              .getCurrentGameState()</span>
+              == GameStates.PAUSED) {
+<span class="nc" id="L146">        MoleGames.getMoleGames()</span>
+<span class="nc" id="L147">                .getGameHandler()</span>
+<span class="nc" id="L148">                .getIDGames()</span>
+<span class="nc" id="L149">                .get(selectedItem.getGameID())</span>
+<span class="nc" id="L150">                .resumeGame();</span>
+<span class="nc" id="L151">        gameTable.getSelectionModel().clearSelection();</span>
+<span class="nc" id="L152">        updateTable();</span>
+<span class="nc" id="L153">        Dialog.show(&quot;Das gewählte Spiel geht weiter!&quot;, &quot;Erfolg!&quot;, Dialog.DialogType.INFO);</span>
+      } else {
+<span class="nc" id="L155">        Dialog.show(&quot;Das gewählte Spiel ist nicht pausiert!&quot;, &quot;Achtung!&quot;, Dialog.DialogType.WARNING);</span>
+      }
+    }
+<span class="nc" id="L158">  }</span>
+
+  @FXML
+  void onEndGame(ActionEvent event) {
+<span class="nc" id="L162">    var selectedItem = gameTable.getSelectionModel().getSelectedItem();</span>
+<span class="nc bnc" id="L163" title="All 2 branches missed.">    if (selectedItem == null) {</span>
+<span class="nc" id="L164">      Dialog.show(&quot;Du musst ein Spiel auswählen!&quot;, &quot;Achtung!&quot;, Dialog.DialogType.WARNING);</span>
+    } else {
+<span class="nc" id="L166">      if (MoleGames.getMoleGames()</span>
+<span class="nc" id="L167">              .getGameHandler()</span>
+<span class="nc" id="L168">              .getIDGames()</span>
+<span class="nc" id="L169">              .get(selectedItem.getGameID())</span>
+<span class="nc bnc" id="L170" title="All 2 branches missed.">              .getCurrentGameState()</span>
+              != GameStates.OVER
+<span class="nc" id="L172">              &amp;&amp; MoleGames.getMoleGames()</span>
+<span class="nc" id="L173">              .getGameHandler()</span>
+<span class="nc" id="L174">              .getIDGames()</span>
+<span class="nc" id="L175">              .get(selectedItem.getGameID())</span>
+<span class="nc bnc" id="L176" title="All 2 branches missed.">              .getCurrentGameState()</span>
+              != GameStates.NOT_STARTED) {
+<span class="nc" id="L178">        MoleGames.getMoleGames()</span>
+<span class="nc" id="L179">                .getGameHandler()</span>
+<span class="nc" id="L180">                .getIDGames()</span>
+<span class="nc" id="L181">                .get(selectedItem.getGameID())</span>
+<span class="nc" id="L182">                .forceGameEnd();</span>
+<span class="nc" id="L183">        gameTable.getSelectionModel().clearSelection();</span>
+<span class="nc" id="L184">        updateTable();</span>
+<span class="nc" id="L185">        Dialog.show(&quot;Das gewählte Spiel wurde erfolgreich beendet!&quot;, &quot;Erfolg!&quot;, Dialog.DialogType.INFO);</span>
+      } else {
+<span class="nc" id="L187">        Dialog.show(&quot;Das gewählte Spiel kann nicht beendet werden!&quot;, &quot;Achtung!&quot;, Dialog.DialogType.WARNING);</span>
+      }
+    }
+<span class="nc" id="L190">  }</span>
+
+  @FXML
+  void onStartGame(ActionEvent event) {
+<span class="nc" id="L194">    var selectedItem = gameTable.getSelectionModel().getSelectedItem();</span>
+<span class="nc bnc" id="L195" title="All 2 branches missed.">    if (selectedItem == null) {</span>
+<span class="nc" id="L196">      Dialog.show(&quot;Du musst ein Spiel auswählen!&quot;, &quot;Achtung!&quot;, Dialog.DialogType.WARNING);</span>
+    } else {
+<span class="nc" id="L198">      if (MoleGames.getMoleGames()</span>
+<span class="nc" id="L199">              .getGameHandler()</span>
+<span class="nc" id="L200">              .getIDGames()</span>
+<span class="nc" id="L201">              .get(selectedItem.getGameID())</span>
+<span class="nc bnc" id="L202" title="All 2 branches missed.">              .getCurrentGameState()</span>
+              == GameStates.NOT_STARTED
+<span class="nc bnc" id="L204" title="All 2 branches missed.">              &amp;&amp; selectedItem.getActivePlayers().size() &gt;= 2) {</span>
+<span class="nc" id="L205">        MoleGames.getMoleGames()</span>
+<span class="nc" id="L206">                .getGameHandler()</span>
+<span class="nc" id="L207">                .getIDGames()</span>
+<span class="nc" id="L208">                .get(selectedItem.getGameID())</span>
+<span class="nc" id="L209">                .startGame(GameStates.STARTED);</span>
+<span class="nc" id="L210">        gameTable.getSelectionModel().clearSelection();</span>
+<span class="nc" id="L211">        updateTable();</span>
+<span class="nc" id="L212">        Dialog.show(&quot;Das gewählte Spiel wurde erfolgreich gestartet!&quot;, &quot;Erfolg!&quot;, Dialog.DialogType.INFO);</span>
+      } else {
+<span class="nc" id="L214">        Dialog.show(&quot;Status 'Open', dann musst du mindestens 2 Spieler hinzufügen!&quot;, &quot;Achtung!&quot;, Dialog.DialogType.WARNING);</span>
+      }
+    }
+<span class="nc" id="L217">  }</span>
+
+  @FXML
+  void initialize() {
+<span class="nc bnc" id="L221" title="All 4 branches missed.">    assert addPlayer != null : &quot;fx:id=\&quot;addPlayer\&quot; was not injected: check your FXML file '1.1.fxml'.&quot;;</span>
+<span class="nc bnc" id="L222" title="All 4 branches missed.">    assert back != null : &quot;fx:id=\&quot;back\&quot; was not injected: check your FXML file '1.1.fxml'.&quot;;</span>
+<span class="nc bnc" id="L223" title="All 4 branches missed.">    assert breakGame != null : &quot;fx:id=\&quot;breakGame\&quot; was not injected: check your FXML file '1.1.fxml'.&quot;;</span>
+<span class="nc bnc" id="L224" title="All 4 branches missed.">    assert continueGame != null : &quot;fx:id=\&quot;continueGame\&quot; was not injected: check your FXML file '1.1.fxml'.&quot;;</span>
+<span class="nc bnc" id="L225" title="All 4 branches missed.">    assert createGame != null : &quot;fx:id=\&quot;createGame\&quot; was not injected: check your FXML file '1.1.fxml'.&quot;;</span>
+<span class="nc bnc" id="L226" title="All 4 branches missed.">    assert endGame != null : &quot;fx:id=\&quot;endGame\&quot; was not injected: check your FXML file '1.1.fxml'.&quot;;</span>
+<span class="nc bnc" id="L227" title="All 4 branches missed.">    assert gameTable != null : &quot;fx:id=\&quot;gameTable\&quot; was not injected: check your FXML file '1.1.fxml'.&quot;;</span>
+<span class="nc bnc" id="L228" title="All 4 branches missed.">    assert startGame != null : &quot;fx:id=\&quot;startGame\&quot; was not injected: check your FXML file '1.1.fxml'.&quot;;</span>
+
+<span class="nc" id="L230">    gameID.setCellValueFactory(new PropertyValueFactory&lt;&gt;(&quot;HashtagWithGameID&quot;));</span>
+<span class="nc" id="L231">    gamePlayerCount.setCellValueFactory(new PropertyValueFactory&lt;&gt;(&quot;CurrentPlayerCount_MaxCount&quot;));</span>
+<span class="nc" id="L232">    gameState.setCellValueFactory(new PropertyValueFactory&lt;&gt;(&quot;StatusForTableView&quot;));</span>
+<span class="nc" id="L233">    updateTable();</span>
+<span class="nc" id="L234">  }</span>
+
+  @Override
+  public void initialize(URL location, ResourceBundle resources) {
+<span class="nc" id="L238">    GamesInstance = this;</span>
+<span class="nc" id="L239">    initialize();</span>
+<span class="nc" id="L240">  }</span>
+
+  public void updateTable() {
+<span class="nc" id="L243">    var gameSelection = gameTable.getSelectionModel().getSelectedItem();</span>
+<span class="nc" id="L244">    gameTable.getItems().clear();</span>
+<span class="nc" id="L245">    gameTable.getItems().addAll(MoleGames.getMoleGames().getGameHandler().getGames());</span>
+<span class="nc" id="L246">    gameTable.getSelectionModel().select(gameSelection);</span>
+<span class="nc" id="L247">  }</span>
+
+  public void start(@NotNull final Stage primaryStage) throws Exception {
+<span class="nc" id="L250">    var loader = new FXMLLoader(getClass().getResource(&quot;/ausrichter/style/Games.fxml&quot;));</span>
+<span class="nc" id="L251">    loader.setController(this);</span>
+<span class="nc" id="L252">    var root = (Parent) loader.load();</span>
+<span class="nc" id="L253">    primaryStage.setTitle(&quot;Spieleübersicht&quot;);</span>
+<span class="nc" id="L254">    primaryStage.setResizable(false);</span>
+<span class="nc" id="L255">    primaryStage.setScene(new Scene(root));</span>
+<span class="nc" id="L256">    initialize();</span>
+<span class="nc" id="L257">    primaryStage.show();</span>
+<span class="nc" id="L258">  }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

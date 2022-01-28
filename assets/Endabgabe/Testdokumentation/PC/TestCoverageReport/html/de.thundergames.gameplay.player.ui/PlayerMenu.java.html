@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PlayerMenu.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SwtPra10-pc</a> &gt; <a href="index.source.html" class="el_package">de.thundergames.gameplay.player.ui</a> &gt; <span class="el_source">PlayerMenu.java</span></div><h1>PlayerMenu.java</h1><pre class="source lang-java linenums">/*
+ * Copyright Notice for SwtPra10
+ * Copyright (c) at ThunderGames | SwtPra10 2022
+ * File created on 09.01.22, 21:21 by Carina Latest changes made by Carina on 09.01.22, 21:21 All contents of &quot;PlayerMenu&quot; are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * at ThunderGames | SwtPra10. All rights reserved
+ * Any type of duplication, distribution, rental, sale, award,
+ * Public accessibility or other use
+ * requires the express written consent of ThunderGames | SwtPra10.
+ */
+
+package de.thundergames.gameplay.player.ui;
+
+import de.thundergames.gameplay.player.Client;
+import de.thundergames.gameplay.player.board.GameBoard;
+import de.thundergames.gameplay.player.ui.gameselection.GameSelection;
+import de.thundergames.gameplay.player.ui.gameselection.LobbyObserverGame;
+import de.thundergames.gameplay.player.ui.tournamentselection.TournamentSelection;
+import de.thundergames.playmechanics.game.GameStates;
+import javafx.application.Platform;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.text.Text;
+import javafx.stage.Stage;
+
+import java.io.IOException;
+import java.net.URL;
+import java.util.Objects;
+import java.util.ResourceBundle;
+
+<span class="nc" id="L35">public class PlayerMenu implements Initializable {</span>
+
+  private static Client CLIENT;
+  private static PlayerMenu PLAYER_MENU;
+  @FXML
+  private Text PlayerName;
+  private Stage primaryStage;
+
+  public static PlayerMenu getPlayerMenu() {
+<span class="nc" id="L44">    return PLAYER_MENU;</span>
+  }
+
+  /**
+   * Create the Scene for PlayerMenu
+   *
+   * @param event event from the current scene to build this scene on same object
+   * @throws IOException error creating the scene PlayerMenu
+   */
+  public void create(ActionEvent event) throws IOException {
+<span class="nc" id="L54">    PLAYER_MENU = this;</span>
+<span class="nc" id="L55">    primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();</span>
+<span class="nc" id="L56">    var root = (Parent)</span>
+<span class="nc" id="L57">      FXMLLoader.load(</span>
+<span class="nc" id="L58">        Objects.requireNonNull(getClass().getResource(&quot;/player/style/PlayerMenu.fxml&quot;)));</span>
+<span class="nc" id="L59">    primaryStage.setTitle(&quot;Maulwurf Company&quot;);</span>
+<span class="nc" id="L60">    primaryStage.setResizable(false);</span>
+<span class="nc" id="L61">    primaryStage.setScene(new Scene(root));</span>
+<span class="nc" id="L62">    primaryStage.show();</span>
+<span class="nc" id="L63">    primaryStage.setOnCloseRequest(ev -&gt; logout(primaryStage));</span>
+<span class="nc" id="L64">    CLIENT.getClientPacketHandler().getOverviewPacket();</span>
+<span class="nc" id="L65">  }</span>
+
+  /**
+   * Is called when the object is initialized
+   *
+   * @param location  of base class Initialize
+   * @param resources of base class Initialize
+   */
+  @Override
+  public void initialize(URL location, ResourceBundle resources) {
+    // set client
+<span class="nc" id="L76">    CLIENT = Client.getClientInstance();</span>
+    // show username at scene
+<span class="nc" id="L78">    PlayerName.setText(&quot;Spieler: &quot; + CLIENT.name);</span>
+<span class="nc" id="L79">  }</span>
+
+  /**
+   * Button at Scene PlayerMenu. Call start scene LoginScreen. Logout the user.
+   *
+   * @param event event from the current scene to build start scene on same object
+   * @throws IOException error creating the scene LoginScreen
+   */
+  @FXML
+  void onSignOutClick(ActionEvent event) throws Exception {
+    // logout for user
+<span class="nc" id="L90">    CLIENT.getClientPacketHandler().logoutPacket();</span>
+    // create LoginScreen scene
+<span class="nc" id="L92">    var primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();</span>
+<span class="nc" id="L93">    var root = (Parent)</span>
+<span class="nc" id="L94">      FXMLLoader.load(</span>
+<span class="nc" id="L95">        Objects.requireNonNull(getClass().getResource(&quot;/player/style/LoginScreen.fxml&quot;)));</span>
+<span class="nc" id="L96">    primaryStage.setResizable(false);</span>
+<span class="nc" id="L97">    primaryStage.setScene(new Scene(root));</span>
+<span class="nc" id="L98">    primaryStage.show();</span>
+<span class="nc" id="L99">    PLAYER_MENU = null;</span>
+<span class="nc" id="L100">  }</span>
+
+  /**
+   * Button at Scene PlayerMenu. Call next scene for GameSelection
+   *
+   * @param event event from the current scene to build next scene on same object
+   * @throws IOException error creating the scene GameSelection
+   */
+  @FXML
+  public void onGameClick(ActionEvent event) throws IOException {
+<span class="nc" id="L110">    PLAYER_MENU = null;</span>
+<span class="nc" id="L111">    new GameSelection().create(event);</span>
+<span class="nc" id="L112">  }</span>
+
+  /**
+   * Is called when the close button is clicked. Logout user.
+   *
+   * @param stage current stage
+   */
+  private void logout(Stage stage) {
+<span class="nc" id="L120">    CLIENT.getClientPacketHandler().logoutPacket();</span>
+<span class="nc" id="L121">    stage.close();</span>
+<span class="nc" id="L122">  }</span>
+
+  /**
+   * Button at Scene PlayerMenu. Call next scene for TournamentSelection
+   *
+   * @param event event from the current scene to build next scene on same object
+   * @throws IOException error creating the scene TournamentSelection
+   */
+  @FXML
+  public void onTournamentClick(ActionEvent event) throws IOException {
+<span class="nc" id="L132">    PLAYER_MENU = null;</span>
+<span class="nc" id="L133">    CLIENT.getClientPacketHandler().getOverviewPacket();</span>
+<span class="nc" id="L134">    new TournamentSelection().create(event);</span>
+<span class="nc" id="L135">  }</span>
+
+  /**
+   * @author Philipp
+   * Join an assigned game
+   */
+  public void joinAssignedGame(){
+<span class="nc" id="L142">    Platform.runLater(() -&gt; {</span>
+<span class="nc" id="L143">      CLIENT.getClientPacketHandler().unregisterOverviewObserverPacket();</span>
+<span class="nc" id="L144">      CLIENT.getClientPacketHandler().joinGamePacket(CLIENT.getGameID(), false);</span>
+<span class="nc" id="L145">      var status = CLIENT.getGameState().getStatus();</span>
+<span class="nc bnc" id="L146" title="All 2 branches missed.">      if (Objects.equals(status, GameStates.NOT_STARTED.toString())) {</span>
+        try {
+<span class="nc" id="L148">          new LobbyObserverGame().create(primaryStage, CLIENT.getGameID());</span>
+<span class="nc" id="L149">        } catch (IOException e) {</span>
+<span class="nc" id="L150">          e.printStackTrace();</span>
+<span class="nc" id="L151">        }</span>
+      }
+<span class="nc bnc" id="L153" title="All 2 branches missed.">      else if (Objects.equals(status, GameStates.STARTED.toString())</span>
+<span class="nc bnc" id="L154" title="All 2 branches missed.">              || Objects.equals(status, GameStates.PAUSED.toString())) {</span>
+<span class="nc" id="L155">        new GameBoard().create(primaryStage, false);</span>
+      }
+<span class="nc" id="L157">    });</span>
+<span class="nc" id="L158">  }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

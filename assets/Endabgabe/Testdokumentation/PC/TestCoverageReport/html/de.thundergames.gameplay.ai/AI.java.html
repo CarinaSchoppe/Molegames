@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AI.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SwtPra10-pc</a> &gt; <a href="index.source.html" class="el_package">de.thundergames.gameplay.ai</a> &gt; <span class="el_source">AI.java</span></div><h1>AI.java</h1><pre class="source lang-java linenums">/*
+ * Copyright Notice for SwtPra10
+ * Copyright (c) at ThunderGames | SwtPra10 2022
+ * File created on 20.01.22, 18:32 by Carina Latest changes made by Carina on 20.01.22, 18:31 All contents of &quot;AI&quot; are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * at ThunderGames | SwtPra10. All rights reserved
+ * Any type of duplication, distribution, rental, sale, award,
+ * Public accessibility or other use
+ * requires the express written consent of ThunderGames | SwtPra10.
+ */
+package de.thundergames.gameplay.ai;
+
+import de.thundergames.gameplay.ai.networking.AIClientThread;
+import de.thundergames.gameplay.ai.networking.AIPacketHandler;
+import de.thundergames.gameplay.player.Client;
+import lombok.Getter;
+import lombok.Setter;
+import org.jetbrains.annotations.NotNull;
+
+import java.io.IOException;
+import java.net.Socket;
+
+@Getter
+<span class="nc" id="L23">@Setter</span>
+public class AI extends Client {
+
+<span class="nc" id="L26">  private int gameID = -1;</span>
+<span class="nc" id="L27">  private AILogic logic;</span>
+<span class="nc" id="L28">  private int card;</span>
+<span class="nc" id="L29">  private boolean placedMoles = false;</span>
+<span class="nc" id="L30">  private int placedMolesAmount = 0;</span>
+<span class="nc" id="L31">  private double sleepingTime = 0;</span>
+
+  /**
+   * @param ip
+   * @param port
+   * @param gameID
+   * @author Carina
+   * @use creates the AI instance needed to run the AI
+   */
+  public AI(@NotNull final String ip, final int port, final int gameID) {
+<span class="nc" id="L41">    super(port, ip, &quot;AI&quot;);</span>
+<span class="nc" id="L42">    this.gameID = gameID;</span>
+<span class="nc" id="L43">  }</span>
+
+  /**
+   * @param ip
+   * @param port
+   * @author Carina
+   * @use creates the AI instance needed to run the AI
+   */
+  public AI(@NotNull final String ip, final int port) {
+<span class="nc" id="L52">    super(port, ip, &quot;AI&quot;);</span>
+<span class="nc" id="L53">  }</span>
+
+  public void create() {
+<span class="nc" id="L56">    CLIENT = this;</span>
+<span class="nc" id="L57">    clientPacketHandler = new AIPacketHandler(this);</span>
+<span class="nc" id="L58">    logic = new AILogic(this);</span>
+<span class="nc" id="L59">    connect();</span>
+<span class="nc" id="L60">  }</span>
+
+  /**
+   * @author Carina
+   * @use connects the AI to the server
+   */
+  @Override
+  public void connect() {
+    try {
+<span class="nc" id="L69">      socket = new Socket(ip, port);</span>
+<span class="nc" id="L70">      clientThread = new AIClientThread(socket, 0, this);</span>
+<span class="nc" id="L71">      clientThread.start();</span>
+<span class="nc" id="L72">    } catch (IOException exception) {</span>
+<span class="nc bnc" id="L73" title="All 2 branches missed.">      if (isDebug()) {</span>
+<span class="nc" id="L74">        System.out.println(&quot;Is the server running?!&quot;);</span>
+      }
+<span class="nc" id="L76">    }</span>
+<span class="nc" id="L77">  }</span>
+
+  public AIPacketHandler getAIPacketHandler() {
+<span class="nc" id="L80">    return (AIPacketHandler) clientPacketHandler;</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

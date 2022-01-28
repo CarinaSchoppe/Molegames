@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>NetworkThread.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SwtPra10-pc</a> &gt; <a href="index.source.html" class="el_package">de.thundergames.networking.util</a> &gt; <span class="el_source">NetworkThread.java</span></div><h1>NetworkThread.java</h1><pre class="source lang-java linenums">/*
+ * Copyright Notice for SwtPra10
+ * Copyright (c) at ThunderGames | SwtPra10 2022
+ * File created on 09.01.22, 21:45 by Carina Latest changes made by Carina on 09.01.22, 21:45 All contents of &quot;NetworkThread&quot; are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * at ThunderGames | SwtPra10. All rights reserved
+ * Any type of duplication, distribution, rental, sale, award,
+ * Public accessibility or other use
+ * requires the express written consent of ThunderGames | SwtPra10.
+ */
+package de.thundergames.networking.util;
+
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import de.thundergames.MoleGames;
+import de.thundergames.gameplay.ai.networking.AIClientThread;
+import de.thundergames.gameplay.player.networking.ClientThread;
+import de.thundergames.networking.server.ServerThread;
+import de.thundergames.networking.util.exceptions.NotAllowedError;
+import lombok.Getter;
+import lombok.Setter;
+import org.jetbrains.annotations.NotNull;
+
+import java.io.*;
+import java.net.Socket;
+import java.net.SocketException;
+import java.nio.charset.StandardCharsets;
+import java.util.HashSet;
+
+@Getter
+public abstract class NetworkThread extends Thread {
+
+<span class="nc" id="L32">  protected final Socket socket;</span>
+<span class="nc" id="L33">  private final PrintWriter writer;</span>
+<span class="nc" id="L34">  private final BufferedReader reader;</span>
+<span class="nc" id="L35">  protected Packet packet;</span>
+<span class="nc" id="L36">  @Setter</span>
+<span class="nc" id="L37">  protected int threadID;</span>
+<span class="nc" id="L38">  private boolean run = true;</span>
+
+  /**
+   * Creates a new NetworkThread.
+   *
+   * @param socket   The socket to use.
+   * @param threadID the id of the serverSocketConnection
+   */
+<span class="nc" id="L46">  public NetworkThread(@NotNull final Socket socket, final int threadID) throws IOException {</span>
+<span class="nc" id="L47">    this.socket = socket;</span>
+<span class="nc" id="L48">    this.threadID = threadID;</span>
+<span class="nc bnc" id="L49" title="All 2 branches missed.">    if (this instanceof ServerThread) {</span>
+<span class="nc" id="L50">      System.out.println(&quot;Connection established with id: &quot; + threadID + &quot;!&quot;);</span>
+    }
+<span class="nc" id="L52">    reader =</span>
+      new BufferedReader(
+<span class="nc" id="L54">        new InputStreamReader(socket.getInputStream(), StandardCharsets.UTF_8), 16384);</span>
+<span class="nc" id="L55">    writer =</span>
+      new PrintWriter(
+<span class="nc" id="L57">        new OutputStreamWriter(socket.getOutputStream(), StandardCharsets.UTF_8), true);</span>
+<span class="nc" id="L58">  }</span>
+
+  /**
+   * @author Carina creates a runnable that will create a listener for the incomming packets and
+   * reaches them over to
+   * @use will be automatically started by a Server- or Client (Thread) it will wait for an incoming
+   * packetMessage than decrypts it and turns it into a Packet
+   */
+  @Override
+  public void run() {
+<span class="nc bnc" id="L68" title="All 4 branches missed.">    if (this instanceof ServerThread &amp;&amp; !MoleGames.getMoleGames().getServer().isKeyboard()) {</span>
+<span class="nc" id="L69">      keyBoardListener(false);</span>
+<span class="nc" id="L70">      MoleGames.getMoleGames().getServer().setKeyboard(true);</span>
+<span class="nc bnc" id="L71" title="All 2 branches missed.">    } else if (this instanceof ClientThread) {</span>
+<span class="nc" id="L72">      keyBoardListener(true);</span>
+    }
+    try {
+<span class="nc bnc" id="L75" title="All 2 branches missed.">      while (run) {</span>
+<span class="nc bnc" id="L76" title="All 2 branches missed.">        if (socket.isConnected()) {</span>
+<span class="nc" id="L77">          var inputString = reader.readLine();</span>
+<span class="nc bnc" id="L78" title="All 2 branches missed.">          if (inputString != null) {</span>
+<span class="nc" id="L79">            var object = new Gson().fromJson(inputString, JsonObject.class);</span>
+<span class="nc" id="L80">            packet = new Packet(object);</span>
+<span class="nc bnc" id="L81" title="All 2 branches missed.">            if (this instanceof ServerThread</span>
+<span class="nc bnc" id="L82" title="All 2 branches missed.">              &amp;&amp; !packet.getPacketType().equals(Packets.MESSAGE.getPacketType())</span>
+<span class="nc bnc" id="L83" title="All 2 branches missed.">              &amp;&amp; packet.getValues() != null) {</span>
+<span class="nc bnc" id="L84" title="All 2 branches missed.">              if (MoleGames.getMoleGames().getServer().isDebug()) {</span>
+<span class="nc" id="L85">                System.out.println(</span>
+                  &quot;Client with id: &quot;
+                    + this.threadID
+                    + &quot; sent: type: &quot;
+<span class="nc" id="L89">                    + packet.getPacketType()</span>
+                    + &quot; contents: &quot;
+<span class="nc" id="L91">                    + packet.getValues().toString());</span>
+              }
+<span class="nc bnc" id="L93" title="All 2 branches missed.">            } else if (this instanceof ServerThread</span>
+<span class="nc bnc" id="L94" title="All 2 branches missed.">              &amp;&amp; !packet.getPacketType().equals(Packets.MESSAGE.getPacketType())) {</span>
+<span class="nc bnc" id="L95" title="All 2 branches missed.">              if (MoleGames.getMoleGames().getServer().isDebug()) {</span>
+<span class="nc" id="L96">                System.out.println(</span>
+                  &quot;Client with id: &quot;
+                    + this.threadID
+                    + &quot; sent: type: &quot;
+<span class="nc" id="L100">                    + packet.getPacketType());</span>
+              }
+            }
+<span class="nc" id="L103">            readStringPacketInput(packet, this);</span>
+<span class="nc" id="L104">          } else {</span>
+<span class="nc bnc" id="L105" title="All 2 branches missed.">            if (socket.isConnected()) disconnect();</span>
+<span class="nc" id="L106">            return;</span>
+          }
+<span class="nc" id="L108">        } else {</span>
+<span class="nc bnc" id="L109" title="All 2 branches missed.">          if (socket.isConnected()) disconnect();</span>
+<span class="nc" id="L110">          return;</span>
+        }
+      }
+<span class="nc" id="L113">    } catch (@NotNull final Exception exe) {</span>
+<span class="nc bnc" id="L114" title="All 2 branches missed.">      if (!(exe instanceof SocketException)) exe.printStackTrace();</span>
+    } finally {
+<span class="nc bnc" id="L116" title="All 2 branches missed.">      if (socket.isConnected()) {</span>
+        try {
+<span class="nc" id="L118">          disconnect();</span>
+<span class="nc" id="L119">        } catch (IOException e) {</span>
+<span class="nc" id="L120">          e.printStackTrace();</span>
+<span class="nc" id="L121">        }</span>
+      }
+    }
+<span class="nc" id="L124">  }</span>
+
+  /**
+   * @param client checks if the keyBoardlistener is started by a client or a server
+   * @author Carina
+   */
+  private void keyBoardListener(final boolean client) {
+<span class="nc" id="L131">    new Thread(</span>
+      () -&gt; {
+        try {
+<span class="nc" id="L134">          System.out.println(&quot;Keylistener started!&quot;);</span>
+<span class="nc" id="L135">          var keyboardReader =</span>
+            new BufferedReader(
+              new InputStreamReader(System.in, StandardCharsets.UTF_8), 16384);
+<span class="nc bnc" id="L138" title="All 2 branches missed.">          while (run) {</span>
+            try {
+<span class="nc" id="L140">              var message = keyboardReader.readLine();</span>
+<span class="nc" id="L141">              var object = new JsonObject();</span>
+<span class="nc" id="L142">              var json = new JsonObject();</span>
+<span class="nc bnc" id="L143" title="All 2 branches missed.">              if (client) {</span>
+<span class="nc" id="L144">                object.addProperty(&quot;type&quot;, Packets.MESSAGE.getPacketType());</span>
+<span class="nc" id="L145">                json.addProperty(&quot;message&quot;, message);</span>
+<span class="nc" id="L146">                object.add(&quot;value&quot;, json);</span>
+<span class="nc" id="L147">                sendPacket(new Packet(object));</span>
+              } else {
+                for (ServerThread clientSocket :
+<span class="nc bnc" id="L150" title="All 2 branches missed.">                  new HashSet&lt;&gt;(MoleGames.getMoleGames().getServer().getClientThreads())) {</span>
+<span class="nc" id="L151">                  object.addProperty(&quot;type&quot;, Packets.MESSAGE.getPacketType());</span>
+<span class="nc" id="L152">                  json.addProperty(&quot;message&quot;, message);</span>
+<span class="nc" id="L153">                  object.add(&quot;value&quot;, json);</span>
+<span class="nc" id="L154">                  clientSocket.sendPacket(new Packet(object));</span>
+<span class="nc" id="L155">                }</span>
+              }
+<span class="nc" id="L157">            } catch (IOException e) {</span>
+<span class="nc" id="L158">              e.printStackTrace();</span>
+<span class="nc" id="L159">            }</span>
+          }
+<span class="nc" id="L161">        } catch (Exception e) {</span>
+<span class="nc" id="L162">          e.printStackTrace();</span>
+<span class="nc" id="L163">        }</span>
+<span class="nc" id="L164">      })</span>
+<span class="nc" id="L165">      .start();</span>
+<span class="nc" id="L166">  }</span>
+
+  /**
+   * @param packet   that got read in by the runnable listener
+   * @param receiver the one that it is receiving the thread of the server
+   * @author Carina
+   * @use it will automatically pass it forwards to the Server or Client to handle the Packet
+   * depending on who received it (Server- or Client thread)
+   */
+  private void readStringPacketInput(
+    @NotNull final Packet packet, @NotNull final NetworkThread receiver) throws NotAllowedError {
+<span class="nc bnc" id="L177" title="All 4 branches missed.">    if (receiver instanceof ClientThread &amp;&amp; !(receiver instanceof AIClientThread)) {</span>
+<span class="nc" id="L178">      ((ClientThread) receiver).getClient().getClientPacketHandler().handlePacket(packet);</span>
+<span class="nc bnc" id="L179" title="All 2 branches missed.">    } else if (receiver instanceof AIClientThread) {</span>
+<span class="nc" id="L180">      ((AIClientThread) receiver)</span>
+<span class="nc" id="L181">        .getAIClient()</span>
+<span class="nc" id="L182">        .getAIPacketHandler()</span>
+<span class="nc" id="L183">        .handlePacket(((AIClientThread) receiver).getAIClient(), packet);</span>
+<span class="nc bnc" id="L184" title="All 2 branches missed.">    } else if (receiver instanceof ServerThread) {</span>
+<span class="nc" id="L185">      MoleGames.getMoleGames()</span>
+<span class="nc" id="L186">        .getServer()</span>
+<span class="nc" id="L187">        .getPacketHandler()</span>
+<span class="nc" id="L188">        .handlePacket(packet, (ServerThread) receiver);</span>
+    }
+<span class="nc" id="L190">  }</span>
+
+  /**
+   * @param data is the packet that will be sent in packet format but converted into a string
+   *             seperated with #
+   * @author Carina
+   * @use create a Packet instance of a packet you want to send and pass it in form of a string
+   */
+  public void sendPacket(Packet data) {
+<span class="nc" id="L199">    writer.println(new Gson().toJson(data.getJsonObject()));</span>
+<span class="nc" id="L200">  }</span>
+
+  /**
+   * @author Carina
+   * @use the basic logic of how a NetworkThread will disconnect
+   */
+  public abstract void disconnect() throws IOException;
+
+  public void endConnection() {
+<span class="nc" id="L209">    run = false;</span>
+<span class="nc" id="L210">  }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

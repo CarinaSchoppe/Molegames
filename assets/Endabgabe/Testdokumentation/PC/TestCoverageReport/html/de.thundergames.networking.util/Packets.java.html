@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Packets.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SwtPra10-pc</a> &gt; <a href="index.source.html" class="el_package">de.thundergames.networking.util</a> &gt; <span class="el_source">Packets.java</span></div><h1>Packets.java</h1><pre class="source lang-java linenums">/*
+ * Copyright Notice for SwtPra10
+ * Copyright (c) at ThunderGames | SwtPra10 2022
+ * File created on 09.01.22, 20:02 by Carina Latest changes made by Carina on 09.01.22, 20:02 All contents of &quot;Packets&quot; are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * at ThunderGames | SwtPra10. All rights reserved
+ * Any type of duplication, distribution, rental, sale, award,
+ * Public accessibility or other use
+ * requires the express written consent of ThunderGames | SwtPra10.
+ */
+package de.thundergames.networking.util;
+
+import org.jetbrains.annotations.NotNull;
+
+/**
+ * @author Carina
+ * @see Packets the packet element that can be sent
+ */
+<span class="nc" id="L18">public enum Packets {</span>
+<span class="nc" id="L19">  GAMEPAUSED(&quot;gamePaused&quot;),</span>
+<span class="nc" id="L20">  ENTERTOURNAMENT(&quot;enterTournament&quot;),</span>
+<span class="nc" id="L21">  TOURNAMENTSTATERESPONSE(&quot;tournamentStateResponse&quot;),</span>
+<span class="nc" id="L22">  TOURNAMENTSTARTED(&quot;tournamentStarted&quot;),</span>
+<span class="nc" id="L23">  TOURNAMENTPLAYERJOINED(&quot;tournamentPlayerJoined&quot;),</span>
+<span class="nc" id="L24">  LEAVETOURNAMENT(&quot;leaveTournament&quot;),</span>
+<span class="nc" id="L25">  TOURNAMENTPLAYERLEFT(&quot;tournamentPlayerLeft&quot;),</span>
+<span class="nc" id="L26">  TOURNAMENTPLAYERKICKED(&quot;tournamentPlayerKicked&quot;),</span>
+<span class="nc" id="L27">  TOURNAMENTPLAYERINGAME(&quot;tournamentPlayerInGame&quot;),</span>
+<span class="nc" id="L28">  TOURNAMENTPLAYERINLOBBY(&quot;tournamentPlayerInLobby&quot;),</span>
+<span class="nc" id="L29">  TOURNAMENTGAMESOVERVIEW(&quot;tournamentGamesOverview&quot;),</span>
+<span class="nc" id="L30">  TOURNAMENTOVER(&quot;tournamentOver&quot;),</span>
+<span class="nc" id="L31">  GETGAMEHISTORY(&quot;getGameHistory&quot;),</span>
+<span class="nc" id="L32">  GAMEHISTORYRESPONE(&quot;gameHistoryResponse&quot;),</span>
+<span class="nc" id="L33">  GETREMAININGTIME(&quot;getRemainingTime&quot;),</span>
+<span class="nc" id="L34">  REMAININGTIME(&quot;remainingTime&quot;),</span>
+<span class="nc" id="L35">  GAMESTARTED(&quot;gameStarted&quot;),</span>
+<span class="nc" id="L36">  TOURNAMENTSCORE(&quot;tournamentScore&quot;),</span>
+<span class="nc" id="L37">  GETTOURNAMENTSCORE(&quot;getTournamentScore&quot;),</span>
+<span class="nc" id="L38">  GAMEOVER(&quot;gameOver&quot;),</span>
+<span class="nc" id="L39">  MESSAGE(&quot;message&quot;),</span>
+<span class="nc" id="L40">  SCORENOTIFICATION(&quot;scoreNotification&quot;),</span>
+<span class="nc" id="L41">  GETSCORE(&quot;getScore&quot;),</span>
+<span class="nc" id="L42">  REGISTEROBSERVER(&quot;registerOverviewObserver&quot;),</span>
+<span class="nc" id="L43">  UNREGISTEROBSERVER(&quot;unregisterOverviewObserver&quot;),</span>
+<span class="nc" id="L44">  PLAYERKICKED(&quot;playerKicked&quot;),</span>
+<span class="nc" id="L45">  PLAYERLEFT(&quot;playerLeft&quot;),</span>
+<span class="nc" id="L46">  WELCOMEGAME(&quot;welcomeGame&quot;),</span>
+<span class="nc" id="L47">  ASSIGNEDTOGAME(&quot;assignedToGame&quot;),</span>
+<span class="nc" id="L48">  JOINGAME(&quot;joinGame&quot;),</span>
+<span class="nc" id="L49">  LEAVEGAME(&quot;leaveGame&quot;),</span>
+<span class="nc" id="L50">  LOGIN(&quot;login&quot;),</span>
+<span class="nc" id="L51">  WELCOME(&quot;welcome&quot;),</span>
+<span class="nc" id="L52">  LOGOUT(&quot;logout&quot;),</span>
+<span class="nc" id="L53">  GAMECONTINUED(&quot;gameContinued&quot;),</span>
+<span class="nc" id="L54">  GAMECANCELED(&quot;gameCanceled&quot;),</span>
+<span class="nc" id="L55">  PLAYERPLACESMOLE(&quot;playerPlacesMole&quot;),</span>
+<span class="nc" id="L56">  PLACEMOLE(&quot;placeMole&quot;),</span>
+<span class="nc" id="L57">  MOLEPLACED(&quot;molePlaced&quot;),</span>
+<span class="nc" id="L58">  PLAYERSTURN(&quot;playersTurn&quot;),</span>
+<span class="nc" id="L59">  MAKEMOVE(&quot;makeMove&quot;),</span>
+<span class="nc" id="L60">  MOLEMOVED(&quot;moleMoved&quot;),</span>
+<span class="nc" id="L61">  MOVEPENALTYNOTIFICATION(&quot;movePenaltyNotification&quot;),</span>
+<span class="nc" id="L62">  PLAYERSKIPPED(&quot;playerSkipped&quot;),</span>
+<span class="nc" id="L63">  NEXTLEVEL(&quot;nextLevel&quot;),</span>
+<span class="nc" id="L64">  GETOVERVIEW(&quot;getOverview&quot;),</span>
+<span class="nc" id="L65">  SKIPDRAWAGAIN(&quot;skipDrawAgain&quot;),</span>
+<span class="nc" id="L66">  OVERVIEW(&quot;overview&quot;),</span>
+<span class="nc" id="L67">  PLAYERJOINED(&quot;playerJoined&quot;);</span>
+
+  final String packetType;
+
+<span class="nc" id="L71">  Packets(@NotNull final String packetType) {</span>
+<span class="nc" id="L72">    this.packetType = packetType;</span>
+<span class="nc" id="L73">  }</span>
+
+  public String getPacketType() {
+<span class="nc" id="L76">    return packetType;</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

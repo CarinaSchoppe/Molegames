@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AddGames.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SwtPra10-pc</a> &gt; <a href="index.source.html" class="el_package">de.thundergames.gameplay.ausrichter.ui</a> &gt; <span class="el_source">AddGames.java</span></div><h1>AddGames.java</h1><pre class="source lang-java linenums">/*
+ * Copyright Notice for SwtPra10
+ * Copyright (c) at ThunderGames | SwtPra10 2022
+ * File created on 13.01.22, 22:39 by Carina Latest changes made by Carina on 13.01.22, 22:39 All contents of &quot;AddGame&quot; are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * at ThunderGames | SwtPra10. All rights reserved
+ * Any type of duplication, distribution, rental, sale, award,
+ * Public accessibility or other use
+ * requires the express written consent of ThunderGames | SwtPra10.
+ */
+
+package de.thundergames.gameplay.ausrichter.ui;
+
+import java.net.URL;
+import java.util.ResourceBundle;
+import de.thundergames.MoleGames;
+import de.thundergames.playmechanics.game.Game;
+import de.thundergames.playmechanics.game.GameStates;
+import de.thundergames.playmechanics.tournament.Tournament;
+import de.thundergames.playmechanics.util.Dialog;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
+import lombok.Getter;
+import org.jetbrains.annotations.NotNull;
+
+import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
+
+<span class="nc bnc" id="L39" title="All 2 branches missed.">@Getter</span>
+/**
+ * @author Eva, Jana
+ * @use add games to a chosen tournament
+ */
+
+public class AddGames implements Initializable{
+
+  private static AddGames AddGamesInstance;
+
+<span class="nc" id="L49">  private String Spielmodus;</span>
+
+  @FXML
+<span class="nc" id="L52">  private ResourceBundle resources;</span>
+
+  @FXML
+<span class="nc" id="L55">  private URL location;</span>
+
+  @FXML
+<span class="nc" id="L58">  private Button back;</span>
+
+  @FXML
+<span class="nc" id="L61">  private Button createGame;</span>
+
+  @FXML
+<span class="nc" id="L64">  private Button addGame;</span>
+
+  @FXML
+<span class="nc" id="L67">  private TableColumn&lt;Game, Integer&gt; gameID;</span>
+
+  @FXML
+<span class="nc" id="L70">  private TableColumn&lt;Game, Integer&gt; gamePlayerCount;</span>
+
+  @FXML
+<span class="nc" id="L73">  private TableColumn&lt;Game, String&gt; gameState;</span>
+
+  @FXML
+<span class="nc" id="L76">  private TableView&lt;Game&gt; gameTable;</span>
+
+<span class="nc" id="L78">  private Tournament tournament;</span>
+
+<span class="nc" id="L80">  public AddGames(Tournament tournament) {</span>
+<span class="nc" id="L81">    this.tournament = tournament;</span>
+<span class="nc" id="L82">  }</span>
+
+  public static AddGames getAddGamesInstance() {
+<span class="nc" id="L85">    return AddGamesInstance;</span>
+  }
+
+  @FXML
+  void onBack(ActionEvent event) throws Exception {
+<span class="nc" id="L90">    var primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();</span>
+<span class="nc bnc" id="L91" title="All 2 branches missed.">    if(Spielmodus.equalsIgnoreCase(&quot;TurnierModus&quot;)){</span>
+<span class="nc" id="L92">      TournamentEditor.getTournamentEditorInstance().start(primaryStage);</span>
+    }else {
+<span class="nc" id="L94">      Games.getGamesInstance().start(primaryStage);</span>
+    }
+<span class="nc" id="L96">  }</span>
+
+  @FXML
+  void onCreateGame(ActionEvent event) throws Exception {
+<span class="nc bnc" id="L100" title="All 2 branches missed.">      if (CreateGame.getCreateGameInstance() != null) {</span>
+<span class="nc" id="L101">        CreateGame.setPunishmentPrev(null);</span>
+<span class="nc" id="L102">        CreateGame.setVisualEffectsPrev(null);</span>
+<span class="nc" id="L103">        CreateGame.setThinkTimePrev(null);</span>
+<span class="nc" id="L104">        CreateGame.getFloors().clear();</span>
+<span class="nc" id="L105">        CreateGame.setPullDiscsOrderedPrev(false);</span>
+<span class="nc" id="L106">        CreateGame.setRadiusPrev(null);</span>
+<span class="nc" id="L107">        CreateGame.getDrawCardValuesList().clear();</span>
+<span class="nc" id="L108">        CreateGame.setMaxPlayersPrev(null);</span>
+<span class="nc" id="L109">        CreateGame.setMolesAmountPrev(null);</span>
+      }
+<span class="nc" id="L111">      var primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();</span>
+<span class="nc" id="L112">      new CreateGame().start(primaryStage, Spielmodus);</span>
+<span class="nc" id="L113">    }</span>
+
+  @FXML
+  void onAddGame(ActionEvent event) {
+<span class="nc" id="L117">    var selectedItem = gameTable.getSelectionModel().getSelectedItem();</span>
+<span class="nc bnc" id="L118" title="All 2 branches missed.">    if (selectedItem == null) {</span>
+<span class="nc" id="L119">      Dialog.show(&quot;Du musst ein Spiel auswählen!&quot;, &quot;Achtung!&quot;,  Dialog.DialogType.WARNING);</span>
+    } else {
+<span class="nc" id="L121">      if (MoleGames.getMoleGames()</span>
+<span class="nc" id="L122">        .getGameHandler()</span>
+<span class="nc" id="L123">        .getIDGames()</span>
+<span class="nc" id="L124">        .get(selectedItem.getGameID())</span>
+<span class="nc bnc" id="L125" title="All 2 branches missed.">        .getCurrentGameState()</span>
+        == GameStates.NOT_STARTED) {
+<span class="nc" id="L127">        tournament.addGame(selectedItem);</span>
+<span class="nc" id="L128">        Dialog.show(&quot;Das Spiel wurde hinzugefügt!&quot;, &quot;Erfolg!&quot;,  Dialog.DialogType.WARNING);</span>
+<span class="nc" id="L129">        updateTable();</span>
+      } else {
+<span class="nc" id="L131">        if (MoleGames.getMoleGames()</span>
+<span class="nc" id="L132">          .getGameHandler()</span>
+<span class="nc" id="L133">          .getIDGames()</span>
+<span class="nc" id="L134">          .get(selectedItem.getGameID())</span>
+<span class="nc bnc" id="L135" title="All 2 branches missed.">          .getCurrentGameState()</span>
+          == GameStates.OVER) {
+<span class="nc" id="L137">          Dialog.show(&quot;Das Spiel ist bereits vorbei&quot;, &quot;Achtung!&quot;,  Dialog.DialogType.WARNING);</span>
+<span class="nc" id="L138">          updateTable();</span>
+        }
+      }
+    }
+<span class="nc" id="L142">  }</span>
+
+  public void updateTable() {
+<span class="nc" id="L145">    var gameSelection = gameTable.getSelectionModel().getSelectedItem();</span>
+<span class="nc" id="L146">    gameTable.getItems().clear();</span>
+<span class="nc" id="L147">    gameTable.getItems().addAll(MoleGames.getMoleGames().getGameHandler().getGames());</span>
+<span class="nc" id="L148">    gameTable.getSelectionModel().select(gameSelection);</span>
+<span class="nc" id="L149">  }</span>
+
+  @FXML
+  void initialize() {
+<span class="nc bnc" id="L153" title="All 4 branches missed.">    assert back != null : &quot;fx:id=\&quot;back\&quot; was not injected: check your FXML file 'AddGames.fxml'.&quot;;</span>
+<span class="nc bnc" id="L154" title="All 4 branches missed.">    assert createGame != null : &quot;fx:id=\&quot;createGame\&quot; was not injected: check your FXML file 'AddGames.fxml'.&quot;;</span>
+<span class="nc bnc" id="L155" title="All 4 branches missed.">    assert addGame != null : &quot;fx:id=\&quot;addGame\&quot; was not injected: check your FXML file 'AddGames.fxml'.&quot;;</span>
+<span class="nc bnc" id="L156" title="All 4 branches missed.">    assert gameID != null : &quot;fx:id=\&quot;gameID\&quot; was not injected: check your FXML file 'AddGames.fxml'.&quot;;</span>
+<span class="nc bnc" id="L157" title="All 4 branches missed.">    assert gamePlayerCount != null : &quot;fx:id=\&quot;gamePlayerCounter\&quot; was not injected: check your FXML file 'AddGames.fxml'.&quot;;</span>
+<span class="nc bnc" id="L158" title="All 4 branches missed.">    assert gameState != null : &quot;fx:id=\&quot;gameState\&quot; was not injected: check your FXML file 'AddGames.fxml'.&quot;;</span>
+<span class="nc bnc" id="L159" title="All 4 branches missed.">    assert gameTable != null : &quot;fx:id=\&quot;gameTable\&quot; was not injected: check your FXML file 'AddGames.fxml'.&quot;;</span>
+
+<span class="nc" id="L161">    gameID.setCellValueFactory(new PropertyValueFactory&lt;&gt;(&quot;HashtagWithGameID&quot;));</span>
+<span class="nc" id="L162">    gamePlayerCount.setCellValueFactory(new PropertyValueFactory&lt;&gt;(&quot;CurrentPlayerCount_MaxCount&quot;));</span>
+<span class="nc" id="L163">    gameState.setCellValueFactory(new PropertyValueFactory&lt;&gt;(&quot;StatusForTableView&quot;));</span>
+<span class="nc" id="L164">    updateTable();</span>
+<span class="nc" id="L165">  }</span>
+
+  @Override
+  public void initialize(URL location, ResourceBundle resources) {
+<span class="nc" id="L169">    AddGamesInstance = this;</span>
+<span class="nc" id="L170">    initialize();</span>
+<span class="nc" id="L171">  }</span>
+
+  public void start(@NotNull final Stage primaryStage, String modus) throws Exception {
+<span class="nc" id="L174">    Spielmodus = modus;</span>
+<span class="nc" id="L175">    var loader = new FXMLLoader(getClass().getResource(&quot;/ausrichter/style/AddGames.fxml&quot;));</span>
+<span class="nc" id="L176">    loader.setController(this);</span>
+<span class="nc" id="L177">    var root = (Parent) loader.load();</span>
+<span class="nc" id="L178">    primaryStage.setTitle(&quot;Spiele hinzufügen&quot;);</span>
+<span class="nc" id="L179">    primaryStage.setResizable(false);</span>
+<span class="nc" id="L180">    primaryStage.setScene(new Scene(root));</span>
+<span class="nc" id="L181">    initialize();</span>
+<span class="nc" id="L182">    primaryStage.show();</span>
+<span class="nc" id="L183">  }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>HolesConfiguration.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SwtPra10-pc</a> &gt; <a href="index.source.html" class="el_package">de.thundergames.gameplay.ausrichter.ui.floor</a> &gt; <span class="el_source">HolesConfiguration.java</span></div><h1>HolesConfiguration.java</h1><pre class="source lang-java linenums">/*
+ * Copyright Notice for SwtPra10
+ * Copyright (c) at ThunderGames | SwtPra10 2022
+ * File created on 20.01.22, 17:11 by Carina Latest changes made by Carina on 20.01.22, 17:11 All contents of &quot;HolesConfiguration&quot; are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * at ThunderGames | SwtPra10. All rights reserved
+ * Any type of duplication, distribution, rental, sale, award,
+ * Public accessibility or other use
+ * requires the express written consent of ThunderGames | SwtPra10.
+ */
+
+package de.thundergames.gameplay.ausrichter.ui.floor;
+
+import de.thundergames.gameplay.ausrichter.ui.CreateGame;
+import de.thundergames.playmechanics.util.Dialog;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
+import javafx.stage.Stage;
+import lombok.Getter;
+import org.jetbrains.annotations.NotNull;
+
+import java.net.URL;
+import java.util.ResourceBundle;
+
+/**
+ * @author Carina
+ * @use creates the HolesConfiguration for the CreateGame.class
+ * @see CreateGame
+ * @see Hole
+ */
+<span class="nc bnc" id="L40" title="All 2 branches missed.">@Getter</span>
+<span class="nc" id="L41">public class HolesConfiguration implements Initializable {</span>
+
+  private static HolesConfiguration config;
+  @FXML
+<span class="nc" id="L45">  private TableColumn&lt;Floor, String&gt; points;</span>
+  @FXML
+<span class="nc" id="L47">  private ResourceBundle resources;</span>
+  @FXML
+<span class="nc" id="L49">  private URL location;</span>
+  @FXML
+<span class="nc" id="L51">  private Button add;</span>
+  @FXML
+<span class="nc" id="L53">  private Button addPoints;</span>
+  @FXML
+<span class="nc" id="L55">  private TableColumn&lt;Floor, String&gt; amountDrawAgain;</span>
+  @FXML
+<span class="nc" id="L57">  private TableColumn&lt;Floor, String&gt; amountHoles;</span>
+  @FXML
+<span class="nc" id="L59">  private Button back;</span>
+  @FXML
+<span class="nc" id="L61">  private TableColumn&lt;Floor, String&gt; floorNumber;</span>
+  @FXML
+<span class="nc" id="L63">  private TableView&lt;Floor&gt; floorTable;</span>
+  @FXML
+<span class="nc" id="L65">  private Button remove;</span>
+  @FXML
+<span class="nc" id="L67">  private TextField x;</span>
+  @FXML
+<span class="nc" id="L69">  private TableColumn&lt;Hole, String&gt; xPosition;</span>
+  @FXML
+<span class="nc" id="L71">  private TextField y;</span>
+  @FXML
+<span class="nc" id="L73">  private TextField z;</span>
+  @FXML
+<span class="nc" id="L75">  private TableColumn&lt;Hole, String&gt; yPosition;</span>
+  @FXML
+<span class="nc" id="L77">  private TableColumn&lt;Hole, String&gt; holesNumber;</span>
+  @FXML
+<span class="nc" id="L79">  private TableView&lt;Hole&gt; holesTable;</span>
+
+<span class="nc" id="L81">  private String Spielmodus;</span>
+
+  public void start(@NotNull final Stage primaryStage, String modus) throws Exception {
+<span class="nc" id="L84">    Spielmodus = modus;</span>
+<span class="nc" id="L85">    var loader =</span>
+<span class="nc" id="L86">      new FXMLLoader(getClass().getResource(&quot;/ausrichter/style/floor/HolesConfiguration.fxml&quot;));</span>
+<span class="nc" id="L87">    loader.setController(this);</span>
+<span class="nc" id="L88">    var root = (Parent) loader.load();</span>
+<span class="nc" id="L89">    primaryStage.setTitle(&quot;CreateGame&quot;);</span>
+<span class="nc" id="L90">    primaryStage.setResizable(false);</span>
+<span class="nc" id="L91">    primaryStage.setScene(new Scene(root));</span>
+<span class="nc" id="L92">    primaryStage.show();</span>
+<span class="nc" id="L93">    updateTable();</span>
+<span class="nc" id="L94">  }</span>
+
+  /**
+   * @param event
+   * @author Carina, Jana, Eva
+   */
+  @FXML
+  void onAdd(@NotNull final ActionEvent event) {
+    try {
+<span class="nc bnc" id="L103" title="All 2 branches missed.">      if (!&quot;&quot;.equalsIgnoreCase(x.getText())</span>
+<span class="nc bnc" id="L104" title="All 2 branches missed.">        &amp;&amp; x.getText() != null</span>
+<span class="nc bnc" id="L105" title="All 2 branches missed.">        &amp;&amp; !&quot;&quot;.equalsIgnoreCase(y.getText())</span>
+<span class="nc bnc" id="L106" title="All 2 branches missed.">        &amp;&amp; y.getText() != null</span>
+<span class="nc bnc" id="L107" title="All 2 branches missed.">        &amp;&amp; floorTable.getSelectionModel().getSelectedItem() != null) {</span>
+<span class="nc" id="L108">        var floor = floorTable.getSelectionModel().getSelectedItem();</span>
+<span class="nc" id="L109">        var hole = new Hole(floor, Integer.parseInt(x.getText()), Integer.parseInt(y.getText()));</span>
+<span class="nc" id="L110">        floor.getHoles().add(hole);</span>
+<span class="nc" id="L111">        updateHolesTable();</span>
+<span class="nc" id="L112">        updateTable();</span>
+<span class="nc" id="L113">      } else {</span>
+<span class="nc" id="L114">        Dialog.show(&quot;Wähle eine Ebene aus!&quot;, &quot;Achtung!&quot;, Dialog.DialogType.WARNING);</span>
+      }
+<span class="nc" id="L116">      x.setText(null);</span>
+<span class="nc" id="L117">      y.setText(null);</span>
+<span class="nc" id="L118">    } catch (NumberFormatException exe) {</span>
+<span class="nc" id="L119">      Dialog.show(&quot;Du musst die X und Y Koordinaten eingeben!&quot;, &quot;Achtung!&quot;, Dialog.DialogType.WARNING);</span>
+<span class="nc" id="L120">    }</span>
+<span class="nc" id="L121">  }</span>
+  /**
+   * @param event
+   * @author Eva, Jana
+   */
+  @FXML
+  void onAddPoints(@NotNull final ActionEvent event) {
+    try {
+<span class="nc bnc" id="L129" title="All 2 branches missed.">      if (!&quot;&quot;.equalsIgnoreCase(z.getText())</span>
+<span class="nc bnc" id="L130" title="All 2 branches missed.">        &amp;&amp; z.getText() != null) {</span>
+<span class="nc" id="L131">        var floor = new Floor(Integer.parseInt(z.getText()));</span>
+<span class="nc" id="L132">        CreateGame.getFloors().add(floor);</span>
+<span class="nc" id="L133">        updateTable();</span>
+      }
+<span class="nc" id="L135">      z.setText(null);</span>
+<span class="nc" id="L136">    } catch (NumberFormatException exe) {</span>
+<span class="nc" id="L137">      Dialog.show(&quot;Du musst eine Zahl eingeben!&quot;, &quot;Achtung!&quot;, Dialog.DialogType.WARNING);</span>
+<span class="nc" id="L138">    }</span>
+<span class="nc" id="L139">  }</span>
+  @FXML
+  void onBack(@NotNull final ActionEvent event) throws Exception {
+<span class="nc" id="L142">    var primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();</span>
+<span class="nc" id="L143">    CreateGame.getCreateGameInstance().start(primaryStage, Spielmodus);</span>
+<span class="nc" id="L144">  }</span>
+
+  /**
+   * @param event
+   * @author Carina, Jana, Eva
+   * @use removes a new floor or field
+   */
+  @FXML
+  void onRemove(@NotNull final ActionEvent event) {
+<span class="nc bnc" id="L153" title="All 2 branches missed.">    if (floorTable.getSelectionModel().getSelectedItem() != null</span>
+<span class="nc bnc" id="L154" title="All 2 branches missed.">      &amp;&amp; holesTable.getSelectionModel().getSelectedItem() == null) {</span>
+<span class="nc" id="L155">      CreateGame.getFloors().remove(floorTable.getSelectionModel().getSelectedItem());</span>
+<span class="nc" id="L156">      updateTable();</span>
+<span class="nc bnc" id="L157" title="All 2 branches missed.">    } else if (holesTable.getSelectionModel().getSelectedItem() != null) {</span>
+<span class="nc" id="L158">      var floor = floorTable.getSelectionModel().getSelectedItem();</span>
+<span class="nc" id="L159">      floor.getHoles().remove(holesTable.getSelectionModel().getSelectedItem());</span>
+<span class="nc" id="L160">      updateTable();</span>
+<span class="nc" id="L161">      floorTable.getSelectionModel().select(null);</span>
+<span class="nc" id="L162">    } else {</span>
+<span class="nc" id="L163">      Dialog.show(&quot;Du musst eine Zeile auswählen!&quot;, &quot;Achtung!&quot;, Dialog.DialogType.WARNING);</span>
+    }
+<span class="nc" id="L165">  }</span>
+
+  public void updateTable() {
+<span class="nc" id="L168">    floorTable.getItems().clear();</span>
+<span class="nc" id="L169">    holesTable.getItems().clear();</span>
+<span class="nc" id="L170">    floorTable.getItems().addAll(CreateGame.getFloors());</span>
+<span class="nc" id="L171">  }</span>
+
+  public void updateHolesTable() {
+<span class="nc" id="L174">    holesTable.getItems().clear();</span>
+<span class="nc" id="L175">    var selectedItem = floorTable.getSelectionModel().getSelectedItem();</span>
+<span class="nc" id="L176">    holesTable.getItems().addAll(selectedItem.getHoles());</span>
+<span class="nc" id="L177">  }</span>
+
+  @Override
+  public void initialize(@NotNull final URL location, @NotNull final ResourceBundle resources) {
+<span class="nc" id="L181">    config = this;</span>
+<span class="nc" id="L182">    amountDrawAgain.setCellValueFactory(</span>
+<span class="nc" id="L183">      data -&gt; new SimpleStringProperty(data.getValue().drawAgainFieldsAmountString()));</span>
+<span class="nc" id="L184">    amountHoles.setCellValueFactory(</span>
+<span class="nc" id="L185">      data -&gt; new SimpleStringProperty(data.getValue().holeAmountString()));</span>
+<span class="nc" id="L186">    floorNumber.setCellValueFactory(</span>
+<span class="nc" id="L187">      data -&gt; new SimpleStringProperty(data.getValue().floorNumberString()));</span>
+<span class="nc" id="L188">    holesNumber.setCellValueFactory(</span>
+<span class="nc" id="L189">      data -&gt; new SimpleStringProperty(data.getValue().getHoleValueString()));</span>
+<span class="nc" id="L190">    xPosition.setCellValueFactory(</span>
+<span class="nc" id="L191">      data -&gt; new SimpleStringProperty(data.getValue().getXPositionString()));</span>
+<span class="nc" id="L192">    yPosition.setCellValueFactory(</span>
+<span class="nc" id="L193">      data -&gt; new SimpleStringProperty(data.getValue().getYPositionString()));</span>
+<span class="nc" id="L194">    points.setCellValueFactory(data -&gt; new SimpleStringProperty(data.getValue().getPointsString()));</span>
+<span class="nc" id="L195">    initialize();</span>
+<span class="nc" id="L196">  }</span>
+
+  @FXML
+  void initialize() {
+<span class="nc bnc" id="L200" title="All 4 branches missed.">    assert add != null</span>
+      : &quot;fx:id=\&quot;add\&quot; was not injected: check your FXML file 'HolesConfiguration.fxml'.&quot;;
+<span class="nc bnc" id="L202" title="All 4 branches missed.">    assert addPoints != null</span>
+      : &quot;fx:id=\&quot;addPoints\&quot; was not injected: check your FXML file 'HolesConfiguration.fxml'.&quot;;
+<span class="nc bnc" id="L204" title="All 4 branches missed.">    assert amountDrawAgain != null</span>
+      : &quot;fx:id=\&quot;amountDrawAgain\&quot; was not injected: check your FXML file 'HolesConfiguration.fxml'.&quot;;
+<span class="nc bnc" id="L206" title="All 4 branches missed.">    assert amountHoles != null</span>
+      : &quot;fx:id=\&quot;amountHoles\&quot; was not injected: check your FXML file 'HolesConfiguration.fxml'.&quot;;
+<span class="nc bnc" id="L208" title="All 4 branches missed.">    assert back != null</span>
+      : &quot;fx:id=\&quot;back\&quot; was not injected: check your FXML file 'HolesConfiguration.fxml'.&quot;;
+<span class="nc bnc" id="L210" title="All 4 branches missed.">    assert floorNumber != null</span>
+      : &quot;fx:id=\&quot;floorNumber\&quot; was not injected: check your FXML file 'HolesConfiguration.fxml'.&quot;;
+<span class="nc bnc" id="L212" title="All 4 branches missed.">    assert floorTable != null</span>
+      : &quot;fx:id=\&quot;floorTable\&quot; was not injected: check your FXML file 'HolesConfiguration.fxml'.&quot;;
+<span class="nc bnc" id="L214" title="All 4 branches missed.">    assert holesNumber != null</span>
+      : &quot;fx:id=\&quot;holesNumber\&quot; was not injected: check your FXML file 'HolesConfiguration.fxml'.&quot;;
+<span class="nc bnc" id="L216" title="All 4 branches missed.">    assert holesTable != null</span>
+      : &quot;fx:id=\&quot;holesTable\&quot; was not injected: check your FXML file 'HolesConfiguration.fxml'.&quot;;
+<span class="nc bnc" id="L218" title="All 4 branches missed.">    assert remove != null</span>
+      : &quot;fx:id=\&quot;remove\&quot; was not injected: check your FXML file 'HolesConfiguration.fxml'.&quot;;
+<span class="nc bnc" id="L220" title="All 4 branches missed.">    assert x != null</span>
+      : &quot;fx:id=\&quot;x\&quot; was not injected: check your FXML file 'HolesConfiguration.fxml'.&quot;;
+<span class="nc bnc" id="L222" title="All 4 branches missed.">    assert xPosition != null</span>
+      : &quot;fx:id=\&quot;xPosition\&quot; was not injected: check your FXML file 'HolesConfiguration.fxml'.&quot;;
+<span class="nc bnc" id="L224" title="All 4 branches missed.">    assert y != null</span>
+      : &quot;fx:id=\&quot;y\&quot; was not injected: check your FXML file 'HolesConfiguration.fxml'.&quot;;
+<span class="nc bnc" id="L226" title="All 4 branches missed.">    assert z != null</span>
+      : &quot;fx:id=\&quot;z\&quot; was not injected: check your FXML file 'HolesConfiguration.fxml'.&quot;;
+<span class="nc bnc" id="L228" title="All 4 branches missed.">    assert points != null</span>
+      : &quot;fx:id=\&quot;points\&quot; was not injected: check your FXML file 'HolesConfiguration.fxml'.&quot;;
+<span class="nc bnc" id="L230" title="All 4 branches missed.">    assert yPosition != null</span>
+      : &quot;fx:id=\&quot;yPosition\&quot; was not injected: check your FXML file 'HolesConfiguration.fxml'.&quot;;
+<span class="nc" id="L232">    floorTable</span>
+<span class="nc" id="L233">      .getSelectionModel()</span>
+<span class="nc" id="L234">      .selectedItemProperty()</span>
+<span class="nc" id="L235">      .addListener(</span>
+        (observable, oldValue, newValue) -&gt; {
+<span class="nc bnc" id="L237" title="All 2 branches missed.">          if (newValue != null) {</span>
+<span class="nc bnc" id="L238" title="All 2 branches missed.">            if (floorTable.getSelectionModel().getSelectedItem() != null) {</span>
+<span class="nc" id="L239">              updateHolesTable();</span>
+            }
+          }
+<span class="nc" id="L242">        });</span>
+<span class="nc" id="L243">  }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

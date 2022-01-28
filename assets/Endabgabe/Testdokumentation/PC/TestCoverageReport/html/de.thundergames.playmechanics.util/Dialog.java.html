@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Dialog.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SwtPra10-pc</a> &gt; <a href="index.source.html" class="el_package">de.thundergames.playmechanics.util</a> &gt; <span class="el_source">Dialog.java</span></div><h1>Dialog.java</h1><pre class="source lang-java linenums">/*
+ * Copyright Notice for SwtPra10
+ * Copyright (c) at ThunderGames | SwtPra10 2022
+ * File created on 13.01.22, 16:58 by Carina Latest changes made by Carina on 13.01.22, 16:58 All contents of &quot;Dialog&quot; are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * at ThunderGames | SwtPra10. All rights reserved
+ * Any type of duplication, distribution, rental, sale, award,
+ * Public accessibility or other use
+ * requires the express written consent of ThunderGames | SwtPra10.
+ */
+
+package de.thundergames.playmechanics.util;
+
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import org.jetbrains.annotations.NotNull;
+
+<span class="nc" id="L17">public class Dialog {</span>
+  public static void show(@NotNull final String message, @NotNull final String title, @NotNull final DialogType dialogType) {
+<span class="nc" id="L19">    var alert = new Alert(dialogType.toAlertType(), message);</span>
+<span class="nc" id="L20">    alert.setTitle(title);</span>
+<span class="nc" id="L21">    alert.setHeaderText(title);</span>
+<span class="nc" id="L22">    alert.showAndWait();</span>
+<span class="nc" id="L23">  }</span>
+
+<span class="nc" id="L25">  public enum DialogType {</span>
+<span class="nc" id="L26">    INFO(AlertType.INFORMATION),</span>
+<span class="nc" id="L27">    WARNING(AlertType.WARNING),</span>
+<span class="nc" id="L28">    ERROR(AlertType.ERROR);</span>
+
+    private final AlertType alertType;
+
+<span class="nc" id="L32">    DialogType(AlertType alertType) {</span>
+<span class="nc" id="L33">      this.alertType = alertType;</span>
+<span class="nc" id="L34">    }</span>
+
+    public AlertType toAlertType() {
+<span class="nc" id="L37">      return alertType;</span>
+    }
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
