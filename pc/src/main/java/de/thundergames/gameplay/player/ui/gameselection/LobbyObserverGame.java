@@ -64,10 +64,20 @@ public class LobbyObserverGame implements Initializable {
 
   private Stage primaryStage;
 
+  /**
+   * @author Marc
+   * @return instance of LobbyObserverGame
+   */
   public static LobbyObserverGame getObserver() {
     return OBSERVER;
   }
 
+  /**
+   * @param event event from the current scene to build this scene on same object
+   * @throws IOException error creating the scene LobbyObserverGame
+   * @author Marc
+   * @use Create the Scene for LobbyObserverGame
+   */
   public void create(Stage event, Integer gameID) throws IOException {
     CLIENT = Client.getClientInstance();
     OBSERVER = this;
@@ -75,6 +85,12 @@ public class LobbyObserverGame implements Initializable {
     createScene(event);
   }
 
+  /**
+   * @param primaryStage stage of old scene
+   * @throws IOException error creating the scene LobbyObserverGame
+   * @author Marc
+   * @use Create the Scene for LobbyObserverGame
+   */
   private void createScene(Stage primaryStage) throws IOException {
     this.primaryStage = primaryStage;
     var loader = SceneController.loadFXML("/player/style/LobbyObserverGame.fxml");
@@ -99,6 +115,12 @@ public class LobbyObserverGame implements Initializable {
     // endregion
   }
 
+  /**
+   * @param location  of base class Initialize
+   * @param resources of base class Initialize
+   * @author Marc
+   * @use Is called when the object is initialized
+   */
   @Override
   public void initialize(URL location, ResourceBundle resources) {
     playerTableName.setCellValueFactory(new PropertyValueFactory<>("PlayerIDAndName"));
@@ -118,7 +140,7 @@ public class LobbyObserverGame implements Initializable {
   }
 
   /**
-   * @author Nick
+   * @author Marc
    * @use processes the click on the back button, loads previous scene GameSelection and informs
    * server player has left via leaveGame Packet (method inspired by "onSignOutClick()" -> see
    * GameSelection
@@ -132,8 +154,8 @@ public class LobbyObserverGame implements Initializable {
   }
 
   /**
+   * @author Marc
    * Is called when the close button is clicked. Logout user.
-   *
    * @param stage current stage
    */
   private void logout(Stage stage) {
@@ -184,7 +206,7 @@ public class LobbyObserverGame implements Initializable {
   }
 
   /**
-   * @author Philipp
+   * @author Philipp, Nick
    * @use Writes the playing Client names to a table view to display it in the GUI
    */
   public void updatePlayerTable() {
@@ -224,7 +246,7 @@ public class LobbyObserverGame implements Initializable {
   }
 
   /**
-   * @author Nick
+   * @author Marc
    * @use Create scene and spectate the game
    */
   public void spectateGame() {

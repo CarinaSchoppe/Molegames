@@ -55,6 +55,10 @@ public class GameSelection implements Initializable {
   private TableColumn<Game, String> gameState;
   private Stage primaryStage;
 
+  /**
+   * @author Philipp
+   * Join an assigned game
+   */
   public static GameSelection getGameSelection() {
     return GAME_SELECTION;
   }

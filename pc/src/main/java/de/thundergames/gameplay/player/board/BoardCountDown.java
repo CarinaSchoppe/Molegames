@@ -26,11 +26,19 @@ public class BoardCountDown {
   private boolean stopTurnOver;
   private static TimerTask task;
 
+  /**
+   * @author Marc
+   * @use set the remaining time
+   */
   public void setRemainingTime(long remainingTime) {
     this.remainingTime = remainingTime;
     this.stopCountAfterTurn = false;
   }
 
+  /**
+   * @author Marc
+   * @use set timer for remaining time of gameboard
+   */
   public void setTimer(boolean run) {
     this.showCount = run;
     var timer = new Timer();
@@ -48,18 +56,35 @@ public class BoardCountDown {
     timer.schedule(task, 0, 100);
   }
 
+  /**
+   * @author Marc
+   * @use return value of count should be shown
+   */
   public Boolean getShowCount() {
     return showCount;
   }
 
+
+  /**
+   * @author Marc
+   * @use set value that counter should be stopped after turn end
+   */
   public void stopCountAfterTurn() {
     stopCountAfterTurn = true;
   }
 
+  /**
+   * @author Marc
+   * @use contunue timer for remaining time
+   */
   public void continueTimer() {
     showCount = true;
   }
 
+  /**
+   * @author Marc
+   * @use check if remaining time should be stopped
+   */
   public void checkForStopTimer() {
     if (stopCountAfterTurn) {
       stopCountAfterTurn = false;
@@ -67,6 +92,10 @@ public class BoardCountDown {
     }
   }
 
+  /**
+   * @author Marc
+   * @use delete the timer
+   */
   public void deleteTimer() {
     task.cancel();
   }

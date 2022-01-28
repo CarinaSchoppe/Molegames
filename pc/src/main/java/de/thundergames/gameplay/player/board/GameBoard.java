@@ -90,6 +90,10 @@ public class GameBoard {
   private boolean isTournamentGame;
   private int tournamentId;
 
+  /**
+   * @author Issam,Phillip,Marc
+   * @return instance of LobbyObserverGame
+   */
   public static GameBoard getObserver() {
     return OBSERVER;
   }
@@ -215,12 +219,20 @@ public class GameBoard {
     CLIENT.getClientPacketHandler().getRemainingTimePacket();
   }
 
-  //window logout
+  /**
+   * @author Marc
+   * Is called when the close button is clicked. Logout user.
+   * @param stage current stage
+   */
   private void logout(Stage stage) {
     CLIENT.getClientPacketHandler().logoutPacket();
     stage.close();
   }
 
+  /**
+   * @author Marc
+   * @use Go back to menu, or to tournament lobby if "isTournament" = true
+   */
   private void backToMenu(ActionEvent event) {
     Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
     alert.setTitle("Spiel verlassen");
@@ -258,6 +270,10 @@ public class GameBoard {
     return playerModelList;
   }
 
+  /**
+   * @author Issam,Phillip,Marc
+   * @use Update the Gameboard
+   */
   public void updateGameBoard() {
     var loadedGameState = CLIENT.getGameState();
     if (gameState != loadedGameState) {
@@ -294,6 +310,10 @@ public class GameBoard {
     CLIENT.getClientPacketHandler().getRemainingTimePacket();
   }
 
+  /**
+   * @author Phillip
+   * @use Update the scoretable
+   */
   public void updateScoreTable() {
     Platform.runLater(() -> {
       playerListTable = new TableView<>();
@@ -370,6 +390,10 @@ public class GameBoard {
     });
   }
 
+  /**
+   * @author
+   * @use Update the pull discs
+   */
   public void updatePullDiscs(Player player, Integer pullDisc) {
     for (PlayerTable playerTable : resultList) {
       if (playerTable.getName().equals(player.getClientID() + "/" + player.getName())) {
@@ -384,6 +408,10 @@ public class GameBoard {
     playerListTable.refresh();
   }
 
+  /**
+   * @author Phillip
+   * @use Update the Gamelog
+   */
   public void updateGameLog(Integer playerID, String playerName, String information) {
     Platform.runLater(() -> {
       var playerString = Integer.toString(playerID);
@@ -414,6 +442,10 @@ public class GameBoard {
     return nodes;
   }
 
+  /**
+   * @author Marc
+   * @use Update the remainingTime
+   */
   public void updateRemainingTime() {
     Platform.runLater(() -> {
       if (CLIENT.getRemainingTime() > 0) {
@@ -424,6 +456,10 @@ public class GameBoard {
     });
   }
 
+  /**
+   * @author Marc,Phillip,Issam
+   * @use Update the remainingDateTime
+   */
   public void updateRemainingDateTime()
   {
     Platform.runLater(() -> {
@@ -435,6 +471,10 @@ public class GameBoard {
     });
   }
 
+  /**
+   * @author Marc
+   * @use stop the remainingTime
+   */
   public void stopRemainingTime()
   {
     Platform.runLater(() -> {
@@ -442,6 +482,10 @@ public class GameBoard {
     });
   }
 
+  /**
+   * @author Marc
+   * @use Continue the remainingTime
+   */
   public void continueRemainingTime()
   {
     Platform.runLater(() -> {
@@ -449,6 +493,10 @@ public class GameBoard {
     });
   }
 
+  /**
+   * @author Marc
+   * @use update the remaining time on board
+   */
   public void updateTime(long remainingTime, boolean run) {
     Platform.runLater(() -> {
       float remainingTimeInSec = (float) remainingTime / (float) 1000;
@@ -465,18 +513,34 @@ public class GameBoard {
     });
   }
 
+  /**
+   * @author Marc
+   * @use stop counter after turn
+   */
   public void stopCountAfterTurn() {
     COUNTDOWN.stopCountAfterTurn();
   }
 
+  /**
+   * @author Marc
+   * @use chech for stopping timer
+   */
   public void checkForStopTimer() {
     COUNTDOWN.checkForStopTimer();
   }
 
+  /**
+   * @author Marc
+   * @use continue remaining time
+   */
   public void continueTimer() {
     COUNTDOWN.continueTimer();
   }
 
+  /**
+   * @author Marc
+   * @use show penalty on gameboard
+   */
   public void showPenalty(Player player, String penalty, String reason, String deductedPoints) {
     var out = "";
     if (Objects.equals(reason, Punishments.INVALIDMOVE.toString())) {
@@ -495,18 +559,34 @@ public class GameBoard {
     updateGameLog(player.getClientID(), player.getName(), out);
   }
 
+  /**
+   * @author
+   * @use move a mole
+   */
   public void moveMole(Field from, Field to, int currentPlayerId, int pullDisc) {
     Platform.runLater(() -> this.gameHandler.getBoard().moveMole(from, to, currentPlayerId, pullDisc, visTime));
   }
 
+  /**
+   * @author
+   * @use place a mole
+   */
   public void placeMole(Mole mole) {
     Platform.runLater(() -> this.gameHandler.getBoard().placeMole(new MoleModel(mole, playersColors.get(mole.getPlayer().getClientID())), visTime));
   }
 
+  /**
+   * @author
+   * @use kick a player
+   */
   public void kickMolesOfPlayer(Player player) {
     Platform.runLater(() -> this.gameHandler.getBoard().removePlayer(player));
   }
 
+  /**
+   * @author Issam,Phillip,Marc
+   * @use called if game is over for board. Show score, or go back to tournament lobby
+   */
   public void gameOver(Score score) {
     Platform.runLater(() -> {
       if (isTournamentGame) {
@@ -528,12 +608,20 @@ public class GameBoard {
     });
   }
 
+  /**
+   * @author Marc
+   * @use called im tournament is over
+   */
   public void tournamentOver() {
     Platform.runLater(() -> {
     CLIENT.getClientPacketHandler().getTournamentScorePacket(this.tournamentId);
     });
   }
 
+  /**
+   * @author Marc
+   * @use show score of tournament
+   */
   public void showTournamentScore() {
     Platform.runLater(() -> {
       LeaderBoard leaderBoard = new LeaderBoard();
