@@ -1,0 +1,26 @@
+Kurze Installations- und Ausführungsanleitung:
+
+PC-Beobachter, Ausrichter und Engine Teilnehmer:
+
+Wenn die "SwtPra10-pc-1.3.2-all.jar" jar Datei gebaut ist, kann das Programm abhängig vom verwendeten Betriebssystem
+installiert werden. Hierfür gibt es eine kurze Readme für das jeweilige Betriebssystem.
+
+-Die Datei "Beobachter.*" startet den PC-Beobachter
+-Die Datei "Ausrichter.*" startet den Ausrichter
+-Die Datei "Engine.*" startet einen Engine Teilnehmer und verbindet diesen mit der IP 127.0.0.1 und Port 33100
+
+Ausrichter:
+Nachdem der Ausrichter gestartet wurde kann man zwischen normalen Spielen ("Spiele") und Turnierspielen "Turniere"
+unterscheiden. Unter "Spiele" kann man über den "Spiel erstellen" Button ein neues Spiel erstellen, dabei kann die
+Konfiguration entweder manuell oder über eine Konfigurationsdatei hinzugefügt werden. Sobald man das Spiel erstellt hat,
+kann man es über den "Spiel starten" Button starten, wenn diese entsprechend Spieler enthält.
+
+PC-Beobachter:
+Nachdem der PC-Beobachter gestartet wurde, kann man diesen über die Eingabe der Logindaten mit einem Server verbinden.
+Danach kann man über Spiele die aktuell verfügbaren, laufenden und vergangenen Spiele anzeigen und sich mit diesen
+verbinden.
+
+Engine-Teilnehmer:
+Wenn man den Engine-Teilnehmer über die entsprechend Betriebssystem abhängige Datei startet, verbindet sich dieser
+automatisch mit der IP 127.0.0.1 und Port 33100. Der Engine-Teilnehmer kann dann von dem Ausrichter einem Spiel
+zugewiesen werden.

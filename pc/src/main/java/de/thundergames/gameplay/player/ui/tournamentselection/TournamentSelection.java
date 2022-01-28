@@ -99,8 +99,8 @@ public class TournamentSelection implements Initializable {
   }
 
   /**
+   * @author Marc
    * Is called when the object is initialized
-   *
    * @param location  of base class Initialize
    * @param resources of base class Initialize
    */
@@ -118,6 +118,7 @@ public class TournamentSelection implements Initializable {
   }
 
   /**
+   * @author Marc
    * Refresh the games of tableview
    */
   public void updateTable() {
@@ -129,7 +130,7 @@ public class TournamentSelection implements Initializable {
 
   /**
    * Button at Scene TournamentSelection. Call scene PlayerMenu
-   *
+   * @author Marc
    * @param event event from the current scene to build PlayerMenu on same object
    * @throws IOException error creating the scene PlayerMenu
    */
@@ -141,7 +142,7 @@ public class TournamentSelection implements Initializable {
 
   /**
    * Is called when the close button is clicked. Logout user.
-   *
+   * @author Marc
    * @param stage current stage
    */
   private void logout(Stage stage) {
@@ -152,7 +153,7 @@ public class TournamentSelection implements Initializable {
   /**
    * Button at Scene TournamentSelection. Observe the tournament. If tournament is already started,
    * spectate the tournament, else join the spectator lobby.
-   *
+   * @author Marc
    * @param event event from the current scene to build next scene on same object
    */
   @FXML

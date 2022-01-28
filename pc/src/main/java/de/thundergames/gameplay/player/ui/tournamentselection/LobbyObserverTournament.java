@@ -49,16 +49,32 @@ public class LobbyObserverTournament implements Initializable {
   private int selectedTournamentID;
   private Stage primaryStage;
 
+  /**
+   * @author Marc
+   * @return instance of LobbyObserverTournament
+   */
   public static LobbyObserverTournament getObserver() {
     return OBSERVER;
   }
 
+  /**
+   * @param event event from the current scene to build this scene on same object
+   * @throws IOException error creating the scene LobbyObserverTournament
+   * @author Marc
+   * @use Create the Scene for LobbyObserverTournament
+   */
   public void create(Stage primaryStage) throws IOException {
     CLIENT = Client.getClientInstance();
     OBSERVER = this;
     createScene(primaryStage);
   }
 
+  /**
+   * @param primaryStage stage of old scene
+   * @throws IOException error creating the scene LobbyObserverTournament
+   * @author Marc
+   * @use Create the Scene for LobbyObserverTournament
+   */
   private void createScene(Stage primaryStage) throws IOException {
     this.primaryStage = primaryStage;
     var loader = SceneController.loadFXML("/player/style/LobbyObserverTournament.fxml");
@@ -83,6 +99,12 @@ public class LobbyObserverTournament implements Initializable {
     // endregion
   }
 
+  /**
+   * @param location  of base class Initialize
+   * @param resources of base class Initialize
+   * @author Marc
+   * @use Is called when the object is initialized
+   */
   @Override
   public void initialize(URL location, ResourceBundle resources) {
     PlayerName.setText("Spieler: " + CLIENT.name);
@@ -102,6 +124,7 @@ public class LobbyObserverTournament implements Initializable {
   }
 
   /**
+   * @author Marc
    * Is called when the close button is clicked. Logout user.
    *
    * @param stage current stage
@@ -144,9 +167,17 @@ public class LobbyObserverTournament implements Initializable {
     });
   }
 
+  /**
+   * @author Marc
+   * @use show information if player leave tournament
+   */
   public void showPlayerLeave(Player player) {
   }
 
+  /**
+   * @author Marc
+   * @use show information if player is kicked of tournament
+   */
   public void showPlayerKicked(Player player) {
   }
 }

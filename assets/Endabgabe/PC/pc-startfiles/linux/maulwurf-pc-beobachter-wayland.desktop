@@ -1,0 +1,7 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Exec=java -Djdk.gtk.version=2 -jar /opt/SwtPra10-pc-1.3.2-all.jar -p
+Name=Beobachter Wayland Maulwurf Kompanie
+Comment=Watch mole company games
+Terminal=false

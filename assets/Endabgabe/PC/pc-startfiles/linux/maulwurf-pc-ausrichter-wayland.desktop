@@ -1,0 +1,7 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Exec=java -Djdk.gtk.version=2 -jar /opt/SwtPra10-pc-1.3.2-all.jar -s
+Name=Ausrichter Wayland Maulwurf Kompanie
+Comment=Hosts and creates games for the game Mole company game
+Terminal=false

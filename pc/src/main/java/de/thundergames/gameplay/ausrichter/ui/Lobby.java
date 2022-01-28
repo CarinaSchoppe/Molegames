@@ -52,13 +52,23 @@ public class Lobby extends Application implements Initializable {
   public static void create(@NotNull final Server server) {
     MoleGames.getMoleGames().setAusrichterClient(new AusrichterClient(server));
     new Thread(Application::launch).start();
-    //MoleGames.getMoleGames().getAusrichterClient().testTournament(0);
-    MoleGames.getMoleGames().getAusrichterClient().testGame(0);
   }
 
   public static Lobby getGUI() {
     return GUI;
   }
+
+
+  /**
+   * @param stage current stage
+   * @use Is called when the close button is clicked. Logout user.
+   * @author Marc
+   */
+  private void logout(Stage stage) {
+    stage.close();
+    System.exit(0);
+  }
+
 
   @FXML
   void onGames(ActionEvent event) throws Exception {
@@ -89,6 +99,7 @@ public class Lobby extends Application implements Initializable {
     loader.setController(this);
     var root = (Parent) loader.load();
     primaryStage.setTitle("Lobby!");
+    primaryStage.setOnCloseRequest(ev -> logout(primaryStage));
     primaryStage.setResizable(false);
     primaryStage.setScene(new Scene(root));
     initialize();

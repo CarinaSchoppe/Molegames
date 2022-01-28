@@ -1,0 +1,7 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Exec=java -jar /opt/SwtPra10-pc-1.3.2-all.jar -s
+Name=Ausrichter Maulwurf Kompanie
+Comment=Hosts and creates games for the game Mole company game
+Terminal=false

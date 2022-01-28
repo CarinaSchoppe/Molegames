@@ -1,0 +1,32 @@
+How to install and start Thunder Games Mole Company applications
+
+PC-Observer, Server UI and Engine Player:
+
+If the PC-Observer is build, take the generated jar-file "SwtPra10-pc-1.3.2-all.jar" 
+and install the execution files depending on the operating system as described in the READMEs located
+in the corresponding directory.
+
+-The file "Beobachter.*" will start the Mole Company Observer.
+-The file "Ausrichter.*" will start the Mole Company Server UI.
+-The file "Engine.*" will start the Mole Company AI Player with IP 127.0.0.1 and Port 33100.
+
+Smartphone-Player:
+
+If the Smartphone-Player is build, copy the generated apk-file "app-release-unsigned.apk" to you smart device.
+After installation you can start the application.
+
+Mole Company Server UI:
+Starting the Server with the corresponding file (depending on your Operating System). You can choose between "Spiele"
+for normal games and "Turniere" for tournament games. Choosing "Spiele" and clicking "Spiel erstellen" will open
+the game creation dialog where you can also load a configuration file through drag and drop. If you want to start
+a game, you can click on the game in the list and click start.
+
+Mole Company Observer:
+Starting the Observer with the corresponding file (depending on your Operating System). You can enter the login details
+of the server you want to connect to and click "Verbinden". If the connection is successful, you will be greeted by
+the Player Menu, giving you the option between "Spiele" for normal games and "Turniere" for tournament games. You can
+also leave the server by clicking "Abmelden".
+
+Mole Company AI Player:
+Starting the AI with the corresponding file (depending on your Operating System) will connect the AI to 127.0.0.1 on
+port 33100. The AI can then be assigned a game by the server.

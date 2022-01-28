@@ -1,0 +1,8 @@
+Mac Installation:
+
+Kopiere die "SwtPra10-pc-1.3.2-all.jar" und "Ausrichter.command", "Beobachter.command", sowie "Engine.sh" in das gleiche
+Verzeichnis. Danach können die UI Komponenten (*.command) über einen Doppelklick gestartet werden, der Engine-Teilnehmer
+kann über die Kommandozeile gestartet werden.
+
+Wenn das Starten des Engine Teilnehmers nicht funktioniert über die "Engine.sh", muss zunächst das Executable Bit
+gesetzt sein.
