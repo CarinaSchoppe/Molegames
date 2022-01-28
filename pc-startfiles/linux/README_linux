@@ -20,3 +20,6 @@ Wayland:
 The *-wayland* files add a java launch option to better support wayland compositors. If the application does not launch
 in your desktop environment/compositor/window manager, you can try to launch the application through the wayland file.
 In X11 environments, this should not be necessary.
+
+To start the engine player with default argument, simply execute the "Engine.sh" in a directory with
+the "SwtPra10-pc-1.3.2-all.jar" present. Also make sure to set the executable bit on the "Engine.sh" file before.
