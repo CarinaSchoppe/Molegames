@@ -10,34 +10,45 @@ default:
 
 variables:
   GRADLE_OPTS: "-Dorg.gradle.daemon=false"
+    # ANDROID_COMPILE_SDK is the version of Android you're compiling with.
+  # It should match compileSdkVersion.
+  ANDROID_COMPILE_SDK: "30"
+  # ANDROID_BUILD_TOOLS is the version of the Android build tools you are using.
+  # It should match buildToolsVersion.
+  ANDROID_BUILD_TOOLS: "30.0.3"
+  # It's what version of the command line tools we're going to download from the official site.
+  # Official Site-> https://developer.android.com/studio/index.html
+  # There, look down below at the cli tools only, sdk tools package is of format:
+  #        commandlinetools-os_type-ANDROID_SDK_TOOLS_latest.zip
+  # when the script was last modified for latest compileSdkVersion, it was which is written down below
+  ANDROID_SDK_TOOLS: "7583922"
 
 .test:
   only:
     changes:
-      - src/**/*
-      - build.gradle
-      - .gitlab-ci.yml
+      - pc/src/**/*
+      - pc/build.gradle
 
-before_script:
-  - export GRADLE_USER_HOME=`pwd`/.gradle
-
-build:
+pc-build:
   stage: build
+  before_script: 
+    - cd pc
   script: gradle --build-cache assemble
   cache:
     key: "$CI_COMMIT_REF_NAME"
     policy: push
     paths:
-      - build
-      - .gradle
+      - pc/build
+      - pc/.gradle
   only:
     changes:
-      - src/main/**/*
-      - build.gradle
-      - .gitlab-ci.yml
+      - pc/src/main/**/*
+      - pc/build.gradle
 
-test:
+pc-test:
   extends: .test
+  before_script: 
+    - cd pc
   stage: test
   script:
     - gradle test jacocoTestReport
@@ -45,18 +56,84 @@ test:
   artifacts:
     when: always
     paths:
-      - build/reports/
-    reports:
-      junit: build/test-results/test/TEST-*.xml
+      - pc/build/test-results/test/TEST-*.xml
+      - pc/build/reports/
 
-coverage:
+pc-coverage:
   extends: .test
+  before_script: 
+    - cd pc
   stage: visualize
   image: registry.gitlab.com/haynes/jacoco2cobertura:1.0.7
   script:
     # convert report from jacoco to cobertura, using relative project path
-    - python /opt/cover2cover.py build/reports/jacoco/test/jacocoTestReport.xml $CI_PROJECT_DIR/src/main/java/ > build/cobertura.xml
-  needs: [ "test" ]
+    - python /opt/cover2cover.py build/reports/jacoco/test/jacocoTestReport.xml $CI_PROJECT_DIR/pc/src/main/java/ > build/cobertura.xml
+  needs: [ "pc-test" ]
   artifacts:
     reports:
-      cobertura: build/cobertura.xml
+      cobertura: pc/build/cobertura.xml
+
+
+
+.smartphone:
+  # Packages installation before running script
+  before_script:
+    - apt-get --quiet update --yes
+    - apt-get --quiet install --yes wget tar unzip lib32stdc++6 lib32z1
+    # Setup path as ANDROID_SDK_ROOT for moving/exporting the downloaded sdk into it
+    - export ANDROID_SDK_ROOT="${PWD}/android-home"
+    # Create a new directory at specified location
+    - install -d $ANDROID_SDK_ROOT
+    # Here we are installing androidSDK tools from official source,
+    # (the key thing here is the url from where you are downloading these sdk tool for command line, so please do note this
+    # url pattern there and here as well)
+    # after that unzipping those tools and
+    # then running a series of SDK manager commands to install necessary android SDK packages that'll allow the app to build
+    - wget --output-document=$ANDROID_SDK_ROOT/cmdline-tools.zip https://dl.google.com/android/repository/commandlinetools-linux-${ANDROID_SDK_TOOLS}_latest.zip
+    # move to the archive at ANDROID_SDK_ROOT
+    - pushd $ANDROID_SDK_ROOT
+    - unzip -d cmdline-tools cmdline-tools.zip
+    - pushd cmdline-tools
+    # since commandline tools version 7583922 the root folder is named "cmdline-tools" so we rename it if necessary
+    - mv cmdline-tools tools || true
+    - popd
+    - popd
+    - export PATH=$PATH:${ANDROID_SDK_ROOT}/cmdline-tools/tools/bin/
+    # Nothing fancy here, just checking sdkManager version
+    - sdkmanager --version
+    # use yes to accept all licenses
+    - yes | sdkmanager --licenses || true
+    - sdkmanager "platforms;android-${ANDROID_COMPILE_SDK}"
+    - sdkmanager "platform-tools"
+    - sdkmanager "build-tools;${ANDROID_BUILD_TOOLS}"
+    - cd smartphone
+    - chmod +x ./gradlew
+  
+
+# Basic android and gradle stuff
+# Check linting
+smartphone-lintDebug:
+  extends: .smartphone
+  interruptible: true
+  stage: build
+  script:
+    - gradle -Pci --console=plain :app:lintDebug -PbuildDir=lint
+
+# Make Project
+smartphone-assembleDebug:
+  extends: .smartphone
+  interruptible: true
+  stage: build
+  script:
+    - gradle assembleDebug
+  artifacts:
+    paths:
+      - smartphone/app/build/outputs/
+
+# Run all tests, if any fails, interrupt the pipeline(fail it)
+smartphone-debugTests:
+  extends: .smartphone
+  interruptible: true
+  stage: test
+  script:
+    - gradle -Pci --console=plain :app:testDebug
