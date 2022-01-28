@@ -8,13 +8,14 @@
  * requires the express written consent of ThunderGames | SwtPra10.
  */
 
-package de.thundergames.gameplay.ausrichter.ui;
+package de.thundergames.gameplay.ausrichter.ui.floor;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
 import de.thundergames.filehandling.GameConfiguration;
+import de.thundergames.gameplay.ausrichter.ui.CreateGame;
 import de.thundergames.gameplay.ausrichter.ui.floor.Floor;
 import de.thundergames.playmechanics.util.Dialog;
 import javafx.event.ActionEvent;
@@ -71,7 +72,7 @@ public class SettingsImport {
    * @use starts the main GUI
    */
   public void start(@NotNull final Stage primaryStage) throws Exception {
-    var loader = new FXMLLoader(getClass().getResource("/ausrichter/style/ConfigLoader.fxml"));
+    var loader = new FXMLLoader(getClass().getResource("/ausrichter/style/floor/ConfigLoader.fxml"));
     loader.setController(this);
     var root = (Parent) loader.load();
     primaryStage.setTitle("Config Laden");
@@ -134,7 +135,7 @@ public class SettingsImport {
       CreateGame.getCreateGameInstance().start(primaryStage, "Modus");
       object = null;
     } else {
-      Dialog.show("Keine Konfiguration geladen!", "Fehler!", Dialog.DialogType.ERROR);
+      Dialog.show("Es wurde keine Konfiguration geladen!", "Achtung!", Dialog.DialogType.WARNING);
     }
   }
 

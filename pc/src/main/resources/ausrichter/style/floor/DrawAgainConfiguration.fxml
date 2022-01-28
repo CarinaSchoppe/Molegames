@@ -19,7 +19,7 @@
     <children>
         <ImageView fitHeight="720.0" fitWidth="766.0" pickOnBounds="true" preserveRatio="true">
             <image>
-                <Image url="@../pictures/Draw-Again-Config.png" />
+                <Image url="@../../pictures/floor/DrawAgainConfiguration.png" />
             </image>
         </ImageView>
         <Button fx:id="back" layoutX="64.0" layoutY="46.0" mnemonicParsing="false" onAction="#onBack" prefHeight="45.0" prefWidth="44.0" style="-fx-background-color: transparent;" />
@@ -35,7 +35,7 @@
                 <Font size="20.0" />
             </font>
         </TextField>
-        <TableView fx:id="floorTable" layoutX="56.0" layoutY="214.0" prefHeight="149.0" prefWidth="603.0" style="fx-font-size: 8;" stylesheets="@css/MainGUI.css">
+        <TableView fx:id="floorTable" layoutX="56.0" layoutY="214.0" prefHeight="149.0" prefWidth="603.0" style="fx-font-size: 8;" stylesheets="@../css/MainGUI.css">
             <columns>
                 <TableColumn fx:id="floorNumber" prefWidth="174.0" reorderable="false" resizable="false" sortable="false" style="fx-font-size: 8;" text="Ebenen Nummer" />
                 <TableColumn fx:id="amountHoles" prefWidth="130.0" reorderable="false" resizable="false" sortable="false" style="fx-font-size: 8;" text="Anzahl Löcher" />
@@ -43,7 +43,7 @@
                 <TableColumn fx:id="points" prefWidth="142.0" style="fx-font-size: 8;" text="Punkte" />
             </columns>
         </TableView>
-        <TableView fx:id="drawAgainTable" layoutX="62.0" layoutY="471.0" prefHeight="155.0" prefWidth="597.0" stylesheets="@css/MainGUI.css">
+        <TableView fx:id="drawAgainTable" layoutX="62.0" layoutY="471.0" prefHeight="155.0" prefWidth="597.0" stylesheets="@../css/MainGUI.css">
             <columns>
                 <TableColumn fx:id="drawAgainNumber" prefWidth="221.0" reorderable="false" resizable="false" sortable="false" style="fx-font-size: 8;" text="Zieh-Erneut Nummer" />
                 <TableColumn prefWidth="194.00006103515625" reorderable="false" resizable="false" sortable="false" style="fx-font-size: 8;" text="X-Position" fx:id="xPosition" />

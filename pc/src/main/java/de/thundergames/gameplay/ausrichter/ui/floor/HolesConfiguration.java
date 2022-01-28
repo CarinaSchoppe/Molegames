@@ -83,7 +83,7 @@ public class HolesConfiguration implements Initializable {
   public void start(@NotNull final Stage primaryStage, String modus) throws Exception {
     Spielmodus = modus;
     var loader =
-      new FXMLLoader(getClass().getResource("/ausrichter/style/HolesConfiguration.fxml"));
+      new FXMLLoader(getClass().getResource("/ausrichter/style/floor/HolesConfiguration.fxml"));
     loader.setController(this);
     var root = (Parent) loader.load();
     primaryStage.setTitle("CreateGame");

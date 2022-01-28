@@ -22,7 +22,10 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import org.jetbrains.annotations.NotNull;
-
+/**
+ * @author Eva, Jana
+ * @use to manage create games
+ */
 public class Games extends Application implements Initializable {
 
   @FXML

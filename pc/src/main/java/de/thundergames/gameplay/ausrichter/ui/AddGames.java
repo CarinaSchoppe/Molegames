@@ -29,8 +29,12 @@ import org.jetbrains.annotations.NotNull;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+
 @Getter
-//public class MainGUI_ALT extends Application implements Initializable {
+/**
+ * @author Eva, Jana
+ * @use add games to a chosen tournament
+ */
 public class AddGames implements Initializable{
 
   private static AddGames AddGamesInstance;

@@ -23,7 +23,7 @@
     <children>
         <ImageView fitHeight="720.0" fitWidth="766.0" pickOnBounds="true" preserveRatio="true">
             <image>
-                <Image url="@../pictures/Holes-Config.png" />
+                <Image url="@../../pictures/floor/HolesConfiguration.png" />
             </image>
         </ImageView>
         <Button fx:id="back" layoutX="64.0" layoutY="46.0" mnemonicParsing="false" onAction="#onBack" prefHeight="45.0" prefWidth="44.0" style="-fx-background-color: transparent;" />
@@ -39,7 +39,7 @@
                 <Font size="20.0" />
             </font>
         </TextField>
-        <TableView fx:id="floorTable" layoutX="62.0" layoutY="216.0" prefHeight="152.0" prefWidth="595.0" stylesheets="@css/MainGUI.css">
+        <TableView fx:id="floorTable" layoutX="62.0" layoutY="216.0" prefHeight="152.0" prefWidth="595.0" stylesheets="@../css/MainGUI.css">
             <columns>
                 <TableColumn fx:id="floorNumber" prefWidth="187.0" reorderable="false" resizable="false" sortable="false" style="fx-font-size: 10;" text="Ebenen Nummer" />
                 <TableColumn fx:id="amountHoles" prefWidth="132.0" reorderable="false" resizable="false" sortable="false" style="fx-font-size: 10;" text="Anzahl Löcher" />
@@ -47,7 +47,7 @@
                 <TableColumn fx:id="points" prefWidth="131.0" text="Punkte" />
             </columns>
         </TableView>
-        <TableView fx:id="holesTable" layoutX="62.0" layoutY="472.0" prefHeight="152.0" prefWidth="595.0" stylesheets="@css/MainGUI.css">
+        <TableView fx:id="holesTable" layoutX="62.0" layoutY="472.0" prefHeight="152.0" prefWidth="595.0" stylesheets="@../css/MainGUI.css">
             <columns>
                 <TableColumn fx:id="holesNumber" prefWidth="241.0" reorderable="false" resizable="false" sortable="false" style="fx-font-size: 10;" text="Loch Nummer" />
                 <TableColumn prefWidth="183.00006103515625" reorderable="false" resizable="false" sortable="false" style="fx-font-size: 10;" text="X-Position" fx:id="xPosition" />

@@ -35,6 +35,11 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * @author Eva, Jana
+ * @use to manage games in tournaments
+ */
+
 public class TournamentEditor implements Initializable {
 
   private static TournamentEditor TournamentEditorInstance;

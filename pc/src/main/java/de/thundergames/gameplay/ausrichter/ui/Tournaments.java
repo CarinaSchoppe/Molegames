@@ -22,10 +22,8 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 /**
- * @param event
- * @author Eva
- * @throws Exception
- * @use opens tournament mode to create games in it
+ * @author Eva, Jana
+ * @use to create tournaments
  */
 
 public class Tournaments extends Application implements Initializable {

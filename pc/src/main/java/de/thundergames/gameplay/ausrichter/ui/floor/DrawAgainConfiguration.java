@@ -79,7 +79,7 @@ public class DrawAgainConfiguration implements Initializable {
   public void start(@NotNull final Stage primaryStage, String modus) throws Exception {
     Spielmodus = modus;
     var loader =
-      new FXMLLoader(getClass().getResource("/ausrichter/style/DrawAgainConfiguration.fxml"));
+      new FXMLLoader(getClass().getResource("/ausrichter/style/floor/DrawAgainConfiguration.fxml"));
     loader.setController(this);
     var root = (Parent) loader.load();
     primaryStage.setTitle("CreateGame");

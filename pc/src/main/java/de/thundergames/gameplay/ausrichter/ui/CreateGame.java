@@ -11,10 +11,7 @@
 package de.thundergames.gameplay.ausrichter.ui;
 
 import de.thundergames.MoleGames;
-import de.thundergames.gameplay.ausrichter.ui.floor.DrawAgainConfiguration;
-import de.thundergames.gameplay.ausrichter.ui.floor.Floor;
-import de.thundergames.gameplay.ausrichter.ui.floor.Hole;
-import de.thundergames.gameplay.ausrichter.ui.floor.HolesConfiguration;
+import de.thundergames.gameplay.ausrichter.ui.floor.*;
 import de.thundergames.playmechanics.game.Game;
 import de.thundergames.playmechanics.map.Field;
 import de.thundergames.playmechanics.map.Map;
@@ -40,6 +37,7 @@ import java.util.ResourceBundle;
 
 /**
  * @author Carina, Eva, Jana
+ * @use to configure a game
  */
 @Getter
 public class CreateGame implements Initializable {

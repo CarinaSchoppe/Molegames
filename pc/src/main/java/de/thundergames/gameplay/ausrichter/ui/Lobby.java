@@ -21,6 +21,11 @@ import org.jetbrains.annotations.NotNull;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/**
+ * @author Eva, Jana
+ * @use used to select between game and tournament
+ */
+
 public class Lobby extends Application implements Initializable {
 
   private static Lobby GUI;

@@ -40,7 +40,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 /**
- * @author Carina
+ * @author Carina, Eva, Jana
  * @use creates the handling of the player management gui
  * Implements handling and the GUI for managing players for a game
  */
