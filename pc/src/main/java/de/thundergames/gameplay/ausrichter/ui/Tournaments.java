@@ -1,6 +1,15 @@
+/*
+ * Copyright Notice for SwtPra10
+ * Copyright (c) at ThunderGames | SwtPra10 2022
+ * File created on 13.01.22, 22:39 by Carina Latest changes made by Carina on 13.01.22, 22:39 All contents of "Tournaments" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * at ThunderGames | SwtPra10. All rights reserved
+ * Any type of duplication, distribution, rental, sale, award,
+ * Public accessibility or other use
+ * requires the express written consent of ThunderGames | SwtPra10.
+ */
+
 package de.thundergames.gameplay.ausrichter.ui;
 
-import de.thundergames.playmechanics.game.Game;
 import de.thundergames.playmechanics.tournament.Tournament;
 import de.thundergames.playmechanics.util.Dialog;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -55,9 +64,6 @@ public class Tournaments extends Application implements Initializable {
   private TableView<Tournament> tournamentTable;
 
   private static int tournamentCount;
-
-
-
 
   public static Tournaments getTournamentsInstance() {
     return TournamentsInstance;

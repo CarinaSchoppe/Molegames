@@ -16,20 +16,21 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onDragDropped="#onDragDropped" onDragOver="#onDragOver" prefHeight="751.0" prefWidth="846.0" xmlns="http://javafx.com/javafx/17">
+
+<AnchorPane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onDragDropped="#onDragDropped" onDragOver="#onDragOver" prefHeight="720.0" prefWidth="760.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
     <children>
-        <ImageView fx:id="window" fitHeight="753.0" fitWidth="851.0" layoutX="-4.0" layoutY="-1.0" onDragDropped="#onDragDropped" onDragOver="#onDragOver" pickOnBounds="true" preserveRatio="true">
+        <ImageView fx:id="window" fitHeight="722.0" fitWidth="766.0" layoutX="-4.0" layoutY="-1.0" onDragDropped="#onDragDropped" onDragOver="#onDragOver" pickOnBounds="true" preserveRatio="true">
             <image>
-                <Image url="@../../pictures/floor/SettingsImport.png"/>
+                <Image url="@../../pictures/floor/SettingsImport.png" />
             </image>
         </ImageView>
-        <Button fx:id="load" layoutX="182.0" layoutY="643.0" mnemonicParsing="false" onAction="#onLoad" prefHeight="54.0" prefWidth="196.0" style="-fx-background-color: transparent;"/>
-        <Text fx:id="displayText" fill="WHITE" layoutX="256.0" layoutY="318.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Configuration per Drag-Drop" wrappingWidth="356.02734375">
+        <Button fx:id="load" layoutX="120.0" layoutY="597.0" mnemonicParsing="false" onAction="#onLoad" prefHeight="54.0" prefWidth="196.0" style="-fx-background-color: transparent;" />
+        <Text fx:id="displayText" fill="WHITE" layoutX="209.0" layoutY="358.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Configuration per Drag-Drop" wrappingWidth="356.02734375">
             <font>
-                <Font size="51.0"/>
+                <Font size="51.0" />
             </font>
         </Text>
-        <Button fx:id="save" layoutX="474.0" layoutY="643.0" mnemonicParsing="false" onAction="#onSave" prefHeight="54.0" prefWidth="196.0" style="-fx-background-color: transparent;"/>
-        <Button fx:id="back" layoutX="64.0" layoutY="50.0" mnemonicParsing="false" onAction="#onBack" prefHeight="54.0" prefWidth="56.0" style="-fx-background-color: transparent;"/>
+        <Button fx:id="save" layoutX="434.0" layoutY="597.0" mnemonicParsing="false" onAction="#onSave" prefHeight="54.0" prefWidth="196.0" style="-fx-background-color: transparent;" />
+        <Button fx:id="back" layoutX="64.0" layoutY="50.0" mnemonicParsing="false" onAction="#onBack" prefHeight="54.0" prefWidth="56.0" style="-fx-background-color: transparent;" />
     </children>
 </AnchorPane>

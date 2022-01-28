@@ -24,7 +24,6 @@
             <TableColumn fx:id="gameState" prefWidth="136.0" text="Status" />
         </columns>
       </TableView>
-      <Button fx:id="score" layoutX="566.0" layoutY="40.0" mnemonicParsing="false" onAction="#onScore" prefHeight="72.0" prefWidth="85.0" style="-fx-background-color: transparent;" />
       <Button fx:id="removeGame" layoutX="504.0" layoutY="312.0" mnemonicParsing="false" onAction="#onRemoveGame" prefHeight="50.0" prefWidth="194.0" style="-fx-background-color: transparent;" />
       <Button fx:id="managePlayer" layoutX="504.0" layoutY="386.0" mnemonicParsing="false" onAction="#onManagePlayer" prefHeight="50.0" prefWidth="194.0" style="-fx-background-color: transparent;" />
    </children>

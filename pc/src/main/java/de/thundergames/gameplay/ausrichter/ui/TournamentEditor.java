@@ -12,21 +12,17 @@ package de.thundergames.gameplay.ausrichter.ui;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-
 import de.thundergames.MoleGames;
 import de.thundergames.playmechanics.game.Game;
-import de.thundergames.playmechanics.game.GameState;
 import de.thundergames.playmechanics.game.GameStates;
 import de.thundergames.playmechanics.tournament.Tournament;
 import de.thundergames.playmechanics.util.Dialog;
-import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
-
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -83,9 +79,6 @@ public class TournamentEditor implements Initializable {
   private TableView<Game> gameTable;
 
   @FXML
-  private Button score;
-
-  @FXML
   private Button startGame;
 
   private Tournament tournament;
@@ -98,11 +91,6 @@ public class TournamentEditor implements Initializable {
   void onBack(ActionEvent event) throws Exception {
     var primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
     Tournaments.getTournamentsInstance().start(primaryStage);
-  }
-
-  @FXML
-  void onScore(ActionEvent event) {
-
   }
 
   @FXML
@@ -265,7 +253,6 @@ public class TournamentEditor implements Initializable {
     assert gamePlayerCount != null : "fx:id=\"gamePlayerCount\" was not injected: check your FXML file 'TournamentEditor.fxml'.";
     assert gameState != null : "fx:id=\"gameState\" was not injected: check your FXML file 'TournamentEditor.fxml'.";
     assert gameTable != null : "fx:id=\"gameTable\" was not injected: check your FXML file 'TournamentEditor.fxml'.";
-    assert score != null : "fx:id=\"score\" was not injected: check your FXML file 'TournamentEditor.fxml'.";
     assert startGame != null : "fx:id=\"startGame\" was not injected: check your FXML file 'TournamentEditor.fxml'.";
     assert managePlayer != null : "fx:id=\"managePlayer\" was not injected: check your FXML file 'TournamentEditor.fxml'.";
     assert removeGame != null : "fx:id=\"removeGame\" was not injected: check your FXML file 'TournamentEditor.fxml'.";

@@ -1,16 +1,22 @@
+/*
+ * Copyright Notice for SwtPra10
+ * Copyright (c) at ThunderGames | SwtPra10 2022
+ * File created on 13.01.22, 22:39 by Carina Latest changes made by Carina on 13.01.22, 22:39 All contents of "AddGame" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * at ThunderGames | SwtPra10. All rights reserved
+ * Any type of duplication, distribution, rental, sale, award,
+ * Public accessibility or other use
+ * requires the express written consent of ThunderGames | SwtPra10.
+ */
+
 package de.thundergames.gameplay.ausrichter.ui;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-
 import de.thundergames.MoleGames;
-import de.thundergames.gameplay.ausrichter.AusrichterClient;
-import de.thundergames.networking.server.Server;
 import de.thundergames.playmechanics.game.Game;
 import de.thundergames.playmechanics.game.GameStates;
 import de.thundergames.playmechanics.tournament.Tournament;
 import de.thundergames.playmechanics.util.Dialog;
-import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -35,6 +41,7 @@ import java.util.ResourceBundle;
  * @author Eva, Jana
  * @use add games to a chosen tournament
  */
+
 public class AddGames implements Initializable{
 
   private static AddGames AddGamesInstance;
@@ -68,9 +75,6 @@ public class AddGames implements Initializable{
   @FXML
   private TableView<Game> gameTable;
 
-  @FXML
-  private Button ready;
-
   private Tournament tournament;
 
   public AddGames(Tournament tournament) {
@@ -80,7 +84,6 @@ public class AddGames implements Initializable{
   public static AddGames getAddGamesInstance() {
     return AddGamesInstance;
   }
-
 
   @FXML
   void onBack(ActionEvent event) throws Exception {
@@ -108,7 +111,6 @@ public class AddGames implements Initializable{
       var primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
       new CreateGame().start(primaryStage, Spielmodus);
     }
-
 
   @FXML
   void onAddGame(ActionEvent event) {
@@ -139,10 +141,6 @@ public class AddGames implements Initializable{
     }
   }
 
-  @FXML
-  void onReady(ActionEvent event) {
-
-  }
   public void updateTable() {
     var gameSelection = gameTable.getSelectionModel().getSelectedItem();
     gameTable.getItems().clear();
@@ -159,7 +157,6 @@ public class AddGames implements Initializable{
     assert gamePlayerCount != null : "fx:id=\"gamePlayerCounter\" was not injected: check your FXML file 'AddGames.fxml'.";
     assert gameState != null : "fx:id=\"gameState\" was not injected: check your FXML file 'AddGames.fxml'.";
     assert gameTable != null : "fx:id=\"gameTable\" was not injected: check your FXML file 'AddGames.fxml'.";
-    assert ready != null : "fx:id=\"ready\" was not injected: check your FXML file 'AddGames.fxml'.";
 
     gameID.setCellValueFactory(new PropertyValueFactory<>("HashtagWithGameID"));
     gamePlayerCount.setCellValueFactory(new PropertyValueFactory<>("CurrentPlayerCount_MaxCount"));

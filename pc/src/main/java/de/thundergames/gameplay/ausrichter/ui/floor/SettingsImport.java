@@ -16,7 +16,6 @@ import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
 import de.thundergames.filehandling.GameConfiguration;
 import de.thundergames.gameplay.ausrichter.ui.CreateGame;
-import de.thundergames.gameplay.ausrichter.ui.floor.Floor;
 import de.thundergames.playmechanics.util.Dialog;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;

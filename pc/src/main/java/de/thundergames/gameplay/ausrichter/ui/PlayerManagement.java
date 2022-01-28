@@ -34,7 +34,6 @@ import javafx.scene.control.TableView;
 import javafx.stage.Stage;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
-
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -44,6 +43,7 @@ import java.util.ResourceBundle;
  * @use creates the handling of the player management gui
  * Implements handling and the GUI for managing players for a game
  */
+
 @Getter
 public class PlayerManagement implements Initializable {
 

@@ -1,12 +1,20 @@
+/*
+ * Copyright Notice for SwtPra10
+ * Copyright (c) at ThunderGames | SwtPra10 2022
+ * File created on 13.01.22, 22:39 by Carina Latest changes made by Carina on 13.01.22, 22:39 All contents of "Games" are protected by copyright. The copyright law, unless expressly indicated otherwise, is
+ * at ThunderGames | SwtPra10. All rights reserved
+ * Any type of duplication, distribution, rental, sale, award,
+ * Public accessibility or other use
+ * requires the express written consent of ThunderGames | SwtPra10.
+ */
+
 package de.thundergames.gameplay.ausrichter.ui;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-
 import de.thundergames.MoleGames;
 import de.thundergames.playmechanics.game.Game;
 import de.thundergames.playmechanics.game.GameStates;
-import de.thundergames.playmechanics.tournament.Tournament;
 import de.thundergames.playmechanics.util.Dialog;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -22,10 +30,12 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import org.jetbrains.annotations.NotNull;
+
 /**
  * @author Eva, Jana
  * @use to manage create games
  */
+
 public class Games extends Application implements Initializable {
 
   @FXML
@@ -61,9 +71,6 @@ public class Games extends Application implements Initializable {
   @FXML private TableView<Game> gameTable;
 
   @FXML
-  private Button score;
-
-  @FXML
   private Button startGame;
 
   private static Games GamesInstance;
@@ -86,7 +93,6 @@ public class Games extends Application implements Initializable {
               MoleGames.getMoleGames().getGameHandler().getIDGames().get(selectedItem.getGameID());
       var primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
       gameTable.getSelectionModel().clearSelection();
-      //new AddPlayer(game).start(primaryStage, "Spielmodus");
       new PlayerManagement(game).start(primaryStage, "Spielmodus");
     } else {
       Dialog.show("Du musst ein Spiel auswählen!", "Achtung!", Dialog.DialogType.WARNING);
@@ -184,11 +190,6 @@ public class Games extends Application implements Initializable {
   }
 
   @FXML
-  void onScore(ActionEvent event) {
-
-  }
-
-  @FXML
   void onStartGame(ActionEvent event) {
     var selectedItem = gameTable.getSelectionModel().getSelectedItem();
     if (selectedItem == null) {
@@ -224,7 +225,6 @@ public class Games extends Application implements Initializable {
     assert createGame != null : "fx:id=\"createGame\" was not injected: check your FXML file '1.1.fxml'.";
     assert endGame != null : "fx:id=\"endGame\" was not injected: check your FXML file '1.1.fxml'.";
     assert gameTable != null : "fx:id=\"gameTable\" was not injected: check your FXML file '1.1.fxml'.";
-    assert score != null : "fx:id=\"score\" was not injected: check your FXML file '1.1.fxml'.";
     assert startGame != null : "fx:id=\"startGame\" was not injected: check your FXML file '1.1.fxml'.";
 
     gameID.setCellValueFactory(new PropertyValueFactory<>("HashtagWithGameID"));

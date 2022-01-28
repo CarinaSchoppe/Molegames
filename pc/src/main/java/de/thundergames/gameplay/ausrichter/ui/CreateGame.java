@@ -39,6 +39,7 @@ import java.util.ResourceBundle;
  * @author Carina, Eva, Jana
  * @use to configure a game
  */
+
 @Getter
 public class CreateGame implements Initializable {
 
@@ -56,41 +57,59 @@ public class CreateGame implements Initializable {
 
   @FXML
   private Button configureDrawAgain;
+
   @FXML
   private Button configureHoles;
   private Map map;
+
   @FXML
   private ChoiceBox<Punishments> movePenalty;
+
   @FXML
   private ResourceBundle resources;
+
   @FXML
   private URL location;
+
   @FXML
   private Button addItem;
+
   @FXML
   private Button back;
+
   @FXML
   private Button createGame;
+
   @FXML
   private TextField drawCardValue;
+
   @FXML
   private Button loadConfig;
+
   @FXML
   private TextField molesAmount;
+
   @FXML
   private TextField playerAmount;
+
   @FXML
   private ChoiceBox<String> punishment;
+
   @FXML
   private TextField radius;
+
   @FXML
   private Button removeAll;
+
   @FXML
   private TextArea drawCardValues;
+
   @FXML
   private TextField thinkTime;
+
   @FXML
   private CheckBox pullDiscsOrdered;
+
   @FXML
   private TextField visualEffects;
   private static String deductedPointsPrev;
@@ -103,6 +122,7 @@ public class CreateGame implements Initializable {
   public static void setDeductedPointsPrev(String deductedPointsPrev) {
     CreateGame.deductedPointsPrev = deductedPointsPrev;
   }
+
   public static String getMolesAmountPrev() {
     return molesAmountPrev;
   }
@@ -289,8 +309,6 @@ public class CreateGame implements Initializable {
     }else {
       Games.getGamesInstance().start(primaryStage);
     }
-
-    //Games.getGamesInstance().updateTable();
   }
 
   /**
@@ -447,6 +465,7 @@ public class CreateGame implements Initializable {
           + " and a mole amount of: "
           + numberOfMoles);
     }
+
     var holeDouble = new ArrayList<Hole>();
     var holes = new ArrayList<Hole>();
     var game = new Game(1);
