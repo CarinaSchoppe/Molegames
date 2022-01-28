@@ -23,4 +23,3 @@ Dila C: Entwicklerin
 Alp B: Entwickler
 
 Michael A: Product Owner, Komitee
-
