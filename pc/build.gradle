@@ -1,9 +1,9 @@
 plugins {
     id 'java'
     id 'idea'
-    id "com.github.johnrengelman.shadow" version "7.1.0"
+    id "com.github.johnrengelman.shadow" version "+"
     id 'application'
-    id 'org.openjfx.javafxplugin' version '0.0.10'
+    id 'org.openjfx.javafxplugin' version '+'
     id 'jacoco'
 
 }
@@ -19,17 +19,18 @@ repositories {
 }
 
 dependencies {
-    compileOnly 'org.projectlombok:lombok:1.18.22'
-    annotationProcessor 'org.projectlombok:lombok:1.18.22'
-    testCompileOnly 'org.projectlombok:lombok:1.18.22'
-    testAnnotationProcessor 'org.projectlombok:lombok:1.18.22'
-    implementation 'org.openjfx:javafx-plugin:0.0.10'
-    implementation 'org.openjfx:javafx:17.0.0.1'
-    implementation 'com.google.code.gson:gson:2.8.9'
-    implementation 'org.jetbrains:annotations:22.0.0'
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
-    testImplementation 'org.mockito:mockito-core:4.2.0'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
+    compileOnly 'org.projectlombok:lombok:+'
+    annotationProcessor 'org.projectlombok:lombok:+'
+    testCompileOnly 'org.projectlombok:lombok:+'
+    testAnnotationProcessor 'org.projectlombok:lombok:+'
+    implementation 'org.openjfx:javafx-plugin:+'
+    implementation 'org.openjfx:javafx:+'
+    implementation 'com.google.code.gson:gson:+'
+    implementation 'org.jetbrains:annotations:+'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:+'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:+'
+    testImplementation 'org.mockito:mockito-core:+'
+
 }
 
 compileJava {
