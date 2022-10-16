@@ -24,12 +24,13 @@ import lombok.Getter;
 import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.Serializable;
 import java.time.Instant;
 import java.util.*;
 
 @Getter
 @Setter
-public class Game {
+public class Game implements Serializable {
   private final int gameID;
   private final HashSet<Player> eliminatedPlayers = new HashSet<>();
   private final transient HashMap<ServerThread, Player> clientPlayersMap = new HashMap<>();
@@ -51,6 +52,8 @@ public class Game {
   private String movePenalty;
   private long startDateTime;
   private long finishDateTime;
+
+
 
   @SerializedName(value = "result")
   private Score score;
